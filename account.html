@@ -1,145 +1,377 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Account · SVITA Micro</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23D6FF3E'/%3E%3C/svg%3E">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SVITA Micro — Account</title>
+<meta name="theme-color" content="#0A0A0B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
+/* ============ TOKENS (identical to index.html) ============ */
 :root{
-  --bg:#0A0A0B;--bg-1:#111113;--bg-2:#18181B;--line:#232326;--line-2:#2A2A2F;
-  --text:#FAFAFA;--text-2:#A1A1AA;--text-3:#71717A;--accent:#D6FF3E;
-  --radius:16px;--ease:cubic-bezier(0.22,1,0.36,1);
+  --bg:#0A0A0B;
+  --bg-1:#111113;
+  --bg-2:#18181B;
+  --line:#232327;
+  --line-2:#2F2F34;
+  --text:#FAFAFA;
+  --text-2:#A1A1AA;
+  --text-3:#6E6E78;
+  --accent:#D6FF3E;
+  --accent-dim:#9FC22F;
+  --radius:18px;
+  --radius-sm:10px;
+  --radius-lg:28px;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --max:1400px;
 }
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html,body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-weight:400;font-feature-settings:"ss01","cv11"}
 html{scroll-behavior:smooth}
-body{
-  background:var(--bg);color:var(--text);min-height:100vh;
-  font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-}
+body{overflow-x:hidden;min-height:100vh;line-height:1.5}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:1100px;margin:0 auto;padding:0 32px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img,svg{display:block;max-width:100%}
+::selection{background:var(--accent);color:#0A0A0B}
 
-/* nav */
-nav{position:fixed;top:16px;left:16px;right:16px;z-index:100;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:14px 24px;background:rgba(17,17,19,0.72);backdrop-filter:blur(16px);
-  border:1px solid var(--line);border-radius:100px;
+.display{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-0.035em;line-height:0.92}
+.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{
+  font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-3);
+  font-weight:500;display:inline-flex;align-items:center;gap:10px;
 }
-.brand{font-family:'Space Grotesk';font-weight:700;font-size:17px;display:flex;align-items:center;gap:10px;letter-spacing:-0.02em}
-.brand small{font-family:'JetBrains Mono';font-size:10px;font-weight:400;color:var(--text-3);letter-spacing:0.15em;text-transform:uppercase}
-.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
-.nav-right{display:flex;gap:16px;align-items:center}
-.nav-right a{font-size:13px;color:var(--text-2);transition:color 200ms}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--text-3)}
+
+.wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
+@media(max-width:640px){.wrap{padding:0 20px}}
+section{position:relative;padding:120px 0}
+@media(max-width:768px){section{padding:80px 0}}
+
+/* ============ NAV (identical) ============ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:20px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:all 300ms var(--ease);
+}
+nav.scrolled{
+  background:rgba(10,10,11,0.72);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid var(--line);
+  padding:16px 32px;
+}
+.brand{display:flex;align-items:baseline;gap:10px;font-family:'Space Grotesk';font-weight:700;font-size:18px;letter-spacing:-0.02em}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);align-self:center;box-shadow:0 0 16px var(--accent)}
+.brand small{font-family:'Inter';font-weight:400;font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.15em}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-right a{font-size:13px;color:var(--text-2);transition:color 200ms var(--ease)}
 .nav-right a:hover{color:var(--accent)}
-.btn{display:inline-flex;align-items:center;gap:10px;padding:11px 22px;border-radius:100px;
-  font-family:'Space Grotesk';font-size:13px;font-weight:600;cursor:pointer;
-  border:none;transition:all 200ms var(--ease);text-decoration:none;
+.nav-cta{
+  font-size:13px;font-weight:500;padding:11px 20px;
+  background:var(--text);color:var(--bg);border-radius:100px;
+  transition:all 200ms var(--ease);
 }
-.btn-primary{background:var(--accent);color:#0A0A0B}
-.btn-primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
-.btn-ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
-.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.nav-cta:hover{background:var(--accent);transform:translateY(-1px)}
 
-main{padding-top:140px;padding-bottom:120px;min-height:100vh}
-
-h1{font-family:'Space Grotesk';font-weight:700;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.03em;line-height:1}
-h2{font-family:'Space Grotesk';font-weight:600;font-size:22px;letter-spacing:-0.01em;margin-bottom:20px}
-.eyebrow{font-family:'JetBrains Mono';font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.18em;margin-bottom:20px}
-
-/* login card */
-.card{background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius);padding:40px}
-.login-card{max-width:440px;margin:40px auto 0}
-.login-card h1{font-size:32px;margin-bottom:12px}
-.login-card p{color:var(--text-3);font-size:14px;margin-bottom:28px}
-.login-card input{
-  width:100%;padding:16px 18px;background:var(--bg-2);border:1px solid var(--line);
-  border-radius:12px;color:var(--text);font-family:inherit;font-size:15px;
-  transition:border 200ms;
+/* ============ BTN (identical) ============ */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 28px;font-size:14px;font-weight:500;
+  border-radius:100px;transition:all 250ms var(--ease);
+  white-space:nowrap;border:0;cursor:pointer;font-family:inherit;
 }
-.login-card input:focus{outline:none;border-color:var(--accent)}
-.login-card .btn{width:100%;justify-content:center;margin-top:14px;padding:16px}
-.note{margin-top:16px;font-size:12px;color:var(--text-3);text-align:center}
-.msg{margin-top:16px;padding:12px 14px;border-radius:10px;font-size:13px;text-align:center}
-.msg.ok{background:rgba(214,255,62,0.1);color:var(--accent);border:1px solid rgba(214,255,62,0.25)}
-.msg.err{background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.25)}
+.btn-primary{background:var(--accent);color:#0A0A0B;font-weight:600}
+.btn-primary:hover{background:#fff;transform:translateY(-2px);box-shadow:0 16px 40px rgba(214,255,62,0.25)}
+.btn-primary svg{transition:transform 250ms var(--ease)}
+.btn-primary:hover svg{transform:translateX(4px)}
+.btn-ghost{color:var(--text);border:1px solid var(--line-2);background:transparent}
+.btn-ghost:hover{border-color:var(--text);background:var(--bg-1)}
 
-/* account header */
-.acc-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;flex-wrap:wrap;gap:20px}
-.acc-head .email{font-family:'JetBrains Mono';font-size:12px;color:var(--text-3);margin-top:12px}
-.acc-head .actions{display:flex;gap:12px}
+/* ============ PAGE HEAD ============ */
+.page{padding:160px 0 120px;position:relative;overflow:hidden;min-height:100vh}
+.page::before{
+  content:'';position:absolute;top:-200px;right:-200px;width:640px;height:640px;
+  background:radial-gradient(circle,rgba(214,255,62,0.06) 0%,transparent 60%);
+  pointer-events:none;z-index:0;
+}
+.page > .wrap{position:relative;z-index:1}
 
-/* owned concepts grid */
-.owned{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
-.owned-item{
+.page-head{margin-bottom:80px;max-width:760px}
+.page-head .eyebrow{margin-bottom:24px}
+.page-head h1{
+  font-size:clamp(2.75rem,7vw,5.5rem);
+  margin-bottom:28px;
+}
+.page-head h1 .accent{color:var(--accent);font-style:italic;font-weight:500}
+.page-head p{font-size:clamp(15px,1.4vw,17px);color:var(--text-2);max-width:520px;line-height:1.55}
+
+/* ============ LOGIN MODAL ============ */
+.login-shell{
+  position:fixed;inset:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;overflow-y:auto;
+  background:radial-gradient(ellipse 100% 80% at 50% 0%,rgba(214,255,62,0.05),transparent 60%),#0A0A0B;
+}
+.login-shell::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 30%,rgba(214,255,62,0.08),transparent 40%),
+    radial-gradient(circle at 80% 70%,rgba(214,255,62,0.04),transparent 45%);
+}
+.login-brand{
+  position:absolute;top:32px;left:32px;z-index:1;
+  display:flex;align-items:baseline;gap:10px;
+  font-family:'Space Grotesk';font-weight:700;font-size:18px;letter-spacing:-0.02em;
+}
+.login-brand .brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);align-self:center;box-shadow:0 0 16px var(--accent)}
+.login-brand small{font-family:'Inter';font-weight:400;font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.15em}
+.login-back{
+  position:absolute;top:32px;right:32px;z-index:1;
+  font-size:13px;color:var(--text-2);display:inline-flex;align-items:center;gap:8px;
+  transition:color 200ms var(--ease);
+}
+.login-back:hover{color:var(--accent)}
+
+.login-wrap{width:100%;max-width:480px;position:relative;z-index:1}
+.login-card{
+  background:linear-gradient(180deg,rgba(24,24,27,0.85),rgba(17,17,19,0.85));
+  backdrop-filter:blur(24px) saturate(140%);
+  -webkit-backdrop-filter:blur(24px) saturate(140%);
+  border:1px solid var(--line-2);border-radius:var(--radius-lg);
+  padding:56px 48px;position:relative;overflow:hidden;
+  box-shadow:
+    0 40px 80px -20px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(214,255,62,0.04),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+  animation:loginIn 700ms var(--ease) both;
+}
+@keyframes loginIn{
+  from{opacity:0;transform:translateY(24px) scale(0.98)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+.login-card::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 120% 70% at 50% 0%,rgba(214,255,62,0.08),transparent 60%);
+}
+.login-card::after{
+  content:'';position:absolute;top:0;left:20%;right:20%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(214,255,62,0.5),transparent);
+}
+.login-card > *{position:relative}
+.login-card .eyebrow{margin-bottom:24px}
+.login-card h2{
+  font-family:'Space Grotesk';font-weight:700;font-size:clamp(2.25rem,4vw,3rem);
+  letter-spacing:-0.035em;line-height:0.95;margin-bottom:16px;
+}
+.login-card h2 .accent{color:var(--accent);font-style:italic;font-weight:500}
+.login-card .lead{font-size:15px;color:var(--text-2);margin-bottom:36px;line-height:1.55;max-width:360px}
+
+.field{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.field label{font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-3);font-weight:500}
+.field input{
+  width:100%;padding:18px 22px;
+  background:var(--bg-2);border:1px solid var(--line);border-radius:100px;
+  color:var(--text);font-family:inherit;font-size:15px;font-weight:400;
+  transition:all 200ms var(--ease);
+}
+.field input::placeholder{color:var(--text-3)}
+.field input:focus{outline:none;border-color:var(--accent);background:var(--bg-1);box-shadow:0 0 0 4px rgba(214,255,62,0.08)}
+
+.login-card .btn-primary{width:100%;justify-content:center;padding:20px;margin-top:6px;font-size:15px}
+.login-card .note{
+  margin-top:28px;padding-top:28px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--text-3);text-align:center;line-height:1.6;
+}
+.msg{margin-top:18px;padding:14px 18px;border-radius:14px;font-size:13px;text-align:center;font-weight:500}
+.msg.ok{background:rgba(214,255,62,0.08);color:var(--accent);border:1px solid rgba(214,255,62,0.25)}
+.msg.err{background:rgba(239,68,68,0.08);color:#f87171;border:1px solid rgba(239,68,68,0.25)}
+
+/* ============ ACCOUNT HEAD ============ */
+.acc-bar{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:32px;
+  padding-top:20px;margin-bottom:72px;flex-wrap:wrap;
+  border-top:1px solid var(--line);
+}
+.acc-bar .left{display:flex;flex-direction:column;gap:6px;padding-top:20px}
+.acc-bar .left .label{font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-3);font-weight:500}
+.acc-bar .left .email{font-family:'JetBrains Mono';font-size:14px;color:var(--text);font-weight:500}
+.acc-bar .right{display:flex;gap:10px;padding-top:20px}
+
+/* ============ OWNED GRID (bento like gallery) ============ */
+.owned-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;gap:32px;flex-wrap:wrap}
+.owned-head h2{font-family:'Space Grotesk';font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:700;letter-spacing:-0.03em;line-height:1}
+.owned-head .count{font-family:'JetBrains Mono';font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.12em}
+
+.owned{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(160px,auto);gap:20px}
+.own-tile{
+  position:relative;border-radius:var(--radius);overflow:hidden;
+  background:var(--bg-1);cursor:pointer;
+  border:1px solid var(--line);
+  transition:transform 600ms var(--ease),border-color 300ms var(--ease);
+  grid-column:span 4;min-height:320px;
+}
+.own-tile:hover{transform:translateY(-4px);border-color:var(--line-2)}
+.own-tile .img{
+  position:absolute;inset:0;background-size:cover;background-position:center;
+  transition:transform 1200ms var(--ease),filter 600ms var(--ease);
+  filter:saturate(1.05);
+  pointer-events:none;
+}
+.own-tile:hover .img{transform:scale(1.04)}
+.own-tile .ph{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--ph-a,#1a1a1f),var(--ph-b,#2a2a30));
+  font-size:72px;color:rgba(255,255,255,0.08);
+}
+.own-tile .shade{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(10,10,11,0) 40%,rgba(10,10,11,0.92) 95%);
+  pointer-events:none;
+}
+.own-tile .badge{
+  position:absolute;top:16px;right:16px;z-index:3;
+  background:rgba(214,255,62,0.92);backdrop-filter:blur(8px);
+  border-radius:100px;padding:7px 14px;
+  font-family:'JetBrains Mono';font-size:10px;font-weight:600;color:#0A0A0B;
+  text-transform:uppercase;letter-spacing:0.12em;
+  display:flex;align-items:center;gap:6px;
+}
+.own-tile .badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#0A0A0B}
+.own-tile .info{position:absolute;left:24px;right:24px;bottom:24px;z-index:2}
+.own-tile .info .cat{
+  font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent);
+  font-weight:600;margin-bottom:10px;display:block;
+}
+.own-tile .info h3{font-family:'Space Grotesk';font-size:24px;font-weight:700;letter-spacing:-0.02em;margin-bottom:10px;color:#fff;line-height:1.05}
+.own-tile .info .meta{display:flex;gap:14px;font-size:11px;color:rgba(255,255,255,0.7);font-family:'JetBrains Mono',monospace}
+.own-tile .open{
+  margin-top:16px;display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;text-transform:uppercase;letter-spacing:0.12em;font-weight:600;
+  color:#fff;opacity:0.8;transition:all 300ms var(--ease);
+}
+.own-tile:hover .open{color:var(--accent);opacity:1}
+.own-tile .open svg{transition:transform 250ms var(--ease)}
+.own-tile:hover .open svg{transform:translateX(4px)}
+
+@media(max-width:1024px){.own-tile{grid-column:span 6;min-height:280px}}
+@media(max-width:640px){.own-tile{grid-column:span 12;min-height:260px}}
+
+/* ============ EMPTY STATE ============ */
+.empty{
+  border:1px dashed var(--line-2);border-radius:var(--radius-lg);
+  padding:100px 40px;text-align:center;position:relative;overflow:hidden;
+}
+.empty::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(214,255,62,0.05),transparent 70%);
+}
+.empty > *{position:relative}
+.empty .eyebrow{margin-bottom:24px;justify-content:center;display:inline-flex}
+.empty h3{font-family:'Space Grotesk';font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;letter-spacing:-0.03em;line-height:1.05;margin-bottom:18px;max-width:520px;margin-inline:auto}
+.empty h3 .accent{color:var(--accent);font-style:italic;font-weight:500}
+.empty p{color:var(--text-2);font-size:15px;max-width:440px;margin:0 auto 36px}
+
+/* ============ BUY INTENT ============ */
+.intent{
   background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius);
-  overflow:hidden;cursor:pointer;transition:all 300ms var(--ease);
-  position:relative;
+  padding:28px 32px;margin-bottom:40px;
+  display:flex;align-items:center;gap:28px;flex-wrap:wrap;
+  position:relative;overflow:hidden;
 }
-.owned-item:hover{border-color:var(--accent);transform:translateY(-4px)}
-.owned-item .img{aspect-ratio:16/10;background-size:cover;background-position:center;background-color:var(--bg-2)}
-.owned-item .body{padding:22px}
-.owned-item .cat{font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:0.15em;font-weight:600;margin-bottom:8px;display:block}
-.owned-item h3{font-family:'Space Grotesk';font-size:20px;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px}
-.owned-item .meta{display:flex;gap:14px;font-family:'JetBrains Mono';font-size:11px;color:var(--text-3)}
-.owned-item .open{margin-top:16px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:0.1em}
+.intent::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(214,255,62,0.08),transparent 40%);
+}
+.intent > *{position:relative}
+.intent .left{display:flex;flex-direction:column;gap:6px;flex:1;min-width:240px}
+.intent .kicker{font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent);font-weight:600}
+.intent h4{font-family:'Space Grotesk';font-size:22px;font-weight:700;letter-spacing:-0.02em;line-height:1.1}
+.intent .specs{font-family:'JetBrains Mono';font-size:12px;color:var(--text-3);margin-top:4px}
+.intent .actions{display:flex;gap:10px}
 
-.empty{text-align:center;padding:80px 20px;background:var(--bg-1);border:1px dashed var(--line);border-radius:var(--radius)}
-.empty h3{font-family:'Space Grotesk';font-size:22px;margin-bottom:10px}
-.empty p{color:var(--text-3);font-size:14px;margin-bottom:24px;max-width:400px;margin-inline:auto}
-
-.spin{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,0.2);border-top-color:var(--accent);border-radius:50%;animation:sp 0.8s linear infinite}
+/* ============ LOADER ============ */
+.loader{padding:120px 20px;text-align:center}
+.spin{display:inline-block;width:24px;height:24px;border:2px solid var(--line-2);border-top-color:var(--accent);border-radius:50%;animation:sp 0.9s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
-.loading{text-align:center;padding:80px 20px;color:var(--text-3)}
+
 .hidden{display:none !important}
 
-/* buy intent banner */
-.intent{background:var(--bg-1);border:1px solid var(--accent);border-radius:var(--radius);padding:24px 28px;margin-bottom:32px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-.intent h3{font-family:'Space Grotesk';font-size:16px;font-weight:600;margin-bottom:4px}
-.intent p{font-size:13px;color:var(--text-3)}
-.intent .side{margin-left:auto;display:flex;gap:10px}
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(32px);transition:all 900ms var(--ease)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="brand"><span class="brand-dot"></span>SVITA<small>MICRO</small></a>
+<!-- ============ NAV (shown only when signed in) ============ -->
+<nav id="nav" class="hidden">
+  <a href="index.html" class="brand">
+    <span class="brand-dot"></span>
+    SVITA<small>MICRO</small>
+  </a>
   <div class="nav-right">
     <a href="index.html#gallery">Shop</a>
-    <a href="#" id="signout-link" class="hidden">Sign out</a>
+    <a href="#" id="signout-link">Sign out</a>
+    <a href="index.html#gallery" class="nav-cta" id="nav-browse">Browse shop</a>
   </div>
 </nav>
 
-<main>
-<div class="wrap">
+<!-- ============ LOGIN MODAL ============ -->
+<div id="login-view" class="login-shell">
+  <a href="index.html" class="login-brand">
+    <span class="brand-dot"></span>
+    SVITA<small>MICRO</small>
+  </a>
+  <a href="index.html" class="login-back">
+    <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 5H1M5 1L1 5l4 4"/></svg>
+    Back to shop
+  </a>
 
-  <!-- LOGIN VIEW -->
-  <section id="login-view">
-    <div class="login-card card">
-      <div class="eyebrow">Account access</div>
-      <h1>Sign in</h1>
-      <p>Magic link. No password. We'll email you a one-click sign-in.</p>
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="eyebrow">Magic link · no password</div>
+      <h2>Your <span class="accent">cabinet</span>.</h2>
+      <p class="lead">Enter your email — we'll send a one-click sign-in link. Everything you've purchased lives inside.</p>
+
       <form id="login-form">
-        <input type="email" id="email" placeholder="you@domain.com" required autocomplete="email">
-        <button class="btn btn-primary" type="submit" id="login-btn">Send magic link →</button>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" placeholder="you@domain.com" required autocomplete="email">
+        </div>
+        <button class="btn btn-primary" type="submit" id="login-btn">
+          Send magic link
+          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
+        </button>
       </form>
       <div id="login-msg"></div>
-      <div class="note">By signing in you agree to store your purchases under this email.</div>
+      <div class="note">Your concepts are tied to this email. Use the same one every time you return.</div>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- ACCOUNT VIEW -->
-  <section id="account-view" class="hidden">
-    <div class="acc-head">
-      <div>
-        <div class="eyebrow">Your account</div>
-        <h1>My concepts</h1>
-        <div class="email" id="user-email"></div>
+<!-- ============ ACCOUNT VIEW ============ -->
+<section id="account-view" class="page hidden">
+  <div class="wrap">
+    <div class="page-head reveal">
+      <div class="eyebrow">Your cabinet</div>
+      <h1 class="display">My <span class="accent">concepts</span>.</h1>
+      <p>Everything you've bought lives here. Click any concept to open its brandbook and launch plan.</p>
+    </div>
+
+    <div class="acc-bar reveal">
+      <div class="left">
+        <span class="label">Signed in as</span>
+        <span class="email" id="user-email"></span>
       </div>
-      <div class="actions">
+      <div class="right">
         <a href="index.html#gallery" class="btn btn-ghost">Browse shop</a>
         <button class="btn btn-ghost" id="signout-btn">Sign out</button>
       </div>
@@ -147,47 +379,69 @@ h2{font-family:'Space Grotesk';font-weight:600;font-size:22px;letter-spacing:-0.
 
     <div id="intent-box" class="hidden"></div>
 
-    <div id="owned-loading" class="loading"><span class="spin"></span></div>
-    <div id="owned-grid" class="owned hidden"></div>
-    <div id="owned-empty" class="empty hidden">
-      <h3>No concepts yet</h3>
-      <p>Browse the shop and pick your first ready-to-launch concept. One click, instant access.</p>
-      <a href="index.html#gallery" class="btn btn-primary">Browse 200 concepts →</a>
+    <div class="owned-head reveal">
+      <h2>Owned</h2>
+      <span class="count" id="owned-count"></span>
     </div>
-  </section>
 
-</div>
-</main>
+    <div id="owned-loading" class="loader"><span class="spin"></span></div>
+    <div id="owned-grid" class="owned hidden"></div>
+
+    <div id="owned-empty" class="empty hidden">
+      <div class="eyebrow">Empty cabinet</div>
+      <h3>Pick your first <span class="accent">concept</span>.</h3>
+      <p>200 ready-to-launch concepts waiting. Coffee shops, matcha kiosks, ramen bars, beauty salons. From €49.</p>
+      <a href="index.html#gallery" class="btn btn-primary">
+        Browse concepts
+        <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
 
 <script>
+// ═══════════════ SUPABASE ═══════════════
 const SB_URL='https://ctdleobjnzniqkqomlrq.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
 const sb = supabase.createClient(SB_URL, SB_KEY);
 
 const qs = new URLSearchParams(location.search);
-const BUY_INTENT = qs.get('buy'); // concept slug user wanted to buy before login
+const BUY_INTENT = qs.get('buy');
+
+const CAT_PAL = {
+  food:['#1a2e1a','#2d4a2d','🌿'], restaurant:['#2e1a1a','#4a2d2d','🍽'],
+  beauty:['#2e1a2a','#4a2d44','💋'], service:['#1a1e2e','#2d334a','✦'],
+  repair:['#2e2a1a','#4a422d','⚙'], craft:['#251a2e','#3d2d4a','◆'],
+  retail:['#1a2e2a','#2d4a44','▲'], wellness:['#1a2e2e','#2d4a4a','○'],
+  health:['#1a2a2e','#2d3e4a','+'], education:['#2e281a','#4a402d','✎']
+};
 
 const $ = id => document.getElementById(id);
 function show(id){ $(id).classList.remove('hidden'); }
 function hide(id){ $(id).classList.add('hidden'); }
-function msg(el,text,kind){ el.innerHTML = `<div class="msg ${kind}">${text}</div>`; }
+function msgBox(el,text,kind){ el.innerHTML = `<div class="msg ${kind}">${text}</div>`; }
 
-// ═══════════════ AUTH FLOW ═══════════════
+// ═══════════════ NAV SCROLL ═══════════════
+const nav = $('nav');
+window.addEventListener('scroll', ()=> nav.classList.toggle('scrolled', window.scrollY > 20), {passive:true});
+
+// ═══════════════ REVEAL ═══════════════
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:0.12, rootMargin:'0px 0px -60px 0px'});
+function observeReveals(){ document.querySelectorAll('.reveal:not(.in)').forEach(el=>io.observe(el)); }
+
+// ═══════════════ AUTH ═══════════════
 async function boot(){
   const {data:{session}} = await sb.auth.getSession();
-  if(session && session.user){
-    enterAccount(session.user);
-  }else{
-    show('login-view');
-  }
+  if(session && session.user) enterAccount(session.user);
+  else { show('login-view'); hide('nav'); hide('account-view'); }
 }
 
 sb.auth.onAuthStateChange((event, session)=>{
-  if(event === 'SIGNED_IN' && session){
-    enterAccount(session.user);
-  }else if(event === 'SIGNED_OUT'){
-    hide('account-view'); show('login-view');
-    $('signout-link').classList.add('hidden');
+  if(event === 'SIGNED_IN' && session) enterAccount(session.user);
+  else if(event === 'SIGNED_OUT'){
+    hide('account-view'); hide('nav'); show('login-view');
   }
 });
 
@@ -195,33 +449,27 @@ $('login-form').addEventListener('submit', async e=>{
   e.preventDefault();
   const email = $('email').value.trim();
   if(!email) return;
-  $('login-btn').disabled = true;
-  $('login-btn').innerHTML = '<span class="spin"></span> sending…';
+  const btn = $('login-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin" style="width:16px;height:16px;border-width:2px"></span> Sending…';
   const {error} = await sb.auth.signInWithOtp({
     email,
     options:{ emailRedirectTo: location.origin + '/account.html' + (BUY_INTENT?`?buy=${BUY_INTENT}`:'') }
   });
-  $('login-btn').disabled = false;
-  $('login-btn').innerHTML = 'Send magic link →';
-  if(error){
-    msg($('login-msg'), error.message, 'err');
-  }else{
-    msg($('login-msg'), 'Check your inbox — magic link sent to ' + email, 'ok');
-  }
+  btn.disabled = false;
+  btn.innerHTML = 'Send magic link <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>';
+  if(error) msgBox($('login-msg'), error.message, 'err');
+  else msgBox($('login-msg'), 'Check your inbox — magic link sent to '+email, 'ok');
 });
 
-$('signout-btn').addEventListener('click', async ()=>{
-  await sb.auth.signOut();
-});
-$('signout-link').addEventListener('click', async e=>{
-  e.preventDefault(); await sb.auth.signOut();
-});
+$('signout-btn').addEventListener('click', async ()=>{ await sb.auth.signOut(); });
+$('signout-link').addEventListener('click', async e=>{ e.preventDefault(); await sb.auth.signOut(); });
 
 // ═══════════════ ACCOUNT VIEW ═══════════════
 async function enterAccount(user){
-  hide('login-view'); show('account-view');
-  $('signout-link').classList.remove('hidden');
+  hide('login-view'); show('account-view'); show('nav');
   $('user-email').textContent = user.email;
+  observeReveals();
   await loadOwned();
   if(BUY_INTENT) showBuyIntent(BUY_INTENT);
 }
@@ -230,52 +478,58 @@ async function loadOwned(){
   show('owned-loading');
   const {data, error} = await sb.from('my_concepts').select('*').order('purchased_at',{ascending:false});
   hide('owned-loading');
-  if(error){
-    $('owned-grid').innerHTML = `<div class="empty"><h3>Couldn't load</h3><p>${error.message}</p></div>`;
-    show('owned-grid'); return;
+  if(error || !data || !data.length){
+    show('owned-empty');
+    $('owned-count').textContent = '0 concepts';
+    return;
   }
-  if(!data || !data.length){
-    show('owned-empty'); return;
-  }
+  $('owned-count').textContent = data.length + ' concept' + (data.length===1?'':'s');
   const grid = $('owned-grid');
-  grid.innerHTML = data.map(c=>`
-    <a class="owned-item" href="view.html?c=${c.concept_slug}">
-      <div class="img" ${c.hero_image && !c.hero_image.startsWith('placeholder:') ? `style="background-image:url('${c.hero_image}')"` : ''}></div>
-      <div class="body">
-        <span class="cat">${c.category} · ${c.country} · ${c.size_m2||'—'}m²</span>
-        <h3>${c.name}</h3>
-        <div class="meta"><span>€${(c.budget_eur||0).toLocaleString()}</span><span>${c.weeks||'—'}w</span></div>
-        <div class="open">Open concept<span>→</span></div>
-      </div>
-    </a>
-  `).join('');
+  grid.innerHTML = data.map(c=>{
+    const isPh = c.hero_image && c.hero_image.startsWith('placeholder:');
+    const pal = CAT_PAL[c.category] || ['#1a1a1f','#2a2a30','◆'];
+    const visual = isPh
+      ? `<div class="ph" style="--ph-a:${pal[0]};--ph-b:${pal[1]}">${pal[2]}</div>`
+      : `<div class="img" style="background-image:url('${c.hero_image}')"></div>`;
+    return `
+      <a class="own-tile" href="view.html?c=${c.concept_slug}">
+        ${visual}
+        <div class="shade"></div>
+        <span class="badge">Owned</span>
+        <div class="info">
+          <span class="cat">${c.category} · ${c.country} · ${c.size_m2||'—'}m²</span>
+          <h3>${c.name}</h3>
+          <div class="meta"><span>€${(c.budget_eur||0).toLocaleString()}</span><span>${c.weeks||'—'}w</span></div>
+          <div class="open">Open concept <svg width="14" height="9" viewBox="0 0 14 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4.5h11M8 1l4 3.5-4 3.5"/></svg></div>
+        </div>
+      </a>
+    `;
+  }).join('');
   show('owned-grid');
 }
 
 async function showBuyIntent(slug){
-  // fetch the concept metadata from catalog.json for display
   try{
     const r = await fetch('data/catalog.json');
     const all = await r.json();
     const c = all.find(x=>x.slug === slug);
     if(!c) return;
     const box = $('intent-box');
-    box.className = 'intent';
+    box.className = 'intent reveal in';
     box.innerHTML = `
-      <div>
-        <h3>Ready to buy: ${c.name}</h3>
-        <p>${c.category} · ${c.country} · ${c.size_m2}m² · €${c.budget_eur.toLocaleString()} total launch</p>
+      <div class="left">
+        <span class="kicker">Ready to buy</span>
+        <h4>${c.name}</h4>
+        <div class="specs">${c.category} · ${c.country} · ${c.size_m2}m² · €${c.budget_eur.toLocaleString()} total launch</div>
       </div>
-      <div class="side">
+      <div class="actions">
         <button class="btn btn-ghost" id="cancel-buy">Cancel</button>
-        <button class="btn btn-primary" id="confirm-buy">Buy €${c.price_eur} →</button>
+        <button class="btn btn-primary" id="confirm-buy">Buy €${c.price_eur} <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg></button>
       </div>
     `;
     $('cancel-buy').onclick = ()=>{ history.replaceState({},'','account.html'); box.className='hidden'; };
-    $('confirm-buy').onclick = ()=>{
-      alert('Checkout integration pending (Stripe / Lemon Squeezy). For now ask господин to manually insert into public.purchases.');
-    };
-  }catch(e){ console.error(e); }
+    $('confirm-buy').onclick = ()=>{ alert('Checkout integration coming soon.'); };
+  }catch(e){}
 }
 
 boot();
