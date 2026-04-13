@@ -168,7 +168,76 @@ nav.scrolled{
   letter-spacing:-0.035em;line-height:0.95;margin-bottom:16px;
 }
 .login-card h2 .accent{color:var(--accent);font-style:italic;font-weight:500}
-.login-card .lead{font-size:15px;color:var(--text-2);margin-bottom:36px;line-height:1.55;max-width:360px}
+.login-card .lead{font-size:15px;color:var(--text-2);margin-bottom:32px;line-height:1.55;max-width:360px}
+
+/* tabs */
+.auth-tabs{display:flex;gap:0;margin-bottom:28px;border-bottom:1px solid var(--line);position:relative}
+.auth-tab{
+  flex:1;padding:14px 0;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;
+  color:var(--text-3);cursor:pointer;text-align:center;
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:all 200ms var(--ease);
+}
+.auth-tab:hover{color:var(--text-2)}
+.auth-tab.active{color:var(--text);border-bottom-color:var(--accent)}
+
+/* panels */
+.auth-panel{display:none;animation:fadeIn 400ms var(--ease) both}
+.auth-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.pass-wrap{position:relative}
+.pass-wrap .eye{
+  position:absolute;right:18px;top:50%;transform:translateY(-50%);
+  cursor:pointer;color:var(--text-3);opacity:0.6;
+  transition:all 200ms var(--ease);display:flex;
+}
+.pass-wrap .eye:hover{opacity:1;color:var(--accent)}
+
+.login-card .field{margin-bottom:16px}
+.login-card .field.last{margin-bottom:20px}
+.forgot-row{display:flex;justify-content:flex-end;margin:-6px 0 14px}
+.forgot-link{font-size:12px;color:var(--text-3);cursor:pointer;transition:color 200ms var(--ease);font-weight:500}
+.forgot-link:hover{color:var(--accent)}
+
+.strength{margin-top:8px}
+.strength-bar{height:3px;border-radius:2px;background:var(--line);overflow:hidden}
+.strength-bar > div{height:100%;width:0;border-radius:2px;transition:all 250ms var(--ease);background:#ef4444}
+.strength-hint{font-size:10px;color:var(--text-3);margin-top:6px;text-transform:uppercase;letter-spacing:0.1em;min-height:14px;font-weight:500}
+
+.agree{display:flex;align-items:flex-start;gap:10px;margin:4px 0 18px;text-align:left}
+.agree input{margin-top:3px;accent-color:var(--accent);cursor:pointer;width:14px;height:14px}
+.agree label{font-size:11px;color:var(--text-3);cursor:pointer;line-height:1.5}
+.agree label a{color:var(--text-2);text-decoration:underline;text-underline-offset:2px}
+.agree label a:hover{color:var(--accent)}
+
+/* divider */
+.divider{display:flex;align-items:center;gap:14px;margin:26px 0 18px}
+.divider > div{flex:1;height:1px;background:var(--line)}
+.divider span{font-size:10px;color:var(--text-3);letter-spacing:0.16em;font-weight:600;text-transform:uppercase}
+
+/* oauth */
+.oauth-stack{display:flex;flex-direction:column;gap:8px}
+.oauth-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:13px 18px;
+  background:var(--bg-2);border:1px solid var(--line);border-radius:100px;
+  color:var(--text);font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;
+  transition:all 200ms var(--ease);
+}
+.oauth-btn:hover{border-color:var(--line-2);background:var(--bg-1);transform:translateY(-1px)}
+.oauth-btn svg{flex-shrink:0}
+
+.icon-head{font-size:40px;margin:-8px 0 14px;text-align:center;filter:grayscale(0.3)}
+.center-text{text-align:center}
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;margin-top:20px;
+  font-size:12px;color:var(--text-3);cursor:pointer;
+  transition:color 200ms var(--ease);font-weight:500;
+}
+.back-link:hover{color:var(--accent)}
+.back-link svg{transition:transform 200ms var(--ease)}
+.back-link:hover svg{transform:translateX(-3px)}
 
 .field{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
 .field label{font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-3);font-weight:500}
@@ -337,22 +406,164 @@ nav.scrolled{
 
   <div class="login-wrap">
     <div class="login-card">
-      <div class="eyebrow">Magic link · no password</div>
-      <h2>Your <span class="accent">cabinet</span>.</h2>
-      <p class="lead">Enter your email — we'll send a one-click sign-in link. Everything you've purchased lives inside.</p>
+      <div class="eyebrow" id="auth-eyebrow">Account access</div>
+      <h2 id="auth-title">Your <span class="accent">cabinet</span>.</h2>
+      <p class="lead" id="auth-lead">Sign in to see your purchased concepts. No magic link required — just email and password.</p>
 
-      <form id="login-form">
-        <div class="field">
-          <label for="email">Email address</label>
-          <input type="email" id="email" placeholder="you@domain.com" required autocomplete="email">
+      <!-- TABS -->
+      <div class="auth-tabs" id="auth-tabs">
+        <div class="auth-tab active" data-tab="signin">Sign in</div>
+        <div class="auth-tab" data-tab="signup">Sign up</div>
+      </div>
+
+      <!-- SIGN IN -->
+      <div class="auth-panel active" id="panel-signin">
+        <form id="form-signin">
+          <div class="field">
+            <label for="si-email">Email</label>
+            <input type="email" id="si-email" placeholder="you@domain.com" required autocomplete="email">
+          </div>
+          <div class="field last">
+            <label for="si-pass">Password</label>
+            <div class="pass-wrap">
+              <input type="password" id="si-pass" placeholder="••••••••" required autocomplete="current-password">
+              <span class="eye" data-target="si-pass">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </span>
+            </div>
+          </div>
+          <div class="forgot-row"><span class="forgot-link" id="forgot-link">Forgot password?</span></div>
+          <button class="btn btn-primary" type="submit" id="si-btn">
+            Sign in
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
+          </button>
+        </form>
+        <div id="si-msg"></div>
+
+        <div class="divider"><div></div><span>or</span><div></div></div>
+        <div class="oauth-stack">
+          <button class="oauth-btn" data-provider="google">
+            <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#4285F4" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#34A853" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59A14.5 14.5 0 019.5 24c0-1.59.28-3.14.76-4.59l-7.98-6.19A23.99 23.99 0 000 24c0 3.77.87 7.34 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+            Continue with Google
+          </button>
+          <button class="oauth-btn" data-provider="github">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            Continue with GitHub
+          </button>
+          <button class="oauth-btn" data-provider="apple">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+            Continue with Apple
+          </button>
         </div>
-        <button class="btn btn-primary" type="submit" id="login-btn">
-          Send magic link
-          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
-        </button>
-      </form>
-      <div id="login-msg"></div>
-      <div class="note">Your concepts are tied to this email. Use the same one every time you return.</div>
+      </div>
+
+      <!-- SIGN UP -->
+      <div class="auth-panel" id="panel-signup">
+        <form id="form-signup">
+          <div class="field">
+            <label for="su-name">Name</label>
+            <input type="text" id="su-name" placeholder="How should we call you" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="su-email">Email</label>
+            <input type="email" id="su-email" placeholder="you@domain.com" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="su-pass">Password</label>
+            <div class="pass-wrap">
+              <input type="password" id="su-pass" placeholder="Minimum 8 characters" required autocomplete="new-password">
+              <span class="eye" data-target="su-pass">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </span>
+            </div>
+            <div class="strength">
+              <div class="strength-bar"><div id="su-bar"></div></div>
+              <div class="strength-hint" id="su-hint"></div>
+            </div>
+          </div>
+          <div class="field last">
+            <label for="su-pass2">Confirm password</label>
+            <div class="pass-wrap">
+              <input type="password" id="su-pass2" placeholder="Repeat password" required autocomplete="new-password">
+              <span class="eye" data-target="su-pass2">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </span>
+            </div>
+          </div>
+          <div class="agree">
+            <input type="checkbox" id="su-agree">
+            <label for="su-agree">I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</label>
+          </div>
+          <button class="btn btn-primary" type="submit" id="su-btn">
+            Create account
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
+          </button>
+        </form>
+        <div id="su-msg"></div>
+
+        <div class="divider"><div></div><span>or</span><div></div></div>
+        <div class="oauth-stack">
+          <button class="oauth-btn" data-provider="google">
+            <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#4285F4" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#34A853" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59A14.5 14.5 0 019.5 24c0-1.59.28-3.14.76-4.59l-7.98-6.19A23.99 23.99 0 000 24c0 3.77.87 7.34 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+            Continue with Google
+          </button>
+          <button class="oauth-btn" data-provider="github">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            Continue with GitHub
+          </button>
+          <button class="oauth-btn" data-provider="apple">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+            Continue with Apple
+          </button>
+        </div>
+      </div>
+
+      <!-- FORGOT -->
+      <div class="auth-panel" id="panel-forgot">
+        <form id="form-forgot">
+          <div class="field last">
+            <label for="fg-email">Email</label>
+            <input type="email" id="fg-email" placeholder="you@domain.com" required autocomplete="email">
+          </div>
+          <button class="btn btn-primary" type="submit" id="fg-btn">
+            Send reset link
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
+          </button>
+        </form>
+        <div id="fg-msg"></div>
+        <div class="center-text"><span class="back-link" id="back-to-signin"><svg width="12" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 5H1M5 1L1 5l4 4"/></svg> Back to sign in</span></div>
+      </div>
+
+      <!-- RESET -->
+      <div class="auth-panel" id="panel-reset">
+        <form id="form-reset">
+          <div class="field">
+            <label for="rs-pass">New password</label>
+            <div class="pass-wrap">
+              <input type="password" id="rs-pass" placeholder="Minimum 8 characters" required autocomplete="new-password">
+              <span class="eye" data-target="rs-pass">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </span>
+            </div>
+          </div>
+          <div class="field last">
+            <label for="rs-pass2">Confirm password</label>
+            <div class="pass-wrap">
+              <input type="password" id="rs-pass2" placeholder="Repeat password" required autocomplete="new-password">
+              <span class="eye" data-target="rs-pass2">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </span>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit" id="rs-btn">
+            Save password
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
+          </button>
+        </form>
+        <div id="rs-msg"></div>
+      </div>
+
+      <div class="note">Your purchased concepts are tied to your account. We never share your email.</div>
     </div>
   </div>
 </div>
@@ -433,33 +644,202 @@ function observeReveals(){ document.querySelectorAll('.reveal:not(.in)').forEach
 
 // ═══════════════ AUTH ═══════════════
 async function boot(){
+  // Password recovery flow: user clicked the email link with ?type=recovery
+  const isRecovery = qs.get('type')==='recovery' || location.hash.includes('type=recovery');
+  if(isRecovery){
+    show('login-view'); hide('nav'); hide('account-view');
+    showPanel('reset');
+    return;
+  }
   const {data:{session}} = await sb.auth.getSession();
   if(session && session.user) enterAccount(session.user);
-  else { show('login-view'); hide('nav'); hide('account-view'); }
+  else { show('login-view'); hide('nav'); hide('account-view'); showPanel('signin'); }
 }
 
 sb.auth.onAuthStateChange((event, session)=>{
-  if(event === 'SIGNED_IN' && session) enterAccount(session.user);
-  else if(event === 'SIGNED_OUT'){
-    hide('account-view'); hide('nav'); show('login-view');
+  if(event === 'PASSWORD_RECOVERY'){
+    show('login-view'); hide('nav'); hide('account-view');
+    showPanel('reset');
+  } else if(event === 'SIGNED_IN' && session){
+    enterAccount(session.user);
+  } else if(event === 'SIGNED_OUT'){
+    hide('account-view'); hide('nav'); show('login-view'); showPanel('signin');
   }
 });
 
-$('login-form').addEventListener('submit', async e=>{
-  e.preventDefault();
-  const email = $('email').value.trim();
-  if(!email) return;
-  const btn = $('login-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spin" style="width:16px;height:16px;border-width:2px"></span> Sending…';
-  const {error} = await sb.auth.signInWithOtp({
-    email,
-    options:{ emailRedirectTo: location.origin + '/account.html' + (BUY_INTENT?`?buy=${BUY_INTENT}`:'') }
+// ═══════════════ TABS / PANELS ═══════════════
+const PANELS = ['signin','signup','forgot','reset'];
+function showPanel(which){
+  PANELS.forEach(p=>{
+    const el = $('panel-'+p);
+    el.classList.toggle('active', p===which);
   });
-  btn.disabled = false;
-  btn.innerHTML = 'Send magic link <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>';
-  if(error) msgBox($('login-msg'), error.message, 'err');
-  else msgBox($('login-msg'), 'Check your inbox — magic link sent to '+email, 'ok');
+  const tabs = $('auth-tabs');
+  if(which==='signin' || which==='signup'){
+    tabs.style.display='flex';
+    document.querySelectorAll('.auth-tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===which));
+    $('auth-title').innerHTML = which==='signin' ? 'Your <span class="accent">cabinet</span>.' : 'Join the <span class="accent">shop</span>.';
+    $('auth-lead').textContent = which==='signin'
+      ? 'Sign in to see your purchased concepts. Email and password — no magic links.'
+      : 'Create an account to buy concepts and access your cabinet on any device.';
+    $('auth-eyebrow').textContent = which==='signin' ? 'Account access' : 'New account';
+  } else if(which==='forgot'){
+    tabs.style.display='none';
+    $('auth-title').innerHTML = 'Forgot <span class="accent">password</span>?';
+    $('auth-lead').textContent = 'Enter your email — we\'ll send you a link to reset it.';
+    $('auth-eyebrow').textContent = 'Password recovery';
+  } else if(which==='reset'){
+    tabs.style.display='none';
+    $('auth-title').innerHTML = 'New <span class="accent">password</span>.';
+    $('auth-lead').textContent = 'Set a new password for your account. Minimum 8 characters.';
+    $('auth-eyebrow').textContent = 'Reset password';
+  }
+}
+document.querySelectorAll('.auth-tab').forEach(t=>{
+  t.addEventListener('click', ()=> showPanel(t.dataset.tab));
+});
+$('forgot-link').addEventListener('click', ()=> showPanel('forgot'));
+$('back-to-signin').addEventListener('click', ()=> showPanel('signin'));
+
+// ═══════════════ PASSWORD EYE ═══════════════
+document.querySelectorAll('.eye').forEach(e=>{
+  e.addEventListener('click', ()=>{
+    const inp = $(e.dataset.target);
+    inp.type = inp.type==='password' ? 'text' : 'password';
+    e.style.opacity = inp.type==='text' ? '1' : '0.6';
+  });
+});
+
+// ═══════════════ PASSWORD STRENGTH ═══════════════
+const strengthColors = ['#ef4444','#ef4444','#f59e0b','#eab308','#84cc16','#D6FF3E'];
+const strengthLabels = ['','Weak','Weak','Medium','Good','Strong'];
+$('su-pass').addEventListener('input', ()=>{
+  const v = $('su-pass').value;
+  let s = 0;
+  if(v.length>=8) s++;
+  if(v.length>=12) s++;
+  if(/[A-Z]/.test(v)) s++;
+  if(/[0-9]/.test(v)) s++;
+  if(/[^A-Za-z0-9]/.test(v)) s++;
+  $('su-bar').style.width = (s/5*100)+'%';
+  $('su-bar').style.background = strengthColors[s]||'#ef4444';
+  $('su-hint').textContent = v.length ? strengthLabels[s] : '';
+  $('su-hint').style.color = strengthColors[s]||'#6E6E78';
+});
+
+// ═══════════════ RATE LIMIT (client UX) ═══════════════
+const _rl = {};
+function rateLimit(key, max, windowMs){
+  const now = Date.now();
+  if(!_rl[key]) _rl[key] = [];
+  _rl[key] = _rl[key].filter(t=> now-t < windowMs);
+  if(_rl[key].length >= max) return false;
+  _rl[key].push(now);
+  return true;
+}
+
+function setLoading(btn, loading, normalHTML){
+  if(loading){
+    btn.disabled = true;
+    btn.dataset.orig = normalHTML || btn.innerHTML;
+    btn.innerHTML = '<span class="spin" style="width:16px;height:16px;border-width:2px"></span>';
+  } else {
+    btn.disabled = false;
+    btn.innerHTML = btn.dataset.orig || normalHTML;
+  }
+}
+
+// ═══════════════ SIGN IN ═══════════════
+$('form-signin').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const email = $('si-email').value.trim().toLowerCase();
+  const pass = $('si-pass').value;
+  if(!email || !pass){ msgBox($('si-msg'),'Enter email and password','err'); return; }
+  if(!rateLimit('signin',5,600000)){ msgBox($('si-msg'),'Too many attempts. Wait 10 minutes.','err'); return; }
+  const btn = $('si-btn');
+  const origHTML = btn.innerHTML;
+  setLoading(btn, true, origHTML);
+  const {data, error} = await sb.auth.signInWithPassword({email, password: pass});
+  setLoading(btn, false, origHTML);
+  if(error){
+    msgBox($('si-msg'), error.message==='Invalid login credentials' ? 'Wrong email or password' : error.message, 'err');
+    return;
+  }
+  msgBox($('si-msg'),'Signed in. Loading your cabinet…','ok');
+});
+
+// ═══════════════ SIGN UP ═══════════════
+$('form-signup').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const name = $('su-name').value.trim();
+  const email = $('su-email').value.trim().toLowerCase();
+  const pass = $('su-pass').value;
+  const pass2 = $('su-pass2').value;
+  const agree = $('su-agree').checked;
+  if(!name){ msgBox($('su-msg'),'Enter your name','err'); return; }
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ msgBox($('su-msg'),'Invalid email','err'); return; }
+  if(pass.length < 8){ msgBox($('su-msg'),'Password must be at least 8 characters','err'); return; }
+  if(pass !== pass2){ msgBox($('su-msg'),'Passwords do not match','err'); return; }
+  if(!agree){ msgBox($('su-msg'),'Please accept the Terms','err'); return; }
+  if(!rateLimit('signup',3,600000)){ msgBox($('su-msg'),'Too many attempts. Wait 10 minutes.','err'); return; }
+  const btn = $('su-btn');
+  const origHTML = btn.innerHTML;
+  setLoading(btn, true, origHTML);
+  const {data, error} = await sb.auth.signUp({
+    email, password: pass,
+    options:{ data:{ name }, emailRedirectTo: location.origin + '/account.html' + (BUY_INTENT?`?buy=${BUY_INTENT}`:'') }
+  });
+  setLoading(btn, false, origHTML);
+  if(error){ msgBox($('su-msg'), error.message, 'err'); return; }
+  if(data.user && !data.user.identities?.length){ msgBox($('su-msg'),'This email is already registered','err'); return; }
+  msgBox($('su-msg'),'Account created! Check your inbox to confirm email.','ok');
+  setTimeout(()=> showPanel('signin'), 3000);
+});
+
+// ═══════════════ FORGOT ═══════════════
+$('form-forgot').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const email = $('fg-email').value.trim().toLowerCase();
+  if(!email){ msgBox($('fg-msg'),'Enter your email','err'); return; }
+  if(!rateLimit('forgot',3,300000)){ msgBox($('fg-msg'),'Too many attempts. Wait 5 minutes.','err'); return; }
+  const btn = $('fg-btn');
+  const origHTML = btn.innerHTML;
+  setLoading(btn, true, origHTML);
+  const {error} = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: location.origin + '/account.html?type=recovery'
+  });
+  setLoading(btn, false, origHTML);
+  if(error){ msgBox($('fg-msg'), error.message, 'err'); return; }
+  msgBox($('fg-msg'),'Reset link sent to '+email+'. Check your inbox.','ok');
+});
+
+// ═══════════════ RESET ═══════════════
+$('form-reset').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const p1 = $('rs-pass').value;
+  const p2 = $('rs-pass2').value;
+  if(p1.length < 8){ msgBox($('rs-msg'),'Minimum 8 characters','err'); return; }
+  if(p1 !== p2){ msgBox($('rs-msg'),'Passwords do not match','err'); return; }
+  const btn = $('rs-btn');
+  const origHTML = btn.innerHTML;
+  setLoading(btn, true, origHTML);
+  const {error} = await sb.auth.updateUser({password: p1});
+  setLoading(btn, false, origHTML);
+  if(error){ msgBox($('rs-msg'), error.message, 'err'); return; }
+  msgBox($('rs-msg'),'Password saved! Redirecting…','ok');
+  setTimeout(()=> location.href = 'account.html', 1200);
+});
+
+// ═══════════════ OAUTH ═══════════════
+document.querySelectorAll('.oauth-btn').forEach(b=>{
+  b.addEventListener('click', async ()=>{
+    const provider = b.dataset.provider;
+    const {error} = await sb.auth.signInWithOAuth({
+      provider,
+      options:{ redirectTo: location.origin + '/account.html' + (BUY_INTENT?`?buy=${BUY_INTENT}`:'') }
+    });
+    if(error) msgBox($('si-msg'), error.message, 'err');
+  });
 });
 
 $('signout-btn').addEventListener('click', async ()=>{ await sb.auth.signOut(); });
