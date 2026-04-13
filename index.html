@@ -335,6 +335,44 @@ footer{border-top:1px solid var(--line);padding:48px 0 64px}
 .reveal{opacity:0;transform:translateY(40px);transition:all 1000ms var(--ease)}
 .reveal.in{opacity:1;transform:translateY(0)}
 
+/* ============ SHOP ENTRANCE FX ============ */
+#gallery{position:relative;scroll-margin-top:80px}
+#gallery::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(214,255,62,0.08),transparent 70%);
+  opacity:0;transition:opacity 1200ms var(--ease);
+}
+#gallery.armed::before{opacity:1}
+#gallery.armed .gallery-head h2{animation:shopTitleIn 900ms var(--ease) both}
+#gallery.armed .tile{animation:tileFlyIn 900ms var(--ease) both}
+#gallery.armed .tile:nth-child(1){animation-delay:40ms}
+#gallery.armed .tile:nth-child(2){animation-delay:120ms}
+#gallery.armed .tile:nth-child(3){animation-delay:200ms}
+#gallery.armed .tile:nth-child(4){animation-delay:280ms}
+#gallery.armed .tile:nth-child(5){animation-delay:360ms}
+#gallery.armed .tile:nth-child(6){animation-delay:440ms}
+#gallery.armed .tile:nth-child(7){animation-delay:520ms}
+@keyframes shopTitleIn{
+  0%{opacity:0;transform:translateY(60px) scale(0.92);filter:blur(12px)}
+  60%{filter:blur(0)}
+  100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+}
+@keyframes tileFlyIn{
+  0%{opacity:0;transform:translateY(80px) scale(0.94);filter:blur(8px)}
+  100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+}
+#shop-flash{
+  position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background:radial-gradient(circle at 50% 50%,rgba(214,255,62,0.35),transparent 60%);
+  opacity:0;
+}
+#shop-flash.go{animation:shopFlash 700ms var(--ease)}
+@keyframes shopFlash{
+  0%{opacity:0}
+  30%{opacity:1}
+  100%{opacity:0}
+}
+
 /* ============ PROTECTION ============ */
 .protected,.protected *{
   -webkit-user-select:none;user-select:none;
@@ -347,6 +385,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 64px}
 </style>
 </head>
 <body>
+<div id="shop-flash"></div>
 
 <!-- ============ NAV ============ -->
 <nav id="nav">
@@ -362,7 +401,7 @@ footer{border-top:1px solid var(--line);padding:48px 0 64px}
       </button>
       <div class="lang-menu" id="lang-menu"></div>
     </div>
-    <a href="#pricing" class="nav-cta" data-i18n="nav_cta">Get a concept</a>
+    <a href="#gallery" class="nav-cta" data-i18n="nav_cta">Get a concept</a>
   </div>
 </nav>
 
@@ -551,49 +590,6 @@ footer{border-top:1px solid var(--line);padding:48px 0 64px}
   </div>
 </section>
 
-<!-- ============ PRICING ============ -->
-<section id="pricing">
-  <div class="wrap">
-    <div class="pricing-head reveal">
-      <div class="eyebrow" data-i18n="pricing_eyebrow">One-time. No subscription.</div>
-      <h2 class="display" data-i18n="pricing_h">Pick a concept.<br>Own it forever.</h2>
-    </div>
-
-    <div class="plans">
-      <div class="plan reveal">
-        <div class="kind" data-i18n="plan_shop_kind">Shop</div>
-        <div class="price"><span class="cur">€</span>49</div>
-        <div class="once" data-i18n="once">One-time · Instant access</div>
-        <ul>
-          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_shop_1">Complete 25-page brandbook (PDF)</span></li>
-          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_shop_2">Equipment list with real models &amp; prices</span></li>
-          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_shop_3">Country registration &amp; permits</span></li>
-          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_shop_4">Week-by-week launch timeline</span></li>
-          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_shop_5">P&amp;L projection</span></li>
-        </ul>
-        <a href="#gallery" class="btn btn-ghost" data-i18n="plan_shop_cta">Browse shop</a>
-      </div>
-
-      <div class="plan featured reveal">
-        <div class="kind" data-i18n="plan_custom_kind">Custom</div>
-        <div class="price"><span class="cur">€</span>149</div>
-        <div class="once" data-i18n="once">One-time · AI-generated in 5 min</div>
-        <ul>
-          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_custom_1">Everything in Shop</span></li>
-          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_custom_2">Your country, your budget, your style</span></li>
-          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_custom_3">AI-generated interior renders</span></li>
-          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_custom_4">Editable source files</span></li>
-          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_custom_5">Lifetime updates</span></li>
-        </ul>
-        <a href="#" class="btn btn-primary" data-i18n="plan_custom_cta">
-          Generate mine
-          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============ FINAL CTA ============ -->
 <section class="final">
   <div class="wrap">
@@ -731,6 +727,21 @@ const nav = document.getElementById('nav');
 window.addEventListener('scroll', ()=>{
   nav.classList.toggle('scrolled', window.scrollY > 20);
 }, {passive:true});
+
+/* ===================== SHOP ENTRANCE FX ===================== */
+const gallery = document.getElementById('gallery');
+const flash = document.getElementById('shop-flash');
+function enterShop(){
+  flash.classList.remove('go'); void flash.offsetWidth; flash.classList.add('go');
+  gallery.classList.remove('armed'); void gallery.offsetWidth; gallery.classList.add('armed');
+  gallery.scrollIntoView({behavior:'smooth', block:'start'});
+}
+document.querySelectorAll('a[href="#gallery"], [data-buy]').forEach(el=>{
+  el.addEventListener('click', e=>{
+    e.preventDefault();
+    enterShop();
+  });
+});
 
 /* ===================== REVEAL ON SCROLL ===================== */
 const io = new IntersectionObserver((entries)=>{
