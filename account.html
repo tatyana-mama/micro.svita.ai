@@ -787,7 +787,7 @@ $('form-signup').addEventListener('submit', async e=>{
   setLoading(btn, true, origHTML);
   const {data, error} = await sb.auth.signUp({
     email, password: pass,
-    options:{ data:{ name }, emailRedirectTo: location.origin + '/account.html' + (BUY_INTENT?`?buy=${BUY_INTENT}`:'') }
+    options:{ data:{ name }, emailRedirectTo: (BUY_INTENT ? location.origin+'/account.html?buy='+BUY_INTENT : location.origin+'/shop.html') }
   });
   setLoading(btn, false, origHTML);
   if(error){ msgBox($('su-msg'), error.message, 'err'); return; }
@@ -836,7 +836,7 @@ document.querySelectorAll('.oauth-btn').forEach(b=>{
     const provider = b.dataset.provider;
     const {error} = await sb.auth.signInWithOAuth({
       provider,
-      options:{ redirectTo: location.origin + '/account.html' + (BUY_INTENT?`?buy=${BUY_INTENT}`:'') }
+      options:{ redirectTo: (BUY_INTENT ? location.origin+'/account.html?buy='+BUY_INTENT : location.origin+'/shop.html') }
     });
     if(error) msgBox($('si-msg'), error.message, 'err');
   });
