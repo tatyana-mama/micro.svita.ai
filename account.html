@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Account · SVITA Micro</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23D6FF3E'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+:root{
+  --bg:#0A0A0B;--bg-1:#111113;--bg-2:#18181B;--line:#232326;--line-2:#2A2A2F;
+  --text:#FAFAFA;--text-2:#A1A1AA;--text-3:#71717A;--accent:#D6FF3E;
+  --radius:16px;--ease:cubic-bezier(0.22,1,0.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);min-height:100vh;
+  font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 32px}
+
+/* nav */
+nav{position:fixed;top:16px;left:16px;right:16px;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 24px;background:rgba(17,17,19,0.72);backdrop-filter:blur(16px);
+  border:1px solid var(--line);border-radius:100px;
+}
+.brand{font-family:'Space Grotesk';font-weight:700;font-size:17px;display:flex;align-items:center;gap:10px;letter-spacing:-0.02em}
+.brand small{font-family:'JetBrains Mono';font-size:10px;font-weight:400;color:var(--text-3);letter-spacing:0.15em;text-transform:uppercase}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+.nav-right{display:flex;gap:16px;align-items:center}
+.nav-right a{font-size:13px;color:var(--text-2);transition:color 200ms}
+.nav-right a:hover{color:var(--accent)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:11px 22px;border-radius:100px;
+  font-family:'Space Grotesk';font-size:13px;font-weight:600;cursor:pointer;
+  border:none;transition:all 200ms var(--ease);text-decoration:none;
+}
+.btn-primary{background:var(--accent);color:#0A0A0B}
+.btn-primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+main{padding-top:140px;padding-bottom:120px;min-height:100vh}
+
+h1{font-family:'Space Grotesk';font-weight:700;font-size:clamp(2rem,4vw,3rem);letter-spacing:-0.03em;line-height:1}
+h2{font-family:'Space Grotesk';font-weight:600;font-size:22px;letter-spacing:-0.01em;margin-bottom:20px}
+.eyebrow{font-family:'JetBrains Mono';font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.18em;margin-bottom:20px}
+
+/* login card */
+.card{background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius);padding:40px}
+.login-card{max-width:440px;margin:40px auto 0}
+.login-card h1{font-size:32px;margin-bottom:12px}
+.login-card p{color:var(--text-3);font-size:14px;margin-bottom:28px}
+.login-card input{
+  width:100%;padding:16px 18px;background:var(--bg-2);border:1px solid var(--line);
+  border-radius:12px;color:var(--text);font-family:inherit;font-size:15px;
+  transition:border 200ms;
+}
+.login-card input:focus{outline:none;border-color:var(--accent)}
+.login-card .btn{width:100%;justify-content:center;margin-top:14px;padding:16px}
+.note{margin-top:16px;font-size:12px;color:var(--text-3);text-align:center}
+.msg{margin-top:16px;padding:12px 14px;border-radius:10px;font-size:13px;text-align:center}
+.msg.ok{background:rgba(214,255,62,0.1);color:var(--accent);border:1px solid rgba(214,255,62,0.25)}
+.msg.err{background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.25)}
+
+/* account header */
+.acc-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;flex-wrap:wrap;gap:20px}
+.acc-head .email{font-family:'JetBrains Mono';font-size:12px;color:var(--text-3);margin-top:12px}
+.acc-head .actions{display:flex;gap:12px}
+
+/* owned concepts grid */
+.owned{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+.owned-item{
+  background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;cursor:pointer;transition:all 300ms var(--ease);
+  position:relative;
+}
+.owned-item:hover{border-color:var(--accent);transform:translateY(-4px)}
+.owned-item .img{aspect-ratio:16/10;background-size:cover;background-position:center;background-color:var(--bg-2)}
+.owned-item .body{padding:22px}
+.owned-item .cat{font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:0.15em;font-weight:600;margin-bottom:8px;display:block}
+.owned-item h3{font-family:'Space Grotesk';font-size:20px;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px}
+.owned-item .meta{display:flex;gap:14px;font-family:'JetBrains Mono';font-size:11px;color:var(--text-3)}
+.owned-item .open{margin-top:16px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:0.1em}
+
+.empty{text-align:center;padding:80px 20px;background:var(--bg-1);border:1px dashed var(--line);border-radius:var(--radius)}
+.empty h3{font-family:'Space Grotesk';font-size:22px;margin-bottom:10px}
+.empty p{color:var(--text-3);font-size:14px;margin-bottom:24px;max-width:400px;margin-inline:auto}
+
+.spin{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,0.2);border-top-color:var(--accent);border-radius:50%;animation:sp 0.8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loading{text-align:center;padding:80px 20px;color:var(--text-3)}
+.hidden{display:none !important}
+
+/* buy intent banner */
+.intent{background:var(--bg-1);border:1px solid var(--accent);border-radius:var(--radius);padding:24px 28px;margin-bottom:32px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.intent h3{font-family:'Space Grotesk';font-size:16px;font-weight:600;margin-bottom:4px}
+.intent p{font-size:13px;color:var(--text-3)}
+.intent .side{margin-left:auto;display:flex;gap:10px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand"><span class="brand-dot"></span>SVITA<small>MICRO</small></a>
+  <div class="nav-right">
+    <a href="index.html#gallery">Shop</a>
+    <a href="#" id="signout-link" class="hidden">Sign out</a>
+  </div>
+</nav>
+
+<main>
+<div class="wrap">
+
+  <!-- LOGIN VIEW -->
+  <section id="login-view">
+    <div class="login-card card">
+      <div class="eyebrow">Account access</div>
+      <h1>Sign in</h1>
+      <p>Magic link. No password. We'll email you a one-click sign-in.</p>
+      <form id="login-form">
+        <input type="email" id="email" placeholder="you@domain.com" required autocomplete="email">
+        <button class="btn btn-primary" type="submit" id="login-btn">Send magic link →</button>
+      </form>
+      <div id="login-msg"></div>
+      <div class="note">By signing in you agree to store your purchases under this email.</div>
+    </div>
+  </section>
+
+  <!-- ACCOUNT VIEW -->
+  <section id="account-view" class="hidden">
+    <div class="acc-head">
+      <div>
+        <div class="eyebrow">Your account</div>
+        <h1>My concepts</h1>
+        <div class="email" id="user-email"></div>
+      </div>
+      <div class="actions">
+        <a href="index.html#gallery" class="btn btn-ghost">Browse shop</a>
+        <button class="btn btn-ghost" id="signout-btn">Sign out</button>
+      </div>
+    </div>
+
+    <div id="intent-box" class="hidden"></div>
+
+    <div id="owned-loading" class="loading"><span class="spin"></span></div>
+    <div id="owned-grid" class="owned hidden"></div>
+    <div id="owned-empty" class="empty hidden">
+      <h3>No concepts yet</h3>
+      <p>Browse the shop and pick your first ready-to-launch concept. One click, instant access.</p>
+      <a href="index.html#gallery" class="btn btn-primary">Browse 200 concepts →</a>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<script>
+const SB_URL='https://ctdleobjnzniqkqomlrq.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+const sb = supabase.createClient(SB_URL, SB_KEY);
+
+const qs = new URLSearchParams(location.search);
+const BUY_INTENT = qs.get('buy'); // concept slug user wanted to buy before login
+
+const $ = id => document.getElementById(id);
+function show(id){ $(id).classList.remove('hidden'); }
+function hide(id){ $(id).classList.add('hidden'); }
+function msg(el,text,kind){ el.innerHTML = `<div class="msg ${kind}">${text}</div>`; }
+
+// ═══════════════ AUTH FLOW ═══════════════
+async function boot(){
+  const {data:{session}} = await sb.auth.getSession();
+  if(session && session.user){
+    enterAccount(session.user);
+  }else{
+    show('login-view');
+  }
+}
+
+sb.auth.onAuthStateChange((event, session)=>{
+  if(event === 'SIGNED_IN' && session){
+    enterAccount(session.user);
+  }else if(event === 'SIGNED_OUT'){
+    hide('account-view'); show('login-view');
+    $('signout-link').classList.add('hidden');
+  }
+});
+
+$('login-form').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const email = $('email').value.trim();
+  if(!email) return;
+  $('login-btn').disabled = true;
+  $('login-btn').innerHTML = '<span class="spin"></span> sending…';
+  const {error} = await sb.auth.signInWithOtp({
+    email,
+    options:{ emailRedirectTo: location.origin + '/account.html' + (BUY_INTENT?`?buy=${BUY_INTENT}`:'') }
+  });
+  $('login-btn').disabled = false;
+  $('login-btn').innerHTML = 'Send magic link →';
+  if(error){
+    msg($('login-msg'), error.message, 'err');
+  }else{
+    msg($('login-msg'), 'Check your inbox — magic link sent to ' + email, 'ok');
+  }
+});
+
+$('signout-btn').addEventListener('click', async ()=>{
+  await sb.auth.signOut();
+});
+$('signout-link').addEventListener('click', async e=>{
+  e.preventDefault(); await sb.auth.signOut();
+});
+
+// ═══════════════ ACCOUNT VIEW ═══════════════
+async function enterAccount(user){
+  hide('login-view'); show('account-view');
+  $('signout-link').classList.remove('hidden');
+  $('user-email').textContent = user.email;
+  await loadOwned();
+  if(BUY_INTENT) showBuyIntent(BUY_INTENT);
+}
+
+async function loadOwned(){
+  show('owned-loading');
+  const {data, error} = await sb.from('my_concepts').select('*').order('purchased_at',{ascending:false});
+  hide('owned-loading');
+  if(error){
+    $('owned-grid').innerHTML = `<div class="empty"><h3>Couldn't load</h3><p>${error.message}</p></div>`;
+    show('owned-grid'); return;
+  }
+  if(!data || !data.length){
+    show('owned-empty'); return;
+  }
+  const grid = $('owned-grid');
+  grid.innerHTML = data.map(c=>`
+    <a class="owned-item" href="view.html?c=${c.concept_slug}">
+      <div class="img" ${c.hero_image && !c.hero_image.startsWith('placeholder:') ? `style="background-image:url('${c.hero_image}')"` : ''}></div>
+      <div class="body">
+        <span class="cat">${c.category} · ${c.country} · ${c.size_m2||'—'}m²</span>
+        <h3>${c.name}</h3>
+        <div class="meta"><span>€${(c.budget_eur||0).toLocaleString()}</span><span>${c.weeks||'—'}w</span></div>
+        <div class="open">Open concept<span>→</span></div>
+      </div>
+    </a>
+  `).join('');
+  show('owned-grid');
+}
+
+async function showBuyIntent(slug){
+  // fetch the concept metadata from catalog.json for display
+  try{
+    const r = await fetch('data/catalog.json');
+    const all = await r.json();
+    const c = all.find(x=>x.slug === slug);
+    if(!c) return;
+    const box = $('intent-box');
+    box.className = 'intent';
+    box.innerHTML = `
+      <div>
+        <h3>Ready to buy: ${c.name}</h3>
+        <p>${c.category} · ${c.country} · ${c.size_m2}m² · €${c.budget_eur.toLocaleString()} total launch</p>
+      </div>
+      <div class="side">
+        <button class="btn btn-ghost" id="cancel-buy">Cancel</button>
+        <button class="btn btn-primary" id="confirm-buy">Buy €${c.price_eur} →</button>
+      </div>
+    `;
+    $('cancel-buy').onclick = ()=>{ history.replaceState({},'','account.html'); box.className='hidden'; };
+    $('confirm-buy').onclick = ()=>{
+      alert('Checkout integration pending (Stripe / Lemon Squeezy). For now ask господин to manually insert into public.purchases.');
+    };
+  }catch(e){ console.error(e); }
+}
+
+boot();
+</script>
+</body>
+</html>
