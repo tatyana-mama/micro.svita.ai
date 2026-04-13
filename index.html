@@ -106,19 +106,19 @@ nav.scrolled{
 .nav-cta:hover{background:var(--accent);transform:translateY(-1px)}
 
 /* ============ HERO ============ */
-.hero{padding:120px 0 80px;position:relative;overflow:hidden}
-@media(max-width:768px){.hero{padding:100px 0 60px}}
+.hero{padding:96px 0 80px;position:relative;overflow:hidden}
+@media(max-width:768px){.hero{padding:80px 0 60px}}
 .hero::before{
   content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;
   background:radial-gradient(circle,rgba(214,255,62,0.06) 0%,transparent 60%);
   pointer-events:none;
 }
 .hero-grid{
-  display:grid;grid-template-columns:1.1fr 0.9fr;gap:80px;align-items:end;
+  display:grid;grid-template-columns:1.1fr 0.9fr;gap:80px;align-items:start;
 }
 @media(max-width:1024px){.hero-grid{grid-template-columns:1fr;gap:60px}}
 .hero-text{}
-.hero-text .eyebrow{margin-bottom:28px}
+.hero-text .eyebrow{margin-bottom:20px}
 .hero h1{
   font-size:clamp(3.25rem,8vw,6.75rem);
   margin-bottom:36px;
