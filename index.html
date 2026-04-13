@@ -106,7 +106,8 @@ nav.scrolled{
 .nav-cta:hover{background:var(--accent);transform:translateY(-1px)}
 
 /* ============ HERO ============ */
-.hero{padding:180px 0 100px;position:relative;overflow:hidden}
+.hero{padding:120px 0 80px;position:relative;overflow:hidden}
+@media(max-width:768px){.hero{padding:100px 0 60px}}
 .hero::before{
   content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;
   background:radial-gradient(circle,rgba(214,255,62,0.06) 0%,transparent 60%);
@@ -117,7 +118,7 @@ nav.scrolled{
 }
 @media(max-width:1024px){.hero-grid{grid-template-columns:1fr;gap:60px}}
 .hero-text{}
-.hero-text .eyebrow{margin-bottom:40px}
+.hero-text .eyebrow{margin-bottom:28px}
 .hero h1{
   font-size:clamp(3.25rem,8vw,6.75rem);
   margin-bottom:36px;
