@@ -1,0 +1,222 @@
+{
+  "slug": "poppy-matcha",
+  "name": "POPPY MATCHA",
+  "tagline": "Ceremonial-grade matcha kiosk with Memphis soul. Pop in, take out, stand out.",
+  "category": "food",
+  "sub_type": "matcha kiosk (plug-and-play food court)",
+  "size_m2": 8,
+  "country": "NL",
+  "style_mood": "memphis design, pastel mint + hot pink + mustard yellow, bold geometric patterns, 80s playful",
+  "target_audience": "Gen Z and millennial office workers, wellness-oriented consumers, Instagram food lovers in urban Amsterdam food courts and shopping hubs",
+  "usps": [
+    "Plug-and-play modular kiosk — 3 days to install, zero renovation commitment",
+    "Ceremonial-grade matcha sourced directly from Uji, Japan (€0.80/serving COGS)",
+    "Instagrammable Memphis design = organic social reach",
+    "€0 wasted on walls or floors you can't take with you when lease ends",
+    "Break-even at 42 cups/day (food court sees 2000+ daily footfall)"
+  ],
+  "budget": {
+    "total": 11850,
+    "currency": "EUR",
+    "breakdown": {
+      "equipment": 3950,
+      "furniture": 3500,
+      "renovation": 0,
+      "permits_registration": 350,
+      "deposit_rent_3mo": 2400,
+      "marketing_launch": 1150,
+      "reserve": 500
+    },
+    "renovation_note": "Renovation is zero by design. Food court kiosks are leased on rolling contracts — any money spent on walls, flooring, or fixed installations stays with the landlord when you leave. All €12k goes into equipment, modular kiosk unit, and inventory — assets you physically take to the next location if this one doesn't work out. This is the #1 rule of low-budget launches: never invest in what you can't unscrew and carry out."
+  },
+  "equipment": [
+    {
+      "name": "Modular kiosk unit (4-sided service counter)",
+      "brand": "IKON Display",
+      "model": "MKU-08 Compact, 2.5×3m, pastel pink powder coat",
+      "price": 3500,
+      "category": "furniture",
+      "why": "Pre-fabricated, wheeled, assembles in 4 hours. Modular = takes apart and moves when lease ends. This IS the shop."
+    },
+    {
+      "name": "Matcha whisking station (electric chasen)",
+      "brand": "Matcha Connection",
+      "model": "MC-Pro Electric Whisker + Bamboo Rack",
+      "price": 480,
+      "category": "core",
+      "why": "Hand-whisk ritual is visual theater but slow at peak. Electric hits 60 cups/hour."
+    },
+    {
+      "name": "Milk steamer & foamer",
+      "brand": "Bellman",
+      "model": "CX25P Stovetop Steamer",
+      "price": 240,
+      "category": "core",
+      "why": "No espresso machine needed for matcha lattes — Bellman does milk foam for €240 vs €2000 for a Linea Mini."
+    },
+    {
+      "name": "Under-counter refrigerator",
+      "brand": "Liebherr",
+      "model": "FKUv 1613 (commercial, 130L)",
+      "price": 780,
+      "category": "core",
+      "why": "For milk alternatives (oat, almond, soy) + prepared ice matcha. 130L is enough for 2 service days."
+    },
+    {
+      "name": "Water filter system",
+      "brand": "BWT",
+      "model": "Bestmax Premium S",
+      "price": 320,
+      "category": "core",
+      "why": "Matcha is 99% water — filter is non-negotiable for ceremonial grade. BWT removes chlorine + softens."
+    },
+    {
+      "name": "Hot water boiler (2L)",
+      "brand": "Bonavita",
+      "model": "BV382510V Gooseneck Kettle (variable temp)",
+      "price": 180,
+      "category": "core",
+      "why": "Matcha needs precise 75–80°C. Cheap kettles overboil and scorch the tea."
+    },
+    {
+      "name": "Digital scale (0.1g precision)",
+      "brand": "Acaia",
+      "model": "Pearl S Matte Black",
+      "price": 210,
+      "category": "core",
+      "why": "Ceremonial dosing is 2.0g ±0.1g — Acaia is the barista standard."
+    },
+    {
+      "name": "POS tablet + card reader",
+      "brand": "SumUp",
+      "model": "Solo Lite + iPad 10.9",
+      "price": 680,
+      "category": "tech",
+      "why": "SumUp Solo Lite: €0 monthly, 1.69% per transaction. iPad syncs with inventory and daily sales."
+    },
+    {
+      "name": "Signage + LED menu board",
+      "brand": "custom",
+      "model": "Acrylic Memphis panels + 32\" LED digital menu",
+      "price": 560,
+      "category": "tech",
+      "why": "Menu board shows live sold-out state. Memphis acrylic is the visual hook — this is what people photograph."
+    }
+  ],
+  "timeline": [
+    {
+      "week": 1,
+      "phase": "legal",
+      "tasks": [
+        "Register eenmanszaak (sole trader) at KvK online — €80.10 fee, same-day",
+        "Request BTW number from Belastingdienst (automatic after KvK, 5 days)",
+        "Open zakelijk bank account (bunq or Knab, same-day digital)",
+        "Apply for Warenwethygiëne (food hygiene) certificate — €60 online course"
+      ]
+    },
+    {
+      "week": 2,
+      "phase": "space",
+      "tasks": [
+        "Sign food court kiosk lease (Amsterdam Foodhallen, De Hallen, or Bajes Kwartier): €800/mo + 10% revenue share common",
+        "Confirm electrical amperage (min 16A) and water hookup with landlord",
+        "Submit HACCP self-control plan to GGD Amsterdam (free, 1 week review)"
+      ]
+    },
+    {
+      "week": 3,
+      "phase": "procurement",
+      "tasks": [
+        "Order modular kiosk from IKON Display (3-week lead time — order early)",
+        "Order matcha inventory: 2kg ceremonial grade from Marukyu Koyamaen (€580 shipping incl.)",
+        "Order all equipment from single supplier (HorecaTraders NL) for unified warranty",
+        "Commission signage/menu board from local sign shop"
+      ]
+    },
+    {
+      "week": 4,
+      "phase": "procurement",
+      "tasks": [
+        "Receive equipment, test all units in owner's home/storage",
+        "Photograph product shots for social/menu",
+        "Design packaging (cups, bamboo stirrers, stickers) — Pakhulp.nl print run €280"
+      ]
+    },
+    {
+      "week": 5,
+      "phase": "setup",
+      "tasks": [
+        "Kiosk delivered and assembled on-site (4 hours)",
+        "Install equipment, water filter, POS",
+        "Dry run: serve 20 test customers (friends/family) for free",
+        "Train backup barista (1 day, €150)"
+      ]
+    },
+    {
+      "week": 6,
+      "phase": "marketing",
+      "tasks": [
+        "Soft launch: 50% off first 100 cups, Instagram ad €200",
+        "Local food bloggers outreach (5 Amsterdam accounts)",
+        "Google My Business listing + Foursquare + Apple Maps",
+        "Loyalty card: 10th cup free"
+      ]
+    },
+    {
+      "week": 7,
+      "phase": "launch",
+      "tasks": [
+        "Grand opening Friday 8am — full menu, full price",
+        "First-week metrics review: cups/hour, peak times, break-even math",
+        "Adjust inventory order cadence based on real consumption"
+      ]
+    }
+  ],
+  "registration": {
+    "legal_form": "Eenmanszaak (sole trader)",
+    "portal": "https://www.kvk.nl/inschrijven/eenmanszaak/",
+    "cost_eur": 80,
+    "time_days": 1,
+    "documents_required": [
+      "Valid passport or EU ID card",
+      "BSN (citizen service number)",
+      "Proof of address in Netherlands",
+      "Business activity description (matching SBI code 56.10.2 — fast food)"
+    ],
+    "tax": {
+      "vat_rate": "9% reduced rate on food/non-alcoholic beverages",
+      "vat_threshold": "No threshold — VAT from €1",
+      "income_tax": "box 1 progressive, first €73,031 at 36.93%",
+      "small_business_scheme": "KOR — if turnover <€20k, VAT-exempt (optional, reduces admin)"
+    },
+    "social_security": {
+      "authority": "Belastingdienst (self-employed contributions via income tax)",
+      "estimate_monthly_eur": 0,
+      "note": "No mandatory social security contributions for ZZP — buy private health insurance (~€135/mo) separately"
+    },
+    "activity_permits": [
+      "KvK registration (€80, same-day)",
+      "Warenwet hygiene certificate (€60 online course)",
+      "HACCP food safety plan (self-drafted, GGD review free)",
+      "Food court sublease agreement with landlord",
+      "Package waste producer registration (Afvalfonds Verpakkingen, if turnover >€100k/yr — likely skip year 1)"
+    ]
+  },
+  "pnl": {
+    "revenue_month": 8400,
+    "cogs": 1680,
+    "rent": 800,
+    "labor": 2200,
+    "utilities": 180,
+    "other": 340,
+    "ebitda": 3200,
+    "break_even_month": 5,
+    "notes": "Assumes 70 cups/day × €5 average × 24 working days = €8,400/mo. Owner works 5 days/week, part-time helper €9/hr × 20 hrs/wk."
+  },
+  "images": {
+    "hero": "images/01-hero-interior.png",
+    "floorplan": "images/02-floorplan.png",
+    "equipment": "images/03-equipment.png",
+    "moodboard": "images/04-moodboard.png"
+  }
+}

@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SVITA Micro — Your business. Already designed.</title>
+<meta name="description" content="Ready-to-launch business concepts under €20,000. Cafés, salons, kiosks — fully specified, country-ready, instantly yours. From €49.">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0A0A0B;
+  --bg-1:#111113;
+  --bg-2:#18181B;
+  --line:#232327;
+  --line-2:#2F2F34;
+  --text:#FAFAFA;
+  --text-2:#A1A1AA;
+  --text-3:#6E6E78;
+  --accent:#D6FF3E;         /* acid lime — single hero accent */
+  --accent-dim:#9FC22F;
+  --radius:18px;
+  --radius-sm:10px;
+  --radius-lg:28px;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --max:1400px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html,body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-weight:400;font-feature-settings:"ss01","cv11"}
+html{scroll-behavior:smooth}
+body{overflow-x:hidden;min-height:100vh;line-height:1.5}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img,svg{display:block;max-width:100%}
+::selection{background:var(--accent);color:#0A0A0B}
+
+/* ============ TYPE ============ */
+.display{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-0.035em;line-height:0.92}
+.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{
+  font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-3);
+  font-weight:500;display:inline-flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--text-3)}
+
+/* ============ LAYOUT ============ */
+.wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
+@media(max-width:640px){.wrap{padding:0 20px}}
+section{position:relative;padding:120px 0}
+@media(max-width:768px){section{padding:80px 0}}
+
+/* ============ NAV ============ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:20px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:all 300ms var(--ease);
+}
+nav.scrolled{
+  background:rgba(10,10,11,0.72);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid var(--line);
+  padding:16px 32px;
+}
+.brand{display:flex;align-items:baseline;gap:10px;font-family:'Space Grotesk';font-weight:700;font-size:18px;letter-spacing:-0.02em}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);align-self:center;box-shadow:0 0 16px var(--accent)}
+.brand small{font-family:'Inter';font-weight:400;font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.15em}
+.nav-right{display:flex;align-items:center;gap:20px}
+
+/* Lang switcher */
+.lang{position:relative}
+.lang-btn{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;color:var(--text-2);font-weight:500;
+  padding:8px 12px;border:1px solid var(--line);border-radius:100px;
+  text-transform:uppercase;letter-spacing:0.1em;
+  transition:all 200ms var(--ease);
+}
+.lang-btn:hover{border-color:var(--line-2);color:var(--text)}
+.lang-btn svg{width:10px;height:10px;opacity:0.6}
+.lang-menu{
+  position:absolute;top:calc(100% + 8px);right:0;
+  background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius-sm);
+  padding:6px;min-width:140px;display:none;
+  box-shadow:0 24px 60px rgba(0,0,0,0.5);
+}
+.lang.open .lang-menu{display:block}
+.lang-menu button{
+  display:block;width:100%;text-align:left;padding:9px 14px;
+  font-size:12px;color:var(--text-2);border-radius:6px;
+  text-transform:uppercase;letter-spacing:0.08em;
+  transition:all 150ms var(--ease);
+}
+.lang-menu button:hover{background:var(--bg-2);color:var(--text)}
+.lang-menu button.active{color:var(--accent)}
+
+.nav-cta{
+  font-size:13px;font-weight:500;padding:11px 20px;
+  background:var(--text);color:var(--bg);border-radius:100px;
+  transition:all 200ms var(--ease);
+}
+.nav-cta:hover{background:var(--accent);transform:translateY(-1px)}
+
+/* ============ HERO ============ */
+.hero{padding:180px 0 100px;position:relative;overflow:hidden}
+.hero::before{
+  content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;
+  background:radial-gradient(circle,rgba(214,255,62,0.06) 0%,transparent 60%);
+  pointer-events:none;
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.1fr 0.9fr;gap:80px;align-items:end;
+}
+@media(max-width:1024px){.hero-grid{grid-template-columns:1fr;gap:60px}}
+.hero-text{}
+.hero-text .eyebrow{margin-bottom:40px}
+.hero h1{
+  font-size:clamp(3.25rem,8vw,6.75rem);
+  margin-bottom:36px;
+}
+.hero h1 .accent{color:var(--accent);font-style:italic;font-weight:500}
+.hero h1 .line{display:block;overflow:hidden}
+.hero h1 .line span{display:inline-block;animation:rise 900ms var(--ease) both}
+.hero h1 .line:nth-child(2) span{animation-delay:120ms}
+.hero h1 .line:nth-child(3) span{animation-delay:240ms}
+@keyframes rise{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
+
+.hero-sub{
+  font-size:clamp(15px,1.4vw,17px);color:var(--text-2);max-width:440px;
+  margin-bottom:48px;line-height:1.55;
+  animation:fade 900ms var(--ease) 420ms both;
+}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;animation:fade 900ms var(--ease) 540ms both}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 28px;font-size:14px;font-weight:500;
+  border-radius:100px;transition:all 250ms var(--ease);
+  white-space:nowrap;
+}
+.btn-primary{background:var(--accent);color:#0A0A0B;font-weight:600}
+.btn-primary:hover{background:#fff;transform:translateY(-2px);box-shadow:0 16px 40px rgba(214,255,62,0.25)}
+.btn-primary svg{transition:transform 250ms var(--ease)}
+.btn-primary:hover svg{transform:translateX(4px)}
+.btn-ghost{color:var(--text);border:1px solid var(--line-2)}
+.btn-ghost:hover{border-color:var(--text);background:var(--bg-1)}
+
+.hero-meta{
+  display:flex;gap:48px;margin-top:64px;padding-top:32px;
+  border-top:1px solid var(--line);
+  animation:fade 900ms var(--ease) 660ms both;
+}
+.hero-meta .m{display:flex;flex-direction:column;gap:4px}
+.hero-meta .m strong{font-family:'Space Grotesk';font-size:26px;font-weight:700;color:var(--text);letter-spacing:-0.02em}
+.hero-meta .m span{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.12em}
+
+/* Hero visual — cinematic image slot */
+.hero-visual{position:relative;animation:fade 1100ms var(--ease) 300ms both}
+.visual-slot{
+  position:relative;width:100%;aspect-ratio:4/5;
+  border-radius:var(--radius-lg);overflow:hidden;
+  background:var(--bg-1) center/cover;
+  box-shadow:0 60px 120px rgba(0,0,0,0.5),0 0 0 1px var(--line);
+}
+.visual-slot::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 40%,rgba(10,10,11,0.85) 100%);
+  pointer-events:none;
+}
+.visual-caption{
+  position:absolute;left:24px;right:24px;bottom:24px;z-index:2;
+  display:flex;justify-content:space-between;align-items:flex-end;
+  pointer-events:none;
+}
+.visual-caption .tag{
+  background:rgba(10,10,11,0.72);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.12);border-radius:100px;
+  padding:7px 14px;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--text)
+}
+.visual-caption .price{
+  font-family:'Space Grotesk';font-size:28px;font-weight:700;color:var(--accent);
+}
+.visual-corner{
+  position:absolute;top:20px;left:20px;z-index:3;
+  font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text);
+  display:flex;flex-direction:column;gap:2px;opacity:0.85;
+  text-transform:uppercase;letter-spacing:0.1em;
+}
+
+/* ============ MARQUEE ============ */
+.marquee{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:28px 0;overflow:hidden;
+}
+.marquee-track{
+  display:flex;gap:64px;white-space:nowrap;
+  animation:scroll 40s linear infinite;
+  font-family:'Space Grotesk';font-size:clamp(22px,2.4vw,30px);font-weight:700;
+  letter-spacing:-0.02em;color:var(--text);
+}
+.marquee-track span{display:inline-flex;align-items:center;gap:64px}
+.marquee-track span::after{content:'●';color:var(--accent);font-size:10px}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============ GALLERY ============ */
+.gallery-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;gap:40px;flex-wrap:wrap}
+.gallery-head h2{font-size:clamp(2rem,4.5vw,3.75rem);max-width:680px;line-height:1}
+.gallery-head .hint{font-size:13px;color:var(--text-3);max-width:280px}
+
+.gallery{
+  display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(160px,auto);gap:20px;
+}
+.tile{
+  position:relative;border-radius:var(--radius);overflow:hidden;
+  background:var(--bg-1);cursor:pointer;
+  transition:transform 600ms var(--ease);
+  border:1px solid var(--line);
+}
+.tile:hover{transform:translateY(-4px)}
+.tile .img{
+  position:absolute;inset:0;background-size:cover;background-position:center;
+  transition:transform 1200ms var(--ease),filter 600ms var(--ease);
+  filter:saturate(1.05);
+  pointer-events:none;user-select:none;-webkit-user-drag:none;
+}
+.tile:hover .img{transform:scale(1.04)}
+.tile .shade{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(10,10,11,0) 30%,rgba(10,10,11,0.88) 95%);
+  pointer-events:none;
+}
+.tile .wm{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='360' viewBox='0 0 360 360'><g fill='rgba(255,255,255,0.11)' font-family='Space Grotesk,sans-serif' font-size='15' font-weight='700' transform='rotate(-22 180 180)'><text x='10' y='90'>SVITA.AI · PREVIEW</text><text x='10' y='190'>SVITA.AI · PREVIEW</text><text x='10' y='290'>SVITA.AI · PREVIEW</text></g></svg>");
+  background-repeat:repeat;mix-blend-mode:overlay;
+}
+.tile .info{
+  position:absolute;left:22px;right:22px;bottom:22px;z-index:2;
+}
+.tile .info .cat{
+  font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent);
+  font-weight:600;margin-bottom:8px;display:block;
+}
+.tile .info h3{font-family:'Space Grotesk';font-size:22px;font-weight:700;letter-spacing:-0.02em;margin-bottom:6px;color:#fff}
+.tile .info .meta{display:flex;gap:14px;font-size:11px;color:rgba(255,255,255,0.7);font-family:'JetBrains Mono',monospace}
+.tile .badge{
+  position:absolute;top:16px;right:16px;z-index:3;
+  background:rgba(10,10,11,0.65);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.12);border-radius:100px;
+  padding:7px 13px;font-family:'Space Grotesk';font-size:13px;font-weight:700;color:var(--accent);
+}
+.tile.big{grid-column:span 8;grid-row:span 2;min-height:540px}
+.tile.big h3{font-size:40px}
+.tile.tall{grid-column:span 4;grid-row:span 2;min-height:540px}
+.tile.wide{grid-column:span 6;min-height:300px}
+.tile.sq{grid-column:span 4;min-height:300px}
+.tile.locked{
+  background:var(--bg-1);display:flex;align-items:center;justify-content:center;text-align:center;
+}
+.tile.locked .img,.tile.locked .shade,.tile.locked .wm{display:none}
+.tile.locked .lock-inner{position:relative;z-index:2;padding:32px}
+.tile.locked svg.lock-icon{width:28px;height:28px;stroke:var(--text-3);margin-bottom:14px}
+.tile.locked h4{font-family:'Space Grotesk';font-size:18px;font-weight:700;color:var(--text-2);margin-bottom:6px;letter-spacing:-0.01em}
+.tile.locked p{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.12em}
+
+@media(max-width:1024px){
+  .tile.big,.tile.tall{grid-column:span 12;grid-row:auto;min-height:420px}
+  .tile.wide,.tile.sq{grid-column:span 12;min-height:280px}
+}
+
+/* ============ PROOF (big numbers) ============ */
+.proof{background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.proof-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px}
+@media(max-width:900px){.proof-grid{grid-template-columns:repeat(2,1fr);gap:32px}}
+.proof-cell .num{font-family:'Space Grotesk';font-size:clamp(3rem,6vw,5rem);font-weight:700;letter-spacing:-0.04em;color:var(--text);line-height:0.95}
+.proof-cell .num .unit{font-size:0.4em;color:var(--text-3);margin-left:4px;font-weight:500}
+.proof-cell .lbl{font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.12em;margin-top:14px}
+
+/* ============ CONTRAST: €20k vs €49 ============ */
+.contrast{text-align:center}
+.contrast .eyebrow{margin-bottom:36px}
+.contrast h2{
+  font-size:clamp(2.4rem,7vw,6rem);line-height:0.95;max-width:920px;margin:0 auto;
+}
+.contrast h2 .cross{text-decoration:line-through;text-decoration-color:rgba(161,161,170,0.5);text-decoration-thickness:4px;color:var(--text-2)}
+.contrast h2 .hot{color:var(--accent)}
+.contrast p{color:var(--text-3);margin-top:28px;font-size:15px;max-width:520px;margin-inline:auto}
+
+/* ============ PRICING ============ */
+.pricing-head{text-align:center;margin-bottom:72px}
+.pricing-head h2{font-size:clamp(2.2rem,5vw,4.25rem);line-height:1;margin-top:20px}
+.plans{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:980px;margin:0 auto}
+@media(max-width:768px){.plans{grid-template-columns:1fr}}
+.plan{
+  background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius-lg);
+  padding:44px 40px;position:relative;overflow:hidden;
+  transition:all 400ms var(--ease);
+}
+.plan:hover{border-color:var(--line-2);transform:translateY(-4px)}
+.plan.featured{background:linear-gradient(160deg,rgba(214,255,62,0.06),transparent 50%);border-color:rgba(214,255,62,0.3)}
+.plan.featured::before{
+  content:'Most chosen';position:absolute;top:20px;right:20px;
+  background:var(--accent);color:#0A0A0B;font-size:10px;font-weight:700;
+  padding:6px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:0.1em;
+}
+.plan .kind{font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-3);font-weight:500}
+.plan .price{font-family:'Space Grotesk';font-size:84px;font-weight:700;letter-spacing:-0.04em;color:var(--text);line-height:1;margin:16px 0 8px}
+.plan .price .cur{font-size:0.4em;vertical-align:top;margin-right:4px;color:var(--text-2);font-weight:500}
+.plan .once{font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:32px}
+.plan ul{list-style:none;display:flex;flex-direction:column;gap:14px;margin-bottom:36px}
+.plan li{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--text-2);line-height:1.5}
+.plan li svg{flex:none;width:16px;height:16px;margin-top:2px;color:var(--accent)}
+.plan .btn{width:100%;justify-content:center}
+
+/* ============ FINAL CTA ============ */
+.final{text-align:center;padding:160px 0}
+.final h2{font-size:clamp(2.8rem,8vw,7rem);line-height:0.92;margin-bottom:48px}
+.final h2 .accent{color:var(--accent);font-style:italic;font-weight:500}
+
+/* ============ FOOTER ============ */
+footer{border-top:1px solid var(--line);padding:48px 0 64px}
+.footer-grid{display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+.footer-links{display:flex;gap:28px;font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.12em}
+.footer-links a{transition:color 200ms var(--ease)}
+.footer-links a:hover{color:var(--accent)}
+.footer-copy{font-size:11px;color:var(--text-3);font-family:'JetBrains Mono',monospace}
+
+/* ============ REVEAL ANIMATION ============ */
+.reveal{opacity:0;transform:translateY(40px);transition:all 1000ms var(--ease)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* ============ PROTECTION ============ */
+.protected,.protected *{
+  -webkit-user-select:none;user-select:none;
+  -webkit-user-drag:none;-webkit-touch-callout:none;
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav id="nav">
+  <a href="#top" class="brand">
+    <span class="brand-dot"></span>
+    SVITA<small>MICRO</small>
+  </a>
+  <div class="nav-right">
+    <div class="lang" id="lang">
+      <button class="lang-btn" onclick="document.getElementById('lang').classList.toggle('open')">
+        <span id="lang-current">EN</span>
+        <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
+      </button>
+      <div class="lang-menu" id="lang-menu"></div>
+    </div>
+    <a href="#pricing" class="nav-cta" data-i18n="nav_cta">Get a concept</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="eyebrow" data-i18n="hero_eyebrow">For founders under €20,000</div>
+        <h1 class="display">
+          <span class="line"><span data-i18n="hero_h1_1">Your business.</span></span>
+          <span class="line"><span class="accent" data-i18n="hero_h1_2">Already</span></span>
+          <span class="line"><span data-i18n="hero_h1_3">designed.</span></span>
+        </h1>
+        <p class="hero-sub" data-i18n="hero_sub">Ready-to-launch concepts, fully specified — equipment, budget, permits, timeline. Pick one. Open in 6 weeks.</p>
+        <div class="hero-ctas">
+          <a href="#gallery" class="btn btn-primary" data-i18n="cta_browse">
+            Browse concepts
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
+          </a>
+          <a href="#how" class="btn btn-ghost" data-i18n="cta_how">How it works</a>
+        </div>
+        <div class="hero-meta">
+          <div class="m"><strong>200</strong><span data-i18n="meta_concepts">Concepts</span></div>
+          <div class="m"><strong>27</strong><span data-i18n="meta_countries">EU countries</span></div>
+          <div class="m"><strong>€49</strong><span data-i18n="meta_from">Starting at</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual protected">
+        <div class="visual-slot" style="background-image:url('data/concepts/poppy-matcha/images/01-hero-interior.png')" oncontextmenu="return false">
+          <div class="visual-corner">
+            <span>CONCEPT / 001</span>
+            <span>POPPY MATCHA · NL</span>
+          </div>
+          <div class="visual-caption">
+            <span class="tag">Matcha Kiosk · 8m²</span>
+            <span class="price">€49</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>CAFÉ</span><span>BARBERSHOP</span><span>MATCHA KIOSK</span><span>RAMEN BAR</span><span>TRATTORIA</span><span>NAIL STUDIO</span><span>PHONE REPAIR</span><span>CANDLE WORKSHOP</span>
+    <span>CAFÉ</span><span>BARBERSHOP</span><span>MATCHA KIOSK</span><span>RAMEN BAR</span><span>TRATTORIA</span><span>NAIL STUDIO</span><span>PHONE REPAIR</span><span>CANDLE WORKSHOP</span>
+  </div>
+</div>
+
+<!-- ============ GALLERY ============ -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="gallery-head reveal">
+      <h2 class="display" data-i18n="gallery_h">Proven concepts.<br>Cinematic visuals.</h2>
+      <p class="hint" data-i18n="gallery_hint">Each concept ships with a 25-page brandbook, equipment list, and country-ready registration plan.</p>
+    </div>
+
+    <div class="gallery protected" oncontextmenu="return false">
+      <!-- BIG: POPPY MATCHA -->
+      <div class="tile big reveal">
+        <div class="img" style="background-image:url('data/concepts/poppy-matcha/images/01-hero-interior.png')"></div>
+        <div class="shade"></div>
+        <div class="wm"></div>
+        <span class="badge">€49</span>
+        <div class="info">
+          <span class="cat">Food · NL · 8m²</span>
+          <h3>POPPY MATCHA</h3>
+          <div class="meta"><span>€11,850</span><span>7 weeks</span><span>42 cups/day break-even</span></div>
+        </div>
+      </div>
+
+      <!-- TALL: Trattoria -->
+      <div class="tile tall reveal">
+        <div class="img" style="background-image:url('data/concepts/restaurant-italian/images/01-trattoria-interior.png')"></div>
+        <div class="shade"></div>
+        <div class="wm"></div>
+        <span class="badge">€149</span>
+        <div class="info">
+          <span class="cat">Food · IT · 45m²</span>
+          <h3>Nonna's Trattoria</h3>
+          <div class="meta"><span>€19,800</span><span>10 weeks</span></div>
+        </div>
+      </div>
+
+      <!-- WIDE: Ramen -->
+      <div class="tile wide reveal">
+        <div class="img" style="background-image:url('data/concepts/ramen-bar/images/01-ramen-interior.png')"></div>
+        <div class="shade"></div>
+        <div class="wm"></div>
+        <span class="badge">€149</span>
+        <div class="info">
+          <span class="cat">Food · DE · 30m²</span>
+          <h3>Tokyo Ramen Bar</h3>
+          <div class="meta"><span>€17,200</span><span>9 weeks</span></div>
+        </div>
+      </div>
+
+      <!-- WIDE: Beauty Pop -->
+      <div class="tile wide reveal">
+        <div class="img" style="background-image:url('data/concepts/beauty-salon-popart/images/01-salon-popart.png')"></div>
+        <div class="shade"></div>
+        <div class="wm"></div>
+        <span class="badge">€99</span>
+        <div class="info">
+          <span class="cat">Beauty · ES · 35m²</span>
+          <h3>Madonna Pop Salon</h3>
+          <div class="meta"><span>€14,500</span><span>8 weeks</span></div>
+        </div>
+      </div>
+
+      <!-- SQ: Coffee scandi -->
+      <div class="tile sq reveal">
+        <div class="img" style="background-image:url('data/concepts/coffee-shop-50m/images/02-interior-render.png')"></div>
+        <div class="shade"></div>
+        <div class="wm"></div>
+        <span class="badge">€99</span>
+        <div class="info">
+          <span class="cat">Food · PL · 50m²</span>
+          <h3>Scandi Coffee</h3>
+          <div class="meta"><span>€18,400</span></div>
+        </div>
+      </div>
+
+      <!-- SQ: Coffee vibrant -->
+      <div class="tile sq reveal">
+        <div class="img" style="background-image:url('data/concepts/coffee-shop-50m/images/04-coffee-vibrant.png')"></div>
+        <div class="shade"></div>
+        <div class="wm"></div>
+        <span class="badge">€99</span>
+        <div class="info">
+          <span class="cat">Food · FR · 40m²</span>
+          <h3>Vibrant Coffee</h3>
+          <div class="meta"><span>€16,900</span></div>
+        </div>
+      </div>
+
+      <!-- SQ: Locked placeholder -->
+      <div class="tile sq locked reveal">
+        <div class="lock-inner">
+          <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+          <h4>Barbershop Solo</h4>
+          <p data-i18n="soon">Coming soon · €89</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROOF ============ -->
+<section class="proof">
+  <div class="wrap">
+    <div class="proof-grid">
+      <div class="proof-cell reveal">
+        <div class="num">200<span class="unit">+</span></div>
+        <div class="lbl" data-i18n="proof_1">Concepts shipped</div>
+      </div>
+      <div class="proof-cell reveal">
+        <div class="num">27</div>
+        <div class="lbl" data-i18n="proof_2">EU countries covered</div>
+      </div>
+      <div class="proof-cell reveal">
+        <div class="num">6<span class="unit">wk</span></div>
+        <div class="lbl" data-i18n="proof_3">From buy to open</div>
+      </div>
+      <div class="proof-cell reveal">
+        <div class="num">€49</div>
+        <div class="lbl" data-i18n="proof_4">Entry point</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTRAST ============ -->
+<section class="contrast">
+  <div class="wrap">
+    <div class="eyebrow reveal" data-i18n="contrast_eyebrow">The math</div>
+    <h2 class="display reveal">
+      <span class="cross" data-i18n="contrast_1">€20,000 on mistakes.</span><br>
+      <span class="hot" data-i18n="contrast_2">€49 on the blueprint.</span>
+    </h2>
+    <p class="reveal" data-i18n="contrast_sub">The cost of a dinner for two. For a business someone already validated.</p>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="pricing-head reveal">
+      <div class="eyebrow" data-i18n="pricing_eyebrow">One-time. No subscription.</div>
+      <h2 class="display" data-i18n="pricing_h">Pick a concept.<br>Own it forever.</h2>
+    </div>
+
+    <div class="plans">
+      <div class="plan reveal">
+        <div class="kind" data-i18n="plan_shop_kind">Shop</div>
+        <div class="price"><span class="cur">€</span>49</div>
+        <div class="once" data-i18n="once">One-time · Instant access</div>
+        <ul>
+          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_shop_1">Complete 25-page brandbook (PDF)</span></li>
+          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_shop_2">Equipment list with real models &amp; prices</span></li>
+          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_shop_3">Country registration &amp; permits</span></li>
+          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_shop_4">Week-by-week launch timeline</span></li>
+          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_shop_5">P&amp;L projection</span></li>
+        </ul>
+        <a href="#gallery" class="btn btn-ghost" data-i18n="plan_shop_cta">Browse shop</a>
+      </div>
+
+      <div class="plan featured reveal">
+        <div class="kind" data-i18n="plan_custom_kind">Custom</div>
+        <div class="price"><span class="cur">€</span>149</div>
+        <div class="once" data-i18n="once">One-time · AI-generated in 5 min</div>
+        <ul>
+          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_custom_1">Everything in Shop</span></li>
+          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_custom_2">Your country, your budget, your style</span></li>
+          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_custom_3">AI-generated interior renders</span></li>
+          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_custom_4">Editable source files</span></li>
+          <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l4 4 6-8"/></svg><span data-i18n="plan_custom_5">Lifetime updates</span></li>
+        </ul>
+        <a href="#" class="btn btn-primary" data-i18n="plan_custom_cta">
+          Generate mine
+          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final">
+  <div class="wrap">
+    <h2 class="display reveal">
+      <span data-i18n="final_1">Stop guessing.</span><br>
+      <span class="accent" data-i18n="final_2">Start beautiful.</span>
+    </h2>
+    <a href="#gallery" class="btn btn-primary reveal" data-i18n="final_cta">
+      Pick your concept
+      <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="brand"><span class="brand-dot"></span>SVITA<small>MICRO</small></div>
+      <div class="footer-links">
+        <a href="https://svita.ai">svita.ai</a>
+        <a href="https://med.svita.ai">med</a>
+        <a href="https://news.svita.ai">news</a>
+      </div>
+      <div class="footer-copy">© 2026 SVITA · LABS67</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===================== i18n ===================== */
+const LANGS = ['EN','RU','BE','DE','ES','FR','IT','JA','KO','PL','PT','UK'];
+const DICT = {
+  EN: {
+    nav_cta:"Get a concept", hero_eyebrow:"For founders under €20,000",
+    hero_h1_1:"Your business.", hero_h1_2:"Already", hero_h1_3:"designed.",
+    hero_sub:"Ready-to-launch concepts, fully specified — equipment, budget, permits, timeline. Pick one. Open in 6 weeks.",
+    cta_browse:"Browse concepts", cta_how:"How it works",
+    meta_concepts:"Concepts", meta_countries:"EU countries", meta_from:"Starting at",
+    gallery_h:"Proven concepts.<br>Cinematic visuals.",
+    gallery_hint:"Each concept ships with a 25-page brandbook, equipment list, and country-ready registration plan.",
+    soon:"Coming soon · €89",
+    proof_1:"Concepts shipped", proof_2:"EU countries covered", proof_3:"From buy to open", proof_4:"Entry point",
+    contrast_eyebrow:"The math", contrast_1:"€20,000 on mistakes.", contrast_2:"€49 on the blueprint.",
+    contrast_sub:"The cost of a dinner for two. For a business someone already validated.",
+    pricing_eyebrow:"One-time. No subscription.", pricing_h:"Pick a concept.<br>Own it forever.",
+    plan_shop_kind:"Shop", plan_custom_kind:"Custom", once:"One-time · Instant access",
+    plan_shop_1:"Complete 25-page brandbook (PDF)",
+    plan_shop_2:"Equipment list with real models &amp; prices",
+    plan_shop_3:"Country registration &amp; permits",
+    plan_shop_4:"Week-by-week launch timeline",
+    plan_shop_5:"P&amp;L projection",
+    plan_shop_cta:"Browse shop",
+    plan_custom_1:"Everything in Shop",
+    plan_custom_2:"Your country, your budget, your style",
+    plan_custom_3:"AI-generated interior renders",
+    plan_custom_4:"Editable source files",
+    plan_custom_5:"Lifetime updates",
+    plan_custom_cta:"Generate mine",
+    final_1:"Stop guessing.", final_2:"Start beautiful.", final_cta:"Pick your concept"
+  },
+  RU: {
+    nav_cta:"Купить концепцию", hero_eyebrow:"Для основателей с бюджетом до €20,000",
+    hero_h1_1:"Твой бизнес.", hero_h1_2:"Уже", hero_h1_3:"придуман.",
+    hero_sub:"Готовые концепции под ключ — оборудование, бюджет, разрешения, таймлайн. Выбери и открой за 6 недель.",
+    cta_browse:"Смотреть концепции", cta_how:"Как это работает",
+    meta_concepts:"Концепций", meta_countries:"Стран ЕС", meta_from:"Цена от",
+    gallery_h:"Проверенные концепции.<br>Кинематографичный визуал.",
+    gallery_hint:"В каждой концепции — 25-страничный брендбук, список оборудования, план регистрации под твою страну.",
+    soon:"Скоро · €89",
+    proof_1:"Концепций готово", proof_2:"Стран ЕС", proof_3:"От покупки до запуска", proof_4:"Точка входа",
+    contrast_eyebrow:"Математика", contrast_1:"€20,000 на ошибках.", contrast_2:"€49 на чертеже.",
+    contrast_sub:"Цена ужина на двоих. За бизнес, который кто-то уже проверил.",
+    pricing_eyebrow:"Один раз. Без подписки.", pricing_h:"Выбери концепцию.<br>Владей навсегда.",
+    plan_shop_kind:"Магазин", plan_custom_kind:"Конструктор", once:"Разово · Мгновенный доступ",
+    plan_shop_1:"25-страничный брендбук (PDF)",
+    plan_shop_2:"Список оборудования с моделями и ценами",
+    plan_shop_3:"Регистрация и разрешения по стране",
+    plan_shop_4:"Понедельный план запуска",
+    plan_shop_5:"Прогноз P&amp;L",
+    plan_shop_cta:"В магазин",
+    plan_custom_1:"Всё из Магазина",
+    plan_custom_2:"Твоя страна, бюджет и стиль",
+    plan_custom_3:"AI-рендеры интерьера",
+    plan_custom_4:"Редактируемые исходники",
+    plan_custom_5:"Пожизненные обновления",
+    plan_custom_cta:"Сгенерировать",
+    final_1:"Хватит гадать.", final_2:"Начни красиво.", final_cta:"Выбрать концепцию"
+  }
+};
+
+/* Build language menu */
+(function buildLangMenu(){
+  const menu = document.getElementById('lang-menu');
+  LANGS.forEach(code=>{
+    const b = document.createElement('button');
+    b.textContent = code;
+    b.dataset.lang = code;
+    b.onclick = ()=>setLang(code);
+    menu.appendChild(b);
+  });
+})();
+
+function setLang(code){
+  const dict = DICT[code] || DICT.EN;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.dataset.i18n;
+    if(dict[key]) el.innerHTML = dict[key];
+    else if(DICT.EN[key]) el.innerHTML = DICT.EN[key];
+  });
+  document.getElementById('lang-current').textContent = code;
+  document.documentElement.lang = code.toLowerCase();
+  document.querySelectorAll('#lang-menu button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.lang===code);
+  });
+  document.getElementById('lang').classList.remove('open');
+  localStorage.setItem('svita_micro_lang', code);
+}
+
+/* Init lang from browser or storage */
+(function initLang(){
+  const stored = localStorage.getItem('svita_micro_lang');
+  const browser = (navigator.language||'en').split('-')[0].toUpperCase();
+  const pick = stored || (LANGS.includes(browser) ? browser : 'EN');
+  setLang(pick);
+})();
+
+/* Close lang menu on outside click */
+document.addEventListener('click', e=>{
+  if(!e.target.closest('#lang')) document.getElementById('lang').classList.remove('open');
+});
+
+/* ===================== NAV SCROLL ===================== */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', ()=>{
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+}, {passive:true});
+
+/* ===================== REVEAL ON SCROLL ===================== */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+},{threshold:0.12, rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ===================== PREVIEW PROTECTION ===================== */
+document.querySelectorAll('.protected').forEach(root=>{
+  root.addEventListener('contextmenu',e=>{e.preventDefault();return false;});
+  root.addEventListener('dragstart',e=>{e.preventDefault();return false;});
+  root.addEventListener('selectstart',e=>{e.preventDefault();return false;});
+});
+document.querySelectorAll('.gallery img, .hero-visual img').forEach(el=>{
+  el.setAttribute('draggable','false');
+});
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey) && ['s','u','p'].includes(e.key.toLowerCase())){
+    if(document.activeElement && document.activeElement.closest('.protected')){
+      e.preventDefault();
+    }
+  }
+});
+</script>
+</body>
+</html>
