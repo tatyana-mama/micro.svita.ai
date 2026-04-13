@@ -57,6 +57,26 @@ body::before{
   box-shadow:0 4px 20px rgba(0,0,0,0.08);
 }
 .concept-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.lang-chip{position:relative}
+.lang-btn{
+  background:rgba(10,10,11,0.85);color:#fff;border:none;cursor:pointer;
+  padding:10px 14px;border-radius:100px;font-family:'Space Grotesk';font-size:13px;font-weight:600;
+  display:flex;align-items:center;gap:8px;backdrop-filter:blur(12px);
+}
+.lang-btn svg{opacity:0.6}
+.lang-menu{
+  position:absolute;top:calc(100% + 8px);right:0;min-width:140px;
+  background:rgba(17,17,19,0.96);border:1px solid rgba(255,255,255,0.1);border-radius:14px;
+  padding:6px;display:none;backdrop-filter:blur(18px);z-index:200;
+  max-height:320px;overflow-y:auto;
+}
+.lang-menu.open{display:block}
+.lang-menu button{
+  display:block;width:100%;text-align:left;background:transparent;border:none;color:#fff;
+  padding:9px 14px;border-radius:8px;font-family:'Inter';font-size:13px;cursor:pointer;
+}
+.lang-menu button:hover{background:rgba(255,255,255,0.08)}
+.lang-menu button.active{background:rgba(214,255,62,0.12);color:#D6FF3E}
 .concept-chip strong{font-weight:700}
 .topbar-right{display:flex;align-items:center;gap:12px}
 .btn-close{
@@ -182,6 +202,13 @@ body::before{
       <span class="dot"></span>
       <span id="chipText">Loading…</span>
     </div>
+    <div class="lang-chip" id="langChip">
+      <button class="lang-btn" id="langBtn">
+        <span id="langCurrent">EN</span>
+        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
+      </button>
+      <div class="lang-menu" id="langMenu"></div>
+    </div>
     <a href="index.html#gallery" class="btn-close">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
       Close
@@ -253,21 +280,47 @@ const CATEGORY_PALETTES = {
 // Concepts that have a real brandbook.html on disk
 const HAS_BRANDBOOK = new Set(['poppy-matcha']);
 
+/* ===== I18N ===== */
+const LANGS = [
+  {c:'en',n:'English'},{c:'be',n:'Беларуская'},{c:'ru',n:'Русский'},{c:'uk',n:'Українська'},
+  {c:'pl',n:'Polski'},{c:'de',n:'Deutsch'},{c:'fr',n:'Français'},{c:'it',n:'Italiano'},
+  {c:'es',n:'Español'},{c:'pt',n:'Português'},{c:'ja',n:'日本語'},{c:'ko',n:'한국어'}
+];
+const UI_STRINGS = {
+  en:{inside:"What's inside",insideP1:"A full launch package — brandbook (25 pages), equipment list with real models and prices, country-specific registration walkthrough, week-by-week timeline, P&L projection, and supplier directory.",insideP2:w=>`Everything a first-time founder needs to open in ${w} weeks. No guesswork. No wasted money.`,locked:"Preview locked",lockedP:"Buy this concept to unlock the full brandbook PDF, editable source files, and your country's registration plan.",once:"One-time · Lifetime access",budget:"Budget",timeline:"Timeline",size:"Size",country:"Country",category:"Category",buy:"Buy",lockNote:"Full brandbook unlocks after purchase.",weeks:"weeks"},
+  ru:{inside:"Что внутри",insideP1:"Полный пакет запуска — брендбук (25 страниц), список оборудования с реальными моделями и ценами, пошаговая регистрация по стране, план недель, прогноз P&L, справочник поставщиков.",insideP2:w=>`Всё, что нужно новичку, чтобы открыться за ${w} недель. Без догадок. Без лишних трат.`,locked:"Превью заблокировано",lockedP:"Купите концепцию, чтобы разблокировать полный брендбук, редактируемые исходники и план регистрации в вашей стране.",once:"Разово · Пожизненный доступ",budget:"Бюджет",timeline:"Сроки",size:"Площадь",country:"Страна",category:"Категория",buy:"Купить",lockNote:"Полный брендбук откроется после покупки.",weeks:"недель"},
+  be:{inside:"Што ўнутры",insideP1:"Поўны пакет запуску — брэндбук (25 старонак), спіс абсталявання з рэальнымі мадэлямі і цэнамі, пакрокавая рэгістрацыя па краіне, план па тыднях, прагноз P&L, даведнік пастаўшчыкоў.",insideP2:w=>`Усё, што трэба пачаткоўцу, каб адкрыцца за ${w} тыдняў. Без здагадак. Без лішніх трат.`,locked:"Прэв'ю заблакавана",lockedP:"Купіце канцэпцыю, каб разблакаваць поўны брэндбук, рэдагавальныя крыніцы і план рэгістрацыі ў вашай краіне.",once:"Разова · Пажыццёвы доступ",budget:"Бюджэт",timeline:"Тэрміны",size:"Плошча",country:"Краіна",category:"Катэгорыя",buy:"Купіць",lockNote:"Поўны брэндбук адкрыецца пасля куплі.",weeks:"тыдняў"},
+  uk:{inside:"Що всередині",insideP1:"Повний пакет запуску — брендбук (25 сторінок), перелік обладнання з реальними моделями та цінами, покрокова реєстрація по країні, план по тижнях, прогноз P&L, довідник постачальників.",insideP2:w=>`Усе, що потрібно новачку, щоб відкритися за ${w} тижнів. Без здогадок. Без зайвих витрат.`,locked:"Прев'ю заблоковано",lockedP:"Придбайте концепцію, щоб розблокувати повний брендбук, редаговані джерела і план реєстрації у вашій країні.",once:"Разово · Довічний доступ",budget:"Бюджет",timeline:"Терміни",size:"Площа",country:"Країна",category:"Категорія",buy:"Купити",lockNote:"Повний брендбук відкриється після купівлі.",weeks:"тижнів"},
+  pl:{inside:"Co w środku",insideP1:"Pełny pakiet startowy — brandbook (25 stron), lista sprzętu z modelami i cenami, przewodnik rejestracji w kraju, harmonogram tygodniowy, prognoza P&L, katalog dostawców.",insideP2:w=>`Wszystko, czego potrzebuje początkujący, aby otworzyć biznes w ${w} tygodni. Bez zgadywania. Bez marnotrawstwa.`,locked:"Podgląd zablokowany",lockedP:"Kup koncepcję, aby odblokować pełny brandbook PDF, edytowalne źródła i plan rejestracji dla Twojego kraju.",once:"Jednorazowo · Dożywotni dostęp",budget:"Budżet",timeline:"Harmonogram",size:"Rozmiar",country:"Kraj",category:"Kategoria",buy:"Kup",lockNote:"Pełny brandbook odblokuje się po zakupie.",weeks:"tygodni"},
+  de:{inside:"Was ist drin",insideP1:"Komplettes Startpaket — Brandbook (25 Seiten), Ausrüstungsliste mit echten Modellen und Preisen, länderspezifische Registrierungsanleitung, Wochenplan, P&L-Prognose, Lieferantenverzeichnis.",insideP2:w=>`Alles, was ein Gründer braucht, um in ${w} Wochen zu öffnen. Kein Rätselraten. Kein Geldverlust.`,locked:"Vorschau gesperrt",lockedP:"Kaufen Sie das Konzept, um das vollständige Brandbook-PDF, bearbeitbare Quelldateien und den Registrierungsplan freizuschalten.",once:"Einmalig · Lebenslanger Zugang",budget:"Budget",timeline:"Zeitplan",size:"Größe",country:"Land",category:"Kategorie",buy:"Kaufen",lockNote:"Vollständiges Brandbook nach Kauf verfügbar.",weeks:"Wochen"},
+  fr:{inside:"Contenu",insideP1:"Pack de lancement complet — brandbook (25 pages), liste d'équipement avec modèles et prix réels, guide d'enregistrement par pays, calendrier hebdomadaire, prévision P&L, annuaire fournisseurs.",insideP2:w=>`Tout ce qu'il faut à un débutant pour ouvrir en ${w} semaines. Sans devinettes. Sans gaspillage.`,locked:"Aperçu verrouillé",lockedP:"Achetez ce concept pour débloquer le brandbook complet en PDF, les sources éditables et le plan d'enregistrement pour votre pays.",once:"Paiement unique · Accès à vie",budget:"Budget",timeline:"Calendrier",size:"Taille",country:"Pays",category:"Catégorie",buy:"Acheter",lockNote:"Brandbook complet déverrouillé après l'achat.",weeks:"semaines"},
+  it:{inside:"Cosa c'è dentro",insideP1:"Pacchetto di lancio completo — brandbook (25 pagine), elenco attrezzature con modelli e prezzi reali, guida alla registrazione per paese, calendario settimanale, previsione P&L, directory fornitori.",insideP2:w=>`Tutto ciò che serve a un principiante per aprire in ${w} settimane. Senza tentativi. Senza sprechi.`,locked:"Anteprima bloccata",lockedP:"Acquista questo concetto per sbloccare il brandbook PDF completo, i file sorgente modificabili e il piano di registrazione.",once:"Una tantum · Accesso a vita",budget:"Budget",timeline:"Tempistica",size:"Dimensione",country:"Paese",category:"Categoria",buy:"Acquista",lockNote:"Brandbook completo sbloccato dopo l'acquisto.",weeks:"settimane"},
+  es:{inside:"Qué incluye",insideP1:"Paquete de lanzamiento completo — brandbook (25 páginas), lista de equipamiento con modelos y precios reales, guía de registro por país, calendario semanal, proyección P&L, directorio de proveedores.",insideP2:w=>`Todo lo que un principiante necesita para abrir en ${w} semanas. Sin suposiciones. Sin desperdicios.`,locked:"Vista previa bloqueada",lockedP:"Compra este concepto para desbloquear el brandbook PDF completo, archivos fuente editables y el plan de registro.",once:"Pago único · Acceso de por vida",budget:"Presupuesto",timeline:"Cronograma",size:"Tamaño",country:"País",category:"Categoría",buy:"Comprar",lockNote:"Brandbook completo desbloqueado tras la compra.",weeks:"semanas"},
+  pt:{inside:"O que está incluído",insideP1:"Pacote de lançamento completo — brandbook (25 páginas), lista de equipamentos com modelos e preços reais, guia de registro por país, calendário semanal, projeção P&L, diretório de fornecedores.",insideP2:w=>`Tudo o que um iniciante precisa para abrir em ${w} semanas. Sem adivinhação. Sem desperdício.`,locked:"Visualização bloqueada",lockedP:"Compre este conceito para desbloquear o brandbook PDF completo, arquivos editáveis e plano de registro.",once:"Pagamento único · Acesso vitalício",budget:"Orçamento",timeline:"Cronograma",size:"Tamanho",country:"País",category:"Categoria",buy:"Comprar",lockNote:"Brandbook completo desbloqueado após a compra.",weeks:"semanas"},
+  ja:{inside:"内容物",insideP1:"完全なローンチパッケージ — ブランドブック(25ページ)、実機モデルと価格付き機材リスト、国別登録ガイド、週次スケジュール、損益予測、サプライヤーディレクトリ。",insideP2:w=>`初心者が${w}週間で開業するために必要なすべて。推測も無駄もなし。`,locked:"プレビューはロックされています",lockedP:"このコンセプトを購入して、完全なブランドブックPDF、編集可能ソースファイル、国別登録プランをアンロックしてください。",once:"買い切り · 永久アクセス",budget:"予算",timeline:"スケジュール",size:"サイズ",country:"国",category:"カテゴリ",buy:"購入",lockNote:"購入後に完全なブランドブックがアンロックされます。",weeks:"週間"},
+  ko:{inside:"포함 내용",insideP1:"완전한 런칭 패키지 — 브랜드북(25페이지), 실제 모델 및 가격이 포함된 장비 목록, 국가별 등록 가이드, 주간 일정, 손익 예측, 공급업체 디렉토리.",insideP2:w=>`초보자가 ${w}주 안에 오픈하는 데 필요한 모든 것. 추측 없이, 낭비 없이.`,locked:"미리보기 잠김",lockedP:"이 컨셉을 구매하여 전체 브랜드북 PDF, 편집 가능한 소스 파일 및 국가별 등록 계획을 잠금 해제하세요.",once:"일회성 · 평생 접근",budget:"예산",timeline:"일정",size:"크기",country:"국가",category:"카테고리",buy:"구매",lockNote:"구매 후 전체 브랜드북이 잠금 해제됩니다.",weeks:"주"}
+};
+
 /* ===== MAIN ===== */
+let CONCEPT = null;
+let CURRENT_LANG = localStorage.getItem('svita_micro_lang') || 'en';
+let I18N_ROW = null; // row from concepts_i18n
+
 (async function init(){
   const params = new URLSearchParams(location.search);
   const slug = params.get('c') || params.get('slug') || 'poppy-matcha';
-  let concept = null;
+  const urlLang = params.get('lang');
+  if(urlLang && LANGS.some(l=>l.c===urlLang)) CURRENT_LANG = urlLang;
 
+  let concept = null;
   try{
     const res = await fetch('data/catalog.json',{cache:'no-cache'});
     if(res.ok){
       const catalog = await res.json();
       concept = catalog.find(c=>c.slug===slug);
     }
-  }catch(e){ /* catalog may not exist yet */ }
+  }catch(e){}
 
-  // Fallback concept for POPPY MATCHA if no catalog yet
   if(!concept && slug==='poppy-matcha'){
     concept = {
       slug:'poppy-matcha', name:'POPPY MATCHA', category:'food', country:'NL',
@@ -282,12 +335,83 @@ const HAS_BRANDBOOK = new Set(['poppy-matcha']);
     return;
   }
 
+  CONCEPT = concept;
   applyTheme(concept);
-  renderChip(concept);
-  renderAmbient(concept);
-  renderFrame(concept);
+  buildLangMenu();
+  await loadI18nOverride(slug, CURRENT_LANG);
+  rerenderAll();
   document.getElementById('loading').classList.add('hidden');
 })();
+
+async function loadI18nOverride(slug, lang){
+  I18N_ROW = null;
+  // Try Supabase (if available)
+  try{
+    const url = `https://ctdleobjnzniqkqomlrq.supabase.co/rest/v1/concepts_i18n?concept_slug=eq.${encodeURIComponent(slug)}&lang_code=eq.${lang}&select=*`;
+    const res = await fetch(url, {
+      headers:{
+        apikey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38'
+      }
+    });
+    if(res.ok){
+      const rows = await res.json();
+      if(rows && rows.length) I18N_ROW = rows[0];
+    }
+  }catch(e){}
+}
+
+function t(key, ...args){
+  const bundle = UI_STRINGS[CURRENT_LANG] || UI_STRINGS.en;
+  const v = bundle[key];
+  return typeof v === 'function' ? v(...args) : v;
+}
+
+function localizedConcept(){
+  const c = {...CONCEPT};
+  if(I18N_ROW){
+    if(I18N_ROW.name) c.name = I18N_ROW.name;
+    if(I18N_ROW.tagline) c.tagline = I18N_ROW.tagline;
+    c._description = I18N_ROW.description;
+    c._body_html = I18N_ROW.body_html;
+  }
+  c._theme = CONCEPT._theme;
+  return c;
+}
+
+function rerenderAll(){
+  const loc = localizedConcept();
+  document.documentElement.lang = CURRENT_LANG;
+  document.getElementById('langCurrent').textContent = CURRENT_LANG.toUpperCase();
+  renderChip(loc);
+  document.getElementById('ambient').innerHTML = '';
+  renderAmbient(loc);
+  renderFrame(loc);
+}
+
+function buildLangMenu(){
+  const menu = document.getElementById('langMenu');
+  menu.innerHTML = LANGS.map(l=>
+    `<button data-lang="${l.c}" class="${l.c===CURRENT_LANG?'active':''}">${l.n}</button>`
+  ).join('');
+  document.getElementById('langBtn').addEventListener('click', e=>{
+    e.stopPropagation();
+    menu.classList.toggle('open');
+  });
+  document.addEventListener('click', ()=> menu.classList.remove('open'));
+  menu.addEventListener('click', async e=>{
+    const b = e.target.closest('button[data-lang]');
+    if(!b) return;
+    CURRENT_LANG = b.dataset.lang;
+    localStorage.setItem('svita_micro_lang', CURRENT_LANG);
+    menu.classList.remove('open');
+    menu.querySelectorAll('button').forEach(x=>x.classList.toggle('active', x.dataset.lang===CURRENT_LANG));
+    // update URL without reload
+    const u = new URL(location.href); u.searchParams.set('lang', CURRENT_LANG);
+    history.replaceState({},'',u);
+    await loadI18nOverride(CONCEPT.slug, CURRENT_LANG);
+    rerenderAll();
+  });
+}
 
 function applyTheme(concept){
   const theme = THEMES[concept.slug] || CATEGORY_PALETTES[concept.category] || CATEGORY_PALETTES.food;
@@ -329,15 +453,40 @@ function renderAmbient(c){
 
 function renderFrame(c){
   const frame = document.getElementById('frame');
-  if(HAS_BRANDBOOK.has(c.slug)){
-    // real brandbook → iframe
+  frame.innerHTML = '';
+  if(HAS_BRANDBOOK.has(c.slug) && CURRENT_LANG === 'en'){
     const iframe = document.createElement('iframe');
     iframe.src = 'data/concepts/'+c.slug+'/brandbook.html';
     iframe.title = c.name + ' brandbook';
     frame.appendChild(iframe);
     return;
   }
-  // Preview mode (locked / not yet generated)
+  // If admin-uploaded body_html exists, use it instead of the locked preview
+  const body = c._body_html
+    ? `<div class="preview-body-inner" style="grid-template-columns:1fr"><div>${c._body_html}</div></div>`
+    : `<div class="preview-body-inner">
+        <div>
+          <h2>${t('inside')}</h2>
+          <p>${c._description || t('insideP1')}</p>
+          <p>${t('insideP2', c.weeks||8)}</p>
+          <h2 style="margin-top:28px">${t('locked')}</h2>
+          <p>${t('lockedP')}</p>
+        </div>
+        <div class="specs">
+          <div class="price">€${c.price_eur}</div>
+          <div style="font-size:11px;color:#94A3B8;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:20px">${t('once')}</div>
+          <div class="row"><span class="k">${t('budget')}</span><span class="v">€${c.budget_eur.toLocaleString('en-US')}</span></div>
+          <div class="row"><span class="k">${t('timeline')}</span><span class="v">${c.weeks||8} ${t('weeks')}</span></div>
+          <div class="row"><span class="k">${t('size')}</span><span class="v">${c.size_m2||'—'}m²</span></div>
+          <div class="row"><span class="k">${t('country')}</span><span class="v">${c.country}</span></div>
+          <div class="row"><span class="k">${t('category')}</span><span class="v">${c.category}</span></div>
+          <a class="btn" href="account.html?buy=${c.slug}">
+            ${t('buy')} €${c.price_eur}
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h12M9 1l4 4-4 4"/></svg>
+          </a>
+          <div class="lock-note">${t('lockNote')}</div>
+        </div>
+      </div>`;
   frame.innerHTML = `
     <div class="preview-body">
       <div class="preview-hero">
@@ -348,29 +497,7 @@ function renderFrame(c){
           <div class="tag">${c.tagline||''}</div>
         </div>
       </div>
-      <div class="preview-body-inner">
-        <div>
-          <h2>What's inside</h2>
-          <p>A full launch package — brandbook (25 pages), equipment list with real models and prices, country-specific registration walkthrough, week-by-week timeline, P&L projection, and supplier directory.</p>
-          <p>Everything a first-time founder needs to open in ${c.weeks||8} weeks. No guesswork. No wasted money.</p>
-          <h2 style="margin-top:28px">Preview locked</h2>
-          <p>Buy this concept to unlock the full brandbook PDF, editable source files, and your country's registration plan.</p>
-        </div>
-        <div class="specs">
-          <div class="price">€${c.price_eur}</div>
-          <div style="font-size:11px;color:#94A3B8;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:20px">One-time · Lifetime access</div>
-          <div class="row"><span class="k">Budget</span><span class="v">€${c.budget_eur.toLocaleString('en-US')}</span></div>
-          <div class="row"><span class="k">Timeline</span><span class="v">${c.weeks||8} weeks</span></div>
-          <div class="row"><span class="k">Size</span><span class="v">${c.size_m2||'—'}m²</span></div>
-          <div class="row"><span class="k">Country</span><span class="v">${c.country}</span></div>
-          <div class="row"><span class="k">Category</span><span class="v">${c.category}</span></div>
-          <a class="btn" href="account.html?buy=${c.slug}">
-            Buy €${c.price_eur}
-            <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h12M9 1l4 4-4 4"/></svg>
-          </a>
-          <div class="lock-note">Full brandbook unlocks after purchase.</div>
-        </div>
-      </div>
+      ${body}
     </div>`;
 }
 </script>
