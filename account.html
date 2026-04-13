@@ -101,7 +101,10 @@ nav.scrolled{
 .page > .wrap{position:relative;z-index:1}
 
 .page-head{margin-bottom:80px;max-width:760px}
-.page-head .eyebrow{margin-bottom:24px}
+.page-head .eyebrow{margin-bottom:24px;display:inline-flex;align-items:center;gap:12px}
+.role-badge{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,0.05);border:1px solid var(--line);color:var(--text-2)}
+.role-badge[data-role="admin"]{color:var(--accent);border-color:rgba(214,255,62,0.3);background:rgba(214,255,62,0.08)}
+.role-badge[data-role="superadmin"]{color:#fff;border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.08)}
 .page-head h1{
   font-size:clamp(2.75rem,7vw,5.5rem);
   margin-bottom:28px;
@@ -387,9 +390,10 @@ nav.scrolled{
     SVITA<small>MICRO</small>
   </a>
   <div class="nav-right">
-    <a href="index.html#gallery">Shop</a>
+    <a href="shop.html">Shop</a>
+    <a href="#" id="nav-admin-link" style="display:none">Admin</a>
     <a href="#" id="signout-link">Sign out</a>
-    <a href="index.html#gallery" class="nav-cta" id="nav-browse">Browse shop</a>
+    <a href="shop.html" class="nav-cta" id="nav-browse">Browse shop</a>
   </div>
 </nav>
 
@@ -572,8 +576,8 @@ nav.scrolled{
 <section id="account-view" class="page hidden">
   <div class="wrap">
     <div class="page-head reveal">
-      <div class="eyebrow">Your cabinet</div>
-      <h1 class="display">My <span class="accent">concepts</span>.</h1>
+      <div class="eyebrow">Your cabinet <span id="role-badge" class="role-badge"></span></div>
+      <h1 class="display">Hello, <span class="accent" id="user-name">friend</span>.</h1>
       <p>Everything you've bought lives here. Click any concept to open its brandbook and launch plan.</p>
     </div>
 
@@ -583,7 +587,7 @@ nav.scrolled{
         <span class="email" id="user-email"></span>
       </div>
       <div class="right">
-        <a href="index.html#gallery" class="btn btn-ghost">Browse shop</a>
+        <a href="shop.html" class="btn btn-ghost">Browse shop</a>
         <button class="btn btn-ghost" id="signout-btn">Sign out</button>
       </div>
     </div>
@@ -849,6 +853,31 @@ $('signout-link').addEventListener('click', async e=>{ e.preventDefault(); await
 async function enterAccount(user){
   hide('login-view'); show('account-view'); show('nav');
   $('user-email').textContent = user.email;
+  // Role lookup is optional — never block cabinet entry on it
+  let role = 'user', displayName = null;
+  try{
+    const {data: prof} = await sb.from('profiles')
+      .select('role,display_name')
+      .eq('user_id', user.id)
+      .maybeSingle();
+    if(prof){ role = prof.role || 'user'; displayName = prof.display_name; }
+  }catch(e){ /* profile row may not exist yet — ignore */ }
+  // Show admin link in nav if user has admin/superadmin role (no forced redirect)
+  const adminLink = $('nav-admin-link');
+  if(adminLink){
+    if(role === 'superadmin'){ adminLink.href = 'superadmin.html'; adminLink.textContent = 'Superadmin'; adminLink.style.display=''; }
+    else if(role === 'admin'){ adminLink.href = 'admin.html'; adminLink.textContent = 'Admin'; adminLink.style.display=''; }
+    else { adminLink.style.display='none'; }
+  }
+  // Role badge in cabinet header
+  const badge = $('role-badge');
+  if(badge){
+    badge.textContent = role === 'superadmin' ? '● Superadmin' : role === 'admin' ? '● Admin' : '● User';
+    badge.dataset.role = role;
+  }
+  // Display name
+  const nameEl = $('user-name');
+  if(nameEl) nameEl.textContent = displayName || (user.user_metadata && user.user_metadata.name) || user.email.split('@')[0];
   observeReveals();
   await loadOwned();
   if(BUY_INTENT) showBuyIntent(BUY_INTENT);

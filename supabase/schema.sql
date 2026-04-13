@@ -7,25 +7,62 @@
 create table if not exists public.profiles (
   user_id       uuid primary key references auth.users(id) on delete cascade,
   email         text,
-  role          text not null default 'user' check (role in ('user','admin')),
+  display_name  text,
+  role          text not null default 'user' check (role in ('user','admin','superadmin')),
   created_at    timestamptz default now()
 );
 
+-- migration: widen role constraint if table pre-existed
+alter table public.profiles drop constraint if exists profiles_role_check;
+alter table public.profiles add constraint profiles_role_check
+  check (role in ('user','admin','superadmin'));
+alter table public.profiles add column if not exists display_name text;
+
+-- auto-insert profile row on user creation
+create or replace function public.handle_new_user()
+returns trigger language plpgsql security definer as $$
+begin
+  insert into public.profiles (user_id, email, display_name)
+  values (new.id, new.email, coalesce(new.raw_user_meta_data->>'name', split_part(new.email,'@',1)))
+  on conflict (user_id) do nothing;
+  return new;
+end; $$;
+
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute function public.handle_new_user();
+
 alter table public.profiles enable row level security;
+
+drop policy if exists "profiles insert self" on public.profiles;
+create policy "profiles insert self" on public.profiles
+  for insert with check (auth.uid() = user_id);
 
 drop policy if exists "profiles self read" on public.profiles;
 create policy "profiles self read"
   on public.profiles for select
   using (auth.uid() = user_id);
 
--- Helper: is current user admin?
+-- Helper: is current user admin or superadmin?
 create or replace function public.is_admin()
 returns boolean
 language sql stable security definer
 as $$
   select exists (
     select 1 from public.profiles
-    where user_id = auth.uid() and role = 'admin'
+    where user_id = auth.uid() and role in ('admin','superadmin')
+  );
+$$;
+
+-- Helper: is current user superadmin?
+create or replace function public.is_superadmin()
+returns boolean
+language sql stable security definer
+as $$
+  select exists (
+    select 1 from public.profiles
+    where user_id = auth.uid() and role = 'superadmin'
   );
 $$;
 
