@@ -162,35 +162,44 @@ nav.scrolled{
 
 /* Hero visual — cinematic image slot */
 .hero-visual{position:relative;animation:fade 1100ms var(--ease) 300ms both}
-.visual-slot{
-  position:relative;width:100%;aspect-ratio:4/5;
-  border-radius:var(--radius-lg);overflow:hidden;
-  background:var(--bg-1) center/cover;
+
+/* HERO SLIDER */
+.hero-slider{position:relative;width:100%;max-width:480px;margin:0 auto}
+.hero-slider-viewport{position:relative;overflow:hidden;border-radius:var(--radius-lg)}
+.hero-slider-track{
+  display:flex;transition:transform 600ms var(--ease);
+  will-change:transform;
+}
+.hero-slider .slide{flex:0 0 100%;box-sizing:border-box}
+.hero-slider .slide .card{
   box-shadow:0 60px 120px rgba(0,0,0,0.5),0 0 0 1px var(--line);
 }
-.visual-slot::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,transparent 40%,rgba(10,10,11,0.85) 100%);
-  pointer-events:none;
+.hero-slider .slide .card .media{aspect-ratio:4/5}
+.hero-slider-dots{
+  display:flex;gap:8px;justify-content:center;margin-top:22px;
 }
-.visual-caption{
-  position:absolute;left:24px;right:24px;bottom:24px;z-index:2;
-  display:flex;justify-content:space-between;align-items:flex-end;
-  pointer-events:none;
+.hero-slider-dots button{
+  width:28px;height:4px;border-radius:2px;border:0;padding:0;
+  background:var(--line-2);cursor:pointer;transition:all 300ms var(--ease);
 }
-.visual-caption .tag{
-  background:rgba(10,10,11,0.72);backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,0.12);border-radius:100px;
-  padding:7px 14px;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--text)
+.hero-slider-dots button.on{background:var(--accent);width:44px}
+.hero-slider-arrows{
+  position:absolute;top:50%;left:-18px;right:-18px;
+  transform:translateY(-50%);display:flex;justify-content:space-between;
+  pointer-events:none;z-index:3;
 }
-.visual-caption .price{
-  font-family:'Space Grotesk';font-size:28px;font-weight:700;color:var(--accent);
+.hero-slider-arrows button{
+  pointer-events:auto;width:44px;height:44px;border-radius:50%;
+  background:rgba(10,10,11,0.78);backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.14);color:var(--text);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:all 200ms var(--ease);
 }
-.visual-corner{
-  position:absolute;top:20px;left:20px;z-index:3;
-  font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text);
-  display:flex;flex-direction:column;gap:2px;opacity:0.85;
-  text-transform:uppercase;letter-spacing:0.1em;
+.hero-slider-arrows button:hover{background:var(--accent);color:#0a0a0b;border-color:var(--accent)}
+@media(max-width:640px){
+  .hero-slider-arrows{left:-8px;right:-8px}
+  .hero-slider-arrows button{width:38px;height:38px}
 }
 
 /* ============ MARQUEE ============ */
@@ -489,15 +498,15 @@ footer{border-top:1px solid var(--line);padding:48px 0 64px}
       </div>
 
       <div class="hero-visual protected">
-        <div class="visual-slot" style="background-image:url('data/concepts/poppy-matcha/images/01-hero-interior.png')" oncontextmenu="return false">
-          <div class="visual-corner">
-            <span>CONCEPT / 001</span>
-            <span>POPPY MATCHA · NL</span>
+        <div class="hero-slider" id="hero-slider">
+          <div class="hero-slider-viewport">
+            <div class="hero-slider-track" id="hero-track"></div>
           </div>
-          <div class="visual-caption">
-            <span class="tag">Matcha Kiosk · 8m²</span>
-            <span class="price">€49</span>
+          <div class="hero-slider-arrows">
+            <button id="hero-prev" aria-label="Previous concept"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2L4 7l5 5"/></svg></button>
+            <button id="hero-next" aria-label="Next concept"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 2l5 5-5 5"/></svg></button>
           </div>
+          <div class="hero-slider-dots" id="hero-dots"></div>
         </div>
       </div>
     </div>
@@ -762,7 +771,51 @@ async function loadCatalog(){
     CATALOG = await r.json();
     initCountryFilter();
     applyFilters();
+    buildHeroSlider();
   }catch(err){ console.error('catalog load failed',err); }
+}
+
+/* ===================== HERO SLIDER ===================== */
+const HERO_SLUGS = ['poppy-matcha','berlin-vintage-shop','paris-candle-atelier','berlin-yoga-loft','berlin-dental-hygiene','berlin-code-camp'];
+function buildHeroSlider(){
+  const track = document.getElementById('hero-track');
+  const dots  = document.getElementById('hero-dots');
+  if(!track || !dots) return;
+  const pick = HERO_SLUGS.map(s=>CATALOG.find(c=>c.slug===s)).filter(Boolean);
+  const featured = pick.length ? pick : CATALOG.slice(0,6);
+  if(!featured.length) return;
+  track.innerHTML = '';
+  dots.innerHTML = '';
+  featured.forEach((c,i)=>{
+    const slide = document.createElement('div');
+    slide.className = 'slide';
+    slide.appendChild(cardEl(c));
+    track.appendChild(slide);
+    const dot = document.createElement('button');
+    if(i===0) dot.classList.add('on');
+    dot.setAttribute('aria-label','Slide '+(i+1));
+    dot.addEventListener('click',()=>{ go(i); bump(); });
+    dots.appendChild(dot);
+  });
+  let idx = 0, t;
+  function go(n){
+    idx = (n + featured.length) % featured.length;
+    track.style.transform = `translateX(-${idx*100}%)`;
+    dots.querySelectorAll('button').forEach((b,j)=>b.classList.toggle('on',j===idx));
+  }
+  function auto(){ go(idx+1); }
+  function bump(){ clearInterval(t); t = setInterval(auto, 6000); }
+  document.getElementById('hero-prev').addEventListener('click',()=>{ go(idx-1); bump(); });
+  document.getElementById('hero-next').addEventListener('click',()=>{ go(idx+1); bump(); });
+  t = setInterval(auto, 6000);
+  const wrap = document.getElementById('hero-slider');
+  wrap.addEventListener('mouseenter',()=>clearInterval(t));
+  wrap.addEventListener('mouseleave',()=>{ t = setInterval(auto, 6000); });
+  // swipe
+  let sx = 0, dx = 0;
+  track.addEventListener('touchstart',e=>{ sx = e.touches[0].clientX; dx = 0; clearInterval(t); },{passive:true});
+  track.addEventListener('touchmove', e=>{ dx = e.touches[0].clientX - sx; },{passive:true});
+  track.addEventListener('touchend',  ()=>{ if(Math.abs(dx)>40) go(idx + (dx<0?1:-1)); bump(); });
 }
 
 function initCountryFilter(){
