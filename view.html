@@ -525,15 +525,26 @@ async function loadSuperadminFullConcept(slug){
   OWN_TYPE = own.type;
   if(IS_OWNED) document.body.classList.add('owned-mode');
   // Live has_brandbook from DB (catalog.json can be stale)
+  let dbgEmail = '(no session)';
+  let dbgPurchase = '—';
   if(SB){
     try{
-      const {data:live} = await SB.from('concepts_catalog').select('has_brandbook,name,tagline,budget_eur,weeks,size_m2,category,hero_image,price_eur').eq('slug',slug).maybeSingle();
-      if(live){
-        CONCEPT.has_brandbook = !!live.has_brandbook;
-        console.log('[view] live has_brandbook', slug, CONCEPT.has_brandbook, 'IS_OWNED', IS_OWNED, 'IS_SA', IS_SA);
+      const {data:{session}} = await SB.auth.getSession();
+      if(session) dbgEmail = session.user.email;
+      const {data:live} = await SB.from('concepts_catalog').select('has_brandbook').eq('slug',slug).maybeSingle();
+      if(live) CONCEPT.has_brandbook = !!live.has_brandbook;
+      if(session){
+        const {data:pur, error:perr} = await SB.from('purchases')
+          .select('status,provider,access_state').eq('user_id',session.user.id).eq('concept_slug',slug).maybeSingle();
+        dbgPurchase = perr ? ('err:'+perr.message) : (pur ? JSON.stringify(pur) : 'none');
+        if(pur && pur.status==='paid'){ IS_OWNED = true; OWN_TYPE = (pur.provider==='superadmin'||pur.provider==='gift')?'gift':'paid'; document.body.classList.add('owned-mode'); }
       }
-    }catch(e){ console.error('[view] live catalog', e); }
+    }catch(e){ dbgPurchase = 'catch:'+e.message; }
   }
+  const dbg = document.createElement('div');
+  dbg.style.cssText='position:fixed;right:8px;bottom:8px;z-index:99999;background:#000c;color:#D6FF3E;font:11px/1.4 monospace;padding:10px 12px;border-radius:8px;max-width:380px;border:1px solid #D6FF3E55;pointer-events:auto';
+  dbg.innerHTML = `<b>DEBUG</b> <span style="float:right;cursor:pointer" onclick="this.parentNode.remove()">✕</span><br>user: ${dbgEmail}<br>SA: ${IS_SA}<br>OWNED: ${IS_OWNED} (${OWN_TYPE||'—'})<br>has_bb: ${CONCEPT.has_brandbook}<br>lang: ${CURRENT_LANG}<br>purchase: ${dbgPurchase}`;
+  document.body.appendChild(dbg);
   await loadI18nOverride(slug, CURRENT_LANG);
   rerenderAll();
   document.getElementById('loading').classList.add('hidden');
