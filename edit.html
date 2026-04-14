@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SVITA Micro — Edit Concept</title>
+<meta name="theme-color" content="#0A0A0B">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="js/svita-ui.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+:root{
+  --bg:#0A0A0B;--bg-1:#111113;--bg-2:#18181B;--bg-3:#1F1F23;
+  --line:#232327;--line-2:#2F2F34;--line-3:#3A3A40;
+  --text:#FAFAFA;--text-2:#A1A1AA;--text-3:#6E6E78;
+  --accent:#D6FF3E;--warn:#f59e0b;--ok:#84cc16;--err:#ef4444;--info:#3b82f6;
+  --radius:14px;--radius-lg:22px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html,body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;height:100vh;overflow:hidden}
+body{line-height:1.5;font-size:14px;display:flex;flex-direction:column}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--accent);color:#0A0A0B}
+
+/* TOP BAR */
+.topbar{
+  flex-shrink:0;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;background:var(--bg-1);border-bottom:1px solid var(--line);
+  z-index:50;
+}
+.tb-left{display:flex;align-items:center;gap:18px;min-width:0;flex:1}
+.tb-back{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 14px;
+  border-radius:100px;background:var(--bg-2);border:1px solid var(--line);
+  font-size:12px;color:var(--text-2);transition:all 200ms var(--ease);
+  text-decoration:none;
+}
+.tb-back:hover{border-color:var(--line-2);color:var(--text);background:var(--bg-3)}
+.tb-divider{width:1px;height:24px;background:var(--line)}
+.tb-title{display:flex;flex-direction:column;gap:2px;min-width:0}
+.tb-title .crumb{font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);font-weight:600}
+.tb-title h1{font-family:'Space Grotesk';font-size:18px;font-weight:700;letter-spacing:-0.02em;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:480px}
+
+.tb-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.save-status{font-family:'JetBrains Mono';font-size:11px;color:var(--text-3);padding:0 12px}
+.save-status.saving{color:var(--warn)}
+.save-status.saved{color:var(--ok)}
+.save-status.error{color:var(--err)}
+
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:10px 18px;
+  border-radius:100px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;
+  transition:all 200ms var(--ease);border:1px solid transparent;
+}
+.btn-ghost{background:var(--bg-2);border-color:var(--line);color:var(--text-2)}
+.btn-ghost:hover{border-color:var(--line-2);color:var(--text);background:var(--bg-3)}
+.btn-primary{background:var(--accent);color:#0A0A0B}
+.btn-primary:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn-danger{background:rgba(239,68,68,0.1);color:var(--err);border-color:rgba(239,68,68,0.3)}
+.btn-danger:hover{background:rgba(239,68,68,0.18)}
+.btn-ok{background:rgba(132,204,22,0.12);color:var(--ok);border-color:rgba(132,204,22,0.3)}
+.btn-ok:hover{background:rgba(132,204,22,0.2)}
+
+/* SPLIT LAYOUT */
+.split{flex:1;display:grid;grid-template-columns:1fr 560px;min-height:0}
+@media(max-width:1280px){.split{grid-template-columns:1fr 480px}}
+@media(max-width:1024px){.split{grid-template-columns:1fr}.preview-pane{display:none}}
+
+.preview-pane{
+  background:#fff;border-right:1px solid var(--line);position:relative;overflow:hidden;
+}
+.preview-pane iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+.preview-pane .preview-bar{
+  position:absolute;top:14px;left:14px;right:14px;z-index:5;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 14px;border-radius:100px;
+  background:rgba(10,10,11,0.78);backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.08);
+  font-size:10px;color:var(--text-2);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;
+}
+.preview-pane .preview-bar .live-dot{
+  display:inline-flex;align-items:center;gap:7px;
+}
+.preview-pane .preview-bar .live-dot::before{
+  content:'';width:6px;height:6px;border-radius:50%;background:var(--ok);
+  box-shadow:0 0 8px var(--ok);animation:pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.preview-pane .preview-bar a{color:var(--accent);text-decoration:none}
+
+/* EDITOR PANE */
+.editor-pane{display:flex;flex-direction:column;background:var(--bg);overflow:hidden}
+.tabs{
+  flex-shrink:0;display:flex;gap:4px;padding:14px 20px 0;
+  background:var(--bg);border-bottom:1px solid var(--line);
+}
+.tab-btn{
+  position:relative;padding:12px 20px;font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);
+  transition:color 200ms var(--ease);border-radius:8px 8px 0 0;
+}
+.tab-btn:hover{color:var(--text-2)}
+.tab-btn.on{color:var(--accent)}
+.tab-btn.on::after{
+  content:'';position:absolute;bottom:-1px;left:8px;right:8px;height:2px;
+  background:var(--accent);border-radius:2px 2px 0 0;
+}
+
+.tab-panels{flex:1;overflow-y:auto;padding:24px 24px 80px}
+.tab-panel{display:none}
+.tab-panel.on{display:block}
+
+/* SECTION */
+.section{margin-bottom:32px}
+.section-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line);
+}
+.section-head h3{
+  font-family:'Space Grotesk';font-size:13px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.12em;color:var(--text);
+}
+.section-head .hint{font-family:'JetBrains Mono';font-size:10px;color:var(--text-3)}
+
+/* FORM */
+.field{margin-bottom:16px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.field-row .field{margin-bottom:0}
+label{
+  display:block;font-size:10px;font-weight:600;text-transform:uppercase;
+  letter-spacing:0.12em;color:var(--text-3);margin-bottom:6px;
+}
+label .req{color:var(--err);margin-left:4px}
+input[type="text"], input[type="number"], input[type="url"], select, textarea{
+  width:100%;padding:12px 14px;
+  background:var(--bg-1);border:1px solid var(--line);
+  border-radius:10px;color:var(--text);
+  font-family:inherit;font-size:13px;
+  transition:all 200ms var(--ease);
+}
+input[type="text"]:focus, input[type="number"]:focus, input[type="url"]:focus, select:focus, textarea:focus{
+  outline:none;border-color:var(--accent);
+  box-shadow:0 0 0 4px rgba(214,255,62,0.08);
+  background:var(--bg-2);
+}
+textarea{resize:vertical;min-height:120px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.55}
+textarea.body-html{min-height:340px;font-size:11.5px}
+input.mono{font-family:'JetBrains Mono',monospace;font-size:12px}
+
+/* TOGGLE */
+.toggle-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;background:var(--bg-1);border:1px solid var(--line);
+  border-radius:12px;margin-bottom:12px;
+}
+.toggle-row .info{display:flex;flex-direction:column;gap:2px;flex:1}
+.toggle-row .info .lbl{font-size:13px;font-weight:600;color:var(--text)}
+.toggle-row .info .desc{font-size:11px;color:var(--text-3)}
+.switch{
+  position:relative;width:44px;height:24px;flex-shrink:0;
+  background:var(--bg-3);border-radius:100px;cursor:pointer;
+  transition:background 200ms var(--ease);
+}
+.switch::after{
+  content:'';position:absolute;top:2px;left:2px;
+  width:20px;height:20px;border-radius:50%;background:var(--text-2);
+  transition:all 240ms var(--ease);
+}
+.switch.on{background:var(--accent)}
+.switch.on::after{left:22px;background:#0A0A0B}
+
+/* LANG TABS */
+.lang-bar{
+  display:flex;flex-wrap:wrap;gap:6px;
+  padding:14px;background:var(--bg-1);border:1px solid var(--line);
+  border-radius:14px;margin-bottom:18px;
+}
+.lang-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 12px;border-radius:100px;
+  background:var(--bg-2);border:1px solid var(--line);
+  font-family:'JetBrains Mono';font-size:10px;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.08em;color:var(--text-3);
+  cursor:pointer;transition:all 200ms var(--ease);
+}
+.lang-pill:hover{border-color:var(--line-2);color:var(--text-2)}
+.lang-pill.full{color:var(--ok);border-color:rgba(132,204,22,0.3);background:rgba(132,204,22,0.06)}
+.lang-pill.partial{color:var(--warn);border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.06)}
+.lang-pill.empty{color:var(--err);border-color:rgba(239,68,68,0.2);background:rgba(239,68,68,0.04)}
+.lang-pill.on{background:var(--accent);color:#0A0A0B;border-color:var(--accent);transform:scale(1.04)}
+.lang-pill .dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+
+.lang-summary{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;
+}
+.lang-stat{
+  padding:14px 16px;border-radius:12px;background:var(--bg-1);border:1px solid var(--line);
+}
+.lang-stat .num{font-family:'Space Grotesk';font-size:24px;font-weight:700;line-height:1}
+.lang-stat .lbl{font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);margin-top:6px;font-weight:600}
+.lang-stat.ok .num{color:var(--ok)}
+.lang-stat.warn .num{color:var(--warn)}
+.lang-stat.err .num{color:var(--err)}
+
+/* SAVE BAR */
+.save-bar{
+  position:sticky;bottom:0;left:0;right:0;
+  margin:24px -24px -80px;padding:18px 24px;
+  background:rgba(10,10,11,0.92);backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+}
+.save-bar .meta{font-family:'JetBrains Mono';font-size:11px;color:var(--text-3)}
+
+/* LOADER */
+.loading-screen{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);z-index:200;
+}
+.spin{
+  width:32px;height:32px;border:2.5px solid var(--line);
+  border-top-color:var(--accent);border-radius:50%;
+  animation:rot 0.8s linear infinite;
+}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;right:24px;
+  padding:14px 20px;border-radius:12px;
+  background:var(--bg-2);border:1px solid var(--line);
+  font-size:13px;color:var(--text);
+  box-shadow:0 12px 40px rgba(0,0,0,0.5);
+  z-index:300;
+  animation:toastIn 240ms var(--ease);
+}
+.toast.ok{border-color:rgba(132,204,22,0.4);background:rgba(132,204,22,0.08)}
+.toast.err{border-color:rgba(239,68,68,0.4);background:rgba(239,68,68,0.08)}
+@keyframes toastIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* CONTENT LENGTH BAR */
+.length-meter{
+  display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono';
+  font-size:10px;color:var(--text-3);margin-top:6px;
+}
+.length-meter .bar{
+  flex:1;height:3px;background:var(--bg-3);border-radius:2px;overflow:hidden;
+}
+.length-meter .bar > span{
+  display:block;height:100%;background:var(--text-3);transition:all 240ms var(--ease);
+}
+.length-meter.ok .bar > span{background:var(--ok)}
+.length-meter.warn .bar > span{background:var(--warn)}
+.length-meter.err .bar > span{background:var(--err)}
+</style>
+</head>
+<body>
+
+<div id="loading" class="loading-screen"><div class="spin"></div></div>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="tb-left">
+    <a class="tb-back" href="admin.html">
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 1L1 5l4 4M1 5h12"/></svg>
+      Admin
+    </a>
+    <div class="tb-divider"></div>
+    <div class="tb-title">
+      <span class="crumb" id="crumb">Concept · loading</span>
+      <h1 id="title">Loading...</h1>
+    </div>
+  </div>
+  <div class="tb-right">
+    <span class="save-status" id="save-status">●  Ready</span>
+    <a class="btn btn-ghost" id="view-link" href="#" target="_blank">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3h7v7M10 14L21 3M21 14v7H3V3h7"/></svg>
+      View as user
+    </a>
+    <button class="btn btn-primary" id="save-all">Save all</button>
+  </div>
+</header>
+
+<!-- SPLIT -->
+<div class="split">
+  <!-- LEFT: live preview -->
+  <div class="preview-pane">
+    <div class="preview-bar">
+      <span class="live-dot">Live preview · superadmin view</span>
+      <a id="reload-preview" href="#" onclick="reloadPreview();return false">↻ Reload</a>
+    </div>
+    <iframe id="preview" src="about:blank"></iframe>
+  </div>
+
+  <!-- RIGHT: editor -->
+  <div class="editor-pane">
+    <div class="tabs">
+      <button class="tab-btn on" data-tab="catalog">Catalog</button>
+      <button class="tab-btn" data-tab="translations">Translations</button>
+      <button class="tab-btn" data-tab="status">Status</button>
+    </div>
+
+    <div class="tab-panels">
+
+      <!-- CATALOG TAB -->
+      <div class="tab-panel on" id="panel-catalog">
+        <div class="section">
+          <div class="section-head">
+            <h3>Identity</h3>
+            <span class="hint">Public concept name & slug</span>
+          </div>
+          <div class="field">
+            <label>Name <span class="req">*</span></label>
+            <input type="text" id="f-name">
+          </div>
+          <div class="field">
+            <label>Slug</label>
+            <input type="text" id="f-slug" class="mono" readonly style="opacity:0.6;cursor:not-allowed">
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h3>Classification</h3>
+            <span class="hint">Filtering & sorting</span>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Category</label>
+              <select id="f-category">
+                <option value="food">food</option>
+                <option value="beauty">beauty</option>
+                <option value="health">health</option>
+                <option value="service">service</option>
+                <option value="retail">retail</option>
+                <option value="education">education</option>
+                <option value="other">other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Size (m²)</label>
+              <input type="number" id="f-size" min="0">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Weeks to launch</label>
+              <input type="number" id="f-weeks" min="1">
+            </div>
+            <div class="field">
+              <label>Hero image (URL or placeholder:tag)</label>
+              <input type="text" id="f-hero" class="mono">
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h3>Pricing</h3>
+            <span class="hint">EUR · launch budget & sale price</span>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Budget (€)</label>
+              <input type="number" id="f-budget" min="0" step="100">
+            </div>
+            <div class="field">
+              <label>Sale price (€)</label>
+              <input type="number" id="f-price" min="0" step="1">
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h3>Payment links</h3>
+            <span class="hint">Lemon Squeezy / Stripe</span>
+          </div>
+          <div class="field">
+            <label>Lemon Squeezy URL</label>
+            <input type="url" id="f-ls" class="mono" placeholder="https://...lemonsqueezy.com/checkout/buy/...">
+          </div>
+          <div class="field">
+            <label>Stripe Price ID</label>
+            <input type="text" id="f-stripe" class="mono" placeholder="price_...">
+          </div>
+        </div>
+      </div>
+
+      <!-- TRANSLATIONS TAB -->
+      <div class="tab-panel" id="panel-translations">
+        <div class="section">
+          <div class="section-head">
+            <h3>Coverage</h3>
+            <span class="hint">12 languages</span>
+          </div>
+          <div class="lang-summary">
+            <div class="lang-stat ok"><div class="num" id="lang-full">0</div><div class="lbl">Full</div></div>
+            <div class="lang-stat warn"><div class="num" id="lang-partial">0</div><div class="lbl">Partial</div></div>
+            <div class="lang-stat err"><div class="num" id="lang-empty">12</div><div class="lbl">Empty</div></div>
+          </div>
+          <div class="lang-bar" id="lang-bar"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h3 id="lang-edit-head">Editing: EN</h3>
+            <span class="hint" id="lang-edit-hint">Body length: —</span>
+          </div>
+          <div class="field">
+            <label>Localized name</label>
+            <input type="text" id="t-name">
+          </div>
+          <div class="field">
+            <label>Tagline</label>
+            <input type="text" id="t-tagline">
+          </div>
+          <div class="field">
+            <label>Description (preview line, ~150 chars)</label>
+            <textarea id="t-description" style="min-height:80px"></textarea>
+            <div class="length-meter" id="m-description"><div class="bar"><span></span></div><span id="m-description-text">0 / 150</span></div>
+          </div>
+          <div class="field">
+            <label>Body HTML (rendered as page content)</label>
+            <textarea id="t-body" class="body-html"></textarea>
+            <div class="length-meter" id="m-body"><div class="bar"><span></span></div><span id="m-body-text">0 chars</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATUS TAB -->
+      <div class="tab-panel" id="panel-status">
+        <div class="section">
+          <div class="section-head">
+            <h3>Visibility</h3>
+            <span class="hint">Controls public access</span>
+          </div>
+          <div class="toggle-row">
+            <div class="info">
+              <div class="lbl">Verified</div>
+              <div class="desc">Shows ● Verified badge in catalog</div>
+            </div>
+            <div class="switch" id="sw-verified" onclick="toggleSwitch('verified')"></div>
+          </div>
+          <div class="toggle-row">
+            <div class="info">
+              <div class="lbl">Active</div>
+              <div class="desc">If off, hidden from public catalog</div>
+            </div>
+            <div class="switch" id="sw-active" onclick="toggleSwitch('active')"></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h3>Brandbook</h3>
+            <span class="hint">25-page A4 file on disk</span>
+          </div>
+          <div id="bb-status" style="padding:18px 20px;border-radius:12px;background:var(--bg-1);border:1px solid var(--line);font-size:13px;color:var(--text-2)">
+            Checking...
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h3>Danger zone</h3>
+            <span class="hint">Irreversible</span>
+          </div>
+          <button class="btn btn-danger" id="btn-delete" style="width:100%;justify-content:center;padding:14px">
+            Delete concept permanently
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="save-bar">
+      <span class="meta" id="last-saved">Not saved yet</span>
+      <button class="btn btn-primary" id="save-bar-btn">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+const sb = window.supabase.createClient(SB_URL, SB_KEY, {auth:{persistSession:true,autoRefreshToken:true,storageKey:'svita-micro-auth'}});
+
+const HAS_BRANDBOOK = new Set(['poppy-matcha']);
+const LANGS = ['en','be','ru','uk','pl','de','fr','it','es','pt','ja','ko'];
+
+const slug = new URLSearchParams(location.search).get('c');
+let CATALOG = null;     // concepts_catalog row
+let I18N = {};          // {lang: row}
+let CUR_LANG = 'en';
+let DIRTY = false;
+let MY_ROLE = 'user';
+
+const $ = id => document.getElementById(id);
+function escape(s){return String(s==null?'':s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+
+function setStatus(text, cls){
+  const el = $('save-status');
+  el.textContent = text;
+  el.className = 'save-status' + (cls?' '+cls:'');
+}
+
+function toast(msg, kind){
+  const t = document.createElement('div');
+  t.className = 'toast ' + (kind||'');
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>{ t.style.opacity = '0'; t.style.transform = 'translateY(20px)'; t.style.transition = 'all 200ms'; }, 2400);
+  setTimeout(()=> t.remove(), 2700);
+}
+
+function markDirty(){ DIRTY = true; setStatus('●  Unsaved changes', 'saving'); }
+
+async function init(){
+  if(!slug){ alert('No slug in URL. Use edit.html?c=slug'); return; }
+  const {data:{session}} = await sb.auth.getSession();
+  if(!session){ location.href = 'account.html?next=edit.html%3Fc%3D'+slug; return; }
+  const {data: prof} = await sb.from('profiles').select('role').eq('user_id', session.user.id).maybeSingle();
+  MY_ROLE = (prof && prof.role) || 'user';
+  if(MY_ROLE !== 'superadmin'){ alert('Superadmin only'); location.href='admin.html'; return; }
+
+  // Load catalog row
+  const {data: cat, error: e1} = await sb.from('concepts_catalog').select('*').eq('slug', slug).maybeSingle();
+  if(e1 || !cat){ alert('Concept not found: '+slug); return; }
+  CATALOG = cat;
+
+  // Load all i18n rows
+  const {data: i18n} = await sb.from('concepts_i18n').select('*').eq('concept_slug', slug);
+  (i18n||[]).forEach(r => { I18N[r.lang_code] = r; });
+
+  renderCatalog();
+  renderLangBar();
+  selectLang('en');
+  renderStatus();
+  renderHeader();
+  loadPreview();
+
+  $('loading').style.display = 'none';
+  setStatus('●  Ready', '');
+}
+
+function renderHeader(){
+  const enRow = I18N.en;
+  const displayName = (enRow && enRow.name) || CATALOG.name || slug;
+  $('title').textContent = displayName;
+  $('crumb').textContent = 'Concept · ' + slug;
+  document.title = 'Edit · ' + displayName;
+  $('view-link').href = 'view.html?c=' + encodeURIComponent(slug);
+}
+
+function renderCatalog(){
+  $('f-name').value = CATALOG.name || '';
+  $('f-slug').value = CATALOG.slug || '';
+  $('f-category').value = CATALOG.category || 'other';
+  $('f-size').value = CATALOG.size_m2 || '';
+  $('f-weeks').value = CATALOG.weeks || '';
+  $('f-hero').value = CATALOG.hero_image || '';
+  $('f-budget').value = CATALOG.budget_eur || '';
+  $('f-price').value = CATALOG.price_eur || '';
+  $('f-ls').value = CATALOG.ls_url || '';
+  $('f-stripe').value = CATALOG.stripe_price_id || '';
+  ['f-name','f-category','f-size','f-weeks','f-hero','f-budget','f-price','f-ls','f-stripe'].forEach(id=>{
+    $(id).addEventListener('input', markDirty);
+  });
+}
+
+function langStatus(row){
+  if(!row) return 'empty';
+  const bodyLen = (row.body_html||'').trim().length;
+  const descLen = (row.description||'').trim().length;
+  if(bodyLen > 800 && descLen > 60) return 'full';
+  if(bodyLen > 100 || descLen > 30) return 'partial';
+  return 'empty';
+}
+
+function renderLangBar(){
+  const bar = $('lang-bar');
+  let full=0, partial=0, empty=0;
+  bar.innerHTML = LANGS.map(lc => {
+    const row = I18N[lc];
+    const st = langStatus(row);
+    if(st==='full') full++; else if(st==='partial') partial++; else empty++;
+    return `<button class="lang-pill ${st} ${lc===CUR_LANG?'on':''}" data-lang="${lc}" onclick="selectLang('${lc}')"><span class="dot"></span>${lc}</button>`;
+  }).join('');
+  $('lang-full').textContent = full;
+  $('lang-partial').textContent = partial;
+  $('lang-empty').textContent = empty;
+}
+
+function selectLang(lc){
+  // save current edits to memory before switching
+  if(CUR_LANG && I18N[CUR_LANG]){
+    flushLangFields();
+  } else if(CUR_LANG){
+    // create a draft for previous if user typed anything
+    flushLangFields();
+  }
+  CUR_LANG = lc;
+  document.querySelectorAll('.lang-pill').forEach(p => p.classList.toggle('on', p.dataset.lang===lc));
+  const row = I18N[lc] || {lang_code:lc, name:'', tagline:'', description:'', body_html:''};
+  $('lang-edit-head').textContent = 'Editing: ' + lc.toUpperCase();
+  $('t-name').value = row.name || '';
+  $('t-tagline').value = row.tagline || '';
+  $('t-description').value = row.description || '';
+  $('t-body').value = row.body_html || '';
+  updateMeters();
+}
+
+function flushLangFields(){
+  if(!CUR_LANG) return;
+  const row = I18N[CUR_LANG] || {lang_code:CUR_LANG, concept_slug:slug};
+  const newRow = {
+    ...row,
+    concept_slug: slug,
+    lang_code: CUR_LANG,
+    name: $('t-name').value,
+    tagline: $('t-tagline').value,
+    description: $('t-description').value,
+    body_html: $('t-body').value
+  };
+  I18N[CUR_LANG] = newRow;
+}
+
+function updateMeters(){
+  const desc = $('t-description').value;
+  const body = $('t-body').value;
+  const dLen = desc.length;
+  const bLen = body.length;
+  const dPct = Math.min(100, dLen/150*100);
+  const dCls = dLen > 200 ? 'err' : dLen >= 60 ? 'ok' : dLen > 0 ? 'warn' : '';
+  $('m-description').className = 'length-meter ' + dCls;
+  $('m-description').querySelector('.bar > span').style.width = dPct + '%';
+  $('m-description-text').textContent = dLen + ' / 150';
+
+  const bPct = Math.min(100, bLen/3000*100);
+  const bCls = bLen > 800 ? 'ok' : bLen > 100 ? 'warn' : bLen > 0 ? 'err' : '';
+  $('m-body').className = 'length-meter ' + bCls;
+  $('m-body').querySelector('.bar > span').style.width = bPct + '%';
+  $('m-body-text').textContent = bLen.toLocaleString() + ' chars';
+
+  $('lang-edit-hint').textContent = `Body: ${bLen.toLocaleString()} chars · Desc: ${dLen}`;
+}
+
+['t-name','t-tagline','t-description','t-body'].forEach(id => {
+  document.addEventListener('DOMContentLoaded', ()=>{
+    $(id).addEventListener('input', ()=>{ markDirty(); flushLangFields(); updateMeters(); renderLangBar(); });
+  });
+});
+
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('on', b===btn));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('on', p.id === 'panel-' + btn.dataset.tab));
+  });
+});
+
+function renderStatus(){
+  $('sw-verified').classList.toggle('on', !!CATALOG.verified);
+  $('sw-active').classList.toggle('on', !!CATALOG.is_active);
+  const has = HAS_BRANDBOOK.has(slug);
+  $('bb-status').innerHTML = has
+    ? `<div style="display:flex;align-items:center;justify-content:space-between;gap:14px"><span><span style="color:var(--ok);font-weight:700">● Ready</span> — full A4 brandbook on disk</span><a class="btn btn-ok" href="data/concepts/${slug}/brandbook.html" target="_blank">Open file</a></div>`
+    : `<div><span style="color:var(--warn);font-weight:700">⏳ In progress</span> — only inline body_html. To mark as ready, create <code style="font-family:'JetBrains Mono';font-size:11px;color:var(--text-2)">data/concepts/${slug}/brandbook.html</code> and add to HAS_BRANDBOOK.</div>`;
+}
+
+function toggleSwitch(kind){
+  if(kind==='verified'){ CATALOG.verified = !CATALOG.verified; $('sw-verified').classList.toggle('on', CATALOG.verified); }
+  if(kind==='active'){ CATALOG.is_active = !CATALOG.is_active; $('sw-active').classList.toggle('on', CATALOG.is_active); }
+  markDirty();
+}
+window.toggleSwitch = toggleSwitch;
+window.selectLang = selectLang;
+
+function loadPreview(){
+  $('preview').src = 'view.html?c=' + encodeURIComponent(slug) + '&t=' + Date.now();
+}
+function reloadPreview(){ loadPreview(); }
+window.reloadPreview = reloadPreview;
+
+async function saveAll(){
+  flushLangFields();
+  setStatus('●  Saving...', 'saving');
+  try{
+    // 1. Catalog
+    const catUpd = {
+      name: $('f-name').value,
+      category: $('f-category').value,
+      size_m2: parseInt($('f-size').value)||null,
+      weeks: parseInt($('f-weeks').value)||null,
+      hero_image: $('f-hero').value || null,
+      budget_eur: parseInt($('f-budget').value)||0,
+      price_eur: parseInt($('f-price').value)||0,
+      ls_url: $('f-ls').value || null,
+      stripe_price_id: $('f-stripe').value || null,
+      verified: !!CATALOG.verified,
+      is_active: !!CATALOG.is_active
+    };
+    const {error: e1} = await sb.from('concepts_catalog').update(catUpd).eq('slug', slug);
+    if(e1) throw e1;
+    Object.assign(CATALOG, catUpd);
+
+    // 2. i18n upsert (only langs with content)
+    const rows = Object.values(I18N).filter(r => {
+      return (r.name && r.name.trim()) || (r.tagline && r.tagline.trim()) || (r.description && r.description.trim()) || (r.body_html && r.body_html.trim());
+    }).map(r => ({
+      concept_slug: slug,
+      lang_code: r.lang_code,
+      name: r.name || CATALOG.name,
+      tagline: r.tagline || null,
+      description: r.description || null,
+      body_html: r.body_html || null
+    }));
+    if(rows.length){
+      const {error: e2} = await sb.from('concepts_i18n').upsert(rows, {onConflict:'concept_slug,lang_code'});
+      if(e2) throw e2;
+    }
+
+    DIRTY = false;
+    setStatus('●  Saved', 'saved');
+    $('last-saved').textContent = 'Saved at ' + new Date().toLocaleTimeString();
+    toast('Changes saved', 'ok');
+    renderHeader();
+    renderLangBar();
+    setTimeout(()=> reloadPreview(), 400);
+  }catch(err){
+    console.error(err);
+    setStatus('●  Error', 'error');
+    toast('Save failed: ' + (err.message||err), 'err');
+  }
+}
+
+$('save-all').addEventListener('click', saveAll);
+$('save-bar-btn').addEventListener('click', saveAll);
+
+$('btn-delete').addEventListener('click', async ()=>{
+  if(!confirm('Permanently delete "'+slug+'" and all translations? This cannot be undone.')) return;
+  if(!confirm('Really delete? Type the slug in next prompt to confirm.')) return;
+  const conf = prompt('Type "'+slug+'" to confirm deletion:');
+  if(conf !== slug){ alert('Mismatch, aborted'); return; }
+  try{
+    await sb.from('concepts_i18n').delete().eq('concept_slug', slug);
+    await sb.from('concepts_catalog').delete().eq('slug', slug);
+    toast('Deleted', 'ok');
+    setTimeout(()=> location.href = 'admin.html', 800);
+  }catch(e){ alert(e.message); }
+});
+
+// Warn before leaving
+window.addEventListener('beforeunload', e => {
+  if(DIRTY){ e.preventDefault(); e.returnValue = ''; }
+});
+
+// Wire input listeners on body field DOM-ready
+document.addEventListener('DOMContentLoaded', ()=>{
+  ['t-name','t-tagline','t-description','t-body'].forEach(id => {
+    $(id).addEventListener('input', ()=>{ markDirty(); flushLangFields(); updateMeters(); renderLangBar(); });
+  });
+});
+
+init();
+</script>
+</body>
+</html>

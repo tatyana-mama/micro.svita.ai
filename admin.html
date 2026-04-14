@@ -626,8 +626,9 @@ function render(){
       <td class="mono">${c.langs_filled||0}<span style="color:var(--text-3)">/12</span></td>
       <td>
         <div class="actions">
+          ${MY_ROLE==='superadmin' ? `<a class="btn-s primary" href="edit.html?c=${c.slug}" title="Full editor">✎ Edit</a>` : ''}
           <a class="btn-s" href="view.html?c=${c.slug}" target="_blank">Preview</a>
-          ${MY_ROLE==='superadmin' ? `<button class="btn-s ${c.verified?'danger':'primary'}" onclick="toggleVerify('${c.slug}',${!c.verified})">${c.verified?'Unverify':'Verify'}</button>` : ''}
+          ${MY_ROLE==='superadmin' ? `<button class="btn-s ${c.verified?'danger':''}" onclick="toggleVerify('${c.slug}',${!c.verified})">${c.verified?'Unverify':'Verify'}</button>` : ''}
         </div>
       </td>
     </tr>`;
