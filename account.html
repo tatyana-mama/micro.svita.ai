@@ -935,10 +935,17 @@ async function enterAccount(user){
 }
 
 async function loadOwned(){
+  hide('owned-grid'); hide('owned-empty');
   show('owned-loading');
   const {data, error} = await sb.from('my_concepts').select('*').order('purchased_at',{ascending:false});
   hide('owned-loading');
-  if(error || !data || !data.length){
+  if(error){
+    console.error('loadOwned', error);
+    show('owned-empty');
+    $('owned-count').textContent = 'Error';
+    return;
+  }
+  if(!data || !data.length){
     show('owned-empty');
     $('owned-count').textContent = '0 concepts';
     return;
@@ -1044,11 +1051,19 @@ async function showBuyIntent(slug){
         const base = c.ls_url;
         const joiner = base.includes('?') ? '&' : '?';
         const success = encodeURIComponent(location.origin + '/account.html?paid=' + c.slug);
-        const ref = encodeURIComponent(session.user.id + ':' + c.slug);
-        const email = encodeURIComponent(session.user.email || '');
-        // Stripe Payment Link params: client_reference_id, prefilled_email
-        // Lemon Squeezy also supports checkout[email] and checkout[custom][ref] via different keys
-        const url = `${base}${joiner}client_reference_id=${ref}&prefilled_email=${email}&success_url=${success}`;
+        const ref = session.user.id + ':' + c.slug;
+        const email = session.user.email || '';
+        // Both Stripe Payment Links AND Lemon Squeezy checkout params in one URL.
+        // Stripe reads: client_reference_id, prefilled_email
+        // Lemon Squeezy reads: checkout[email], checkout[custom][ref]
+        // Each provider ignores the other's params.
+        const params = new URLSearchParams();
+        params.set('client_reference_id', ref);
+        params.set('prefilled_email', email);
+        params.set('checkout[email]', email);
+        params.set('checkout[custom][ref]', ref);
+        params.set('success_url', decodeURIComponent(success));
+        const url = `${base}${joiner}${params.toString()}`;
         window.location.href = url;
       };
     }
