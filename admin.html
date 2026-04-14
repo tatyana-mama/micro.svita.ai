@@ -410,18 +410,21 @@ function renderUsers(){
   tb.innerHTML = UVIEW.map(u=>{
     const name = u.display_name || (u.email||'').split('@')[0] || '—';
     const created = u.created_at ? new Date(u.created_at).toLocaleDateString() : '—';
+    const uid = u.user_id || '';
+    const short = uid ? (uid.slice(0,8)+'…') : '<span style="color:var(--text-3)">no auth</span>';
+    const dis = uid ? '' : 'disabled';
     return `<tr>
       <td>
         <div class="cell-name">
           <div class="info">
             <div class="name">${escape(name)}</div>
-            <div class="slug">${u.user_id.slice(0,8)}…</div>
+            <div class="slug">${short}</div>
           </div>
         </div>
       </td>
       <td><span style="color:var(--text-2);font-size:12px">${escape(u.email||'—')}</span></td>
       <td>
-        <select class="role-sel r-${u.role}" onchange="changeRole('${u.user_id}', this.value, this)">
+        <select class="role-sel r-${u.role}" ${dis} onchange="changeRole('${uid}', this.value, this)">
           <option value="user" ${u.role==='user'?'selected':''}>User</option>
           <option value="creator" ${u.role==='creator'?'selected':''}>Creator</option>
           <option value="admin" ${u.role==='admin'?'selected':''}>Admin</option>
@@ -431,8 +434,8 @@ function renderUsers(){
       <td class="mono" style="color:var(--text-3)">${created}</td>
       <td>
         <div class="actions">
-          <button class="btn-s" title="Change password" onclick="changeUserPassword('${u.user_id}','${escape(u.email||name)}')">🔑 Password</button>
-          <button class="btn-s danger" title="Delete user" onclick="deleteUser('${u.user_id}','${escape(u.email||name)}')">✕ Delete</button>
+          <button class="btn-s" title="Change password" ${dis} onclick="changeUserPassword('${uid}','${escape(u.email||name)}')">🔑 Password</button>
+          <button class="btn-s danger" title="Delete user" onclick="deleteUser('${uid}','${escape(u.email||name)}')">✕ Delete</button>
         </div>
       </td>
     </tr>`;
