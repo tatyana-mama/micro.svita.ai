@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NONNA'S 12 — Brandbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --terracotta:#B2421F;
+  --terracotta-soft:#E8A87C;
+  --cream:#F4E4BC;
+  --olive:#6B7A3A;
+  --gold:#C9A050;
+  --ink:#2A1810;
+  --gray:#6B5D52;
+  --line:#E0D4BC;
+  --paper:#FDF8EC;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{background:#CCC;font-family:'DM Sans',sans-serif;color:var(--ink);font-size:11pt;line-height:1.55}
+h1,h2,h3,h4,h5{font-family:'Playfair Display',serif;font-weight:900;letter-spacing:-0.01em;line-height:1.05}
+a{color:inherit;text-decoration:none}
+small{font-size:9pt;color:var(--gray)}
+
+.page{
+  width:210mm;height:297mm;
+  background:var(--paper);
+  padding:22mm 20mm;
+  margin:10mm auto;
+  box-shadow:0 4px 24px rgba(0,0,0,0.15);
+  position:relative;overflow:hidden;
+  page-break-after:always;
+  display:flex;flex-direction:column;
+}
+.page::after{
+  content:attr(data-page) ' / 25';
+  position:absolute;bottom:12mm;right:20mm;
+  font-family:'DM Sans';font-size:8pt;color:var(--gray);letter-spacing:0.1em;
+}
+.page::before{
+  content:"NONNA'S 12 · BRANDBOOK";
+  position:absolute;bottom:12mm;left:20mm;
+  font-family:'DM Sans';font-size:8pt;color:var(--gray);letter-spacing:0.12em;font-weight:500;
+}
+.page.no-footer::after,.page.no-footer::before{display:none}
+
+.eyebrow{font-family:'DM Sans';font-size:9pt;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--terracotta);margin-bottom:8mm}
+h1.page-title{font-size:36pt;margin-bottom:6mm;letter-spacing:-0.02em;color:var(--terracotta)}
+h2.section-title{font-size:22pt;margin-bottom:5mm;color:var(--terracotta)}
+h3{font-size:13pt;font-weight:700;margin-bottom:2mm;color:var(--ink)}
+.lead{font-size:13pt;color:var(--ink);line-height:1.55;max-width:150mm;margin-bottom:6mm;font-family:'Playfair Display';font-style:italic}
+p{margin-bottom:3mm}
+img{max-width:100%;display:block}
+.divider{height:1px;background:var(--line);margin:6mm 0}
+.checker{background-image:linear-gradient(45deg,var(--terracotta) 25%,transparent 25%),linear-gradient(-45deg,var(--terracotta) 25%,transparent 25%),linear-gradient(45deg,transparent 75%,var(--terracotta) 75%),linear-gradient(-45deg,transparent 75%,var(--terracotta) 75%);background-size:8mm 8mm;background-position:0 0,0 4mm,4mm -4mm,-4mm 0mm;opacity:0.15}
+
+/* COVER */
+.cover{background:var(--terracotta);color:var(--cream);justify-content:space-between;padding:18mm;position:relative}
+.cover::before,.cover::after{display:none}
+.cover .brand{font-family:'Playfair Display';font-size:72pt;font-weight:900;line-height:0.85;color:var(--cream);margin-top:30mm;font-style:italic}
+.cover .brand small{display:block;font-family:'DM Sans';font-size:11pt;font-weight:500;color:var(--cream);margin-top:8mm;letter-spacing:0.2em;text-transform:uppercase;font-style:normal;opacity:0.85}
+.cover .tagline{font-family:'Playfair Display';font-style:italic;font-size:17pt;font-weight:400;max-width:140mm;margin-bottom:16mm;color:var(--cream);line-height:1.35}
+.cover .meta{display:flex;gap:10mm;font-size:9pt;color:var(--cream);border-top:2px solid var(--gold);padding-top:8mm;flex-wrap:wrap}
+.cover .meta div{flex:1;min-width:30mm}
+.cover .meta strong{display:block;font-family:'Playfair Display';font-size:20pt;font-weight:900;color:var(--gold);margin-bottom:1mm;font-style:italic}
+.cover-deco{position:absolute;top:18mm;right:18mm;font-family:'Playfair Display';font-size:10pt;font-style:italic;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase}
+
+/* EXEC SUMMARY */
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6mm;margin-top:8mm}
+.stat-box{background:#fff;border:2px solid var(--line);border-radius:4mm;padding:6mm}
+.stat-box .num{font-family:'Playfair Display';font-weight:900;font-size:30pt;color:var(--terracotta);line-height:1;font-style:italic}
+.stat-box .lbl{font-size:9pt;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-top:2mm;font-weight:700}
+
+/* USPS */
+.usp-list{list-style:none;margin-top:6mm;counter-reset:usps}
+.usp-list li{padding:5mm 0 5mm 14mm;border-bottom:1px solid var(--line);position:relative;font-size:11pt}
+.usp-list li::before{
+  content:counter(usps);counter-increment:usps;
+  position:absolute;left:0;top:4mm;
+  width:9mm;height:9mm;border-radius:50%;
+  background:var(--terracotta);color:var(--cream);
+  font-family:'Playfair Display';font-weight:900;font-size:12pt;
+  display:flex;align-items:center;justify-content:center;font-style:italic;
+}
+
+/* BRAND */
+.color-row{display:grid;grid-template-columns:repeat(5,1fr);gap:4mm;margin-top:6mm}
+.color-chip{aspect-ratio:1/1.3;border-radius:2mm;padding:4mm;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line)}
+.color-chip .hex{font-family:'Playfair Display';font-weight:900;font-size:11pt}
+.color-chip .nm{font-size:8pt;opacity:0.9;margin-top:1mm;font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
+.color-chip.dark{color:#fff}
+
+/* TYPOGRAPHY */
+.type-sample{margin-top:8mm;padding:6mm;border-left:4px solid var(--terracotta);background:#fff}
+.type-sample .label{font-size:9pt;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2mm;font-weight:700}
+.type-sample .demo{font-family:'Playfair Display';font-size:36pt;font-weight:900;color:var(--terracotta);line-height:1;font-style:italic}
+.type-sample.body .demo{font-family:'DM Sans';font-weight:400;font-size:13pt;color:var(--ink);line-height:1.55;font-style:normal}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;margin-top:4mm;font-size:10pt}
+th,td{padding:3mm 2mm;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:'DM Sans';font-weight:700;font-size:9pt;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray)}
+td.num{font-family:'Playfair Display';font-weight:700;text-align:right;white-space:nowrap}
+.total-row{background:var(--cream);font-weight:700}
+.total-row td{border-top:2px solid var(--terracotta);border-bottom:none}
+
+/* IMAGE */
+.img-full{width:100%;flex:1;object-fit:cover;border-radius:2mm;margin-top:6mm;border:1px solid var(--line)}
+.img-hero{width:100%;height:180mm;object-fit:cover;border-radius:2mm;margin-top:6mm}
+.caption{font-size:9pt;color:var(--gray);margin-top:3mm;font-style:italic;text-align:center}
+
+/* BUDGET */
+.donut-wrap{display:flex;gap:10mm;align-items:center;margin-top:6mm}
+.donut{width:70mm;height:70mm;flex-shrink:0}
+.legend{flex:1}
+.legend-item{display:flex;align-items:center;gap:3mm;padding:2.5mm 0;font-size:10pt;border-bottom:1px solid var(--line)}
+.legend-dot{width:4mm;height:4mm;border-radius:50%;flex-shrink:0}
+.legend-item .val{margin-left:auto;font-family:'Playfair Display';font-weight:900;font-style:italic}
+
+/* TIMELINE */
+.timeline{margin-top:4mm}
+.tl-row{display:grid;grid-template-columns:20mm 1fr;gap:4mm;padding:4mm 0;border-bottom:1px solid var(--line)}
+.tl-week{font-family:'Playfair Display';font-weight:900;font-size:16pt;color:var(--terracotta);font-style:italic}
+.tl-week small{display:block;font-family:'DM Sans';font-size:8pt;color:var(--gray);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-top:1mm;font-style:normal}
+.tl-tasks{font-size:10pt}
+.tl-tasks li{margin-left:4mm;padding:1mm 0}
+
+/* REGISTRATION */
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:4mm}
+.reg-card{background:#fff;border:1px solid var(--line);border-radius:2mm;padding:5mm}
+.reg-card h4{font-family:'Playfair Display';font-size:12pt;margin-bottom:3mm;color:var(--terracotta);font-style:italic}
+.reg-card ul{list-style:none;font-size:10pt}
+.reg-card li{padding:1.5mm 0;padding-left:5mm;position:relative}
+.reg-card li::before{content:'✓';position:absolute;left:0;color:var(--olive);font-weight:900}
+
+/* PATTERN DEMO */
+.pattern-demo{height:70mm;background:var(--cream);border:1px solid var(--line);border-radius:2mm;margin-top:6mm;position:relative;overflow:hidden}
+
+/* BACK COVER */
+.back-cover{background:var(--ink);color:var(--cream);justify-content:space-between}
+.back-cover::before,.back-cover::after{color:#666}
+.back-cover h1{color:var(--gold);font-size:44pt;font-family:'Playfair Display';font-style:italic;font-weight:900}
+.back-cover p{color:#AAA;max-width:140mm}
+
+@media print{body{background:#fff}.page{box-shadow:none;margin:0}}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ PAGE 01 · COVER ═══════════ -->
+<section class="page cover no-footer">
+  <div class="cover-deco">SVITA Micro · Concept №002</div>
+
+  <div>
+    <h1 class="brand">Nonna's<br>Dodici<small>Una nonna. Un menù. Dodici sedie.</small></h1>
+  </div>
+
+  <div>
+    <div class="tagline">"Made by hand, twelve times a day.<br>A Tuscan pasta bar you could fit inside a postcard."</div>
+    <div class="meta">
+      <div><strong>€14,900</strong>TOTAL BUDGET</div>
+      <div><strong>9 wks</strong>TO LAUNCH</div>
+      <div><strong>18 m²</strong>FOOTPRINT</div>
+      <div><strong>IT</strong>COUNTRY</div>
+      <div><strong>12</strong>SEATS</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PAGE 02 · EXECUTIVE SUMMARY ═══════════ -->
+<section class="page" data-page="02">
+  <div class="eyebrow">01 · Executive Summary</div>
+  <h1 class="page-title">The shop in one page</h1>
+  <p class="lead">NONNA'S 12 is a micro-trattoria with exactly twelve seats, one hand-rolled pasta menu, and one human — a nonna — doing all the cooking in plain sight. It is not a restaurant. It is a ritual, reopened.</p>
+
+  <div class="stats-grid">
+    <div class="stat-box"><div class="num">€14.9k</div><div class="lbl">Total launch budget</div></div>
+    <div class="stat-box"><div class="num">€28</div><div class="lbl">Average ticket per guest</div></div>
+    <div class="stat-box"><div class="num">9 wks</div><div class="lbl">From lease to first plate</div></div>
+    <div class="stat-box"><div class="num">M6</div><div class="lbl">Break-even month</div></div>
+  </div>
+
+  <div class="divider"></div>
+  <p><strong>Why it works.</strong> 18 m² in Florence's historic centre costs €650–€850/month — inside reach. Twelve seats × two sittings × €28 = €672/day at full capacity. You only need 55 % occupancy to clear overheads. Every plate is pasta. One chef. One menu. Zero waste theatre.</p>
+</section>
+
+<!-- ═══════════ PAGE 03 · THE CONCEPT ═══════════ -->
+<section class="page" data-page="03">
+  <div class="eyebrow">02 · The Concept</div>
+  <h1 class="page-title">One nonna, one menu</h1>
+  <p class="lead">Florence has 400 trattorias. None of them is this small, and none of them says "no" this often. NONNA'S 12 is the opposite of a menu with 40 dishes. It's a menu with 3.</p>
+
+  <h3 style="margin-top:6mm">The daily offer</h3>
+  <p>Every morning the nonna decides. Two pastas (one with meat, one without) and one dolce. Whatever is best at the market that day. Written on a single chalkboard. When the pasta runs out, the door closes. People queue for this.</p>
+
+  <h3 style="margin-top:6mm">The space</h3>
+  <p>Four square tables for two, two banquettes for two, one stool at the pass so one solo guest can watch the rolling. Terracotta tiled floor, whitewashed walls, copper pans overhead, a single wooden door, a single window. No music from speakers — the kitchen is the soundtrack.</p>
+
+  <h3 style="margin-top:6mm">The ritual</h3>
+  <p>Guests book for a 90-minute slot. Two sittings per night: 19:00 and 21:00. Lunch Thursday–Sunday only. Closed Monday. The nonna is on her feet 5 days a week; the 6th she rests or teaches a private pasta class for €120/head (4 seats, pure margin).</p>
+</section>
+
+<!-- ═══════════ PAGE 04 · TARGET AUDIENCE ═══════════ -->
+<section class="page" data-page="04">
+  <div class="eyebrow">03 · Target Audience</div>
+  <h1 class="page-title">Who comes to twelve seats</h1>
+  <p class="lead">Not tourists looking for a cheap plate of carbonara. People who plan their Florence trip around a reservation.</p>
+
+  <div class="stats-grid" style="margin-top:8mm">
+    <div class="stat-box"><div class="num">60 %</div><div class="lbl">Foodie travellers (EU + US)</div></div>
+    <div class="stat-box"><div class="num">25 %</div><div class="lbl">Local Italians (regulars)</div></div>
+    <div class="stat-box"><div class="num">10 %</div><div class="lbl">Private pasta classes</div></div>
+    <div class="stat-box"><div class="num">5 %</div><div class="lbl">Press, influencers, guides</div></div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>Primary persona · "Claire & Tom, 34"</h3>
+  <p>London couple. Plan a 4-day Florence weekend around three reservations — this is one of them. They booked 6 weeks ahead after reading about it on Eater. They will spend €80–€120 including wine. They will post one story, tag you, and tell eleven friends when they get home.</p>
+
+  <h3 style="margin-top:6mm">Secondary persona · "Signora Rosa, 68"</h3>
+  <p>Lives three streets away. Books the 21:00 sitting every second Friday with her sister. Orders the same pasta every time. Pays in cash. This person is the reason the place feels like a neighbourhood and not an Instagram set.</p>
+</section>
+
+<!-- ═══════════ PAGE 05 · USPs ═══════════ -->
+<section class="page" data-page="05">
+  <div class="eyebrow">04 · Unique Selling Points</div>
+  <h1 class="page-title">Why twelve beats fifty</h1>
+
+  <ul class="usp-list">
+    <li><strong>One chef, one menu.</strong> No line cooks, no waste, no "86 the special." Labour cost collapses from 35 % to 18 %.</li>
+    <li><strong>Reservations only.</strong> You know exactly how much pasta to make tomorrow. Food waste drops to under 3 %.</li>
+    <li><strong>18 m² means €750/month rent.</strong> A 60-seat trattoria in the same street pays €4,200. You open on a dishwasher's salary.</li>
+    <li><strong>The nonna is the brand.</strong> She doesn't need a marketing budget. She is the marketing budget.</li>
+    <li><strong>Pasta class as second revenue.</strong> One morning a week, 4 seats × €120 = €480 with near-zero COGS. That's rent money.</li>
+    <li><strong>Scarcity pricing.</strong> 12 seats × 14 slots/week = 168 dinners. Demand always exceeds supply. You never discount.</li>
+  </ul>
+</section>
+
+<!-- ═══════════ PAGE 06 · BRAND IDENTITY ═══════════ -->
+<section class="page" data-page="06">
+  <div class="eyebrow">05 · Brand Identity</div>
+  <h1 class="page-title">The voice</h1>
+  <p class="lead">Warm. Certain. Slightly old-fashioned. Never apologetic about being small. The brand speaks like a grandmother who has decided, once and for all, how the pasta should taste.</p>
+
+  <div class="divider"></div>
+  <h3>Tone in three words</h3>
+  <p><em>Handmade. Decided. Unhurried.</em></p>
+
+  <h3 style="margin-top:6mm">Words we use</h3>
+  <p>"Fatto a mano." "Oggi." "Solo dodici." "Chiuso." "Prenotazione obbligatoria." "Grazie, tornate presto."</p>
+
+  <h3 style="margin-top:6mm">Words we never use</h3>
+  <p>"Authentic." "Concept." "Vibe." "Menu option." "Fusion." "Modern twist." "Upscale." "Dining experience."</p>
+</section>
+
+<!-- ═══════════ PAGE 07 · COLOR PALETTE ═══════════ -->
+<section class="page" data-page="07">
+  <div class="eyebrow">06 · Color Palette</div>
+  <h1 class="page-title">Tuscan five</h1>
+  <p class="lead">All five colours come from the same 200 m² of ground: terracotta floor tiles, the sky above Oltrarno at 5pm, the olive groves of Chianti, the hand-mixed gold on a 15th-century church sign, the cream of an uncooked egg yolk mixed into flour.</p>
+
+  <div class="color-row">
+    <div class="color-chip dark" style="background:#B2421F"><div class="hex">#B2421F</div><div class="nm">Terracotta</div></div>
+    <div class="color-chip" style="background:#E8A87C"><div class="hex">#E8A87C</div><div class="nm">Soft Clay</div></div>
+    <div class="color-chip" style="background:#F4E4BC"><div class="hex">#F4E4BC</div><div class="nm">Cream</div></div>
+    <div class="color-chip dark" style="background:#6B7A3A"><div class="hex">#6B7A3A</div><div class="nm">Olive</div></div>
+    <div class="color-chip dark" style="background:#C9A050"><div class="hex">#C9A050</div><div class="nm">Tuscan Gold</div></div>
+  </div>
+
+  <div class="divider" style="margin-top:10mm"></div>
+  <h3>Rules</h3>
+  <p><strong>60 / 30 / 10.</strong> 60 % cream (walls, tablecloths, menu paper). 30 % terracotta (floor, signage, napkins). 10 % gold and olive as accents (sign lettering, menu titles, bottle labels). Never use more than two accents in the same frame.</p>
+</section>
+
+<!-- ═══════════ PAGE 08 · TYPOGRAPHY ═══════════ -->
+<section class="page" data-page="08">
+  <div class="eyebrow">07 · Typography</div>
+  <h1 class="page-title">Two faces, nothing more</h1>
+
+  <div class="type-sample">
+    <div class="label">Display · Playfair Display Black Italic</div>
+    <div class="demo">Nonna's Dodici</div>
+  </div>
+
+  <div class="type-sample body">
+    <div class="label">Body · DM Sans Regular</div>
+    <div class="demo">Fresh pasta. Rolled this morning. Served at seven and nine. When it's gone, it's gone — just like nonna's house growing up.</div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>Rules</h3>
+  <p>Display is <em>always italic</em>. Body is <em>always upright</em>. Menu items in all caps. Prices right-aligned. No third typeface ever — if you need emphasis, use italic or size, not a new font.</p>
+</section>
+
+<!-- ═══════════ PAGE 09 · PATTERN LIBRARY ═══════════ -->
+<section class="page" data-page="09">
+  <div class="eyebrow">08 · Pattern Library</div>
+  <h1 class="page-title">The checker</h1>
+  <p class="lead">One pattern. One use. The red-and-white checker tablecloth is the only ornament the brand owns. It appears on the tablecloths, the napkins, the awning, and nowhere else.</p>
+
+  <div class="pattern-demo">
+    <div class="checker" style="position:absolute;inset:0"></div>
+  </div>
+
+  <div class="divider" style="margin-top:10mm"></div>
+  <h3>Rules</h3>
+  <p>Checker squares are 20 mm on textiles, 80 mm on the awning, 4 mm on printed menus as a bottom border. Never apply it to the logo, the walls, the floor, or digital backgrounds. The rule is: if a tourist can touch it, checker. Otherwise, no.</p>
+</section>
+
+<!-- ═══════════ PAGE 10 · SPACE / HERO ═══════════ -->
+<section class="page" data-page="10">
+  <div class="eyebrow">09 · The Space</div>
+  <h1 class="page-title">18 m², exactly</h1>
+  <img class="img-hero" src="images/01-hero.png" alt="Nonna's 12 facade at golden hour">
+  <div class="caption">The front window on Via dei Neri, Florence. 17:30, late September.</div>
+</section>
+
+<!-- ═══════════ PAGE 11 · FLOOR PLAN ═══════════ -->
+<section class="page" data-page="11">
+  <div class="eyebrow">10 · Floor Plan</div>
+  <h1 class="page-title">Every centimetre</h1>
+  <p class="lead">18 m² breaks down into: 9 m² front-of-house (12 seats across 4 tables + 1 pass stool), 6 m² kitchen (pasta station, range, prep counter), 2 m² store/WC, 1 m² entrance vestibule.</p>
+
+  <svg viewBox="0 0 600 400" style="width:100%;margin-top:6mm;background:#fff;border:1px solid var(--line);border-radius:2mm">
+    <rect x="20" y="20" width="560" height="360" fill="none" stroke="#B2421F" stroke-width="3"/>
+    <line x1="360" y1="20" x2="360" y2="380" stroke="#B2421F" stroke-width="2" stroke-dasharray="4"/>
+    <rect x="380" y="40" width="180" height="120" fill="#F4E4BC" stroke="#6B5D52"/>
+    <text x="470" y="105" text-anchor="middle" font-family="DM Sans" font-size="14" fill="#2A1810">KITCHEN</text>
+    <rect x="380" y="180" width="180" height="80" fill="#E8A87C" stroke="#6B5D52"/>
+    <text x="470" y="225" text-anchor="middle" font-family="DM Sans" font-size="13" fill="#2A1810">PASTA STATION</text>
+    <rect x="380" y="280" width="85" height="80" fill="#F4E4BC" stroke="#6B5D52"/>
+    <text x="422" y="325" text-anchor="middle" font-family="DM Sans" font-size="11" fill="#2A1810">STORE</text>
+    <rect x="475" y="280" width="85" height="80" fill="#F4E4BC" stroke="#6B5D52"/>
+    <text x="517" y="325" text-anchor="middle" font-family="DM Sans" font-size="11" fill="#2A1810">WC</text>
+    <circle cx="60" cy="80" r="22" fill="#C9A050"/><circle cx="110" cy="80" r="22" fill="#C9A050"/>
+    <circle cx="60" cy="180" r="22" fill="#C9A050"/><circle cx="110" cy="180" r="22" fill="#C9A050"/>
+    <circle cx="60" cy="280" r="22" fill="#C9A050"/><circle cx="110" cy="280" r="22" fill="#C9A050"/>
+    <circle cx="200" cy="100" r="22" fill="#C9A050"/><circle cx="260" cy="100" r="22" fill="#C9A050"/>
+    <circle cx="200" cy="200" r="22" fill="#C9A050"/><circle cx="260" cy="200" r="22" fill="#C9A050"/>
+    <circle cx="200" cy="300" r="22" fill="#C9A050"/><circle cx="260" cy="300" r="22" fill="#C9A050"/>
+    <text x="160" y="380" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#6B5D52">12 SEATS · 4 TABLES · 9 m²</text>
+  </svg>
+</section>
+
+<!-- ═══════════ PAGE 12 · FURNITURE SPECS ═══════════ -->
+<section class="page" data-page="12">
+  <div class="eyebrow">11 · Furniture</div>
+  <h1 class="page-title">What to buy</h1>
+  <table>
+    <tr><th>Item</th><th>Spec</th><th>Qty</th><th>Supplier</th><th class="num">€</th></tr>
+    <tr><td>Square bistro table</td><td>Solid oak, 70×70 cm</td><td>4</td><td>Sediarreda (IT)</td><td class="num">520</td></tr>
+    <tr><td>Thonet-style chair</td><td>Bentwood, cane seat</td><td>12</td><td>TON (CZ)</td><td class="num">1,260</td></tr>
+    <tr><td>Pass stool</td><td>Oak, 75 cm high</td><td>1</td><td>Sediarreda (IT)</td><td class="num">85</td></tr>
+    <tr><td>Wall shelf, solid oak</td><td>200×25×4 cm, 2 pcs</td><td>2</td><td>Local carpenter</td><td class="num">240</td></tr>
+    <tr><td>Coat hooks, brass</td><td>Wall-mounted, 6-hook</td><td>2</td><td>Leroy Merlin</td><td class="num">45</td></tr>
+    <tr><td>Chalkboard menu</td><td>Antique oak frame, 60×90 cm</td><td>1</td><td>Mercato delle Pulci</td><td class="num">60</td></tr>
+    <tr class="total-row"><td colspan="4"><strong>Furniture total</strong></td><td class="num">2,210</td></tr>
+  </table>
+  <p class="caption" style="margin-top:6mm">All Italian or Czech sourcing. Lead time 3–5 weeks.</p>
+</section>
+
+<!-- ═══════════ PAGE 13 · LIGHTING ═══════════ -->
+<section class="page" data-page="13">
+  <div class="eyebrow">12 · Lighting</div>
+  <h1 class="page-title">One bulb per guest</h1>
+  <p class="lead">Twelve seats, twelve warm amber bulbs. Nothing else. The sun comes in until 18:30; after that the bulbs carry the room.</p>
+
+  <table style="margin-top:6mm">
+    <tr><th>Fixture</th><th>Spec</th><th>Qty</th><th class="num">€</th></tr>
+    <tr><td>Brass pendant</td><td>Muuto TIP Pendant, amber bulb 2200K</td><td>6</td><td class="num">720</td></tr>
+    <tr><td>Wall sconce, brass</td><td>Mullan Lighting, 3W LED</td><td>4</td><td class="num">360</td></tr>
+    <tr><td>Kitchen task light</td><td>LED strip, 3000K, 3m</td><td>1</td><td class="num">45</td></tr>
+    <tr><td>Dimmer, Z-Wave</td><td>Shelly Dimmer 2</td><td>2</td><td class="num">60</td></tr>
+    <tr class="total-row"><td colspan="3"><strong>Lighting total</strong></td><td class="num">1,185</td></tr>
+  </table>
+
+  <div class="divider"></div>
+  <p><strong>Rule of dim.</strong> At 19:00 the dimmer is at 80 %. At 20:30 it drops to 55 %. At 21:30 to 40 %. Guests never notice, but every photograph taken at the second sitting looks like a Caravaggio.</p>
+</section>
+
+<!-- ═══════════ PAGE 14 · EQUIPMENT CORE ═══════════ -->
+<section class="page" data-page="14">
+  <div class="eyebrow">13 · Equipment · Core</div>
+  <h1 class="page-title">The pasta station</h1>
+  <p class="lead">The whole kitchen is built around one wooden board, one pasta machine, one 60 cm induction hob, and one convection oven. Everything else is mise en place.</p>
+
+  <table style="margin-top:6mm">
+    <tr><th>Item</th><th>Brand & Model</th><th class="num">€</th></tr>
+    <tr><td>Pasta rolling machine, commercial</td><td>Marcato Atlas 150 Electric</td><td class="num">380</td></tr>
+    <tr><td>Induction range, 4-zone</td><td>Electrolux Professional thermaline</td><td class="num">1,680</td></tr>
+    <tr><td>Convection oven, 4-tray</td><td>Unox XEFT-04EU-ELRV</td><td class="num">1,450</td></tr>
+    <tr><td>Prep table, stainless, 160 cm</td><td>Tecnoinox TP-16</td><td class="num">420</td></tr>
+    <tr><td>Under-counter fridge</td><td>Liebherr FKv 2613</td><td class="num">690</td></tr>
+    <tr><td>Dishwasher, under-counter</td><td>Hobart Profi F/GCU</td><td class="num">1,290</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════ PAGE 15 · EQUIPMENT DETAILS ═══════════ -->
+<section class="page" data-page="15">
+  <div class="eyebrow">14 · Equipment · Details</div>
+  <h1 class="page-title">Smallware & consumables</h1>
+  <table>
+    <tr><th>Item</th><th>Spec</th><th>Qty</th><th class="num">€</th></tr>
+    <tr><td>Wooden pasta board</td><td>Beechwood, 80×60 cm</td><td>1</td><td class="num">95</td></tr>
+    <tr><td>Wooden rolling pin</td><td>Tuscan olive, 60 cm</td><td>2</td><td class="num">80</td></tr>
+    <tr><td>Copper saucepans</td><td>Mauviel M'heritage, set of 5</td><td>1</td><td class="num">520</td></tr>
+    <tr><td>Ceramic pasta bowls</td><td>Ceramiche Fasano, 24 cm</td><td>24</td><td class="num">360</td></tr>
+    <tr><td>Wine glasses, Zalto Universal</td><td>For 24 covers + spares</td><td>30</td><td class="num">240</td></tr>
+    <tr><td>Water carafes, glass</td><td>Hand-blown, Empoli</td><td>6</td><td class="num">90</td></tr>
+    <tr><td>Linen napkins, red check</td><td>40×40 cm, cotton</td><td>30</td><td class="num">135</td></tr>
+    <tr><td>Chef knives, carbon steel</td><td>Coltellerie Berti, 3 pcs</td><td>1</td><td class="num">310</td></tr>
+    <tr class="total-row"><td colspan="4"><strong>Smallware total</strong></td><td class="num">1,830</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════ PAGE 16 · SIGNAGE ═══════════ -->
+<section class="page" data-page="16">
+  <div class="eyebrow">15 · Signage</div>
+  <h1 class="page-title">Hand-lettered, gold leaf</h1>
+  <p class="lead">One sign, above the door. "NONNA'S 12" in 15th-century Tuscan sign-painter style, gold leaf on black cypress wood. No neon, no backlit plastic, no logo stencil. Pay the sign-painter €480 and never touch it again.</p>
+
+  <div class="divider"></div>
+  <h3>Supplier</h3>
+  <p>Bottega del Doratore, Via dei Servi 21, Firenze. Master Marco Benedetti has been hand-painting restaurant signs for 34 years. He does one sign a week. Book 3 weeks in advance. €480 all-in including the gold leaf and installation.</p>
+
+  <h3 style="margin-top:6mm">Window decal</h3>
+  <p>Hours and booking QR code in cream on terracotta vinyl, bottom-right corner of the main window. 18×12 cm. €35 from any Florentine print shop.</p>
+</section>
+
+<!-- ═══════════ PAGE 17 · PACKAGING ═══════════ -->
+<section class="page" data-page="17">
+  <div class="eyebrow">16 · Packaging</div>
+  <h1 class="page-title">Nothing leaves in a box</h1>
+  <p class="lead">NONNA'S 12 has no takeaway. No delivery. No packaging. This is the one rule you never break. If you package pasta, you become a pasta shop. You are not a pasta shop — you are twelve seats.</p>
+
+  <div class="divider"></div>
+  <h3>Exception: the dolce jar</h3>
+  <p>One small 220 ml kilner jar of tiramisu or panna cotta that a guest can take home after dinner for €6. Printed label: "Portami a casa — Nonna." That's the only thing that leaves the building. Margin is 78 %. About 30 % of guests buy one.</p>
+
+  <h3 style="margin-top:6mm">Takeaway class material</h3>
+  <p>Pasta class guests leave with: one muslin bag of "00" flour, one recipe card hand-numbered, one glass of grappa at the door. All three together cost €1.80 and make the €120 class feel like a gift.</p>
+</section>
+
+<!-- ═══════════ PAGE 18 · UNIFORM ═══════════ -->
+<section class="page" data-page="18">
+  <div class="eyebrow">17 · Uniform</div>
+  <h1 class="page-title">Flour, linen, leather</h1>
+  <p class="lead">The nonna wears a cream linen apron over a slate grey shirt. The server wears the same apron over a white shirt. Nothing more. No logo patches, no caps, no gloves. Flour on the apron is the uniform — it means the pasta was rolled today.</p>
+
+  <table style="margin-top:6mm">
+    <tr><th>Item</th><th>Spec</th><th>Qty</th><th class="num">€</th></tr>
+    <tr><td>Linen apron, cream</td><td>Chef Works Hartford, unbleached</td><td>4</td><td class="num">180</td></tr>
+    <tr><td>Grey shirt, chambray</td><td>Universal Works Daybrook</td><td>3</td><td class="num">240</td></tr>
+    <tr><td>White cotton shirt</td><td>Uniqlo Oxford regular</td><td>3</td><td class="num">90</td></tr>
+    <tr><td>Leather apron strap</td><td>Vegetable-tanned, handmade Firenze</td><td>4</td><td class="num">160</td></tr>
+    <tr class="total-row"><td colspan="4"><strong>Uniform total</strong></td><td class="num">670</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════ PAGE 19 · MENU & PRICING ═══════════ -->
+<section class="page" data-page="19">
+  <div class="eyebrow">18 · Menu & Pricing</div>
+  <h1 class="page-title">Three dishes, one price</h1>
+  <p class="lead">The menu is a single chalkboard rewritten every morning by the nonna. Three dishes. Two pastas, one dolce. Every dish is €14. Every dolce is €6. A half-litre of house Chianti is €9. That's the whole menu. It fits on a postcard.</p>
+
+  <table style="margin-top:6mm">
+    <tr><th>Course</th><th>Example · Tuesday</th><th class="num">Price</th><th class="num">Food cost %</th></tr>
+    <tr><td>Primo (meat)</td><td>Pappardelle al cinghiale</td><td class="num">€14</td><td class="num">24 %</td></tr>
+    <tr><td>Primo (veg)</td><td>Pici cacio e pepe</td><td class="num">€14</td><td class="num">14 %</td></tr>
+    <tr><td>Dolce</td><td>Tiramisu al cucchiaio</td><td class="num">€6</td><td class="num">18 %</td></tr>
+    <tr><td>Vino della casa</td><td>Chianti sfuso, 500 ml</td><td class="num">€9</td><td class="num">22 %</td></tr>
+    <tr><td>Acqua</td><td>Still or sparkling, 750 ml</td><td class="num">€3</td><td class="num">8 %</td></tr>
+    <tr class="total-row"><td colspan="2"><strong>Average ticket</strong></td><td class="num">€28</td><td class="num">20 %</td></tr>
+  </table>
+
+  <p style="margin-top:6mm"><strong>No substitutions. No allergies beyond gluten.</strong> If a guest asks, the answer is "I'm sorry, it's made by one person, not twelve." This sounds harsh written down. Said by a smiling nonna, it lands as charm.</p>
+</section>
+
+<!-- ═══════════ PAGE 20 · BUDGET BREAKDOWN ═══════════ -->
+<section class="page" data-page="20">
+  <div class="eyebrow">19 · Budget Breakdown</div>
+  <h1 class="page-title">Where €14,900 goes</h1>
+
+  <div class="donut-wrap">
+    <svg class="donut" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="40" fill="none" stroke="#E0D4BC" stroke-width="18"/>
+      <circle cx="50" cy="50" r="40" fill="none" stroke="#B2421F" stroke-width="18" stroke-dasharray="100 151" transform="rotate(-90 50 50)"/>
+      <circle cx="50" cy="50" r="40" fill="none" stroke="#C9A050" stroke-width="18" stroke-dasharray="50 201" stroke-dashoffset="-100" transform="rotate(-90 50 50)"/>
+      <circle cx="50" cy="50" r="40" fill="none" stroke="#6B7A3A" stroke-width="18" stroke-dasharray="28 223" stroke-dashoffset="-150" transform="rotate(-90 50 50)"/>
+      <circle cx="50" cy="50" r="40" fill="none" stroke="#E8A87C" stroke-width="18" stroke-dasharray="22 229" stroke-dashoffset="-178" transform="rotate(-90 50 50)"/>
+      <circle cx="50" cy="50" r="40" fill="none" stroke="#2A1810" stroke-width="18" stroke-dasharray="12 239" stroke-dashoffset="-200" transform="rotate(-90 50 50)"/>
+    </svg>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#B2421F"></div>Kitchen equipment<span class="val">€5,910</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#C9A050"></div>Furniture & lighting<span class="val">€3,395</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#6B7A3A"></div>Deposit · 3 mo rent<span class="val">€2,250</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#E8A87C"></div>Signage & renovation<span class="val">€1,550</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2A1810"></div>Permits · SCIA · HACCP<span class="val">€895</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#E0D4BC"></div>Reserve (opening week)<span class="val">€900</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <p><strong>Hidden math.</strong> Zero renovation beyond paint, a sink reconnection, and a new floor tile patch. The terracotta is already there — this is Florence. That's how you bring a trattoria in under €15k in 2026.</p>
+</section>
+
+<!-- ═══════════ PAGE 21 · REGISTRATION ═══════════ -->
+<section class="page" data-page="21">
+  <div class="eyebrow">20 · Registration · Italy</div>
+  <h1 class="page-title">From zero to SCIA</h1>
+  <div class="reg-grid">
+    <div class="reg-card">
+      <h4>Company · Ditta Individuale</h4>
+      <ul>
+        <li>Partita IVA at Agenzia delle Entrate (€0, 1 day)</li>
+        <li>Regime forfettario (5 % for 5 yrs, then 15 %)</li>
+        <li>INPS Artigiani registration (€4,200/yr fixed)</li>
+        <li>Iscrizione Registro Imprese at Camera di Commercio (€88/yr)</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>Health & safety · HACCP</h4>
+      <ul>
+        <li>HACCP manual written by local consultant (€450)</li>
+        <li>Nonna's HACCP course, 8 h, online (€60)</li>
+        <li>ASL notification 30 days before opening (€0)</li>
+        <li>Fire prevention SCIA, Comune di Firenze (€150)</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>Somministrazione licence</h4>
+      <ul>
+        <li>SCIA at Suap del Comune (replaces old licence)</li>
+        <li>Certified intermediary fee (€320)</li>
+        <li>Municipal tax, annual (€280)</li>
+        <li>Music/SIAE waiver, no speakers (€0)</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>Accounting</h4>
+      <ul>
+        <li>Commercialista, €80/month including INPS filings</li>
+        <li>Fatturazione elettronica via Fatture in Cloud (€4/m)</li>
+        <li>Cash register, telematic (RT), one-off €580</li>
+        <li>Scontrino digitale, automatic daily upload</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PAGE 22 · TIMELINE ═══════════ -->
+<section class="page" data-page="22">
+  <div class="eyebrow">21 · Timeline · 9 weeks</div>
+  <h1 class="page-title">Lease to first plate</h1>
+
+  <div class="timeline">
+    <div class="tl-row"><div class="tl-week">W1<small>Lease</small></div><ul class="tl-tasks"><li>Sign 6-year lease with 8+8 renewal</li><li>Pay deposit €2,250 (3 months)</li><li>Start Partita IVA + INPS + Camera di Commercio</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W2<small>Design</small></div><ul class="tl-tasks"><li>Final floor plan, electrical + plumbing audit</li><li>Order pasta machine, range, convection oven</li><li>Book sign-painter Marco Benedetti</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W3<small>Permits</small></div><ul class="tl-tasks"><li>Submit SCIA somministrazione via commercialista</li><li>Submit SCIA prevenzione incendi to Vigili del Fuoco</li><li>Notify ASL for food premises inspection</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W4<small>Rough-in</small></div><ul class="tl-tasks"><li>Electrical rewire, kitchen circuit + dimmer zones</li><li>Plumbing: new sink + grease trap</li><li>Patch floor tiles, whitewash walls</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W5<small>Install</small></div><ul class="tl-tasks"><li>Install kitchen equipment, test run</li><li>Mount shelving, copper pans, sconces</li><li>Sign-painter installs front sign</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W6<small>Furniture</small></div><ul class="tl-tasks"><li>Tables + Thonet chairs arrive</li><li>Linens, glasses, bowls, cutlery</li><li>Set up reservation system (SevenRooms)</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W7<small>Train</small></div><ul class="tl-tasks"><li>3-day pasta rehearsal with real ingredients</li><li>HACCP final walkthrough with consultant</li><li>Cash register, RT telematic configuration</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W8<small>Soft open</small></div><ul class="tl-tasks"><li>Friends & family 4 nights, 24 covers/night</li><li>Collect feedback, tighten service rhythm</li><li>Press preview for 6 Florence food writers</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W9<small>Open</small></div><ul class="tl-tasks"><li>Public launch Thursday evening</li><li>First reservations live on SevenRooms</li><li>First pasta class Saturday morning</li></ul></div>
+  </div>
+</section>
+
+<!-- ═══════════ PAGE 23 · P&L ═══════════ -->
+<section class="page" data-page="23">
+  <div class="eyebrow">22 · P&L · Year 1</div>
+  <h1 class="page-title">The economics</h1>
+  <p class="lead">Base case: 14 dinner sittings per week, 65 % average occupancy, €28 ticket + 4 pasta classes per month.</p>
+
+  <table style="margin-top:6mm">
+    <tr><th>Line</th><th class="num">€ / month</th><th class="num">€ / year</th><th class="num">% of rev</th></tr>
+    <tr><td>Dinner revenue</td><td class="num">13,624</td><td class="num">163,490</td><td class="num">92 %</td></tr>
+    <tr><td>Pasta class revenue</td><td class="num">1,200</td><td class="num">14,400</td><td class="num">8 %</td></tr>
+    <tr><td><strong>Total revenue</strong></td><td class="num"><strong>14,824</strong></td><td class="num"><strong>177,890</strong></td><td class="num"><strong>100 %</strong></td></tr>
+    <tr><td>Food & beverage COGS</td><td class="num">(2,965)</td><td class="num">(35,578)</td><td class="num">20 %</td></tr>
+    <tr><td>Rent + utilities</td><td class="num">(1,100)</td><td class="num">(13,200)</td><td class="num">7 %</td></tr>
+    <tr><td>Labour (nonna + 1 part-time)</td><td class="num">(4,200)</td><td class="num">(50,400)</td><td class="num">28 %</td></tr>
+    <tr><td>INPS + commercialista + insurance</td><td class="num">(780)</td><td class="num">(9,360)</td><td class="num">5 %</td></tr>
+    <tr><td>Supplies, cleaning, misc.</td><td class="num">(520)</td><td class="num">(6,240)</td><td class="num">4 %</td></tr>
+    <tr class="total-row"><td><strong>Net operating profit</strong></td><td class="num"><strong>5,259</strong></td><td class="num"><strong>63,112</strong></td><td class="num"><strong>36 %</strong></td></tr>
+  </table>
+
+  <p style="margin-top:6mm"><strong>Break-even month:</strong> M6 (including amortised launch). Payback of the €14,900 launch: <strong>~4 months of net profit</strong> from M7 onwards.</p>
+</section>
+
+<!-- ═══════════ PAGE 24 · SUPPLIERS ═══════════ -->
+<section class="page" data-page="24">
+  <div class="eyebrow">23 · Supplier directory</div>
+  <h1 class="page-title">The little black book</h1>
+  <table>
+    <tr><th>Category</th><th>Supplier</th><th>Location</th><th>Contact</th></tr>
+    <tr><td>"00" flour (Caputo)</td><td>Molino Caputo</td><td>Napoli, IT</td><td>caputo.it · sales@caputo.it</td></tr>
+    <tr><td>Eggs, free-range</td><td>Azienda Agricola Il Palagio</td><td>Mugello, 30 km N</td><td>ilpalagio.it</td></tr>
+    <tr><td>Seasonal vegetables</td><td>Mercato Sant'Ambrogio</td><td>Firenze (daily)</td><td>6:00–14:00 walk-in</td></tr>
+    <tr><td>Wild boar, free-range</td><td>Macelleria Cecchini</td><td>Panzano in Chianti</td><td>dariocecchini.com</td></tr>
+    <tr><td>Pecorino Toscano DOP</td><td>Caseificio Il Fiorino</td><td>Roccalbegna, GR</td><td>ilfiorino.it</td></tr>
+    <tr><td>House Chianti (sfuso)</td><td>Fattoria di Montemaggio</td><td>Radda in Chianti</td><td>montemaggio.com</td></tr>
+    <tr><td>Olive oil, extra vergine</td><td>Frantoio Pruneti</td><td>San Polo in Chianti</td><td>pruneti.it</td></tr>
+    <tr><td>Grappa, for dolce</td><td>Distilleria Nannoni</td><td>Grosseto</td><td>nannoni-grappe.com</td></tr>
+    <tr><td>Wooden bowls, carafes</td><td>Ceramiche Fasano</td><td>Montelupo Fiorentino</td><td>ceramichefasano.it</td></tr>
+    <tr><td>Sign-painter (hand-lettered)</td><td>Bottega del Doratore</td><td>Via dei Servi 21, Firenze</td><td>+39 055 xxx xxxx</td></tr>
+    <tr><td>Reservation system</td><td>SevenRooms</td><td>EU</td><td>sevenrooms.com · €95/mo</td></tr>
+    <tr><td>Accounting · commercialista</td><td>Studio Bianchi</td><td>Firenze</td><td>€80/mo, English-speaking</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════ PAGE 25 · BACK COVER ═══════════ -->
+<section class="page back-cover no-footer">
+  <div style="font-size:10pt;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold)">SVITA Micro · Concept №002</div>
+
+  <div>
+    <h1 style="font-style:italic">Twelve seats.<br>One nonna.<br>Everything<br>else is noise.</h1>
+  </div>
+
+  <div>
+    <p style="font-style:italic;font-family:'Playfair Display';font-size:13pt;margin-bottom:6mm">This brandbook is a complete launch kit. Every price is researched at the time of writing. Every supplier is real. Every number is defendable.</p>
+    <p style="font-size:9pt;color:#888">© SVITA Micro 2026 · Licensed per buyer · Not for redistribution<br>micro.svita.ai · support@svita.labs67.com</p>
+  </div>
+</section>
+
+</body>
+</html>
