@@ -605,6 +605,8 @@ const sb = supabase.createClient(SB_URL, SB_KEY);
 
 const qs = new URLSearchParams(location.search);
 const BUY_INTENT = qs.get('buy');
+const PAID_SLUG = qs.get('paid');
+let MY_ROLE = 'user';
 
 const CAT_PAL = {
   food:['#1a2e1a','#2d4a2d','🌿'], restaurant:['#2e1a1a','#4a2d2d','🍽'],
@@ -849,12 +851,15 @@ async function enterAccount(user){
       .maybeSingle();
     if(prof){ role = prof.role || 'user'; displayName = prof.display_name; }
   }catch(e){ /* profile row may not exist yet — ignore */ }
-  // Show admin link in nav if user has admin/superadmin role (no forced redirect)
+  MY_ROLE = role;
+  // Show admin link in nav if user has admin/superadmin role
   const adminLink = $('nav-admin-link');
   if(adminLink){
-    if(role === 'superadmin'){ adminLink.href = 'superadmin.html'; adminLink.textContent = 'Superadmin'; adminLink.style.display=''; }
-    else if(role === 'admin'){ adminLink.href = 'admin.html'; adminLink.textContent = 'Admin'; adminLink.style.display=''; }
-    else { adminLink.style.display='none'; }
+    if(role === 'admin' || role === 'superadmin'){
+      adminLink.href = 'admin.html';
+      adminLink.textContent = role === 'superadmin' ? 'Superadmin' : 'Admin';
+      adminLink.style.display = '';
+    } else { adminLink.style.display = 'none'; }
   }
   // Role badge in cabinet header
   const badge = $('role-badge');
@@ -867,7 +872,16 @@ async function enterAccount(user){
   if(nameEl) nameEl.textContent = displayName || (user.user_metadata && user.user_metadata.name) || user.email.split('@')[0];
   observeReveals();
   await loadOwned();
-  if(BUY_INTENT) showBuyIntent(BUY_INTENT);
+  if(PAID_SLUG){
+    const box = $('intent-box');
+    box.className = 'intent reveal in';
+    box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--accent)">Payment received</span><h4>Thank you — concept unlocked</h4><div class="specs">It should appear below within a few seconds. If it doesn't, refresh the page.</div></div><div class="actions"><button class="btn btn-ghost" id="close-paid">Close</button></div>`;
+    $('close-paid').onclick = ()=>{ history.replaceState({},'','account.html'); box.className='hidden'; };
+    // Reload after short delay to catch webhook
+    setTimeout(loadOwned, 2500);
+  } else if(BUY_INTENT) {
+    showBuyIntent(BUY_INTENT);
+  }
 }
 
 async function loadOwned(){
@@ -906,26 +920,80 @@ async function loadOwned(){
 
 async function showBuyIntent(slug){
   try{
-    const r = await fetch('data/catalog.json');
-    const all = await r.json();
-    const c = all.find(x=>x.slug === slug);
+    // Prefer DB row (has ls_url), fall back to local catalog
+    let c = null;
+    try{
+      const {data} = await sb.from('concepts_catalog').select('*').eq('slug', slug).maybeSingle();
+      if(data) c = data;
+    }catch(e){}
+    if(!c){
+      const r = await fetch('data/catalog.json');
+      const all = await r.json();
+      c = all.find(x=>x.slug === slug);
+    }
     if(!c) return;
+
+    // Superadmin: free access, one-click ownership
+    if(MY_ROLE === 'superadmin'){
+      const box = $('intent-box');
+      box.className = 'intent reveal in';
+      box.innerHTML = `
+        <div class="left">
+          <span class="kicker">Superadmin · free access</span>
+          <h4>${c.name}</h4>
+          <div class="specs">${c.category} · ${c.country} · ${c.size_m2||'—'}m² · €${(c.budget_eur||0).toLocaleString()} total launch</div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-ghost" id="cancel-buy">Cancel</button>
+          <button class="btn btn-primary" id="grant-sa">Unlock now</button>
+        </div>`;
+      $('cancel-buy').onclick = ()=>{ history.replaceState({},'','account.html'); box.className='hidden'; };
+      $('grant-sa').onclick = async ()=>{
+        const {data:{session}} = await sb.auth.getSession();
+        const {error} = await sb.from('purchases').upsert({
+          user_id: session.user.id, concept_slug: slug,
+          price_paid: 0, currency: 'EUR', provider: 'superadmin', status: 'paid'
+        }, {onConflict:'user_id,concept_slug'});
+        if(error){ alert(error.message); return; }
+        location.href = 'account.html?paid=' + encodeURIComponent(slug);
+      };
+      return;
+    }
+
     const box = $('intent-box');
     box.className = 'intent reveal in';
+    const hasLink = !!c.ls_url;
     box.innerHTML = `
       <div class="left">
         <span class="kicker">Ready to buy</span>
         <h4>${c.name}</h4>
-        <div class="specs">${c.category} · ${c.country} · ${c.size_m2}m² · €${c.budget_eur.toLocaleString()} total launch</div>
+        <div class="specs">${c.category} · ${c.country} · ${c.size_m2||'—'}m² · €${(c.budget_eur||0).toLocaleString()} total launch</div>
       </div>
       <div class="actions">
         <button class="btn btn-ghost" id="cancel-buy">Cancel</button>
-        <button class="btn btn-primary" id="confirm-buy">Buy €${c.price_eur} <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg></button>
+        <button class="btn btn-primary" id="confirm-buy" ${hasLink?'':'disabled'}>
+          ${hasLink ? `Buy €${c.price_eur}` : 'Checkout not configured'}
+          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
+        </button>
       </div>
     `;
     $('cancel-buy').onclick = ()=>{ history.replaceState({},'','account.html'); box.className='hidden'; };
-    $('confirm-buy').onclick = ()=>{ alert('Checkout integration coming soon.'); };
-  }catch(e){}
+    if(hasLink){
+      $('confirm-buy').onclick = async ()=>{
+        const {data:{session}} = await sb.auth.getSession();
+        if(!session){ alert('Please sign in first'); return; }
+        const base = c.ls_url;
+        const joiner = base.includes('?') ? '&' : '?';
+        const success = encodeURIComponent(location.origin + '/account.html?paid=' + c.slug);
+        const ref = encodeURIComponent(session.user.id + ':' + c.slug);
+        const email = encodeURIComponent(session.user.email || '');
+        // Stripe Payment Link params: client_reference_id, prefilled_email
+        // Lemon Squeezy also supports checkout[email] and checkout[custom][ref] via different keys
+        const url = `${base}${joiner}client_reference_id=${ref}&prefilled_email=${email}&success_url=${success}`;
+        window.location.href = url;
+      };
+    }
+  }catch(e){ console.error(e); }
 }
 
 boot();

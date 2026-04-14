@@ -189,7 +189,7 @@ td .actions{display:flex;gap:6px}
       <div class="table-wrap hidden" id="tbl-wrap">
         <table>
           <thead><tr>
-            <th>Concept</th><th>Category</th><th>Country</th><th>Price</th><th>Budget</th><th>Status</th><th>i18n</th><th>Actions</th>
+            <th>Concept</th><th>Category</th><th>Country</th><th>Price</th><th>Budget</th><th>Payment link</th><th>Status</th><th>i18n</th><th>Actions</th>
           </tr></thead>
           <tbody id="tbl"></tbody>
         </table>
@@ -535,6 +535,13 @@ function render(){
       <td><span class="chip">${c.country}</span></td>
       <td><span class="price">€${c.price_eur}</span></td>
       <td class="mono">€${(c.budget_eur||0).toLocaleString()}</td>
+      <td>
+        <input type="url" class="pay-input" placeholder="https://buy.stripe.com/…"
+          value="${(c.ls_url||'').replace(/"/g,'&quot;')}"
+          onchange="setPayLink('${c.slug}', this.value)"
+          style="width:180px;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg-2);color:var(--text);font-family:'JetBrains Mono';font-size:10px"
+          title="Stripe Payment Link or Lemon Squeezy checkout URL">
+      </td>
       <td>${c.verified ? '<span class="chip ok">● Verified</span>' : '<span class="chip warn">○ Pending</span>'}</td>
       <td class="mono">${c.langs_filled||0}<span style="color:var(--text-3)">/12</span></td>
       <td>
@@ -546,6 +553,15 @@ function render(){
     </tr>`;
   }).join('');
 }
+
+async function setPayLink(slug, url){
+  const clean = (url||'').trim() || null;
+  const {error} = await sb.from('concepts_catalog').update({ls_url: clean}).eq('slug', slug);
+  if(error){ alert('Cannot save link: ' + error.message); return; }
+  const idx = ALL.findIndex(c=>c.slug===slug);
+  if(idx>=0) ALL[idx].ls_url = clean;
+}
+window.setPayLink = setPayLink;
 
 async function toggleVerify(slug, makeVerified){
   const {error} = await sb.from('concepts_catalog').update({
