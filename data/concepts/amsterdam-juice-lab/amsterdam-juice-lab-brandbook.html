@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AJL · Amsterdam Juice Lab — Brandbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --leaf:#4F8E3E;
+  --leaf-dark:#2F6323;
+  --cream:#FAF6EC;
+  --canal:#1E3D59;
+  --zest:#E35B1E;
+  --ink:#0F1511;
+  --gray:#5C6661;
+  --line:#D9D7C6;
+  --mist:#C7D0BA;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{background:#BBB;font-family:'Inter',sans-serif;color:var(--ink);font-size:11pt;line-height:1.55}
+h1,h2,h3,h4,h5{font-family:'Fraunces',serif;font-weight:800;letter-spacing:-0.02em;line-height:1.1}
+a{color:inherit;text-decoration:none}
+small{font-size:9pt;color:var(--gray)}
+
+.page{
+  width:210mm;height:297mm;
+  background:var(--cream);
+  padding:22mm 20mm;
+  margin:10mm auto;
+  box-shadow:0 4px 24px rgba(0,0,0,0.18);
+  position:relative;overflow:hidden;
+  page-break-after:always;
+  display:flex;flex-direction:column;
+}
+.page::after{content:attr(data-page) ' / 25';position:absolute;bottom:12mm;right:20mm;font-family:'Inter';font-size:8pt;color:var(--gray);letter-spacing:0.1em}
+.page::before{content:"AMSTERDAM JUICE LAB · BRANDBOOK";position:absolute;bottom:12mm;left:20mm;font-family:'Inter';font-size:8pt;color:var(--gray);letter-spacing:0.12em;font-weight:500}
+.page.no-footer::after,.page.no-footer::before{display:none}
+
+.eyebrow{font-family:'Inter';font-size:9pt;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--leaf);margin-bottom:8mm}
+h1.page-title{font-size:30pt;margin-bottom:6mm;letter-spacing:-0.025em;font-weight:800;color:var(--ink)}
+h2.section-title{font-size:20pt;margin-bottom:5mm}
+.lead{font-size:13pt;color:var(--ink);line-height:1.5;max-width:150mm;margin-bottom:6mm}
+p{margin-bottom:3mm}
+img{max-width:100%;display:block}
+.divider{height:1px;background:var(--line);margin:6mm 0}
+
+/* COVER */
+.cover{background:var(--leaf);color:var(--cream);justify-content:space-between;padding:18mm}
+.cover::before,.cover::after{display:none}
+.cover .brand{font-family:'Fraunces';font-size:58pt;font-weight:800;line-height:0.9;color:var(--cream);margin-top:30mm;letter-spacing:-0.03em}
+.cover .brand small{display:block;font-family:'Inter';font-size:10pt;font-weight:500;color:var(--cream);opacity:0.88;margin-top:8mm;letter-spacing:0.22em;text-transform:uppercase}
+.cover .tagline{font-family:'Fraunces';font-size:15pt;font-weight:400;font-style:italic;max-width:140mm;margin-bottom:18mm;color:var(--cream);opacity:0.94}
+.cover .meta{display:flex;gap:12mm;font-size:9pt;color:var(--cream);border-top:1px solid rgba(250,246,236,0.3);padding-top:8mm;flex-wrap:wrap}
+.cover .meta strong{display:block;font-family:'Fraunces';font-size:18pt;font-weight:800;color:var(--cream);margin-bottom:2mm}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6mm;margin-top:6mm}
+.stat-box{background:#fff;border:1px solid var(--line);border-radius:2mm;padding:6mm}
+.stat-box .num{font-family:'Fraunces';font-weight:800;font-size:26pt;color:var(--leaf);line-height:1}
+.stat-box .lbl{font-size:9pt;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-top:2mm;font-weight:600}
+
+/* USPS */
+.usp-list{list-style:none;margin-top:6mm}
+.usp-list li{padding:4mm 0 4mm 12mm;border-bottom:1px solid var(--line);position:relative;font-size:11pt}
+.usp-list li::before{content:counter(usps,upper-roman);counter-increment:usps;position:absolute;left:0;top:4mm;font-family:'Fraunces';font-weight:800;font-size:14pt;color:var(--zest)}
+.usp-list{counter-reset:usps}
+
+/* COLORS */
+.color-row{display:grid;grid-template-columns:repeat(5,1fr);gap:4mm;margin-top:6mm}
+.color-chip{aspect-ratio:1/1.2;border-radius:2mm;padding:4mm;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line)}
+.color-chip .hex{font-family:'Inter';font-weight:700;font-size:10pt}
+.color-chip .nm{font-size:8pt;opacity:0.85;margin-top:1mm;font-weight:500}
+.color-chip.dark{color:#fff}
+
+/* TYPO */
+.type-sample{margin-top:8mm;padding:6mm;border-left:3px solid var(--leaf);background:#fff}
+.type-sample .label{font-size:9pt;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2mm;font-weight:600}
+.type-sample .demo{font-family:'Fraunces';font-size:32pt;font-weight:800;color:var(--leaf);line-height:1}
+.type-sample.body .demo{font-family:'Inter';font-weight:400;font-size:13pt;color:var(--ink);line-height:1.55}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;margin-top:4mm;font-size:10pt}
+th,td{padding:3mm 2mm;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:'Inter';font-weight:700;font-size:9pt;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray)}
+td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.total-row{background:var(--mist);font-weight:700}
+.total-row td{border-top:2px solid var(--leaf);border-bottom:none}
+
+/* IMG */
+.img-full{width:100%;flex:1;object-fit:cover;border-radius:2mm;margin-top:6mm}
+.img-large{width:100%;max-height:160mm;object-fit:contain;margin:4mm 0;border-radius:2mm}
+.caption{font-size:9pt;color:var(--gray);margin-top:3mm;font-style:italic;text-align:center}
+
+/* BUDGET */
+.donut-wrap{display:flex;gap:10mm;align-items:center;margin-top:6mm}
+.donut{width:70mm;height:70mm;flex-shrink:0}
+.legend{flex:1}
+.legend-item{display:flex;align-items:center;gap:3mm;padding:2mm 0;font-size:10pt;border-bottom:1px solid var(--line)}
+.legend-dot{width:4mm;height:4mm;border-radius:50%;flex-shrink:0}
+.legend-item .val{margin-left:auto;font-family:'Inter';font-weight:700}
+
+/* TIMELINE */
+.timeline{margin-top:4mm}
+.tl-row{display:grid;grid-template-columns:22mm 1fr;gap:4mm;padding:4mm 0;border-bottom:1px solid var(--line)}
+.tl-week{font-family:'Fraunces';font-weight:800;font-size:16pt;color:var(--leaf)}
+.tl-week small{display:block;font-family:'Inter';font-size:8pt;color:var(--gray);font-weight:500;text-transform:uppercase;letter-spacing:0.08em;margin-top:1mm}
+.tl-tasks{font-size:10pt}
+.tl-tasks li{margin-left:4mm;padding:1mm 0}
+
+/* REG */
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:4mm}
+.reg-card{background:#fff;border:1px solid var(--line);border-radius:2mm;padding:5mm}
+.reg-card h4{font-family:'Fraunces';font-size:13pt;margin-bottom:3mm;color:var(--leaf);font-weight:600}
+.reg-card ul{list-style:none;font-size:10pt}
+.reg-card li{padding:1.5mm 0;padding-left:5mm;position:relative}
+.reg-card li::before{content:'·';position:absolute;left:0;color:var(--zest);font-weight:800;font-size:14pt;line-height:1}
+
+/* PLAN */
+.plan-wrap{flex:1;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;padding:8mm}
+
+/* BACK */
+.back-cover{background:var(--ink);color:var(--cream);justify-content:space-between}
+.back-cover::before,.back-cover::after{color:#666}
+.back-cover h1{color:var(--zest);font-size:44pt}
+.back-cover p{color:#BBB;max-width:140mm}
+
+@media print{body{background:#fff}.page{box-shadow:none;margin:0}}
+</style>
+</head>
+<body>
+
+<!-- PAGE 01 · COVER -->
+<section class="page cover no-footer">
+  <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);opacity:0.88">SVITA Micro · Concept Brandbook №004</div>
+  <div>
+    <h1 class="brand">AJL<small>Amsterdam Juice Lab · Jordaan</small></h1>
+  </div>
+  <div>
+    <div class="tagline">Eight cold-pressed bottles, a canal-side hatch, a glass press you can watch through the window.</div>
+    <div class="meta">
+      <div><strong>€9,800</strong>TOTAL BUDGET</div>
+      <div><strong>6 wks</strong>TO LAUNCH</div>
+      <div><strong>12 m²</strong>FOOTPRINT</div>
+      <div><strong>NL</strong>COUNTRY</div>
+      <div><strong>M4</strong>BREAK-EVEN</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 02 · EXECUTIVE SUMMARY -->
+<section class="page" data-page="02">
+  <div class="eyebrow">Executive Summary</div>
+  <h1 class="page-title">The one-page pitch.</h1>
+  <p class="lead">Amsterdam Juice Lab is a 12 m² cold-press juice kiosk on a Jordaan canal corner — eight bottles, one glass-walled hydraulic press, open 08:00–18:00. Total investment €9,800, launch in 6 weeks, break-even at 78 bottles per day.</p>
+  <div class="divider"></div>
+  <div class="stats-grid">
+    <div class="stat-box"><div class="num">€9,800</div><div class="lbl">Total investment</div></div>
+    <div class="stat-box"><div class="num">€9,600</div><div class="lbl">Monthly revenue (target)</div></div>
+    <div class="stat-box"><div class="num">€2,420</div><div class="lbl">Monthly EBITDA</div></div>
+    <div class="stat-box"><div class="num">Month 4</div><div class="lbl">Break-even</div></div>
+    <div class="stat-box"><div class="num">78 bottles</div><div class="lbl">Break-even volume/day</div></div>
+    <div class="stat-box"><div class="num">NL + EU</div><div class="lbl">Replicable format</div></div>
+  </div>
+</section>
+
+<!-- PAGE 03 · THE CONCEPT -->
+<section class="page" data-page="03">
+  <div class="eyebrow">The Concept</div>
+  <h1 class="page-title">Cold-pressed,<br>bottled at dawn.</h1>
+  <p class="lead">Amsterdam has two kinds of juice: €2 sugar-spiked supermarket cartons and €9 plastic-cupped tourist smoothies. Nothing in between — a proper hydraulic cold-press in a glass bottle, same day, €6.</p>
+  <p>AJL fills that gap with eight disciplined recipes, a Goodnature M-1 single-auger press visible through the window, and a €9,800 kiosk that pays back in Month 4 without a single Deliveroo order.</p>
+  <div style="margin-top:10mm;padding:6mm;background:#fff;border-left:3px solid var(--zest)">
+    <strong style="font-family:'Inter';font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--zest)">The 12-Hour Rule</strong>
+    <p style="margin-top:2mm;font-size:10pt">Every morning at 6am, the day's fruit is pressed on-site. Bottles are numbered, dated, and sold within 12 hours. Whatever's left at 18:00 goes to the staff room or the compost — never to tomorrow. No HPP, no thermal, no preservatives.</p>
+  </div>
+</section>
+
+<!-- PAGE 04 · TARGET AUDIENCE -->
+<section class="page" data-page="04">
+  <div class="eyebrow">Target Audience</div>
+  <h1 class="page-title">Who drinks here<br>at 08:30?</h1>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:6mm">
+    <div style="background:#fff;padding:6mm;border-radius:2mm;border:1px solid var(--line)">
+      <h3 style="font-family:'Fraunces';font-size:14pt;color:var(--leaf);margin-bottom:3mm">Persona A · Anouk, 31</h3>
+      <p style="font-size:10pt"><strong>Role:</strong> UX designer at a Jordaan agency, cycles to work</p>
+      <p style="font-size:10pt"><strong>Lifestyle:</strong> Pilates three mornings, reads The Correspondent, avoids plastic</p>
+      <p style="font-size:10pt"><strong>Why she buys:</strong> Real cold-press, glass bottle, walking distance, recurring subscription</p>
+      <p style="font-size:10pt"><strong>Price tolerance:</strong> €5–8 per bottle</p>
+      <p style="font-size:10pt"><strong>Visit frequency:</strong> 4×/week</p>
+    </div>
+    <div style="background:#fff;padding:6mm;border-radius:2mm;border:1px solid var(--line)">
+      <h3 style="font-family:'Fraunces';font-size:14pt;color:var(--leaf);margin-bottom:3mm">Persona B · Thijs, 45</h3>
+      <p style="font-size:10pt"><strong>Role:</strong> Cardiologist at OLVG, half-marathon runner</p>
+      <p style="font-size:10pt"><strong>Lifestyle:</strong> Weekend family brunch at home with four bottles</p>
+      <p style="font-size:10pt"><strong>Why he buys:</strong> Low sugar, high vitamin C, traceable farms, takeaway 4-pack</p>
+      <p style="font-size:10pt"><strong>Price tolerance:</strong> €6–9 per bottle</p>
+      <p style="font-size:10pt"><strong>Visit frequency:</strong> 1×/week (bulk)</p>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <h4 style="font-family:'Fraunces';font-size:13pt;margin-bottom:3mm;color:var(--leaf)">Secondary audiences</h4>
+  <p style="font-size:10pt">Returning tourists (25% of volume, mostly UK/DE/US who found us through Google Maps on a second visit), Jordaan yoga studios on a wholesale line, and hotel concierges at Pulitzer and Andaz with a house-account tab.</p>
+</section>
+
+<!-- PAGE 05 · USPs -->
+<section class="page" data-page="05">
+  <div class="eyebrow">USPs & Positioning</div>
+  <h1 class="page-title">Why this wins.</h1>
+  <p class="lead">Five defensible advantages over the supermarket cartons and the tourist smoothie bars.</p>
+  <ol class="usp-list">
+    <li><strong>Pressed on the window.</strong> Customers watch the Goodnature M-1 crush 40 kg of fruit at 08:00. No other Amsterdam juice bar lets you see the press.</li>
+    <li><strong>Glass, numbered, dated.</strong> Every bottle has a batch number, a pressed-at timestamp, and €0.50 glass deposit. Zero plastic, closed loop.</li>
+    <li><strong>Eight recipes, no substitutions.</strong> Menu cost control is total. Fruit order is fixed, waste &lt; 4%.</li>
+    <li><strong>12 m² corner kiosk.</strong> Rent €650/month in Jordaan — 60% below a café lease. The hatch is the shop.</li>
+    <li><strong>Hatch-only, no seats.</strong> No waiters, no table turn, no VAT 21% on dine-in — takeaway 9%.</li>
+  </ol>
+</section>
+
+<!-- PAGE 06 · BRAND IDENTITY -->
+<section class="page" data-page="06">
+  <div class="eyebrow">Brand Identity</div>
+  <h1 class="page-title">The visual system.</h1>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;padding:10mm">
+    <svg viewBox="0 0 600 360" style="width:90%;height:auto">
+      <rect x="30" y="30" width="250" height="300" rx="6" fill="#4F8E3E"/>
+      <text x="155" y="170" font-family="Fraunces,serif" font-size="54" font-weight="800" fill="#FAF6EC" text-anchor="middle">AJL</text>
+      <text x="155" y="200" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="#FAF6EC" text-anchor="middle" letter-spacing="3">AMSTERDAM JUICE LAB</text>
+      <text x="155" y="270" font-family="Inter,sans-serif" font-size="8" fill="#FAF6EC" text-anchor="middle" opacity="0.8">PRESSED · BOTTLED · DATED</text>
+      <rect x="310" y="30" width="120" height="300" rx="6" fill="#FAF6EC" stroke="#4F8E3E" stroke-width="2"/>
+      <rect x="325" y="50" width="90" height="200" rx="10" fill="#E35B1E" opacity="0.85"/>
+      <rect x="345" y="45" width="50" height="14" rx="2" fill="#1E3D59"/>
+      <text x="370" y="170" font-family="Fraunces,serif" font-size="22" font-weight="800" fill="#FAF6EC" text-anchor="middle">N°1</text>
+      <text x="370" y="280" font-family="Inter,sans-serif" font-size="8" fill="#0F1511" text-anchor="middle">GLASS 250 ML</text>
+      <rect x="460" y="30" width="110" height="150" rx="6" fill="#1E3D59"/>
+      <text x="515" y="110" font-family="Fraunces,serif" font-size="40" font-weight="800" fill="#FAF6EC" text-anchor="middle">08</text>
+      <text x="515" y="135" font-family="Inter,sans-serif" font-size="8" fill="#FAF6EC" text-anchor="middle">RECIPES</text>
+      <rect x="460" y="200" width="110" height="130" rx="6" fill="#E35B1E"/>
+      <text x="515" y="260" font-family="Fraunces,serif" font-size="22" font-weight="800" fill="#FAF6EC" text-anchor="middle">COLD</text>
+      <text x="515" y="285" font-family="Fraunces,serif" font-size="22" font-weight="800" fill="#FAF6EC" text-anchor="middle">PRESS</text>
+    </svg>
+  </div>
+  <p class="caption">Master visual system · logo plate, bottle with canal label, recipe count block, zest accent</p>
+</section>
+
+<!-- PAGE 07 · COLOR PALETTE -->
+<section class="page" data-page="07">
+  <div class="eyebrow">Color Palette</div>
+  <h1 class="page-title">Five colors.<br>All Jordaan.</h1>
+  <p class="lead">Leaf leads. Cream is the paper. Canal blue grounds the label. Zest is the only accent. Ink is for type. Do not introduce a sixth.</p>
+  <div class="color-row">
+    <div class="color-chip dark" style="background:#4F8E3E"><div class="hex">#4F8E3E</div><div class="nm">Leaf · primary</div></div>
+    <div class="color-chip" style="background:#FAF6EC"><div class="hex">#FAF6EC</div><div class="nm">Cream · paper base</div></div>
+    <div class="color-chip dark" style="background:#1E3D59"><div class="hex">#1E3D59</div><div class="nm">Canal · navy depth</div></div>
+    <div class="color-chip dark" style="background:#E35B1E"><div class="hex">#E35B1E</div><div class="nm">Zest · accent only</div></div>
+    <div class="color-chip dark" style="background:#0F1511"><div class="hex">#0F1511</div><div class="nm">Ink · type + lines</div></div>
+  </div>
+  <div class="divider"></div>
+  <h4 style="font-family:'Inter';font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin-top:6mm;font-weight:600">Usage rules</h4>
+  <table>
+    <tr><td><strong>Leaf</strong></td><td>Shopfront, awning, bottle caps, brand mark, hatch field</td></tr>
+    <tr><td><strong>Cream</strong></td><td>Paper stock, walls, napkins, bottle labels</td></tr>
+    <tr><td><strong>Canal</strong></td><td>Label stripe, chalkboard frame, apron straps</td></tr>
+    <tr><td><strong>Zest</strong></td><td>CTA, price chip, recipe number, accent only — never field</td></tr>
+    <tr><td><strong>Ink</strong></td><td>Body type, fine lines, date stamps</td></tr>
+  </table>
+</section>
+
+<!-- PAGE 08 · TYPOGRAPHY -->
+<section class="page" data-page="08">
+  <div class="eyebrow">Typography</div>
+  <h1 class="page-title">Fraunces + Inter.</h1>
+  <p class="lead">One display serif with variable optical sizing, one humanist sans for body. Both free, both Google Fonts, both load in under 70 KB combined.</p>
+  <div class="type-sample">
+    <div class="label">Display · Fraunces 800</div>
+    <div class="demo">AJL · Pressed at dawn</div>
+  </div>
+  <div class="type-sample body">
+    <div class="label">Body · Inter Regular 400</div>
+    <div class="demo">Appelen van Kwakernaak, citroenen van Mastrototaro, gember van De Groote Voort. Acht recepten. Geen HPP, geen plastic, geen suiker.</div>
+  </div>
+  <div class="divider"></div>
+  <table>
+    <tr><th>Use</th><th>Font</th><th>Weight</th><th>Size</th></tr>
+    <tr><td>Wordmark</td><td>Fraunces</td><td>800</td><td>48pt+</td></tr>
+    <tr><td>Page titles</td><td>Fraunces</td><td>800</td><td>30pt</td></tr>
+    <tr><td>Section titles</td><td>Fraunces</td><td>600</td><td>20pt</td></tr>
+    <tr><td>Bottle labels</td><td>Inter</td><td>700</td><td>16pt</td></tr>
+    <tr><td>Body copy</td><td>Inter</td><td>400</td><td>11pt</td></tr>
+    <tr><td>Captions / small</td><td>Inter</td><td>500</td><td>9pt</td></tr>
+  </table>
+</section>
+
+<!-- PAGE 09 · PATTERN / MONOGRAM -->
+<section class="page" data-page="09">
+  <div class="eyebrow">Pattern Library</div>
+  <h1 class="page-title">Zest circle.</h1>
+  <p class="lead">One monogram, one stamp, zero decorative pattern. The Jordaan rule: if you can avoid a pattern, avoid it. Cream wall + leaf awning + glass bottle = pattern enough. The only repeating mark allowed is the circular batch stamp.</p>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;padding:10mm">
+    <svg viewBox="0 0 600 220" style="width:80%;height:auto">
+      <circle cx="300" cy="110" r="90" fill="none" stroke="#E35B1E" stroke-width="3"/>
+      <text x="300" y="125" font-family="Fraunces,serif" font-size="72" font-weight="800" fill="#4F8E3E" text-anchor="middle">AJL</text>
+      <text x="300" y="35" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1E3D59" text-anchor="middle" letter-spacing="3">BATCH · COLD · PRESS</text>
+      <text x="300" y="200" font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#1E3D59" text-anchor="middle" letter-spacing="3">AMSTERDAM · JORDAAN · MMXXVI</text>
+    </svg>
+  </div>
+  <div class="divider"></div>
+  <p style="font-size:10pt">Monogram is used at 25 mm on bottle caps, 60 mm on awnings, and 300 mm on the hatch window. Never stretched, never rotated, never placed on a photograph.</p>
+</section>
+
+<!-- PAGE 10 · SPACE / HERO -->
+<section class="page" data-page="10">
+  <div class="eyebrow">Space · Hero</div>
+  <h1 class="page-title">The hatch.</h1>
+  <img class="img-full" src="https://micro.svita.ai/data/concepts/amsterdam-juice-lab/hero.png" alt="Kiosk exterior">
+  <p class="caption">AJL kiosk · 12 m² · leaf awning, glass hatch, hydraulic press visible from the canal side</p>
+</section>
+
+<!-- PAGE 11 · FLOOR PLAN -->
+<section class="page" data-page="11">
+  <div class="eyebrow">Floor Plan · 12 m²</div>
+  <h1 class="page-title">One hatch, one press.</h1>
+  <p class="lead">3.0 m wide, 4.0 m deep. Press wall on the left visible through a glazed panel. Hatch counter on the canal side. Cold room at the back. No seating — takeaway only.</p>
+  <div class="plan-wrap">
+    <svg viewBox="0 0 360 460" style="width:70%;height:auto">
+      <rect x="10" y="10" width="340" height="440" fill="#FAF6EC" stroke="#0F1511" stroke-width="4"/>
+      <rect x="10" y="10" width="340" height="60" fill="#4F8E3E" opacity="0.22" stroke="#4F8E3E" stroke-width="2"/>
+      <text x="180" y="45" font-family="Inter" font-size="11" font-weight="700" fill="#0F1511" text-anchor="middle">HATCH · CANAL SIDE · 3.0 m</text>
+      <rect x="20" y="100" width="90" height="220" fill="#1E3D59" opacity="0.25" stroke="#1E3D59" stroke-width="2"/>
+      <text x="65" y="210" font-family="Inter" font-size="10" font-weight="700" fill="#0F1511" text-anchor="middle" transform="rotate(-90 65 210)">GLASS PRESS WALL</text>
+      <rect x="130" y="100" width="210" height="220" fill="#FAF6EC" stroke="#4F8E3E" stroke-width="1.5"/>
+      <text x="235" y="210" font-family="Inter" font-size="10" font-weight="600" fill="#4F8E3E" text-anchor="middle">PREP · BOTTLE · FRIDGE</text>
+      <rect x="20" y="350" width="320" height="80" fill="#1E3D59" opacity="0.18" stroke="#1E3D59" stroke-width="2"/>
+      <text x="180" y="395" font-family="Inter" font-size="11" font-weight="700" fill="#0F1511" text-anchor="middle">COLD ROOM · WASHING · STORAGE</text>
+      <text x="180" y="445" font-family="Inter" font-size="9" fill="#5C6661" text-anchor="middle">3.0 m × 4.0 m · 12 m²</text>
+    </svg>
+  </div>
+</section>
+
+<!-- PAGE 12 · FURNITURE SPECS -->
+<section class="page" data-page="12">
+  <div class="eyebrow">Furniture · Dimensions</div>
+  <h1 class="page-title">Exact measurements.</h1>
+  <p class="lead">Everything in mm. These specs go verbatim to the Amsterdam joinery (Houtatelier Noord, Zaandam).</p>
+  <table>
+    <tr><th>Element</th><th>W × D × H (mm)</th><th>Material</th><th>Finish</th><th>Notes</th></tr>
+    <tr><td>Hatch counter</td><td>2800 × 450 × 1050</td><td>Solid oak 30 mm</td><td>Matte food-safe oil</td><td>Fold-down awning edge</td></tr>
+    <tr><td>Press plinth</td><td>700 × 700 × 900</td><td>Stainless 304</td><td>Brushed</td><td>Goodnature M-1 base</td></tr>
+    <tr><td>Glass press panel</td><td>1800 × 10 × 1200</td><td>Tempered glass</td><td>Clear</td><td>Customer-facing viewing wall</td></tr>
+    <tr><td>Bottle fridge</td><td>600 × 600 × 1200</td><td>Stainless + glass door</td><td>Brushed</td><td>Porkka SF 627 or equiv.</td></tr>
+    <tr><td>Wash sink</td><td>900 × 600 × 900</td><td>Stainless 304</td><td>Brushed</td><td>Double basin, fruit wash</td></tr>
+    <tr><td>Chalkboard menu</td><td>800 × 500 × 20</td><td>Slate on oak frame</td><td>Canal-stained frame</td><td>Hand-lettered daily</td></tr>
+    <tr><td>Awning</td><td>3000 × 900 × 600</td><td>Marine canvas on steel</td><td>Leaf-green</td><td>Hand-cranked retract</td></tr>
+  </table>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Power:</strong> 16 A 230 V single-phase (press 1 100 W, fridge 220 W, wash booster 1 800 W, POS 30 W, lighting 60 W). <strong>Water:</strong> 1/2" inlet, 50 mm drain. <strong>Assembly:</strong> 2 days by 2-person crew.</p>
+</section>
+
+<!-- PAGE 13 · LIGHTING -->
+<section class="page" data-page="13">
+  <div class="eyebrow">Lighting Plan</div>
+  <h1 class="page-title">Cool, bright, honest.</h1>
+  <p class="lead">Dutch canal light is grey and flat. The hatch should feel like a lab, not a café. Two cream pendants over the hatch, a glass shelf strip behind the bottles, no spots, no dimmers, no RGB.</p>
+  <table>
+    <tr><th>Fixture</th><th>Qty</th><th>Lumens</th><th>CCT (K)</th><th>Placement</th></tr>
+    <tr><td>Cream enamel pendant</td><td>2</td><td>600</td><td>3000</td><td>Over hatch counter, 1800 mm AFF</td></tr>
+    <tr><td>LED strip, cream diffuser</td><td>1×1.8 m</td><td>900/m</td><td>3500</td><td>Under bottle shelf</td></tr>
+    <tr><td>Surface downlight</td><td>2</td><td>500</td><td>4000</td><td>Prep zone, ceiling</td></tr>
+    <tr><td>Exterior bulkhead</td><td>1</td><td>400</td><td>2700</td><td>Awning underside</td></tr>
+  </table>
+  <div class="divider"></div>
+  <p style="font-size:10pt"><strong>Total lumens:</strong> ~4,200. <strong>CRI:</strong> 90+. <strong>Driver:</strong> Meanwell HLG series, 5-year warranty. <strong>Do not:</strong> install RGB, install spotlights, install dimmers.</p>
+</section>
+
+<!-- PAGE 14 · EQUIPMENT CORE -->
+<section class="page" data-page="14">
+  <div class="eyebrow">Equipment · Core</div>
+  <h1 class="page-title">The six things<br>that make juice.</h1>
+  <p class="lead">Six pieces of non-negotiable equipment. If you skimp on any of these, the concept fails.</p>
+  <table>
+    <tr><th>Item</th><th>Model</th><th>€</th><th>Supplier</th></tr>
+    <tr><td>Cold-press juicer</td><td>Goodnature M-1</td><td class="num">2,800</td><td>Goodnature BV (Amsterdam)</td></tr>
+    <tr><td>Bottle fridge</td><td>Porkka SF 627</td><td class="num">1,100</td><td>Porkka Nederland</td></tr>
+    <tr><td>Double-basin wash sink</td><td>Stainless 900</td><td class="num">420</td><td>Horecatraders</td></tr>
+    <tr><td>Fruit crates + cold room</td><td>6× Euronorm + 6 m³</td><td class="num">680</td><td>Koelcel Direct</td></tr>
+    <tr><td>Bottle-capper + labeller</td><td>Neostarpack semi-auto</td><td class="num">540</td><td>Horeca Online NL</td></tr>
+    <tr><td>POS + card terminal</td><td>SumUp Solo + Air</td><td class="num">120</td><td>SumUp NL</td></tr>
+    <tr class="total-row"><td colspan="2">Core equipment subtotal</td><td class="num">5,660</td><td>€</td></tr>
+  </table>
+</section>
+
+<!-- PAGE 15 · EQUIPMENT DETAILS -->
+<section class="page" data-page="15">
+  <div class="eyebrow">Equipment · Details</div>
+  <h1 class="page-title">Small things<br>that matter.</h1>
+  <table>
+    <tr><th>Item</th><th>Detail</th><th>€</th></tr>
+    <tr><td>Glass bottles (500×)</td><td>250 ml amber flint, crown cap</td><td class="num">380</td></tr>
+    <tr><td>Crown caps + shrink seals</td><td>10k caps, leaf-printed</td><td class="num">120</td></tr>
+    <tr><td>Canal-label paper</td><td>Matte kraft, 100 g/m², batch stamp block</td><td class="num">160</td></tr>
+    <tr><td>Wooden crates (×6)</td><td>For return deposit system</td><td class="num">180</td></tr>
+    <tr><td>Stainless prep bowls</td><td>6× Ø 400, 2× Ø 600</td><td class="num">110</td></tr>
+    <tr><td>Knives + peelers</td><td>Victorinox chef set</td><td class="num">95</td></tr>
+    <tr><td>Thermometer + pH strips</td><td>HACCP compliance</td><td class="num">60</td></tr>
+    <tr><td>First-aid + cleaning</td><td>Full HACCP kit</td><td class="num">140</td></tr>
+    <tr><td>Apron + uniform (×4)</td><td>Leaf canvas + cream tee</td><td class="num">200</td></tr>
+    <tr class="total-row"><td colspan="2">Details subtotal</td><td class="num">1,445</td></tr>
+  </table>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Waste control:</strong> fruit pulp goes to De Ceuvel farm (free pickup 2×/week). Bottle return €0.50/ea, 92% return rate at month 3.</p>
+</section>
+
+<!-- PAGE 16 · SIGNAGE -->
+<section class="page" data-page="16">
+  <div class="eyebrow">Signage</div>
+  <h1 class="page-title">The awning<br>and the board.</h1>
+  <p class="lead">Jordaan UNESCO rules forbid backlit signs on pre-1900 facades. Hand-painted leaf-green canvas awning is the primary mark. A slate board next to the hatch carries the day's eight recipes.</p>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;padding:6mm">
+    <svg viewBox="0 0 600 300" style="width:92%;height:auto">
+      <rect x="20" y="180" width="560" height="110" fill="#FAF6EC" stroke="#0F1511" stroke-width="2"/>
+      <path d="M20 180 L40 60 L580 60 L600 180 Z" fill="#4F8E3E"/>
+      <text x="310" y="130" font-family="Fraunces,serif" font-size="58" font-weight="800" fill="#FAF6EC" text-anchor="middle">AJL</text>
+      <text x="310" y="160" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#FAF6EC" text-anchor="middle" letter-spacing="4">AMSTERDAM JUICE LAB</text>
+      <rect x="50" y="200" width="200" height="70" fill="#1E3D59"/>
+      <text x="150" y="230" font-family="Fraunces,serif" font-size="14" font-weight="800" fill="#FAF6EC" text-anchor="middle">TODAY'S 08</text>
+      <text x="150" y="250" font-family="Inter,sans-serif" font-size="9" fill="#FAF6EC" text-anchor="middle">hand-lettered daily</text>
+      <rect x="280" y="200" width="280" height="70" fill="#FAF6EC" stroke="#1E3D59" stroke-width="1"/>
+      <text x="420" y="225" font-family="Inter,sans-serif" font-size="9" fill="#0F1511" text-anchor="middle">01 GREEN STORM · 02 CARROT SUN</text>
+      <text x="420" y="240" font-family="Inter,sans-serif" font-size="9" fill="#0F1511" text-anchor="middle">03 BEET RIOT · 04 GINGER DEEP</text>
+      <text x="420" y="255" font-family="Inter,sans-serif" font-size="9" fill="#0F1511" text-anchor="middle">05 CITRUS 6 · 06 APPLE FIX · 07 C+D · 08 CANAL BLUE</text>
+    </svg>
+  </div>
+</section>
+
+<!-- PAGE 17 · PACKAGING -->
+<section class="page" data-page="17">
+  <div class="eyebrow">Packaging</div>
+  <h1 class="page-title">Bottle, label, cap.</h1>
+  <p class="lead">One SKU family: 250 ml amber flint glass, crown cap, canal-label kraft paper, dated stamp. Zero plastic in the kiosk. Returned bottles are washed in the cold room and back on the shelf in under 45 minutes.</p>
+  <table>
+    <tr><th>Component</th><th>Spec</th><th>Supplier</th></tr>
+    <tr><td>Bottle</td><td>250 ml amber flint, crown finish 26 mm</td><td>O-I Nederland</td></tr>
+    <tr><td>Cap</td><td>Leaf-printed crown, 26 mm</td><td>Pelliconi NL</td></tr>
+    <tr><td>Label</td><td>Kraft 100 g/m², 80×60 mm wrap</td><td>Drukkerij De Jordaan</td></tr>
+    <tr><td>Stamp</td><td>Rubber date stamp + permanent ink</td><td>Stempelfabriek</td></tr>
+    <tr><td>4-pack crate</td><td>Beech wood, leaf-branded</td><td>Houtatelier Noord</td></tr>
+    <tr><td>Carry bag</td><td>Unbleached cotton, AJL stamp</td><td>Tassenfabriek Utrecht</td></tr>
+  </table>
+  <p style="margin-top:6mm;font-size:10pt"><strong>Deposit system:</strong> €0.50 per bottle, refunded in cash or recipe credit. Break-even return rate at month 3 is 92%. Target: zero single-use plastic on premises.</p>
+</section>
+
+<!-- PAGE 18 · UNIFORM -->
+<section class="page" data-page="18">
+  <div class="eyebrow">Uniform</div>
+  <h1 class="page-title">Leaf canvas,<br>cream tee.</h1>
+  <p class="lead">Staff wears a cream organic-cotton tee with the AJL batch stamp and a leaf-green canvas apron, canal-navy straps. No logos larger than 40 mm. No hats. Non-slip kitchen shoes.</p>
+  <table>
+    <tr><th>Item</th><th>Fabric</th><th>Detail</th></tr>
+    <tr><td>Tee (×3 per staff)</td><td>Organic cotton 180 g/m², cream</td><td>AJL batch stamp on chest, 35 mm</td></tr>
+    <tr><td>Apron</td><td>Canvas 350 g/m², leaf-green</td><td>Canal-navy straps, brass hardware</td></tr>
+    <tr><td>Beanie (winter)</td><td>Wool, canal-navy</td><td>AJL stitched 25 mm</td></tr>
+    <tr><td>Shoes</td><td>Birkenstock Professional</td><td>Staff provides, AJL reimburses €80</td></tr>
+    <tr><td>Gloves</td><td>Nitrile black</td><td>Pressing + washing only</td></tr>
+  </table>
+  <div class="divider"></div>
+  <p style="font-size:10pt"><strong>Laundry:</strong> twice-weekly pickup by Schoon Jordaan (€32/week). <strong>Replacement:</strong> aprons every 6 months, tees every 3 months, reimbursed from staff budget.</p>
+</section>
+
+<!-- PAGE 19 · MENU -->
+<section class="page" data-page="19">
+  <div class="eyebrow">Menu · Eight recipes</div>
+  <h1 class="page-title">The eight bottles.</h1>
+  <p class="lead">Rotating never. Substitutions never. If a fruit is not in season, the recipe is off the board for that week — we do not fake it with frozen pulp.</p>
+  <table>
+    <tr><th>№</th><th>Name</th><th>Composition</th><th>€</th></tr>
+    <tr><td>01</td><td>Green Storm</td><td>Kale · cucumber · green apple · lemon · ginger</td><td class="num">7.00</td></tr>
+    <tr><td>02</td><td>Carrot Sun</td><td>Carrot · orange · turmeric · lemon</td><td class="num">6.00</td></tr>
+    <tr><td>03</td><td>Beet Riot</td><td>Red beet · apple · lemon · ginger</td><td class="num">6.50</td></tr>
+    <tr><td>04</td><td>Ginger Deep</td><td>Ginger · apple · lemon · cayenne</td><td class="num">5.50</td></tr>
+    <tr><td>05</td><td>Citrus 6</td><td>Orange · grapefruit · lemon · lime · mandarin · yuzu</td><td class="num">7.50</td></tr>
+    <tr><td>06</td><td>Apple Fix</td><td>Jonagold · pear · lemon</td><td class="num">5.00</td></tr>
+    <tr><td>07</td><td>C + D</td><td>Orange · carrot · ginger · turmeric · black pepper</td><td class="num">6.50</td></tr>
+    <tr><td>08</td><td>Canal Blue</td><td>Blueberry · blackcurrant · apple · lemon · mint</td><td class="num">8.00</td></tr>
+  </table>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Gross margin:</strong> 72% average. <strong>Average ticket:</strong> €6.45. <strong>Best sellers M1-3:</strong> 01 Green Storm, 05 Citrus 6, 08 Canal Blue.</p>
+</section>
+
+<!-- PAGE 20 · BUDGET -->
+<section class="page" data-page="20">
+  <div class="eyebrow">Budget · €9,800</div>
+  <h1 class="page-title">Where the money goes.</h1>
+  <div class="donut-wrap">
+    <svg class="donut" viewBox="0 0 42 42">
+      <circle cx="21" cy="21" r="15.915" fill="#FAF6EC" stroke="#FAF6EC"/>
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#4F8E3E" stroke-width="8" stroke-dasharray="57.8 42.2" stroke-dashoffset="25" transform="rotate(-90 21 21)"/>
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#1E3D59" stroke-width="8" stroke-dasharray="16.3 83.7" stroke-dashoffset="-32.8" transform="rotate(-90 21 21)"/>
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#E35B1E" stroke-width="8" stroke-dasharray="12.2 87.8" stroke-dashoffset="-49.1" transform="rotate(-90 21 21)"/>
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#A7B89D" stroke-width="8" stroke-dasharray="7.1 92.9" stroke-dashoffset="-61.3" transform="rotate(-90 21 21)"/>
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#0F1511" stroke-width="8" stroke-dasharray="6.6 93.4" stroke-dashoffset="-68.4" transform="rotate(-90 21 21)"/>
+    </svg>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-dot" style="background:#4F8E3E"></span>Equipment (core + detail)<span class="val">€5,660</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:#1E3D59"></span>Fit-out + joinery<span class="val">€1,600</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:#E35B1E"></span>Deposit + first month rent<span class="val">€1,200</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:#A7B89D"></span>Marketing + launch<span class="val">€700</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:#0F1511"></span>Permits + KvK + reserve<span class="val">€640</span></div>
+      <div class="legend-item" style="margin-top:3mm;font-weight:700;border-top:2px solid var(--leaf);border-bottom:none;padding-top:3mm">TOTAL<span class="val">€9,800</span></div>
+    </div>
+  </div>
+  <p style="margin-top:6mm;font-size:10pt"><strong>Reserve:</strong> €200 emergency buffer held in Bunq business account. First 8 weeks of rent are prepaid so the kiosk survives a slow opening.</p>
+</section>
+
+<!-- PAGE 21 · REGISTRATION -->
+<section class="page" data-page="21">
+  <div class="eyebrow">Legal · NL</div>
+  <h1 class="page-title">Registration checklist.</h1>
+  <p class="lead">Netherlands food kiosk setup is methodical but not slow. The whole stack can be finished inside 3 weeks if you start KvK and NVWA in parallel.</p>
+  <div class="reg-grid">
+    <div class="reg-card">
+      <h4>Business</h4>
+      <ul>
+        <li>KvK (eenmanszaak or BV) — €80, same-day online</li>
+        <li>BTW-nummer automatic from KvK</li>
+        <li>ZZP without staff, or BV if partners</li>
+        <li>Bunq business account — €10/month</li>
+        <li>Liability insurance — Centraal Beheer, ~€30/month</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>Food + Premises</h4>
+      <ul>
+        <li>NVWA registration (Levensmiddelenbedrijf)</li>
+        <li>HACCP hygiënecode voor sappencentrales</li>
+        <li>Gemeente Amsterdam — horeca vergunning Cat. 3 (kiosk)</li>
+        <li>UNESCO Jordaan facade consent — awning colour + size</li>
+        <li>Waste: De Ceuvel pulp pickup contract</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>Tax</h4>
+      <ul>
+        <li>BTW 9% on takeaway juice</li>
+        <li>Inkomstenbelasting — quarterly ZZP-aangifte</li>
+        <li>Kleineondernemersregeling if &lt; €20k turnover</li>
+        <li>MKB-winstvrijstelling 13.31%</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>Staff (from month 3)</h4>
+      <ul>
+        <li>UWV werkgeversregistratie</li>
+        <li>CAO Horeca — minimumloon 2026</li>
+        <li>Payroll via Employes or Nmbrs</li>
+        <li>Pensioenfonds Horeca (verplicht)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 22 · TIMELINE -->
+<section class="page" data-page="22">
+  <div class="eyebrow">Timeline · 6 weeks</div>
+  <h1 class="page-title">Week-by-week launch.</h1>
+  <div class="timeline">
+    <div class="tl-row"><div class="tl-week">W1<small>LEGAL</small></div><ul class="tl-tasks"><li>KvK registration + BTW</li><li>NVWA application submitted</li><li>Gemeente horeca vergunning filed</li><li>Lease signed, deposit paid</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W2<small>FIT-OUT</small></div><ul class="tl-tasks"><li>Houtatelier Noord builds oak hatch counter</li><li>Glass press panel installed</li><li>Awning crafted by Zaanse Canvas</li><li>Electrical 16A + water 1/2" inlet</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W3<small>EQUIPMENT</small></div><ul class="tl-tasks"><li>Goodnature M-1 delivered + commissioned</li><li>Porkka fridge installed</li><li>Cold room tested at 2°C</li><li>HACCP temperature log started</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W4<small>BRAND</small></div><ul class="tl-tasks"><li>Drukkerij De Jordaan prints 10k labels</li><li>Bottles + caps delivered</li><li>Website + Instagram live</li><li>Menu board hand-lettered</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W5<small>TRAINING</small></div><ul class="tl-tasks"><li>2-day press training from Goodnature</li><li>HACCP dry-run with NVWA inspector</li><li>Fruit supplier line live (Kwakernaak)</li><li>Soft opening to Jordaan neighbours</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W6<small>LAUNCH</small></div><ul class="tl-tasks"><li>Public opening — Saturday morning</li><li>Local press + Het Parool review</li><li>Subscription signups open</li><li>Hotel concierge handshakes (Pulitzer, Andaz)</li></ul></div>
+  </div>
+</section>
+
+<!-- PAGE 23 · P&L -->
+<section class="page" data-page="23">
+  <div class="eyebrow">P&amp;L · Monthly</div>
+  <h1 class="page-title">The numbers.</h1>
+  <p class="lead">Target month 6 onward. Break-even at 78 bottles/day, hit consistently from month 4.</p>
+  <table>
+    <tr><th>Line</th><th>Detail</th><th class="num">€ / month</th></tr>
+    <tr><td>Revenue · hatch</td><td>110 bottles/day × €6.45 × 26 days</td><td class="num">+9,600</td></tr>
+    <tr><td>Revenue · wholesale</td><td>Yoga studios + hotels 4-pack</td><td class="num">+1,200</td></tr>
+    <tr><td><strong>Total revenue</strong></td><td></td><td class="num">+10,800</td></tr>
+    <tr><td>COGS · fruit</td><td>Kwakernaak + Mastrototaro</td><td class="num">−2,750</td></tr>
+    <tr><td>COGS · bottles/labels/caps</td><td>Glass + print + deposit float</td><td class="num">−480</td></tr>
+    <tr><td>Rent</td><td>12 m² Jordaan canal corner</td><td class="num">−650</td></tr>
+    <tr><td>Utilities</td><td>Electricity + water + internet</td><td class="num">−210</td></tr>
+    <tr><td>Staff</td><td>1 FTE owner + 1 PT weekend</td><td class="num">−2,800</td></tr>
+    <tr><td>Insurance + KvK + pension</td><td>Centraal Beheer + Horeca pens.</td><td class="num">−240</td></tr>
+    <tr><td>Waste + cleaning + laundry</td><td>Schoon Jordaan + De Ceuvel</td><td class="num">−200</td></tr>
+    <tr><td>Marketing + software</td><td>Instagram ads + POS + accounting</td><td class="num">−180</td></tr>
+    <tr><td>BTW + inkomstenbelasting</td><td>9% BTW + provisional tax</td><td class="num">−870</td></tr>
+    <tr class="total-row"><td><strong>EBITDA</strong></td><td></td><td class="num">+2,420</td></tr>
+  </table>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)">Payback period on €9,800 investment: Month 5–6. Year 1 net: ~€18,000 after founder draw.</p>
+</section>
+
+<!-- PAGE 24 · SUPPLIERS -->
+<section class="page" data-page="24">
+  <div class="eyebrow">Supplier List · NL</div>
+  <h1 class="page-title">Who to call.</h1>
+  <p class="lead">Named suppliers beat generic wholesale. Amsterdam has a dense farm-to-Jordaan network — use it.</p>
+  <table>
+    <tr><th>Category</th><th>Supplier</th><th>City</th><th>Why them</th></tr>
+    <tr><td>Apples + pears</td><td>Fruitbedrijf Kwakernaak</td><td>Randwijk</td><td>Organic, 60 km, twice-weekly delivery</td></tr>
+    <tr><td>Citrus</td><td>Mastrototaro Sicilia (via Amsterdam Fruit)</td><td>Amsterdam</td><td>Direct Sicilian import, ungassed</td></tr>
+    <tr><td>Ginger + turmeric</td><td>De Groote Voort</td><td>Lelystad</td><td>Biodynamic root growers</td></tr>
+    <tr><td>Leafy greens</td><td>Kwekerij Osdorp</td><td>Amsterdam-West</td><td>12 km distance, same-day cut</td></tr>
+    <tr><td>Berries</td><td>Peeters Fruit</td><td>Limburg</td><td>Frozen line for winter 08 recipe</td></tr>
+    <tr><td>Cold-press machine</td><td>Goodnature BV</td><td>Amsterdam</td><td>Local service + commissioning</td></tr>
+    <tr><td>Bottles</td><td>O-I Nederland</td><td>Leerdam</td><td>250 ml amber flint, crown finish</td></tr>
+    <tr><td>Caps</td><td>Pelliconi NL</td><td>Rotterdam</td><td>Custom leaf-print crown</td></tr>
+    <tr><td>Labels + print</td><td>Drukkerij De Jordaan</td><td>Amsterdam</td><td>Walking distance, kraft specialist</td></tr>
+    <tr><td>Joinery</td><td>Houtatelier Noord</td><td>Zaandam</td><td>Oak + canal-friendly hardware</td></tr>
+    <tr><td>Awning</td><td>Zaanse Canvas</td><td>Zaandam</td><td>UNESCO-approved marine canvas</td></tr>
+    <tr><td>Banking + payroll</td><td>Bunq + Employes</td><td>Amsterdam</td><td>API-first NL fintech</td></tr>
+    <tr><td>Accountant</td><td>Boekhouder De Jordaan</td><td>Amsterdam</td><td>Horeca specialist, €180/month</td></tr>
+  </table>
+</section>
+
+<!-- PAGE 25 · BACK COVER -->
+<section class="page back-cover no-footer">
+  <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);opacity:0.6">SVITA Micro · Brandbook №004</div>
+  <div>
+    <h1 style="margin-top:20mm">Let's press.</h1>
+    <p style="margin-top:8mm;font-size:13pt;line-height:1.5">Amsterdam Juice Lab is the fourth concept in the SVITA Micro canal-side series — a 12 m² kiosk, eight bottles, six weeks to open, €9,800 to build. The Goodnature press runs at 08:00. The hatch opens at 08:30. The day's juice is gone by 18:00.</p>
+    <p style="margin-top:4mm;font-size:11pt;opacity:0.8">This brandbook is a complete operational document: brand, space, menu, suppliers, permits, budget, P&amp;L. Everything you need to walk into a KvK office and, six weeks later, hand a numbered bottle through a window.</p>
+  </div>
+  <div>
+    <div style="font-size:9pt;color:#888;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:3mm">svita.ai/micro · concept №004 · AJL</div>
+    <div style="font-size:8pt;color:#666">© 2026 SVITA Micro · Canal-side concept library for independent founders</div>
+  </div>
+</section>
+
+</body>
+</html>
