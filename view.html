@@ -437,9 +437,10 @@ window.saVerify = saVerify;
 window.saUnverify = saUnverify;
 
 async function detectOwnership(slug){
-  if(!SB) return {owned:false, type:null};
+  if(!SB){ console.warn('[view] SB client missing'); return {owned:false, type:null}; }
   try{
     const {data:{session}} = await SB.auth.getSession();
+    console.log('[view] session?', !!session, session && session.user && session.user.email);
     if(!session) return {owned:false, type:null};
     const {data, error} = await SB.from('purchases')
       .select('status, provider')
@@ -447,10 +448,11 @@ async function detectOwnership(slug){
       .eq('concept_slug', slug)
       .eq('status', 'paid')
       .maybeSingle();
+    console.log('[view] purchase row', slug, data, error);
     if(error || !data) return {owned:false, type:null};
     const isGift = data.provider === 'superadmin' || data.provider === 'gift';
     return {owned:true, type: isGift ? 'gift' : 'paid'};
-  }catch(e){ return {owned:false, type:null}; }
+  }catch(e){ console.error('[view] detectOwnership', e); return {owned:false, type:null}; }
 }
 
 async function detectSuperadmin(){
@@ -522,6 +524,16 @@ async function loadSuperadminFullConcept(slug){
   IS_OWNED = own.owned;
   OWN_TYPE = own.type;
   if(IS_OWNED) document.body.classList.add('owned-mode');
+  // Live has_brandbook from DB (catalog.json can be stale)
+  if(SB){
+    try{
+      const {data:live} = await SB.from('concepts_catalog').select('has_brandbook,name,tagline,budget_eur,weeks,size_m2,category,hero_image,price_eur').eq('slug',slug).maybeSingle();
+      if(live){
+        CONCEPT.has_brandbook = !!live.has_brandbook;
+        console.log('[view] live has_brandbook', slug, CONCEPT.has_brandbook, 'IS_OWNED', IS_OWNED, 'IS_SA', IS_SA);
+      }
+    }catch(e){ console.error('[view] live catalog', e); }
+  }
   await loadI18nOverride(slug, CURRENT_LANG);
   rerenderAll();
   document.getElementById('loading').classList.add('hidden');
