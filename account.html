@@ -413,28 +413,9 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 </head>
 <body>
 
-<!-- ============ NAV (shown only when signed in) ============ -->
-<nav id="nav" class="hidden">
-  <a href="index.html" class="brand">
-    <span class="brand-dot"></span>
-    SVITA<small>MICRO</small>
-  </a>
-  <div class="nav-right">
-    <a href="shop.html">Shop</a>
-    <a href="#" id="nav-admin-link" style="display:none">Admin</a>
-    <a href="#" id="signout-link">Sign out</a>
-    <a href="shop.html" class="nav-cta" id="nav-browse">Browse shop</a>
-  </div>
-  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
-</nav>
-<script>
-(function(){
-  const b=document.getElementById('burger');
-  if(!b) return;
-  b.addEventListener('click',()=>document.body.classList.toggle('menu-open'));
-  document.querySelectorAll('.nav-right a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('menu-open')));
-})();
-</script>
+<!-- ============ NAV (shared) ============ -->
+<nav id="nav"></nav>
+<script src="js/svita-nav.js"></script>
 
 <!-- ============ LOGIN MODAL ============ -->
 <div id="login-view" class="login-shell">
@@ -640,7 +621,8 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 // ═══════════════ SUPABASE ═══════════════
 const SB_URL='https://ctdleobjnzniqkqomlrq.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
-const sb = supabase.createClient(SB_URL, SB_KEY);
+const sb = window.__svitaSb || supabase.createClient(SB_URL, SB_KEY, { auth:{ persistSession:true, autoRefreshToken:true, storageKey:'svita-micro-auth' } });
+window.__svitaSb = sb;
 
 const qs = new URLSearchParams(location.search);
 const BUY_INTENT = qs.get('buy');
@@ -661,9 +643,7 @@ function show(id){ $(id).classList.remove('hidden'); }
 function hide(id){ $(id).classList.add('hidden'); }
 function msgBox(el,text,kind){ el.innerHTML = `<div class="msg ${kind}">${text}</div>`; }
 
-// ═══════════════ NAV SCROLL ═══════════════
-const nav = $('nav');
-window.addEventListener('scroll', ()=> nav.classList.toggle('scrolled', window.scrollY > 20), {passive:true});
+// Nav scroll + burger are wired by js/svita-nav.js
 
 // ═══════════════ REVEAL ═══════════════
 const io = new IntersectionObserver((entries)=>{
@@ -676,23 +656,23 @@ async function boot(){
   // Password recovery flow: user clicked the email link with ?type=recovery
   const isRecovery = qs.get('type')==='recovery' || location.hash.includes('type=recovery');
   if(isRecovery){
-    show('login-view'); hide('nav'); hide('account-view');
+    show('login-view'); hide('account-view');
     showPanel('reset');
     return;
   }
   const {data:{session}} = await sb.auth.getSession();
   if(session && session.user) enterAccount(session.user);
-  else { show('login-view'); hide('nav'); hide('account-view'); showPanel('signin'); }
+  else { show('login-view'); hide('account-view'); showPanel('signin'); }
 }
 
 sb.auth.onAuthStateChange((event, session)=>{
   if(event === 'PASSWORD_RECOVERY'){
-    show('login-view'); hide('nav'); hide('account-view');
+    show('login-view'); hide('account-view');
     showPanel('reset');
   } else if(event === 'SIGNED_IN' && session){
     enterAccount(session.user);
   } else if(event === 'SIGNED_OUT'){
-    hide('account-view'); hide('nav'); show('login-view'); showPanel('signin');
+    hide('account-view'); show('login-view'); showPanel('signin');
   }
 });
 
@@ -876,11 +856,10 @@ $('form-reset').addEventListener('submit', async e=>{
 });
 
 $('signout-btn').addEventListener('click', async ()=>{ await sb.auth.signOut(); });
-$('signout-link').addEventListener('click', async e=>{ e.preventDefault(); await sb.auth.signOut(); });
 
 // ═══════════════ ACCOUNT VIEW ═══════════════
 async function enterAccount(user){
-  hide('login-view'); show('account-view'); show('nav');
+  hide('login-view'); show('account-view');
   $('user-email').textContent = user.email;
   // Role lookup is optional — never block cabinet entry on it
   let role = 'user', displayName = null;
@@ -892,15 +871,7 @@ async function enterAccount(user){
     if(prof){ role = prof.role || 'user'; displayName = prof.display_name; }
   }catch(e){ /* profile row may not exist yet — ignore */ }
   MY_ROLE = role;
-  // Show admin link in nav if user has admin/superadmin role
-  const adminLink = $('nav-admin-link');
-  if(adminLink){
-    if(role === 'admin' || role === 'superadmin'){
-      adminLink.href = 'admin.html';
-      adminLink.textContent = role === 'superadmin' ? 'Superadmin' : 'Admin';
-      adminLink.style.display = '';
-    } else { adminLink.style.display = 'none'; }
-  }
+  // Admin link is surfaced via role-badge + role page; shared nav keeps dropdown clean
   // Role badge in cabinet header
   const badge = $('role-badge');
   if(badge){

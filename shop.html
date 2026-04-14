@@ -220,29 +220,8 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 </head>
 <body>
 
-<nav id="nav">
-  <a href="index.html" class="brand">
-    <span class="brand-dot"></span>
-    SVITA<small>MICRO</small>
-  </a>
-  <div class="nav-right">
-    <a href="shop.html" class="active">Магазин</a>
-    <a href="account.html">Мой кабинет</a>
-    <a href="index.html#how">How it works</a>
-    <a href="account.html" class="nav-cta">Sign in</a>
-  </div>
-  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
-</nav>
-<script>
-(function(){
-  const b=document.getElementById('burger');
-  if(!b) return;
-  b.addEventListener('click',()=>document.body.classList.toggle('menu-open'));
-  document.querySelectorAll('.nav-right a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('menu-open')));
-  const nv=document.getElementById('nav');
-  if(nv)window.addEventListener('scroll',()=>nv.classList.toggle('scrolled',window.scrollY>20),{passive:true});
-})();
-</script>
+<nav id="nav"></nav>
+<script src="js/svita-nav.js"></script>
 
 <section class="page">
   <div class="wrap">

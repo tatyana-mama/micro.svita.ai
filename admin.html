@@ -264,18 +264,7 @@ td .actions{display:flex;gap:6px}
   </div>
 </div>
 
-<nav id="nav">
-  <a href="index.html" class="brand">
-    <span class="brand-dot"></span>
-    SVITA<small>MICRO · ADMIN</small>
-  </a>
-  <div class="nav-right">
-    <span class="role-badge" id="nav-role">● Admin</span>
-    <a href="shop.html">Shop</a>
-    <a href="account.html">My cabinet</a>
-    <a href="#" id="signout">Sign out</a>
-  </div>
-</nav>
+<nav id="nav"></nav>
 
 <!-- GUARD -->
 <div id="guard" class="guard hidden">
@@ -439,18 +428,12 @@ async function boot(){
     $('guard').classList.remove('hidden');
     return;
   }
-  // Badge
-  const badge = $('nav-role');
+  // Role badge rendered by shared nav (svita-nav.js reads profiles.role).
   if(MY_ROLE === 'superadmin'){
-    badge.textContent = '● Superadmin';
-    badge.style.background = 'rgba(239,68,68,0.12)';
-    badge.style.borderColor = 'rgba(239,68,68,0.4)';
-    badge.style.color = '#fff';
     $('tab-users').style.display = '';
     $('tab-metrics').style.display = '';
     $('page-eyebrow').textContent = 'Superadmin control';
   } else {
-    badge.textContent = '● Admin';
     $('page-eyebrow').textContent = 'Concept admin';
     $('page-title').innerHTML = 'Verify &amp; publish <span class="accent">concepts</span>.';
   }
@@ -952,11 +935,10 @@ $('bulk-delete').addEventListener('click', async ()=>{
 $('uq').addEventListener('input', e=>{USTATE.q=e.target.value;applyUsers()});
 $('urole').addEventListener('change', e=>{USTATE.role=e.target.value;applyUsers()});
 $('m-refresh').addEventListener('click', loadMetrics);
-$('signout').addEventListener('click', async e=>{e.preventDefault();await sb.auth.signOut();location.href='account.html'});
-
-window.addEventListener('scroll', ()=> $('nav').classList.toggle('scrolled', window.scrollY > 20), {passive:true});
+/* signout + nav scroll handled by shared svita-nav.js */
 
 boot();
 </script>
+<script src="js/svita-nav.js"></script>
 </body>
 </html>

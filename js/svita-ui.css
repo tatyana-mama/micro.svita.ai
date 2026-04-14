@@ -82,3 +82,149 @@ html,body{overflow-x:hidden}
 
 /* Tabular scroll hint */
 .table-wrap::after{content:none}
+
+/* ====== SHARED NAV — language switcher ====== */
+.lang{position:relative}
+.lang-btn{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;color:#A1A1AA;font-weight:500;
+  padding:8px 12px;border:1px solid #232327;border-radius:100px;
+  text-transform:uppercase;letter-spacing:0.1em;
+  background:none;cursor:pointer;
+  transition:all 200ms cubic-bezier(.22,1,.36,1);
+}
+.lang-btn:hover{border-color:#2F2F34;color:#FAFAFA}
+.lang-btn svg{width:10px;height:10px;opacity:0.6}
+.lang-menu{
+  position:absolute;top:calc(100% + 8px);right:0;
+  background:#111113;border:1px solid #232327;border-radius:10px;
+  padding:6px;min-width:96px;display:none;
+  box-shadow:0 24px 60px rgba(0,0,0,0.5);
+  z-index:150;
+}
+.lang.open .lang-menu{display:block}
+.lang-menu button{
+  display:block;width:100%;text-align:left;padding:9px 14px;
+  font-size:12px;color:#A1A1AA;border-radius:6px;
+  text-transform:uppercase;letter-spacing:0.08em;
+  background:none;border:0;cursor:pointer;
+  transition:all 150ms ease;
+}
+.lang-menu button:hover{background:#18181B;color:#FAFAFA}
+.lang-menu button.active{color:#D6FF3E}
+
+/* ====== SHARED NAV — icon button (cart etc.) ====== */
+.icon-btn{
+  position:relative;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:38px;height:38px;border-radius:100px;
+  color:#A1A1AA;border:1px solid #232327;background:none;
+  transition:all 200ms cubic-bezier(.22,1,.36,1);
+  text-decoration:none;
+}
+.icon-btn:hover{border-color:#2F2F34;color:#FAFAFA;transform:translateY(-1px)}
+.icon-btn svg{display:block}
+.cart-count{
+  position:absolute;top:-4px;right:-4px;
+  min-width:18px;height:18px;padding:0 5px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;
+  color:#0A0A0B;background:#D6FF3E;
+  border-radius:100px;border:2px solid #0A0A0B;
+  letter-spacing:0;line-height:1;
+}
+.mi-count{
+  margin-left:auto;background:#D6FF3E;color:#0A0A0B;
+  padding:1px 7px;border-radius:100px;font-size:10px;font-weight:700;
+}
+
+/* ====== SHARED NAV — Log in / Sign up buttons ====== */
+.nav-login{
+  background:none!important;color:#A1A1AA!important;
+  border:1px solid #232327!important;
+}
+.nav-login:hover{color:#FAFAFA!important;border-color:#2F2F34!important;background:none!important}
+.nav-signup{background:#D6FF3E;color:#0A0A0B}
+.nav-signup:hover{background:#C5EE2D;transform:translateY(-1px)}
+
+/* ====== SHARED NAV USER MENU ====== */
+.user-menu{position:relative}
+.user-btn{
+  display:flex;align-items:center;gap:8px;
+  padding:4px 12px 4px 4px;
+  background:#FAFAFA;color:#0A0A0B;
+  border-radius:100px;
+  font-size:12px;font-weight:500;
+  transition:all 200ms cubic-bezier(.22,1,.36,1);
+  cursor:pointer;
+}
+.user-btn:hover{background:#D6FF3E;transform:translateY(-1px)}
+.user-avatar{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,#D6FF3E,#9FC22F);
+  color:#0A0A0B;font-size:11px;font-weight:700;
+  letter-spacing:0.03em;flex-shrink:0;
+  box-shadow:0 0 0 2px rgba(10,10,11,0.12) inset;
+}
+.user-avatar.lg{width:44px;height:44px;font-size:14px}
+.role-tag{
+  font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;
+  background:#0A0A0B;color:#D6FF3E;padding:3px 8px;border-radius:100px;
+}
+.user-btn svg{opacity:0.6;flex-shrink:0}
+.user-drop{
+  position:absolute;top:calc(100% + 10px);right:0;
+  min-width:260px;padding:8px;
+  background:#111113;border:1px solid #232327;border-radius:14px;
+  box-shadow:0 24px 60px rgba(0,0,0,0.55),0 2px 6px rgba(0,0,0,0.4);
+  display:none;
+  z-index:150;
+}
+.user-head{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px 10px;
+}
+.user-head-txt{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.user-head-email{
+  font-size:12px;font-weight:600;color:#FAFAFA;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.user-head-role{
+  font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;
+  color:#D6FF3E;
+}
+.user-menu.open .user-drop{display:block;animation:dropIn 180ms cubic-bezier(.22,1,.36,1)}
+@keyframes dropIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.user-drop a,
+.user-drop button{
+  display:flex;align-items:center;gap:12px;
+  width:100%;padding:11px 14px;
+  color:#A1A1AA;font-size:13px;font-weight:500;
+  border-radius:9px;text-align:left;
+  transition:all 150ms ease;
+  background:none;border:0;cursor:pointer;
+}
+.user-drop a:hover,
+.user-drop button:hover{background:#18181B;color:#FAFAFA}
+.user-drop .ic{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:20px;height:20px;font-size:14px;opacity:0.7;
+}
+.user-sep{height:1px;background:#232327;margin:6px 4px}
+
+/* Ensure lang/user button stays touchable */
+.lang-btn,.user-btn{min-height:36px}
+
+@media(max-width:600px){
+  .user-btn{padding:3px 8px 3px 3px}
+  .user-avatar{width:28px;height:28px;font-size:10px}
+  .role-tag{display:none}
+  .user-drop{min-width:240px;right:-8px}
+  .icon-btn{width:34px;height:34px}
+  .icon-btn svg{width:16px;height:16px}
+  .nav-signup{display:none}
+  /* keep shop/how text visible in shared nav */
+  .nav-right a:not(.nav-cta){font-size:12px!important;padding:4px 2px}
+  .nav-right a:not(.nav-cta)::before{content:none!important}
+}
