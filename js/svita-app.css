@@ -24,6 +24,54 @@
     text-size-adjust:100%;
     -webkit-text-size-adjust:100%;
   }
+
+  /* ========== PERF: kill GPU-killers on mobile ========== */
+  /* backdrop-filter on multiple stacked layers tanks iOS Safari.
+     Replace with opaque backgrounds. Keep blur only on the single top nav. */
+  .toolbar{
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+    background:#0E0E10 !important;
+    position:static !important; /* stop sticky repaint storms */
+  }
+  .card .price,
+  .card .country,
+  .owned-badge{
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+    background:rgba(10,10,11,0.92) !important;
+  }
+  /* Kill the fullscreen radial-gradient halo that forces a full-page repaint */
+  .page::before,
+  section::before{
+    display:none !important;
+  }
+  /* Remove expensive long transitions on cards */
+  .card{transition:none !important}
+  .card .img{transition:none !important}
+  .card:hover .img{transform:none !important}
+  /* Virtualise off-screen cards — massive win on long lists */
+  .card{
+    content-visibility:auto;
+    contain-intrinsic-size:320px;
+  }
+  /* Reveal animations: cut duration, let GPU rest */
+  .reveal{
+    transition:opacity 240ms ease-out,transform 240ms ease-out !important;
+    transform:translateY(12px) !important;
+  }
+  /* Drop blur on nav itself to 10px — still feels app-y but cheap */
+  nav,nav.scrolled{
+    backdrop-filter:blur(10px) !important;
+    -webkit-backdrop-filter:blur(10px) !important;
+  }
+  /* Any filter on body / html (inherited blur) is a catastrophe on mobile */
+  body{filter:none !important}
+  /* Disable keyframe sparkle/glow loops */
+  *{animation-play-state:running}
+  @media (prefers-reduced-motion:no-preference){
+    .brand-dot{animation:none !important;box-shadow:0 0 8px var(--accent,#D6FF3E) !important}
+  }
   body{
     /* reserve space for bottom tab bar */
     padding-bottom:calc(var(--app-tabbar-h) + var(--app-safe-bot)) !important;

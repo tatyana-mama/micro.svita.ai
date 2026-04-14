@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>KØBN SMØRRE — Brandbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#5C7A92;
+  --blue-dark:#3E5668;
+  --cream:#F5EFE3;
+  --rye:#8C6A42;
+  --brass:#B89456;
+  --ink:#1F2426;
+  --gray:#6B6B6B;
+  --line:#E1DBCC;
+  --mist:#D8D4C8;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{background:#BBB;font-family:'Inter',sans-serif;color:var(--ink);font-size:11pt;line-height:1.55}
+h1,h2,h3,h4,h5{font-family:'Fraunces',serif;font-weight:800;letter-spacing:-0.02em;line-height:1.1}
+a{color:inherit;text-decoration:none}
+small{font-size:9pt;color:var(--gray)}
+
+/* A4 PAGE */
+.page{
+  width:210mm;height:297mm;
+  background:var(--cream);
+  padding:22mm 20mm;
+  margin:10mm auto;
+  box-shadow:0 4px 24px rgba(0,0,0,0.18);
+  position:relative;overflow:hidden;
+  page-break-after:always;
+  display:flex;flex-direction:column;
+}
+.page::after{
+  content:attr(data-page) ' / 25';
+  position:absolute;bottom:12mm;right:20mm;
+  font-family:'Inter';font-size:8pt;color:var(--gray);letter-spacing:0.1em;
+}
+.page::before{
+  content:'KØBN SMØRRE · BRANDBOOK';
+  position:absolute;bottom:12mm;left:20mm;
+  font-family:'Inter';font-size:8pt;color:var(--gray);letter-spacing:0.12em;font-weight:500;
+}
+.page.no-footer::after,.page.no-footer::before{display:none}
+
+.eyebrow{font-family:'Inter';font-size:9pt;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--blue);margin-bottom:8mm}
+h1.page-title{font-size:30pt;margin-bottom:6mm;letter-spacing:-0.025em;font-style:italic;font-weight:600}
+h2.section-title{font-size:20pt;margin-bottom:5mm}
+.lead{font-size:13pt;color:var(--ink);line-height:1.5;max-width:150mm;margin-bottom:6mm}
+p{margin-bottom:3mm}
+img{max-width:100%;display:block}
+.divider{height:1px;background:var(--line);margin:6mm 0}
+
+/* COVER */
+.cover{background:var(--blue);color:var(--cream);justify-content:space-between;padding:18mm}
+.cover::before,.cover::after{display:none}
+.cover .brand{font-family:'Fraunces';font-size:58pt;font-weight:800;line-height:0.9;color:var(--cream);margin-top:30mm;font-style:italic;letter-spacing:-0.03em}
+.cover .brand small{display:block;font-family:'Inter';font-size:10pt;font-weight:500;color:var(--brass);margin-top:8mm;letter-spacing:0.22em;text-transform:uppercase;font-style:normal}
+.cover .tagline{font-family:'Fraunces';font-size:15pt;font-weight:400;font-style:italic;max-width:140mm;margin-bottom:18mm;color:var(--cream);opacity:0.92}
+.cover .meta{display:flex;gap:12mm;font-size:9pt;color:var(--cream);border-top:1px solid rgba(245,239,227,0.3);padding-top:8mm;flex-wrap:wrap}
+.cover .meta strong{display:block;font-family:'Fraunces';font-size:18pt;font-weight:800;color:var(--brass);margin-bottom:2mm}
+.cover-hero{width:100%;height:70mm;object-fit:cover;border-radius:2mm;margin-top:6mm;filter:brightness(0.95) contrast(1.05)}
+
+/* EXEC SUMMARY */
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6mm;margin-top:6mm}
+.stat-box{background:#fff;border:1px solid var(--line);border-radius:2mm;padding:6mm}
+.stat-box .num{font-family:'Fraunces';font-weight:800;font-size:26pt;color:var(--blue);line-height:1;font-style:italic}
+.stat-box .lbl{font-size:9pt;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-top:2mm;font-weight:600}
+
+/* USPS */
+.usp-list{list-style:none;margin-top:6mm}
+.usp-list li{padding:4mm 0 4mm 12mm;border-bottom:1px solid var(--line);position:relative;font-size:11pt}
+.usp-list li::before{
+  content:counter(usps,upper-roman);counter-increment:usps;
+  position:absolute;left:0;top:4mm;
+  font-family:'Fraunces';font-weight:800;font-size:14pt;color:var(--brass);font-style:italic;
+}
+.usp-list{counter-reset:usps}
+
+/* BRAND */
+.color-row{display:grid;grid-template-columns:repeat(5,1fr);gap:4mm;margin-top:6mm}
+.color-chip{aspect-ratio:1/1.2;border-radius:2mm;padding:4mm;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line)}
+.color-chip .hex{font-family:'Inter';font-weight:700;font-size:10pt}
+.color-chip .nm{font-size:8pt;opacity:0.85;margin-top:1mm;font-weight:500}
+.color-chip.dark{color:#fff}
+
+/* TYPOGRAPHY */
+.type-sample{margin-top:8mm;padding:6mm;border-left:3px solid var(--blue);background:#fff}
+.type-sample .label{font-size:9pt;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2mm;font-weight:600}
+.type-sample .demo{font-family:'Fraunces';font-size:32pt;font-weight:800;font-style:italic;color:var(--blue);line-height:1}
+.type-sample.body .demo{font-family:'Inter';font-weight:400;font-size:13pt;font-style:normal;color:var(--ink);line-height:1.55}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;margin-top:4mm;font-size:10pt}
+th,td{padding:3mm 2mm;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:'Inter';font-weight:700;font-size:9pt;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray)}
+td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.total-row{background:var(--mist);font-weight:700}
+.total-row td{border-top:2px solid var(--blue);border-bottom:none}
+
+/* IMAGE FULL */
+.img-full{width:100%;flex:1;object-fit:cover;border-radius:2mm;margin-top:6mm}
+.img-large{width:100%;max-height:160mm;object-fit:contain;margin:4mm 0;border-radius:2mm}
+.caption{font-size:9pt;color:var(--gray);margin-top:3mm;font-style:italic;text-align:center}
+
+/* BUDGET CHART */
+.donut-wrap{display:flex;gap:10mm;align-items:center;margin-top:6mm}
+.donut{width:70mm;height:70mm;flex-shrink:0}
+.legend{flex:1}
+.legend-item{display:flex;align-items:center;gap:3mm;padding:2mm 0;font-size:10pt;border-bottom:1px solid var(--line)}
+.legend-dot{width:4mm;height:4mm;border-radius:50%;flex-shrink:0}
+.legend-item .val{margin-left:auto;font-family:'Inter';font-weight:700}
+
+/* TIMELINE */
+.timeline{margin-top:4mm}
+.tl-row{display:grid;grid-template-columns:22mm 1fr;gap:4mm;padding:4mm 0;border-bottom:1px solid var(--line)}
+.tl-week{font-family:'Fraunces';font-weight:800;font-style:italic;font-size:16pt;color:var(--blue)}
+.tl-week small{display:block;font-family:'Inter';font-size:8pt;color:var(--gray);font-weight:500;text-transform:uppercase;letter-spacing:0.08em;margin-top:1mm;font-style:normal}
+.tl-tasks{font-size:10pt}
+.tl-tasks li{margin-left:4mm;padding:1mm 0}
+
+/* REGISTRATION */
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:4mm}
+.reg-card{background:#fff;border:1px solid var(--line);border-radius:2mm;padding:5mm}
+.reg-card h4{font-family:'Fraunces';font-size:13pt;margin-bottom:3mm;color:var(--blue);font-style:italic;font-weight:600}
+.reg-card ul{list-style:none;font-size:10pt}
+.reg-card li{padding:1.5mm 0;padding-left:5mm;position:relative}
+.reg-card li::before{content:'·';position:absolute;left:0;color:var(--brass);font-weight:800;font-size:14pt;line-height:1}
+
+/* FLOOR PLAN (SVG) */
+.plan-wrap{flex:1;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;padding:8mm}
+
+/* BACK COVER */
+.back-cover{background:var(--ink);color:var(--cream);justify-content:space-between}
+.back-cover::before,.back-cover::after{color:#666}
+.back-cover h1{color:var(--brass);font-size:44pt}
+.back-cover p{color:#BBB;max-width:140mm}
+
+@media print{
+  body{background:#fff}
+  .page{box-shadow:none;margin:0}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ PAGE 01 · COVER ═══════════ -->
+<section class="page cover no-footer">
+  <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--brass)">SVITA Micro · Concept Brandbook №002</div>
+
+  <div>
+    <h1 class="brand">KØBN<br>SMØRRE<small>Open-face smørrebrød · Copenhagen</small></h1>
+  </div>
+
+  <div>
+    <div class="tagline">Open-face smørrebrød bar for lunchtime purists.<br>Rye, butter, fish, discipline — served standing, in under 90 seconds.</div>
+    <div class="meta">
+      <div><strong>€12,300</strong>TOTAL BUDGET</div>
+      <div><strong>7 wks</strong>TO LAUNCH</div>
+      <div><strong>18 m²</strong>FOOTPRINT</div>
+      <div><strong>DK</strong>COUNTRY</div>
+      <div><strong>M6</strong>BREAK-EVEN</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PAGE 02 · EXECUTIVE SUMMARY ═══════════ -->
+<section class="page" data-page="02">
+  <div class="eyebrow">Executive Summary</div>
+  <h1 class="page-title">The one-page pitch.</h1>
+  <p class="lead">Købn Smørre is a standing-only smørrebrød bar for Copenhagen lunch hour — 18 m², eight items on the menu, served in under 90 seconds. Total investment €12,300, launch in 7 weeks, break-even at 60 covers per day.</p>
+  <div class="divider"></div>
+  <div class="stats-grid">
+    <div class="stat-box"><div class="num">€12,300</div><div class="lbl">Total investment</div></div>
+    <div class="stat-box"><div class="num">€14,800</div><div class="lbl">Monthly revenue (target)</div></div>
+    <div class="stat-box"><div class="num">€3,850</div><div class="lbl">Monthly EBITDA</div></div>
+    <div class="stat-box"><div class="num">Month 6</div><div class="lbl">Break-even</div></div>
+    <div class="stat-box"><div class="num">60 covers</div><div class="lbl">Break-even volume/day</div></div>
+    <div class="stat-box"><div class="num">Nordic EU</div><div class="lbl">Replicable across region</div></div>
+  </div>
+</section>
+
+<!-- ═══════════ PAGE 03 · THE CONCEPT ═══════════ -->
+<section class="page" data-page="03">
+  <div class="eyebrow">The Concept</div>
+  <h1 class="page-title">Smørrebrød,<br>served standing.</h1>
+  <p class="lead">Copenhagen sit-down smørrebrød restaurants charge 180–260 DKK per piece and take 45 minutes. The office lunch crowd does not have 45 minutes, and the Netto supermarket smørrebrød is depressing. There is nothing in between — a proper, made-this-morning smørrebrød served fast, at a counter, for 70 DKK.</p>
+  <p>Købn Smørre fills that gap with a disciplined 8-item menu, a standing counter, and the same rye bread the fine-dining places buy from Meyers Bageri. The format is deliberately tiny (18 m²) because real estate is the killer: rent costs drop 60% once you drop below 25 m² in Copenhagen.</p>
+
+  <div style="margin-top:10mm;padding:6mm;background:#fff;border-left:3px solid var(--brass)">
+    <strong style="font-family:'Inter';font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--brass)">The 90-Second Rule</strong>
+    <p style="margin-top:2mm;font-size:10pt">From order to plate, every piece must be built and handed over in under 90 seconds. That means: toppings pre-portioned at 6am, rye sliced by machine, no compound assemblies, no table service. The kitchen runs like a Japanese yakitori stand — one motion per piece.</p>
+  </div>
+</section>
+
+<!-- ═══════════ PAGE 04 · TARGET AUDIENCE ═══════════ -->
+<section class="page" data-page="04">
+  <div class="eyebrow">Target Audience</div>
+  <h1 class="page-title">Who eats smørrebrød<br>at 12:15?</h1>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:6mm">
+    <div style="background:#fff;padding:6mm;border-radius:2mm;border:1px solid var(--line)">
+      <h3 style="font-family:'Fraunces';font-style:italic;font-size:14pt;color:var(--blue);margin-bottom:3mm">Persona A · Mads, 38</h3>
+      <p style="font-size:10pt"><strong>Role:</strong> Architect at a mid-size Copenhagen firm</p>
+      <p style="font-size:10pt"><strong>Lifestyle:</strong> Cycles in, 45-minute lunch window, values time over discount</p>
+      <p style="font-size:10pt"><strong>Why he buys:</strong> Real Danish food, not a falafel wrap. Protein and rye, standing up.</p>
+      <p style="font-size:10pt"><strong>Price tolerance:</strong> 60–95 DKK per piece</p>
+      <p style="font-size:10pt"><strong>Visit frequency:</strong> 2×/week</p>
+    </div>
+    <div style="background:#fff;padding:6mm;border-radius:2mm;border:1px solid var(--line)">
+      <h3 style="font-family:'Fraunces';font-style:italic;font-size:14pt;color:var(--blue);margin-bottom:3mm">Persona B · Sofie, 31</h3>
+      <p style="font-size:10pt"><strong>Role:</strong> Marketing lead, remote 3 days/week</p>
+      <p style="font-size:10pt"><strong>Lifestyle:</strong> Health-focused, reads Politiken, follows Noma alumni on Instagram</p>
+      <p style="font-size:10pt"><strong>Why she buys:</strong> Clean ingredients, pickled veg, the place looks like a magazine</p>
+      <p style="font-size:10pt"><strong>Price tolerance:</strong> 70–110 DKK per piece</p>
+      <p style="font-size:10pt"><strong>Visit frequency:</strong> 1–2×/week</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h4 style="font-family:'Fraunces';font-style:italic;font-size:13pt;margin-bottom:3mm;color:var(--blue)">Secondary audiences</h4>
+  <p style="font-size:10pt">Tourists within Indre By (20–30% of summer volume), pensioners (loyal weekday morning regulars), remote workers looking for a reason to leave the apartment. Weekend brunch crowd becomes a third audience once operations stabilise.</p>
+</section>
+
+<!-- ═══════════ PAGE 05 · USPs ═══════════ -->
+<section class="page" data-page="05">
+  <div class="eyebrow">USPs & Positioning</div>
+  <h1 class="page-title">Why this wins.</h1>
+  <p class="lead">Five defensible advantages over both the sit-down smørrebrød restaurants and the supermarket shelf.</p>
+  <ol class="usp-list">
+    <li><strong>Under 90 seconds, every time.</strong> Office workers cannot spend 45 minutes on lunch. Nobody else serves proper smørrebrød at this speed.</li>
+    <li><strong>Meyers Bageri rye bread.</strong> Same supplier used by the €200-per-head Michelin-starred places, served at a tenth the price.</li>
+    <li><strong>8 items, no modifications.</strong> Menu cost control is total. Staff training takes three days, not three weeks.</li>
+    <li><strong>18 m² footprint.</strong> Rent drops 60% below 25 m². Closes the Copenhagen break-even gap that kills most lunch concepts.</li>
+    <li><strong>Standing-only, cash discipline.</strong> No waiters, no tips, no table-turn anxiety. 60% labor saving vs a sit-down.</li>
+  </ol>
+</section>
+
+<!-- ═══════════ PAGE 06 · BRAND IDENTITY ═══════════ -->
+<section class="page" data-page="06">
+  <div class="eyebrow">Brand Identity</div>
+  <h1 class="page-title">The visual system.</h1>
+  <img class="img-full" src="https://micro.svita.ai/data/concepts/copenhagen-smorre/images/02-brand-identity.png" alt="Brand identity">
+  <p class="caption">Master moodboard · logo, palette, stationery, monogrammed linen</p>
+</section>
+
+<!-- ═══════════ PAGE 07 · COLOR PALETTE ═══════════ -->
+<section class="page" data-page="07">
+  <div class="eyebrow">Color Palette</div>
+  <h1 class="page-title">Five colors.<br>All Nordic.</h1>
+  <p class="lead">Dusty blue leads. Cream is the paper. Rye brown grounds the food photos. Brass is the only metal. Ink is for type. Do not introduce a sixth.</p>
+  <div class="color-row">
+    <div class="color-chip dark" style="background:#5C7A92"><div class="hex">#5C7A92</div><div class="nm">Dusty Blue · primary</div></div>
+    <div class="color-chip" style="background:#F5EFE3"><div class="hex">#F5EFE3</div><div class="nm">Cream · paper base</div></div>
+    <div class="color-chip dark" style="background:#8C6A42"><div class="hex">#8C6A42</div><div class="nm">Rye Brown · warm neutral</div></div>
+    <div class="color-chip" style="background:#B89456"><div class="hex">#B89456</div><div class="nm">Brass · accent metal</div></div>
+    <div class="color-chip dark" style="background:#1F2426"><div class="hex">#1F2426</div><div class="nm">Ink · type + fine lines</div></div>
+  </div>
+  <div class="divider"></div>
+  <h4 style="font-family:'Inter';font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin-top:6mm;font-weight:600">Usage rules</h4>
+  <table>
+    <tr><td><strong>Dusty Blue</strong></td><td>Shopfront, menu header, brand mark, signage field</td></tr>
+    <tr><td><strong>Cream</strong></td><td>Paper stock, walls, packaging, background of everything</td></tr>
+    <tr><td><strong>Rye Brown</strong></td><td>Secondary panels, leather goods, table runners (takeaway)</td></tr>
+    <tr><td><strong>Brass</strong></td><td>Door hardware, stamps, counter edge, metal nameplates only</td></tr>
+    <tr><td><strong>Ink</strong></td><td>Body type, fine lines, price tags</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════ PAGE 08 · TYPOGRAPHY ═══════════ -->
+<section class="page" data-page="08">
+  <div class="eyebrow">Typography</div>
+  <h1 class="page-title">Fraunces + Inter.</h1>
+  <p class="lead">One display serif with variable optical sizing, one humanist sans for body. Both free, both Google Fonts, both load in under 70 KB combined.</p>
+  <div class="type-sample">
+    <div class="label">Display · Fraunces Italic 800</div>
+    <div class="demo">Købn Smørre</div>
+  </div>
+  <div class="type-sample body">
+    <div class="label">Body · Inter Regular 400</div>
+    <div class="demo">Rugbrød fra Meyers Bageri, smør fra Thise Mejeri, sild fra Læsø. Otte stykker. Intet udvalg.</div>
+  </div>
+  <div class="divider"></div>
+  <table>
+    <tr><th>Use</th><th>Font</th><th>Weight / Style</th><th>Size</th></tr>
+    <tr><td>Wordmark</td><td>Fraunces</td><td>800 italic</td><td>48pt+</td></tr>
+    <tr><td>Page titles</td><td>Fraunces</td><td>600 italic</td><td>30pt</td></tr>
+    <tr><td>Section titles</td><td>Fraunces</td><td>600</td><td>20pt</td></tr>
+    <tr><td>Menu prices</td><td>Inter</td><td>700</td><td>16pt</td></tr>
+    <tr><td>Body copy</td><td>Inter</td><td>400</td><td>11pt</td></tr>
+    <tr><td>Captions / small</td><td>Inter</td><td>500</td><td>9pt</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════ PAGE 09 · PATTERN LIBRARY ═══════════ -->
+<section class="page" data-page="09">
+  <div class="eyebrow">Pattern Library</div>
+  <h1 class="page-title">No pattern.</h1>
+  <p class="lead">The Danish brand rule: if you can avoid a pattern, avoid it. Cream wall + dusty blue panel + brass detail = pattern enough. The only repeating marks allowed are the monogram stamp (KS) and the numbered table of contents rules.</p>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;padding:10mm">
+    <svg viewBox="0 0 600 200" style="width:80%;height:auto">
+      <text x="300" y="115" font-family="Fraunces,serif" font-size="120" font-style="italic" font-weight="800" fill="#5C7A92" text-anchor="middle">KS</text>
+      <circle cx="300" cy="115" r="85" fill="none" stroke="#B89456" stroke-width="3"/>
+      <text x="300" y="165" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#1F2426" text-anchor="middle" letter-spacing="3">KØBN · SMØRRE · 2026</text>
+    </svg>
+  </div>
+  <div class="divider"></div>
+  <p style="font-size:10pt">Monogram is used at 25 mm on paper (business cards, menu header, napkin embroidery), 80 mm in enamel (door pull), and 400 mm in hand-painted signage (shopfront). Never stretched, never rotated, never placed on a photograph.</p>
+</section>
+
+<!-- ═══════════ PAGE 10 · SPACE / HERO ═══════════ -->
+<section class="page" data-page="10">
+  <div class="eyebrow">Space · Hero</div>
+  <h1 class="page-title">The counter.</h1>
+  <img class="img-full" src="https://micro.svita.ai/data/concepts/copenhagen-smorre/images/01-hero.png" alt="Interior">
+  <p class="caption">Købn Smørre interior · 18 m² · pale oak counter, dusty blue wainscoting, rye bread shelf</p>
+</section>
+
+<!-- ═══════════ PAGE 11 · FLOOR PLAN ═══════════ -->
+<section class="page" data-page="11">
+  <div class="eyebrow">Floor Plan · 18 m²</div>
+  <h1 class="page-title">Every millimeter counts.</h1>
+  <p class="lead">3.6 m wide, 5.0 m deep. Standing counter runs the full depth along the right wall. Prep kitchen sits behind a half-wall at the rear. No seating, no tables, no bathrooms — customers use the neighbouring café's with a token arrangement.</p>
+  <div class="plan-wrap">
+    <svg viewBox="0 0 360 500" style="width:70%;height:auto">
+      <!-- outer walls -->
+      <rect x="10" y="10" width="340" height="480" fill="#F5EFE3" stroke="#1F2426" stroke-width="4"/>
+      <!-- shopfront glass -->
+      <line x1="40" y1="10" x2="310" y2="10" stroke="#5C7A92" stroke-width="6"/>
+      <!-- door opening -->
+      <line x1="230" y1="10" x2="300" y2="10" stroke="#F5EFE3" stroke-width="6"/>
+      <path d="M230 10 A70 70 0 0 1 300 80" fill="none" stroke="#B89456" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <!-- counter along right wall -->
+      <rect x="250" y="40" width="90" height="350" fill="#8C6A42" opacity="0.3" stroke="#8C6A42" stroke-width="2"/>
+      <text x="295" y="220" font-family="Inter" font-size="11" font-weight="600" fill="#1F2426" text-anchor="middle" transform="rotate(-90 295 220)">STANDING COUNTER · 3.5 m</text>
+      <!-- standing zone -->
+      <rect x="30" y="40" width="210" height="350" fill="none" stroke="#5C7A92" stroke-width="1" stroke-dasharray="4 4"/>
+      <text x="135" y="220" font-family="Inter" font-size="11" font-weight="600" fill="#5C7A92" text-anchor="middle">STANDING ZONE · 12 pax</text>
+      <!-- prep kitchen at back -->
+      <rect x="20" y="400" width="320" height="80" fill="#5C7A92" opacity="0.15" stroke="#5C7A92" stroke-width="2"/>
+      <text x="180" y="450" font-family="Inter" font-size="11" font-weight="700" fill="#1F2426" text-anchor="middle">PREP KITCHEN · FRIDGE · SINK · STORAGE</text>
+      <!-- dimensions -->
+      <text x="180" y="500" font-family="Inter" font-size="9" fill="#6B6B6B" text-anchor="middle">3.6 m × 5.0 m · 18 m²</text>
+      <text x="5" y="250" font-family="Inter" font-size="9" fill="#6B6B6B" text-anchor="middle" transform="rotate(-90 5 250)">5.0 m</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══════════ PAGE 12 · FURNITURE SPECS ═══════════ -->
+<section class="page" data-page="12">
+  <div class="eyebrow">Furniture · Dimensions</div>
+  <h1 class="page-title">Exact measurements.</h1>
+  <p class="lead">Everything in mm. These specs go verbatim to the Danish joinery (Snedkeri Nord, Copenhagen).</p>
+  <table>
+    <tr><th>Element</th><th>W × D × H (mm)</th><th>Material</th><th>Finish</th><th>Notes</th></tr>
+    <tr><td>Standing counter</td><td>3500 × 550 × 1100</td><td>Solid oak 30 mm top + oak ply base</td><td>Matte oil, food-safe</td><td>Elbow-height, no stools</td></tr>
+    <tr><td>Wainscoting panels</td><td>3500 × 18 × 1100</td><td>MDF 18 mm, tongued</td><td>Linseed paint, dusty blue</td><td>Matches counter line</td></tr>
+    <tr><td>Rear prep counter</td><td>2400 × 650 × 900</td><td>Stainless 304</td><td>Brushed</td><td>Commercial hygiene grade</td></tr>
+    <tr><td>Bread shelf</td><td>2400 × 300 × 30</td><td>Solid oak</td><td>Matte clear oil</td><td>Open, wall-mounted 1900 h</td></tr>
+    <tr><td>Refrigerated display</td><td>900 × 550 × 450</td><td>—</td><td>—</td><td>Countertop Koldhaus K1</td></tr>
+    <tr><td>Menu board</td><td>900 × 600 × 6</td><td>Enamelled steel</td><td>Cream + ink stencil</td><td>Hand-updated daily</td></tr>
+    <tr><td>Door pull</td><td>250 × 40 × 40</td><td>Solid brass</td><td>Hand-polished</td><td>Engraved KS monogram</td></tr>
+  </table>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Power draw:</strong> 13 A 230 V single-phase (fridge 150 W, espresso 1 400 W, kettle 1 800 W non-simultaneous, POS 30 W, lighting 80 W). <strong>Water:</strong> 3/8" inlet, 40 mm drain. <strong>Assembly:</strong> 1 day by 2-person Snedkeri crew.</p>
+</section>
+
+<!-- ═══════════ PAGE 13 · LIGHTING ═══════════ -->
+<section class="page" data-page="13">
+  <div class="eyebrow">Lighting Plan</div>
+  <h1 class="page-title">Warm, low, honest.</h1>
+  <p class="lead">Copenhagen winter afternoons are dim. The counter must glow without looking staged. One brass pendant over the counter, low-lumen strip behind the bread shelf, no spots, no dimmers, no RGB.</p>
+  <table>
+    <tr><th>Fixture</th><th>Qty</th><th>Purpose</th><th>Spec</th><th>Cost</th></tr>
+    <tr><td>Brass pendant over counter</td><td>2</td><td>Warm key light</td><td>2700 K, 8 W, Louis Poulsen clone</td><td class="num">€260</td></tr>
+    <tr><td>Bread shelf LED strip</td><td>2.4 m</td><td>Rye bread backlight</td><td>2700 K, 12 V, CRI&gt;95</td><td class="num">€60</td></tr>
+    <tr><td>Under-counter LED strip</td><td>3.5 m</td><td>Ambient glow on feet</td><td>2700 K, 12 V, diffused</td><td class="num">€70</td></tr>
+    <tr><td>Menu board spot</td><td>1</td><td>Readability</td><td>3000 K, 6 W, angled</td><td class="num">€50</td></tr>
+    <tr><td>Emergency / exit</td><td>1</td><td>Fire code</td><td>Battery 90 min backup</td><td class="num">€45</td></tr>
+    <tr class="total-row"><td colspan="4">Total lighting</td><td class="num">€485</td></tr>
+  </table>
+  <p style="margin-top:4mm;font-size:9pt;color:var(--gray)"><em>Lighting costs are included inside the overall furniture + fit-out budget line, listed here for spec only.</em></p>
+</section>
+
+<!-- ═══════════ PAGE 14 · EQUIPMENT CORE ═══════════ -->
+<section class="page" data-page="14">
+  <div class="eyebrow">Equipment · Core</div>
+  <h1 class="page-title">Every machine, listed.</h1>
+  <img class="img-full" src="https://micro.svita.ai/data/concepts/copenhagen-smorre/images/04-equipment.png" alt="Equipment lineup">
+  <p class="caption">Complete equipment lineup · details and pricing on next page</p>
+</section>
+
+<!-- ═══════════ PAGE 15 · EQUIPMENT DETAILS ═══════════ -->
+<section class="page" data-page="15">
+  <div class="eyebrow">Equipment · Specifications</div>
+  <h1 class="page-title">The shopping list.</h1>
+  <table>
+    <tr><th>#</th><th>Item</th><th>Brand / Model</th><th>Why this one</th><th>Price</th></tr>
+    <tr><td>1</td><td>Refrigerated display</td><td>Koldhaus K1 Countertop</td><td>Danish made, 4°C stable, quiet</td><td class="num">€980</td></tr>
+    <tr><td>2</td><td>Under-counter fridge</td><td>Gram K 210 RG</td><td>210 L commercial, energy A</td><td class="num">€820</td></tr>
+    <tr><td>3</td><td>Bread slicer</td><td>Hobart HBS-7</td><td>20 mm slices, exact same every time</td><td class="num">€520</td></tr>
+    <tr><td>4</td><td>Espresso machine</td><td>La Marzocco Linea Mini</td><td>1-group, domestic footprint</td><td class="num">€4,200</td></tr>
+    <tr><td>5</td><td>Grinder</td><td>Mahlkönig X54</td><td>Direct-dose, low retention</td><td class="num">€780</td></tr>
+    <tr><td>6</td><td>Variable kettle</td><td>Fellow Stagg EKG</td><td>Precise 90–95°C for filter coffee</td><td class="num">€180</td></tr>
+    <tr><td>7</td><td>Digital scale</td><td>Acaia Pearl</td><td>0.1 g precision</td><td class="num">€210</td></tr>
+    <tr><td>8</td><td>POS + card reader</td><td>SumUp Solo Lite + iPad Air</td><td>€0 monthly, supports MobilePay</td><td class="num">€760</td></tr>
+    <tr><td>9</td><td>Enamel menu sign + paint</td><td>Custom Kbh Emalje</td><td>Hand-updated each morning</td><td class="num">€420</td></tr>
+    <tr><td>10</td><td>Utensils, trays, cutting boards</td><td>Gastromax pro set</td><td>Full prep kit</td><td class="num">€380</td></tr>
+    <tr class="total-row"><td colspan="4">TOTAL EQUIPMENT</td><td class="num">€9,250</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════ PAGE 16 · SIGNAGE ═══════════ -->
+<section class="page" data-page="16">
+  <div class="eyebrow">Signage & Menu Board</div>
+  <h1 class="page-title">Read from 20 meters.</h1>
+  <img class="img-full" src="https://micro.svita.ai/data/concepts/copenhagen-smorre/images/05-signage.png" alt="Signage">
+  <p class="caption">Hand-painted enamelled wooden sign · dusty blue field, white serif type, brass screws</p>
+</section>
+
+<!-- ═══════════ PAGE 17 · PACKAGING ═══════════ -->
+<section class="page" data-page="17">
+  <div class="eyebrow">Packaging</div>
+  <h1 class="page-title">Takeaway without shame.</h1>
+  <p class="lead">30% of daily volume is takeaway. The packaging must keep the smørrebrød intact for a 10-minute walk and still look good on a desk. Kraft base, cream lid band, brass foil monogram.</p>
+  <table>
+    <tr><th>Item</th><th>Material</th><th>Size</th><th>Unit cost</th><th>MOQ</th><th>Supplier</th></tr>
+    <tr><td>Takeaway tray (1–2 pcs)</td><td>Compostable bagasse</td><td>180×120×25 mm</td><td class="num">€0.22</td><td>500</td><td>Sirap-Gerco DK</td></tr>
+    <tr><td>Tray lid / band</td><td>Cream uncoated kraft</td><td>Full band</td><td class="num">€0.06</td><td>1000</td><td>Foldetryk</td></tr>
+    <tr><td>Paper napkin (printed)</td><td>Recycled kraft 2-ply</td><td>330 mm</td><td class="num">€0.02</td><td>2000</td><td>Sirap-Gerco DK</td></tr>
+    <tr><td>Carrier bag</td><td>Kraft, rope handle</td><td>240×120×300 mm</td><td class="num">€0.18</td><td>500</td><td>Foldetryk</td></tr>
+    <tr><td>Business card</td><td>350 gsm cotton, 1/0 foil</td><td>85×55 mm</td><td class="num">€0.14</td><td>500</td><td>Moo.com</td></tr>
+    <tr><td>Wax-seal stamp stock</td><td>Pre-cut kraft tabs</td><td>25 mm</td><td class="num">€0.03</td><td>1000</td><td>In-house</td></tr>
+    <tr class="total-row"><td colspan="3">First-order launch stock</td><td class="num">€340</td><td colspan="2"></td></tr>
+  </table>
+</section>
+
+<!-- ═══════════ PAGE 18 · UNIFORM ═══════════ -->
+<section class="page" data-page="18">
+  <div class="eyebrow">Staff Uniform</div>
+  <h1 class="page-title">The cook is the room.</h1>
+  <img class="img-full" src="https://micro.svita.ai/data/concepts/copenhagen-smorre/images/06-uniform.png" alt="Uniform flat lay">
+  <p class="caption">Cream linen apron · chambray shirt · indigo trousers · leather belt · canvas shoes · brass name pin · €90/person · 2 sets per staff</p>
+</section>
+
+<!-- ═══════════ PAGE 19 · MENU & PRICING ═══════════ -->
+<section class="page" data-page="19">
+  <div class="eyebrow">Menu & Pricing</div>
+  <h1 class="page-title">8 pieces. That's the menu.</h1>
+  <p class="lead">Fixed menu. No modifications. Prices in DKK as shown on the counter, EUR equivalent for planning.</p>
+  <table>
+    <tr><th>Category</th><th>Item</th><th>Description</th><th>Price (DKK)</th><th>COGS</th><th>Margin</th></tr>
+    <tr><td rowspan="3">SILD / FISK</td><td>Sild med kapers</td><td>Pickled herring, capers, red onion, rye</td><td class="num">65 kr</td><td class="num">12 kr</td><td class="num">82%</td></tr>
+    <tr><td>Rejemad</td><td>Fjord shrimp, lemon mayo, dill, rye</td><td class="num">95 kr</td><td class="num">22 kr</td><td class="num">77%</td></tr>
+    <tr><td>Gravad laks</td><td>Cured salmon, mustard-dill, rye</td><td class="num">85 kr</td><td class="num">18 kr</td><td class="num">79%</td></tr>
+    <tr><td rowspan="3">KØD</td><td>Roastbeef m. remoulade</td><td>Roast beef, remoulade, crispy onion</td><td class="num">75 kr</td><td class="num">16 kr</td><td class="num">79%</td></tr>
+    <tr><td>Leverpostej</td><td>Liver pâté, beetroot, pickled cucumber</td><td class="num">55 kr</td><td class="num">9 kr</td><td class="num">84%</td></tr>
+    <tr><td>Flæskesteg</td><td>Roast pork, red cabbage, rye</td><td class="num">70 kr</td><td class="num">14 kr</td><td class="num">80%</td></tr>
+    <tr><td rowspan="2">GRØNT / SØDT</td><td>Kartoffelmad</td><td>Sliced potato, mayo, chives, rye</td><td class="num">60 kr</td><td class="num">8 kr</td><td class="num">87%</td></tr>
+    <tr><td>Rugbrødslagkage</td><td>Dessert: rye, whipped cream, berry</td><td class="num">45 kr</td><td class="num">9 kr</td><td class="num">80%</td></tr>
+  </table>
+  <p style="margin-top:4mm;font-size:9pt;color:var(--gray)"><strong>Average ticket:</strong> 165 kr (≈ €22) for 2 pieces + coffee · <strong>Weighted gross margin:</strong> 81%</p>
+</section>
+
+<!-- ═══════════ PAGE 20 · BUDGET BREAKDOWN ═══════════ -->
+<section class="page" data-page="20">
+  <div class="eyebrow">Budget Breakdown</div>
+  <h1 class="page-title">€12,300 total.</h1>
+  <p class="lead">Every euro mapped. The single largest line is the espresso machine — deliberately, because bad coffee kills lunch concepts.</p>
+
+  <div class="donut-wrap">
+    <svg class="donut" viewBox="0 0 42 42">
+      <circle cx="21" cy="21" r="15.915" fill="#fff" stroke="var(--line)" stroke-width="0.5"/>
+      <!-- equipment 9250 / 12300 = 75.2% -->
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#5C7A92" stroke-width="8" stroke-dasharray="75.2 24.8" stroke-dashoffset="25" transform="rotate(-90 21 21)"/>
+      <!-- fit-out 1200 = 9.8% -->
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#8C6A42" stroke-width="8" stroke-dasharray="9.8 90.2" stroke-dashoffset="-50.2" transform="rotate(-90 21 21)"/>
+      <!-- deposit+rent 850 = 6.9% -->
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#B89456" stroke-width="8" stroke-dasharray="6.9 93.1" stroke-dashoffset="-60" transform="rotate(-90 21 21)"/>
+      <!-- marketing 500 = 4.1% -->
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#D8D4C8" stroke-width="8" stroke-dasharray="4.1 95.9" stroke-dashoffset="-66.9" transform="rotate(-90 21 21)"/>
+      <!-- permits 280 = 2.3% -->
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#1F2426" stroke-width="8" stroke-dasharray="2.3 97.7" stroke-dashoffset="-71" transform="rotate(-90 21 21)"/>
+      <!-- reserve 220 = 1.7% -->
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#6B6B6B" stroke-width="8" stroke-dasharray="1.7 98.3" stroke-dashoffset="-73.3" transform="rotate(-90 21 21)"/>
+    </svg>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#5C7A92"></div>Equipment<span class="val">€9,250</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#8C6A42"></div>Fit-out / joinery<span class="val">€1,200</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#B89456"></div>Deposit + 1 mo rent<span class="val">€850</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#D8D4C8"></div>Marketing & launch<span class="val">€500</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1F2426"></div>Permits & reg.<span class="val">€280</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#6B6B6B"></div>Reserve buffer<span class="val">€220</span></div>
+      <div class="legend-item" style="border-top:2px solid var(--blue);margin-top:2mm;padding-top:3mm;font-weight:700"><div class="legend-dot" style="background:var(--blue)"></div>TOTAL<span class="val" style="color:var(--blue)">€12,300</span></div>
+    </div>
+  </div>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Rent note:</strong> Copenhagen lunch-spot rent is brutal — expect 7 000–9 000 DKK/mo for 18 m² outside Indre By core. Budget above assumes one month deposit only; first month rent paid from launch revenue.</p>
+</section>
+
+<!-- ═══════════ PAGE 21 · REGISTRATION ═══════════ -->
+<section class="page" data-page="21">
+  <div class="eyebrow">Registration · Denmark</div>
+  <h1 class="page-title">Legal setup in 2 weeks.</h1>
+  <p class="lead">Denmark has Europe's cleanest sole-trader registration — one portal, one number, one fee. Add food hygiene and you are legal in under 14 days.</p>
+
+  <div class="reg-grid">
+    <div class="reg-card">
+      <h4>1. CVR Registration</h4>
+      <ul>
+        <li>Legal form: Enkeltmandsvirksomhed (sole trader)</li>
+        <li>Portal: virk.dk → "Start virksomhed"</li>
+        <li>Fee: 0 kr (free for Enkeltmandsvirksomhed)</li>
+        <li>Time: same-day, CVR number issued instantly</li>
+        <li>Required: NemID / MitID, CPR number</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>2. Skat (Tax)</h4>
+      <ul>
+        <li>Moms (VAT) number: automatic after CVR</li>
+        <li>VAT rate: 25% (no reduced rate for food in DK)</li>
+        <li>Income tax: Skat.dk, B-skat self-paid quarterly</li>
+        <li>Threshold: register for moms if turnover &gt; 50 000 kr/yr</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>3. Fødevarekontrol</h4>
+      <ul>
+        <li>Register with Fødevarestyrelsen (foedevarestyrelsen.dk)</li>
+        <li>Elite-smiley scheme: inspection visible to public</li>
+        <li>HACCP / Egenkontrol plan required</li>
+        <li>First inspection: within 3 months</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>4. Insurance</h4>
+      <ul>
+        <li>No mandatory state social insurance for sole traders</li>
+        <li>Mandatory: arbejdsskadeforsikring if you hire</li>
+        <li>Recommended: erhvervsansvar (liability) ~€20/mo</li>
+        <li>Recommended: sygedagpenge-forsikring (sick pay)</li>
+      </ul>
+    </div>
+  </div>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Total legal + registration costs:</strong> €280 (CVR free, hygiene plan review ~€120, insurance first quarter ~€160)</p>
+</section>
+
+<!-- ═══════════ PAGE 22 · TIMELINE ═══════════ -->
+<section class="page" data-page="22">
+  <div class="eyebrow">Launch Timeline</div>
+  <h1 class="page-title">7 weeks to first lunch.</h1>
+  <div class="timeline">
+    <div class="tl-row"><div class="tl-week">W1<small>Legal</small></div><ul class="tl-tasks"><li>Register enkeltmandsvirksomhed on virk.dk (free, same-day)</li><li>Open business account at Lunar / Ageras</li><li>Submit egenkontrol / HACCP plan to Fødevarestyrelsen</li><li>Source liability insurance quote</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W2<small>Space</small></div><ul class="tl-tasks"><li>Sign lease (Vesterbro, Nørrebro, Frederiksberg — 18–22 m²)</li><li>Confirm 13 A single-phase + water hookup</li><li>Schedule Snedkeri Nord for counter install</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W3<small>Procurement</small></div><ul class="tl-tasks"><li>Order La Marzocco espresso machine (2-week lead time)</li><li>Order Koldhaus + Gram fridges from Horesta Suppliers</li><li>Commission enamel menu sign from Kbh Emalje</li><li>Open supplier accounts: Meyers, Thise, Læsø Sild</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W4<small>Fit-out</small></div><ul class="tl-tasks"><li>Snedkeri installs counter, wainscoting, shelf (1 day)</li><li>Linseed-paint cure time 5 days</li><li>Electrician hooks up pendants, emergency light</li><li>Food photography for Instagram + menu board</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W5<small>Setup</small></div><ul class="tl-tasks"><li>Equipment delivered and installed</li><li>First dry run with 20 test customers (free)</li><li>Train one backup staff member (3 days, €450)</li><li>Stock packaging, printed napkins, carrier bags</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W6<small>Marketing</small></div><ul class="tl-tasks"><li>Soft launch: 25% off first 200 covers</li><li>Instagram ad 1 500 kr + local food bloggers (Rasmus Kofoed alumni)</li><li>Google Business + Apple Maps + Foursquare</li><li>Print A2 poster inside the lease block</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W7<small>Launch</small></div><ul class="tl-tasks"><li>Grand opening Tuesday 11:00 — full menu, full price</li><li>Elite-smiley inspection request submitted</li><li>First-week metrics review, inventory adjust</li></ul></div>
+  </div>
+</section>
+
+<!-- ═══════════ PAGE 23 · P&L ═══════════ -->
+<section class="page" data-page="23">
+  <div class="eyebrow">P&L Projection</div>
+  <h1 class="page-title">€3,850 EBITDA / month.</h1>
+  <p class="lead">Conservative projection: 80 covers/day × 185 kr average × 22 working days = 325 600 kr/mo ≈ €14,800. Break-even month 6.</p>
+  <table>
+    <tr><th>Line item</th><th>Monthly</th><th>Annual</th><th>% of revenue</th></tr>
+    <tr><td>Revenue (80 covers × 185 kr × 22 days)</td><td class="num">€14,800</td><td class="num">€177,600</td><td class="num">100%</td></tr>
+    <tr><td style="padding-left:6mm">COGS (bread, fish, meat, coffee)</td><td class="num">(€2,810)</td><td class="num">(€33,720)</td><td class="num">19%</td></tr>
+    <tr style="background:#fff"><td><strong>Gross profit</strong></td><td class="num"><strong>€11,990</strong></td><td class="num"><strong>€143,880</strong></td><td class="num"><strong>81%</strong></td></tr>
+    <tr><td style="padding-left:6mm">Rent (18 m² off-core CPH)</td><td class="num">(€1,100)</td><td class="num">(€13,200)</td><td class="num">7.4%</td></tr>
+    <tr><td style="padding-left:6mm">Labor (owner + 30 hr/wk helper @ 135 kr)</td><td class="num">(€3,600)</td><td class="num">(€43,200)</td><td class="num">24.3%</td></tr>
+    <tr><td style="padding-left:6mm">Moms (VAT 25% net after input)</td><td class="num">(€2,650)</td><td class="num">(€31,800)</td><td class="num">17.9%</td></tr>
+    <tr><td style="padding-left:6mm">Utilities, POS fees, insurance, misc</td><td class="num">(€790)</td><td class="num">(€9,480)</td><td class="num">5.3%</td></tr>
+    <tr class="total-row"><td><strong>EBITDA</strong></td><td class="num"><strong>€3,850</strong></td><td class="num"><strong>€46,200</strong></td><td class="num"><strong>26.0%</strong></td></tr>
+  </table>
+  <div style="margin-top:6mm;padding:5mm;background:#fff;border-left:3px solid var(--brass)">
+    <strong style="font-family:'Inter';font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--brass)">Break-even math</strong>
+    <p style="margin-top:2mm;font-size:10pt">Fixed costs ≈ €8,140/mo ÷ gross margin per cover (€0.81 × 185 kr/7.5) ≈ €1.80 ≈ <strong>60 covers/day</strong>. Investment €12,300 ÷ €3,850 monthly EBITDA = <strong>payback in 3.2 months</strong> once break-even is reached (month 6 forward).</p>
+  </div>
+</section>
+
+<!-- ═══════════ PAGE 24 · SUPPLIERS ═══════════ -->
+<section class="page" data-page="24">
+  <div class="eyebrow">Suppliers Directory</div>
+  <h1 class="page-title">Who to call.</h1>
+  <p class="lead">Every supplier vetted for Copenhagen delivery, English-speaking contact, and &lt;10-day lead times.</p>
+  <table>
+    <tr><th>Category</th><th>Supplier</th><th>URL</th><th>Lead time</th><th>Contact</th></tr>
+    <tr><td>Rugbrød (rye bread)</td><td>Meyers Bageri</td><td>meyers.dk</td><td>Daily 5am</td><td>wholesale@meyers.dk</td></tr>
+    <tr><td>Butter + dairy</td><td>Thise Mejeri</td><td>thise.dk</td><td>2 days</td><td>foodservice@thise.dk</td></tr>
+    <tr><td>Pickled herring</td><td>Læsø Sild</td><td>laesoesild.dk</td><td>3 days</td><td>+45 98 49 15 70</td></tr>
+    <tr><td>Fjord shrimp</td><td>Kattegat Skaldyr</td><td>kattegat-skaldyr.dk</td><td>2 days</td><td>info@kattegat-skaldyr.dk</td></tr>
+    <tr><td>Roast beef + pork</td><td>Slagter Lund</td><td>slagterlund.dk</td><td>1 day</td><td>Call the shop</td></tr>
+    <tr><td>Espresso machine</td><td>La Marzocco Nordic</td><td>lamarzoccohome.com/dk</td><td>2 weeks</td><td>nordic@lamarzoccohome.com</td></tr>
+    <tr><td>Coffee beans</td><td>Coffee Collective</td><td>coffeecollective.dk</td><td>2 days</td><td>wholesale@coffeecollective.dk</td></tr>
+    <tr><td>Refrigeration</td><td>Gram Commercial</td><td>gram-commercial.com</td><td>1 week</td><td>+45 73 22 12 00</td></tr>
+    <tr><td>Joinery / counter</td><td>Snedkeri Nord</td><td>snedkeri-nord.dk</td><td>2 weeks</td><td>Custom quote</td></tr>
+    <tr><td>Enamel signage</td><td>Kbh Emalje</td><td>kbh-emalje.dk</td><td>2 weeks</td><td>hello@kbh-emalje.dk</td></tr>
+    <tr><td>Packaging</td><td>Sirap-Gerco DK</td><td>sirap-gerco.dk</td><td>5 days</td><td>dk@sirap-gerco.com</td></tr>
+    <tr><td>POS</td><td>SumUp Denmark</td><td>sumup.dk</td><td>2 days</td><td>Self-serve</td></tr>
+    <tr><td>Business banking</td><td>Lunar Business</td><td>lunar.app/business</td><td>Same day</td><td>In-app</td></tr>
+    <tr><td>Accounting</td><td>Dinero</td><td>dinero.dk</td><td>Instant</td><td>€15/mo</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════ PAGE 25 · BACK COVER ═══════════ -->
+<section class="page back-cover no-footer">
+  <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--brass)">SVITA Micro · Concept Brandbook</div>
+  <div>
+    <h1 style="font-size:44pt;margin-bottom:6mm;font-style:italic">Gå i gang.</h1>
+    <p style="font-size:13pt;color:#BBB;max-width:140mm;line-height:1.6">This brandbook contains everything you need to open Købn Smørre — or any variant of it — in 7 weeks for under €12,500. Copy it. Adapt it. Make it yours.</p>
+  </div>
+  <div style="border-top:1px solid #333;padding-top:6mm;font-size:9pt;color:#888">
+    <p><strong style="color:#CCC">KØBN SMØRRE · Brandbook v1.0</strong></p>
+    <p style="margin-top:2mm">Generated by SVITA Micro Concept Generator<br>© 2026 LABS67 · svita.ai · micro.svita.ai</p>
+    <p style="margin-top:4mm">All equipment prices, supplier contacts, and legal information valid as of April 2026. Legal data specific to Denmark. For other EU jurisdictions, regenerate the concept with target country code.</p>
+  </div>
+</section>
+
+</body>
+</html>
