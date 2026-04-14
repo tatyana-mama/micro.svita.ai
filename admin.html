@@ -155,9 +155,114 @@ td .actions{display:flex;gap:6px}
 .guard-card p{color:var(--text-2);font-size:14px;margin-bottom:24px}
 .guard-card a{display:inline-block;padding:14px 24px;background:var(--accent);color:#0A0A0B;border-radius:100px;font-weight:600;font-size:13px}
 .hidden{display:none !important}
+
+/* USER CARD MODAL */
+.umodal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,0.7);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  z-index:400;display:flex;align-items:flex-start;justify-content:center;
+  padding:60px 24px;overflow-y:auto;
+  animation:fadeIn 240ms var(--ease);
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.umodal{
+  width:100%;max-width:880px;background:var(--bg-1);
+  border:1px solid var(--line-2);border-radius:24px;overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,0.6);
+  animation:slideUp 320ms var(--ease);
+}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.umodal-head{
+  padding:32px 36px 24px;background:linear-gradient(180deg,var(--bg-2) 0%,var(--bg-1) 100%);
+  border-bottom:1px solid var(--line);position:relative;
+}
+.umodal-head .close{
+  position:absolute;top:20px;right:20px;width:36px;height:36px;
+  border-radius:50%;background:var(--bg-3);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-2);transition:all 200ms var(--ease);
+}
+.umodal-head .close:hover{background:var(--err);color:#fff;border-color:var(--err)}
+.umodal-head .uavatar{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),#84cc16);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Space Grotesk';font-size:24px;font-weight:700;color:#0A0A0B;
+  margin-bottom:18px;
+}
+.umodal-head h2{
+  font-family:'Space Grotesk';font-size:26px;font-weight:700;
+  letter-spacing:-0.02em;margin-bottom:6px;
+}
+.umodal-head .uemail{
+  font-family:'JetBrains Mono';font-size:12px;color:var(--text-2);
+  display:flex;align-items:center;gap:10px;
+}
+.umodal-head .meta-pills{
+  display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;
+}
+.umodal-head .meta-pills .pill{
+  padding:6px 12px;border-radius:100px;
+  background:var(--bg-3);border:1px solid var(--line-2);
+  font-size:10px;font-weight:600;text-transform:uppercase;
+  letter-spacing:0.08em;color:var(--text-2);
+}
+.umodal-head .meta-pills .pill.role-superadmin{background:rgba(239,68,68,0.12);color:#ef4444;border-color:rgba(239,68,68,0.3)}
+.umodal-head .meta-pills .pill.role-admin{background:rgba(214,255,62,0.12);color:var(--accent);border-color:rgba(214,255,62,0.3)}
+.umodal-head .meta-pills .pill.role-creator{background:rgba(139,92,246,0.12);color:#8b5cf6;border-color:rgba(139,92,246,0.3)}
+
+.umodal-body{padding:28px 36px}
+.umodal-section{margin-bottom:32px}
+.umodal-section h3{
+  font-family:'Space Grotesk';font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.14em;color:var(--text-3);
+  margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line);
+}
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.info-grid .row{
+  padding:12px 14px;background:var(--bg-2);border:1px solid var(--line);
+  border-radius:10px;
+}
+.info-grid .row .k{font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-3);font-weight:600;margin-bottom:4px}
+.info-grid .row .v{font-family:'JetBrains Mono';font-size:12px;color:var(--text);word-break:break-all}
+
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.stat-grid .stat-mini{
+  padding:14px;background:var(--bg-2);border:1px solid var(--line);border-radius:12px;text-align:center;
+}
+.stat-grid .stat-mini .num{font-family:'Space Grotesk';font-size:22px;font-weight:700;color:var(--accent)}
+.stat-grid .stat-mini .lbl{font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);margin-top:4px;font-weight:600}
+
+.uconcepts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-height:380px;overflow-y:auto;padding-right:6px}
+.uconcept{
+  display:flex;gap:12px;padding:12px;background:var(--bg-2);
+  border:1px solid var(--line);border-radius:12px;
+  transition:all 200ms var(--ease);text-decoration:none;color:var(--text);
+}
+.uconcept:hover{border-color:var(--accent);transform:translateX(2px)}
+.uconcept .uthumb{
+  width:48px;height:48px;border-radius:8px;background:var(--bg-3);
+  background-size:cover;background-position:center;flex-shrink:0;
+}
+.uconcept .uinfo{flex:1;min-width:0}
+.uconcept .uinfo .nm{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.uconcept .uinfo .ct{font-size:10px;color:var(--text-3);margin-top:2px}
+.uconcept .uinfo .pr{font-family:'JetBrains Mono';font-size:10px;color:var(--accent);margin-top:4px}
+.uconcept .vbadge{font-size:9px;padding:2px 6px;border-radius:6px;background:var(--bg-3);color:var(--text-3);align-self:flex-start;margin-top:2px}
+.uconcept .vbadge.ok{background:rgba(132,204,22,0.15);color:var(--ok)}
+
+.uname-cell{cursor:pointer;transition:color 200ms var(--ease)}
+.uname-cell:hover .name{color:var(--accent)}
 </style>
 </head>
 <body>
+
+<!-- USER CARD MODAL -->
+<div id="umodal-bg" class="umodal-bg hidden" onclick="if(event.target===this)closeUserModal()">
+  <div class="umodal" id="umodal-content">
+    <div style="padding:60px;text-align:center;color:var(--text-3)">Loading...</div>
+  </div>
+</div>
 
 <nav id="nav">
   <a href="index.html" class="brand">
@@ -488,7 +593,7 @@ function renderUsers(){
     const dis = uid ? '' : 'disabled';
     return `<tr>
       <td>
-        <div class="cell-name">
+        <div class="cell-name uname-cell" ${uid?`onclick="openUserModal('${uid}')"`:''} title="${uid?'Click to view full profile':''}">
           <div class="info">
             <div class="name">${escape(name)}</div>
             <div class="slug">${short}</div>
@@ -526,6 +631,110 @@ async function changeUserPassword(userId, label){
   else { alert('Error: ' + (data && data.error || 'unknown')); }
 }
 window.changeUserPassword = changeUserPassword;
+
+// ═══════════════ USER DETAIL MODAL ═══════════════
+async function openUserModal(userId){
+  const bg = $('umodal-bg');
+  const box = $('umodal-content');
+  bg.classList.remove('hidden');
+  box.innerHTML = '<div style="padding:60px;text-align:center;color:var(--text-3)"><div class="spin" style="margin:0 auto 16px"></div>Loading user...</div>';
+  document.body.style.overflow = 'hidden';
+  try{
+    const {data, error} = await sb.rpc('admin_user_detail', {p_user_id: userId});
+    if(error) throw error;
+    renderUserModal(data);
+  }catch(e){
+    box.innerHTML = '<div style="padding:60px;text-align:center;color:var(--err)">Error: '+escape(e.message||String(e))+'<br><button class="btn-s" style="margin-top:16px" onclick="closeUserModal()">Close</button></div>';
+  }
+}
+window.openUserModal = openUserModal;
+
+function closeUserModal(){
+  $('umodal-bg').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+window.closeUserModal = closeUserModal;
+
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeUserModal(); });
+
+function renderUserModal(d){
+  const p = d.profile || {};
+  const a = d.auth || {};
+  const provs = d.providers || [];
+  const purchases = d.purchases || [];
+  const stats = d.stats || {};
+  const role = p.role || 'user';
+  const name = p.display_name || (a.email||'').split('@')[0] || '—';
+  const initials = name.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase() || '?';
+  const fmt = ts => ts ? new Date(ts).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
+  const provBadges = ['email','google','github','discord'].map(prov => {
+    const on = provs.includes(prov);
+    return `<span class="pill" style="${on?'background:rgba(132,204,22,0.12);color:var(--ok);border-color:rgba(132,204,22,0.3)':'opacity:0.4'}">${prov}${on?' ✓':''}</span>`;
+  }).join('');
+
+  const purchasesHtml = purchases.length
+    ? purchases.map(pu => {
+        const isPh = pu.hero_image && pu.hero_image.startsWith('placeholder:');
+        const thumb = isPh ? '' : (pu.hero_image ? `style="background-image:url('${escape(pu.hero_image)}')"` : '');
+        return `<a class="uconcept" href="edit.html?c=${escape(pu.concept_slug)}" target="_blank">
+          <div class="uthumb" ${thumb}></div>
+          <div class="uinfo">
+            <div class="nm">${escape(pu.name||pu.concept_slug)}</div>
+            <div class="ct">${escape(pu.category||'—')}</div>
+            <div class="pr">€${(pu.price_paid||0).toLocaleString()} · ${escape(pu.provider||'—')}</div>
+          </div>
+          <span class="vbadge ${pu.verified?'ok':''}">${pu.verified?'✓':'○'}</span>
+        </a>`;
+      }).join('')
+    : '<div style="grid-column:1/-1;padding:24px;text-align:center;color:var(--text-3);font-size:12px">No purchases yet</div>';
+
+  $('umodal-content').innerHTML = `
+    <div class="umodal-head">
+      <button class="close" onclick="closeUserModal()" title="Close (Esc)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 1l12 12M13 1L1 13"/></svg>
+      </button>
+      <div class="uavatar">${initials}</div>
+      <h2>${escape(name)}</h2>
+      <div class="uemail">${escape(a.email||p.email||'—')}</div>
+      <div class="meta-pills">
+        <span class="pill role-${role}">● ${role}</span>
+        ${provBadges}
+        ${a.email_confirmed_at ? '<span class="pill" style="background:rgba(132,204,22,0.1);color:var(--ok);border-color:rgba(132,204,22,0.25)">✓ Confirmed</span>' : '<span class="pill" style="background:rgba(245,158,11,0.1);color:var(--warn);border-color:rgba(245,158,11,0.25)">⏳ Unconfirmed</span>'}
+      </div>
+    </div>
+
+    <div class="umodal-body">
+
+      <div class="umodal-section">
+        <h3>Account info</h3>
+        <div class="info-grid">
+          <div class="row"><div class="k">User ID</div><div class="v">${escape(p.user_id||'—')}</div></div>
+          <div class="row"><div class="k">Role</div><div class="v">${escape(role)}</div></div>
+          <div class="row"><div class="k">Created</div><div class="v">${fmt(a.created_at||p.created_at)}</div></div>
+          <div class="row"><div class="k">Last sign in</div><div class="v">${fmt(a.last_sign_in_at)}</div></div>
+          <div class="row"><div class="k">Email confirmed</div><div class="v">${fmt(a.email_confirmed_at)}</div></div>
+          <div class="row"><div class="k">Phone</div><div class="v">${escape(a.phone||'—')}</div></div>
+        </div>
+      </div>
+
+      <div class="umodal-section">
+        <h3>Stats</h3>
+        <div class="stat-grid">
+          <div class="stat-mini"><div class="num">${stats.total_purchases||0}</div><div class="lbl">Concepts</div></div>
+          <div class="stat-mini"><div class="num">€${(stats.total_spent||0).toLocaleString()}</div><div class="lbl">Spent</div></div>
+          <div class="stat-mini"><div class="num" style="font-size:11px;line-height:1.6">${stats.first_purchase?new Date(stats.first_purchase).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}):'—'}</div><div class="lbl">First buy</div></div>
+          <div class="stat-mini"><div class="num" style="font-size:11px;line-height:1.6">${stats.last_purchase?new Date(stats.last_purchase).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}):'—'}</div><div class="lbl">Last buy</div></div>
+        </div>
+      </div>
+
+      <div class="umodal-section">
+        <h3>Concepts (${purchases.length})</h3>
+        <div class="uconcepts">${purchasesHtml}</div>
+      </div>
+
+    </div>
+  `;
+}
 
 async function deleteUser(userId, label){
   if(MY_ROLE !== 'superadmin'){ alert('Only superadmin can delete users'); return; }

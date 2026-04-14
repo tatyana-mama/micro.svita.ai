@@ -890,7 +890,7 @@ async function enterAccount(user){
   if(PAID_SLUG){
     const box = $('intent-box');
     box.className = 'intent reveal in';
-    box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--accent)">Payment received</span><h4>Thank you — concept unlocked</h4><div class="specs">It should appear below within a few seconds. If it doesn't, refresh the page.</div></div><div class="actions"><button class="btn btn-ghost" id="close-paid">Close</button></div>`;
+    box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--accent)">Payment received</span><h4>Thank you — concept unlocked</h4><div class="specs">Click below to open your concept now.</div></div><div class="actions"><button class="btn btn-ghost" id="close-paid">Close</button><a class="btn btn-primary" id="open-paid" href="view.html?c=${encodeURIComponent(PAID_SLUG)}">Open concept →</a></div>`;
     $('close-paid').onclick = ()=>{ history.replaceState({},'','account.html'); box.className='hidden'; };
     // Reload after short delay to catch webhook
     setTimeout(loadOwned, 2500);
