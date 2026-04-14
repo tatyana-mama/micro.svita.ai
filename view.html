@@ -20,22 +20,9 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{min-height:100vh;font-family:'Inter',system-ui,sans-serif;color:var(--ink);overflow:hidden}
 body{
-  background:
-    radial-gradient(ellipse at top left,var(--bg-1) 0%,transparent 55%),
-    radial-gradient(ellipse at bottom right,var(--bg-2) 0%,transparent 55%),
-    #FFFBF0;
-  transition:background 800ms var(--ease);
+  background:#F5F5F0;
   position:relative;
 }
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;
-  background-image:var(--pattern,none);
-  background-size:var(--pattern-size,240px);
-  opacity:var(--pattern-opacity,0.18);
-  z-index:0;
-  animation:drift 30s linear infinite;
-}
-@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-240px)}}
 
 /* ===== TOP BAR (self-contained, overlays the stage) ===== */
 .topbar{
@@ -570,8 +557,6 @@ function rerenderAll(){
   const loc = localizedConcept();
   document.documentElement.lang = CURRENT_LANG;
   renderChip(loc);
-  document.getElementById('ambient').innerHTML = '';
-  renderAmbient(loc);
   renderFrame(loc);
 }
 
