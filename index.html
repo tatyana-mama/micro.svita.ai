@@ -307,6 +307,21 @@ nav.scrolled{
   border-radius:100px;padding:7px 12px;
   font-family:'JetBrains Mono';font-size:10px;font-weight:600;color:#fff;letter-spacing:0.1em;
 }
+.card .heart{
+  position:absolute;top:12px;right:14px;z-index:4;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(10,10,11,0.72);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,0.14);color:#fff;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:all 200ms var(--ease);padding:0;
+}
+.card .heart svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;transition:all 200ms var(--ease)}
+.card .heart:hover{border-color:var(--accent);color:var(--accent);transform:scale(1.08)}
+.card .heart.on{background:var(--accent);border-color:var(--accent);color:#0a0a0b}
+.card .heart.on svg{fill:currentColor}
+/* when heart is in top-right, push price below it */
+.card .media .price{top:58px}
 .card .body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
 .card .cat{font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent);font-weight:600}
 .card h3{font-family:'Space Grotesk';font-size:20px;font-weight:700;letter-spacing:-0.02em;line-height:1.1;color:#fff}
@@ -445,6 +460,34 @@ footer{border-top:1px solid var(--line);padding:48px 0 64px}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
+
+/* ============ MOBILE POLISH ============ */
+@media(max-width:768px){
+  nav{padding:14px 18px}
+  nav.scrolled{padding:12px 18px}
+  .brand{font-size:15px}
+  .brand small{display:none}
+  .nav-right{gap:10px}
+  .nav-cta{padding:9px 14px;font-size:12px}
+  .lang-btn{padding:7px 10px;font-size:11px}
+  .hero{padding:72px 0 40px}
+  .hero h1{font-size:clamp(2.5rem,11vw,4rem);margin-bottom:24px}
+  .hero-sub{font-size:14px;margin-bottom:32px}
+  .hero-ctas{gap:10px}
+  .btn{padding:13px 20px;font-size:13px}
+  .hero-meta{gap:24px;margin-top:40px;padding-top:24px;flex-wrap:wrap}
+  .hero-meta .m strong{font-size:20px}
+  .hero-meta .m span{font-size:10px}
+  .proof-grid{grid-template-columns:repeat(2,1fr)!important;gap:28px!important}
+  section{padding:64px 0}
+  h2,.h2{font-size:clamp(2rem,7vw,3rem)!important}
+}
+@media(max-width:480px){
+  .nav-cta{padding:8px 12px;font-size:11px}
+  .hero-meta{gap:20px}
+  .hero-meta .m{flex:1 0 40%}
+  .hero-slider-arrows{display:none}
 }
 </style>
 </head>

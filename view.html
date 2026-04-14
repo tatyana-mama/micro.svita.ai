@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SVITA Micro — Concept Viewer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -184,8 +184,31 @@ body::before{
 .hidden{display:none!important}
 
 @media(max-width:768px){
-  .stage{padding:76px 16px 16px}
-  .amb-tag{display:none}
+  html,body{overflow:auto}
+  .topbar{padding:12px 14px;gap:8px;flex-wrap:wrap}
+  .brand{padding:8px 14px;font-size:13px}
+  .topbar-right{gap:8px}
+  .concept-chip{padding:8px 12px;font-size:11px;max-width:60vw}
+  .concept-chip #chipText{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lang-btn{padding:8px 10px;font-size:11px}
+  .btn-close{padding:8px 12px;font-size:11px}
+  .btn-close svg{width:12px;height:12px}
+  .stage{position:relative;padding:68px 12px 20px;min-height:100vh;align-items:flex-start}
+  .frame{height:auto;max-height:none;min-height:calc(100vh - 120px)}
+  .preview-body{height:auto}
+  .preview-hero{aspect-ratio:4/3;padding:24px}
+  .preview-hero .glyph{font-size:140px}
+  .preview-hero h1{font-size:28px}
+  .preview-body-inner{padding:24px;gap:20px}
+  .preview-body-inner h2{font-size:18px}
+  .specs{padding:18px}
+  .specs .price{font-size:32px}
+  .amb,.amb-tag{display:none}
+}
+@media(max-width:420px){
+  .topbar{padding:10px 10px}
+  .brand small{display:none}
+  .btn-close span,.btn-close:after{content:''}
 }
 </style>
 </head>
@@ -315,14 +338,92 @@ function escape(s){
   return String(s==null?'':s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
 
+function renderSuperadminReview(c){
+  const cat = SA_FULL && SA_FULL.catalog;
+  const i18n = (SA_FULL && SA_FULL.i18n) || [];
+  const curLangRow = i18n.find(r => r.lang_code === CURRENT_LANG) || i18n.find(r => r.lang_code === 'en') || i18n[0] || null;
+  const bodyHtml = curLangRow && curLangRow.body_html;
+  const description = curLangRow && curLangRow.description;
+
+  const contentOk = !!(bodyHtml && bodyHtml.trim().length > 200);
+  const descOk = !!(description && description.trim().length > 60);
+  const langsWithBody = i18n.filter(r => r.body_html && r.body_html.trim().length > 100).map(r => r.lang_code);
+
+  const badge = contentOk
+    ? `<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:100px;background:rgba(34,197,94,0.12);color:#15803d;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em">✓ Has content</span>`
+    : `<span style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:100px;background:rgba(239,68,68,0.12);color:#dc2626;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em">✕ Stub — no brandbook</span>`;
+
+  const renderedBody = contentOk
+    ? `<div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:14px;padding:28px;margin-top:16px;font-size:14px;line-height:1.65;color:#1e293b">${bodyHtml}</div>`
+    : `<div style="background:#FEF2F2;border:1px dashed #FCA5A5;border-radius:14px;padding:20px;margin-top:16px">
+         <div style="font-weight:700;color:#991B1B;font-size:13px;margin-bottom:8px">This concept has NO brandbook content.</div>
+         <div style="color:#7F1D1D;font-size:12px;line-height:1.5">The customer is paying €${c.price_eur} for: name, tagline, category, country, size, budget, timeline. No pages, no brand system, no equipment list, no supplier directory. Either mark it as draft, write real content, or lower the price.</div>
+       </div>`;
+
+  const langCoverage = i18n.length
+    ? `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+         ${i18n.map(r => `<span title="body_html: ${r.body_html ? (r.body_html.length + ' chars') : 'empty'}" style="padding:4px 10px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:${langsWithBody.includes(r.lang_code)?'rgba(34,197,94,0.12)':'rgba(148,163,184,0.15)'};color:${langsWithBody.includes(r.lang_code)?'#15803d':'#64748b'}">${r.lang_code}${langsWithBody.includes(r.lang_code)?' ✓':''}</span>`).join('')}
+       </div>`
+    : '<div style="font-size:11px;color:#94a3b8;margin-top:10px">No i18n rows at all.</div>';
+
+  const catFields = cat
+    ? `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;margin-top:12px">
+         ${['slug','category','country','size_m2','weeks','budget_eur','price_eur','hero_image','is_active','verified','ls_url','stripe_price_id']
+           .map(k => `<div style="display:flex;justify-content:space-between;padding:6px 10px;background:rgba(15,23,42,0.04);border-radius:6px"><span style="color:#64748b;text-transform:uppercase;letter-spacing:0.06em;font-size:10px;font-weight:600">${k}</span><span style="color:#0F172A;font-family:monospace;font-size:11px;max-width:60%;text-align:right;overflow:hidden;text-overflow:ellipsis">${escape(cat[k] == null ? '—' : String(cat[k]))}</span></div>`).join('')}
+       </div>`
+    : `<div style="font-size:11px;color:#dc2626;margin-top:10px">⚠ Could not fetch catalog row${SA_FULL && SA_FULL.catalogError ? ': '+escape(SA_FULL.catalogError) : ' (auth/role issue)'}</div>`;
+
+  return `
+    <div style="margin-top:24px;padding:20px 22px;border:2px solid rgba(239,68,68,0.3);border-radius:18px;background:linear-gradient(180deg,rgba(239,68,68,0.04) 0%,rgba(239,68,68,0.01) 100%)">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:8px">
+        <div style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#ef4444;font-weight:700">Superadmin · Product review</div>
+        ${badge}
+      </div>
+
+      <div style="font-size:14px;color:#475569;font-weight:500;margin-top:4px">
+        <b>${escape(c.name)}</b> · <span style="color:#94a3b8">${escape(c.tagline || '')}</span>
+      </div>
+      ${description ? `<div style="font-size:12px;color:#64748b;margin-top:4px">${escape(description.slice(0,200))}${description.length>200?'…':''}</div>` : ''}
+
+      <div style="margin-top:16px">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;font-weight:700">Brandbook content (${CURRENT_LANG})</div>
+        ${renderedBody}
+      </div>
+
+      <div style="margin-top:16px">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;font-weight:700">i18n coverage · ${i18n.length} langs · ${langsWithBody.length} with brandbook</div>
+        ${langCoverage}
+      </div>
+
+      <div style="margin-top:16px">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;font-weight:700">Catalog row</div>
+        ${catFields}
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:20px;flex-wrap:wrap">
+        <a href="admin.html#concepts" style="font-size:11px;padding:9px 16px;border-radius:100px;background:#0F172A;color:#fff;text-decoration:none;font-weight:500">← Admin</a>
+        <button onclick="saVerify('${c.slug}')" ${contentOk?'':'disabled'} style="font-size:11px;padding:9px 16px;border-radius:100px;background:${contentOk?'#D6FF3E':'#e2e8f0'};color:${contentOk?'#0F172A':'#94a3b8'};border:0;cursor:${contentOk?'pointer':'not-allowed'};font-weight:700">✓ Verify (publish)</button>
+        <button onclick="saUnverify('${c.slug}')" style="font-size:11px;padding:9px 16px;border-radius:100px;background:#fff;color:#64748b;border:1px solid #cbd5e1;cursor:pointer;font-weight:500">○ Mark draft</button>
+      </div>
+    </div>`;
+}
+
 async function saVerify(slug){
   if(!SB) return;
-  if(!confirm('Verify concept '+slug+'?')) return;
+  if(!confirm('Verify concept '+slug+'? It will go live on the shop.')) return;
   const {error} = await SB.from('concepts_catalog').update({verified:true, verified_at:new Date().toISOString()}).eq('slug', slug);
   if(error){ alert('Error: '+error.message); return; }
   alert('Verified ✓');
 }
+async function saUnverify(slug){
+  if(!SB) return;
+  if(!confirm('Mark '+slug+' as draft (unverified)?')) return;
+  const {error} = await SB.from('concepts_catalog').update({verified:false, verified_at:null, verified_by:null}).eq('slug', slug);
+  if(error){ alert('Error: '+error.message); return; }
+  alert('Marked as draft');
+}
 window.saVerify = saVerify;
+window.saUnverify = saUnverify;
 
 async function detectSuperadmin(){
   if(!SB) return false;
@@ -332,6 +433,25 @@ async function detectSuperadmin(){
     const {data} = await SB.from('profiles').select('role').eq('user_id', session.user.id).maybeSingle();
     return data && data.role === 'superadmin';
   }catch(e){ return false; }
+}
+
+let SA_FULL = null; // full concept catalog row + i18n rows (all langs)
+async function loadSuperadminFullConcept(slug){
+  if(!SB || !IS_SA) return;
+  try{
+    const [catalogRes, i18nRes] = await Promise.all([
+      SB.from('concepts_catalog').select('*').eq('slug', slug).maybeSingle(),
+      SB.from('concepts_i18n').select('*').eq('concept_slug', slug)
+    ]);
+    SA_FULL = {
+      catalog: catalogRes.data || null,
+      i18n: i18nRes.data || [],
+      catalogError: catalogRes.error ? catalogRes.error.message : null,
+      i18nError: i18nRes.error ? i18nRes.error.message : null
+    };
+  }catch(e){
+    SA_FULL = { catalog:null, i18n:[], catalogError:String(e), i18nError:null };
+  }
 }
 
 (async function init(){
@@ -367,7 +487,10 @@ async function detectSuperadmin(){
   applyTheme(concept);
   buildLangMenu();
   IS_SA = await detectSuperadmin();
-  if(IS_SA){ document.body.classList.add('sa-mode'); }
+  if(IS_SA){
+    document.body.classList.add('sa-mode');
+    await loadSuperadminFullConcept(slug);
+  }
   await loadI18nOverride(slug, CURRENT_LANG);
   rerenderAll();
   document.getElementById('loading').classList.add('hidden');
@@ -491,23 +614,8 @@ function renderFrame(c){
     frame.appendChild(iframe);
     return;
   }
-  // Superadmin: unlock view — render body_html if present, otherwise full data dump for review
-  const saReview = IS_SA
-    ? `<div style="margin-top:24px;padding:16px 20px;border:1px dashed rgba(239,68,68,0.4);border-radius:14px;background:rgba(239,68,68,0.06)">
-         <div style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#ef4444;font-weight:700;margin-bottom:12px">Superadmin review mode</div>
-         ${c._body_html ? '<div style="font-size:12px;color:#64748b">Body HTML present — rendered above.</div>'
-            : `<div style="font-size:12px;color:#64748b;margin-bottom:10px">No body_html in concepts_i18n. Raw catalog data:</div>
-               <pre style="font-size:11px;line-height:1.55;white-space:pre-wrap;word-break:break-word;color:#0F172A;background:#fff;padding:12px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);max-height:320px;overflow:auto">${escape(JSON.stringify({
-                 slug:c.slug,name:c.name,tagline:c.tagline,description:c._description,
-                 category:c.category,country:c.country,size_m2:c.size_m2,
-                 budget_eur:c.budget_eur,price_eur:c.price_eur,weeks:c.weeks
-               }, null, 2))}</pre>`}
-         <div style="display:flex;gap:8px;margin-top:12px">
-           <a href="admin.html#concepts" style="font-size:11px;padding:8px 14px;border-radius:100px;background:#0F172A;color:#fff;text-decoration:none">← Admin</a>
-           <button onclick="saVerify('${c.slug}')" style="font-size:11px;padding:8px 14px;border-radius:100px;background:#D6FF3E;color:#0F172A;border:0;cursor:pointer;font-weight:600">✓ Verify this concept</button>
-         </div>
-       </div>`
-    : '';
+  // Superadmin: full product review — fetch all fields via authed client, render body_html
+  const saReview = IS_SA ? renderSuperadminReview(c) : '';
 
   // If admin-uploaded body_html exists, use it instead of the locked preview
   const body = c._body_html
