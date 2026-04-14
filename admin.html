@@ -70,7 +70,7 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
 /* TABLE */
 .table-wrap{background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden}
 table{width:100%;border-collapse:collapse}
-thead th{text-align:left;padding:16px 18px;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);font-weight:600;border-bottom:1px solid var(--line);background:var(--bg-2);position:sticky;top:152px}
+thead th{text-align:left;padding:16px 18px;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);font-weight:600;border-bottom:1px solid var(--line);background:var(--bg-2)}
 tbody tr{border-bottom:1px solid var(--line);transition:background 200ms var(--ease)}
 tbody tr:hover{background:var(--bg-2)}
 tbody tr:last-child{border-bottom:0}
@@ -84,6 +84,42 @@ td .cell-name .slug{font-family:'JetBrains Mono';font-size:10px;color:var(--text
 .chip{display:inline-flex;align-items:center;padding:4px 10px;border-radius:100px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;background:var(--bg-2);color:var(--text-2);border:1px solid var(--line)}
 .chip.ok{background:rgba(132,204,22,0.1);color:var(--ok);border-color:rgba(132,204,22,0.3)}
 .chip.warn{background:rgba(245,158,11,0.1);color:var(--warn);border-color:rgba(245,158,11,0.3)}
+
+/* checkboxes + bulk bar */
+.chkb{
+  appearance:none;-webkit-appearance:none;
+  width:18px;height:18px;border:1.5px solid var(--line-2);border-radius:5px;
+  background:var(--bg-2);cursor:pointer;position:relative;transition:all 200ms var(--ease);
+  margin:0;flex-shrink:0;
+}
+.chkb:hover{border-color:var(--accent)}
+.chkb:checked{background:var(--accent);border-color:var(--accent)}
+.chkb:checked::after{
+  content:'';position:absolute;left:5px;top:1px;width:5px;height:10px;
+  border:solid #0a0a0b;border-width:0 2px 2px 0;transform:rotate(45deg);
+}
+.chkb:indeterminate{background:var(--accent);border-color:var(--accent)}
+.chkb:indeterminate::after{
+  content:'';position:absolute;left:3px;top:7px;width:10px;height:2px;background:#0a0a0b;
+}
+tr.row-sel{background:rgba(214,255,62,0.04)}
+tr.row-sel:hover{background:rgba(214,255,62,0.07)}
+
+.bulk-bar{
+  position:sticky;top:72px;z-index:25;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;border-radius:var(--radius);
+  background:rgba(214,255,62,0.08);
+  border:1px solid rgba(214,255,62,0.25);
+  backdrop-filter:blur(16px) saturate(160%);
+  -webkit-backdrop-filter:blur(16px) saturate(160%);
+  animation:bulk-slide 240ms var(--ease);
+}
+.bulk-bar.hidden{display:none}
+.bulk-count{font-size:13px;color:var(--text)}
+.bulk-count b{color:var(--accent);font-weight:700;font-size:15px;margin-right:4px}
+.bulk-actions{display:flex;gap:8px;flex-wrap:wrap}
+@keyframes bulk-slide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .chip.accent{background:rgba(214,255,62,0.08);color:var(--accent);border-color:rgba(214,255,62,0.25)}
 .price{font-family:'JetBrains Mono';font-weight:600;color:var(--accent)}
 td .actions{display:flex;gap:6px}
@@ -185,10 +221,21 @@ td .actions{display:flex;gap:6px}
         </select>
       </div>
 
+      <div id="bulk-bar" class="bulk-bar hidden">
+        <span class="bulk-count"><b id="bulk-n">0</b> selected</span>
+        <div class="bulk-actions">
+          <button class="btn-s primary" id="bulk-verify">✓ Verify</button>
+          <button class="btn-s" id="bulk-unverify">○ Unverify</button>
+          <button class="btn-s danger" id="bulk-delete">✕ Delete</button>
+          <button class="btn-s" id="bulk-clear">Clear</button>
+        </div>
+      </div>
+
       <div id="loading" class="loader"><span class="spin"></span></div>
       <div class="table-wrap hidden" id="tbl-wrap">
         <table>
           <thead><tr>
+            <th style="width:36px"><input type="checkbox" id="sel-all" class="chkb"></th>
             <th>Concept</th><th>Category</th><th>Country</th><th>Price</th><th>Budget</th><th>Payment link</th><th>Status</th><th>i18n</th><th>Actions</th>
           </tr></thead>
           <tbody id="tbl"></tbody>
@@ -516,6 +563,7 @@ async function changeRole(userId, newRole, selEl){
 }
 window.changeRole = changeRole;
 
+const SEL = new Set();
 function render(){
   const tb = $('tbl');
   tb.innerHTML = VIEW.map(c=>{
@@ -524,7 +572,9 @@ function render(){
     const thumb = isPh
       ? `<div class="ph-thumb" style="--ph-a:${pal[0]};--ph-b:${pal[1]}">${pal[2]}</div>`
       : `<div class="thumb" style="background-image:url('${c.hero_image}')"></div>`;
-    return `<tr>
+    const checked = SEL.has(c.slug) ? 'checked' : '';
+    return `<tr data-slug="${c.slug}" class="${SEL.has(c.slug)?'row-sel':''}">
+      <td><input type="checkbox" class="chkb row-chk" data-slug="${c.slug}" ${checked}></td>
       <td>
         <div class="cell-name">
           ${thumb}
@@ -539,22 +589,53 @@ function render(){
       <td><span class="price">€${c.price_eur}</span></td>
       <td class="mono">€${(c.budget_eur||0).toLocaleString()}</td>
       <td>
-        <input type="url" class="pay-input" placeholder="https://buy.stripe.com/…"
+        <input type="url" class="pay-input" placeholder="https://…lemonsqueezy.com/checkout/buy/…"
           value="${(c.ls_url||'').replace(/"/g,'&quot;')}"
           onchange="setPayLink('${c.slug}', this.value)"
           style="width:180px;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg-2);color:var(--text);font-family:'JetBrains Mono';font-size:10px"
-          title="Stripe Payment Link or Lemon Squeezy checkout URL">
+          title="Lemon Squeezy checkout URL">
       </td>
       <td>${c.verified ? '<span class="chip ok">● Verified</span>' : '<span class="chip warn">○ Pending</span>'}</td>
       <td class="mono">${c.langs_filled||0}<span style="color:var(--text-3)">/12</span></td>
       <td>
         <div class="actions">
           <a class="btn-s" href="view.html?c=${c.slug}" target="_blank">Preview</a>
-          <button class="btn-s ${c.verified?'danger':'primary'}" onclick="toggleVerify('${c.slug}',${!c.verified})">${c.verified?'Unverify':'Verify'}</button>
+          ${MY_ROLE==='superadmin' ? `<button class="btn-s ${c.verified?'danger':'primary'}" onclick="toggleVerify('${c.slug}',${!c.verified})">${c.verified?'Unverify':'Verify'}</button>` : ''}
         </div>
       </td>
     </tr>`;
   }).join('');
+  // wire row checkboxes
+  tb.querySelectorAll('.row-chk').forEach(chk => {
+    chk.addEventListener('change', e => {
+      const slug = e.target.dataset.slug;
+      if(e.target.checked) SEL.add(slug); else SEL.delete(slug);
+      e.target.closest('tr').classList.toggle('row-sel', e.target.checked);
+      updateBulkBar();
+      syncSelectAll();
+    });
+  });
+  syncSelectAll();
+}
+
+function syncSelectAll(){
+  const all = $('sel-all');
+  if(!all) return;
+  if(!VIEW.length){ all.checked = false; all.indeterminate = false; return; }
+  const selectedInView = VIEW.filter(c => SEL.has(c.slug)).length;
+  all.checked = selectedInView === VIEW.length;
+  all.indeterminate = selectedInView > 0 && selectedInView < VIEW.length;
+}
+
+function updateBulkBar(){
+  const n = SEL.size;
+  $('bulk-bar').classList.toggle('hidden', n === 0);
+  $('bulk-n').textContent = n;
+  // Non-superadmin can't verify/delete in bulk either
+  const isSA = MY_ROLE === 'superadmin';
+  $('bulk-verify').style.display = isSA ? '' : 'none';
+  $('bulk-unverify').style.display = isSA ? '' : 'none';
+  $('bulk-delete').style.display = isSA ? '' : 'none';
 }
 
 async function setPayLink(slug, url){
@@ -582,6 +663,55 @@ window.toggleVerify = toggleVerify;
 $('q').addEventListener('input', e=>{STATE.q=e.target.value;applyAll()});
 $('status').addEventListener('change', e=>{STATE.status=e.target.value;applyAll()});
 $('cat').addEventListener('change', e=>{STATE.cat=e.target.value;applyAll()});
+
+// ═══ BULK SELECTION ═══
+$('sel-all').addEventListener('change', e => {
+  const on = e.target.checked;
+  VIEW.forEach(c => { if(on) SEL.add(c.slug); else SEL.delete(c.slug); });
+  render();
+  updateBulkBar();
+});
+$('bulk-clear').addEventListener('click', ()=>{
+  SEL.clear(); render(); updateBulkBar();
+});
+$('bulk-verify').addEventListener('click', async ()=>{
+  if(MY_ROLE !== 'superadmin'){ alert('Only superadmin can verify'); return; }
+  const slugs = [...SEL];
+  if(!slugs.length) return;
+  if(!confirm(`Verify ${slugs.length} concept(s)?`)) return;
+  const {error} = await sb.from('concepts_catalog').update({
+    verified: true, verified_at: new Date().toISOString()
+  }).in('slug', slugs);
+  if(error){ alert(error.message); return; }
+  slugs.forEach(s => { const i = ALL.findIndex(c=>c.slug===s); if(i>=0){ALL[i].verified=true;} });
+  applyAll(); updateStats();
+});
+$('bulk-unverify').addEventListener('click', async ()=>{
+  if(MY_ROLE !== 'superadmin'){ alert('Only superadmin can unverify'); return; }
+  const slugs = [...SEL];
+  if(!slugs.length) return;
+  if(!confirm(`Unverify ${slugs.length} concept(s)?`)) return;
+  const {error} = await sb.from('concepts_catalog').update({
+    verified: false, verified_at: null, verified_by: null
+  }).in('slug', slugs);
+  if(error){ alert(error.message); return; }
+  slugs.forEach(s => { const i = ALL.findIndex(c=>c.slug===s); if(i>=0){ALL[i].verified=false;} });
+  applyAll(); updateStats();
+});
+$('bulk-delete').addEventListener('click', async ()=>{
+  if(MY_ROLE !== 'superadmin'){ alert('Only superadmin can delete'); return; }
+  const slugs = [...SEL];
+  if(!slugs.length) return;
+  if(!confirm(`DELETE ${slugs.length} concept(s)? This is irreversible.`)) return;
+  if(!confirm('Really delete?')) return;
+  const {error} = await sb.from('concepts_catalog').delete().in('slug', slugs);
+  if(error){ alert(error.message); return; }
+  ALL = ALL.filter(c => !SEL.has(c.slug));
+  SEL.clear();
+  applyAll(); updateStats();
+  updateBulkBar();
+});
+
 $('uq').addEventListener('input', e=>{USTATE.q=e.target.value;applyUsers()});
 $('urole').addEventListener('change', e=>{USTATE.role=e.target.value;applyUsers()});
 $('m-refresh').addEventListener('click', loadMetrics);

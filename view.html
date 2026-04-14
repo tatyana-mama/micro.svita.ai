@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
   --bg-1:#FFC8DD;
@@ -305,6 +306,33 @@ const UI_STRINGS = {
 let CONCEPT = null;
 let CURRENT_LANG = localStorage.getItem('svita_micro_lang') || 'en';
 let I18N_ROW = null; // row from concepts_i18n
+let IS_SA = false;   // superadmin flag
+const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+const SB = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+
+function escape(s){
+  return String(s==null?'':s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+
+async function saVerify(slug){
+  if(!SB) return;
+  if(!confirm('Verify concept '+slug+'?')) return;
+  const {error} = await SB.from('concepts_catalog').update({verified:true, verified_at:new Date().toISOString()}).eq('slug', slug);
+  if(error){ alert('Error: '+error.message); return; }
+  alert('Verified ✓');
+}
+window.saVerify = saVerify;
+
+async function detectSuperadmin(){
+  if(!SB) return false;
+  try{
+    const {data:{session}} = await SB.auth.getSession();
+    if(!session) return false;
+    const {data} = await SB.from('profiles').select('role').eq('user_id', session.user.id).maybeSingle();
+    return data && data.role === 'superadmin';
+  }catch(e){ return false; }
+}
 
 (async function init(){
   const params = new URLSearchParams(location.search);
@@ -338,6 +366,8 @@ let I18N_ROW = null; // row from concepts_i18n
   CONCEPT = concept;
   applyTheme(concept);
   buildLangMenu();
+  IS_SA = await detectSuperadmin();
+  if(IS_SA){ document.body.classList.add('sa-mode'); }
   await loadI18nOverride(slug, CURRENT_LANG);
   rerenderAll();
   document.getElementById('loading').classList.add('hidden');
@@ -461,16 +491,35 @@ function renderFrame(c){
     frame.appendChild(iframe);
     return;
   }
+  // Superadmin: unlock view — render body_html if present, otherwise full data dump for review
+  const saReview = IS_SA
+    ? `<div style="margin-top:24px;padding:16px 20px;border:1px dashed rgba(239,68,68,0.4);border-radius:14px;background:rgba(239,68,68,0.06)">
+         <div style="font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#ef4444;font-weight:700;margin-bottom:12px">Superadmin review mode</div>
+         ${c._body_html ? '<div style="font-size:12px;color:#64748b">Body HTML present — rendered above.</div>'
+            : `<div style="font-size:12px;color:#64748b;margin-bottom:10px">No body_html in concepts_i18n. Raw catalog data:</div>
+               <pre style="font-size:11px;line-height:1.55;white-space:pre-wrap;word-break:break-word;color:#0F172A;background:#fff;padding:12px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);max-height:320px;overflow:auto">${escape(JSON.stringify({
+                 slug:c.slug,name:c.name,tagline:c.tagline,description:c._description,
+                 category:c.category,country:c.country,size_m2:c.size_m2,
+                 budget_eur:c.budget_eur,price_eur:c.price_eur,weeks:c.weeks
+               }, null, 2))}</pre>`}
+         <div style="display:flex;gap:8px;margin-top:12px">
+           <a href="admin.html#concepts" style="font-size:11px;padding:8px 14px;border-radius:100px;background:#0F172A;color:#fff;text-decoration:none">← Admin</a>
+           <button onclick="saVerify('${c.slug}')" style="font-size:11px;padding:8px 14px;border-radius:100px;background:#D6FF3E;color:#0F172A;border:0;cursor:pointer;font-weight:600">✓ Verify this concept</button>
+         </div>
+       </div>`
+    : '';
+
   // If admin-uploaded body_html exists, use it instead of the locked preview
   const body = c._body_html
-    ? `<div class="preview-body-inner" style="grid-template-columns:1fr"><div>${c._body_html}</div></div>`
+    ? `<div class="preview-body-inner" style="grid-template-columns:1fr"><div>${c._body_html}${saReview}</div></div>`
     : `<div class="preview-body-inner">
         <div>
           <h2>${t('inside')}</h2>
           <p>${c._description || t('insideP1')}</p>
           <p>${t('insideP2', c.weeks||8)}</p>
-          <h2 style="margin-top:28px">${t('locked')}</h2>
-          <p>${t('lockedP')}</p>
+          <h2 style="margin-top:28px">${IS_SA ? 'Review data' : t('locked')}</h2>
+          <p>${IS_SA ? 'Full concept data visible below for verification.' : t('lockedP')}</p>
+          ${saReview}
         </div>
         <div class="specs">
           <div class="price">€${c.price_eur}</div>
