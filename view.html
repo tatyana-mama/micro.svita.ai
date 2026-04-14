@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="js/svita-ui.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
@@ -582,12 +583,12 @@ function applyTheme(concept){
 
 function renderChip(c){
   document.getElementById('chipText').innerHTML =
-    '<strong>'+c.name+'</strong> · '+c.country+' · €'+c.budget_eur.toLocaleString('en-US');
+    '<strong>'+c.name+'</strong> · €'+c.budget_eur.toLocaleString('en-US');
 }
 
 function renderAmbient(c){
   const wrap = document.getElementById('ambient');
-  const tags = (c._theme.tags || [c.category, c.country, c.size_m2+'m²', '€'+c.budget_eur.toLocaleString()]).slice(0,4);
+  const tags = (c._theme.tags || [c.category, c.size_m2+'m²', '€'+c.budget_eur.toLocaleString(), (c.weeks||8)+'w']).slice(0,4);
   const positions = [
     {top:'14%',left:'4%'},
     {top:'76%',left:'6%'},
@@ -607,7 +608,7 @@ function renderAmbient(c){
 function renderFrame(c){
   const frame = document.getElementById('frame');
   frame.innerHTML = '';
-  if(HAS_BRANDBOOK.has(c.slug) && CURRENT_LANG === 'en'){
+  if(HAS_BRANDBOOK.has(c.slug) && CURRENT_LANG === 'en' && IS_SA){
     const iframe = document.createElement('iframe');
     iframe.src = 'data/concepts/'+c.slug+'/brandbook.html';
     iframe.title = c.name + ' brandbook';
@@ -635,7 +636,6 @@ function renderFrame(c){
           <div class="row"><span class="k">${t('budget')}</span><span class="v">€${c.budget_eur.toLocaleString('en-US')}</span></div>
           <div class="row"><span class="k">${t('timeline')}</span><span class="v">${c.weeks||8} ${t('weeks')}</span></div>
           <div class="row"><span class="k">${t('size')}</span><span class="v">${c.size_m2||'—'}m²</span></div>
-          <div class="row"><span class="k">${t('country')}</span><span class="v">${c.country}</span></div>
           <div class="row"><span class="k">${t('category')}</span><span class="v">${c.category}</span></div>
           <a class="btn" href="account.html?buy=${c.slug}">
             ${t('buy')} €${c.price_eur}
@@ -649,7 +649,7 @@ function renderFrame(c){
       <div class="preview-hero">
         <div class="glyph">${c._theme.glyph || ''}</div>
         <div class="meta">
-          <div class="tag">${c.category.toUpperCase()} · ${c.country} · ${c.size_m2||''}m²</div>
+          <div class="tag">${c.category.toUpperCase()} · ${c.size_m2||''}m²</div>
           <h1>${c.name}</h1>
           <div class="tag">${c.tagline||''}</div>
         </div>

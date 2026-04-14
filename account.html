@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="js/svita-ui.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 /* ============ TOKENS (identical to index.html) ============ */
@@ -328,6 +329,14 @@ nav.scrolled{
 .own-tile:hover .open{color:var(--accent);opacity:1}
 .own-tile .open svg{transition:transform 250ms var(--ease)}
 .own-tile:hover .open svg{transform:translateX(4px)}
+.own-tile .bb-btn{
+  display:inline-flex;align-items:center;margin-top:10px;margin-left:12px;
+  padding:6px 12px;border-radius:100px;
+  background:rgba(239,68,68,0.85);color:#fff;
+  font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
+  text-decoration:none;cursor:pointer;transition:background 200ms var(--ease);
+}
+.own-tile .bb-btn:hover{background:#ef4444}
 
 @media(max-width:1024px){.own-tile{grid-column:span 6;min-height:280px}}
 @media(max-width:640px){.own-tile{grid-column:span 12;min-height:260px}}
@@ -607,6 +616,7 @@ const qs = new URLSearchParams(location.search);
 const BUY_INTENT = qs.get('buy');
 const PAID_SLUG = qs.get('paid');
 let MY_ROLE = 'user';
+const HAS_BRANDBOOK = new Set(['poppy-matcha']);
 
 const CAT_PAL = {
   food:['#1a2e1a','#2d4a2d','🌿'], restaurant:['#2e1a1a','#4a2d2d','🍽'],
@@ -895,22 +905,28 @@ async function loadOwned(){
   }
   $('owned-count').textContent = data.length + ' concept' + (data.length===1?'':'s');
   const grid = $('owned-grid');
+  const isSA = MY_ROLE === 'superadmin';
   grid.innerHTML = data.map(c=>{
     const isPh = c.hero_image && c.hero_image.startsWith('placeholder:');
     const pal = CAT_PAL[c.category] || ['#1a1a1f','#2a2a30','◆'];
     const visual = isPh
       ? `<div class="ph" style="--ph-a:${pal[0]};--ph-b:${pal[1]}">${pal[2]}</div>`
       : `<div class="img" style="background-image:url('${c.hero_image}')"></div>`;
+    const hasBB = HAS_BRANDBOOK.has(c.concept_slug);
+    const bbBtn = (isSA && hasBB)
+      ? `<a class="bb-btn" href="data/concepts/${c.concept_slug}/brandbook.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">Open brandbook</a>`
+      : '';
     return `
       <a class="own-tile" href="view.html?c=${c.concept_slug}">
         ${visual}
         <div class="shade"></div>
         <span class="badge">Owned</span>
         <div class="info">
-          <span class="cat">${c.category} · ${c.country} · ${c.size_m2||'—'}m²</span>
+          <span class="cat">${c.category} · ${c.size_m2||'—'}m²</span>
           <h3>${c.name}</h3>
           <div class="meta"><span>€${(c.budget_eur||0).toLocaleString()}</span><span>${c.weeks||'—'}w</span></div>
           <div class="open">Open concept <svg width="14" height="9" viewBox="0 0 14 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4.5h11M8 1l4 3.5-4 3.5"/></svg></div>
+          ${bbBtn}
         </div>
       </a>
     `;
@@ -941,7 +957,7 @@ async function showBuyIntent(slug){
         <div class="left">
           <span class="kicker">Superadmin · free access</span>
           <h4>${c.name}</h4>
-          <div class="specs">${c.category} · ${c.country} · ${c.size_m2||'—'}m² · €${(c.budget_eur||0).toLocaleString()} total launch</div>
+          <div class="specs">${c.category} · ${c.size_m2||'—'}m² · €${(c.budget_eur||0).toLocaleString()} total launch</div>
         </div>
         <div class="actions">
           <button class="btn btn-ghost" id="cancel-buy">Cancel</button>
@@ -967,7 +983,7 @@ async function showBuyIntent(slug){
       <div class="left">
         <span class="kicker">Ready to buy</span>
         <h4>${c.name}</h4>
-        <div class="specs">${c.category} · ${c.country} · ${c.size_m2||'—'}m² · €${(c.budget_eur||0).toLocaleString()} total launch</div>
+        <div class="specs">${c.category} · ${c.size_m2||'—'}m² · €${(c.budget_eur||0).toLocaleString()} total launch</div>
       </div>
       <div class="actions">
         <button class="btn btn-ghost" id="cancel-buy">Cancel</button>

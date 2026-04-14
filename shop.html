@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="js/svita-ui.css">
 <style>
 :root{
   --bg:#0A0A0B; --bg-1:#111113; --bg-2:#18181B;
@@ -228,17 +229,10 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
         <input type="search" id="q" placeholder="Search concepts…">
       </div>
-      <select class="sel" id="country">
-        <option value="all">All countries</option>
-      </select>
-      <select class="sel" id="sort">
+      <button class="chip sort-chip" id="sort-price" data-key="price_eur">Price <span class="arr"></span></button>
+      <button class="chip sort-chip" id="sort-budget" data-key="budget_eur">Budget <span class="arr"></span></button>
+      <select class="sel hidden" id="sort">
         <option value="popular">Sort: Popular</option>
-        <option value="price-asc">Price: low → high</option>
-        <option value="price-desc">Price: high → low</option>
-        <option value="budget-asc">Budget: low → high</option>
-        <option value="budget-desc">Budget: high → low</option>
-        <option value="weeks-asc">Fastest to launch</option>
-        <option value="name">Name A → Z</option>
       </select>
       <div class="cols" id="cols">
         <button class="col-btn" data-cols="2">2</button>
@@ -277,7 +271,7 @@ const CAT_LABELS = {
 
 let ALL = [];
 let VIEW = [];
-const STATE = {cat:'all', country:'all', sort:'popular', q:'', page:0, per:24};
+const STATE = {cat:'all', sort:'popular', q:'', page:0, per:24};
 
 async function loadCatalog(){
   try{
@@ -310,19 +304,11 @@ function buildFilters(){
     applyAll();
   });
 
-  const countries = [...new Set(ALL.map(c=>c.country))].sort();
-  const cSel = document.getElementById('country');
-  countries.forEach(x=>{
-    const o = document.createElement('option');
-    o.value = x; o.textContent = x;
-    cSel.appendChild(o);
-  });
 }
 
 function applyAll(){
   VIEW = ALL.filter(c=>{
     if(STATE.cat !== 'all' && c.category !== STATE.cat) return false;
-    if(STATE.country !== 'all' && c.country !== STATE.country) return false;
     if(STATE.q){
       const q = STATE.q.toLowerCase();
       if(!(c.name.toLowerCase().includes(q) || (c.tagline||'').toLowerCase().includes(q))) return false;
@@ -330,12 +316,10 @@ function applyAll(){
     return true;
   });
   const cmp = {
-    'price-asc':(a,b)=>a.price_eur-b.price_eur,
-    'price-desc':(a,b)=>b.price_eur-a.price_eur,
-    'budget-asc':(a,b)=>a.budget_eur-b.budget_eur,
-    'budget-desc':(a,b)=>b.budget_eur-a.budget_eur,
-    'weeks-asc':(a,b)=>(a.weeks||99)-(b.weeks||99),
-    'name':(a,b)=>a.name.localeCompare(b.name),
+    'price_eur-asc':(a,b)=>(a.price_eur||0)-(b.price_eur||0),
+    'price_eur-desc':(a,b)=>(b.price_eur||0)-(a.price_eur||0),
+    'budget_eur-asc':(a,b)=>(a.budget_eur||0)-(b.budget_eur||0),
+    'budget_eur-desc':(a,b)=>(b.budget_eur||0)-(a.budget_eur||0),
     'popular':(a,b)=>0,
   }[STATE.sort];
   if(cmp) VIEW.sort(cmp);
@@ -363,7 +347,6 @@ function cardHTML(c){
       <div class="media">
         ${visual}
         <div class="shade"></div>
-        <span class="country">${c.country}</span>
         <span class="price">€${c.price_eur}</span>
       </div>
       <div class="body">
@@ -382,8 +365,24 @@ function cardHTML(c){
 }
 
 /* controls */
-document.getElementById('country').addEventListener('change', e=>{ STATE.country=e.target.value; applyAll(); });
-document.getElementById('sort').addEventListener('change', e=>{ STATE.sort=e.target.value; applyAll(); });
+
+/* click-to-sort chips: cycle off → asc → desc → off */
+function wireSortChip(id, key){
+  const el = document.getElementById(id);
+  el.addEventListener('click', ()=>{
+    const others = document.querySelectorAll('.sort-chip');
+    let next;
+    if(el.classList.contains('asc')){ next='desc'; }
+    else if(el.classList.contains('desc')){ next=''; }
+    else { next='asc'; }
+    others.forEach(x=>{ x.classList.remove('on','asc','desc'); });
+    if(next){ el.classList.add('on', next); STATE.sort = key+'-'+next; }
+    else { STATE.sort='popular'; }
+    applyAll();
+  });
+}
+wireSortChip('sort-price','price_eur');
+wireSortChip('sort-budget','budget_eur');
 document.getElementById('q').addEventListener('input', e=>{ STATE.q=e.target.value; applyAll(); });
 document.getElementById('more-btn').addEventListener('click', ()=>{ STATE.page++; render(); });
 

@@ -6,6 +6,7 @@
 <title>SVITA Micro — Admin</title>
 <meta name="theme-color" content="#0A0A0B">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="js/svita-ui.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 :root{
@@ -236,7 +237,7 @@ td .actions{display:flex;gap:6px}
         <table>
           <thead><tr>
             <th style="width:36px"><input type="checkbox" id="sel-all" class="chkb"></th>
-            <th>Concept</th><th>Category</th><th>Country</th><th>Price</th><th>Budget</th><th>Payment link</th><th>Status</th><th>i18n</th><th>Actions</th>
+            <th>Concept</th><th>Category</th><th>Price</th><th>Budget</th><th>Payment link</th><th>Status</th><th>i18n</th><th>Actions</th>
           </tr></thead>
           <tbody id="tbl"></tbody>
         </table>
@@ -585,7 +586,6 @@ function render(){
         </div>
       </td>
       <td><span class="chip">${c.category}</span></td>
-      <td><span class="chip">${c.country}</span></td>
       <td><span class="price">€${c.price_eur}</span></td>
       <td class="mono">€${(c.budget_eur||0).toLocaleString()}</td>
       <td>
