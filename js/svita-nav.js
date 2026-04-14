@@ -9,7 +9,20 @@
 
   /* Default lang set — pages can override by defining window.SVITA_LANGS
      as [{code:'EN',name:'English'}, ...] before loading this script. */
-  const DEFAULT_LANGS = [{code:'EN',name:'English'},{code:'RU',name:'Русский'}];
+  const DEFAULT_LANGS = [
+    {code:'BE',name:'Беларуская'},
+    {code:'DE',name:'Deutsch'},
+    {code:'EN',name:'English'},
+    {code:'ES',name:'Español'},
+    {code:'FR',name:'Français'},
+    {code:'IT',name:'Italiano'},
+    {code:'JA',name:'日本語'},
+    {code:'KO',name:'한국어'},
+    {code:'PL',name:'Polski'},
+    {code:'PT',name:'Português'},
+    {code:'RU',name:'Русский'},
+    {code:'UK',name:'Українська'},
+  ];
   function getLangList(){
     if(Array.isArray(window.SVITA_LANGS) && window.SVITA_LANGS.length) return window.SVITA_LANGS;
     return DEFAULT_LANGS;

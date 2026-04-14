@@ -251,6 +251,47 @@ td .actions{display:flex;gap:6px}
 .uconcept .vbadge{font-size:9px;padding:2px 6px;border-radius:6px;background:var(--bg-3);color:var(--text-3);align-self:flex-start;margin-top:2px}
 .uconcept .vbadge.ok{background:rgba(132,204,22,0.15);color:var(--ok)}
 
+/* ===== ACCESS CONTROL PANEL ===== */
+.access-row{
+  display:grid;grid-template-columns:1fr auto auto auto;gap:10px;align-items:center;
+  padding:10px 14px;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;
+  margin-bottom:8px;
+}
+.access-row .ar-name{font-size:12px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.access-row .ar-slug{font-family:'JetBrains Mono';font-size:9px;color:var(--text-3);margin-top:2px}
+.access-row .state-pills{display:flex;gap:4px}
+.state-pill{
+  padding:5px 10px;border-radius:100px;font-size:9px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;
+  background:var(--bg-3);color:var(--text-3);border:1px solid var(--line);
+  transition:all 150ms ease;
+}
+.state-pill:hover{color:var(--text);border-color:var(--line-2)}
+.state-pill.on.gift{background:rgba(139,92,246,0.15);color:#a78bfa;border-color:rgba(139,92,246,0.4)}
+.state-pill.on.purchased{background:rgba(214,255,62,0.12);color:var(--accent);border-color:rgba(214,255,62,0.35)}
+.state-pill.on.promo{background:rgba(59,130,246,0.15);color:#60a5fa;border-color:rgba(59,130,246,0.4)}
+.access-row .revoke{
+  padding:6px 10px;font-size:10px;border-radius:8px;background:rgba(239,68,68,0.1);
+  color:var(--err);border:1px solid rgba(239,68,68,0.25);cursor:pointer;
+}
+.access-row .revoke:hover{background:rgba(239,68,68,0.2)}
+.grant-form{
+  display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;
+  padding:14px;background:var(--bg-2);border:1px dashed var(--line);border-radius:10px;
+  margin-top:12px;
+}
+.grant-form select,.grant-form input{
+  padding:9px 12px;background:var(--bg-3);border:1px solid var(--line);border-radius:8px;
+  color:var(--text);font-size:12px;font-family:inherit;
+}
+.grant-form select:focus,.grant-form input:focus{outline:none;border-color:var(--accent)}
+.grant-form button{
+  padding:9px 16px;background:var(--accent);color:#0A0A0B;border:0;border-radius:8px;
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;
+}
+.grant-form button:hover{filter:brightness(1.08)}
+.grant-form button:disabled{opacity:0.5;cursor:not-allowed}
+
 .uname-cell{cursor:pointer;transition:color 200ms var(--ease)}
 .uname-cell:hover .name{color:var(--accent)}
 </style>
@@ -260,6 +301,13 @@ td .actions{display:flex;gap:6px}
 <!-- USER CARD MODAL -->
 <div id="umodal-bg" class="umodal-bg hidden" onclick="if(event.target===this)closeUserModal()">
   <div class="umodal" id="umodal-content">
+    <div style="padding:60px;text-align:center;color:var(--text-3)">Loading...</div>
+  </div>
+</div>
+
+<!-- CONCEPT CARD MODAL -->
+<div id="cmodal-bg" class="umodal-bg hidden" onclick="if(event.target===this)closeConceptModal()">
+  <div class="umodal" id="cmodal-content">
     <div style="padding:60px;text-align:center;color:var(--text-3)">Loading...</div>
   </div>
 </div>
@@ -715,9 +763,246 @@ function renderUserModal(d){
         <div class="uconcepts">${purchasesHtml}</div>
       </div>
 
+      <div class="umodal-section">
+        <h3>Access control</h3>
+        <div id="access-list-${escape(p.user_id||'x')}" class="access-list">
+          <div style="padding:18px;text-align:center;color:var(--text-3);font-size:12px">Loading access...</div>
+        </div>
+        ${MY_ROLE === 'superadmin' ? `
+        <div class="grant-form">
+          <select id="grant-slug-${escape(p.user_id||'x')}">
+            <option value="">— Select concept —</option>
+            ${(window.ALL||[]).map(c=>`<option value="${escape(c.slug)}">${escape(c.name||c.slug)}</option>`).join('')}
+          </select>
+          <select id="grant-state-${escape(p.user_id||'x')}">
+            <option value="gift">Gift</option>
+            <option value="purchased">Purchased</option>
+            <option value="promo">Promo</option>
+          </select>
+          <button type="button" onclick="grantAccess('${escape(p.user_id||'')}')">Grant</button>
+        </div>
+        ` : ''}
+      </div>
+
+    </div>
+  `;
+
+  // load access list (async — uses has_access RPC + admin_user_access_list)
+  loadUserAccessList(p.user_id);
+}
+
+// ═══════════════ ACCESS CONTROL ═══════════════
+async function loadUserAccessList(userId){
+  if(!userId) return;
+  const host = document.getElementById('access-list-' + userId);
+  if(!host) return;
+  const { data, error } = await sb.rpc('admin_user_access_list', { p_user_id: userId });
+  if(error){
+    host.innerHTML = `<div style="padding:14px;color:var(--err);font-size:12px">Error: ${escape(error.message)}</div>`;
+    return;
+  }
+  const rows = data || [];
+  if(!rows.length){
+    host.innerHTML = '<div style="padding:18px;text-align:center;color:var(--text-3);font-size:12px">No access granted yet</div>';
+    return;
+  }
+  host.innerHTML = rows.map(r=>{
+    const states = ['gift','purchased','promo'];
+    const pills = states.map(st=>{
+      const on = r.access_state === st;
+      const title = MY_ROLE==='superadmin' ? `Set state to ${st}` : st;
+      return `<span class="state-pill ${on?'on '+st:''}"
+        ${MY_ROLE==='superadmin' ? `onclick="setAccessState('${escape(userId)}','${escape(r.concept_slug)}','${st}')"` : ''}
+        title="${title}">${st}</span>`;
+    }).join('');
+    const revokeBtn = MY_ROLE==='superadmin'
+      ? `<button class="revoke" onclick="revokeAccess('${escape(userId)}','${escape(r.concept_slug)}')">Revoke</button>`
+      : '';
+    return `
+      <div class="access-row">
+        <div>
+          <div class="ar-name">${escape(r.concept_name || r.concept_slug)}</div>
+          <div class="ar-slug">${escape(r.concept_slug)} · €${(r.price_paid||0).toLocaleString()} · ${escape(r.provider||'—')}</div>
+        </div>
+        <div class="state-pills">${pills}</div>
+        ${revokeBtn}
+      </div>`;
+  }).join('');
+}
+
+async function setAccessState(userId, slug, state){
+  const { data, error } = await sb.rpc('admin_grant_access', {
+    p_user_id: userId, p_slug: slug, p_state: state
+  });
+  if(error){ alert('Error: ' + error.message); return; }
+  if(data && data.ok){ await loadUserAccessList(userId); }
+  else { alert('Error: ' + (data && data.error || 'unknown')); }
+}
+window.setAccessState = setAccessState;
+
+async function grantAccess(userId){
+  const slug = document.getElementById('grant-slug-' + userId).value;
+  const state = document.getElementById('grant-state-' + userId).value;
+  if(!slug){ alert('Pick a concept'); return; }
+  await setAccessState(userId, slug, state);
+  document.getElementById('grant-slug-' + userId).value = '';
+}
+window.grantAccess = grantAccess;
+
+async function revokeAccess(userId, slug){
+  if(!confirm('Revoke access to ' + slug + '?')) return;
+  const { data, error } = await sb.rpc('admin_revoke_access', {
+    p_user_id: userId, p_slug: slug
+  });
+  if(error){ alert('Error: ' + error.message); return; }
+  if(data && data.ok){ await loadUserAccessList(userId); }
+  else { alert('Error: ' + (data && data.error || 'unknown')); }
+}
+window.revokeAccess = revokeAccess;
+
+// ═══════════════ CONCEPT MODAL ═══════════════
+async function openConceptModal(slug){
+  const bg = $('cmodal-bg');
+  const box = $('cmodal-content');
+  bg.classList.remove('hidden');
+  box.innerHTML = '<div style="padding:60px;text-align:center;color:var(--text-3)"><div class="spin" style="margin:0 auto 16px"></div>Loading concept...</div>';
+  document.body.style.overflow = 'hidden';
+  try{
+    const concept = (window.ALL||[]).find(c=>c.slug===slug) || {slug, name:slug};
+    const [accessRes, i18nRes] = await Promise.all([
+      sb.rpc('admin_concept_access_list', { p_slug: slug }),
+      sb.from('concepts_i18n').select('lang_code,description,body_html').eq('concept_slug', slug).eq('lang_code','en').maybeSingle()
+    ]);
+    if(accessRes.error) throw accessRes.error;
+    renderConceptModal(concept, accessRes.data || [], (i18nRes && i18nRes.data) || null);
+  }catch(e){
+    box.innerHTML = '<div style="padding:60px;text-align:center;color:var(--err)">Error: '+escape(e.message||String(e))+'<br><button class="btn-s" style="margin-top:16px" onclick="closeConceptModal()">Close</button></div>';
+  }
+}
+window.openConceptModal = openConceptModal;
+
+function closeConceptModal(){
+  $('cmodal-bg').classList.add('hidden');
+  if($('umodal-bg').classList.contains('hidden')) document.body.style.overflow = '';
+}
+window.closeConceptModal = closeConceptModal;
+
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeConceptModal(); });
+
+function renderConceptModal(c, accessRows, i18n){
+  const fmt = ts => ts ? new Date(ts).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
+  const isPh = c.hero_image && String(c.hero_image).startsWith('placeholder:');
+  const thumbStyle = (!isPh && c.hero_image) ? `style="background-image:url('${escape(c.hero_image)}')"` : '';
+  const initialsOf = (name, email) => {
+    const src = name || (email||'').split('@')[0] || '?';
+    const parts = src.split(/\s+|[._\-+]/).filter(Boolean);
+    if(parts.length>=2) return (parts[0][0]+parts[1][0]).toUpperCase();
+    return src.slice(0,2).toUpperCase();
+  };
+
+  const byState = { gift:[], purchased:[], promo:[] };
+  accessRows.forEach(r=>{ (byState[r.access_state]||byState.purchased).push(r); });
+
+  const renderUserRow = r => {
+    const name = r.display_name || (r.email||'').split('@')[0] || '—';
+    const ini = initialsOf(r.display_name, r.email);
+    const roleBadge = r.role && r.role !== 'user' ? `<span class="pill role-${r.role}" style="margin-left:6px">${escape(r.role)}</span>` : '';
+    return `
+      <div class="access-row uname-cell" onclick="closeConceptModal();openUserModal('${escape(r.user_id)}')" style="cursor:pointer">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;flex:1">
+          <div class="uavatar" style="width:38px;height:38px;font-size:13px;flex-shrink:0">${escape(ini)}</div>
+          <div style="min-width:0;flex:1">
+            <div class="ar-name">${escape(name)}${roleBadge}</div>
+            <div class="ar-slug">${escape(r.email||'—')} · €${(r.price_paid||0).toLocaleString()} · ${escape(r.provider||'—')} · ${fmt(r.created_at)}</div>
+          </div>
+        </div>
+      </div>`;
+  };
+
+  const section = (label, state, rows) => `
+    <div class="umodal-section">
+      <h3>${label} <span class="state-pill ${state} on" style="margin-left:8px">${rows.length}</span></h3>
+      ${rows.length ? rows.map(renderUserRow).join('') : '<div style="padding:18px;text-align:center;color:var(--text-3);font-size:12px">No users in this state</div>'}
+    </div>`;
+
+  const description = (i18n && (i18n.description || '')) || c.tagline || '';
+  const bodyHtml = i18n && i18n.body_html ? i18n.body_html : '';
+
+  $('cmodal-content').innerHTML = `
+    <div class="umodal-head">
+      <button class="close" onclick="closeConceptModal()" title="Close (Esc)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 1l12 12M13 1L1 13"/></svg>
+      </button>
+      <div class="uavatar" ${thumbStyle} style="background-size:cover;background-position:center">${thumbStyle?'':escape((c.name||c.slug||'?').slice(0,2).toUpperCase())}</div>
+      <h2>${escape(c.name||c.slug)}</h2>
+      <div class="uemail">${escape(c.slug)} · ${escape(c.category||'—')} · ${escape(c.country||'—')}</div>
+      <div class="meta-pills">
+        <span class="pill">€${(c.price_eur||0).toLocaleString()}</span>
+        <span class="pill">Budget €${(c.budget_eur||0).toLocaleString()}</span>
+        ${c.size_m2?`<span class="pill">${c.size_m2} m²</span>`:''}
+        ${c.weeks?`<span class="pill">${c.weeks} wks</span>`:''}
+        ${c.verified?'<span class="pill" style="background:rgba(132,204,22,0.12);color:var(--ok);border-color:rgba(132,204,22,0.3)">● Verified</span>':'<span class="pill" style="background:rgba(245,158,11,0.1);color:var(--warn);border-color:rgba(245,158,11,0.25)">○ Pending</span>'}
+        ${c.has_brandbook?'<span class="pill" style="background:rgba(132,204,22,0.12);color:var(--ok);border-color:rgba(132,204,22,0.3)">📖 Brandbook</span>':''}
+      </div>
+    </div>
+
+    <div class="umodal-body">
+
+      <div class="umodal-section">
+        <h3>Description</h3>
+        ${c.tagline?`<div style="color:var(--text-2);font-size:14px;margin-bottom:12px;font-style:italic">${escape(c.tagline)}</div>`:''}
+        ${description?`<div style="color:var(--text-2);font-size:13px;line-height:1.6">${escape(description)}</div>`:''}
+        ${!c.tagline && !description?'<div style="color:var(--text-3);font-size:12px">No description yet</div>':''}
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+          <a class="btn-s" href="view.html?c=${escape(c.slug)}" target="_blank">Preview</a>
+          ${MY_ROLE==='superadmin'?`<a class="btn-s primary" href="edit.html?c=${escape(c.slug)}" target="_blank">✎ Edit</a>`:''}
+          ${c.has_brandbook?`<a class="btn-s" href="data/concepts/${escape(c.slug)}/brandbook.html" target="_blank">📖 Brandbook</a>`:''}
+        </div>
+      </div>
+
+      <div class="umodal-section">
+        <h3>Stats</h3>
+        <div class="stat-grid">
+          <div class="stat-mini"><div class="num">${accessRows.length}</div><div class="lbl">Total access</div></div>
+          <div class="stat-mini"><div class="num">${byState.gift.length}</div><div class="lbl">Gifts</div></div>
+          <div class="stat-mini"><div class="num">${byState.purchased.length}</div><div class="lbl">Purchased</div></div>
+          <div class="stat-mini"><div class="num">${byState.promo.length}</div><div class="lbl">Promo</div></div>
+        </div>
+      </div>
+
+      ${section('🎁 Gift access', 'gift', byState.gift)}
+      ${section('💳 Purchased', 'purchased', byState.purchased)}
+      ${section('🎟 Promo', 'promo', byState.promo)}
+
+      ${MY_ROLE==='superadmin'?`
+      <div class="umodal-section">
+        <h3>Grant access</h3>
+        <div class="grant-form">
+          <input type="text" id="cgrant-uid" placeholder="User ID (uuid) or pick from Users tab" style="flex:1;min-width:260px">
+          <select id="cgrant-state">
+            <option value="gift">Gift</option>
+            <option value="purchased">Purchased</option>
+            <option value="promo">Promo</option>
+          </select>
+          <button type="button" onclick="grantConceptAccess('${escape(c.slug)}')">Grant</button>
+        </div>
+      </div>
+      `:''}
+
     </div>
   `;
 }
+
+async function grantConceptAccess(slug){
+  const uid = (document.getElementById('cgrant-uid').value||'').trim();
+  const state = document.getElementById('cgrant-state').value;
+  if(!uid){ alert('Enter user ID'); return; }
+  const { data, error } = await sb.rpc('admin_grant_access', { p_user_id: uid, p_slug: slug, p_state: state });
+  if(error){ alert('Error: ' + error.message); return; }
+  if(data && data.ok){ await openConceptModal(slug); }
+  else { alert('Error: ' + (data && data.error || 'unknown')); }
+}
+window.grantConceptAccess = grantConceptAccess;
 
 async function deleteUser(userId, label){
   if(MY_ROLE !== 'superadmin'){ alert('Only superadmin can delete users'); return; }
@@ -795,7 +1080,7 @@ function render(){
     return `<tr data-slug="${c.slug}" class="${SEL.has(c.slug)?'row-sel':''}">
       <td><input type="checkbox" class="chkb row-chk" data-slug="${c.slug}" ${checked}></td>
       <td>
-        <div class="cell-name">
+        <div class="cell-name uname-cell" onclick="openConceptModal('${c.slug}')" title="Click to view concept details & access">
           ${thumb}
           <div class="info">
             <div class="name">${c.name}</div>

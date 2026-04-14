@@ -109,6 +109,7 @@ Deno.serve(async (req) => {
       provider: 'lemon_squeezy',
       provider_ref: providerRef,
       status: 'paid',
+      access_state: 'purchased',
     },
     { onConflict: 'user_id,concept_slug' },
   );

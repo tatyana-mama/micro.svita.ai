@@ -68,6 +68,7 @@ Deno.serve(async (req) => {
       provider: 'stripe',
       provider_ref: session.id,
       status: 'paid',
+      access_state: 'purchased',
     }, { onConflict: 'user_id,concept_slug' });
 
     if (error) {

@@ -334,3 +334,192 @@ grant select on public.admin_metrics to authenticated;
 insert into public.profiles (user_id, email, role)
   select id, email, 'superadmin' from auth.users where email = 'scyraai@proton.me'
   on conflict (user_id) do update set role = 'superadmin';
+
+-- ============================================================
+-- ACCESS CONTROL — triple-state (gift / purchased / promo)
+-- Source of truth: public.purchases (keeps audit + RLS + indexes).
+-- A user has access to a concept IFF a purchases row exists with
+-- status='paid' and access_state in ('gift','purchased','promo').
+-- ============================================================
+
+-- 1. access_state column on purchases
+alter table public.purchases
+  add column if not exists access_state text;
+
+update public.purchases
+  set access_state = case
+    when provider = 'superadmin'                then 'gift'
+    when provider in ('lemon_squeezy','stripe') then 'purchased'
+    else 'purchased'
+  end
+  where access_state is null;
+
+alter table public.purchases
+  drop constraint if exists purchases_access_state_check;
+alter table public.purchases
+  add constraint purchases_access_state_check
+  check (access_state in ('gift','purchased','promo'));
+
+alter table public.purchases
+  alter column access_state set default 'purchased';
+alter table public.purchases
+  alter column access_state set not null;
+
+-- 2. VIEW: concept_access — three arrays per concept (spec mental model)
+drop view if exists public.concept_access cascade;
+create view public.concept_access
+  with (security_invoker = on)
+as
+  select
+    c.slug as concept_id,
+    c.name,
+    coalesce(array_agg(p.user_id) filter
+      (where p.access_state = 'gift' and p.status = 'paid'), '{}'::uuid[]) as access_gift,
+    coalesce(array_agg(p.user_id) filter
+      (where p.access_state = 'purchased' and p.status = 'paid'), '{}'::uuid[]) as access_purchased,
+    coalesce(array_agg(p.user_id) filter
+      (where p.access_state = 'promo' and p.status = 'paid'), '{}'::uuid[]) as access_promo
+  from public.concepts_catalog c
+  left join public.purchases p on p.concept_slug = c.slug
+  group by c.slug, c.name;
+
+grant select on public.concept_access to authenticated;
+
+-- 3. RPC: has_access — single triple-check query, callable from client/server
+create or replace function public.has_access(p_user_id uuid, p_slug text)
+returns boolean
+language sql stable security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.purchases
+    where user_id = p_user_id
+      and concept_slug = p_slug
+      and status = 'paid'
+      and access_state in ('gift','purchased','promo')
+  );
+$$;
+
+grant execute on function public.has_access(uuid, text) to authenticated;
+
+-- Convenience: current-user check
+create or replace function public.i_have_access(p_slug text)
+returns boolean
+language sql stable security definer
+set search_path = public
+as $$
+  select public.has_access(auth.uid(), p_slug);
+$$;
+
+grant execute on function public.i_have_access(text) to authenticated;
+
+-- 4. RPC: admin_grant_access — superadmin grants access in any state
+create or replace function public.admin_grant_access(
+  p_user_id uuid, p_slug text, p_state text
+) returns jsonb
+language plpgsql security definer
+set search_path = public
+as $$
+begin
+  if not public.is_superadmin() then
+    return jsonb_build_object('ok', false, 'error', 'not_authorized');
+  end if;
+  if p_state not in ('gift','purchased','promo') then
+    return jsonb_build_object('ok', false, 'error', 'invalid_state');
+  end if;
+  if not exists (select 1 from public.concepts_catalog where slug = p_slug) then
+    return jsonb_build_object('ok', false, 'error', 'concept_not_found');
+  end if;
+  insert into public.purchases(
+    user_id, concept_slug, price_paid, currency, provider, access_state, status
+  ) values (
+    p_user_id, p_slug, 0, 'EUR', 'superadmin', p_state, 'paid'
+  )
+  on conflict (user_id, concept_slug) do update
+    set access_state = excluded.access_state,
+        status       = 'paid';
+  return jsonb_build_object('ok', true, 'state', p_state);
+end; $$;
+
+grant execute on function public.admin_grant_access(uuid, text, text) to authenticated;
+
+-- 5. RPC: admin_revoke_access — superadmin removes any access
+create or replace function public.admin_revoke_access(
+  p_user_id uuid, p_slug text
+) returns jsonb
+language plpgsql security definer
+set search_path = public
+as $$
+begin
+  if not public.is_superadmin() then
+    return jsonb_build_object('ok', false, 'error', 'not_authorized');
+  end if;
+  delete from public.purchases
+    where user_id = p_user_id and concept_slug = p_slug;
+  return jsonb_build_object('ok', true);
+end; $$;
+
+grant execute on function public.admin_revoke_access(uuid, text) to authenticated;
+
+-- 6. RPC: admin_user_access_list — list all access rows for a user (with state)
+create or replace function public.admin_user_access_list(p_user_id uuid)
+returns table (
+  concept_slug text,
+  concept_name text,
+  access_state text,
+  provider     text,
+  price_paid   int,
+  created_at   timestamptz
+)
+language sql security definer
+set search_path = public
+as $$
+  select p.concept_slug, c.name, p.access_state, p.provider, p.price_paid, p.created_at
+  from public.purchases p
+  join public.concepts_catalog c on c.slug = p.concept_slug
+  where p.user_id = p_user_id
+    and p.status = 'paid'
+    and public.is_admin()
+  order by p.created_at desc;
+$$;
+
+grant execute on function public.admin_user_access_list(uuid) to authenticated;
+
+-- 7. RPC: admin_concept_access_list — list all users with access to a concept
+create or replace function public.admin_concept_access_list(p_slug text)
+returns table (
+  user_id      uuid,
+  email        text,
+  display_name text,
+  role         text,
+  access_state text,
+  provider     text,
+  price_paid   int,
+  currency     text,
+  created_at   timestamptz
+)
+language sql security definer
+set search_path = public
+as $$
+  select
+    p.user_id,
+    au.email::text,
+    pr.display_name,
+    pr.role,
+    p.access_state,
+    p.provider,
+    p.price_paid,
+    p.currency,
+    p.created_at
+  from public.purchases p
+  left join auth.users au on au.id = p.user_id
+  left join public.profiles pr on pr.user_id = p.user_id
+  where p.concept_slug = p_slug
+    and p.status = 'paid'
+    and public.is_admin()
+  order by
+    case p.access_state when 'gift' then 0 when 'purchased' then 1 when 'promo' then 2 else 3 end,
+    p.created_at desc;
+$$;
+
+grant execute on function public.admin_concept_access_list(text) to authenticated;
