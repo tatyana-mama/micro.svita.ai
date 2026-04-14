@@ -155,6 +155,21 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
   border-radius:100px;padding:7px 12px;
   font-family:'JetBrains Mono';font-size:10px;font-weight:600;color:#fff;letter-spacing:0.1em;
 }
+.fav-btn{
+  position:absolute;top:12px;left:12px;z-index:4;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(10,10,11,0.72);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,0.12);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:#fff;padding:0;
+  transition:transform 160ms var(--ease),background 200ms var(--ease),color 200ms var(--ease);
+}
+.fav-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
+.fav-btn:hover{transform:scale(1.08);background:rgba(10,10,11,0.9)}
+.fav-btn.on{color:#ff4d6b;background:rgba(10,10,11,0.9)}
+.fav-btn.on svg{fill:currentColor}
+.fav-btn:active{transform:scale(0.92)}
 .card .body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
 .card .cat{font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent);font-weight:600}
 .card h3{font-family:'Space Grotesk';font-size:20px;font-weight:700;letter-spacing:-0.02em;line-height:1.1;color:#fff}
@@ -229,6 +244,7 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 
 <nav id="nav"></nav>
 <script src="js/svita-nav.js"></script>
+<script src="js/svita-favs.js"></script>
 <script src="js/svita-app.js" defer></script>
 
 <section class="page">
@@ -385,6 +401,9 @@ function cardHTML(c){
       <div class="media">
         ${visual}
         <div class="shade"></div>
+        <button type="button" class="fav-btn" data-fav="${c.slug}" aria-label="Favorite" aria-pressed="false">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg>
+        </button>
         ${owned ? '<span class="owned-badge">✓ Owned</span>' : `<span class="price">€${c.price_eur}</span>`}
       </div>
       <div class="body">

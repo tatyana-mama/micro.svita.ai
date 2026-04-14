@@ -369,6 +369,41 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 @media(max-width:1024px){.own-tile{grid-column:span 6;min-height:280px}}
 @media(max-width:640px){.own-tile{grid-column:span 12;min-height:260px}}
 
+/* ============ FAVORITES GRID (compact cells above Owned) ============ */
+.favs{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-bottom:64px}
+.fav-tile{
+  position:relative;border-radius:var(--radius);overflow:hidden;
+  background:var(--bg-1);border:1px solid var(--line);cursor:pointer;
+  transition:transform 400ms var(--ease),border-color 300ms var(--ease);
+  min-height:200px;display:flex;flex-direction:column;
+}
+.fav-tile:hover{transform:translateY(-4px);border-color:var(--line-2)}
+.fav-tile .img{aspect-ratio:4/3;background-size:cover;background-position:center;position:relative}
+.fav-tile .ph{
+  aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--ph-a,#1a1a1f),var(--ph-b,#2a2a30));
+  font-size:42px;color:rgba(255,255,255,0.08);
+}
+.fav-tile .rm{
+  position:absolute;top:10px;right:10px;z-index:4;
+  width:30px;height:30px;border-radius:50%;border:0;padding:0;
+  background:rgba(10,10,11,0.78);color:#ff4d6b;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 160ms var(--ease),background 200ms var(--ease);
+}
+.fav-tile .rm svg{width:14px;height:14px;fill:currentColor;stroke:currentColor;stroke-width:1.6}
+.fav-tile .rm:hover{transform:scale(1.08);background:rgba(10,10,11,0.95)}
+.fav-tile .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.fav-tile .cat{font-size:9px;text-transform:uppercase;letter-spacing:0.14em;color:var(--accent);font-weight:600}
+.fav-tile h4{font-family:'Space Grotesk';font-size:16px;font-weight:700;letter-spacing:-0.02em;line-height:1.15;color:#fff}
+.fav-tile .meta{display:flex;gap:10px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-3);margin-top:auto;padding-top:10px;border-top:1px solid var(--line)}
+.favs-empty{
+  border:1px dashed var(--line);border-radius:var(--radius);
+  padding:40px 24px;text-align:center;color:var(--text-3);
+  font-size:13px;margin-bottom:64px;
+}
+.favs-empty a{color:var(--accent);text-decoration:none;font-weight:600}
+
 /* ============ EMPTY STATE ============ */
 .empty{
   border:1px dashed var(--line-2);border-radius:var(--radius-lg);
@@ -435,6 +470,7 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 <!-- ============ NAV (shared) ============ -->
 <nav id="nav"></nav>
 <script src="js/svita-nav.js"></script>
+<script src="js/svita-favs.js"></script>
 <script src="js/svita-app.js" defer></script>
 
 <!-- ============ LOGIN MODAL ============ -->
@@ -618,6 +654,15 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
     </div>
 
     <div id="intent-box" class="hidden"></div>
+
+    <div class="owned-head reveal" id="favorites">
+      <h2>Favorites</h2>
+      <span class="count" id="favs-count"></span>
+    </div>
+    <div id="favs-grid" class="favs hidden"></div>
+    <div id="favs-empty" class="favs-empty hidden">
+      No favorites yet. Tap the <span style="color:#ff4d6b">♥</span> on any concept to save it here. <a href="shop.html">Browse shop →</a>
+    </div>
 
     <div class="owned-head reveal">
       <h2>Owned</h2>
@@ -918,6 +963,7 @@ async function enterAccount(user){
   const nameEl = $('user-name');
   if(nameEl) nameEl.textContent = displayName || (user.user_metadata && user.user_metadata.name) || user.email.split('@')[0];
   observeReveals();
+  loadFavorites();
   await loadOwned();
   if(PAID_SLUG){
     const box = $('intent-box');
@@ -957,6 +1003,69 @@ async function enterAccount(user){
     showBuyIntent(BUY_INTENT);
   }
 }
+
+let CATALOG_CACHE = null;
+async function getCatalog(){
+  if(CATALOG_CACHE) return CATALOG_CACHE;
+  try{
+    const r = await fetch('data/catalog.json');
+    CATALOG_CACHE = await r.json();
+  }catch(e){ CATALOG_CACHE = []; }
+  return CATALOG_CACHE;
+}
+
+async function loadFavorites(){
+  const grid = $('favs-grid');
+  const empty = $('favs-empty');
+  const count = $('favs-count');
+  const favs = (window.SvitaFavs && window.SvitaFavs.list()) || [];
+  count.textContent = favs.length + ' concept' + (favs.length===1?'':'s');
+  if(!favs.length){
+    grid.classList.add('hidden');
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  const catalog = await getCatalog();
+  const items = favs.map(slug => catalog.find(c => c.slug === slug)).filter(Boolean);
+  if(!items.length){
+    grid.classList.add('hidden');
+    empty.classList.remove('hidden');
+    return;
+  }
+  grid.innerHTML = items.map(c=>{
+    const isPh = !c.hero_image || (typeof c.hero_image === 'string' && c.hero_image.startsWith('placeholder:'));
+    const pal = CAT_PAL[c.category] || ['#1a1a1f','#2a2a30','◆'];
+    const visual = isPh
+      ? `<div class="ph" style="--ph-a:${pal[0]};--ph-b:${pal[1]}">${pal[2]}</div>`
+      : `<div class="img" style="background-image:url('${c.hero_image}')"></div>`;
+    return `
+      <div class="fav-tile" data-href="view.html?c=${c.slug}">
+        ${visual}
+        <button type="button" class="rm" data-fav="${c.slug}" aria-label="Remove favorite" title="Remove">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg>
+        </button>
+        <div class="body">
+          <span class="cat">${c.category||''}</span>
+          <h4>${c.name||c.slug}</h4>
+          <div class="meta">
+            <span>€${(c.price_eur||0)}</span>
+            <span>${c.size_m2||'—'} m²</span>
+            <span>${c.weeks||'—'}w</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  grid.classList.remove('hidden');
+  grid.querySelectorAll('.fav-tile').forEach(tile=>{
+    tile.addEventListener('click', e=>{
+      if(e.target.closest('.rm')) return;
+      location.href = tile.dataset.href;
+    });
+  });
+}
+window.addEventListener('svita:favs', ()=> loadFavorites());
 
 async function loadOwned(){
   hide('owned-grid'); hide('owned-empty');
