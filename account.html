@@ -401,6 +401,18 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 @keyframes sp{to{transform:rotate(360deg)}}
 
 .hidden{display:none !important}
+.faq-overlay{position:fixed;inset:0;background:rgba(8,10,14,0.82);backdrop-filter:blur(12px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px}
+.faq-card{max-width:640px;width:100%;max-height:86vh;overflow-y:auto;background:var(--surface,#0f1218);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:34px 36px;box-shadow:0 30px 80px rgba(0,0,0,0.6)}
+.faq-card h3{font-family:'Space Grotesk';font-size:22px;margin:0 0 6px;letter-spacing:-0.01em}
+.faq-card .faq-sub{font-size:13px;color:var(--text-3,#8a8f98);margin-bottom:22px}
+.faq-card details{border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
+.faq-card details:last-of-type{border-bottom:1px solid rgba(255,255,255,0.06)}
+.faq-card summary{cursor:pointer;font-weight:600;font-size:14px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq-card summary::-webkit-details-marker{display:none}
+.faq-card summary::after{content:'+';color:var(--accent);font-weight:400;font-size:18px;line-height:1}
+.faq-card details[open] summary::after{content:'−'}
+.faq-card details p{margin:10px 0 0;font-size:13px;line-height:1.55;color:var(--text-2,#b6bbc4)}
+.faq-close{margin-top:20px;width:100%}
 
 /* ============ REVEAL ============ */
 .reveal{opacity:0;transform:translateY(32px);transition:all 900ms var(--ease)}
@@ -591,6 +603,8 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
       </div>
       <div class="right">
         <a href="shop.html" class="btn btn-ghost">Browse shop</a>
+        <button class="btn btn-ghost" id="faq-btn" onclick="document.getElementById('faq-modal').classList.remove('hidden')">FAQ</button>
+        <a href="mailto:support@svita.labs67.com?subject=SVITA%20Micro%20support" class="btn btn-ghost">Support</a>
         <button class="btn btn-ghost" id="signout-btn">Sign out</button>
       </div>
     </div>
@@ -604,6 +618,20 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 
     <div id="owned-loading" class="loader"><span class="spin"></span></div>
     <div id="owned-grid" class="owned hidden"></div>
+
+    <div id="faq-modal" class="faq-overlay hidden" onclick="if(event.target===this)this.classList.add('hidden')">
+      <div class="faq-card">
+        <h3>FAQ</h3>
+        <div class="faq-sub">Can't find an answer? Email <a href="mailto:support@svita.labs67.com" style="color:var(--accent)">support@svita.labs67.com</a></div>
+        <details><summary>What do I get after buying a concept?</summary><p>Instant access to the full brandbook (25 A4 pages): concept, audience, floor plan, equipment list, budget, P&L, suppliers, registration steps, 9-week launch timeline. You can open it anytime from this cabinet.</p></details>
+        <details><summary>Is the license per person or per business?</summary><p>Per buyer. One person, one business. Not for redistribution or resale.</p></details>
+        <details><summary>Can I modify the concept?</summary><p>Yes — it's your playbook. Adapt everything to your city, space, and taste.</p></details>
+        <details><summary>My payment succeeded but brandbook is locked.</summary><p>Refresh the cabinet. If it's still locked after a minute, email support with your order ID.</p></details>
+        <details><summary>Do you offer refunds?</summary><p>Digital goods — no refunds after the brandbook is unlocked. Ask questions before buying.</p></details>
+        <details><summary>How many concepts are in the catalog?</summary><p>200 ready concepts across 10 categories. New ones added monthly.</p></details>
+        <button class="btn btn-ghost faq-close" onclick="document.getElementById('faq-modal').classList.add('hidden')">Close</button>
+      </div>
+    </div>
 
     <div id="owned-empty" class="empty hidden">
       <div class="eyebrow">Empty cabinet</div>

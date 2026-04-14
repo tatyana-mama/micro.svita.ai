@@ -340,7 +340,10 @@ let IS_OWNED = false; // user owns this concept (paid or gift)
 let OWN_TYPE = null;  // 'paid' | 'gift' | null
 const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
-const SB = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+const SB = window.supabase
+  ? (window.__svitaSb || window.supabase.createClient(SB_URL, SB_KEY, { auth:{ persistSession:true, autoRefreshToken:true, storageKey:'svita-micro-auth' } }))
+  : null;
+if(SB) window.__svitaSb = SB;
 
 function escape(s){
   return String(s==null?'':s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
@@ -610,7 +613,7 @@ function renderFrame(c){
     iframe.srcdoc = '<!doctype html><html><body style="font-family:system-ui;padding:40px;color:#64748b;text-align:center">Loading brandbook…</body></html>';
     frame.appendChild(iframe);
     // Fetch protected HTML via RLS — only rows user has access to are returned.
-    sb.from('concept_brandbooks')
+    SB.from('concept_brandbooks')
       .select('html_content')
       .eq('concept_slug', c.slug)
       .maybeSingle()
