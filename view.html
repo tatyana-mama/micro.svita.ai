@@ -28,14 +28,14 @@ body{
   position:relative;
 }
 body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;
-  background-image:var(--pattern,none);
-  background-size:var(--pattern-size,240px);
-  opacity:var(--pattern-opacity,0.18);
-  z-index:0;
-  animation:drift 30s linear infinite;
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:var(--hero-bg,none),var(--pattern,none);
+  background-size:cover,var(--pattern-size,240px);
+  background-position:center,0 0;
+  opacity:var(--hero-bg-opacity,0.35);
+  filter:blur(40px) saturate(1.2);
+  transform:scale(1.1);
 }
-@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-240px)}}
 
 /* ===== TOP BAR (self-contained, overlays the stage) ===== */
 .topbar{
@@ -693,6 +693,8 @@ async function buildCollage(c){
     return;
   }
   if(glyph) glyph.remove();
+  // Set body hero background to first photo (blurred), matches concept style.
+  document.documentElement.style.setProperty('--hero-bg', `url('${found[0]}')`);
   // Always fill a 4-tile 2x2 grid — duplicate found images with varied crops.
   const tiles = [];
   for(let i=0;i<4;i++) tiles.push(found[i % found.length]);
