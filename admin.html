@@ -93,6 +93,21 @@ td .actions{display:flex;gap:6px}
 .btn-s.primary:hover{background:#fff;border-color:#fff}
 .btn-s.danger:hover{border-color:var(--err);color:var(--err)}
 
+/* TABS */
+.tabs{display:flex;gap:8px;margin-bottom:24px;border-bottom:1px solid var(--line)}
+.tab{padding:14px 22px;font-size:13px;font-weight:500;color:var(--text-3);cursor:pointer;border-bottom:2px solid transparent;transition:all 200ms var(--ease);margin-bottom:-1px}
+.tab:hover{color:var(--text-2)}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+.tab .count{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:100px;background:var(--bg-2);color:var(--text-3);font-size:10px;font-weight:600;font-family:'JetBrains Mono'}
+.tab.on .count{background:rgba(214,255,62,0.12);color:var(--accent)}
+
+/* ROLE SELECT */
+.role-sel{padding:6px 28px 6px 12px;border-radius:100px;border:1px solid var(--line);background:var(--bg-2);color:var(--text);font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='6' viewBox='0 0 10 6' fill='none' stroke='%23A1A1AA' stroke-width='1.5'><path d='M1 1l4 4 4-4'/></svg>");background-repeat:no-repeat;background-position:right 10px center;text-transform:uppercase;letter-spacing:0.08em}
+.role-sel.r-user{color:var(--text-2)}
+.role-sel.r-creator{color:#8b5cf6;border-color:rgba(139,92,246,0.3);background-color:rgba(139,92,246,0.08)}
+.role-sel.r-admin{color:var(--accent);border-color:rgba(214,255,62,0.3);background-color:rgba(214,255,62,0.08)}
+.role-sel.r-superadmin{color:#fff;border-color:rgba(239,68,68,0.4);background-color:rgba(239,68,68,0.1)}
+
 .loader{padding:80px;text-align:center}
 .spin{display:inline-block;width:24px;height:24px;border:2px solid var(--line-2);border-top-color:var(--accent);border-radius:50%;animation:sp 0.9s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
@@ -113,7 +128,7 @@ td .actions{display:flex;gap:6px}
     SVITA<small>MICRO · ADMIN</small>
   </a>
   <div class="nav-right">
-    <span class="role-badge">● Admin</span>
+    <span class="role-badge" id="nav-role">● Admin</span>
     <a href="shop.html">Shop</a>
     <a href="account.html">My cabinet</a>
     <a href="#" id="signout">Sign out</a>
@@ -134,43 +149,108 @@ td .actions{display:flex;gap:6px}
 
     <div class="page-head">
       <div class="title">
-        <div class="eyebrow">Concept admin</div>
-        <h1 class="display">Verify &amp; publish <span class="accent">concepts</span>.</h1>
+        <div class="eyebrow" id="page-eyebrow">Control panel</div>
+        <h1 class="display" id="page-title">Manage <span class="accent">everything</span>.</h1>
       </div>
     </div>
 
-    <!-- STATS -->
-    <div class="stats">
-      <div class="stat"><div class="lbl">Total concepts</div><div class="num" id="s-total">—</div><div class="sub">In catalog</div></div>
-      <div class="stat accent"><div class="lbl">Verified</div><div class="num" id="s-verified">—</div><div class="sub">Live in shop</div></div>
-      <div class="stat"><div class="lbl">Unverified</div><div class="num" id="s-unverified">—</div><div class="sub">Pending review</div></div>
-      <div class="stat"><div class="lbl">Avg i18n</div><div class="num" id="s-i18n">—</div><div class="sub">of 12 languages</div></div>
+    <!-- TABS -->
+    <div class="tabs" id="tabs">
+      <div class="tab on" data-tab="concepts">Concepts <span class="count" id="t-concepts">—</span></div>
+      <div class="tab" data-tab="users" id="tab-users" style="display:none">Users <span class="count" id="t-users">—</span></div>
+      <div class="tab" data-tab="metrics" id="tab-metrics" style="display:none">Metrics</div>
     </div>
 
-    <!-- TOOLS -->
-    <div class="tools">
-      <div class="search">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <input type="search" id="q" placeholder="Search by name or slug…">
+    <!-- ═══ CONCEPTS TAB ═══ -->
+    <div class="tab-panel" id="panel-concepts">
+      <div class="stats">
+        <div class="stat"><div class="lbl">Total concepts</div><div class="num" id="s-total">—</div><div class="sub">In catalog</div></div>
+        <div class="stat accent"><div class="lbl">Verified</div><div class="num" id="s-verified">—</div><div class="sub">Live in shop</div></div>
+        <div class="stat"><div class="lbl">Unverified</div><div class="num" id="s-unverified">—</div><div class="sub">Pending review</div></div>
+        <div class="stat"><div class="lbl">Avg i18n</div><div class="num" id="s-i18n">—</div><div class="sub">of 12 languages</div></div>
       </div>
-      <select class="sel" id="status">
-        <option value="all">All statuses</option>
-        <option value="verified">Verified only</option>
-        <option value="unverified">Unverified only</option>
-      </select>
-      <select class="sel" id="cat">
-        <option value="all">All categories</option>
-      </select>
+
+      <div class="tools">
+        <div class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="search" id="q" placeholder="Search by name or slug…">
+        </div>
+        <select class="sel" id="status">
+          <option value="all">All statuses</option>
+          <option value="verified">Verified only</option>
+          <option value="unverified">Unverified only</option>
+        </select>
+        <select class="sel" id="cat">
+          <option value="all">All categories</option>
+        </select>
+      </div>
+
+      <div id="loading" class="loader"><span class="spin"></span></div>
+      <div class="table-wrap hidden" id="tbl-wrap">
+        <table>
+          <thead><tr>
+            <th>Concept</th><th>Category</th><th>Country</th><th>Price</th><th>Budget</th><th>Status</th><th>i18n</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="tbl"></tbody>
+        </table>
+      </div>
     </div>
 
-    <div id="loading" class="loader"><span class="spin"></span></div>
-    <div class="table-wrap hidden" id="tbl-wrap">
-      <table>
-        <thead><tr>
-          <th>Concept</th><th>Category</th><th>Country</th><th>Price</th><th>Budget</th><th>Status</th><th>i18n</th><th>Actions</th>
-        </tr></thead>
-        <tbody id="tbl"></tbody>
-      </table>
+    <!-- ═══ METRICS TAB (superadmin only) ═══ -->
+    <div class="tab-panel hidden" id="panel-metrics">
+      <div class="stats" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat"><div class="lbl">Revenue (all time)</div><div class="num" id="m-revenue">—</div><div class="sub">€ total gross</div></div>
+        <div class="stat accent"><div class="lbl">Revenue 30d</div><div class="num" id="m-revenue30">—</div><div class="sub">last 30 days</div></div>
+        <div class="stat"><div class="lbl">Purchases</div><div class="num" id="m-purchases">—</div><div class="sub" id="m-purchases7">— last 7d</div></div>
+        <div class="stat"><div class="lbl">Signups 30d</div><div class="num" id="m-signups30">—</div><div class="sub" id="m-signups7">— last 7d</div></div>
+      </div>
+      <div class="stats" style="grid-template-columns:repeat(4,1fr);margin-top:16px">
+        <div class="stat"><div class="lbl">Users total</div><div class="num" id="m-users">—</div><div class="sub">profiles rows</div></div>
+        <div class="stat"><div class="lbl">Concepts verified</div><div class="num" id="m-verified">—</div><div class="sub" id="m-pending">— pending</div></div>
+        <div class="stat"><div class="lbl">i18n rows</div><div class="num" id="m-i18n">—</div><div class="sub">of 12 × concepts</div></div>
+        <div class="stat"><div class="lbl">Avg order</div><div class="num" id="m-avg">—</div><div class="sub">€ per purchase</div></div>
+      </div>
+      <div style="margin-top:32px;padding:24px;background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius-lg)">
+        <div class="eyebrow" style="margin-bottom:16px">Role breakdown</div>
+        <div id="m-roles" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px"></div>
+      </div>
+      <div style="margin-top:16px;text-align:right">
+        <button class="btn-s" id="m-refresh">↻ Refresh</button>
+      </div>
+    </div>
+
+    <!-- ═══ USERS TAB (superadmin only) ═══ -->
+    <div class="tab-panel hidden" id="panel-users">
+      <div class="stats">
+        <div class="stat"><div class="lbl">Total users</div><div class="num" id="u-total">—</div><div class="sub">Registered</div></div>
+        <div class="stat accent"><div class="lbl">Superadmins</div><div class="num" id="u-superadmin">—</div><div class="sub">Full access</div></div>
+        <div class="stat"><div class="lbl">Admins</div><div class="num" id="u-admin">—</div><div class="sub">Verify concepts</div></div>
+        <div class="stat"><div class="lbl">Creators</div><div class="num" id="u-creator">—</div><div class="sub">Build concepts</div></div>
+      </div>
+
+      <div class="tools">
+        <div class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="search" id="uq" placeholder="Search by name, email or ID…">
+        </div>
+        <select class="sel" id="urole">
+          <option value="all">All roles</option>
+          <option value="user">User</option>
+          <option value="creator">Creator</option>
+          <option value="admin">Admin</option>
+          <option value="superadmin">Superadmin</option>
+        </select>
+      </div>
+
+      <div id="uloading" class="loader hidden"><span class="spin"></span></div>
+      <div class="table-wrap" id="utbl-wrap">
+        <table>
+          <thead><tr>
+            <th>User</th><th>Email</th><th>Role</th><th>Created</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="utbl"></tbody>
+        </table>
+      </div>
     </div>
 
   </div>
@@ -191,18 +271,54 @@ const CAT_PAL = {
 };
 
 let ALL = [], VIEW = [];
+let USERS = [], UVIEW = [];
+let MY_ROLE = 'user';
 const STATE = {q:'', status:'all', cat:'all'};
+const USTATE = {q:'', role:'all'};
 
 async function boot(){
   const {data:{session}} = await sb.auth.getSession();
   if(!session){ location.href = 'account.html'; return; }
-  const {data: prof} = await sb.from('profiles').select('role').eq('user_id', session.user.id).single();
-  const role = prof?.role || 'user';
-  if(role === 'superadmin'){ location.href = 'superadmin.html'; return; }
-  if(role !== 'admin'){ $('guard').classList.remove('hidden'); return; }
+  const {data: prof} = await sb.from('profiles').select('role').eq('user_id', session.user.id).maybeSingle();
+  MY_ROLE = prof?.role || 'user';
+  if(MY_ROLE !== 'admin' && MY_ROLE !== 'superadmin'){
+    $('guard').classList.remove('hidden');
+    return;
+  }
+  // Badge
+  const badge = $('nav-role');
+  if(MY_ROLE === 'superadmin'){
+    badge.textContent = '● Superadmin';
+    badge.style.background = 'rgba(239,68,68,0.12)';
+    badge.style.borderColor = 'rgba(239,68,68,0.4)';
+    badge.style.color = '#fff';
+    $('tab-users').style.display = '';
+    $('tab-metrics').style.display = '';
+    $('page-eyebrow').textContent = 'Superadmin control';
+  } else {
+    badge.textContent = '● Admin';
+    $('page-eyebrow').textContent = 'Concept admin';
+    $('page-title').innerHTML = 'Verify &amp; publish <span class="accent">concepts</span>.';
+  }
   $('app').classList.remove('hidden');
   await loadConcepts();
+  if(MY_ROLE === 'superadmin'){
+    await loadUsers();
+    await loadMetrics();
+  }
 }
+
+// Tab switching
+document.querySelectorAll('#tabs .tab').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    const name = el.dataset.tab;
+    document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.toggle('on', t===el));
+    ['concepts','users','metrics'].forEach(n=>{
+      const p = $('panel-'+n);
+      if(p) p.classList.toggle('hidden', n!==name);
+    });
+  });
+});
 
 async function loadConcepts(){
   // Try DB first, fallback to catalog.json
@@ -253,7 +369,149 @@ function updateStats(){
   $('s-verified').textContent = verified;
   $('s-unverified').textContent = total - verified;
   $('s-i18n').textContent = avgI18n;
+  $('t-concepts').textContent = total;
 }
+
+// ═══════════════ USERS (superadmin) ═══════════════
+async function loadUsers(){
+  const {data, error} = await sb.from('profiles')
+    .select('user_id,email,display_name,role,created_at')
+    .order('created_at', {ascending:false});
+  if(error){ console.error(error); return; }
+  USERS = data || [];
+  applyUsers();
+  updateUserStats();
+}
+
+function applyUsers(){
+  UVIEW = USERS.filter(u=>{
+    if(USTATE.q){
+      const q = USTATE.q.toLowerCase();
+      const name = (u.display_name||'').toLowerCase();
+      const em = (u.email||'').toLowerCase();
+      if(!name.includes(q) && !em.includes(q) && !u.user_id.includes(q)) return false;
+    }
+    if(USTATE.role !== 'all' && u.role !== USTATE.role) return false;
+    return true;
+  });
+  renderUsers();
+}
+
+function updateUserStats(){
+  $('u-total').textContent = USERS.length;
+  $('u-superadmin').textContent = USERS.filter(u=>u.role==='superadmin').length;
+  $('u-admin').textContent = USERS.filter(u=>u.role==='admin').length;
+  $('u-creator').textContent = USERS.filter(u=>u.role==='creator').length;
+  $('t-users').textContent = USERS.length;
+}
+
+function renderUsers(){
+  const tb = $('utbl');
+  tb.innerHTML = UVIEW.map(u=>{
+    const name = u.display_name || (u.email||'').split('@')[0] || '—';
+    const created = u.created_at ? new Date(u.created_at).toLocaleDateString() : '—';
+    return `<tr>
+      <td>
+        <div class="cell-name">
+          <div class="info">
+            <div class="name">${escape(name)}</div>
+            <div class="slug">${u.user_id.slice(0,8)}…</div>
+          </div>
+        </div>
+      </td>
+      <td><span style="color:var(--text-2);font-size:12px">${escape(u.email||'—')}</span></td>
+      <td>
+        <select class="role-sel r-${u.role}" onchange="changeRole('${u.user_id}', this.value, this)">
+          <option value="user" ${u.role==='user'?'selected':''}>User</option>
+          <option value="creator" ${u.role==='creator'?'selected':''}>Creator</option>
+          <option value="admin" ${u.role==='admin'?'selected':''}>Admin</option>
+          <option value="superadmin" ${u.role==='superadmin'?'selected':''}>Superadmin</option>
+        </select>
+      </td>
+      <td class="mono" style="color:var(--text-3)">${created}</td>
+      <td>
+        <div class="actions">
+          <button class="btn-s" title="Change password" onclick="changeUserPassword('${u.user_id}','${escape(u.email||name)}')">🔑 Password</button>
+          <button class="btn-s danger" title="Delete user" onclick="deleteUser('${u.user_id}','${escape(u.email||name)}')">✕ Delete</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function changeUserPassword(userId, label){
+  const np = prompt('New password for ' + label + ' (min 8 chars):');
+  if(!np) return;
+  if(np.length < 8){ alert('Password must be at least 8 chars'); return; }
+  const {data, error} = await sb.rpc('change_user_password', {p_user_id: userId, p_new_password: np});
+  if(error){ alert('Error: ' + error.message); return; }
+  if(data && data.ok){ alert('Password changed'); }
+  else { alert('Error: ' + (data && data.error || 'unknown')); }
+}
+window.changeUserPassword = changeUserPassword;
+
+async function deleteUser(userId, label){
+  if(MY_ROLE !== 'superadmin'){ alert('Only superadmin can delete users'); return; }
+  if(!confirm('Delete user ' + label + '? This is irreversible.')) return;
+  if(!confirm('Really delete? All their data will be gone.')) return;
+  const {data, error} = await sb.rpc('delete_user_cascade', {p_user_id: userId});
+  if(error){ alert('Error: ' + error.message); return; }
+  if(data && data.ok){
+    USERS = USERS.filter(x=>x.user_id!==userId);
+    applyUsers();
+    updateUserStats();
+  } else {
+    alert('Error: ' + (data && data.error || 'unknown'));
+  }
+}
+window.deleteUser = deleteUser;
+
+// ═══════════════ METRICS (superadmin) ═══════════════
+async function loadMetrics(){
+  const {data, error} = await sb.from('admin_metrics').select('*').maybeSingle();
+  if(error || !data){ console.error('metrics', error); return; }
+  const fmt = n => (n||0).toLocaleString();
+  const eur = n => '€' + fmt(n);
+  $('m-revenue').textContent = eur(data.revenue_eur);
+  $('m-revenue30').textContent = eur(data.revenue_30d);
+  $('m-purchases').textContent = fmt(data.purchases_total);
+  $('m-purchases7').textContent = fmt(data.purchases_7d) + ' last 7d';
+  $('m-signups30').textContent = fmt(data.users_30d);
+  $('m-signups7').textContent = fmt(data.users_7d) + ' last 7d';
+  $('m-users').textContent = fmt(data.users_total);
+  $('m-verified').textContent = fmt(data.concepts_verified);
+  $('m-pending').textContent = fmt(data.concepts_pending) + ' pending';
+  $('m-i18n').textContent = fmt(data.i18n_rows);
+  const avg = data.purchases_total ? Math.round(data.revenue_eur / data.purchases_total) : 0;
+  $('m-avg').textContent = eur(avg);
+  const roles = [
+    ['user', data.users_user, 'var(--text-2)'],
+    ['creator', data.users_creator, '#8b5cf6'],
+    ['admin', data.users_admin, 'var(--accent)'],
+    ['superadmin', data.users_superadmin, '#ef4444'],
+  ];
+  $('m-roles').innerHTML = roles.map(([k,v,c])=>
+    `<div style="padding:16px;background:var(--bg-2);border-radius:var(--radius);border:1px solid var(--line)">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);margin-bottom:8px">${k}</div>
+      <div style="font-family:'Space Grotesk';font-size:32px;font-weight:700;color:${c}">${fmt(v)}</div>
+    </div>`
+  ).join('');
+}
+
+function escape(s){ return (s||'').replace(/[<>&"']/g, c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c])); }
+
+async function changeRole(userId, newRole, selEl){
+  const {error} = await sb.from('profiles').update({role:newRole}).eq('user_id', userId);
+  if(error){
+    alert('Cannot change role: ' + error.message);
+    return;
+  }
+  const u = USERS.find(x=>x.user_id===userId);
+  if(u) u.role = newRole;
+  selEl.className = 'role-sel r-' + newRole;
+  updateUserStats();
+}
+window.changeRole = changeRole;
 
 function render(){
   const tb = $('tbl');
@@ -305,6 +563,9 @@ window.toggleVerify = toggleVerify;
 $('q').addEventListener('input', e=>{STATE.q=e.target.value;applyAll()});
 $('status').addEventListener('change', e=>{STATE.status=e.target.value;applyAll()});
 $('cat').addEventListener('change', e=>{STATE.cat=e.target.value;applyAll()});
+$('uq').addEventListener('input', e=>{USTATE.q=e.target.value;applyUsers()});
+$('urole').addEventListener('change', e=>{USTATE.role=e.target.value;applyUsers()});
+$('m-refresh').addEventListener('click', loadMetrics);
 $('signout').addEventListener('click', async e=>{e.preventDefault();await sb.auth.signOut();location.href='account.html'});
 
 window.addEventListener('scroll', ()=> $('nav').classList.toggle('scrolled', window.scrollY > 20), {passive:true});
