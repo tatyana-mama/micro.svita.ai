@@ -523,3 +523,34 @@ as $$
 $$;
 
 grant execute on function public.admin_concept_access_list(text) to authenticated;
+
+-- ============================================================
+-- PROTECTED BRANDBOOKS (private HTML gated by has_access)
+-- ============================================================
+-- Brandbook files are no longer served from /data/concepts/<slug>/brandbook.html.
+-- Instead, the self-contained HTML (images inlined as base64) lives here and is
+-- returned only to users who own the concept. Admin UI uploads via upsert.
+
+create table if not exists public.concept_brandbooks (
+  concept_slug text primary key references public.concepts_catalog(slug) on delete cascade,
+  html_content text not null,
+  updated_at   timestamptz not null default now()
+);
+
+alter table public.concept_brandbooks enable row level security;
+
+drop policy if exists "brandbook read by access" on public.concept_brandbooks;
+create policy "brandbook read by access"
+  on public.concept_brandbooks for select
+  to authenticated
+  using (
+    public.is_superadmin()
+    or public.has_access(auth.uid(), concept_slug)
+  );
+
+drop policy if exists "brandbook write by superadmin" on public.concept_brandbooks;
+create policy "brandbook write by superadmin"
+  on public.concept_brandbooks for all
+  to authenticated
+  using (public.is_superadmin())
+  with check (public.is_superadmin());

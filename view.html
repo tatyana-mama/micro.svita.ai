@@ -576,9 +576,22 @@ function renderFrame(c){
   const canSeeBrandbook = !!c.has_brandbook && CURRENT_LANG === 'en' && (IS_SA || IS_OWNED);
   if(canSeeBrandbook){
     const iframe = document.createElement('iframe');
-    iframe.src = 'data/concepts/'+c.slug+'/brandbook.html';
     iframe.title = c.name + ' brandbook';
+    iframe.setAttribute('sandbox','allow-same-origin');
+    iframe.srcdoc = '<!doctype html><html><body style="font-family:system-ui;padding:40px;color:#64748b;text-align:center">Loading brandbook…</body></html>';
     frame.appendChild(iframe);
+    // Fetch protected HTML via RLS — only rows user has access to are returned.
+    sb.from('concept_brandbooks')
+      .select('html_content')
+      .eq('concept_slug', c.slug)
+      .maybeSingle()
+      .then(({ data, error })=>{
+        if(error || !data || !data.html_content){
+          iframe.srcdoc = '<!doctype html><html><body style="font-family:system-ui;padding:40px;color:#dc2626;text-align:center"><h3>Brandbook not available</h3><p>This brandbook has not been uploaded yet or your access was revoked.</p></body></html>';
+          return;
+        }
+        iframe.srcdoc = data.html_content;
+      });
     return;
   }
   // Superadmin: full product review — fetch all fields via authed client, render body_html

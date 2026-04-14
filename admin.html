@@ -869,12 +869,13 @@ async function openConceptModal(slug){
   document.body.style.overflow = 'hidden';
   try{
     const concept = (window.ALL||[]).find(c=>c.slug===slug) || {slug, name:slug};
-    const [accessRes, i18nRes] = await Promise.all([
+    const [accessRes, i18nRes, brandRes] = await Promise.all([
       sb.rpc('admin_concept_access_list', { p_slug: slug }),
-      sb.from('concepts_i18n').select('lang_code,description,body_html').eq('concept_slug', slug).eq('lang_code','en').maybeSingle()
+      sb.from('concepts_i18n').select('lang_code,description,body_html').eq('concept_slug', slug).eq('lang_code','en').maybeSingle(),
+      sb.from('concept_brandbooks').select('concept_slug,updated_at,html_content').eq('concept_slug', slug).maybeSingle()
     ]);
     if(accessRes.error) throw accessRes.error;
-    renderConceptModal(concept, accessRes.data || [], (i18nRes && i18nRes.data) || null);
+    renderConceptModal(concept, accessRes.data || [], (i18nRes && i18nRes.data) || null, (brandRes && brandRes.data) || null);
   }catch(e){
     box.innerHTML = '<div style="padding:60px;text-align:center;color:var(--err)">Error: '+escape(e.message||String(e))+'<br><button class="btn-s" style="margin-top:16px" onclick="closeConceptModal()">Close</button></div>';
   }
@@ -889,7 +890,7 @@ window.closeConceptModal = closeConceptModal;
 
 document.addEventListener('keydown', e => { if(e.key==='Escape') closeConceptModal(); });
 
-function renderConceptModal(c, accessRows, i18n){
+function renderConceptModal(c, accessRows, i18n, brand){
   const fmt = ts => ts ? new Date(ts).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
   const isPh = c.hero_image && String(c.hero_image).startsWith('placeholder:');
   const thumbStyle = (!isPh && c.hero_image) ? `style="background-image:url('${escape(c.hero_image)}')"` : '';
@@ -971,18 +972,26 @@ function renderConceptModal(c, accessRows, i18n){
       </div>
 
       <div class="umodal-section">
-        <h3>Brandbook</h3>
-        ${c.has_brandbook
+        <h3>Brandbook <span style="font-size:10px;color:var(--text-3);font-weight:400;margin-left:8px">protected · RLS by access</span></h3>
+        ${brand && brand.html_content
           ? `<div style="border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--bg-2)">
-              <iframe src="data/concepts/${escape(c.slug)}/brandbook.html"
-                style="display:block;width:100%;height:560px;border:0;background:#fff"
-                loading="lazy"></iframe>
-            </div>`
+              <iframe id="cbrand-frame" sandbox="allow-same-origin"
+                style="display:block;width:100%;height:560px;border:0;background:#fff"></iframe>
+            </div>
+            <div style="font-size:10px;color:var(--text-3);margin-top:6px">updated ${fmt(brand.updated_at)} · ${(brand.html_content.length/1024).toFixed(0)} KB</div>`
           : `<div style="padding:32px;text-align:center;color:var(--text-3);font-size:13px;border:1px dashed var(--line);border-radius:var(--radius);background:var(--bg-2)">
               📖 Brandbook пока нет
-              <div style="font-size:11px;margin-top:6px;color:var(--text-3);opacity:0.7">Not yet generated for this concept</div>
+              <div style="font-size:11px;margin-top:6px;color:var(--text-3);opacity:0.7">Not yet uploaded for this concept</div>
             </div>`
         }
+        ${MY_ROLE==='superadmin'?`
+        <div style="margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <input type="file" id="cbrand-file" accept=".html,text/html" style="font-size:11px;color:var(--text-2)">
+          <button type="button" class="btn-s primary" onclick="uploadBrandbook('${escape(c.slug)}')">Upload / Replace</button>
+          ${brand?`<button type="button" class="btn-s danger" onclick="deleteBrandbook('${escape(c.slug)}')">Delete</button>`:''}
+          <span style="font-size:10px;color:var(--text-3)">self-contained HTML (images inlined as base64)</span>
+        </div>
+        `:''}
       </div>
 
       ${section('🎁 Gift access', 'gift', byState.gift)}
@@ -1006,7 +1015,44 @@ function renderConceptModal(c, accessRows, i18n){
 
     </div>
   `;
+
+  // Inject brandbook HTML into iframe via srcdoc (avoids huge attribute in template literal escapes)
+  if(brand && brand.html_content){
+    const fr = document.getElementById('cbrand-frame');
+    if(fr) fr.srcdoc = brand.html_content;
+  }
 }
+
+async function uploadBrandbook(slug){
+  const input = document.getElementById('cbrand-file');
+  const file = input && input.files && input.files[0];
+  if(!file){ alert('Pick an .html file first'); return; }
+  if(file.size > 8 * 1024 * 1024){ alert('File too large (>8 MB). Optimize images.'); return; }
+  const text = await file.text();
+  const { error } = await sb.from('concept_brandbooks').upsert({
+    concept_slug: slug,
+    html_content: text,
+    updated_at: new Date().toISOString()
+  }, { onConflict: 'concept_slug' });
+  if(error){ alert('Upload failed: ' + error.message); return; }
+  // also flip has_brandbook flag so shop/admin table shows ready badge
+  await sb.from('concepts_catalog').update({ has_brandbook: true }).eq('slug', slug);
+  const idx = (window.ALL||[]).findIndex(x=>x.slug===slug);
+  if(idx>=0) window.ALL[idx].has_brandbook = true;
+  await openConceptModal(slug);
+}
+window.uploadBrandbook = uploadBrandbook;
+
+async function deleteBrandbook(slug){
+  if(!confirm('Delete brandbook for ' + slug + '? Users will lose access to the doc.')) return;
+  const { error } = await sb.from('concept_brandbooks').delete().eq('concept_slug', slug);
+  if(error){ alert('Delete failed: ' + error.message); return; }
+  await sb.from('concepts_catalog').update({ has_brandbook: false }).eq('slug', slug);
+  const idx = (window.ALL||[]).findIndex(x=>x.slug===slug);
+  if(idx>=0) window.ALL[idx].has_brandbook = false;
+  await openConceptModal(slug);
+}
+window.deleteBrandbook = deleteBrandbook;
 
 async function grantConceptAccess(slug){
   const uid = (document.getElementById('cgrant-uid').value||'').trim();
