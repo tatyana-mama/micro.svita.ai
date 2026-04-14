@@ -9,7 +9,8 @@
     "budget_eur": 11850,
     "weeks": 7,
     "hero_image": "data/concepts/poppy-matcha/images/01-hero-interior.png",
-    "tagline": "Ceremonial-grade matcha kiosk with Memphis soul"
+    "tagline": "Ceremonial-grade matcha kiosk with Memphis soul",
+    "ls_url": ""
   },
   {
     "slug": "nonnas-trattoria",
@@ -21,7 +22,8 @@
     "budget_eur": 19800,
     "weeks": 10,
     "hero_image": "data/concepts/restaurant-italian/images/01-trattoria-interior.png",
-    "tagline": "Authentic Tuscan trattoria, grandma-recipe honest"
+    "tagline": "Authentic Tuscan trattoria, grandma-recipe honest",
+    "ls_url": ""
   },
   {
     "slug": "tokyo-ramen-bar",
@@ -33,7 +35,8 @@
     "budget_eur": 17200,
     "weeks": 9,
     "hero_image": "data/concepts/ramen-bar/images/01-ramen-interior.png",
-    "tagline": "Slurp-worthy tonkotsu bowls in neon-lit Tokyo alleyways"
+    "tagline": "Slurp-worthy tonkotsu bowls in neon-lit Tokyo alleyways",
+    "ls_url": ""
   },
   {
     "slug": "madonna-pop-salon",
@@ -45,7 +48,8 @@
     "budget_eur": 14500,
     "weeks": 8,
     "hero_image": "data/concepts/beauty-salon-popart/images/01-salon-popart.png",
-    "tagline": "Pop-art beauty salon where every chair is a canvas"
+    "tagline": "Pop-art beauty salon where every chair is a canvas",
+    "ls_url": ""
   },
   {
     "slug": "scandi-coffee",
@@ -57,7 +61,8 @@
     "budget_eur": 18400,
     "weeks": 8,
     "hero_image": "data/concepts/coffee-shop-50m/images/02-interior-render.png",
-    "tagline": "Nordic-minimal coffee shop with hygge warmth"
+    "tagline": "Nordic-minimal coffee shop with hygge warmth",
+    "ls_url": ""
   },
   {
     "slug": "vibrant-coffee",
@@ -69,7 +74,8 @@
     "budget_eur": 16900,
     "weeks": 8,
     "hero_image": "data/concepts/coffee-shop-50m/images/04-coffee-vibrant.png",
-    "tagline": "Bold color-block cafe for Instagram-first mornings"
+    "tagline": "Bold color-block cafe for Instagram-first mornings",
+    "ls_url": ""
   },
   {
     "slug": "amsterdam-juice-lab",
@@ -81,7 +87,8 @@
     "budget_eur": 9800,
     "weeks": 6,
     "hero_image": "data/concepts/amsterdam-juice-lab/hero.png",
-    "tagline": "Cold-pressed juice kiosk with canal-side vibes"
+    "tagline": "Cold-pressed juice kiosk with canal-side vibes",
+    "ls_url": ""
   },
   {
     "slug": "porto-pastel-bar",
@@ -92,8 +99,9 @@
     "price_eur": 79,
     "budget_eur": 10400,
     "weeks": 6,
-    "hero_image": "placeholder:food:amber",
-    "tagline": "Warm pastel de nata straight from the tile-lined oven"
+    "hero_image": "data/concepts/porto-pastel-bar/images/01-hero.png",
+    "tagline": "Warm pastel de nata straight from the tile-lined oven",
+    "ls_url": ""
   },
   {
     "slug": "wien-kaffee-tram",
@@ -104,8 +112,9 @@
     "price_eur": 49,
     "budget_eur": 8900,
     "weeks": 5,
-    "hero_image": "placeholder:food:rose",
-    "tagline": "Tiny Viennese coffee kiosk inside a retro tram shell"
+    "hero_image": "data/concepts/wien-kaffee-tram/images/01-hero.png",
+    "tagline": "Tiny Viennese coffee kiosk inside a retro tram shell",
+    "ls_url": ""
   },
   {
     "slug": "helsinki-salmiakki",
@@ -116,8 +125,9 @@
     "price_eur": 49,
     "budget_eur": 7200,
     "weeks": 5,
-    "hero_image": "placeholder:food:indigo",
-    "tagline": "Finnish licorice kiosk for brave Nordic tastebuds"
+    "hero_image": "data/concepts/helsinki-salmiakki/images/01-hero.png",
+    "tagline": "Finnish licorice kiosk for brave Nordic tastebuds",
+    "ls_url": ""
   },
   {
     "slug": "lyon-boulangerie",
@@ -128,8 +138,9 @@
     "price_eur": 129,
     "budget_eur": 16800,
     "weeks": 9,
-    "hero_image": "placeholder:food:cyan",
-    "tagline": "Stone-oven bakery with a queue around the block"
+    "hero_image": "data/concepts/lyon-boulangerie/images/01-hero.png",
+    "tagline": "Stone-oven bakery with a queue around the block",
+    "ls_url": ""
   },
   {
     "slug": "berlin-bagel-co",
@@ -140,8 +151,9 @@
     "price_eur": 99,
     "budget_eur": 13200,
     "weeks": 7,
-    "hero_image": "placeholder:food:violet",
-    "tagline": "Hand-rolled Brooklyn-style bagels with Berlin edge"
+    "hero_image": "data/concepts/berlin-bagel-co/images/01-hero.png",
+    "tagline": "Hand-rolled Brooklyn-style bagels with Berlin edge",
+    "ls_url": ""
   },
   {
     "slug": "dublin-donut-den",
@@ -152,8 +164,9 @@
     "price_eur": 79,
     "budget_eur": 11100,
     "weeks": 6,
-    "hero_image": "placeholder:food:lime",
-    "tagline": "Cloud-soft donuts with Guinness-glaze twist"
+    "hero_image": "data/concepts/dublin-donut-den/images/01-hero.png",
+    "tagline": "Cloud-soft donuts with Guinness-glaze twist",
+    "ls_url": ""
   },
   {
     "slug": "athens-gyro-box",
@@ -164,8 +177,9 @@
     "price_eur": 49,
     "budget_eur": 8400,
     "weeks": 5,
-    "hero_image": "placeholder:food:fuchsia",
-    "tagline": "Fast-spinning gyro kiosk under the Acropolis sun"
+    "hero_image": "data/concepts/athens-gyro-box/images/01-hero.png",
+    "tagline": "Fast-spinning gyro kiosk under the Acropolis sun",
+    "ls_url": ""
   },
   {
     "slug": "copenhagen-smorre",
@@ -176,8 +190,9 @@
     "price_eur": 79,
     "budget_eur": 12300,
     "weeks": 7,
-    "hero_image": "placeholder:food:sky",
-    "tagline": "Open-face smorrebrod bar for lunchtime purists"
+    "hero_image": "data/concepts/copenhagen-smorre/images/01-hero.png",
+    "tagline": "Open-face smorrebrod bar for lunchtime purists",
+    "ls_url": ""
   },
   {
     "slug": "milano-gelato-cube",
@@ -188,8 +203,9 @@
     "price_eur": 49,
     "budget_eur": 9400,
     "weeks": 5,
-    "hero_image": "placeholder:food:orange",
-    "tagline": "Minimalist gelato kiosk with 12 rotating flavors"
+    "hero_image": "data/concepts/milano-gelato-cube/images/01-hero.png",
+    "tagline": "Minimalist gelato kiosk with 12 rotating flavors",
+    "ls_url": ""
   },
   {
     "slug": "prague-trdelnik",
@@ -200,8 +216,9 @@
     "price_eur": 49,
     "budget_eur": 6800,
     "weeks": 4,
-    "hero_image": "placeholder:food:amber",
-    "tagline": "Spiral chimney cakes glowing over open coals"
+    "hero_image": "data/concepts/prague-trdelnik/images/01-hero.png",
+    "tagline": "Spiral chimney cakes glowing over open coals",
+    "ls_url": ""
   },
   {
     "slug": "zagreb-bubble-tea",
@@ -212,8 +229,9 @@
     "price_eur": 79,
     "budget_eur": 10200,
     "weeks": 6,
-    "hero_image": "placeholder:food:emerald",
-    "tagline": "Taiwan-style bubble tea with Adriatic fruit twists"
+    "hero_image": "data/concepts/zagreb-bubble-tea/images/01-hero.png",
+    "tagline": "Taiwan-style bubble tea with Adriatic fruit twists",
+    "ls_url": ""
   },
   {
     "slug": "riga-rye-bakery",
@@ -224,8 +242,9 @@
     "price_eur": 99,
     "budget_eur": 14600,
     "weeks": 8,
-    "hero_image": "placeholder:food:rose",
-    "tagline": "Dark-rye loaves from grandmother's Latvian oven"
+    "hero_image": "data/concepts/riga-rye-bakery/images/01-hero.png",
+    "tagline": "Dark-rye loaves from grandmother's Latvian oven",
+    "ls_url": ""
   },
   {
     "slug": "sofia-banitsa-bar",
@@ -236,8 +255,9 @@
     "price_eur": 49,
     "budget_eur": 7800,
     "weeks": 5,
-    "hero_image": "placeholder:food:indigo",
-    "tagline": "Flaky cheese banitsa baked every 20 minutes"
+    "hero_image": "data/concepts/sofia-banitsa-bar/images/01-hero.png",
+    "tagline": "Flaky cheese banitsa baked every 20 minutes",
+    "ls_url": ""
   },
   {
     "slug": "warsaw-waffle-works",
@@ -248,8 +268,9 @@
     "price_eur": 49,
     "budget_eur": 8900,
     "weeks": 5,
-    "hero_image": "placeholder:food:cyan",
-    "tagline": "Liege waffles on a stick for Warsaw weekenders"
+    "hero_image": "data/concepts/warsaw-waffle-works/images/01-hero.png",
+    "tagline": "Liege waffles on a stick for Warsaw weekenders",
+    "ls_url": ""
   },
   {
     "slug": "madrid-churro-cart",
@@ -260,8 +281,9 @@
     "price_eur": 49,
     "budget_eur": 7600,
     "weeks": 4,
-    "hero_image": "placeholder:food:violet",
-    "tagline": "Crispy churros with thick chocolate dip, 24/7"
+    "hero_image": "data/concepts/madrid-churro-cart/images/01-hero.png",
+    "tagline": "Crispy churros with thick chocolate dip, 24/7",
+    "ls_url": ""
   },
   {
     "slug": "brussels-frites-box",
@@ -272,8 +294,9 @@
     "price_eur": 49,
     "budget_eur": 8100,
     "weeks": 5,
-    "hero_image": "placeholder:food:lime",
-    "tagline": "Double-fried Belgian frites with 20 dipping sauces"
+    "hero_image": "data/concepts/brussels-frites-box/images/01-hero.png",
+    "tagline": "Double-fried Belgian frites with 20 dipping sauces",
+    "ls_url": ""
   },
   {
     "slug": "barcelona-tapas-nook",
@@ -284,8 +307,9 @@
     "price_eur": 179,
     "budget_eur": 18700,
     "weeks": 10,
-    "hero_image": "placeholder:restaurant:sky",
-    "tagline": "Twelve-seat tapas counter with daily market bites"
+    "hero_image": "data/concepts/barcelona-tapas-nook/images/01-hero.png",
+    "tagline": "Twelve-seat tapas counter with daily market bites",
+    "ls_url": ""
   },
   {
     "slug": "seville-tapas-nook",
@@ -296,8 +320,9 @@
     "price_eur": 149,
     "budget_eur": 17400,
     "weeks": 9,
-    "hero_image": "placeholder:restaurant:orange",
-    "tagline": "Andalusian tapas hideaway with flamenco evenings"
+    "hero_image": "data/concepts/seville-tapas-nook/images/01-hero.png",
+    "tagline": "Andalusian tapas hideaway with flamenco evenings",
+    "ls_url": ""
   },
   {
     "slug": "munich-wurst-haus",
@@ -308,8 +333,9 @@
     "price_eur": 149,
     "budget_eur": 16200,
     "weeks": 9,
-    "hero_image": "placeholder:restaurant:amber",
-    "tagline": "Craft sausages and pretzels in a modern biergarten"
+    "hero_image": "data/concepts/munich-wurst-haus/images/01-hero.png",
+    "tagline": "Craft sausages and pretzels in a modern biergarten",
+    "ls_url": ""
   },
   {
     "slug": "paris-bistro-petit",
@@ -320,8 +346,9 @@
     "price_eur": 179,
     "budget_eur": 18900,
     "weeks": 10,
-    "hero_image": "placeholder:restaurant:emerald",
-    "tagline": "Twenty-cover bistro with rotating chalkboard menu"
+    "hero_image": "data/concepts/paris-bistro-petit/images/01-hero.png",
+    "tagline": "Twenty-cover bistro with rotating chalkboard menu",
+    "ls_url": ""
   },
   {
     "slug": "osaka-takoyaki",
@@ -332,8 +359,9 @@
     "price_eur": 129,
     "budget_eur": 13900,
     "weeks": 8,
-    "hero_image": "placeholder:restaurant:rose",
-    "tagline": "Sizzling octopus balls at Roman night market"
+    "hero_image": "data/concepts/osaka-takoyaki/images/01-hero.png",
+    "tagline": "Sizzling octopus balls at Roman night market",
+    "ls_url": ""
   },
   {
     "slug": "seoul-kbbq-table",
@@ -344,8 +372,9 @@
     "price_eur": 199,
     "budget_eur": 19600,
     "weeks": 10,
-    "hero_image": "placeholder:restaurant:indigo",
-    "tagline": "Smoke-filled Korean barbecue with ten grill tables"
+    "hero_image": "data/concepts/seoul-kbbq-table/images/01-hero.png",
+    "tagline": "Smoke-filled Korean barbecue with ten grill tables",
+    "ls_url": ""
   },
   {
     "slug": "bangkok-pad-thai",
@@ -356,8 +385,9 @@
     "price_eur": 149,
     "budget_eur": 15800,
     "weeks": 9,
-    "hero_image": "placeholder:restaurant:cyan",
-    "tagline": "Wok-fired pad thai with street-cart authenticity"
+    "hero_image": "data/concepts/bangkok-pad-thai/images/01-hero.png",
+    "tagline": "Wok-fired pad thai with street-cart authenticity",
+    "ls_url": ""
   },
   {
     "slug": "cairo-shawarma",
@@ -368,8 +398,9 @@
     "price_eur": 129,
     "budget_eur": 14200,
     "weeks": 8,
-    "hero_image": "placeholder:restaurant:violet",
-    "tagline": "Rotating shawarma spit with Cairo souk flavors"
+    "hero_image": "data/concepts/cairo-shawarma/images/01-hero.png",
+    "tagline": "Rotating shawarma spit with Cairo souk flavors",
+    "ls_url": ""
   },
   {
     "slug": "mumbai-curry-house",
@@ -381,7 +412,8 @@
     "budget_eur": 18400,
     "weeks": 10,
     "hero_image": "placeholder:restaurant:lime",
-    "tagline": "Slow-simmered curries with tandoor fresh naan"
+    "tagline": "Slow-simmered curries with tandoor fresh naan",
+    "ls_url": ""
   },
   {
     "slug": "hanoi-pho-spot",
@@ -393,7 +425,8 @@
     "budget_eur": 15100,
     "weeks": 9,
     "hero_image": "placeholder:restaurant:fuchsia",
-    "tagline": "Steaming pho bowls with lemongrass and star anise"
+    "tagline": "Steaming pho bowls with lemongrass and star anise",
+    "ls_url": ""
   },
   {
     "slug": "oaxaca-taco-joint",
@@ -405,7 +438,8 @@
     "budget_eur": 13600,
     "weeks": 8,
     "hero_image": "placeholder:restaurant:sky",
-    "tagline": "Corn-tortilla tacos with smoky mole sauces"
+    "tagline": "Corn-tortilla tacos with smoky mole sauces",
+    "ls_url": ""
   },
   {
     "slug": "lima-ceviche-bar",
@@ -417,7 +451,8 @@
     "budget_eur": 15900,
     "weeks": 9,
     "hero_image": "placeholder:restaurant:orange",
-    "tagline": "Citrus-cured ceviche bar with pisco sour happy hour"
+    "tagline": "Citrus-cured ceviche bar with pisco sour happy hour",
+    "ls_url": ""
   },
   {
     "slug": "istanbul-kebap-ev",
@@ -428,8 +463,9 @@
     "price_eur": 179,
     "budget_eur": 17800,
     "weeks": 10,
-    "hero_image": "placeholder:restaurant:amber",
-    "tagline": "Charcoal-grilled kebaps with Anatolian hospitality"
+    "hero_image": "data/concepts/istanbul-kebap-ev/images/01-hero.png",
+    "tagline": "Charcoal-grilled kebaps with Anatolian hospitality",
+    "ls_url": ""
   },
   {
     "slug": "beirut-mezze-den",
@@ -440,8 +476,9 @@
     "price_eur": 149,
     "budget_eur": 16400,
     "weeks": 9,
-    "hero_image": "placeholder:restaurant:emerald",
-    "tagline": "Twenty-dish mezze spread with Lebanese arak"
+    "hero_image": "data/concepts/beirut-mezze-den/images/01-hero.png",
+    "tagline": "Twenty-dish mezze spread with Lebanese arak",
+    "ls_url": ""
   },
   {
     "slug": "tel-aviv-hummus",
@@ -452,8 +489,9 @@
     "price_eur": 129,
     "budget_eur": 12800,
     "weeks": 8,
-    "hero_image": "placeholder:restaurant:rose",
-    "tagline": "Silky hummus bowls with warm pita and zhug"
+    "hero_image": "data/concepts/tel-aviv-hummus/images/01-hero.png",
+    "tagline": "Silky hummus bowls with warm pita and zhug",
+    "ls_url": ""
   },
   {
     "slug": "sardinia-pasta-lab",
@@ -464,8 +502,9 @@
     "price_eur": 149,
     "budget_eur": 16900,
     "weeks": 9,
-    "hero_image": "placeholder:restaurant:indigo",
-    "tagline": "Fresh-made pasta lab with open-view kitchen"
+    "hero_image": "data/concepts/sardinia-pasta-lab/images/01-hero.png",
+    "tagline": "Fresh-made pasta lab with open-view kitchen",
+    "ls_url": ""
   },
   {
     "slug": "napoli-pizza-forno",
@@ -476,8 +515,9 @@
     "price_eur": 199,
     "budget_eur": 19400,
     "weeks": 10,
-    "hero_image": "placeholder:restaurant:cyan",
-    "tagline": "Wood-fired Neapolitan pizza in 90 seconds flat"
+    "hero_image": "data/concepts/napoli-pizza-forno/images/01-hero.png",
+    "tagline": "Wood-fired Neapolitan pizza in 90 seconds flat",
+    "ls_url": ""
   },
   {
     "slug": "lisbon-bifana",
@@ -488,8 +528,9 @@
     "price_eur": 129,
     "budget_eur": 13200,
     "weeks": 8,
-    "hero_image": "placeholder:restaurant:violet",
-    "tagline": "Marinated pork sandwiches in a tiled tavern"
+    "hero_image": "data/concepts/lisbon-bifana/images/01-hero.png",
+    "tagline": "Marinated pork sandwiches in a tiled tavern",
+    "ls_url": ""
   },
   {
     "slug": "sofia-barber-shop",
@@ -501,7 +542,8 @@
     "budget_eur": 12400,
     "weeks": 7,
     "hero_image": "data/concepts/sofia-barber-shop/hero.png",
-    "tagline": "Old-school barbershop with hot-towel ritual"
+    "tagline": "Old-school barbershop with hot-towel ritual",
+    "ls_url": ""
   },
   {
     "slug": "milano-nail-studio",
@@ -512,8 +554,9 @@
     "price_eur": 99,
     "budget_eur": 11600,
     "weeks": 7,
-    "hero_image": "placeholder:beauty:rose",
-    "tagline": "Gel-nail studio with Italian art direction"
+    "hero_image": "data/concepts/milano-nail-studio/images/01-hero.png",
+    "tagline": "Gel-nail studio with Italian art direction",
+    "ls_url": ""
   },
   {
     "slug": "paris-brow-bar",
@@ -524,8 +567,9 @@
     "price_eur": 79,
     "budget_eur": 9800,
     "weeks": 6,
-    "hero_image": "placeholder:beauty:indigo",
-    "tagline": "Five-minute brow shaping by trained Parisian pros"
+    "hero_image": "data/concepts/paris-brow-bar/images/01-hero.png",
+    "tagline": "Five-minute brow shaping by trained Parisian pros",
+    "ls_url": ""
   },
   {
     "slug": "berlin-skin-clinic",
@@ -536,8 +580,9 @@
     "price_eur": 179,
     "budget_eur": 18600,
     "weeks": 10,
-    "hero_image": "placeholder:beauty:cyan",
-    "tagline": "Clinical-grade facials in minimalist Berlin lab"
+    "hero_image": "data/concepts/berlin-skin-clinic/images/01-hero.png",
+    "tagline": "Clinical-grade facials in minimalist Berlin lab",
+    "ls_url": ""
   },
   {
     "slug": "stockholm-blow-dry",
@@ -548,8 +593,9 @@
     "price_eur": 129,
     "budget_eur": 13800,
     "weeks": 8,
-    "hero_image": "placeholder:beauty:violet",
-    "tagline": "Express blow-dry bar with Scandi styling"
+    "hero_image": "data/concepts/stockholm-blow-dry/images/01-hero.png",
+    "tagline": "Express blow-dry bar with Scandi styling",
+    "ls_url": ""
   },
   {
     "slug": "dublin-lash-lounge",
@@ -560,8 +606,9 @@
     "price_eur": 79,
     "budget_eur": 10400,
     "weeks": 6,
-    "hero_image": "placeholder:beauty:lime",
-    "tagline": "Lash extensions on velvet recliners, tea included"
+    "hero_image": "data/concepts/dublin-lash-lounge/images/01-hero.png",
+    "tagline": "Lash extensions on velvet recliners, tea included",
+    "ls_url": ""
   },
   {
     "slug": "vienna-makeup-salon",
@@ -572,8 +619,9 @@
     "price_eur": 99,
     "budget_eur": 11900,
     "weeks": 7,
-    "hero_image": "placeholder:beauty:fuchsia",
-    "tagline": "Bridal-ready makeup bar with Austrian elegance"
+    "hero_image": "data/concepts/vienna-makeup-salon/images/01-hero.png",
+    "tagline": "Bridal-ready makeup bar with Austrian elegance",
+    "ls_url": ""
   },
   {
     "slug": "lisbon-barber-co",
@@ -584,8 +632,9 @@
     "price_eur": 99,
     "budget_eur": 10900,
     "weeks": 7,
-    "hero_image": "placeholder:beauty:sky",
-    "tagline": "Azulejo-tiled barbershop with craft beer on tap"
+    "hero_image": "data/concepts/lisbon-barber-co/images/01-hero.png",
+    "tagline": "Azulejo-tiled barbershop with craft beer on tap",
+    "ls_url": ""
   },
   {
     "slug": "amsterdam-tattoo-atelier",
@@ -596,8 +645,9 @@
     "price_eur": 129,
     "budget_eur": 13700,
     "weeks": 8,
-    "hero_image": "placeholder:beauty:orange",
-    "tagline": "Fine-line tattoo studio with gallery-quality art"
+    "hero_image": "data/concepts/amsterdam-tattoo-atelier/images/01-hero.png",
+    "tagline": "Fine-line tattoo studio with gallery-quality art",
+    "ls_url": ""
   },
   {
     "slug": "cluj-hair-salon",
@@ -608,8 +658,9 @@
     "price_eur": 129,
     "budget_eur": 14200,
     "weeks": 8,
-    "hero_image": "placeholder:beauty:amber",
-    "tagline": "Full-service hair salon with Transylvanian charm"
+    "hero_image": "data/concepts/cluj-hair-salon/images/01-hero.png",
+    "tagline": "Full-service hair salon with Transylvanian charm",
+    "ls_url": ""
   },
   {
     "slug": "tallinn-spa-nook",
@@ -620,8 +671,9 @@
     "price_eur": 129,
     "budget_eur": 14500,
     "weeks": 8,
-    "hero_image": "placeholder:beauty:emerald",
-    "tagline": "Petite spa with sauna, plunge and hot stones"
+    "hero_image": "data/concepts/tallinn-spa-nook/images/01-hero.png",
+    "tagline": "Petite spa with sauna, plunge and hot stones",
+    "ls_url": ""
   },
   {
     "slug": "krakow-nail-art",
@@ -632,8 +684,9 @@
     "price_eur": 79,
     "budget_eur": 10200,
     "weeks": 6,
-    "hero_image": "placeholder:beauty:rose",
-    "tagline": "Hand-painted nail art on old-town stations"
+    "hero_image": "data/concepts/krakow-nail-art/images/01-hero.png",
+    "tagline": "Hand-painted nail art on old-town stations",
+    "ls_url": ""
   },
   {
     "slug": "luxembourg-brow",
@@ -644,8 +697,9 @@
     "price_eur": 79,
     "budget_eur": 9600,
     "weeks": 5,
-    "hero_image": "placeholder:beauty:indigo",
-    "tagline": "Precision brow lamination inside glass atrium"
+    "hero_image": "data/concepts/luxembourg-brow/images/01-hero.png",
+    "tagline": "Precision brow lamination inside glass atrium",
+    "ls_url": ""
   },
   {
     "slug": "athens-waxing-co",
@@ -657,7 +711,8 @@
     "budget_eur": 10700,
     "weeks": 6,
     "hero_image": "placeholder:beauty:cyan",
-    "tagline": "Gentle sugar waxing with Mediterranean oils"
+    "tagline": "Gentle sugar waxing with Mediterranean oils",
+    "ls_url": ""
   },
   {
     "slug": "zadar-sun-salon",
@@ -669,7 +724,8 @@
     "budget_eur": 12100,
     "weeks": 7,
     "hero_image": "placeholder:beauty:violet",
-    "tagline": "Bronzing salon with sea-glass tile mosaics"
+    "tagline": "Bronzing salon with sea-glass tile mosaics",
+    "ls_url": ""
   },
   {
     "slug": "valletta-henna-bar",
@@ -681,7 +737,8 @@
     "budget_eur": 9300,
     "weeks": 6,
     "hero_image": "placeholder:beauty:lime",
-    "tagline": "Henna art parlor with Maltese filigree patterns"
+    "tagline": "Henna art parlor with Maltese filigree patterns",
+    "ls_url": ""
   },
   {
     "slug": "vilnius-mens-grooming",
@@ -693,7 +750,8 @@
     "budget_eur": 13400,
     "weeks": 8,
     "hero_image": "placeholder:beauty:fuchsia",
-    "tagline": "Full male grooming club with whiskey lounge"
+    "tagline": "Full male grooming club with whiskey lounge",
+    "ls_url": ""
   },
   {
     "slug": "nicosia-glow-studio",
@@ -705,7 +763,8 @@
     "budget_eur": 11500,
     "weeks": 7,
     "hero_image": "placeholder:beauty:sky",
-    "tagline": "Radiance facials with Cypriot rosewater"
+    "tagline": "Radiance facials with Cypriot rosewater",
+    "ls_url": ""
   },
   {
     "slug": "bruges-beauty-bar",
@@ -717,7 +776,8 @@
     "budget_eur": 13900,
     "weeks": 8,
     "hero_image": "placeholder:beauty:orange",
-    "tagline": "Medieval-chic beauty bar by the canals"
+    "tagline": "Medieval-chic beauty bar by the canals",
+    "ls_url": ""
   },
   {
     "slug": "berlin-dog-grooming",
@@ -729,7 +789,8 @@
     "budget_eur": 12400,
     "weeks": 7,
     "hero_image": "placeholder:service:emerald",
-    "tagline": "Modern dog spa with bubble baths and blueberry facials"
+    "tagline": "Modern dog spa with bubble baths and blueberry facials",
+    "ls_url": ""
   },
   {
     "slug": "amsterdam-bike-fix",
@@ -741,7 +802,8 @@
     "budget_eur": 11800,
     "weeks": 7,
     "hero_image": "placeholder:service:rose",
-    "tagline": "Walk-in bike repair hub for daily commuters"
+    "tagline": "Walk-in bike repair hub for daily commuters",
+    "ls_url": ""
   },
   {
     "slug": "paris-laundry-spot",
@@ -753,7 +815,8 @@
     "budget_eur": 13600,
     "weeks": 8,
     "hero_image": "placeholder:service:indigo",
-    "tagline": "Self-serve laundromat with cafe and coworking"
+    "tagline": "Self-serve laundromat with cafe and coworking",
+    "ls_url": ""
   },
   {
     "slug": "milano-key-cutting",
@@ -765,7 +828,8 @@
     "budget_eur": 5800,
     "weeks": 4,
     "hero_image": "placeholder:service:cyan",
-    "tagline": "Instant key duplication kiosk in metro stations"
+    "tagline": "Instant key duplication kiosk in metro stations",
+    "ls_url": ""
   },
   {
     "slug": "madrid-shoe-repair",
@@ -777,7 +841,8 @@
     "budget_eur": 8900,
     "weeks": 6,
     "hero_image": "placeholder:service:violet",
-    "tagline": "Leather resole workshop with same-day service"
+    "tagline": "Leather resole workshop with same-day service",
+    "ls_url": ""
   },
   {
     "slug": "warsaw-dry-clean",
@@ -789,7 +854,8 @@
     "budget_eur": 13200,
     "weeks": 8,
     "hero_image": "placeholder:service:lime",
-    "tagline": "Eco-friendly dry cleaning with 2-hour turnaround"
+    "tagline": "Eco-friendly dry cleaning with 2-hour turnaround",
+    "ls_url": ""
   },
   {
     "slug": "athens-tailoring",
@@ -801,7 +867,8 @@
     "budget_eur": 10400,
     "weeks": 6,
     "hero_image": "placeholder:service:fuchsia",
-    "tagline": "Master tailor alterations while you wait"
+    "tagline": "Master tailor alterations while you wait",
+    "ls_url": ""
   },
   {
     "slug": "dublin-dog-daycare",
@@ -813,7 +880,8 @@
     "budget_eur": 17600,
     "weeks": 9,
     "hero_image": "placeholder:service:sky",
-    "tagline": "Indoor-outdoor dog daycare with live webcams"
+    "tagline": "Indoor-outdoor dog daycare with live webcams",
+    "ls_url": ""
   },
   {
     "slug": "stockholm-car-wash",
@@ -825,7 +893,8 @@
     "budget_eur": 16200,
     "weeks": 9,
     "hero_image": "placeholder:service:orange",
-    "tagline": "Eco hand car wash with membership model"
+    "tagline": "Eco hand car wash with membership model",
+    "ls_url": ""
   },
   {
     "slug": "lisbon-flower-studio",
@@ -837,7 +906,8 @@
     "budget_eur": 9700,
     "weeks": 6,
     "hero_image": "placeholder:service:amber",
-    "tagline": "Same-day bouquet delivery across old town"
+    "tagline": "Same-day bouquet delivery across old town",
+    "ls_url": ""
   },
   {
     "slug": "vienna-gift-wrap",
@@ -849,7 +919,8 @@
     "budget_eur": 6400,
     "weeks": 4,
     "hero_image": "placeholder:service:emerald",
-    "tagline": "Luxury gift wrapping kiosk in shopping arcades"
+    "tagline": "Luxury gift wrapping kiosk in shopping arcades",
+    "ls_url": ""
   },
   {
     "slug": "helsinki-sauna-rent",
@@ -861,7 +932,8 @@
     "budget_eur": 15800,
     "weeks": 9,
     "hero_image": "placeholder:service:rose",
-    "tagline": "Bookable private saunas by the hour"
+    "tagline": "Bookable private saunas by the hour",
+    "ls_url": ""
   },
   {
     "slug": "copenhagen-print-bar",
@@ -873,7 +945,8 @@
     "budget_eur": 11200,
     "weeks": 7,
     "hero_image": "placeholder:service:indigo",
-    "tagline": "Self-serve print shop with design assistance"
+    "tagline": "Self-serve print shop with design assistance",
+    "ls_url": ""
   },
   {
     "slug": "brussels-bike-cafe",
@@ -885,7 +958,8 @@
     "budget_eur": 15400,
     "weeks": 8,
     "hero_image": "placeholder:service:cyan",
-    "tagline": "Bike repair shop that doubles as espresso bar"
+    "tagline": "Bike repair shop that doubles as espresso bar",
+    "ls_url": ""
   },
   {
     "slug": "tallinn-tech-fix",
@@ -897,7 +971,8 @@
     "budget_eur": 9600,
     "weeks": 6,
     "hero_image": "placeholder:service:violet",
-    "tagline": "Walk-in tech concierge for digital nomads"
+    "tagline": "Walk-in tech concierge for digital nomads",
+    "ls_url": ""
   },
   {
     "slug": "prague-pet-wash",
@@ -909,7 +984,8 @@
     "budget_eur": 10800,
     "weeks": 7,
     "hero_image": "placeholder:service:lime",
-    "tagline": "Self-service dog wash stations with grooming add-ons"
+    "tagline": "Self-service dog wash stations with grooming add-ons",
+    "ls_url": ""
   },
   {
     "slug": "bucharest-car-detail",
@@ -921,7 +997,8 @@
     "budget_eur": 17200,
     "weeks": 9,
     "hero_image": "placeholder:service:fuchsia",
-    "tagline": "Premium car detailing with ceramic coating"
+    "tagline": "Premium car detailing with ceramic coating",
+    "ls_url": ""
   },
   {
     "slug": "valletta-boat-clean",
@@ -933,7 +1010,8 @@
     "budget_eur": 11600,
     "weeks": 7,
     "hero_image": "placeholder:service:sky",
-    "tagline": "Marine cleaning service for yacht owners"
+    "tagline": "Marine cleaning service for yacht owners",
+    "ls_url": ""
   },
   {
     "slug": "ljubljana-ski-wax",
@@ -945,7 +1023,8 @@
     "budget_eur": 12100,
     "weeks": 7,
     "hero_image": "placeholder:service:orange",
-    "tagline": "Alpine ski waxing and tune-up workshop"
+    "tagline": "Alpine ski waxing and tune-up workshop",
+    "ls_url": ""
   },
   {
     "slug": "zagreb-car-keys",
@@ -957,7 +1036,8 @@
     "budget_eur": 9800,
     "weeks": 6,
     "hero_image": "placeholder:service:amber",
-    "tagline": "Automotive key programming in under 30 minutes"
+    "tagline": "Automotive key programming in under 30 minutes",
+    "ls_url": ""
   },
   {
     "slug": "berlin-phone-fix",
@@ -969,7 +1049,8 @@
     "budget_eur": 9400,
     "weeks": 6,
     "hero_image": "placeholder:repair:emerald",
-    "tagline": "iPhone screen swaps in 15 minutes flat"
+    "tagline": "iPhone screen swaps in 15 minutes flat",
+    "ls_url": ""
   },
   {
     "slug": "paris-laptop-medic",
@@ -981,7 +1062,8 @@
     "budget_eur": 11200,
     "weeks": 7,
     "hero_image": "placeholder:repair:rose",
-    "tagline": "Walk-in MacBook diagnostics and board repair"
+    "tagline": "Walk-in MacBook diagnostics and board repair",
+    "ls_url": ""
   },
   {
     "slug": "vienna-watch-atelier",
@@ -993,7 +1075,8 @@
     "budget_eur": 9800,
     "weeks": 6,
     "hero_image": "placeholder:repair:indigo",
-    "tagline": "Mechanical watch servicing by certified horologist"
+    "tagline": "Mechanical watch servicing by certified horologist",
+    "ls_url": ""
   },
   {
     "slug": "antwerp-jewelry-fix",
@@ -1005,7 +1088,8 @@
     "budget_eur": 8900,
     "weeks": 5,
     "hero_image": "placeholder:repair:cyan",
-    "tagline": "Diamond district jewelry repair and resizing"
+    "tagline": "Diamond district jewelry repair and resizing",
+    "ls_url": ""
   },
   {
     "slug": "rome-camera-repair",
@@ -1017,7 +1101,8 @@
     "budget_eur": 10800,
     "weeks": 7,
     "hero_image": "placeholder:repair:violet",
-    "tagline": "Vintage film camera restoration workshop"
+    "tagline": "Vintage film camera restoration workshop",
+    "ls_url": ""
   },
   {
     "slug": "madrid-phone-clinic",
@@ -1029,7 +1114,8 @@
     "budget_eur": 9200,
     "weeks": 6,
     "hero_image": "placeholder:repair:lime",
-    "tagline": "Express phone battery replacement kiosk"
+    "tagline": "Express phone battery replacement kiosk",
+    "ls_url": ""
   },
   {
     "slug": "dublin-laptop-rescue",
@@ -1041,7 +1127,8 @@
     "budget_eur": 11800,
     "weeks": 7,
     "hero_image": "placeholder:repair:fuchsia",
-    "tagline": "Data recovery and laptop triage for students"
+    "tagline": "Data recovery and laptop triage for students",
+    "ls_url": ""
   },
   {
     "slug": "amsterdam-vinyl-fix",
@@ -1053,7 +1140,8 @@
     "budget_eur": 9500,
     "weeks": 6,
     "hero_image": "placeholder:repair:sky",
-    "tagline": "Turntable restoration and vinyl cleaning lab"
+    "tagline": "Turntable restoration and vinyl cleaning lab",
+    "ls_url": ""
   },
   {
     "slug": "prague-clock-shop",
@@ -1065,7 +1153,8 @@
     "budget_eur": 10400,
     "weeks": 7,
     "hero_image": "placeholder:repair:orange",
-    "tagline": "Antique clock restoration in baroque quarter"
+    "tagline": "Antique clock restoration in baroque quarter",
+    "ls_url": ""
   },
   {
     "slug": "krakow-console-fix",
@@ -1077,7 +1166,8 @@
     "budget_eur": 9100,
     "weeks": 6,
     "hero_image": "placeholder:repair:amber",
-    "tagline": "Retro game console repairs and mods"
+    "tagline": "Retro game console repairs and mods",
+    "ls_url": ""
   },
   {
     "slug": "lisbon-umbrella-fix",
@@ -1089,7 +1179,8 @@
     "budget_eur": 5600,
     "weeks": 4,
     "hero_image": "placeholder:repair:emerald",
-    "tagline": "Classic umbrella repair bench under arcades"
+    "tagline": "Classic umbrella repair bench under arcades",
+    "ls_url": ""
   },
   {
     "slug": "stockholm-bike-service",
@@ -1101,7 +1192,8 @@
     "budget_eur": 12800,
     "weeks": 7,
     "hero_image": "placeholder:repair:rose",
-    "tagline": "Year-round bike maintenance with winter tire swap"
+    "tagline": "Year-round bike maintenance with winter tire swap",
+    "ls_url": ""
   },
   {
     "slug": "budapest-piano-tune",
@@ -1113,7 +1205,8 @@
     "budget_eur": 12200,
     "weeks": 7,
     "hero_image": "placeholder:repair:indigo",
-    "tagline": "Piano tuning and restoration in historic quarter"
+    "tagline": "Piano tuning and restoration in historic quarter",
+    "ls_url": ""
   },
   {
     "slug": "helsinki-drone-repair",
@@ -1125,7 +1218,8 @@
     "budget_eur": 11600,
     "weeks": 7,
     "hero_image": "placeholder:repair:cyan",
-    "tagline": "Drone calibration and propeller swap shop"
+    "tagline": "Drone calibration and propeller swap shop",
+    "ls_url": ""
   },
   {
     "slug": "luxembourg-lux-watch",
@@ -1137,7 +1231,8 @@
     "budget_eur": 14200,
     "weeks": 8,
     "hero_image": "placeholder:repair:violet",
-    "tagline": "High-end Swiss watch servicing and polishing"
+    "tagline": "High-end Swiss watch servicing and polishing",
+    "ls_url": ""
   },
   {
     "slug": "tallinn-synth-repair",
@@ -1149,7 +1244,8 @@
     "budget_eur": 11400,
     "weeks": 7,
     "hero_image": "placeholder:repair:lime",
-    "tagline": "Vintage synth and drum machine workshop"
+    "tagline": "Vintage synth and drum machine workshop",
+    "ls_url": ""
   },
   {
     "slug": "ljubljana-bag-fix",
@@ -1161,7 +1257,8 @@
     "budget_eur": 8700,
     "weeks": 5,
     "hero_image": "placeholder:repair:fuchsia",
-    "tagline": "Luxury handbag restoration and leather care"
+    "tagline": "Luxury handbag restoration and leather care",
+    "ls_url": ""
   },
   {
     "slug": "sofia-shoe-medic",
@@ -1173,7 +1270,8 @@
     "budget_eur": 6800,
     "weeks": 4,
     "hero_image": "placeholder:repair:sky",
-    "tagline": "Walk-in shoe repair with 1-hour service"
+    "tagline": "Walk-in shoe repair with 1-hour service",
+    "ls_url": ""
   },
   {
     "slug": "zagreb-appliance-fix",
@@ -1185,7 +1283,8 @@
     "budget_eur": 11900,
     "weeks": 7,
     "hero_image": "placeholder:repair:orange",
-    "tagline": "Small appliance repair with warranty swap"
+    "tagline": "Small appliance repair with warranty swap",
+    "ls_url": ""
   },
   {
     "slug": "bratislava-tv-fix",
@@ -1197,7 +1296,8 @@
     "budget_eur": 9700,
     "weeks": 6,
     "hero_image": "placeholder:repair:amber",
-    "tagline": "TV and monitor repair with parts in stock"
+    "tagline": "TV and monitor repair with parts in stock",
+    "ls_url": ""
   },
   {
     "slug": "paris-candle-atelier",
@@ -1209,7 +1309,8 @@
     "budget_eur": 11400,
     "weeks": 7,
     "hero_image": "data/concepts/paris-candle-atelier/hero.png",
-    "tagline": "Hand-poured soy candles with perfumer fragrances"
+    "tagline": "Hand-poured soy candles with perfumer fragrances",
+    "ls_url": ""
   },
   {
     "slug": "lisbon-ceramic-studio",
@@ -1221,7 +1322,8 @@
     "budget_eur": 13600,
     "weeks": 8,
     "hero_image": "placeholder:craft:rose",
-    "tagline": "Throw-your-own ceramics studio with kiln access"
+    "tagline": "Throw-your-own ceramics studio with kiln access",
+    "ls_url": ""
   },
   {
     "slug": "florence-leather-bar",
@@ -1233,7 +1335,8 @@
     "budget_eur": 12800,
     "weeks": 7,
     "hero_image": "placeholder:craft:indigo",
-    "tagline": "Bespoke leather wallets stitched in front of you"
+    "tagline": "Bespoke leather wallets stitched in front of you",
+    "ls_url": ""
   },
   {
     "slug": "marseille-soap-house",
@@ -1245,7 +1348,8 @@
     "budget_eur": 10200,
     "weeks": 6,
     "hero_image": "placeholder:craft:cyan",
-    "tagline": "Olive oil soap bars cured in front of customers"
+    "tagline": "Olive oil soap bars cured in front of customers",
+    "ls_url": ""
   },
   {
     "slug": "amsterdam-letterpress",
@@ -1257,7 +1361,8 @@
     "budget_eur": 12600,
     "weeks": 8,
     "hero_image": "placeholder:craft:violet",
-    "tagline": "Vintage letterpress studio for bespoke stationery"
+    "tagline": "Vintage letterpress studio for bespoke stationery",
+    "ls_url": ""
   },
   {
     "slug": "berlin-screen-print",
@@ -1269,7 +1374,8 @@
     "budget_eur": 14400,
     "weeks": 8,
     "hero_image": "placeholder:craft:lime",
-    "tagline": "Screen-print shop with on-demand tee printing"
+    "tagline": "Screen-print shop with on-demand tee printing",
+    "ls_url": ""
   },
   {
     "slug": "porto-tile-studio",
@@ -1281,7 +1387,8 @@
     "budget_eur": 13800,
     "weeks": 8,
     "hero_image": "placeholder:craft:fuchsia",
-    "tagline": "Azulejo-inspired hand-painted tile workshop"
+    "tagline": "Azulejo-inspired hand-painted tile workshop",
+    "ls_url": ""
   },
   {
     "slug": "dublin-knit-nook",
@@ -1293,7 +1400,8 @@
     "budget_eur": 10200,
     "weeks": 6,
     "hero_image": "placeholder:craft:sky",
-    "tagline": "Aran knitting cafe with wool and tea"
+    "tagline": "Aran knitting cafe with wool and tea",
+    "ls_url": ""
   },
   {
     "slug": "stockholm-glass-blow",
@@ -1305,7 +1413,8 @@
     "budget_eur": 16800,
     "weeks": 9,
     "hero_image": "placeholder:craft:orange",
-    "tagline": "Hot glass studio with visitor viewing bench"
+    "tagline": "Hot glass studio with visitor viewing bench",
+    "ls_url": ""
   },
   {
     "slug": "prague-puppet-atelier",
@@ -1317,7 +1426,8 @@
     "budget_eur": 9600,
     "weeks": 6,
     "hero_image": "placeholder:craft:amber",
-    "tagline": "Marionette-making atelier with custom orders"
+    "tagline": "Marionette-making atelier with custom orders",
+    "ls_url": ""
   },
   {
     "slug": "valencia-tile-craft",
@@ -1329,7 +1439,8 @@
     "budget_eur": 12200,
     "weeks": 7,
     "hero_image": "placeholder:craft:emerald",
-    "tagline": "Mediterranean mosaic tile workshop and shop"
+    "tagline": "Mediterranean mosaic tile workshop and shop",
+    "ls_url": ""
   },
   {
     "slug": "vienna-bookbinder",
@@ -1341,7 +1452,8 @@
     "budget_eur": 10800,
     "weeks": 7,
     "hero_image": "placeholder:craft:rose",
-    "tagline": "Custom leather bookbinding with gold foil"
+    "tagline": "Custom leather bookbinding with gold foil",
+    "ls_url": ""
   },
   {
     "slug": "helsinki-wood-studio",
@@ -1353,7 +1465,8 @@
     "budget_eur": 15200,
     "weeks": 8,
     "hero_image": "placeholder:craft:indigo",
-    "tagline": "Nordic woodcraft studio with open workshops"
+    "tagline": "Nordic woodcraft studio with open workshops",
+    "ls_url": ""
   },
   {
     "slug": "riga-amber-bar",
@@ -1365,7 +1478,8 @@
     "budget_eur": 9800,
     "weeks": 6,
     "hero_image": "placeholder:craft:cyan",
-    "tagline": "Baltic amber jewelry made at the counter"
+    "tagline": "Baltic amber jewelry made at the counter",
+    "ls_url": ""
   },
   {
     "slug": "vilnius-linen-loom",
@@ -1377,7 +1491,8 @@
     "budget_eur": 13400,
     "weeks": 8,
     "hero_image": "placeholder:craft:violet",
-    "tagline": "Hand-woven Lithuanian linen products and classes"
+    "tagline": "Hand-woven Lithuanian linen products and classes",
+    "ls_url": ""
   },
   {
     "slug": "malta-filigree-shop",
@@ -1389,7 +1504,8 @@
     "budget_eur": 9400,
     "weeks": 6,
     "hero_image": "placeholder:craft:lime",
-    "tagline": "Silver filigree jewelry workshop with demos"
+    "tagline": "Silver filigree jewelry workshop with demos",
+    "ls_url": ""
   },
   {
     "slug": "bucharest-eggcraft",
@@ -1401,7 +1517,8 @@
     "budget_eur": 6800,
     "weeks": 4,
     "hero_image": "placeholder:craft:fuchsia",
-    "tagline": "Hand-painted Romanian eggs and folk art"
+    "tagline": "Hand-painted Romanian eggs and folk art",
+    "ls_url": ""
   },
   {
     "slug": "nicosia-weavers",
@@ -1413,7 +1530,8 @@
     "budget_eur": 11600,
     "weeks": 7,
     "hero_image": "placeholder:craft:sky",
-    "tagline": "Traditional Cypriot weaving studio and shop"
+    "tagline": "Traditional Cypriot weaving studio and shop",
+    "ls_url": ""
   },
   {
     "slug": "brussels-chocolatier",
@@ -1425,7 +1543,8 @@
     "budget_eur": 14200,
     "weeks": 8,
     "hero_image": "placeholder:craft:orange",
-    "tagline": "Small-batch pralines made in window atelier"
+    "tagline": "Small-batch pralines made in window atelier",
+    "ls_url": ""
   },
   {
     "slug": "sofia-icon-studio",
@@ -1437,7 +1556,8 @@
     "budget_eur": 9200,
     "weeks": 6,
     "hero_image": "placeholder:craft:amber",
-    "tagline": "Byzantine icon painting studio and classes"
+    "tagline": "Byzantine icon painting studio and classes",
+    "ls_url": ""
   },
   {
     "slug": "berlin-vintage-shop",
@@ -1449,7 +1569,8 @@
     "budget_eur": 14800,
     "weeks": 8,
     "hero_image": "data/concepts/berlin-vintage-shop/hero.png",
-    "tagline": "Curated Y2K vintage with Berlin street energy"
+    "tagline": "Curated Y2K vintage with Berlin street energy",
+    "ls_url": ""
   },
   {
     "slug": "paris-bookstore",
@@ -1461,7 +1582,8 @@
     "budget_eur": 13900,
     "weeks": 8,
     "hero_image": "placeholder:retail:rose",
-    "tagline": "Independent bookstore with cafe and reading loft"
+    "tagline": "Independent bookstore with cafe and reading loft",
+    "ls_url": ""
   },
   {
     "slug": "amsterdam-records",
@@ -1473,7 +1595,8 @@
     "budget_eur": 13600,
     "weeks": 8,
     "hero_image": "placeholder:retail:indigo",
-    "tagline": "Vinyl record shop with listening stations"
+    "tagline": "Vinyl record shop with listening stations",
+    "ls_url": ""
   },
   {
     "slug": "lisbon-plant-store",
@@ -1485,7 +1608,8 @@
     "budget_eur": 12400,
     "weeks": 7,
     "hero_image": "placeholder:retail:cyan",
-    "tagline": "Urban jungle plant shop with repotting bar"
+    "tagline": "Urban jungle plant shop with repotting bar",
+    "ls_url": ""
   },
   {
     "slug": "copenhagen-stationery",
@@ -1497,7 +1621,8 @@
     "budget_eur": 11200,
     "weeks": 7,
     "hero_image": "placeholder:retail:violet",
-    "tagline": "Scandi design stationery and writing tools"
+    "tagline": "Scandi design stationery and writing tools",
+    "ls_url": ""
   },
   {
     "slug": "madrid-vintage-den",
@@ -1509,7 +1634,8 @@
     "budget_eur": 12800,
     "weeks": 7,
     "hero_image": "placeholder:retail:lime",
-    "tagline": "Hand-picked 70s-90s fashion from Spanish closets"
+    "tagline": "Hand-picked 70s-90s fashion from Spanish closets",
+    "ls_url": ""
   },
   {
     "slug": "milano-design-store",
@@ -1521,7 +1647,8 @@
     "budget_eur": 16400,
     "weeks": 9,
     "hero_image": "placeholder:retail:fuchsia",
-    "tagline": "Italian design objects for the curious collector"
+    "tagline": "Italian design objects for the curious collector",
+    "ls_url": ""
   },
   {
     "slug": "dublin-record-club",
@@ -1533,7 +1660,8 @@
     "budget_eur": 12100,
     "weeks": 7,
     "hero_image": "placeholder:retail:sky",
-    "tagline": "Vinyl club with Irish trad and punk rarities"
+    "tagline": "Vinyl club with Irish trad and punk rarities",
+    "ls_url": ""
   },
   {
     "slug": "vienna-chocolate-shop",
@@ -1545,7 +1673,8 @@
     "budget_eur": 10600,
     "weeks": 7,
     "hero_image": "placeholder:retail:orange",
-    "tagline": "Artisan chocolate boutique with tasting flights"
+    "tagline": "Artisan chocolate boutique with tasting flights",
+    "ls_url": ""
   },
   {
     "slug": "prague-book-nook",
@@ -1557,7 +1686,8 @@
     "budget_eur": 11400,
     "weeks": 7,
     "hero_image": "placeholder:retail:amber",
-    "tagline": "Antique and rare books in Gothic Old Town"
+    "tagline": "Antique and rare books in Gothic Old Town",
+    "ls_url": ""
   },
   {
     "slug": "krakow-plant-lab",
@@ -1569,7 +1699,8 @@
     "budget_eur": 12600,
     "weeks": 7,
     "hero_image": "placeholder:retail:emerald",
-    "tagline": "Tropical plant boutique with care workshops"
+    "tagline": "Tropical plant boutique with care workshops",
+    "ls_url": ""
   },
   {
     "slug": "athens-olive-store",
@@ -1581,7 +1712,8 @@
     "budget_eur": 9800,
     "weeks": 6,
     "hero_image": "placeholder:retail:rose",
-    "tagline": "Greek olive oil tastings from family presses"
+    "tagline": "Greek olive oil tastings from family presses",
+    "ls_url": ""
   },
   {
     "slug": "valletta-map-shop",
@@ -1593,7 +1725,8 @@
     "budget_eur": 8900,
     "weeks": 5,
     "hero_image": "placeholder:retail:indigo",
-    "tagline": "Vintage maritime maps and compass store"
+    "tagline": "Vintage maritime maps and compass store",
+    "ls_url": ""
   },
   {
     "slug": "sofia-eco-store",
@@ -1605,7 +1738,8 @@
     "budget_eur": 13800,
     "weeks": 8,
     "hero_image": "placeholder:retail:cyan",
-    "tagline": "Zero-waste grocery with refill station"
+    "tagline": "Zero-waste grocery with refill station",
+    "ls_url": ""
   },
   {
     "slug": "budapest-toy-store",
@@ -1617,7 +1751,8 @@
     "budget_eur": 12400,
     "weeks": 7,
     "hero_image": "placeholder:retail:violet",
-    "tagline": "Heirloom wooden toys and Hungarian folk crafts"
+    "tagline": "Heirloom wooden toys and Hungarian folk crafts",
+    "ls_url": ""
   },
   {
     "slug": "bucharest-wine-shop",
@@ -1629,7 +1764,8 @@
     "budget_eur": 13200,
     "weeks": 8,
     "hero_image": "placeholder:retail:lime",
-    "tagline": "Romanian natural wine with weekly tastings"
+    "tagline": "Romanian natural wine with weekly tastings",
+    "ls_url": ""
   },
   {
     "slug": "ljubljana-green-store",
@@ -1641,7 +1777,8 @@
     "budget_eur": 11800,
     "weeks": 7,
     "hero_image": "placeholder:retail:fuchsia",
-    "tagline": "Alpine herbal remedies and tea selection"
+    "tagline": "Alpine herbal remedies and tea selection",
+    "ls_url": ""
   },
   {
     "slug": "zagreb-vinyl-den",
@@ -1653,7 +1790,8 @@
     "budget_eur": 11100,
     "weeks": 7,
     "hero_image": "placeholder:retail:sky",
-    "tagline": "Yugoslav-era rock and jazz vinyl archive"
+    "tagline": "Yugoslav-era rock and jazz vinyl archive",
+    "ls_url": ""
   },
   {
     "slug": "tallinn-design-shop",
@@ -1665,7 +1803,8 @@
     "budget_eur": 10900,
     "weeks": 7,
     "hero_image": "placeholder:retail:orange",
-    "tagline": "Estonian design goods from local makers"
+    "tagline": "Estonian design goods from local makers",
+    "ls_url": ""
   },
   {
     "slug": "luxembourg-gift-gallery",
@@ -1677,7 +1816,8 @@
     "budget_eur": 11400,
     "weeks": 7,
     "hero_image": "placeholder:retail:amber",
-    "tagline": "Curated European gifts and concept decor"
+    "tagline": "Curated European gifts and concept decor",
+    "ls_url": ""
   },
   {
     "slug": "berlin-yoga-loft",
@@ -1689,7 +1829,8 @@
     "budget_eur": 17400,
     "weeks": 9,
     "hero_image": "data/concepts/berlin-yoga-loft/hero.png",
-    "tagline": "Sun-drenched yoga loft with infrared floors"
+    "tagline": "Sun-drenched yoga loft with infrared floors",
+    "ls_url": ""
   },
   {
     "slug": "paris-meditation",
@@ -1701,7 +1842,8 @@
     "budget_eur": 15200,
     "weeks": 8,
     "hero_image": "placeholder:wellness:rose",
-    "tagline": "Silent meditation pods with guided audio"
+    "tagline": "Silent meditation pods with guided audio",
+    "ls_url": ""
   },
   {
     "slug": "amsterdam-massage",
@@ -1713,7 +1855,8 @@
     "budget_eur": 14800,
     "weeks": 8,
     "hero_image": "placeholder:wellness:indigo",
-    "tagline": "Thai and deep-tissue massage in canal house"
+    "tagline": "Thai and deep-tissue massage in canal house",
+    "ls_url": ""
   },
   {
     "slug": "stockholm-cryo-bar",
@@ -1725,7 +1868,8 @@
     "budget_eur": 17600,
     "weeks": 9,
     "hero_image": "placeholder:wellness:cyan",
-    "tagline": "Whole-body cryotherapy chambers, -110 C"
+    "tagline": "Whole-body cryotherapy chambers, -110 C",
+    "ls_url": ""
   },
   {
     "slug": "helsinki-sauna-club",
@@ -1737,7 +1881,8 @@
     "budget_eur": 19200,
     "weeks": 10,
     "hero_image": "placeholder:wellness:violet",
-    "tagline": "Wood-heated sauna club with ice plunge"
+    "tagline": "Wood-heated sauna club with ice plunge",
+    "ls_url": ""
   },
   {
     "slug": "lisbon-pilates",
@@ -1749,7 +1894,8 @@
     "budget_eur": 16400,
     "weeks": 9,
     "hero_image": "placeholder:wellness:lime",
-    "tagline": "Reformer pilates studio with Atlantic light"
+    "tagline": "Reformer pilates studio with Atlantic light",
+    "ls_url": ""
   },
   {
     "slug": "madrid-yoga-barre",
@@ -1761,7 +1907,8 @@
     "budget_eur": 16800,
     "weeks": 9,
     "hero_image": "placeholder:wellness:fuchsia",
-    "tagline": "Yoga and barre fusion in tiled courtyard"
+    "tagline": "Yoga and barre fusion in tiled courtyard",
+    "ls_url": ""
   },
   {
     "slug": "rome-thermal-bath",
@@ -1773,7 +1920,8 @@
     "budget_eur": 19600,
     "weeks": 10,
     "hero_image": "placeholder:wellness:sky",
-    "tagline": "Micro thermal baths inspired by ancient Rome"
+    "tagline": "Micro thermal baths inspired by ancient Rome",
+    "ls_url": ""
   },
   {
     "slug": "vienna-float-tank",
@@ -1785,7 +1933,8 @@
     "budget_eur": 16200,
     "weeks": 9,
     "hero_image": "placeholder:wellness:orange",
-    "tagline": "Sensory deprivation floatation therapy"
+    "tagline": "Sensory deprivation floatation therapy",
+    "ls_url": ""
   },
   {
     "slug": "dublin-breath-lab",
@@ -1797,7 +1946,8 @@
     "budget_eur": 13800,
     "weeks": 8,
     "hero_image": "placeholder:wellness:amber",
-    "tagline": "Breathwork and ice bath wellness sessions"
+    "tagline": "Breathwork and ice bath wellness sessions",
+    "ls_url": ""
   },
   {
     "slug": "copenhagen-zen-den",
@@ -1809,7 +1959,8 @@
     "budget_eur": 14600,
     "weeks": 8,
     "hero_image": "placeholder:wellness:emerald",
-    "tagline": "Hygge meditation den with candles and tea"
+    "tagline": "Hygge meditation den with candles and tea",
+    "ls_url": ""
   },
   {
     "slug": "brussels-yoga-shala",
@@ -1821,7 +1972,8 @@
     "budget_eur": 16200,
     "weeks": 9,
     "hero_image": "placeholder:wellness:rose",
-    "tagline": "Ashtanga yoga shala with morning Mysore"
+    "tagline": "Ashtanga yoga shala with morning Mysore",
+    "ls_url": ""
   },
   {
     "slug": "prague-crystal-spa",
@@ -1833,7 +1985,8 @@
     "budget_eur": 15900,
     "weeks": 9,
     "hero_image": "placeholder:wellness:indigo",
-    "tagline": "Crystal healing and sound bath experiences"
+    "tagline": "Crystal healing and sound bath experiences",
+    "ls_url": ""
   },
   {
     "slug": "warsaw-movement",
@@ -1845,7 +1998,8 @@
     "budget_eur": 16600,
     "weeks": 9,
     "hero_image": "placeholder:wellness:cyan",
-    "tagline": "Functional movement studio for all levels"
+    "tagline": "Functional movement studio for all levels",
+    "ls_url": ""
   },
   {
     "slug": "athens-olive-spa",
@@ -1857,7 +2011,8 @@
     "budget_eur": 15400,
     "weeks": 9,
     "hero_image": "placeholder:wellness:violet",
-    "tagline": "Greek olive oil body treatments and steam"
+    "tagline": "Greek olive oil body treatments and steam",
+    "ls_url": ""
   },
   {
     "slug": "budapest-bath-mini",
@@ -1869,7 +2024,8 @@
     "budget_eur": 18400,
     "weeks": 10,
     "hero_image": "placeholder:wellness:lime",
-    "tagline": "Micro thermal bath inspired by Szechenyi"
+    "tagline": "Micro thermal bath inspired by Szechenyi",
+    "ls_url": ""
   },
   {
     "slug": "riga-cold-plunge",
@@ -1881,7 +2037,8 @@
     "budget_eur": 14200,
     "weeks": 8,
     "hero_image": "placeholder:wellness:fuchsia",
-    "tagline": "Wim Hof cold plunge and breathwork studio"
+    "tagline": "Wim Hof cold plunge and breathwork studio",
+    "ls_url": ""
   },
   {
     "slug": "ljubljana-sound-bath",
@@ -1893,7 +2050,8 @@
     "budget_eur": 12400,
     "weeks": 7,
     "hero_image": "placeholder:wellness:sky",
-    "tagline": "Gong sound baths in alpine mountain hut"
+    "tagline": "Gong sound baths in alpine mountain hut",
+    "ls_url": ""
   },
   {
     "slug": "valletta-salt-cave",
@@ -1905,7 +2063,8 @@
     "budget_eur": 14800,
     "weeks": 8,
     "hero_image": "placeholder:wellness:orange",
-    "tagline": "Himalayan salt cave with halotherapy sessions"
+    "tagline": "Himalayan salt cave with halotherapy sessions",
+    "ls_url": ""
   },
   {
     "slug": "bucharest-stretch-lab",
@@ -1917,7 +2076,8 @@
     "budget_eur": 12100,
     "weeks": 7,
     "hero_image": "placeholder:wellness:amber",
-    "tagline": "Assisted stretching studio for desk workers"
+    "tagline": "Assisted stretching studio for desk workers",
+    "ls_url": ""
   },
   {
     "slug": "berlin-dental-hygiene",
@@ -1929,7 +2089,8 @@
     "budget_eur": 18600,
     "weeks": 10,
     "hero_image": "placeholder:health:emerald",
-    "tagline": "Dental hygiene clinic with digital scanning"
+    "tagline": "Dental hygiene clinic with digital scanning",
+    "ls_url": ""
   },
   {
     "slug": "paris-optometry",
@@ -1941,7 +2102,8 @@
     "budget_eur": 16400,
     "weeks": 9,
     "hero_image": "placeholder:health:rose",
-    "tagline": "Express eye exam studio with boutique frames"
+    "tagline": "Express eye exam studio with boutique frames",
+    "ls_url": ""
   },
   {
     "slug": "amsterdam-physio",
@@ -1953,7 +2115,8 @@
     "budget_eur": 18200,
     "weeks": 10,
     "hero_image": "placeholder:health:indigo",
-    "tagline": "Sports physio clinic with movement analysis"
+    "tagline": "Sports physio clinic with movement analysis",
+    "ls_url": ""
   },
   {
     "slug": "madrid-reflexology",
@@ -1965,7 +2128,8 @@
     "budget_eur": 11400,
     "weeks": 7,
     "hero_image": "placeholder:health:cyan",
-    "tagline": "Foot reflexology studio with certified therapists"
+    "tagline": "Foot reflexology studio with certified therapists",
+    "ls_url": ""
   },
   {
     "slug": "rome-posture-clinic",
@@ -1977,7 +2141,8 @@
     "budget_eur": 15800,
     "weeks": 9,
     "hero_image": "placeholder:health:violet",
-    "tagline": "Posture correction clinic with AI analysis"
+    "tagline": "Posture correction clinic with AI analysis",
+    "ls_url": ""
   },
   {
     "slug": "dublin-dental-scan",
@@ -1989,7 +2154,8 @@
     "budget_eur": 14200,
     "weeks": 8,
     "hero_image": "placeholder:health:lime",
-    "tagline": "Dental scan kiosk with teledentist consult"
+    "tagline": "Dental scan kiosk with teledentist consult",
+    "ls_url": ""
   },
   {
     "slug": "stockholm-wellness",
@@ -2001,7 +2167,8 @@
     "budget_eur": 16600,
     "weeks": 9,
     "hero_image": "placeholder:health:fuchsia",
-    "tagline": "Preventive health check clinic with blood panels"
+    "tagline": "Preventive health check clinic with blood panels",
+    "ls_url": ""
   },
   {
     "slug": "copenhagen-physio",
@@ -2013,7 +2180,8 @@
     "budget_eur": 18400,
     "weeks": 10,
     "hero_image": "placeholder:health:sky",
-    "tagline": "Rehabilitation physio with gym integration"
+    "tagline": "Rehabilitation physio with gym integration",
+    "ls_url": ""
   },
   {
     "slug": "helsinki-eye-scan",
@@ -2025,7 +2193,8 @@
     "budget_eur": 13800,
     "weeks": 8,
     "hero_image": "placeholder:health:orange",
-    "tagline": "Retinal scan booth with AI preliminary read"
+    "tagline": "Retinal scan booth with AI preliminary read",
+    "ls_url": ""
   },
   {
     "slug": "vienna-dental-spa",
@@ -2037,7 +2206,8 @@
     "budget_eur": 19400,
     "weeks": 10,
     "hero_image": "placeholder:health:amber",
-    "tagline": "Boutique dental spa with whitening menu"
+    "tagline": "Boutique dental spa with whitening menu",
+    "ls_url": ""
   },
   {
     "slug": "lisbon-osteo-clinic",
@@ -2049,7 +2219,8 @@
     "budget_eur": 15200,
     "weeks": 9,
     "hero_image": "placeholder:health:emerald",
-    "tagline": "Osteopathy clinic with ocean-view treatment rooms"
+    "tagline": "Osteopathy clinic with ocean-view treatment rooms",
+    "ls_url": ""
   },
   {
     "slug": "brussels-chiro-care",
@@ -2061,7 +2232,8 @@
     "budget_eur": 15800,
     "weeks": 9,
     "hero_image": "placeholder:health:rose",
-    "tagline": "Chiropractic adjustments with digital tracking"
+    "tagline": "Chiropractic adjustments with digital tracking",
+    "ls_url": ""
   },
   {
     "slug": "prague-acupuncture",
@@ -2073,7 +2245,8 @@
     "budget_eur": 13400,
     "weeks": 8,
     "hero_image": "placeholder:health:indigo",
-    "tagline": "Traditional Chinese medicine in baroque flat"
+    "tagline": "Traditional Chinese medicine in baroque flat",
+    "ls_url": ""
   },
   {
     "slug": "warsaw-hygiene-hub",
@@ -2085,7 +2258,8 @@
     "budget_eur": 15800,
     "weeks": 9,
     "hero_image": "placeholder:health:cyan",
-    "tagline": "Dental hygiene hub with hygienist-only services"
+    "tagline": "Dental hygiene hub with hygienist-only services",
+    "ls_url": ""
   },
   {
     "slug": "athens-physio-mini",
@@ -2097,7 +2271,8 @@
     "budget_eur": 13200,
     "weeks": 8,
     "hero_image": "placeholder:health:violet",
-    "tagline": "Sports physio clinic for marathoners"
+    "tagline": "Sports physio clinic for marathoners",
+    "ls_url": ""
   },
   {
     "slug": "sofia-reflex-den",
@@ -2109,7 +2284,8 @@
     "budget_eur": 10800,
     "weeks": 7,
     "hero_image": "placeholder:health:lime",
-    "tagline": "Reflexology den with Bulgarian rose oils"
+    "tagline": "Reflexology den with Bulgarian rose oils",
+    "ls_url": ""
   },
   {
     "slug": "bucharest-eye-care",
@@ -2121,7 +2297,8 @@
     "budget_eur": 13600,
     "weeks": 8,
     "hero_image": "placeholder:health:fuchsia",
-    "tagline": "Rapid optometry screenings and contact fitting"
+    "tagline": "Rapid optometry screenings and contact fitting",
+    "ls_url": ""
   },
   {
     "slug": "zagreb-kids-dental",
@@ -2133,7 +2310,8 @@
     "budget_eur": 17200,
     "weeks": 10,
     "hero_image": "placeholder:health:sky",
-    "tagline": "Kid-friendly dental hygiene clinic with play zone"
+    "tagline": "Kid-friendly dental hygiene clinic with play zone",
+    "ls_url": ""
   },
   {
     "slug": "ljubljana-sleep-lab",
@@ -2145,7 +2323,8 @@
     "budget_eur": 15600,
     "weeks": 9,
     "hero_image": "placeholder:health:orange",
-    "tagline": "Micro sleep clinic with home test kits"
+    "tagline": "Micro sleep clinic with home test kits",
+    "ls_url": ""
   },
   {
     "slug": "tallinn-blood-test",
@@ -2157,7 +2336,8 @@
     "budget_eur": 13100,
     "weeks": 8,
     "hero_image": "placeholder:health:amber",
-    "tagline": "Walk-in blood draw and biomarker panels"
+    "tagline": "Walk-in blood draw and biomarker panels",
+    "ls_url": ""
   },
   {
     "slug": "berlin-code-camp",
@@ -2169,7 +2349,8 @@
     "budget_eur": 18800,
     "weeks": 10,
     "hero_image": "placeholder:education:emerald",
-    "tagline": "Four-week coding bootcamp for career changers"
+    "tagline": "Four-week coding bootcamp for career changers",
+    "ls_url": ""
   },
   {
     "slug": "paris-language-cafe",
@@ -2181,7 +2362,8 @@
     "budget_eur": 14800,
     "weeks": 8,
     "hero_image": "placeholder:education:rose",
-    "tagline": "Drop-in language cafe with native speakers"
+    "tagline": "Drop-in language cafe with native speakers",
+    "ls_url": ""
   },
   {
     "slug": "amsterdam-kids-studio",
@@ -2193,7 +2375,8 @@
     "budget_eur": 17100,
     "weeks": 9,
     "hero_image": "placeholder:education:indigo",
-    "tagline": "STEAM kids studio with robotics and art"
+    "tagline": "STEAM kids studio with robotics and art",
+    "ls_url": ""
   },
   {
     "slug": "madrid-music-lessons",
@@ -2205,7 +2388,8 @@
     "budget_eur": 12800,
     "weeks": 7,
     "hero_image": "placeholder:education:cyan",
-    "tagline": "Guitar and piano lessons for all ages"
+    "tagline": "Guitar and piano lessons for all ages",
+    "ls_url": ""
   },
   {
     "slug": "rome-italian-school",
@@ -2217,7 +2401,8 @@
     "budget_eur": 16200,
     "weeks": 9,
     "hero_image": "placeholder:education:violet",
-    "tagline": "Italian language school with cooking classes"
+    "tagline": "Italian language school with cooking classes",
+    "ls_url": ""
   },
   {
     "slug": "dublin-english-hub",
@@ -2229,7 +2414,8 @@
     "budget_eur": 15600,
     "weeks": 9,
     "hero_image": "placeholder:education:lime",
-    "tagline": "English conversation hub for newcomers"
+    "tagline": "English conversation hub for newcomers",
+    "ls_url": ""
   },
   {
     "slug": "stockholm-math-lab",
@@ -2241,7 +2427,8 @@
     "budget_eur": 14200,
     "weeks": 8,
     "hero_image": "placeholder:education:fuchsia",
-    "tagline": "After-school math tutoring with game rewards"
+    "tagline": "After-school math tutoring with game rewards",
+    "ls_url": ""
   },
   {
     "slug": "vienna-violin-studio",
@@ -2253,7 +2440,8 @@
     "budget_eur": 12400,
     "weeks": 7,
     "hero_image": "placeholder:education:sky",
-    "tagline": "Classical violin lessons for children and adults"
+    "tagline": "Classical violin lessons for children and adults",
+    "ls_url": ""
   },
   {
     "slug": "prague-chess-club",
@@ -2265,7 +2453,8 @@
     "budget_eur": 14600,
     "weeks": 8,
     "hero_image": "placeholder:education:orange",
-    "tagline": "Chess academy with grandmaster masterclasses"
+    "tagline": "Chess academy with grandmaster masterclasses",
+    "ls_url": ""
   },
   {
     "slug": "warsaw-art-studio",
@@ -2277,7 +2466,8 @@
     "budget_eur": 15800,
     "weeks": 9,
     "hero_image": "placeholder:education:amber",
-    "tagline": "Kids art studio with weekly exhibition nights"
+    "tagline": "Kids art studio with weekly exhibition nights",
+    "ls_url": ""
   },
   {
     "slug": "lisbon-surf-school",
@@ -2289,7 +2479,8 @@
     "budget_eur": 13800,
     "weeks": 8,
     "hero_image": "placeholder:education:emerald",
-    "tagline": "Beach-front surf school with board rental"
+    "tagline": "Beach-front surf school with board rental",
+    "ls_url": ""
   },
   {
     "slug": "athens-philosophy",
@@ -2301,7 +2492,8 @@
     "budget_eur": 12600,
     "weeks": 7,
     "hero_image": "placeholder:education:rose",
-    "tagline": "Philosophy discussion cafe with guided readings"
+    "tagline": "Philosophy discussion cafe with guided readings",
+    "ls_url": ""
   },
   {
     "slug": "brussels-kids-code",
@@ -2313,7 +2505,8 @@
     "budget_eur": 14400,
     "weeks": 8,
     "hero_image": "placeholder:education:indigo",
-    "tagline": "Coding classes for 8-14 year olds, project-based"
+    "tagline": "Coding classes for 8-14 year olds, project-based",
+    "ls_url": ""
   },
   {
     "slug": "helsinki-design-lab",
@@ -2325,7 +2518,8 @@
     "budget_eur": 16200,
     "weeks": 9,
     "hero_image": "placeholder:education:cyan",
-    "tagline": "UX/UI design workshops for non-designers"
+    "tagline": "UX/UI design workshops for non-designers",
+    "ls_url": ""
   },
   {
     "slug": "copenhagen-makers",
@@ -2337,7 +2531,8 @@
     "budget_eur": 18200,
     "weeks": 10,
     "hero_image": "placeholder:education:violet",
-    "tagline": "Makerspace with 3D printing and laser cutting"
+    "tagline": "Makerspace with 3D printing and laser cutting",
+    "ls_url": ""
   },
   {
     "slug": "budapest-dance-studio",
@@ -2349,7 +2544,8 @@
     "budget_eur": 16800,
     "weeks": 9,
     "hero_image": "placeholder:education:lime",
-    "tagline": "Dance academy with salsa, tango and hip-hop"
+    "tagline": "Dance academy with salsa, tango and hip-hop",
+    "ls_url": ""
   },
   {
     "slug": "sofia-robot-club",
@@ -2361,7 +2557,8 @@
     "budget_eur": 14700,
     "weeks": 8,
     "hero_image": "placeholder:education:fuchsia",
-    "tagline": "Kids robotics club with LEGO and Arduino"
+    "tagline": "Kids robotics club with LEGO and Arduino",
+    "ls_url": ""
   },
   {
     "slug": "zagreb-pottery-class",
@@ -2373,7 +2570,8 @@
     "budget_eur": 13800,
     "weeks": 8,
     "hero_image": "placeholder:education:sky",
-    "tagline": "Weekly pottery workshops with kiln firing"
+    "tagline": "Weekly pottery workshops with kiln firing",
+    "ls_url": ""
   },
   {
     "slug": "bucharest-english-kids",
@@ -2385,7 +2583,8 @@
     "budget_eur": 14600,
     "weeks": 8,
     "hero_image": "placeholder:education:orange",
-    "tagline": "Play-based English immersion for young kids"
+    "tagline": "Play-based English immersion for young kids",
+    "ls_url": ""
   },
   {
     "slug": "ljubljana-yoga-teach",
@@ -2397,6 +2596,7 @@
     "budget_eur": 16400,
     "weeks": 9,
     "hero_image": "placeholder:education:amber",
-    "tagline": "200-hour yoga teacher training certification"
+    "tagline": "200-hour yoga teacher training certification",
+    "ls_url": ""
   }
 ]
