@@ -9,6 +9,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="js/svita-ui.css">
+<link rel="stylesheet" href="js/svita-app.css">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SVITA">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 /* ============ TOKENS (identical to index.html) ============ */
@@ -428,6 +435,7 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 <!-- ============ NAV (shared) ============ -->
 <nav id="nav"></nav>
 <script src="js/svita-nav.js"></script>
+<script src="js/svita-app.js" defer></script>
 
 <!-- ============ LOGIN MODAL ============ -->
 <div id="login-view" class="login-shell">
