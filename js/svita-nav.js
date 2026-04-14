@@ -91,7 +91,7 @@
     const role = (opts && opts.role) || null; // 'superadmin' | null
     const page = currentPage();
     const lang = getLang();
-    const t = LABELS[lang];
+    const t = LABELS[lang] || LABELS.EN;
     const cartN = getCartCount();
 
     const shopActive = page === 'shop' ? ' class="active"' : '';
