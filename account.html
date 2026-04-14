@@ -329,14 +329,19 @@ nav.scrolled{
 .own-tile:hover .open{color:var(--accent);opacity:1}
 .own-tile .open svg{transition:transform 250ms var(--ease)}
 .own-tile:hover .open svg{transform:translateX(4px)}
-.own-tile .bb-btn{
-  display:inline-flex;align-items:center;margin-top:10px;margin-left:12px;
-  padding:6px 12px;border-radius:100px;
-  background:rgba(239,68,68,0.85);color:#fff;
-  font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
-  text-decoration:none;cursor:pointer;transition:background 200ms var(--ease);
+.own-tile{cursor:pointer}
+.own-tile .sa-btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.own-tile .sa-btn{
+  display:inline-flex;align-items:center;
+  padding:7px 12px;border-radius:100px;
+  background:rgba(255,255,255,0.1);color:#fff;
+  font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  text-decoration:none;cursor:pointer;transition:all 200ms var(--ease);
+  border:1px solid rgba(255,255,255,0.15);
 }
-.own-tile .bb-btn:hover{background:#ef4444}
+.own-tile .sa-btn:hover{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.3)}
+.own-tile .sa-btn.ok{background:rgba(132,204,22,0.2);border-color:rgba(132,204,22,0.45);color:#bef264}
+.own-tile .sa-btn.ok:hover{background:rgba(132,204,22,0.32)}
 
 @media(max-width:1024px){.own-tile{grid-column:span 6;min-height:280px}}
 @media(max-width:640px){.own-tile{grid-column:span 12;min-height:260px}}
@@ -913,11 +918,14 @@ async function loadOwned(){
       ? `<div class="ph" style="--ph-a:${pal[0]};--ph-b:${pal[1]}">${pal[2]}</div>`
       : `<div class="img" style="background-image:url('${c.hero_image}')"></div>`;
     const hasBB = HAS_BRANDBOOK.has(c.concept_slug);
-    const bbBtn = (isSA && hasBB)
-      ? `<a class="bb-btn" href="data/concepts/${c.concept_slug}/brandbook.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">Open brandbook</a>`
+    const saButtons = isSA
+      ? `<div class="sa-btns">
+          <a class="sa-btn" href="edit.html?c=${c.concept_slug}" onclick="event.stopPropagation()">✎ Edit</a>
+          ${hasBB ? `<a class="sa-btn ok" href="data/concepts/${c.concept_slug}/brandbook.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">📖 Brandbook</a>` : ''}
+        </div>`
       : '';
     return `
-      <a class="own-tile" href="view.html?c=${c.concept_slug}">
+      <div class="own-tile" data-href="view.html?c=${c.concept_slug}" onclick="if(!event.target.closest('.sa-btn')) location.href=this.dataset.href">
         ${visual}
         <div class="shade"></div>
         <span class="badge">Owned</span>
@@ -926,9 +934,9 @@ async function loadOwned(){
           <h3>${c.name}</h3>
           <div class="meta"><span>€${(c.budget_eur||0).toLocaleString()}</span><span>${c.weeks||'—'}w</span></div>
           <div class="open">Open concept <svg width="14" height="9" viewBox="0 0 14 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4.5h11M8 1l4 3.5-4 3.5"/></svg></div>
-          ${bbBtn}
+          ${saButtons}
         </div>
-      </a>
+      </div>
     `;
   }).join('');
   show('owned-grid');
