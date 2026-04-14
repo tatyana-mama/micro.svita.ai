@@ -1,5 +1,19 @@
 [
   {
+    "slug": "warsaw-zapiekanka-okno",
+    "name": "ZAPIEX PRAGA",
+    "category": "food",
+    "country": "PL",
+    "size_m2": 8,
+    "price_eur": 49,
+    "budget_eur": 11400,
+    "weeks": 7,
+    "hero_image": "data/concepts/warsaw-zapiekanka-okno/images/01-hero.png",
+    "tagline": "Street window serving 3 zapiekanki and nothing else.",
+    "ls_url": "",
+    "has_brandbook": false
+  },
+  {
     "slug": "poppy-matcha",
     "name": "POPPY MATCHA",
     "category": "food",
