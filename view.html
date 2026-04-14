@@ -106,12 +106,29 @@ body::before{
 .preview-hero{
   position:relative;aspect-ratio:16/9;width:100%;
   background:linear-gradient(135deg,var(--bg-1) 0%,var(--bg-2) 100%);
-  display:flex;align-items:flex-end;padding:40px;
+  display:flex;align-items:flex-end;padding:40px;overflow:hidden;
 }
 .preview-hero .glyph{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
   font-size:220px;opacity:0.18;font-family:'Space Grotesk';font-weight:700;
 }
+.preview-hero .collage{
+  position:absolute;inset:0;display:grid;gap:6px;z-index:0;
+}
+.preview-hero .collage.n1{grid-template-columns:1fr}
+.preview-hero .collage.n2{grid-template-columns:1fr 1fr}
+.preview-hero .collage.n3{grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr}
+.preview-hero .collage.n3 .tile:first-child{grid-row:span 2}
+.preview-hero .collage.n4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.preview-hero .collage .tile{
+  background-size:cover;background-position:center;
+  filter:saturate(1.05);
+}
+.preview-hero::after{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,0.55) 100%);
+}
+.preview-hero .meta{z-index:2}
 .preview-hero .meta{
   position:relative;z-index:2;display:flex;flex-direction:column;gap:10px;color:#fff;
   text-shadow:0 2px 20px rgba(0,0,0,0.2);
@@ -634,7 +651,8 @@ function renderFrame(c){
   frame.innerHTML = `
     <div class="preview-body">
       <div class="preview-hero">
-        <div class="glyph">${c._theme.glyph || ''}</div>
+        <div class="collage" id="collage"></div>
+        <div class="glyph" id="glyph">${c._theme.glyph || ''}</div>
         <div class="meta">
           <div class="tag">${c.category.toUpperCase()} · ${c.size_m2||''}m²</div>
           <h1>${c.name}</h1>
@@ -643,6 +661,50 @@ function renderFrame(c){
       </div>
       ${body}
     </div>`;
+  buildCollage(c);
+}
+
+async function buildCollage(c){
+  const slug = c.slug;
+  const hero = c.hero_image || (SA_FULL && SA_FULL.catalog && SA_FULL.catalog.hero_image) || '';
+  const candidates = Array.from(new Set([
+    hero,
+    `data/concepts/${slug}/images/01-hero.png`,
+    `data/concepts/${slug}/images/01-hero-interior.png`,
+    `data/concepts/${slug}/images/01-trattoria-interior.png`,
+    `data/concepts/${slug}/images/01-ramen-interior.png`,
+    `data/concepts/${slug}/images/01-salon-popart.png`,
+    `data/concepts/${slug}/images/01-floorplan-isometric.png`,
+    `data/concepts/${slug}/images/02-interior-render.png`,
+    `data/concepts/${slug}/images/03-equipment-catalog.png`,
+    `data/concepts/${slug}/images/04-coffee-vibrant.png`,
+    `data/concepts/${slug}/hero.png`,
+  ].filter(Boolean)));
+  const probes = await Promise.all(candidates.map(src => new Promise(res => {
+    const img = new Image();
+    img.onload = () => res(src);
+    img.onerror = () => res(null);
+    img.src = src;
+  })));
+  const found = probes.filter(Boolean);
+  const collage = document.getElementById('collage');
+  const glyph = document.getElementById('glyph');
+  if(!collage) return;
+  if(found.length === 0){
+    collage.remove();
+    return;
+  }
+  if(glyph) glyph.remove();
+  const tiles = found.length >= 4 ? found.slice(0,4)
+             : found.length === 1 ? [found[0], found[0], found[0]]
+             : found.length === 2 ? [found[0], found[1]]
+             : found;
+  const n = Math.min(tiles.length, 4);
+  collage.classList.add('n'+n);
+  collage.innerHTML = tiles.map((src,i)=>{
+    const bp = ['center','30% 30%','70% 70%','center 30%'][i] || 'center';
+    return `<div class="tile" style="background-image:url('${src}');background-position:${bp}"></div>`;
+  }).join('');
 }
 </script>
 <script>
