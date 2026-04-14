@@ -425,7 +425,7 @@ const CAT_PAL = {
 
 let ALL = [], VIEW = [];
 let USERS = [], UVIEW = [];
-const HAS_BRANDBOOK = new Set(['poppy-matcha']);
+// has_brandbook read from concepts_catalog.has_brandbook column
 let MY_ROLE = 'user';
 const STATE = {q:'', status:'all', cat:'all'};
 const USTATE = {q:'', role:'all'};
@@ -831,7 +831,7 @@ function render(){
           title="Lemon Squeezy checkout URL">
       </td>
       <td>${c.verified ? '<span class="chip ok">● Verified</span>' : '<span class="chip warn">○ Pending</span>'}</td>
-      <td>${HAS_BRANDBOOK.has(c.slug) ? '<a class="chip ok" href="data/concepts/'+c.slug+'/brandbook.html" target="_blank" rel="noopener" style="text-decoration:none">📖 Ready</a>' : '<span class="chip warn">⏳ In progress</span>'}</td>
+      <td>${c.has_brandbook ? '<a class="chip ok" href="data/concepts/'+c.slug+'/brandbook.html" target="_blank" rel="noopener" style="text-decoration:none">📖 Ready</a>' : '<span class="chip warn">⏳ In progress</span>'}</td>
       <td class="mono">${c.langs_filled||0}<span style="color:var(--text-3)">/12</span></td>
       <td>
         <div class="actions">

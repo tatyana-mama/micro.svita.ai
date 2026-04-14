@@ -10,7 +10,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/poppy-matcha/images/01-hero-interior.png",
     "tagline": "Ceremonial-grade matcha kiosk with Memphis soul",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": true
   },
   {
     "slug": "nonnas-trattoria",
@@ -23,7 +24,8 @@
     "weeks": 10,
     "hero_image": "data/concepts/restaurant-italian/images/01-trattoria-interior.png",
     "tagline": "Authentic Tuscan trattoria, grandma-recipe honest",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "tokyo-ramen-bar",
@@ -36,7 +38,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/ramen-bar/images/01-ramen-interior.png",
     "tagline": "Slurp-worthy tonkotsu bowls in neon-lit Tokyo alleyways",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "madonna-pop-salon",
@@ -49,7 +52,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/beauty-salon-popart/images/01-salon-popart.png",
     "tagline": "Pop-art beauty salon where every chair is a canvas",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "scandi-coffee",
@@ -62,7 +66,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/coffee-shop-50m/images/02-interior-render.png",
     "tagline": "Nordic-minimal coffee shop with hygge warmth",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "vibrant-coffee",
@@ -75,7 +80,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/coffee-shop-50m/images/04-coffee-vibrant.png",
     "tagline": "Bold color-block cafe for Instagram-first mornings",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "amsterdam-juice-lab",
@@ -88,7 +94,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/amsterdam-juice-lab/hero.png",
     "tagline": "Cold-pressed juice kiosk with canal-side vibes",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "porto-pastel-bar",
@@ -101,7 +108,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/porto-pastel-bar/images/01-hero.png",
     "tagline": "Warm pastel de nata straight from the tile-lined oven",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "wien-kaffee-tram",
@@ -114,7 +122,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/wien-kaffee-tram/images/01-hero.png",
     "tagline": "Tiny Viennese coffee kiosk inside a retro tram shell",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "helsinki-salmiakki",
@@ -127,7 +136,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/helsinki-salmiakki/images/01-hero.png",
     "tagline": "Finnish licorice kiosk for brave Nordic tastebuds",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "lyon-boulangerie",
@@ -140,7 +150,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/lyon-boulangerie/images/01-hero.png",
     "tagline": "Stone-oven bakery with a queue around the block",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "berlin-bagel-co",
@@ -153,7 +164,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/berlin-bagel-co/images/01-hero.png",
     "tagline": "Hand-rolled Brooklyn-style bagels with Berlin edge",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "dublin-donut-den",
@@ -166,7 +178,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/dublin-donut-den/images/01-hero.png",
     "tagline": "Cloud-soft donuts with Guinness-glaze twist",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "athens-gyro-box",
@@ -179,7 +192,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/athens-gyro-box/images/01-hero.png",
     "tagline": "Fast-spinning gyro kiosk under the Acropolis sun",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "copenhagen-smorre",
@@ -192,7 +206,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/copenhagen-smorre/images/01-hero.png",
     "tagline": "Open-face smorrebrod bar for lunchtime purists",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "milano-gelato-cube",
@@ -205,7 +220,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/milano-gelato-cube/images/01-hero.png",
     "tagline": "Minimalist gelato kiosk with 12 rotating flavors",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "prague-trdelnik",
@@ -218,7 +234,8 @@
     "weeks": 4,
     "hero_image": "data/concepts/prague-trdelnik/images/01-hero.png",
     "tagline": "Spiral chimney cakes glowing over open coals",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "zagreb-bubble-tea",
@@ -231,7 +248,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/zagreb-bubble-tea/images/01-hero.png",
     "tagline": "Taiwan-style bubble tea with Adriatic fruit twists",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "riga-rye-bakery",
@@ -244,7 +262,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/riga-rye-bakery/images/01-hero.png",
     "tagline": "Dark-rye loaves from grandmother's Latvian oven",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "sofia-banitsa-bar",
@@ -257,7 +276,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/sofia-banitsa-bar/images/01-hero.png",
     "tagline": "Flaky cheese banitsa baked every 20 minutes",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "warsaw-waffle-works",
@@ -270,7 +290,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/warsaw-waffle-works/images/01-hero.png",
     "tagline": "Liege waffles on a stick for Warsaw weekenders",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "madrid-churro-cart",
@@ -283,7 +304,8 @@
     "weeks": 4,
     "hero_image": "data/concepts/madrid-churro-cart/images/01-hero.png",
     "tagline": "Crispy churros with thick chocolate dip, 24/7",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "brussels-frites-box",
@@ -296,7 +318,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/brussels-frites-box/images/01-hero.png",
     "tagline": "Double-fried Belgian frites with 20 dipping sauces",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "barcelona-tapas-nook",
@@ -309,7 +332,8 @@
     "weeks": 10,
     "hero_image": "data/concepts/barcelona-tapas-nook/images/01-hero.png",
     "tagline": "Twelve-seat tapas counter with daily market bites",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "seville-tapas-nook",
@@ -322,7 +346,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/seville-tapas-nook/images/01-hero.png",
     "tagline": "Andalusian tapas hideaway with flamenco evenings",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "munich-wurst-haus",
@@ -335,7 +360,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/munich-wurst-haus/images/01-hero.png",
     "tagline": "Craft sausages and pretzels in a modern biergarten",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "paris-bistro-petit",
@@ -348,7 +374,8 @@
     "weeks": 10,
     "hero_image": "data/concepts/paris-bistro-petit/images/01-hero.png",
     "tagline": "Twenty-cover bistro with rotating chalkboard menu",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "osaka-takoyaki",
@@ -361,7 +388,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/osaka-takoyaki/images/01-hero.png",
     "tagline": "Sizzling octopus balls at Roman night market",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "seoul-kbbq-table",
@@ -374,7 +402,8 @@
     "weeks": 10,
     "hero_image": "data/concepts/seoul-kbbq-table/images/01-hero.png",
     "tagline": "Smoke-filled Korean barbecue with ten grill tables",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "bangkok-pad-thai",
@@ -387,7 +416,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/bangkok-pad-thai/images/01-hero.png",
     "tagline": "Wok-fired pad thai with street-cart authenticity",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "cairo-shawarma",
@@ -400,7 +430,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/cairo-shawarma/images/01-hero.png",
     "tagline": "Rotating shawarma spit with Cairo souk flavors",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "mumbai-curry-house",
@@ -413,7 +444,8 @@
     "weeks": 10,
     "hero_image": "placeholder:restaurant:lime",
     "tagline": "Slow-simmered curries with tandoor fresh naan",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "hanoi-pho-spot",
@@ -426,7 +458,8 @@
     "weeks": 9,
     "hero_image": "placeholder:restaurant:fuchsia",
     "tagline": "Steaming pho bowls with lemongrass and star anise",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "oaxaca-taco-joint",
@@ -439,7 +472,8 @@
     "weeks": 8,
     "hero_image": "placeholder:restaurant:sky",
     "tagline": "Corn-tortilla tacos with smoky mole sauces",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "lima-ceviche-bar",
@@ -452,7 +486,8 @@
     "weeks": 9,
     "hero_image": "placeholder:restaurant:orange",
     "tagline": "Citrus-cured ceviche bar with pisco sour happy hour",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "istanbul-kebap-ev",
@@ -465,7 +500,8 @@
     "weeks": 10,
     "hero_image": "data/concepts/istanbul-kebap-ev/images/01-hero.png",
     "tagline": "Charcoal-grilled kebaps with Anatolian hospitality",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "beirut-mezze-den",
@@ -478,7 +514,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/beirut-mezze-den/images/01-hero.png",
     "tagline": "Twenty-dish mezze spread with Lebanese arak",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "tel-aviv-hummus",
@@ -491,7 +528,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/tel-aviv-hummus/images/01-hero.png",
     "tagline": "Silky hummus bowls with warm pita and zhug",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "sardinia-pasta-lab",
@@ -504,7 +542,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/sardinia-pasta-lab/images/01-hero.png",
     "tagline": "Fresh-made pasta lab with open-view kitchen",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "napoli-pizza-forno",
@@ -517,7 +556,8 @@
     "weeks": 10,
     "hero_image": "data/concepts/napoli-pizza-forno/images/01-hero.png",
     "tagline": "Wood-fired Neapolitan pizza in 90 seconds flat",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "lisbon-bifana",
@@ -530,7 +570,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/lisbon-bifana/images/01-hero.png",
     "tagline": "Marinated pork sandwiches in a tiled tavern",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "sofia-barber-shop",
@@ -543,7 +584,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/sofia-barber-shop/hero.png",
     "tagline": "Old-school barbershop with hot-towel ritual",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "milano-nail-studio",
@@ -556,7 +598,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/milano-nail-studio/images/01-hero.png",
     "tagline": "Gel-nail studio with Italian art direction",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "paris-brow-bar",
@@ -569,7 +612,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/paris-brow-bar/images/01-hero.png",
     "tagline": "Five-minute brow shaping by trained Parisian pros",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "berlin-skin-clinic",
@@ -582,7 +626,8 @@
     "weeks": 10,
     "hero_image": "data/concepts/berlin-skin-clinic/images/01-hero.png",
     "tagline": "Clinical-grade facials in minimalist Berlin lab",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "stockholm-blow-dry",
@@ -595,7 +640,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/stockholm-blow-dry/images/01-hero.png",
     "tagline": "Express blow-dry bar with Scandi styling",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "dublin-lash-lounge",
@@ -608,7 +654,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/dublin-lash-lounge/images/01-hero.png",
     "tagline": "Lash extensions on velvet recliners, tea included",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "vienna-makeup-salon",
@@ -621,7 +668,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/vienna-makeup-salon/images/01-hero.png",
     "tagline": "Bridal-ready makeup bar with Austrian elegance",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "lisbon-barber-co",
@@ -634,7 +682,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/lisbon-barber-co/images/01-hero.png",
     "tagline": "Azulejo-tiled barbershop with craft beer on tap",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "amsterdam-tattoo-atelier",
@@ -647,7 +696,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/amsterdam-tattoo-atelier/images/01-hero.png",
     "tagline": "Fine-line tattoo studio with gallery-quality art",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "cluj-hair-salon",
@@ -660,7 +710,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/cluj-hair-salon/images/01-hero.png",
     "tagline": "Full-service hair salon with Transylvanian charm",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "tallinn-spa-nook",
@@ -673,7 +724,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/tallinn-spa-nook/images/01-hero.png",
     "tagline": "Petite spa with sauna, plunge and hot stones",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "krakow-nail-art",
@@ -686,7 +738,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/krakow-nail-art/images/01-hero.png",
     "tagline": "Hand-painted nail art on old-town stations",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "luxembourg-brow",
@@ -699,7 +752,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/luxembourg-brow/images/01-hero.png",
     "tagline": "Precision brow lamination inside glass atrium",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "athens-waxing-co",
@@ -712,7 +766,8 @@
     "weeks": 6,
     "hero_image": "placeholder:beauty:cyan",
     "tagline": "Gentle sugar waxing with Mediterranean oils",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "zadar-sun-salon",
@@ -725,7 +780,8 @@
     "weeks": 7,
     "hero_image": "placeholder:beauty:violet",
     "tagline": "Bronzing salon with sea-glass tile mosaics",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "valletta-henna-bar",
@@ -738,7 +794,8 @@
     "weeks": 6,
     "hero_image": "placeholder:beauty:lime",
     "tagline": "Henna art parlor with Maltese filigree patterns",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "vilnius-mens-grooming",
@@ -751,7 +808,8 @@
     "weeks": 8,
     "hero_image": "placeholder:beauty:fuchsia",
     "tagline": "Full male grooming club with whiskey lounge",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "nicosia-glow-studio",
@@ -764,7 +822,8 @@
     "weeks": 7,
     "hero_image": "placeholder:beauty:sky",
     "tagline": "Radiance facials with Cypriot rosewater",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "bruges-beauty-bar",
@@ -777,7 +836,8 @@
     "weeks": 8,
     "hero_image": "placeholder:beauty:orange",
     "tagline": "Medieval-chic beauty bar by the canals",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "berlin-dog-grooming",
@@ -790,7 +850,8 @@
     "weeks": 7,
     "hero_image": "placeholder:service:emerald",
     "tagline": "Modern dog spa with bubble baths and blueberry facials",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "amsterdam-bike-fix",
@@ -803,7 +864,8 @@
     "weeks": 7,
     "hero_image": "placeholder:service:rose",
     "tagline": "Walk-in bike repair hub for daily commuters",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "paris-laundry-spot",
@@ -816,7 +878,8 @@
     "weeks": 8,
     "hero_image": "placeholder:service:indigo",
     "tagline": "Self-serve laundromat with cafe and coworking",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "milano-key-cutting",
@@ -829,7 +892,8 @@
     "weeks": 4,
     "hero_image": "placeholder:service:cyan",
     "tagline": "Instant key duplication kiosk in metro stations",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "madrid-shoe-repair",
@@ -842,7 +906,8 @@
     "weeks": 6,
     "hero_image": "placeholder:service:violet",
     "tagline": "Leather resole workshop with same-day service",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "warsaw-dry-clean",
@@ -855,7 +920,8 @@
     "weeks": 8,
     "hero_image": "placeholder:service:lime",
     "tagline": "Eco-friendly dry cleaning with 2-hour turnaround",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "athens-tailoring",
@@ -868,7 +934,8 @@
     "weeks": 6,
     "hero_image": "placeholder:service:fuchsia",
     "tagline": "Master tailor alterations while you wait",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "dublin-dog-daycare",
@@ -881,7 +948,8 @@
     "weeks": 9,
     "hero_image": "placeholder:service:sky",
     "tagline": "Indoor-outdoor dog daycare with live webcams",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "stockholm-car-wash",
@@ -894,7 +962,8 @@
     "weeks": 9,
     "hero_image": "placeholder:service:orange",
     "tagline": "Eco hand car wash with membership model",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "lisbon-flower-studio",
@@ -907,7 +976,8 @@
     "weeks": 6,
     "hero_image": "placeholder:service:amber",
     "tagline": "Same-day bouquet delivery across old town",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "vienna-gift-wrap",
@@ -920,7 +990,8 @@
     "weeks": 4,
     "hero_image": "placeholder:service:emerald",
     "tagline": "Luxury gift wrapping kiosk in shopping arcades",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "helsinki-sauna-rent",
@@ -933,7 +1004,8 @@
     "weeks": 9,
     "hero_image": "placeholder:service:rose",
     "tagline": "Bookable private saunas by the hour",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "copenhagen-print-bar",
@@ -946,7 +1018,8 @@
     "weeks": 7,
     "hero_image": "placeholder:service:indigo",
     "tagline": "Self-serve print shop with design assistance",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "brussels-bike-cafe",
@@ -959,7 +1032,8 @@
     "weeks": 8,
     "hero_image": "placeholder:service:cyan",
     "tagline": "Bike repair shop that doubles as espresso bar",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "tallinn-tech-fix",
@@ -972,7 +1046,8 @@
     "weeks": 6,
     "hero_image": "placeholder:service:violet",
     "tagline": "Walk-in tech concierge for digital nomads",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "prague-pet-wash",
@@ -985,7 +1060,8 @@
     "weeks": 7,
     "hero_image": "placeholder:service:lime",
     "tagline": "Self-service dog wash stations with grooming add-ons",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "bucharest-car-detail",
@@ -998,7 +1074,8 @@
     "weeks": 9,
     "hero_image": "placeholder:service:fuchsia",
     "tagline": "Premium car detailing with ceramic coating",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "valletta-boat-clean",
@@ -1011,7 +1088,8 @@
     "weeks": 7,
     "hero_image": "placeholder:service:sky",
     "tagline": "Marine cleaning service for yacht owners",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "ljubljana-ski-wax",
@@ -1024,7 +1102,8 @@
     "weeks": 7,
     "hero_image": "placeholder:service:orange",
     "tagline": "Alpine ski waxing and tune-up workshop",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "zagreb-car-keys",
@@ -1037,7 +1116,8 @@
     "weeks": 6,
     "hero_image": "placeholder:service:amber",
     "tagline": "Automotive key programming in under 30 minutes",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "berlin-phone-fix",
@@ -1050,7 +1130,8 @@
     "weeks": 6,
     "hero_image": "placeholder:repair:emerald",
     "tagline": "iPhone screen swaps in 15 minutes flat",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "paris-laptop-medic",
@@ -1063,7 +1144,8 @@
     "weeks": 7,
     "hero_image": "placeholder:repair:rose",
     "tagline": "Walk-in MacBook diagnostics and board repair",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "vienna-watch-atelier",
@@ -1076,7 +1158,8 @@
     "weeks": 6,
     "hero_image": "placeholder:repair:indigo",
     "tagline": "Mechanical watch servicing by certified horologist",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "antwerp-jewelry-fix",
@@ -1089,7 +1172,8 @@
     "weeks": 5,
     "hero_image": "placeholder:repair:cyan",
     "tagline": "Diamond district jewelry repair and resizing",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "rome-camera-repair",
@@ -1102,7 +1186,8 @@
     "weeks": 7,
     "hero_image": "placeholder:repair:violet",
     "tagline": "Vintage film camera restoration workshop",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "madrid-phone-clinic",
@@ -1115,7 +1200,8 @@
     "weeks": 6,
     "hero_image": "placeholder:repair:lime",
     "tagline": "Express phone battery replacement kiosk",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "dublin-laptop-rescue",
@@ -1128,7 +1214,8 @@
     "weeks": 7,
     "hero_image": "placeholder:repair:fuchsia",
     "tagline": "Data recovery and laptop triage for students",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "amsterdam-vinyl-fix",
@@ -1141,7 +1228,8 @@
     "weeks": 6,
     "hero_image": "placeholder:repair:sky",
     "tagline": "Turntable restoration and vinyl cleaning lab",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "prague-clock-shop",
@@ -1154,7 +1242,8 @@
     "weeks": 7,
     "hero_image": "placeholder:repair:orange",
     "tagline": "Antique clock restoration in baroque quarter",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "krakow-console-fix",
@@ -1167,7 +1256,8 @@
     "weeks": 6,
     "hero_image": "placeholder:repair:amber",
     "tagline": "Retro game console repairs and mods",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "lisbon-umbrella-fix",
@@ -1180,7 +1270,8 @@
     "weeks": 4,
     "hero_image": "placeholder:repair:emerald",
     "tagline": "Classic umbrella repair bench under arcades",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "stockholm-bike-service",
@@ -1193,7 +1284,8 @@
     "weeks": 7,
     "hero_image": "placeholder:repair:rose",
     "tagline": "Year-round bike maintenance with winter tire swap",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "budapest-piano-tune",
@@ -1206,7 +1298,8 @@
     "weeks": 7,
     "hero_image": "placeholder:repair:indigo",
     "tagline": "Piano tuning and restoration in historic quarter",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "helsinki-drone-repair",
@@ -1219,7 +1312,8 @@
     "weeks": 7,
     "hero_image": "placeholder:repair:cyan",
     "tagline": "Drone calibration and propeller swap shop",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "luxembourg-lux-watch",
@@ -1232,7 +1326,8 @@
     "weeks": 8,
     "hero_image": "placeholder:repair:violet",
     "tagline": "High-end Swiss watch servicing and polishing",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "tallinn-synth-repair",
@@ -1245,7 +1340,8 @@
     "weeks": 7,
     "hero_image": "placeholder:repair:lime",
     "tagline": "Vintage synth and drum machine workshop",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "ljubljana-bag-fix",
@@ -1258,7 +1354,8 @@
     "weeks": 5,
     "hero_image": "placeholder:repair:fuchsia",
     "tagline": "Luxury handbag restoration and leather care",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "sofia-shoe-medic",
@@ -1271,7 +1368,8 @@
     "weeks": 4,
     "hero_image": "placeholder:repair:sky",
     "tagline": "Walk-in shoe repair with 1-hour service",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "zagreb-appliance-fix",
@@ -1284,7 +1382,8 @@
     "weeks": 7,
     "hero_image": "placeholder:repair:orange",
     "tagline": "Small appliance repair with warranty swap",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "bratislava-tv-fix",
@@ -1297,7 +1396,8 @@
     "weeks": 6,
     "hero_image": "placeholder:repair:amber",
     "tagline": "TV and monitor repair with parts in stock",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "paris-candle-atelier",
@@ -1310,7 +1410,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/paris-candle-atelier/hero.png",
     "tagline": "Hand-poured soy candles with perfumer fragrances",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "lisbon-ceramic-studio",
@@ -1323,7 +1424,8 @@
     "weeks": 8,
     "hero_image": "placeholder:craft:rose",
     "tagline": "Throw-your-own ceramics studio with kiln access",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "florence-leather-bar",
@@ -1336,7 +1438,8 @@
     "weeks": 7,
     "hero_image": "placeholder:craft:indigo",
     "tagline": "Bespoke leather wallets stitched in front of you",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "marseille-soap-house",
@@ -1349,7 +1452,8 @@
     "weeks": 6,
     "hero_image": "placeholder:craft:cyan",
     "tagline": "Olive oil soap bars cured in front of customers",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "amsterdam-letterpress",
@@ -1362,7 +1466,8 @@
     "weeks": 8,
     "hero_image": "placeholder:craft:violet",
     "tagline": "Vintage letterpress studio for bespoke stationery",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "berlin-screen-print",
@@ -1375,7 +1480,8 @@
     "weeks": 8,
     "hero_image": "placeholder:craft:lime",
     "tagline": "Screen-print shop with on-demand tee printing",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "porto-tile-studio",
@@ -1388,7 +1494,8 @@
     "weeks": 8,
     "hero_image": "placeholder:craft:fuchsia",
     "tagline": "Azulejo-inspired hand-painted tile workshop",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "dublin-knit-nook",
@@ -1401,7 +1508,8 @@
     "weeks": 6,
     "hero_image": "placeholder:craft:sky",
     "tagline": "Aran knitting cafe with wool and tea",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "stockholm-glass-blow",
@@ -1414,7 +1522,8 @@
     "weeks": 9,
     "hero_image": "placeholder:craft:orange",
     "tagline": "Hot glass studio with visitor viewing bench",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "prague-puppet-atelier",
@@ -1427,7 +1536,8 @@
     "weeks": 6,
     "hero_image": "placeholder:craft:amber",
     "tagline": "Marionette-making atelier with custom orders",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "valencia-tile-craft",
@@ -1440,7 +1550,8 @@
     "weeks": 7,
     "hero_image": "placeholder:craft:emerald",
     "tagline": "Mediterranean mosaic tile workshop and shop",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "vienna-bookbinder",
@@ -1453,7 +1564,8 @@
     "weeks": 7,
     "hero_image": "placeholder:craft:rose",
     "tagline": "Custom leather bookbinding with gold foil",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "helsinki-wood-studio",
@@ -1466,7 +1578,8 @@
     "weeks": 8,
     "hero_image": "placeholder:craft:indigo",
     "tagline": "Nordic woodcraft studio with open workshops",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "riga-amber-bar",
@@ -1479,7 +1592,8 @@
     "weeks": 6,
     "hero_image": "placeholder:craft:cyan",
     "tagline": "Baltic amber jewelry made at the counter",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "vilnius-linen-loom",
@@ -1492,7 +1606,8 @@
     "weeks": 8,
     "hero_image": "placeholder:craft:violet",
     "tagline": "Hand-woven Lithuanian linen products and classes",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "malta-filigree-shop",
@@ -1505,7 +1620,8 @@
     "weeks": 6,
     "hero_image": "placeholder:craft:lime",
     "tagline": "Silver filigree jewelry workshop with demos",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "bucharest-eggcraft",
@@ -1518,7 +1634,8 @@
     "weeks": 4,
     "hero_image": "placeholder:craft:fuchsia",
     "tagline": "Hand-painted Romanian eggs and folk art",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "nicosia-weavers",
@@ -1531,7 +1648,8 @@
     "weeks": 7,
     "hero_image": "placeholder:craft:sky",
     "tagline": "Traditional Cypriot weaving studio and shop",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "brussels-chocolatier",
@@ -1544,7 +1662,8 @@
     "weeks": 8,
     "hero_image": "placeholder:craft:orange",
     "tagline": "Small-batch pralines made in window atelier",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "sofia-icon-studio",
@@ -1557,7 +1676,8 @@
     "weeks": 6,
     "hero_image": "placeholder:craft:amber",
     "tagline": "Byzantine icon painting studio and classes",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "berlin-vintage-shop",
@@ -1570,7 +1690,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/berlin-vintage-shop/hero.png",
     "tagline": "Curated Y2K vintage with Berlin street energy",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "paris-bookstore",
@@ -1583,7 +1704,8 @@
     "weeks": 8,
     "hero_image": "placeholder:retail:rose",
     "tagline": "Independent bookstore with cafe and reading loft",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "amsterdam-records",
@@ -1596,7 +1718,8 @@
     "weeks": 8,
     "hero_image": "placeholder:retail:indigo",
     "tagline": "Vinyl record shop with listening stations",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "lisbon-plant-store",
@@ -1609,7 +1732,8 @@
     "weeks": 7,
     "hero_image": "placeholder:retail:cyan",
     "tagline": "Urban jungle plant shop with repotting bar",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "copenhagen-stationery",
@@ -1622,7 +1746,8 @@
     "weeks": 7,
     "hero_image": "placeholder:retail:violet",
     "tagline": "Scandi design stationery and writing tools",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "madrid-vintage-den",
@@ -1635,7 +1760,8 @@
     "weeks": 7,
     "hero_image": "placeholder:retail:lime",
     "tagline": "Hand-picked 70s-90s fashion from Spanish closets",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "milano-design-store",
@@ -1648,7 +1774,8 @@
     "weeks": 9,
     "hero_image": "placeholder:retail:fuchsia",
     "tagline": "Italian design objects for the curious collector",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "dublin-record-club",
@@ -1661,7 +1788,8 @@
     "weeks": 7,
     "hero_image": "placeholder:retail:sky",
     "tagline": "Vinyl club with Irish trad and punk rarities",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "vienna-chocolate-shop",
@@ -1674,7 +1802,8 @@
     "weeks": 7,
     "hero_image": "placeholder:retail:orange",
     "tagline": "Artisan chocolate boutique with tasting flights",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "prague-book-nook",
@@ -1687,7 +1816,8 @@
     "weeks": 7,
     "hero_image": "placeholder:retail:amber",
     "tagline": "Antique and rare books in Gothic Old Town",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "krakow-plant-lab",
@@ -1700,7 +1830,8 @@
     "weeks": 7,
     "hero_image": "placeholder:retail:emerald",
     "tagline": "Tropical plant boutique with care workshops",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "athens-olive-store",
@@ -1713,7 +1844,8 @@
     "weeks": 6,
     "hero_image": "placeholder:retail:rose",
     "tagline": "Greek olive oil tastings from family presses",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "valletta-map-shop",
@@ -1726,7 +1858,8 @@
     "weeks": 5,
     "hero_image": "placeholder:retail:indigo",
     "tagline": "Vintage maritime maps and compass store",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "sofia-eco-store",
@@ -1739,7 +1872,8 @@
     "weeks": 8,
     "hero_image": "placeholder:retail:cyan",
     "tagline": "Zero-waste grocery with refill station",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "budapest-toy-store",
@@ -1752,7 +1886,8 @@
     "weeks": 7,
     "hero_image": "placeholder:retail:violet",
     "tagline": "Heirloom wooden toys and Hungarian folk crafts",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "bucharest-wine-shop",
@@ -1765,7 +1900,8 @@
     "weeks": 8,
     "hero_image": "placeholder:retail:lime",
     "tagline": "Romanian natural wine with weekly tastings",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "ljubljana-green-store",
@@ -1778,7 +1914,8 @@
     "weeks": 7,
     "hero_image": "placeholder:retail:fuchsia",
     "tagline": "Alpine herbal remedies and tea selection",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "zagreb-vinyl-den",
@@ -1791,7 +1928,8 @@
     "weeks": 7,
     "hero_image": "placeholder:retail:sky",
     "tagline": "Yugoslav-era rock and jazz vinyl archive",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "tallinn-design-shop",
@@ -1804,7 +1942,8 @@
     "weeks": 7,
     "hero_image": "placeholder:retail:orange",
     "tagline": "Estonian design goods from local makers",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "luxembourg-gift-gallery",
@@ -1817,7 +1956,8 @@
     "weeks": 7,
     "hero_image": "placeholder:retail:amber",
     "tagline": "Curated European gifts and concept decor",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "berlin-yoga-loft",
@@ -1830,7 +1970,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/berlin-yoga-loft/hero.png",
     "tagline": "Sun-drenched yoga loft with infrared floors",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "paris-meditation",
@@ -1843,7 +1984,8 @@
     "weeks": 8,
     "hero_image": "placeholder:wellness:rose",
     "tagline": "Silent meditation pods with guided audio",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "amsterdam-massage",
@@ -1856,7 +1998,8 @@
     "weeks": 8,
     "hero_image": "placeholder:wellness:indigo",
     "tagline": "Thai and deep-tissue massage in canal house",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "stockholm-cryo-bar",
@@ -1869,7 +2012,8 @@
     "weeks": 9,
     "hero_image": "placeholder:wellness:cyan",
     "tagline": "Whole-body cryotherapy chambers, -110 C",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "helsinki-sauna-club",
@@ -1882,7 +2026,8 @@
     "weeks": 10,
     "hero_image": "placeholder:wellness:violet",
     "tagline": "Wood-heated sauna club with ice plunge",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "lisbon-pilates",
@@ -1895,7 +2040,8 @@
     "weeks": 9,
     "hero_image": "placeholder:wellness:lime",
     "tagline": "Reformer pilates studio with Atlantic light",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "madrid-yoga-barre",
@@ -1908,7 +2054,8 @@
     "weeks": 9,
     "hero_image": "placeholder:wellness:fuchsia",
     "tagline": "Yoga and barre fusion in tiled courtyard",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "rome-thermal-bath",
@@ -1921,7 +2068,8 @@
     "weeks": 10,
     "hero_image": "placeholder:wellness:sky",
     "tagline": "Micro thermal baths inspired by ancient Rome",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "vienna-float-tank",
@@ -1934,7 +2082,8 @@
     "weeks": 9,
     "hero_image": "placeholder:wellness:orange",
     "tagline": "Sensory deprivation floatation therapy",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "dublin-breath-lab",
@@ -1947,7 +2096,8 @@
     "weeks": 8,
     "hero_image": "placeholder:wellness:amber",
     "tagline": "Breathwork and ice bath wellness sessions",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "copenhagen-zen-den",
@@ -1960,7 +2110,8 @@
     "weeks": 8,
     "hero_image": "placeholder:wellness:emerald",
     "tagline": "Hygge meditation den with candles and tea",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "brussels-yoga-shala",
@@ -1973,7 +2124,8 @@
     "weeks": 9,
     "hero_image": "placeholder:wellness:rose",
     "tagline": "Ashtanga yoga shala with morning Mysore",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "prague-crystal-spa",
@@ -1986,7 +2138,8 @@
     "weeks": 9,
     "hero_image": "placeholder:wellness:indigo",
     "tagline": "Crystal healing and sound bath experiences",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "warsaw-movement",
@@ -1999,7 +2152,8 @@
     "weeks": 9,
     "hero_image": "placeholder:wellness:cyan",
     "tagline": "Functional movement studio for all levels",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "athens-olive-spa",
@@ -2012,7 +2166,8 @@
     "weeks": 9,
     "hero_image": "placeholder:wellness:violet",
     "tagline": "Greek olive oil body treatments and steam",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "budapest-bath-mini",
@@ -2025,7 +2180,8 @@
     "weeks": 10,
     "hero_image": "placeholder:wellness:lime",
     "tagline": "Micro thermal bath inspired by Szechenyi",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "riga-cold-plunge",
@@ -2038,7 +2194,8 @@
     "weeks": 8,
     "hero_image": "placeholder:wellness:fuchsia",
     "tagline": "Wim Hof cold plunge and breathwork studio",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "ljubljana-sound-bath",
@@ -2051,7 +2208,8 @@
     "weeks": 7,
     "hero_image": "placeholder:wellness:sky",
     "tagline": "Gong sound baths in alpine mountain hut",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "valletta-salt-cave",
@@ -2064,7 +2222,8 @@
     "weeks": 8,
     "hero_image": "placeholder:wellness:orange",
     "tagline": "Himalayan salt cave with halotherapy sessions",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "bucharest-stretch-lab",
@@ -2077,7 +2236,8 @@
     "weeks": 7,
     "hero_image": "placeholder:wellness:amber",
     "tagline": "Assisted stretching studio for desk workers",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "berlin-dental-hygiene",
@@ -2090,7 +2250,8 @@
     "weeks": 10,
     "hero_image": "placeholder:health:emerald",
     "tagline": "Dental hygiene clinic with digital scanning",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "paris-optometry",
@@ -2103,7 +2264,8 @@
     "weeks": 9,
     "hero_image": "placeholder:health:rose",
     "tagline": "Express eye exam studio with boutique frames",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "amsterdam-physio",
@@ -2116,7 +2278,8 @@
     "weeks": 10,
     "hero_image": "placeholder:health:indigo",
     "tagline": "Sports physio clinic with movement analysis",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "madrid-reflexology",
@@ -2129,7 +2292,8 @@
     "weeks": 7,
     "hero_image": "placeholder:health:cyan",
     "tagline": "Foot reflexology studio with certified therapists",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "rome-posture-clinic",
@@ -2142,7 +2306,8 @@
     "weeks": 9,
     "hero_image": "placeholder:health:violet",
     "tagline": "Posture correction clinic with AI analysis",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "dublin-dental-scan",
@@ -2155,7 +2320,8 @@
     "weeks": 8,
     "hero_image": "placeholder:health:lime",
     "tagline": "Dental scan kiosk with teledentist consult",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "stockholm-wellness",
@@ -2168,7 +2334,8 @@
     "weeks": 9,
     "hero_image": "placeholder:health:fuchsia",
     "tagline": "Preventive health check clinic with blood panels",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "copenhagen-physio",
@@ -2181,7 +2348,8 @@
     "weeks": 10,
     "hero_image": "placeholder:health:sky",
     "tagline": "Rehabilitation physio with gym integration",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "helsinki-eye-scan",
@@ -2194,7 +2362,8 @@
     "weeks": 8,
     "hero_image": "placeholder:health:orange",
     "tagline": "Retinal scan booth with AI preliminary read",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "vienna-dental-spa",
@@ -2207,7 +2376,8 @@
     "weeks": 10,
     "hero_image": "placeholder:health:amber",
     "tagline": "Boutique dental spa with whitening menu",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "lisbon-osteo-clinic",
@@ -2220,7 +2390,8 @@
     "weeks": 9,
     "hero_image": "placeholder:health:emerald",
     "tagline": "Osteopathy clinic with ocean-view treatment rooms",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "brussels-chiro-care",
@@ -2233,7 +2404,8 @@
     "weeks": 9,
     "hero_image": "placeholder:health:rose",
     "tagline": "Chiropractic adjustments with digital tracking",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "prague-acupuncture",
@@ -2246,7 +2418,8 @@
     "weeks": 8,
     "hero_image": "placeholder:health:indigo",
     "tagline": "Traditional Chinese medicine in baroque flat",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "warsaw-hygiene-hub",
@@ -2259,7 +2432,8 @@
     "weeks": 9,
     "hero_image": "placeholder:health:cyan",
     "tagline": "Dental hygiene hub with hygienist-only services",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "athens-physio-mini",
@@ -2272,7 +2446,8 @@
     "weeks": 8,
     "hero_image": "placeholder:health:violet",
     "tagline": "Sports physio clinic for marathoners",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "sofia-reflex-den",
@@ -2285,7 +2460,8 @@
     "weeks": 7,
     "hero_image": "placeholder:health:lime",
     "tagline": "Reflexology den with Bulgarian rose oils",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "bucharest-eye-care",
@@ -2298,7 +2474,8 @@
     "weeks": 8,
     "hero_image": "placeholder:health:fuchsia",
     "tagline": "Rapid optometry screenings and contact fitting",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "zagreb-kids-dental",
@@ -2311,7 +2488,8 @@
     "weeks": 10,
     "hero_image": "placeholder:health:sky",
     "tagline": "Kid-friendly dental hygiene clinic with play zone",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "ljubljana-sleep-lab",
@@ -2324,7 +2502,8 @@
     "weeks": 9,
     "hero_image": "placeholder:health:orange",
     "tagline": "Micro sleep clinic with home test kits",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "tallinn-blood-test",
@@ -2337,7 +2516,8 @@
     "weeks": 8,
     "hero_image": "placeholder:health:amber",
     "tagline": "Walk-in blood draw and biomarker panels",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "berlin-code-camp",
@@ -2350,7 +2530,8 @@
     "weeks": 10,
     "hero_image": "placeholder:education:emerald",
     "tagline": "Four-week coding bootcamp for career changers",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "paris-language-cafe",
@@ -2363,7 +2544,8 @@
     "weeks": 8,
     "hero_image": "placeholder:education:rose",
     "tagline": "Drop-in language cafe with native speakers",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "amsterdam-kids-studio",
@@ -2376,7 +2558,8 @@
     "weeks": 9,
     "hero_image": "placeholder:education:indigo",
     "tagline": "STEAM kids studio with robotics and art",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "madrid-music-lessons",
@@ -2389,7 +2572,8 @@
     "weeks": 7,
     "hero_image": "placeholder:education:cyan",
     "tagline": "Guitar and piano lessons for all ages",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "rome-italian-school",
@@ -2402,7 +2586,8 @@
     "weeks": 9,
     "hero_image": "placeholder:education:violet",
     "tagline": "Italian language school with cooking classes",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "dublin-english-hub",
@@ -2415,7 +2600,8 @@
     "weeks": 9,
     "hero_image": "placeholder:education:lime",
     "tagline": "English conversation hub for newcomers",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "stockholm-math-lab",
@@ -2428,7 +2614,8 @@
     "weeks": 8,
     "hero_image": "placeholder:education:fuchsia",
     "tagline": "After-school math tutoring with game rewards",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "vienna-violin-studio",
@@ -2441,7 +2628,8 @@
     "weeks": 7,
     "hero_image": "placeholder:education:sky",
     "tagline": "Classical violin lessons for children and adults",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "prague-chess-club",
@@ -2454,7 +2642,8 @@
     "weeks": 8,
     "hero_image": "placeholder:education:orange",
     "tagline": "Chess academy with grandmaster masterclasses",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "warsaw-art-studio",
@@ -2467,7 +2656,8 @@
     "weeks": 9,
     "hero_image": "placeholder:education:amber",
     "tagline": "Kids art studio with weekly exhibition nights",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "lisbon-surf-school",
@@ -2480,7 +2670,8 @@
     "weeks": 8,
     "hero_image": "placeholder:education:emerald",
     "tagline": "Beach-front surf school with board rental",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "athens-philosophy",
@@ -2493,7 +2684,8 @@
     "weeks": 7,
     "hero_image": "placeholder:education:rose",
     "tagline": "Philosophy discussion cafe with guided readings",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "brussels-kids-code",
@@ -2506,7 +2698,8 @@
     "weeks": 8,
     "hero_image": "placeholder:education:indigo",
     "tagline": "Coding classes for 8-14 year olds, project-based",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "helsinki-design-lab",
@@ -2519,7 +2712,8 @@
     "weeks": 9,
     "hero_image": "placeholder:education:cyan",
     "tagline": "UX/UI design workshops for non-designers",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "copenhagen-makers",
@@ -2532,7 +2726,8 @@
     "weeks": 10,
     "hero_image": "placeholder:education:violet",
     "tagline": "Makerspace with 3D printing and laser cutting",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "budapest-dance-studio",
@@ -2545,7 +2740,8 @@
     "weeks": 9,
     "hero_image": "placeholder:education:lime",
     "tagline": "Dance academy with salsa, tango and hip-hop",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "sofia-robot-club",
@@ -2558,7 +2754,8 @@
     "weeks": 8,
     "hero_image": "placeholder:education:fuchsia",
     "tagline": "Kids robotics club with LEGO and Arduino",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "zagreb-pottery-class",
@@ -2571,7 +2768,8 @@
     "weeks": 8,
     "hero_image": "placeholder:education:sky",
     "tagline": "Weekly pottery workshops with kiln firing",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "bucharest-english-kids",
@@ -2584,7 +2782,8 @@
     "weeks": 8,
     "hero_image": "placeholder:education:orange",
     "tagline": "Play-based English immersion for young kids",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   },
   {
     "slug": "ljubljana-yoga-teach",
@@ -2597,6 +2796,7 @@
     "weeks": 9,
     "hero_image": "placeholder:education:amber",
     "tagline": "200-hour yoga teacher training certification",
-    "ls_url": ""
+    "ls_url": "",
+    "has_brandbook": false
   }
 ]

@@ -490,7 +490,7 @@ const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
 const sb = window.supabase.createClient(SB_URL, SB_KEY, {auth:{persistSession:true,autoRefreshToken:true,storageKey:'svita-micro-auth'}});
 
-const HAS_BRANDBOOK = new Set(['poppy-matcha']);
+// has_brandbook read from concepts_catalog.has_brandbook column
 const LANGS = ['en','be','ru','uk','pl','de','fr','it','es','pt','ja','ko'];
 
 const slug = new URLSearchParams(location.search).get('c');
@@ -667,10 +667,20 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
 function renderStatus(){
   $('sw-verified').classList.toggle('on', !!CATALOG.verified);
   $('sw-active').classList.toggle('on', !!CATALOG.is_active);
-  const has = HAS_BRANDBOOK.has(slug);
-  $('bb-status').innerHTML = has
-    ? `<div style="display:flex;align-items:center;justify-content:space-between;gap:14px"><span><span style="color:var(--ok);font-weight:700">● Ready</span> — full A4 brandbook on disk</span><a class="btn btn-ok" href="data/concepts/${slug}/brandbook.html" target="_blank">Open file</a></div>`
-    : `<div><span style="color:var(--warn);font-weight:700">⏳ In progress</span> — only inline body_html. To mark as ready, create <code style="font-family:'JetBrains Mono';font-size:11px;color:var(--text-2)">data/concepts/${slug}/brandbook.html</code> and add to HAS_BRANDBOOK.</div>`;
+  const has = !!CATALOG.has_brandbook;
+  $('bb-status').innerHTML = `<div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
+      <span>${has ? '<span style="color:var(--ok);font-weight:700">● Ready</span> — full A4 brandbook on disk' : '<span style="color:var(--warn);font-weight:700">⏳ In progress</span> — only inline body_html'}</span>
+      <div style="display:flex;gap:8px">
+        ${has ? `<a class="btn btn-ok" href="data/concepts/${slug}/brandbook.html" target="_blank">Open file</a>` : ''}
+        <button class="btn" onclick="toggleBrandbook()">${has ? 'Mark as in progress' : 'Mark as ready'}</button>
+      </div>
+    </div>`;
+}
+window.toggleBrandbook = async function(){
+  const newVal = !CATALOG.has_brandbook;
+  CATALOG.has_brandbook = newVal;
+  markDirty();
+  renderStatus();
 }
 
 function toggleSwitch(kind){
@@ -703,7 +713,8 @@ async function saveAll(){
       ls_url: $('f-ls').value || null,
       stripe_price_id: $('f-stripe').value || null,
       verified: !!CATALOG.verified,
-      is_active: !!CATALOG.is_active
+      is_active: !!CATALOG.is_active,
+      has_brandbook: !!CATALOG.has_brandbook
     };
     const {error: e1} = await sb.from('concepts_catalog').update(catUpd).eq('slug', slug);
     if(e1) throw e1;

@@ -646,7 +646,7 @@ const qs = new URLSearchParams(location.search);
 const BUY_INTENT = qs.get('buy');
 const PAID_SLUG = qs.get('paid');
 let MY_ROLE = 'user';
-const HAS_BRANDBOOK = new Set(['poppy-matcha']);
+// has_brandbook now comes from concepts_catalog row via my_concepts view
 
 const CAT_PAL = {
   food:['#1a2e1a','#2d4a2d','🌿'], restaurant:['#2e1a1a','#4a2d2d','🍽'],
@@ -915,10 +915,20 @@ async function enterAccount(user){
   if(PAID_SLUG){
     const box = $('intent-box');
     box.className = 'intent reveal in';
-    box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--accent)">Payment received</span><h4>Thank you — concept unlocked</h4><div class="specs">Click below to open your concept now.</div></div><div class="actions"><button class="btn btn-ghost" id="close-paid">Close</button><a class="btn btn-primary" id="open-paid" href="view.html?c=${encodeURIComponent(PAID_SLUG)}">Open concept →</a></div>`;
+    box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--accent)">Processing payment…</span><h4>Unlocking your concept</h4><div class="specs">This takes a few seconds.</div></div><div class="actions"><div class="spin" style="margin:0 8px"></div></div>`;
+    // 1) Call claim RPC — writes purchase row for auth.uid() + PAID_SLUG.
+    // This is the trust-redirect fallback (no webhook needed). Idempotent upsert.
+    try{
+      const {data: claimRes, error: claimErr} = await sb.rpc('claim_paid_concept', {p_slug: PAID_SLUG, p_provider: 'lemon_squeezy'});
+      if(claimErr) throw claimErr;
+      if(claimRes && claimRes.ok === false) throw new Error(claimRes.error || 'claim_failed');
+    }catch(e){
+      box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--err)">Payment issue</span><h4>Could not unlock automatically</h4><div class="specs">${(e && e.message) || 'Unknown error'}. Contact support.</div></div><div class="actions"><button class="btn btn-ghost" onclick="history.replaceState({},'','account.html');this.closest('.intent').className='hidden';">Close</button></div>`;
+      return;
+    }
+    await loadOwned();
+    box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--accent)">Payment received</span><h4>Thank you — concept unlocked</h4><div class="specs">Lifetime access. Open it whenever you need.</div></div><div class="actions"><button class="btn btn-ghost" id="close-paid">Close</button><a class="btn btn-primary" id="open-paid" href="view.html?c=${encodeURIComponent(PAID_SLUG)}">Open concept →</a></div>`;
     $('close-paid').onclick = ()=>{ history.replaceState({},'','account.html'); box.className='hidden'; };
-    // Reload after short delay to catch webhook
-    setTimeout(loadOwned, 2500);
   } else if(BUY_INTENT) {
     showBuyIntent(BUY_INTENT);
   }
@@ -942,7 +952,7 @@ async function loadOwned(){
     const visual = isPh
       ? `<div class="ph" style="--ph-a:${pal[0]};--ph-b:${pal[1]}">${pal[2]}</div>`
       : `<div class="img" style="background-image:url('${c.hero_image}')"></div>`;
-    const hasBB = HAS_BRANDBOOK.has(c.concept_slug);
+    const hasBB = !!c.has_brandbook;
     const saButtons = isSA
       ? `<div class="sa-btns">
           <a class="sa-btn" href="edit.html?c=${c.concept_slug}" onclick="event.stopPropagation()">✎ Edit</a>

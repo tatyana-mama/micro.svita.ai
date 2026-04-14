@@ -303,7 +303,7 @@ const CATEGORY_PALETTES = {
 };
 
 // Concepts that have a real brandbook.html on disk
-const HAS_BRANDBOOK = new Set(['poppy-matcha']);
+// has_brandbook read from concepts_catalog column (single source of truth)
 
 /* ===== I18N ===== */
 const LANGS = [
@@ -631,7 +631,7 @@ function renderAmbient(c){
 function renderFrame(c){
   const frame = document.getElementById('frame');
   frame.innerHTML = '';
-  const canSeeBrandbook = HAS_BRANDBOOK.has(c.slug) && CURRENT_LANG === 'en' && (IS_SA || IS_OWNED);
+  const canSeeBrandbook = !!c.has_brandbook && CURRENT_LANG === 'en' && (IS_SA || IS_OWNED);
   if(canSeeBrandbook){
     const iframe = document.createElement('iframe');
     iframe.src = 'data/concepts/'+c.slug+'/brandbook.html';
