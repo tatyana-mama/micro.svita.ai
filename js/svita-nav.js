@@ -7,21 +7,11 @@
   const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
   const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
 
-  /* Default lang set — pages can override by defining window.SVITA_LANGS
-     as [{code:'EN',name:'English'}, ...] before loading this script. */
+  /* Supported languages — must stay in lockstep with LABELS below.
+     Adding a language here without a LABELS entry will break the nav render. */
   const DEFAULT_LANGS = [
-    {code:'BE',name:'Беларуская'},
-    {code:'DE',name:'Deutsch'},
     {code:'EN',name:'English'},
-    {code:'ES',name:'Español'},
-    {code:'FR',name:'Français'},
-    {code:'IT',name:'Italiano'},
-    {code:'JA',name:'日本語'},
-    {code:'KO',name:'한국어'},
-    {code:'PL',name:'Polski'},
-    {code:'PT',name:'Português'},
     {code:'RU',name:'Русский'},
-    {code:'UK',name:'Українська'},
   ];
   function getLangList(){
     if(Array.isArray(window.SVITA_LANGS) && window.SVITA_LANGS.length) return window.SVITA_LANGS;
@@ -91,7 +81,7 @@
     const role = (opts && opts.role) || null; // 'superadmin' | null
     const page = currentPage();
     const lang = getLang();
-    const t = LABELS[lang] || LABELS.EN;
+    const t = LABELS[lang];
     const cartN = getCartCount();
 
     const shopActive = page === 'shop' ? ' class="active"' : '';

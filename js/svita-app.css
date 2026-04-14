@@ -72,8 +72,10 @@
   @media (prefers-reduced-motion:no-preference){
     .brand-dot{animation:none !important;box-shadow:0 0 8px var(--accent,#D6FF3E) !important}
   }
-  body{
-    /* reserve space for bottom tab bar */
+  /* Reserve space only when the tab bar is actually present
+     (svita-app.js injects #app-tabbar on index/shop/account, NOT on view.html).
+     Without :has(), view.html would get 64px of dead space under its iframe. */
+  body:has(#app-tabbar){
     padding-bottom:calc(var(--app-tabbar-h) + var(--app-safe-bot)) !important;
   }
   /* Smooth momentum scroll in any overflow container */
