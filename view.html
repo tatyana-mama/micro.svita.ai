@@ -37,13 +37,20 @@ body::before{
 }
 @keyframes drift{from{transform:translateX(0)}to{transform:translateX(-240px)}}
 
-/* ===== CONCEPT CONTEXT BAR (sits under shared nav) ===== */
-.concept-bar{
-  position:fixed;top:80px;left:0;right:0;z-index:50;
-  padding:0 28px;display:flex;align-items:center;justify-content:space-between;
-  gap:12px;pointer-events:none;
+/* ===== TOP BAR (self-contained, overlays the stage) ===== */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:20px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;
 }
-.concept-bar > *{pointer-events:auto}
+.brand{
+  display:flex;align-items:center;gap:10px;
+  font-family:'Space Grotesk';font-weight:700;font-size:16px;
+  background:rgba(10,10,11,0.85);color:#fff;
+  padding:10px 18px;border-radius:100px;backdrop-filter:blur(12px);
+  text-decoration:none;
+}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:#D6FF3E}
+.topbar-right{display:flex;align-items:center;gap:12px}
 .concept-chip{
   display:flex;align-items:center;gap:12px;
   background:rgba(255,255,255,0.9);backdrop-filter:blur(16px);
@@ -54,6 +61,26 @@ body::before{
 }
 .concept-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
 .concept-chip strong{font-weight:700}
+.lang-chip{position:relative}
+.lang-btn{
+  background:rgba(10,10,11,0.85);color:#fff;border:none;cursor:pointer;
+  padding:10px 14px;border-radius:100px;font-family:'Space Grotesk';font-size:13px;font-weight:600;
+  display:flex;align-items:center;gap:8px;backdrop-filter:blur(12px);
+}
+.lang-btn svg{opacity:0.6}
+.lang-menu{
+  position:absolute;top:calc(100% + 8px);right:0;min-width:160px;
+  background:rgba(17,17,19,0.96);border:1px solid rgba(255,255,255,0.1);border-radius:14px;
+  padding:6px;display:none;backdrop-filter:blur(18px);z-index:200;
+  max-height:360px;overflow-y:auto;
+}
+.lang-menu.open{display:block}
+.lang-menu button{
+  display:block;width:100%;text-align:left;background:transparent;border:none;color:#fff;
+  padding:9px 14px;border-radius:8px;font-family:'Inter';font-size:13px;cursor:pointer;
+}
+.lang-menu button:hover{background:rgba(255,255,255,0.08)}
+.lang-menu button.active{background:rgba(214,255,62,0.12);color:#D6FF3E}
 .btn-close{
   display:flex;align-items:center;gap:8px;
   background:rgba(255,255,255,0.92);color:var(--ink);
@@ -85,11 +112,11 @@ body::before{
 .stage{
   position:fixed;inset:0;z-index:5;
   display:flex;align-items:center;justify-content:center;
-  padding:150px 40px 40px;
+  padding:88px 40px 40px;
 }
 .frame{
   width:100%;max-width:1280px;
-  height:100%;max-height:calc(100vh - 190px);
+  height:100%;max-height:calc(100vh - 128px);
   background:#fff;border-radius:20px;overflow:hidden;
   box-shadow:0 60px 120px rgba(15,23,42,0.28),0 20px 60px rgba(15,23,42,0.14),0 0 0 1px rgba(255,255,255,0.6);
   animation:pop 700ms var(--ease) 100ms both;
@@ -176,13 +203,16 @@ body::before{
 
 @media(max-width:768px){
   html,body{overflow:auto}
-  .concept-bar{top:66px;padding:0 14px;gap:8px}
+  .topbar{padding:12px 14px;gap:8px;flex-wrap:wrap}
+  .brand{padding:8px 14px;font-size:13px}
+  .topbar-right{gap:8px}
   .concept-chip{padding:8px 12px;font-size:11px;max-width:60vw}
   .concept-chip #chipText{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lang-btn{padding:8px 10px;font-size:11px}
   .btn-close{padding:8px 12px;font-size:11px}
   .btn-close svg{width:12px;height:12px}
-  .stage{position:relative;padding:140px 12px 20px;min-height:100vh;align-items:flex-start}
-  .frame{height:auto;max-height:none;min-height:calc(100vh - 180px)}
+  .stage{position:relative;padding:68px 12px 20px;min-height:100vh;align-items:flex-start}
+  .frame{height:auto;max-height:none;min-height:calc(100vh - 120px)}
   .preview-body{height:auto}
   .preview-hero{aspect-ratio:4/3;padding:24px}
   .preview-hero .glyph{font-size:140px}
@@ -199,18 +229,28 @@ body::before{
 
 <div class="loading" id="loading"><div class="spinner"></div></div>
 
-<nav id="nav"></nav>
-
-<!-- Concept context bar (under shared nav) -->
-<div class="concept-bar">
-  <div class="concept-chip" id="chip">
-    <span class="dot"></span>
-    <span id="chipText">Loading…</span>
-  </div>
-  <a href="shop.html" class="btn-close">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-    Close
+<!-- Top bar -->
+<div class="topbar">
+  <a href="index.html" class="brand">
+    <span class="brand-dot"></span> SVITA · MICRO
   </a>
+  <div class="topbar-right">
+    <div class="concept-chip" id="chip">
+      <span class="dot"></span>
+      <span id="chipText">Loading…</span>
+    </div>
+    <div class="lang-chip" id="langChip">
+      <button class="lang-btn" id="langBtn">
+        <span id="langCurrent">EN</span>
+        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
+      </button>
+      <div class="lang-menu" id="langMenu"></div>
+    </div>
+    <a href="shop.html" class="btn-close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      Close
+    </a>
+  </div>
 </div>
 
 <!-- Ambient decoration slots (rendered by JS) -->
@@ -706,11 +746,29 @@ async function buildCollage(c){
     return `<div class="tile" style="background-image:url('${src}');background-position:${bp}"></div>`;
   }).join('');
 }
+
+/* ===== Topbar lang menu wire-up ===== */
+function buildLangMenu(){
+  const menu = document.getElementById('langMenu');
+  const cur = document.getElementById('langCurrent');
+  if(!menu || !cur) return;
+  cur.textContent = CURRENT_LANG.toUpperCase();
+  menu.innerHTML = LANGS.map(l =>
+    `<button type="button" data-lang="${l.c}"${l.c===CURRENT_LANG?' class="active"':''}>${l.c.toUpperCase()} · ${l.n}</button>`
+  ).join('');
+  menu.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', () => {
+      menu.classList.remove('open');
+      window.setLang(b.dataset.lang);
+      cur.textContent = b.dataset.lang.toUpperCase();
+      menu.querySelectorAll('button').forEach(x => x.classList.toggle('active', x.dataset.lang === b.dataset.lang));
+    });
+  });
+  const btn = document.getElementById('langBtn');
+  btn.addEventListener('click', e => { e.stopPropagation(); menu.classList.toggle('open'); });
+  document.addEventListener('click', e => { if(!e.target.closest('#langChip')) menu.classList.remove('open'); });
+}
+buildLangMenu();
 </script>
-<script>
-  /* Expose full 12-lang set to shared nav */
-  window.SVITA_LANGS = LANGS.map(l=>({ code:l.c.toUpperCase(), name:l.n }));
-</script>
-<script src="js/svita-nav.js"></script>
 </body>
 </html>
