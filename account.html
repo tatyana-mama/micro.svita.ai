@@ -760,6 +760,9 @@ document.querySelectorAll('.oauth-btn').forEach(b=>{
   b.addEventListener('click', async ()=>{
     const provider = b.dataset.provider;
     const redirectTo = location.origin + '/account.html' + (BUY_INTENT ? '?buy='+BUY_INTENT : '');
+    // Mark origin with a cross-subdomain cookie so dashboard.svita.ai can bounce
+    // us back if Supabase Site URL fallback kicks in.
+    document.cookie = 'oauth_from=micro; domain=.svita.ai; path=/; max-age=600; SameSite=Lax';
     const {error} = await sb.auth.signInWithOAuth({
       provider,
       options: { redirectTo }
