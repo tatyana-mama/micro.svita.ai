@@ -331,6 +331,8 @@ let CONCEPT = null;
 let CURRENT_LANG = localStorage.getItem('svita_micro_lang') || 'en';
 let I18N_ROW = null; // row from concepts_i18n
 let IS_SA = false;   // superadmin flag
+let IS_OWNED = false; // user owns this concept (paid or gift)
+let OWN_TYPE = null;  // 'paid' | 'gift' | null
 const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
 const SB = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
@@ -426,6 +428,23 @@ async function saUnverify(slug){
 window.saVerify = saVerify;
 window.saUnverify = saUnverify;
 
+async function detectOwnership(slug){
+  if(!SB) return {owned:false, type:null};
+  try{
+    const {data:{session}} = await SB.auth.getSession();
+    if(!session) return {owned:false, type:null};
+    const {data, error} = await SB.from('purchases')
+      .select('status, provider')
+      .eq('user_id', session.user.id)
+      .eq('concept_slug', slug)
+      .eq('status', 'paid')
+      .maybeSingle();
+    if(error || !data) return {owned:false, type:null};
+    const isGift = data.provider === 'superadmin' || data.provider === 'gift';
+    return {owned:true, type: isGift ? 'gift' : 'paid'};
+  }catch(e){ return {owned:false, type:null}; }
+}
+
 async function detectSuperadmin(){
   if(!SB) return false;
   try{
@@ -492,6 +511,10 @@ async function loadSuperadminFullConcept(slug){
     document.body.classList.add('sa-mode');
     await loadSuperadminFullConcept(slug);
   }
+  const own = await detectOwnership(slug);
+  IS_OWNED = own.owned;
+  OWN_TYPE = own.type;
+  if(IS_OWNED) document.body.classList.add('owned-mode');
   await loadI18nOverride(slug, CURRENT_LANG);
   rerenderAll();
   document.getElementById('loading').classList.add('hidden');
@@ -608,7 +631,8 @@ function renderAmbient(c){
 function renderFrame(c){
   const frame = document.getElementById('frame');
   frame.innerHTML = '';
-  if(HAS_BRANDBOOK.has(c.slug) && CURRENT_LANG === 'en' && IS_SA){
+  const canSeeBrandbook = HAS_BRANDBOOK.has(c.slug) && CURRENT_LANG === 'en' && (IS_SA || IS_OWNED);
+  if(canSeeBrandbook){
     const iframe = document.createElement('iframe');
     iframe.src = 'data/concepts/'+c.slug+'/brandbook.html';
     iframe.title = c.name + ' brandbook';
@@ -617,18 +641,26 @@ function renderFrame(c){
   }
   // Superadmin: full product review — fetch all fields via authed client, render body_html
   const saReview = IS_SA ? renderSuperadminReview(c) : '';
+  const unlocked = IS_SA || IS_OWNED;
+  const ownBadge = IS_OWNED ? `<div style="display:inline-block;margin-bottom:16px;padding:6px 14px;border-radius:100px;background:#D6FF3E;color:#0F172A;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em">${OWN_TYPE==='gift'?'🎁 Unlocked · Gift':'✓ Unlocked · Lifetime access'}</div>` : '';
 
   // If admin-uploaded body_html exists, use it instead of the locked preview
   const body = c._body_html
-    ? `<div class="preview-body-inner" style="grid-template-columns:1fr"><div>${c._body_html}${saReview}</div></div>`
-    : `<div class="preview-body-inner">
+    ? `<div class="preview-body-inner" style="grid-template-columns:1fr"><div>${ownBadge}${c._body_html}${saReview}</div></div>`
+    : unlocked
+      ? `<div class="preview-body-inner" style="grid-template-columns:1fr"><div>${ownBadge}
+          <h2>${t('inside')}</h2>
+          <p>${c._description || t('insideP1')}</p>
+          <p>${t('insideP2', c.weeks||8)}</p>
+          ${saReview}
+        </div></div>`
+      : `<div class="preview-body-inner">
         <div>
           <h2>${t('inside')}</h2>
           <p>${c._description || t('insideP1')}</p>
           <p>${t('insideP2', c.weeks||8)}</p>
-          <h2 style="margin-top:28px">${IS_SA ? 'Review data' : t('locked')}</h2>
-          <p>${IS_SA ? 'Full concept data visible below for verification.' : t('lockedP')}</p>
-          ${saReview}
+          <h2 style="margin-top:28px">${t('locked')}</h2>
+          <p>${t('lockedP')}</p>
         </div>
         <div class="specs">
           <div class="price">€${c.price_eur}</div>
