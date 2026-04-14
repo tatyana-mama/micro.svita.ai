@@ -693,16 +693,15 @@ async function buildCollage(c){
     return;
   }
   if(glyph) glyph.remove();
-  const tiles = found.length >= 4 ? found.slice(0,4)
-             : found.length === 1 ? [found[0], found[0], found[0]]
-             : found.length === 2 ? [found[0], found[1]]
-             : found;
-  const n = Math.min(tiles.length, 4);
-  collage.classList.add('n'+n);
-  collage.innerHTML = tiles.map((src,i)=>{
-    const bp = ['center','30% 30%','70% 70%','center 30%'][i] || 'center';
-    return `<div class="tile" style="background-image:url('${src}');background-position:${bp}"></div>`;
-  }).join('');
+  // Always fill a 4-tile 2x2 grid — duplicate found images with varied crops.
+  const tiles = [];
+  for(let i=0;i<4;i++) tiles.push(found[i % found.length]);
+  collage.classList.add('n4');
+  const bps = ['center 40%','70% 30%','30% 70%','center 60%'];
+  const zooms = ['scale(1.05)','scale(1.15)','scale(1.1)','scale(1.2)'];
+  collage.innerHTML = tiles.map((src,i)=>
+    `<div class="tile" style="background-image:url('${src}');background-position:${bps[i]};transform:${zooms[i]}"></div>`
+  ).join('');
 }
 
 /* ===== Topbar lang menu wire-up ===== */
