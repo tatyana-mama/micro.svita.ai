@@ -554,3 +554,27 @@ create policy "brandbook write by superadmin"
   to authenticated
   using (public.is_superadmin())
   with check (public.is_superadmin());
+
+-- ========== SSOT: has_brandbook mirror maintained by trigger ==========
+-- concept_brandbooks is the single source of truth. concepts_catalog.has_brandbook
+-- is a managed mirror for query perf; never write it manually.
+create or replace function public.sync_has_brandbook()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if TG_OP = 'DELETE' then
+    update public.concepts_catalog set has_brandbook = false where slug = OLD.concept_slug;
+    return OLD;
+  else
+    update public.concepts_catalog set has_brandbook = true where slug = NEW.concept_slug;
+    return NEW;
+  end if;
+end; $$;
+
+drop trigger if exists trg_sync_has_brandbook on public.concept_brandbooks;
+create trigger trg_sync_has_brandbook
+  after insert or update or delete on public.concept_brandbooks
+  for each row execute function public.sync_has_brandbook();
+
+-- Backfill on first run / after drift
+update public.concepts_catalog c
+set has_brandbook = exists(select 1 from public.concept_brandbooks b where b.concept_slug = c.slug);

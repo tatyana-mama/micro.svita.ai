@@ -1035,8 +1035,7 @@ async function uploadBrandbook(slug){
     updated_at: new Date().toISOString()
   }, { onConflict: 'concept_slug' });
   if(error){ alert('Upload failed: ' + error.message); return; }
-  // also flip has_brandbook flag so shop/admin table shows ready badge
-  await sb.from('concepts_catalog').update({ has_brandbook: true }).eq('slug', slug);
+  // has_brandbook is auto-synced via trg_sync_has_brandbook — do not write manually.
   const idx = (window.ALL||[]).findIndex(x=>x.slug===slug);
   if(idx>=0) window.ALL[idx].has_brandbook = true;
   await openConceptModal(slug);
@@ -1047,7 +1046,7 @@ async function deleteBrandbook(slug){
   if(!confirm('Delete brandbook for ' + slug + '? Users will lose access to the doc.')) return;
   const { error } = await sb.from('concept_brandbooks').delete().eq('concept_slug', slug);
   if(error){ alert('Delete failed: ' + error.message); return; }
-  await sb.from('concepts_catalog').update({ has_brandbook: false }).eq('slug', slug);
+  // has_brandbook is auto-synced via trg_sync_has_brandbook — do not write manually.
   const idx = (window.ALL||[]).findIndex(x=>x.slug===slug);
   if(idx>=0) window.ALL[idx].has_brandbook = false;
   await openConceptModal(slug);
