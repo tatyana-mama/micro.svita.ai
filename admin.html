@@ -970,6 +970,21 @@ function renderConceptModal(c, accessRows, i18n){
         </div>
       </div>
 
+      <div class="umodal-section">
+        <h3>Brandbook</h3>
+        ${c.has_brandbook
+          ? `<div style="border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--bg-2)">
+              <iframe src="data/concepts/${escape(c.slug)}/brandbook.html"
+                style="display:block;width:100%;height:560px;border:0;background:#fff"
+                loading="lazy"></iframe>
+            </div>`
+          : `<div style="padding:32px;text-align:center;color:var(--text-3);font-size:13px;border:1px dashed var(--line);border-radius:var(--radius);background:var(--bg-2)">
+              📖 Brandbook пока нет
+              <div style="font-size:11px;margin-top:6px;color:var(--text-3);opacity:0.7">Not yet generated for this concept</div>
+            </div>`
+        }
+      </div>
+
       ${section('🎁 Gift access', 'gift', byState.gift)}
       ${section('💳 Purchased', 'purchased', byState.purchased)}
       ${section('🎟 Promo', 'promo', byState.promo)}
