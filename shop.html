@@ -212,12 +212,32 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
   .brand{font-size:14px}
   .brand small{display:none}
   .nav-cta{padding:8px 12px;font-size:11px}
-  .toolbar{top:60px;padding:14px 0;gap:8px}
-  .search{min-width:0;width:100%;order:-1;flex-basis:100%}
+  .toolbar{top:56px;padding:10px 0;gap:6px;margin-bottom:22px}
+  .search{min-width:0;width:100%;order:-1;flex-basis:100%;padding:8px 14px}
+  .search input{font-size:12px}
+  .chip{padding:7px 12px;font-size:11px}
+  .sel{padding:8px 32px 8px 14px;font-size:11px}
   .spacer{display:none}
   .cols{display:none}
-  .page{padding:120px 0 60px}
-  section{padding:60px 0}
+  .page{padding:80px 0 40px}
+  section{padding:40px 0}
+  .page-head{margin-bottom:18px}
+  .page-head .eyebrow{font-size:10px;margin-bottom:10px}
+  .page-head .display{font-size:clamp(28px,7vw,38px);line-height:1.05}
+  .page-head p{font-size:13px;margin-top:10px}
+  .grid{gap:14px}
+  .card .media{aspect-ratio:16/10}
+  .card .body{padding:14px 16px 16px;gap:7px}
+  .card h3{font-size:17px}
+  .card .tagline{font-size:11.5px;line-height:1.45}
+  .card .meta{font-size:9px;gap:10px;padding-top:10px;margin-top:2px}
+  .card .cat{font-size:9px}
+  .card .country{font-size:9px;padding:5px 9px;top:10px;left:10px}
+  .fav-btn{width:32px;height:32px;top:10px;left:10px}
+}
+@media(max-width:420px){
+  .card .media{aspect-ratio:3/2}
+  .card h3{font-size:16px}
 }
 /* BURGER */
 .burger{display:none;width:44px;height:44px;background:none;border:0;cursor:pointer;padding:0;flex-direction:column;gap:5px;align-items:center;justify-content:center;z-index:101;position:relative}
