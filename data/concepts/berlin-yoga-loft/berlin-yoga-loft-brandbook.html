@@ -32,8 +32,11 @@ h1.page-title{font-size:30pt;margin-bottom:6mm;letter-spacing:-0.025em;font-weig
 p{margin-bottom:3mm}
 img{max-width:100%;display:block}
 .divider{height:1px;background:var(--line);margin:6mm 0}
-.cover{background:var(--terra);color:var(--cream);justify-content:space-between;padding:18mm}
+.cover{background:var(--terra);color:var(--cream);justify-content:space-between;padding:18mm;position:relative;overflow:hidden}
 .cover::before,.cover::after{display:none}
+.cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.32;z-index:0}
+.cover > *{position:relative;z-index:1}
+.img-large{width:100%;max-height:160mm;object-fit:contain;border-radius:2mm;margin-top:6mm}
 .cover .brand{font-family:'Fraunces';font-size:58pt;font-weight:800;line-height:0.9;color:var(--cream);margin-top:30mm;letter-spacing:-0.03em}
 .cover .brand small{display:block;font-family:'Inter';font-size:10pt;font-weight:500;color:var(--cream);opacity:0.88;margin-top:8mm;letter-spacing:0.22em;text-transform:uppercase}
 .cover .tagline{font-family:'Fraunces';font-size:15pt;font-weight:400;font-style:italic;max-width:140mm;margin-bottom:18mm;color:var(--cream);opacity:0.94}
@@ -82,8 +85,10 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 .reg-card li{padding:1.5mm 0;padding-left:5mm;position:relative}
 .reg-card li::before{content:'·';position:absolute;left:0;color:var(--sage);font-weight:800;font-size:14pt;line-height:1}
 .plan-wrap{flex:1;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;padding:8mm}
-.back-cover{background:var(--ink);color:var(--cream);justify-content:space-between}
+.back-cover{background:var(--ink);color:var(--cream);justify-content:space-between;position:relative;overflow:hidden}
 .back-cover::before,.back-cover::after{color:#666}
+.back-cover .cover-bg{opacity:0.35}
+.back-cover > *{position:relative;z-index:1}
 .back-cover h1{color:var(--terra);font-size:44pt}
 .back-cover p{color:#BBB;max-width:140mm}
 @media print{body{background:#fff}.page{box-shadow:none;margin:0}}
@@ -92,6 +97,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 <body>
 
 <section class="page cover no-footer">
+  <img class="cover-bg" src="images/01-hero.png" alt="">
   <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);opacity:0.88">SVITA Micro · Concept Brandbook №007</div>
   <div><h1 class="brand">BERLIN<br>YOGA LOFT<small>Infrared floor · Prenzlauer Berg</small></h1></div>
   <div>
@@ -130,6 +136,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <strong style="font-family:'Inter';font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--sage)">The 8-Mat Rule</strong>
     <p style="margin-top:2mm;font-size:10pt">Never more than 8 mats in a class. Capacity is the product — the room is not maximised for revenue, it's maximised for attention. When a class is full, it closes on the app. No add-ons, no standing at the back.</p>
   </div>
+  <img class="img-large" src="images/08-pour-detail.png" alt="Instructor adjusting student in downward dog" style="max-height:75mm;margin-top:6mm">
 </section>
 
 <section class="page" data-page="04">
@@ -168,6 +175,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <li><strong>10-pack €150 or nothing.</strong> No drop-in, no monthly, no commitment gym-trap. Pre-paid, 6-month expiry.</li>
     <li><strong>Four classes, four styles, same room.</strong> Hatha 07:00, vinyasa 09:30, yin 17:30, ashtanga 19:00. Teachers rotate, format is fixed.</li>
   </ol>
+  <img class="img-large" src="images/02-facade.png" alt="Prenzlauer Berg Altbau facade with BYL sign" style="max-height:75mm;margin-top:4mm">
 </section>
 
 <section class="page" data-page="06">
@@ -245,7 +253,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 <section class="page" data-page="10">
   <div class="eyebrow">Space · Hero</div>
   <h1 class="page-title">The room.</h1>
-  <img class="img-full" src="https://micro.svita.ai/data/concepts/berlin-yoga-loft/hero.png" alt="Interior">
+  <img class="img-full" src="images/01-hero.png" alt="Practice room with 8 mats and morning light">
   <p class="caption">BYL practice room · 56 m² · oak floor, cream plaster, eight sage mats, top-floor skylight</p>
 </section>
 
@@ -253,25 +261,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
   <div class="eyebrow">Floor Plan · 56 m²</div>
   <h1 class="page-title">Eight mats, one skylight.</h1>
   <p class="lead">7.0 m wide, 8.0 m deep. One main practice room with infrared oak floor, skylight above. Entrance alcove with bench, shelf, and water station. No separate changing rooms.</p>
-  <div class="plan-wrap">
-    <svg viewBox="0 0 420 480" style="width:70%;height:auto">
-      <rect x="10" y="10" width="400" height="460" fill="#F5F1E8" stroke="#1E1810" stroke-width="4"/>
-      <rect x="10" y="10" width="400" height="80" fill="#6B4423" opacity="0.25" stroke="#6B4423" stroke-width="2"/>
-      <text x="210" y="55" font-family="Inter" font-size="11" font-weight="700" fill="#1E1810" text-anchor="middle">ENTRY · BENCH · WATER · SHELF</text>
-      <rect x="30" y="120" width="360" height="330" fill="#C47858" opacity="0.18" stroke="#C47858" stroke-width="2"/>
-      <text x="210" y="145" font-family="Inter" font-size="10" font-weight="700" fill="#1E1810" text-anchor="middle">PRACTICE ROOM · 7.0 × 5.5 m</text>
-      <g fill="#A3B18A" stroke="#6B4423" stroke-width="1">
-        <rect x="60" y="170" width="70" height="28"/><rect x="155" y="170" width="70" height="28"/>
-        <rect x="250" y="170" width="70" height="28"/><rect x="345" y="170" width="50" height="28"/>
-        <rect x="60" y="230" width="70" height="28"/><rect x="155" y="230" width="70" height="28"/>
-        <rect x="250" y="230" width="70" height="28"/><rect x="345" y="230" width="50" height="28"/>
-      </g>
-      <text x="210" y="310" font-family="Inter" font-size="9" fill="#5C5852" text-anchor="middle">8 SAGE MATS · INFRARED OAK FLOOR</text>
-      <rect x="30" y="380" width="360" height="60" fill="#A3B18A" opacity="0.2" stroke="#A3B18A" stroke-width="2"/>
-      <text x="210" y="415" font-family="Inter" font-size="10" font-weight="700" fill="#1E1810" text-anchor="middle">TEACHER MAT · ALTAR · SPEAKERS</text>
-      <text x="210" y="465" font-family="Inter" font-size="9" fill="#5C5852" text-anchor="middle">7.0 m × 8.0 m · 56 m²</text>
-    </svg>
-  </div>
+  <img class="img-full" src="images/11-axonometric.png" alt="Axonometric plan of BYL practice room, reception, changing, shower">
 </section>
 
 <section class="page" data-page="12">
@@ -300,6 +290,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <tr><td>Entry pendant</td><td>1</td><td>500</td><td>2700</td><td>Over entry bench</td></tr>
     <tr><td>Skylight blind</td><td>1</td><td>—</td><td>—</td><td>Honeycomb shade for yin</td></tr>
   </table>
+  <img class="img-large" src="images/03-interior.png" alt="BYL interior: oak floor, mat, cork blocks, sage strap" style="max-height:85mm;margin-top:4mm">
 </section>
 
 <section class="page" data-page="14">
@@ -315,6 +306,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <tr><td>Mindbody scheduler + POS</td><td>Mindbody + SumUp</td><td class="num">180</td><td>Mindbody EU / SumUp</td></tr>
     <tr class="total-row"><td colspan="2">Core equipment subtotal</td><td class="num">8,840</td><td>€</td></tr>
   </table>
+  <img class="img-large" src="images/09-equipment.png" alt="Flat lay: mats, cork blocks, sage straps, singing bowl, cushions" style="max-height:80mm;margin-top:4mm">
 </section>
 
 <section class="page" data-page="15">
@@ -353,6 +345,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
       <text x="300" y="240" font-family="Inter,sans-serif" font-size="8" fill="#F5F1E8" text-anchor="middle" letter-spacing="2">RING BELL · 4TH FLOOR</text>
     </svg>
   </div>
+  <img class="img-large" src="images/05-signage.png" alt="Hand-painted walnut BYL signboard on cream plaster" style="max-height:70mm;margin-top:4mm">
 </section>
 
 <section class="page" data-page="17">
@@ -366,6 +359,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <tr><td>Welcome card</td><td>A5, handwritten note</td><td>In-house</td></tr>
     <tr><td>Stamp</td><td>Rubber BYL sun + ink pad</td><td>Stempel Neumann</td></tr>
   </table>
+  <img class="img-large" src="images/04-packaging.png" alt="BYL welcome kit: rolled mat, cream tote with BYL mark, terracotta cup, linen headband" style="max-height:95mm;margin-top:4mm">
 </section>
 
 <section class="page" data-page="18">
@@ -377,6 +371,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <tr><td>Teacher trousers</td><td>Cotton-linen, sage</td><td>Loose-cut practice</td></tr>
     <tr><td>Outer robe (cool season)</td><td>Heavy linen, terra</td><td>For altar moments</td></tr>
   </table>
+  <img class="img-large" src="images/13-uniform.png" alt="BYL teacher in terracotta linen tee and cream wide pants" style="max-height:95mm;margin-top:4mm">
 </section>
 
 <section class="page" data-page="19">
@@ -505,6 +500,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 </section>
 
 <section class="page back-cover no-footer">
+  <img class="cover-bg" src="images/10-night.png" alt="">
   <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);opacity:0.6">SVITA Micro · Brandbook №007</div>
   <div>
     <h1 style="margin-top:20mm">Let's practice.</h1>
