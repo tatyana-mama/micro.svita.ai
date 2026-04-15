@@ -35,8 +35,10 @@ p{margin-bottom:3mm}
 img{max-width:100%;display:block}
 .divider{height:1px;background:var(--line);margin:6mm 0}
 
-.cover{background:var(--black);color:var(--cream);justify-content:space-between;padding:18mm}
+.cover{background:var(--black);color:var(--cream);justify-content:space-between;padding:18mm;position:relative;overflow:hidden}
 .cover::before,.cover::after{display:none}
+.cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.32;z-index:0}
+.cover > *{position:relative;z-index:1}
 .cover .brand{font-family:'Fraunces';font-size:60pt;font-weight:800;line-height:0.9;color:var(--mustard);margin-top:30mm;letter-spacing:-0.03em}
 .cover .brand small{display:block;font-family:'Inter';font-size:10pt;font-weight:500;color:var(--cream);opacity:0.88;margin-top:8mm;letter-spacing:0.22em;text-transform:uppercase}
 .cover .tagline{font-family:'Fraunces';font-size:15pt;font-weight:400;font-style:italic;max-width:140mm;margin-bottom:18mm;color:var(--cream);opacity:0.94}
@@ -71,6 +73,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 .total-row td{border-top:2px solid var(--rye);border-bottom:none}
 
 .img-full{width:100%;flex:1;object-fit:cover;border-radius:2mm;margin-top:6mm}
+.img-large{width:100%;max-height:160mm;object-fit:contain;margin:4mm 0;border-radius:2mm}
 .caption{font-size:9pt;color:var(--gray);margin-top:3mm;font-style:italic;text-align:center}
 
 .donut-wrap{display:flex;gap:10mm;align-items:center;margin-top:6mm}
@@ -96,8 +99,10 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 
 .plan-wrap{flex:1;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;padding:8mm}
 
-.back-cover{background:var(--black);color:var(--cream);justify-content:space-between}
+.back-cover{background:var(--black);color:var(--cream);justify-content:space-between;position:relative;overflow:hidden}
 .back-cover::before,.back-cover::after{color:#666}
+.back-cover .cover-bg{opacity:0.35}
+.back-cover > *{position:relative;z-index:1}
 .back-cover h1{color:var(--mustard);font-size:44pt}
 .back-cover p{color:#BBB;max-width:140mm}
 
@@ -108,6 +113,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 
 <!-- PAGE 01 · COVER -->
 <section class="page cover no-footer">
+  <img class="cover-bg" src="images/01-hero.png" alt="">
   <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);opacity:0.88">SVITA Micro · Concept Brandbook №005</div>
   <div>
     <h1 class="brand">BERLIN<br>BAGEL CO<small>Kreuzberg · Bergmannkiez</small></h1>
@@ -146,7 +152,8 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
   <h1 class="page-title">Hand-rolled,<br>kettle-boiled,<br>wood-fired.</h1>
   <p class="lead">Berlin has bagels, but they're frozen Polish imports reheated in a microwave. There is nothing in between the €1.20 gas-station pretzel and the €8 Mitte avocado-toast brunch. A proper New York bagel — rolled, boiled, fired — sold at €3.80 plain, €6.50 with schmear, served by 7 am.</p>
   <p>Berlin Bagel Co fills that gap with 12 varieties on a fixed rotation, the same Hudson Valley flour used at Brooklyn's Shelsky's, and a Maurice wood-fired steam oven imported from Lyon. The format is small (22 m²) because Bergmannkiez rents are Kreuzberg-brutal.</p>
-  <div style="margin-top:10mm;padding:6mm;background:#fff;border-left:3px solid var(--mustard)">
+  <img class="img-large" src="images/08-pour-detail.png" alt="Raw hand-rolled bagels lowered into rolling kettle water" style="max-height:85mm">
+  <div style="margin-top:4mm;padding:6mm;background:#fff;border-left:3px solid var(--mustard)">
     <strong style="font-family:'Inter';font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--mustard)">The 4 AM Rule</strong>
     <p style="margin-top:2mm;font-size:10pt">Every morning at 4 am the dough is cold-retarded from yesterday, rolled by hand (no machine rollers, ever), kettle-boiled with honey-malt water for 90 seconds per side, then baked at 245°C until the crust cracks. First basket on the counter at 6:30. No second bake — if it's sold out by 14:00, it's sold out.</p>
   </div>
@@ -191,6 +198,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <li><strong>22 m² footprint.</strong> Rent drops 40% below 30 m² in Bergmannkiez. Break-even gap that kills most Berlin bakery concepts is closed.</li>
     <li><strong>Counter + 4 seats.</strong> No waiters, no table service, no VAT headache. Takeaway VAT 7%, eat-in 19%.</li>
   </ol>
+  <img class="img-large" src="images/02-facade.png" alt="Berlin Bagel Co storefront in Kreuzberg with chalkboard A-frame" style="max-height:75mm;margin-top:4mm">
 </section>
 
 <!-- PAGE 06 · BRAND IDENTITY -->
@@ -290,38 +298,17 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 <section class="page" data-page="10">
   <div class="eyebrow">Space · Hero</div>
   <h1 class="page-title">The counter.</h1>
-  <img class="img-full" src="https://micro.svita.ai/data/concepts/berlin-bagel-co/images/01-hero.png" alt="Interior">
-  <p class="caption">BBC interior · 22 m² · black shopfront, rye counter, copper kettle by the window, Maurice oven at the back</p>
+  <img class="img-full" src="images/01-hero.png" alt="Berlin Bagel Co storefront on a Kreuzberg corner at dawn">
+  <p class="caption">BBC shopfront · Kreuzberg corner, Bergmannkiez side-street, open 06:00</p>
 </section>
 
 <!-- PAGE 11 · FLOOR PLAN -->
 <section class="page" data-page="11">
   <div class="eyebrow">Floor Plan · 22 m²</div>
   <h1 class="page-title">Counter + kettle.</h1>
-  <p class="lead">4.0 m wide, 5.5 m deep. Counter runs the shopfront side with 4 walnut stools. Kettle + boiling station visible from the street. Maurice steam oven at the back wall.</p>
-  <div class="plan-wrap">
-    <svg viewBox="0 0 400 500" style="width:70%;height:auto">
-      <rect x="10" y="10" width="380" height="480" fill="#F3ECD9" stroke="#161312" stroke-width="4"/>
-      <rect x="10" y="10" width="380" height="60" fill="#161312"/>
-      <text x="200" y="45" font-family="Inter" font-size="11" font-weight="700" fill="#D89A1E" text-anchor="middle">SHOPFRONT · BERGMANNSTR. · 4.0 m</text>
-      <rect x="30" y="100" width="340" height="70" fill="#7A4B1E" opacity="0.3" stroke="#7A4B1E" stroke-width="2"/>
-      <text x="200" y="140" font-family="Inter" font-size="11" font-weight="700" fill="#161312" text-anchor="middle">COUNTER + DISPLAY · 3.6 m</text>
-      <g fill="#7A4B1E">
-        <circle cx="80" cy="200" r="9"/><circle cx="140" cy="200" r="9"/><circle cx="200" cy="200" r="9"/><circle cx="260" cy="200" r="9"/>
-      </g>
-      <text x="200" y="225" font-family="Inter" font-size="9" fill="#7A4B1E" text-anchor="middle">4 WALNUT STOOLS</text>
-      <rect x="30" y="260" width="160" height="110" fill="#D89A1E" opacity="0.3" stroke="#D89A1E" stroke-width="2"/>
-      <text x="110" y="320" font-family="Inter" font-size="10" font-weight="700" fill="#161312" text-anchor="middle">60 L KETTLE</text>
-      <text x="110" y="335" font-family="Inter" font-size="9" fill="#5E5650" text-anchor="middle">copper · honey-malt</text>
-      <rect x="210" y="260" width="160" height="110" fill="#7A4B1E" opacity="0.3" stroke="#7A4B1E" stroke-width="2"/>
-      <text x="290" y="320" font-family="Inter" font-size="10" font-weight="700" fill="#161312" text-anchor="middle">PREP · ROLL</text>
-      <text x="290" y="335" font-family="Inter" font-size="9" fill="#5E5650" text-anchor="middle">marble board 2.4 m</text>
-      <rect x="30" y="395" width="340" height="75" fill="#161312" opacity="0.5" stroke="#161312" stroke-width="2"/>
-      <text x="200" y="430" font-family="Inter" font-size="11" font-weight="700" fill="#D89A1E" text-anchor="middle">MAURICE WOOD-FIRED STEAM OVEN</text>
-      <text x="200" y="450" font-family="Inter" font-size="9" fill="#D89A1E" text-anchor="middle">245 °C · 4-deck · wood + gas hybrid</text>
-      <text x="200" y="488" font-family="Inter" font-size="9" fill="#5E5650" text-anchor="middle">4.0 m × 5.5 m · 22 m²</text>
-    </svg>
-  </div>
+  <p class="lead">4.0 m wide, 5.5 m deep. Counter runs the shopfront side with 4 walnut stools. Kettle + boiling station visible from the street. Maurice wood-fired steam oven at the back wall.</p>
+  <img class="img-full" src="images/11-axonometric.png" alt="Axonometric interior plan of Berlin Bagel Co: counter, kettle, Maurice oven">
+  <p class="caption">Axonometric · 3000 × 5000 × 3200 mm · Theke · Kessel · Holzofen · Spüle</p>
 </section>
 
 <!-- PAGE 12 · FURNITURE -->
@@ -356,6 +343,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
   </table>
   <div class="divider"></div>
   <p style="font-size:10pt"><strong>Total lumens:</strong> ~5,400. <strong>CRI:</strong> 90+. <strong>Driver:</strong> Meanwell HLG. <strong>Do not:</strong> install cool-white, install spotlights, install dimmers.</p>
+  <img class="img-large" src="images/03-interior.png" alt="BBC interior: wood-fired oven, kettle, baker rolling dough" style="max-height:80mm;margin-top:4mm">
 </section>
 
 <!-- PAGE 14 · EQUIPMENT CORE -->
@@ -373,6 +361,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <tr><td>POS + card terminal</td><td>SumUp Solo Lite + Air Lite</td><td class="num">120</td><td>SumUp DE</td></tr>
     <tr class="total-row"><td colspan="2">Core equipment subtotal</td><td class="num">8,710</td><td>€</td></tr>
   </table>
+  <img class="img-large" src="images/09-equipment.png" alt="Flat lay: kettle, rolling pin, bagels, seeds, Märkisches Landbrot flour bag" style="max-height:80mm;margin-top:4mm">
 </section>
 
 <!-- PAGE 15 · EQUIPMENT DETAILS -->
@@ -418,6 +407,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
       <text x="450" y="265" font-family="Inter,sans-serif" font-size="9" fill="#161312" text-anchor="middle">bis alles weg ist</text>
     </svg>
   </div>
+  <img class="img-large" src="images/05-signage.png" alt="Hand-painted Berlin Bagel Co wooden signboard with mustard serif letters" style="max-height:70mm;margin-top:4mm">
 </section>
 
 <!-- PAGE 17 · PACKAGING -->
@@ -434,6 +424,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <tr><td>Twine</td><td>Cream natural jute, 2 mm</td><td>Naturkordel Berlin</td></tr>
     <tr><td>Stamp</td><td>Rubber BBC ring + permanent ink</td><td>Stempel Neumann</td></tr>
   </table>
+  <img class="img-large" src="images/04-packaging.png" alt="Sesame bagel wrapped in kraft paper with cream BBC label" style="max-height:75mm;margin-top:4mm">
   <p style="margin-top:6mm;font-size:10pt"><strong>Deposit system:</strong> €1.50 per dozen crate, refunded on return. 80% return rate at month 3. Zero single-use plastic on premises.</p>
 </section>
 
@@ -452,6 +443,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
   </table>
   <div class="divider"></div>
   <p style="font-size:10pt"><strong>Laundry:</strong> Sauber Berlin pickup twice weekly (€38/week). <strong>Replacement:</strong> aprons every 4 months, tees every 3 months.</p>
+  <img class="img-large" src="images/13-uniform.png" alt="BBC baker in cream tee and rye apron with wooden peel of fresh bagels" style="max-height:80mm;margin-top:4mm">
 </section>
 
 <!-- PAGE 19 · MENU -->
@@ -612,6 +604,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 
 <!-- PAGE 25 · BACK COVER -->
 <section class="page back-cover no-footer">
+  <img class="cover-bg" src="images/10-night.png" alt="">
   <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);opacity:0.6">SVITA Micro · Brandbook №005</div>
   <div>
     <h1 style="margin-top:20mm">Let's roll.</h1>
