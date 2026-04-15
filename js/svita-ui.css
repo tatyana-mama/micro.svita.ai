@@ -36,10 +36,9 @@ nav#nav.scrolled{padding:14px 32px}
   .page-head h1{font-size:clamp(2rem,8vw,3rem)!important;line-height:1.05}
   .page-head p{font-size:14px!important}
 
-  .toolbar,.tools{gap:8px!important;padding:14px 0!important;overflow-x:auto;flex-wrap:nowrap!important;scrollbar-width:none}
-  .toolbar::-webkit-scrollbar,.tools::-webkit-scrollbar{display:none}
-  .toolbar-group{flex-wrap:nowrap!important}
-  .search{min-width:180px!important}
+  .toolbar,.tools{gap:8px!important;padding:14px 0!important;flex-wrap:wrap!important;flex-direction:column;align-items:stretch!important}
+  .toolbar-group{flex-wrap:wrap!important;width:100%;gap:6px!important}
+  .search{min-width:0!important;width:100%!important;order:-1}
   .sel{font-size:11px;padding:9px 30px 9px 14px}
   .chip{padding:8px 13px;font-size:11px}
 
