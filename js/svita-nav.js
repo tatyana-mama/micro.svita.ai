@@ -43,8 +43,11 @@
     }catch(e){ return 0; }
   }
   function getFavCount(){
+    if(window.SvitaFavs) return window.SvitaFavs.count();
     try{
-      const raw = localStorage.getItem('svita_micro_favs');
+      const auth = JSON.parse(localStorage.getItem('svita-micro-auth') || 'null');
+      const uid = auth && auth.user && auth.user.id ? auth.user.id : 'anon';
+      const raw = localStorage.getItem('svita_micro_favs:' + uid);
       if(!raw) return 0;
       const arr = JSON.parse(raw);
       return Array.isArray(arr) ? arr.length : 0;
@@ -293,11 +296,12 @@
 
     // re-render when cart/favs change from other tabs or same tab
     window.addEventListener('storage', (e)=>{
-      if(e.key === 'svita_micro_cart' || e.key === 'svita_micro_favs'){
+      if(e.key === 'svita_micro_cart' || (e.key && e.key.indexOf('svita_micro_favs') === 0) || e.key === 'svita-micro-auth'){
         render(user, { role });
       }
     });
     window.addEventListener('svita:cart', ()=> render(user, { role }));
+    window.addEventListener('svita:favs', ()=> render(user, { role }));
 
     render(user, { role });
   }
