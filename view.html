@@ -120,7 +120,7 @@ body::before{
   background:linear-gradient(180deg,#fff 0%,#FAFAFA 100%);
 }
 .preview-hero{
-  position:relative;aspect-ratio:16/9;width:100%;
+  position:relative;aspect-ratio:3/2;width:100%;min-height:520px;
   background:linear-gradient(135deg,var(--bg-1) 0%,var(--bg-2) 100%);
   display:flex;align-items:flex-end;padding:40px;overflow:hidden;
 }
@@ -138,7 +138,7 @@ body::before{
 .preview-hero .collage.n4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
 .preview-hero .collage .tile{
   background-size:cover;background-position:center;
-  filter:saturate(1.05);
+  image-rendering:-webkit-optimize-contrast;image-rendering:high-quality;
 }
 .preview-hero::after{
   content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
@@ -203,7 +203,7 @@ body::before{
   .stage{position:relative;padding:68px 12px 20px;min-height:100vh;align-items:flex-start}
   .frame{height:auto;max-height:none;min-height:calc(100vh - 120px)}
   .preview-body{height:auto}
-  .preview-hero{aspect-ratio:4/3;padding:24px}
+  .preview-hero{aspect-ratio:4/5;min-height:420px;padding:24px}
   .preview-hero .glyph{font-size:140px}
   .preview-hero h1{font-size:28px}
   .preview-body-inner{padding:24px;gap:20px}
