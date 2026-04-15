@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TEL AVIV HUMMUS ROOM — Brandbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brick:#A8321F;
+  --brick-dark:#6F1E10;
+  --olive:#5C7038;
+  --cream:#F2E8D5;
+  --tahini:#D9B679;
+  --charcoal:#1A1814;
+  --ink:#1F1B17;
+  --gray:#6B5E50;
+  --line:#E3D6B9;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{background:#CCC;font-family:'DM Sans',sans-serif;color:var(--ink);font-size:11pt;line-height:1.6;font-weight:400}
+h1,h2,h3,h4,h5{font-family:'Frank Ruhl Libre',serif;font-weight:700;letter-spacing:-0.01em;line-height:1.05}
+a{color:inherit;text-decoration:none}
+small{font-size:9pt;color:var(--gray)}
+
+.page{
+  width:210mm;height:297mm;
+  background:var(--cream);
+  padding:22mm 20mm;
+  margin:10mm auto;
+  box-shadow:0 4px 24px rgba(0,0,0,0.15);
+  position:relative;overflow:hidden;
+  page-break-after:always;
+  display:flex;flex-direction:column;
+}
+.page::after{
+  content:attr(data-page) ' / 25';
+  position:absolute;bottom:12mm;right:20mm;
+  font-family:'DM Sans';font-size:8pt;color:var(--gray);letter-spacing:0.1em;
+}
+.page::before{
+  content:'TEL AVIV HUMMUS ROOM · BRANDBOOK';
+  position:absolute;bottom:12mm;left:20mm;
+  font-family:'DM Sans';font-size:8pt;color:var(--gray);letter-spacing:0.12em;font-weight:500;
+}
+.page.no-footer::after,.page.no-footer::before{display:none}
+
+.eyebrow{font-family:'DM Sans';font-size:9pt;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--brick);margin-bottom:8mm}
+h1.page-title{font-size:40pt;margin-bottom:6mm;letter-spacing:-0.025em;font-weight:900}
+h2.section-title{font-size:22pt;margin-bottom:5mm}
+.lead{font-size:13pt;color:var(--ink);line-height:1.6;max-width:155mm;margin-bottom:6mm;font-weight:400}
+p{margin-bottom:3mm}
+img{max-width:100%;display:block;image-rendering:high-quality}
+.divider{height:1px;background:var(--line);margin:6mm 0}
+
+.cover{background:var(--brick);color:var(--cream);justify-content:space-between;padding:18mm;position:relative}
+.cover::before,.cover::after{display:none}
+.cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.26;z-index:0}
+.cover > *{position:relative;z-index:1}
+.cover .brand{font-family:'Frank Ruhl Libre',serif;font-size:78pt;font-weight:900;line-height:0.88;color:var(--cream);margin-top:36mm;letter-spacing:-0.03em}
+.cover .brand small{display:block;font-family:'DM Sans';font-size:11pt;font-weight:500;color:var(--tahini);margin-top:6mm;letter-spacing:0.22em;text-transform:uppercase}
+.cover .tagline{font-family:'Frank Ruhl Libre';font-size:20pt;font-weight:500;max-width:140mm;margin-bottom:20mm;color:var(--cream);line-height:1.3;font-style:italic}
+.cover .meta{display:flex;gap:10mm;font-size:10pt;color:var(--cream);border-top:1px solid var(--tahini);padding-top:8mm}
+.cover .meta strong{display:block;font-family:'Frank Ruhl Libre';font-size:18pt;font-weight:700;color:var(--tahini);margin-bottom:2mm}
+
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6mm;margin-top:8mm}
+.stat-box{background:#fff;border:1px solid var(--line);border-radius:2mm;padding:6mm}
+.stat-box .num{font-family:'Frank Ruhl Libre';font-weight:900;font-size:30pt;color:var(--brick);line-height:1}
+.stat-box .lbl{font-size:9pt;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-top:2mm;font-weight:500}
+
+.usp-list{list-style:none;margin-top:6mm;counter-reset:usps}
+.usp-list li{padding:4mm 0 4mm 12mm;border-bottom:1px solid var(--line);position:relative;font-size:11pt;font-weight:400}
+.usp-list li::before{
+  content:counter(usps,decimal-leading-zero);counter-increment:usps;
+  position:absolute;left:0;top:4mm;
+  width:9mm;height:9mm;border-radius:50%;
+  background:var(--brick);color:var(--cream);
+  font-family:'Frank Ruhl Libre';font-weight:900;font-size:10pt;
+  display:flex;align-items:center;justify-content:center;
+}
+
+.color-row{display:grid;grid-template-columns:repeat(5,1fr);gap:4mm;margin-top:6mm}
+.color-chip{aspect-ratio:1/1.2;border-radius:2mm;padding:4mm;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line)}
+.color-chip .hex{font-family:'Frank Ruhl Libre';font-weight:700;font-size:11pt}
+.color-chip .nm{font-size:8pt;opacity:0.85;margin-top:1mm;font-weight:400}
+.color-chip.dark{color:#fff}
+
+.type-sample{margin-top:8mm;padding:6mm;border-left:3px solid var(--brick);background:#fff}
+.type-sample .label{font-size:9pt;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:2mm;font-weight:500}
+.type-sample .demo{font-family:'Frank Ruhl Libre';font-size:48pt;font-weight:900;color:var(--brick);line-height:1}
+.type-sample.body .demo{font-family:'DM Sans';font-weight:400;font-size:12pt;color:var(--ink);line-height:1.65}
+
+table{width:100%;border-collapse:collapse;margin-top:4mm;font-size:10pt}
+th,td{padding:3mm 2mm;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:'DM Sans';font-weight:700;font-size:9pt;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray)}
+td.num{font-family:'Frank Ruhl Libre';font-weight:700;text-align:right;white-space:nowrap}
+.total-row{background:var(--tahini);font-weight:700}
+.total-row td{border-top:2px solid var(--brick);border-bottom:none}
+
+.img-full{width:100%;flex:1;object-fit:cover;border-radius:2mm;margin-top:6mm;min-height:160mm}
+.img-large{width:100%;max-height:170mm;object-fit:cover;margin:4mm 0;border-radius:2mm}
+.caption{font-size:9pt;color:var(--gray);margin-top:3mm;font-style:italic;text-align:center}
+.img-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:6mm}
+.img-grid-2 img{width:100%;height:90mm;object-fit:cover;border-radius:2mm}
+
+.donut-wrap{display:flex;gap:10mm;align-items:center;margin-top:6mm}
+.donut{width:70mm;height:70mm;flex-shrink:0}
+.legend{flex:1}
+.legend-item{display:flex;align-items:center;gap:3mm;padding:2mm 0;font-size:10pt;border-bottom:1px solid var(--line)}
+.legend-dot{width:4mm;height:4mm;border-radius:50%;flex-shrink:0}
+.legend-item .val{margin-left:auto;font-family:'Frank Ruhl Libre';font-weight:700}
+
+.timeline{margin-top:4mm}
+.tl-row{display:grid;grid-template-columns:22mm 1fr;gap:4mm;padding:4mm 0;border-bottom:1px solid var(--line)}
+.tl-week{font-family:'Frank Ruhl Libre';font-weight:900;font-size:16pt;color:var(--brick)}
+.tl-week small{display:block;font-family:'DM Sans';font-size:8pt;color:var(--gray);font-weight:500;text-transform:uppercase;letter-spacing:0.08em;margin-top:1mm}
+.tl-tasks{font-size:10pt;font-weight:400}
+.tl-tasks li{margin-left:4mm;padding:1mm 0;list-style:disc}
+
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:4mm}
+.reg-card{background:#fff;border:1px solid var(--line);border-radius:2mm;padding:5mm}
+.reg-card h4{font-size:13pt;margin-bottom:3mm;color:var(--brick)}
+.reg-card ul{list-style:none;font-size:10pt}
+.reg-card li{padding:1.5mm 0;padding-left:5mm;position:relative;font-weight:400}
+.reg-card li::before{content:'·';position:absolute;left:0;color:var(--olive);font-weight:900;font-size:14pt;line-height:1}
+
+.pattern-demo{height:60mm;background:#fff;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+
+.back-cover{background:var(--charcoal);color:var(--cream);justify-content:space-between;position:relative}
+.back-cover::before,.back-cover::after{color:#666}
+.back-cover h1{color:var(--tahini);font-size:52pt}
+.back-cover p{color:#BBB;max-width:140mm;font-weight:400}
+
+@media print{body{background:#fff}.page{box-shadow:none;margin:0}}
+</style>
+</head>
+<body>
+
+<!-- 01 · COVER -->
+<section class="page cover no-footer">
+  <img class="cover-bg" src="images/01-hero.png" alt="">
+  <div style="font-size:10pt;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--tahini)">SVITA Micro · Concept Brandbook №005</div>
+  <div>
+    <h1 class="brand">Tel Aviv<br>Hummus<br>Room<small>Stone bowls · Florentin · open at seven</small></h1>
+  </div>
+  <div>
+    <div class="tagline">Warm chickpeas, copper pot, stone bowl.<br>The bar closes when the pot is empty.</div>
+    <div class="meta">
+      <div><strong>€14,800</strong>TOTAL BUDGET</div>
+      <div><strong>5 wks</strong>TO LAUNCH</div>
+      <div><strong>16 m²</strong>FOOTPRINT</div>
+      <div><strong>IL</strong>COUNTRY</div>
+      <div><strong>M5</strong>BREAK-EVEN</div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 · EXEC SUMMARY -->
+<section class="page" data-page="02">
+  <div class="eyebrow">Executive Summary</div>
+  <h1 class="page-title">The one-page pitch.</h1>
+  <p class="lead">Tel Aviv Hummus Room is a 16 m² morning-only hummus bar in Florentin, south Tel Aviv, serving four warm bowls on volcanic stone slabs between 07:00 and 14:00. The pot goes on at 05:30, the doors open at 07:00, and when the copper pot is empty the bar closes — usually by 14:00, sometimes by noon. No evening service, no delivery, no freezer. Launches within 5 weeks for €14,800 (~₪58,500).</p>
+  <div class="divider"></div>
+  <div class="stats-grid">
+    <div class="stat-box"><div class="num">€14,800</div><div class="lbl">Total investment</div></div>
+    <div class="stat-box"><div class="num">€11,200</div><div class="lbl">Monthly revenue (target)</div></div>
+    <div class="stat-box"><div class="num">€2,800</div><div class="lbl">Monthly EBITDA</div></div>
+    <div class="stat-box"><div class="num">Month 5</div><div class="lbl">Break-even</div></div>
+    <div class="stat-box"><div class="num">180 bowls/day</div><div class="lbl">Production target</div></div>
+    <div class="stat-box"><div class="num">07:00 → empty</div><div class="lbl">Service window</div></div>
+  </div>
+</section>
+
+<!-- 03 · CONCEPT -->
+<section class="page" data-page="03">
+  <div class="eyebrow">The Concept</div>
+  <h1 class="page-title">One pot.<br>Until it's gone.</h1>
+  <p class="lead">Tel Aviv has dozens of hummus institutions — Abu Hassan, Ali Karavan, Shlomo &amp; Doron, Pinati — and all of them share the same DNA: warm chickpeas, one morning pot, doors close at empty. The formula works. Tel Aviv Hummus Room brings that discipline to a 16 m² bar in Florentin, the neighbourhood that turned in the last decade from mechanics' shops into the city's design district and still reads working-class at breakfast.</p>
+  <p>No menu printing, no seasonal rotation, no delivery integration. Four bowls: Masabaha (warm whole chickpeas with tahini), Hummus (classic smooth), Ful (fava beans), Pitriyot (mushroom &amp; za'atar). Each bowl served on volcanic basalt, with lafa baked off-site by a named baker in Hatikva, a dish of pickled vegetables, a halved hard-boiled egg, a cup of sweet black tea. The operation ends when the pot does.</p>
+  <img class="img-large" src="images/08-pour-detail.png" alt="Hummus swirled in a stone bowl with pool of olive oil" style="max-height:90mm">
+  <div style="margin-top:6mm;padding:6mm;background:#fff;border-left:3px solid var(--brick)">
+    <strong style="font-family:'DM Sans';font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--brick)">The Empty-Pot Rule</strong>
+    <p style="margin-top:2mm;font-size:10pt;font-weight:400">The bar opens Sunday through Friday at 07:00. When the copper pot is scraped clean, the door closes — no exceptions, no "we'll whip up more," no freezer reserve. Saturday closed. This is the whole business model.</p>
+  </div>
+</section>
+
+<!-- 04 · AUDIENCE -->
+<section class="page" data-page="04">
+  <div class="eyebrow">Target Audience</div>
+  <h1 class="page-title">Who shows up<br>at seven-fifteen?</h1>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:6mm">
+    <div style="background:#fff;padding:6mm;border-radius:2mm;border:1px solid var(--line)">
+      <h3 style="font-size:15pt;color:var(--brick);margin-bottom:3mm">Persona A · Noam, 38</h3>
+      <p style="font-size:10pt"><strong>Role:</strong> Electrician, second-generation Florentin resident</p>
+      <p style="font-size:10pt"><strong>Lifestyle:</strong> Out of the house by 06:45, breakfast before site, rarely eats dinner out</p>
+      <p style="font-size:10pt"><strong>Why he buys:</strong> Close to home, warm at 07:15, costs less than 40 shekels, no chair required — eats standing at the bar.</p>
+      <p style="font-size:10pt"><strong>Ticket:</strong> ₪38 / €9.60 · <strong>Frequency:</strong> 4×/week</p>
+    </div>
+    <div style="background:#fff;padding:6mm;border-radius:2mm;border:1px solid var(--line)">
+      <h3 style="font-size:15pt;color:var(--brick);margin-bottom:3mm">Persona B · Shira, 29</h3>
+      <p style="font-size:10pt"><strong>Role:</strong> UX designer, lives Rothschild, works Sarona</p>
+      <p style="font-size:10pt"><strong>Lifestyle:</strong> Tracks food on Instagram, photographs the bowl before eating</p>
+      <p style="font-size:10pt"><strong>Why she buys:</strong> The discipline is the story — a bar that closes at empty is a story worth re-posting. 12:30 break, usually the last bowl of the day.</p>
+      <p style="font-size:10pt"><strong>Ticket:</strong> ₪48 / €12.10 · <strong>Frequency:</strong> 2×/month</p>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <h4 style="font-size:13pt;margin-bottom:3mm">Secondary audiences</h4>
+  <p style="font-size:10pt;font-weight:400">Tourists who've read the Haaretz or NYT travel column on Florentin (~18% of revenue, mostly Fridays), design-studio lunches from nearby Kikar Levinsky agencies (standing orders for 6–10 bowls, Wednesdays). <strong>Explicitly not targeting:</strong> delivery app customers, dinner crowds, anyone looking for a menu with more than four options, anyone asking for the recipe in writing.</p>
+  <img class="img-large" src="images/10-night.png" alt="Florentin at dawn with the Hummus Room door open" style="max-height:75mm;margin-top:6mm">
+</section>
+
+<!-- 05 · USP -->
+<section class="page" data-page="05">
+  <div class="eyebrow">USPs &amp; Positioning</div>
+  <h1 class="page-title">Why this wins.</h1>
+  <p class="lead">Five defensible advantages over the average Tel Aviv hummusiya.</p>
+  <ol class="usp-list">
+    <li><strong>One-pot rule.</strong> The bar closes at empty. No lunch-shift panic, no freezer, no "let me check the back."</li>
+    <li><strong>Four bowls only.</strong> Masabaha, Hummus, Ful, Pitriyot — every day, same recipes, no specials, no tiramisu-equivalent add-ons.</li>
+    <li><strong>Named ingredients.</strong> Kabuli chickpeas from Nataf Moshav, tahini from Karawan (Nazareth), olive oil from Ein Kemah, lafa from Baladi Bakery. Every supplier on the wall.</li>
+    <li><strong>Stone bowl, no plastic.</strong> Bowls are basalt, cutlery is steel, lafa in paper. Zero single-use, zero delivery boxes.</li>
+    <li><strong>€14,800 to open, 5 weeks from lease signature to first bowl.</strong> Simple kitchen, no hood extraction, residential-grade power, no liquor licence.</li>
+  </ol>
+  <div class="divider"></div>
+  <h4 style="font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin-top:4mm">Positioning statement</h4>
+  <p style="margin-top:3mm;font-size:13pt;font-style:italic;font-family:'Frank Ruhl Libre';color:var(--brick);font-weight:500">For Florentin residents, design workers in Sarona and Rothschild, and hummus tourists willing to wake up early, Tel Aviv Hummus Room is the 16 m² morning bar whose daily empty-pot rule turns breakfast into a ritual of arrival.</p>
+</section>
+
+<!-- 06 · BRAND IDENTITY -->
+<section class="page" data-page="06">
+  <div class="eyebrow">Brand Identity</div>
+  <h1 class="page-title">The visual system.</h1>
+  <p class="lead">A brick-red doorframe, a tahini-coloured plaster wall, a single copper pot on a gas burner, and four basalt bowls lined up on a pale concrete counter. Olive-green painted lettering on the door. The bar is the logo. The pot is the advertising.</p>
+  <img class="img-large" src="images/03-interior.png" alt="Interior view of Tel Aviv Hummus Room" style="max-height:155mm">
+  <p class="caption">Master moodboard · brick-red door, tahini plaster, copper pot on blue-flame burner, basalt bowls</p>
+</section>
+
+<!-- 07 · COLOR -->
+<section class="page" data-page="07">
+  <div class="eyebrow">Color Palette</div>
+  <h1 class="page-title">Five colours.<br>Five ingredients.</h1>
+  <p class="lead">Brick is the doorframe. Cream is the plaster. Tahini is the bowl. Olive is the lettering. Charcoal is the type. Never introduce a sixth colour.</p>
+  <div class="color-row">
+    <div class="color-chip dark" style="background:#A8321F"><div class="hex">#A8321F</div><div class="nm">Brick · primary</div></div>
+    <div class="color-chip" style="background:#F2E8D5"><div class="hex">#F2E8D5</div><div class="nm">Cream · plaster</div></div>
+    <div class="color-chip" style="background:#D9B679"><div class="hex">#D9B679</div><div class="nm">Tahini · product</div></div>
+    <div class="color-chip dark" style="background:#5C7038"><div class="hex">#5C7038</div><div class="nm">Olive · accent</div></div>
+    <div class="color-chip dark" style="background:#1A1814"><div class="hex">#1A1814</div><div class="nm">Charcoal · type</div></div>
+  </div>
+  <div class="divider"></div>
+  <h4 style="font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin-top:6mm">Usage rules</h4>
+  <table>
+    <tr><td><strong>Brick</strong></td><td>Door frame, awning, aprons, takeaway paper-bag stamp only</td></tr>
+    <tr><td><strong>Cream</strong></td><td>All interior plaster, receipt paper, inside of paper bags</td></tr>
+    <tr><td><strong>Tahini</strong></td><td>The product itself — never as paint, never as print ink</td></tr>
+    <tr><td><strong>Olive</strong></td><td>Hand-painted door lettering, supplier wall, chalkboard key lines</td></tr>
+    <tr><td><strong>Charcoal</strong></td><td>Type on receipts and bag stamps — never as paint on walls</td></tr>
+  </table>
+</section>
+
+<!-- 08 · TYPOGRAPHY -->
+<section class="page" data-page="08">
+  <div class="eyebrow">Typography</div>
+  <h1 class="page-title">Frank Ruhl + DM Sans.</h1>
+  <p class="lead">One display face (Frank Ruhl Libre — the Hebrew-Latin serif from Adobe, shipped free by Google Fonts) and one body face (DM Sans). Frank Ruhl was designed for Hebrew newspapers in the 1910s and its Latin cut reads in Tel Aviv's visual grammar without feeling touristy.</p>
+  <div class="type-sample">
+    <div class="label">Display · Frank Ruhl Libre Black (900)</div>
+    <div class="demo">Until the pot is empty.</div>
+  </div>
+  <div class="type-sample body">
+    <div class="label">Body · DM Sans Regular (400)</div>
+    <div class="demo">Kabuli chickpeas are soaked overnight, boiled from 05:30 on a single gas burner, plated warm onto basalt bowls at 07:00, and served with Baladi lafa, Karawan tahini, and a hard-boiled egg split by hand.</div>
+  </div>
+  <div class="divider"></div>
+  <table>
+    <tr><th>Use</th><th>Font</th><th>Weight</th><th>Size</th></tr>
+    <tr><td>Logo · "Tel Aviv"</td><td>Frank Ruhl Libre</td><td>900</td><td>78pt</td></tr>
+    <tr><td>Page titles</td><td>Frank Ruhl Libre</td><td>900</td><td>40pt</td></tr>
+    <tr><td>Door hand-lettering</td><td>Frank Ruhl Libre</td><td>700</td><td>24pt</td></tr>
+    <tr><td>Receipt bowl name</td><td>Frank Ruhl Libre</td><td>700</td><td>12pt</td></tr>
+    <tr><td>Body copy</td><td>DM Sans</td><td>400</td><td>11pt</td></tr>
+    <tr><td>Labels · captions</td><td>DM Sans</td><td>500</td><td>9pt</td></tr>
+  </table>
+</section>
+
+<!-- 09 · PATTERN -->
+<section class="page" data-page="09">
+  <div class="eyebrow">Pattern Library</div>
+  <h1 class="page-title">The four-spoon grid.</h1>
+  <p class="lead">The brand pattern is a single idea: four circles representing the four bowls, drawn as the swirl a spoon makes in a fresh hummus plate. Used on paper bags, the door, and the Instagram grid marker. Never more than four swirls. Never fewer.</p>
+  <div class="pattern-demo">
+    <svg viewBox="0 0 600 260" style="width:90%;height:auto">
+      <g>
+        <circle cx="150" cy="130" r="46" fill="#D9B679" stroke="#A8321F" stroke-width="2"/>
+        <circle cx="150" cy="130" r="14" fill="#5C7038"/>
+        <circle cx="270" cy="130" r="46" fill="#D9B679" stroke="#A8321F" stroke-width="2"/>
+        <circle cx="270" cy="130" r="22" fill="none" stroke="#A8321F" stroke-width="2"/>
+        <circle cx="390" cy="130" r="46" fill="#D9B679" stroke="#A8321F" stroke-width="2"/>
+        <path d="M390 108 Q400 130 390 152 Q380 130 390 108" fill="#5C7038"/>
+        <circle cx="510" cy="130" r="46" fill="#D9B679" stroke="#A8321F" stroke-width="2"/>
+        <circle cx="510" cy="118" r="6" fill="#1A1814"/><circle cx="500" cy="140" r="5" fill="#1A1814"/><circle cx="522" cy="140" r="5" fill="#1A1814"/>
+      </g>
+      <text x="300" y="230" text-anchor="middle" font-family="Frank Ruhl Libre" font-size="18" font-weight="700" fill="#A8321F">masabaha · hummus · ful · pitriyot</text>
+    </svg>
+  </div>
+  <div class="divider"></div>
+  <h4 style="font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin-top:6mm">Rules</h4>
+  <p style="font-size:10pt;font-weight:400">Four circles in a row. Circle diameter = 12% of surface width. Space between circles = ½ diameter. Circles always in order: Masabaha, Hummus, Ful, Pitriyot — the order the pot cycles through each morning.</p>
+</section>
+
+<!-- 10 · SPACE HERO -->
+<section class="page" data-page="10">
+  <div class="eyebrow">Space · Hero</div>
+  <h1 class="page-title">The door at seven.</h1>
+  <img class="img-full" src="images/01-hero.png" alt="Tel Aviv Hummus Room doorway in Florentin at dawn">
+  <p class="caption">Tel Aviv Hummus Room in situ · Florentin, south Tel Aviv · 07:00 Tuesday</p>
+</section>
+
+<!-- 11 · FLOOR PLAN -->
+<section class="page" data-page="11">
+  <div class="eyebrow">Floor Plan · 16 m²</div>
+  <h1 class="page-title">Every millimetre counts.</h1>
+  <img class="img-full" src="images/11-axonometric.png" alt="Axonometric interior plan of the Hummus Room">
+  <p class="caption">Axonometric interior · 3.2m × 5.0m footprint · 3.0m ceiling · one pot, one counter, six stools</p>
+</section>
+
+<!-- 12 · FURNITURE -->
+<section class="page" data-page="12">
+  <div class="eyebrow">Furniture · Dimensions</div>
+  <h1 class="page-title">Exact measurements.</h1>
+  <p class="lead">Everything measured in mm. These specs go to the Florentin metal workshop verbatim. Brick-red exterior, pale concrete counter, painted olive-green letters — no second colour on the façade, ever.</p>
+  <table>
+    <tr><th>Element</th><th>W × D × H (mm)</th><th>Material</th><th>Finish</th><th>Notes</th></tr>
+    <tr><td>Doorframe + shutter</td><td>1600 × — × 2400</td><td>Steel + frosted glass</td><td>Brick-red satin enamel</td><td>Hand-lettered "Hummus" in olive</td></tr>
+    <tr><td>Bar counter (seating side)</td><td>3200 × 450 × 1050</td><td>Pale polished concrete</td><td>Waxed sealed</td><td>Six standing positions, no stools required</td></tr>
+    <tr><td>Kitchen counter (pot side)</td><td>1800 × 600 × 900</td><td>Stainless 304</td><td>Brushed</td><td>Holds single burner, plating zone, wash area</td></tr>
+    <tr><td>Gas burner plinth</td><td>500 × 500 × 150</td><td>Cast iron</td><td>Black high-temp paint</td><td>Holds one 18L copper pot</td></tr>
+    <tr><td>Suppliers wall (chalk)</td><td>2200 × — × 1200</td><td>Plywood + chalk paint</td><td>Olive green</td><td>Daily hand-written supplier board</td></tr>
+    <tr><td>Lafa warmer cabinet</td><td>500 × 450 × 700</td><td>Wood box + terracotta brick</td><td>Beeswaxed</td><td>Passive heat from pot vent</td></tr>
+    <tr><td>Hand-painted sign</td><td>1800 × — × 250</td><td>MDF + oil paint</td><td>Olive on cream</td><td>Letterer: Tzvika Kedem, Jaffa</td></tr>
+  </table>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Power:</strong> 16A single-phase 230V (induction backup only). <strong>Gas:</strong> 12 kg LPG bottle, swappable, no municipal line. <strong>Water:</strong> small sink, 15mm inlet, 40mm drain. <strong>Assembly:</strong> 4 days by 2-person crew. <strong>Ventilation:</strong> passive door + small wall vent (no hood required for boiling chickpeas).</p>
+</section>
+
+<!-- 13 · LIGHTING -->
+<section class="page" data-page="13">
+  <div class="eyebrow">Lighting Plan</div>
+  <h1 class="page-title">Daylight first.</h1>
+  <p class="lead">Tel Aviv Hummus Room is a morning bar. Natural light from the door does 80% of the job between 07:00 and 10:00. Artificial lighting exists only for the shoulders of service (grey winter mornings, plating zone) and the illuminated sign at the door. No mood lighting, no dimmers, no show.</p>
+  <table>
+    <tr><th>Fixture</th><th>Qty</th><th>Purpose</th><th>Spec</th><th>Cost</th></tr>
+    <tr><td>Pendant over counter</td><td>2</td><td>Bowl illumination at eye level</td><td>3000K, 8W, CRI&gt;90</td><td class="num">€110</td></tr>
+    <tr><td>Plating zone strip</td><td>1.5m</td><td>Kitchen side</td><td>4000K, 14W, task</td><td class="num">€60</td></tr>
+    <tr><td>Door sign uplight</td><td>2</td><td>Sign legibility from street</td><td>3000K, 5W, IP65</td><td class="num">€55</td></tr>
+    <tr><td>Suppliers wall spot</td><td>1</td><td>Chalkboard readability</td><td>3000K, 6W</td><td class="num">€35</td></tr>
+    <tr><td>Emergency exit light</td><td>1</td><td>Israeli fire code</td><td>Battery backup 90 min</td><td class="num">€50</td></tr>
+    <tr class="total-row"><td colspan="4">Total lighting</td><td class="num">€310</td></tr>
+  </table>
+  <p style="margin-top:4mm;font-size:9pt;color:var(--gray)"><em>Lighting is rolled into equipment and fit-out budgets — shown here for specification only.</em></p>
+</section>
+
+<!-- 14 · EQUIPMENT CORE -->
+<section class="page" data-page="14">
+  <div class="eyebrow">Equipment · Core</div>
+  <h1 class="page-title">The tools of the bowl.</h1>
+  <img class="img-full" src="images/09-equipment.png" alt="Copper pot, gas burner, stone bowls, ladle, lemon, tahini jar">
+  <p class="caption">The seven-tool kit · copper pot, gas burner, basalt bowls, ladle, masher, lafa warmer, pickle jar</p>
+</section>
+
+<!-- 15 · EQUIPMENT LIST -->
+<section class="page" data-page="15">
+  <div class="eyebrow">Equipment · Specifications</div>
+  <h1 class="page-title">The shopping list.</h1>
+  <table>
+    <tr><th>#</th><th>Item</th><th>Brand / Model</th><th>Why this one</th><th>Price</th></tr>
+    <tr><td>1</td><td>Copper stockpot · 18L</td><td>De Buyer Inocuivre</td><td>Even heat, holds 180 bowls of chickpeas</td><td class="num">€420</td></tr>
+    <tr><td>2</td><td>Commercial gas burner</td><td>Ambassade CAS18</td><td>18 kW, single ring, LPG compatible</td><td class="num">€380</td></tr>
+    <tr><td>3</td><td>Basalt stone bowls ×50</td><td>Custom · Jerusalem stonemason</td><td>Holds heat for 12 min after plating</td><td class="num">€600</td></tr>
+    <tr><td>4</td><td>Cast-iron masher</td><td>Custom · Yafo metalworker</td><td>Single piece, passes to next owner</td><td class="num">€45</td></tr>
+    <tr><td>5</td><td>Brass ladle · 220ml</td><td>Matfer Bourgeat</td><td>Exact portion, no weighing needed</td><td class="num">€65</td></tr>
+    <tr><td>6</td><td>Induction backup ring</td><td>Buffalo DB179</td><td>For gas outage only</td><td class="num">€240</td></tr>
+    <tr><td>7</td><td>Refrigerated counter</td><td>Polar G605</td><td>Tahini, pickles, eggs, fresh lafa</td><td class="num">€720</td></tr>
+    <tr><td>8</td><td>POS · card reader</td><td>Rav-Mishloach Pro + printer</td><td>Israel Pelecard compliant, 1.5%</td><td class="num">€180</td></tr>
+    <tr><td>9</td><td>Stainless wash sink (1-bay)</td><td>Gastro-Line IL</td><td>Mikveh-approved depth (for kosher option)</td><td class="num">€240</td></tr>
+    <tr class="total-row"><td colspan="4">TOTAL EQUIPMENT</td><td class="num">€2,890</td></tr>
+  </table>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Why equipment is low:</strong> hummus is a low-cap craft. The budget goes into the doorframe, the suppliers, the first month of rent, and the chickpeas themselves — not machinery. A copper pot and a gas ring outperform a €12,000 kitchen.</p>
+</section>
+
+<!-- 16 · SIGNAGE -->
+<section class="page" data-page="16">
+  <div class="eyebrow">Signage &amp; Door</div>
+  <h1 class="page-title">Read from 20 metres.</h1>
+  <img class="img-full" src="images/05-signage.png" alt="Hand-painted door lettering in olive green on brick red">
+  <p class="caption">Hand-painted door · Frank Ruhl Libre Black · olive on brick · letterer: Tzvika Kedem, Jaffa</p>
+</section>
+
+<!-- 17 · PACKAGING -->
+<section class="page" data-page="17">
+  <div class="eyebrow">Packaging</div>
+  <h1 class="page-title">Takeaway in paper.<br>That's it.</h1>
+  <p class="lead">Tel Aviv Hummus Room does not deliver. But a third of morning bowls leave in paper bags for tradesmen and site workers. Packaging is therefore the simplest possible: a brown kraft bag, a stamped paper sheet for the lafa, a single wooden spoon. No plastic lids, no foam, no logo foil — because nothing travels farther than 200 metres.</p>
+  <img class="img-large" src="images/04-packaging.png" alt="Kraft paper bag, takeaway bowl, wooden spoon, stamped paper" style="max-height:90mm">
+  <table style="margin-top:4mm">
+    <tr><th>Item</th><th>Material</th><th>Size</th><th>Unit cost</th><th>MOQ</th><th>Supplier</th></tr>
+    <tr><td>Brown kraft bag</td><td>Uncoated kraft 80g</td><td>180 × 90 × 240 mm</td><td class="num">€0.06</td><td>500</td><td>Ranpak Israel</td></tr>
+    <tr><td>Stamp · brick red ink</td><td>Rubber + oil ink</td><td>50 × 50 mm</td><td class="num">€0.01/bag</td><td>1 stamp</td><td>Kedem Print, Jaffa</td></tr>
+    <tr><td>Wax-paper lafa sheet</td><td>Unbleached wax paper</td><td>240 × 240 mm</td><td class="num">€0.02</td><td>1000</td><td>Hagit Paper</td></tr>
+    <tr><td>Wooden spoon</td><td>Birch, unvarnished</td><td>150 mm</td><td class="num">€0.05</td><td>500</td><td>Aviv Wood</td></tr>
+    <tr><td>Takeaway paper bowl</td><td>Bagasse pulp 500ml</td><td>Ø 150 × 55 mm</td><td class="num">€0.11</td><td>500</td><td>Greenbox IL</td></tr>
+    <tr><td>Stickered supplier card</td><td>Recycled card 220g</td><td>60 × 90 mm</td><td class="num">€0.03</td><td>1000</td><td>Kedem Print</td></tr>
+    <tr class="total-row"><td colspan="3">First-order launch stock</td><td class="num">€480</td><td colspan="2"></td></tr>
+  </table>
+</section>
+
+<!-- 18 · UNIFORM -->
+<section class="page" data-page="18">
+  <div class="eyebrow">Staff Uniform</div>
+  <h1 class="page-title">The cook is the brand.</h1>
+  <img class="img-full" src="images/13-uniform.png" alt="Brick-red apron, cream t-shirt, rolled-sleeve cook">
+  <p class="caption">Uniform system · cream cotton t-shirt · brick-red canvas half-apron · no hat · €55/person · 2 sets</p>
+</section>
+
+<!-- 19 · MENU -->
+<section class="page" data-page="19">
+  <div class="eyebrow">Menu &amp; Pricing</div>
+  <h1 class="page-title">Four bowls. One size.</h1>
+  <p class="lead">Four bowls. No small/large, no half-portions. Each served warm on a basalt bowl with lafa, half an egg, a dish of pickled turnip, a glass of sweet tea.</p>
+  <table>
+    <tr><th>Bowl</th><th>What's in it</th><th>Origin</th><th>Price ₪</th><th>Price €</th><th>COGS</th></tr>
+    <tr><td><strong>01 Masabaha</strong></td><td>Warm whole chickpeas, tahini, olive oil, parsley, pine nuts</td><td>Nataf + Karawan + Ein Kemah</td><td class="num">₪42</td><td class="num">€10.60</td><td class="num">32%</td></tr>
+    <tr><td><strong>02 Hummus</strong></td><td>Classic smooth hummus, tahini pool, paprika</td><td>Nataf + Karawan</td><td class="num">₪38</td><td class="num">€9.60</td><td class="num">28%</td></tr>
+    <tr><td><strong>03 Ful</strong></td><td>Fava beans stewed with cumin, lemon, olive oil, chopped egg</td><td>Bet Shean Valley</td><td class="num">₪38</td><td class="num">€9.60</td><td class="num">30%</td></tr>
+    <tr><td><strong>04 Pitriyot</strong></td><td>Hummus topped with sautéed mushrooms &amp; za'atar</td><td>Ramot Menashe + Palestinian za'atar</td><td class="num">₪46</td><td class="num">€11.60</td><td class="num">34%</td></tr>
+    <tr><td colspan="6"><em>Every bowl includes Baladi lafa, pickled turnip, half an egg, glass of sweet mint tea. Second lafa: ₪4 / €1.</em></td></tr>
+  </table>
+  <p style="margin-top:4mm;font-size:9pt;color:var(--gray)"><strong>Average ticket:</strong> ₪41 / €10.30 · <strong>Weighted gross margin:</strong> 69% · <strong>No service charge · no tipping line</strong></p>
+</section>
+
+<!-- 20 · BUDGET -->
+<section class="page" data-page="20">
+  <div class="eyebrow">Budget Breakdown</div>
+  <h1 class="page-title">€14,800 total.</h1>
+  <p class="lead">Every euro mapped to the doorframe, the counter, the first suppliers, or the first three months of rent. €0 marketing — Florentin foot traffic plus a hand-painted door does the entire job.</p>
+  <div class="donut-wrap">
+    <svg class="donut" viewBox="0 0 42 42">
+      <circle cx="21" cy="21" r="15.915" fill="#fff" stroke="var(--line)" stroke-width="0.5"/>
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#A8321F" stroke-width="8" stroke-dasharray="35.8 64.2" stroke-dashoffset="25" transform="rotate(-90 21 21)"/>
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#5C7038" stroke-width="8" stroke-dasharray="19.5 80.5" stroke-dashoffset="-10.8" transform="rotate(-90 21 21)"/>
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#D9B679" stroke-width="8" stroke-dasharray="16.2 83.8" stroke-dashoffset="-30.3" transform="rotate(-90 21 21)"/>
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#B6904A" stroke-width="8" stroke-dasharray="20.3 79.7" stroke-dashoffset="-46.5" transform="rotate(-90 21 21)"/>
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#1A1814" stroke-width="8" stroke-dasharray="8.2 91.8" stroke-dashoffset="-66.8" transform="rotate(-90 21 21)"/>
+    </svg>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#A8321F"></div>Doorframe + counter + plaster fit-out<span class="val">€5,300</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#5C7038"></div>Equipment + basalt bowls + burner<span class="val">€2,890</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#D9B679"></div>First suppliers + chickpeas + lafa<span class="val">€2,400</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#B6904A"></div>Deposit + first rent (Florentin)<span class="val">€3,000</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1A1814"></div>Registration + reserve<span class="val">€1,210</span></div>
+      <div class="legend-item" style="border-top:2px solid var(--brick);margin-top:2mm;padding-top:3mm;font-weight:700"><div class="legend-dot" style="background:var(--brick)"></div>MARKETING<span class="val" style="color:var(--brick)">€0</span></div>
+    </div>
+  </div>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Why marketing = €0:</strong> Florentin wakes up on foot. The pot at 07:00 is the advertisement. The queue on Fridays is the distribution. The tourists find it themselves through Haaretz and Google Maps.</p>
+</section>
+
+<!-- 21 · REGISTRATION -->
+<section class="page" data-page="21">
+  <div class="eyebrow">Registration · Israel</div>
+  <h1 class="page-title">Legal setup in 21 days.</h1>
+  <p class="lead">Israel's Osek Patur / Osek Morshe small-business framework is the fastest path. Registration via Rashut Ha-misim is free for the business itself; licences and certifications add €800–€1,100 in fixed fees over the first month.</p>
+  <div class="reg-grid">
+    <div class="reg-card">
+      <h4>1. Osek Morshe</h4>
+      <ul>
+        <li>Legal form: Osek Morshe (registered dealer)</li>
+        <li>Portal: misim.gov.il</li>
+        <li>Registration fee: ₪0</li>
+        <li>Time: 3–5 business days</li>
+        <li>Required: Teudat Zehut + bank account</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>2. Food Business Licence</h4>
+      <ul>
+        <li>Rishyon Esek — Tel Aviv municipality</li>
+        <li>Category: 4.2A (warm ready food, no alcohol)</li>
+        <li>Fee: ₪1,500 / ~€380</li>
+        <li>Time: 14–21 days</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>3. Health Ministry</h4>
+      <ul>
+        <li>Misrad Habriut inspection: free</li>
+        <li>Food handler certificate (rav-machshir): ₪350</li>
+        <li>Annual renewal required</li>
+        <li>Optional kosher: Rabbanut TLV ₪1,800/yr</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>4. Bituach + VAT</h4>
+      <ul>
+        <li>Bituach Leumi (social security): 5.97% of profit</li>
+        <li>VAT (Ma'am): 17% standard · bi-monthly</li>
+        <li>Public liability insurance: ₪1,200/yr</li>
+        <li>Accountant (Ro'eh Heshbon): ₪400/mo</li>
+      </ul>
+    </div>
+  </div>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Total legal + registration costs:</strong> ~€1,100 (Rishyon ₪1,500 + food handler ₪350 + first-year insurance ₪1,200 + misc ₪500). Kosher certification optional and not recommended for Florentin's largely secular market.</p>
+</section>
+
+<!-- 22 · TIMELINE -->
+<section class="page" data-page="22">
+  <div class="eyebrow">Launch Timeline</div>
+  <h1 class="page-title">5 weeks to first pot.</h1>
+  <div class="timeline">
+    <div class="tl-row"><div class="tl-week">W1<small>Legal</small></div><ul class="tl-tasks"><li>Register Osek Morshe at Rashut Ha-misim (3 days)</li><li>Open business bank account (Bank Hapoalim / Discount)</li><li>Apply for Rishyon Esek at Tel Aviv municipality</li><li>Sign the lease in Florentin (Vital / Levinsky / Merhavia st.)</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W2<small>Space</small></div><ul class="tl-tasks"><li>Florentin metalworker quotes doorframe + counter</li><li>Order basalt bowls from Jerusalem stonemason (7 days)</li><li>Confirm LPG bottle supply contract</li><li>Visit Nataf (chickpeas) + Karawan (tahini) + Ein Kemah (olive oil) + Baladi (lafa)</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W3<small>Fit-out</small></div><ul class="tl-tasks"><li>Plasterer applies cream tadelakt to interior walls</li><li>Metalworker installs doorframe, brick-red paint cures</li><li>Equipment arrives · copper pot, gas burner, induction backup</li><li>First chickpea and lafa test deliveries</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W4<small>Recipe</small></div><ul class="tl-tasks"><li>Lock the four bowl recipes · 3 blind tests per bowl</li><li>Letterer Tzvika Kedem paints door + suppliers board</li><li>Misrad Habriut inspection passes</li><li>Hire one part-time bowl runner for Friday shift</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W5<small>Launch</small></div><ul class="tl-tasks"><li>Soft opening Thursday 07:00 · invitation to 15 neighbours</li><li>First public pot Sunday 07:00</li><li>Instagram seeded with 5 pot-boiling videos</li><li>Haaretz weekend columnist invited for a bowl</li></ul></div>
+  </div>
+</section>
+
+<!-- 23 · P&L -->
+<section class="page" data-page="23">
+  <div class="eyebrow">P&amp;L Projection</div>
+  <h1 class="page-title">€2,800 EBITDA / month.</h1>
+  <p class="lead">Conservative projection · 110 bowls/day average × 26 days × €10.30 = ~€29,450 revenue, actual (ramping) projected at €11,200/mo. Break-even month 5.</p>
+  <table>
+    <tr><th>Line item</th><th>Monthly</th><th>Annual</th><th>% of revenue</th></tr>
+    <tr><td>Revenue (110 bowls/day × 26 days × €10.30, 38% ramp)</td><td class="num">€11,200</td><td class="num">€134,400</td><td class="num">100%</td></tr>
+    <tr><td style="padding-left:6mm">COGS (chickpeas, tahini, oil, lafa, eggs, paper)</td><td class="num">(€3,470)</td><td class="num">(€41,640)</td><td class="num">31%</td></tr>
+    <tr style="background:#F4E8C8"><td><strong>Gross profit</strong></td><td class="num"><strong>€7,730</strong></td><td class="num"><strong>€92,760</strong></td><td class="num"><strong>69%</strong></td></tr>
+    <tr><td style="padding-left:6mm">Rent (16 m² Florentin)</td><td class="num">(€1,900)</td><td class="num">(€22,800)</td><td class="num">16.9%</td></tr>
+    <tr><td style="padding-left:6mm">Labor (owner + 24h/wk help)</td><td class="num">(€1,850)</td><td class="num">(€22,200)</td><td class="num">16.5%</td></tr>
+    <tr><td style="padding-left:6mm">Utilities + gas + water</td><td class="num">(€240)</td><td class="num">(€2,880)</td><td class="num">2.1%</td></tr>
+    <tr><td style="padding-left:6mm">Bituach + VAT admin + POS fees + misc</td><td class="num">(€940)</td><td class="num">(€11,280)</td><td class="num">8.4%</td></tr>
+    <tr class="total-row"><td><strong>EBITDA</strong></td><td class="num"><strong>€2,800</strong></td><td class="num"><strong>€33,600</strong></td><td class="num"><strong>25.0%</strong></td></tr>
+  </table>
+  <div style="margin-top:6mm;padding:5mm;background:#fff;border-left:3px solid var(--brick)">
+    <strong style="font-family:'DM Sans';font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--brick)">Break-even math</strong>
+    <p style="margin-top:2mm;font-size:10pt;font-weight:400">Fixed costs ≈ €4,930/mo. Gross margin 69%. Break-even revenue = €7,145/mo = 65 bowls/day. Target 110 bowls/day leaves 70% buffer. Friday spikes (tourists, design studios) carry slower Sunday–Monday mornings.</p>
+  </div>
+</section>
+
+<!-- 24 · SUPPLIERS -->
+<section class="page" data-page="24">
+  <div class="eyebrow">Suppliers Directory</div>
+  <h1 class="page-title">Who to call.</h1>
+  <p class="lead">Every supplier named, vetted for &lt;24-hour lead times, and listed on the olive-green chalkboard on the suppliers wall. Customers can read the wall while they eat.</p>
+  <table>
+    <tr><th>Category</th><th>Supplier</th><th>URL / Address</th><th>Lead time</th><th>Contact</th></tr>
+    <tr><td>Chickpeas (Kabuli)</td><td>Nataf Moshav Cooperative</td><td>nataf-coop.co.il</td><td>2 days</td><td>+972 2 534 1180</td></tr>
+    <tr><td>Tahini</td><td>Karawan · Nazareth</td><td>karawantahini.com</td><td>3 days</td><td>+972 4 657 0011</td></tr>
+    <tr><td>Olive oil</td><td>Ein Kemah Groves (Galilee)</td><td>einkemah.co.il</td><td>4 days</td><td>Yair · WhatsApp only</td></tr>
+    <tr><td>Lafa bread</td><td>Baladi Bakery · Hatikva</td><td>In-person orders</td><td>Daily 05:30</td><td>Abu Khalil · +972 52 814 5522</td></tr>
+    <tr><td>Fava beans</td><td>Bet Shean Agri-Cooperative</td><td>betshean-coop.co.il</td><td>5 days</td><td>orders@betshean</td></tr>
+    <tr><td>Za'atar (Palestinian)</td><td>Canaan Fair Trade</td><td>canaanfairtrade.com</td><td>3 days</td><td>Jenin office</td></tr>
+    <tr><td>Basalt bowls</td><td>Jerusalem Stoneworks</td><td>jeru-stone.co.il</td><td>7 days</td><td>+972 2 671 0099</td></tr>
+    <tr><td>Copper pot</td><td>De Buyer France (via Gastroline IL)</td><td>gastroline.co.il</td><td>7 days</td><td>Rishon LeZion warehouse</td></tr>
+    <tr><td>Door letterer</td><td>Tzvika Kedem · Jaffa</td><td>@kedem_ot on IG</td><td>1 day</td><td>Via Instagram DM</td></tr>
+    <tr><td>Plasterer (tadelakt)</td><td>Yaakov Mizrachi · Florentin</td><td>Florentin local</td><td>3 days</td><td>+972 54 211 6677</td></tr>
+    <tr><td>POS system</td><td>Rav-Mishloach / Pelecard</td><td>pelecard.co.il</td><td>2 days</td><td>Self-serve</td></tr>
+    <tr><td>Accountant</td><td>Ofer Cohen · Rothschild</td><td>ofercpa.co.il</td><td>Ongoing</td><td>€400/mo flat</td></tr>
+  </table>
+</section>
+
+<!-- 25 · BACK COVER -->
+<section class="page back-cover no-footer">
+  <img class="cover-bg" src="images/10-night.png" alt="" style="opacity:.22">
+  <div style="font-size:10pt;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--tahini);position:relative">SVITA Micro · Concept Brandbook</div>
+  <div style="position:relative">
+    <h1 style="font-size:52pt;margin-bottom:6mm">Boil, serve,<br>close.</h1>
+    <p style="font-size:13pt;color:#BBB;max-width:140mm;line-height:1.6">This brandbook contains everything you need to open Tel Aviv Hummus Room — or any variant of it — in 5 weeks for under €15,000. Copy it. Adapt it. Change the four bowls to whatever you can cook blindfolded. The rule is the rule: when the pot is empty, close the door.</p>
+  </div>
+  <div style="border-top:1px solid #333;padding-top:6mm;font-size:9pt;color:#888;position:relative">
+    <p><strong style="color:#CCC">TEL AVIV HUMMUS ROOM · Brandbook v1.0</strong></p>
+    <p style="margin-top:2mm">Generated by SVITA Micro Concept Generator<br>© 2026 LABS67 · svita.ai · micro.svita.ai</p>
+    <p style="margin-top:4mm">All equipment prices, supplier contacts, and legal information valid as of April 2026. Legal data specific to Israel (Tel Aviv municipality). For other jurisdictions, regenerate the concept with target country code.</p>
+  </div>
+</section>
+
+</body>
+</html>
