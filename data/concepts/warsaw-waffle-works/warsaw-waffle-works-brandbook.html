@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WARSAW WAFFLE WORKS — Brandbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cobalt:#1C3D8C;
+  --cobalt-dark:#0E2359;
+  --amber:#D9892B;
+  --cream:#F4EBDD;
+  --rust:#9A3A1B;
+  --ink:#0E1624;
+  --gray:#5C6475;
+  --line:#DCD0B7;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{background:#CCC;font-family:'IBM Plex Sans',sans-serif;color:var(--ink);font-size:11pt;line-height:1.6;font-weight:400}
+h1,h2,h3,h4,h5{font-family:'Bodoni Moda',serif;font-weight:900;letter-spacing:-0.02em;line-height:1.05}
+a{color:inherit;text-decoration:none}
+small{font-size:9pt;color:var(--gray)}
+
+.page{
+  width:210mm;height:297mm;
+  background:var(--cream);
+  padding:22mm 20mm;
+  margin:10mm auto;
+  box-shadow:0 4px 24px rgba(0,0,0,0.15);
+  position:relative;overflow:hidden;
+  page-break-after:always;
+  display:flex;flex-direction:column;
+}
+.page::after{
+  content:attr(data-page) ' / 25';
+  position:absolute;bottom:12mm;right:20mm;
+  font-family:'IBM Plex Sans';font-size:8pt;color:var(--gray);letter-spacing:0.1em;
+}
+.page::before{
+  content:'WARSAW WAFFLE WORKS · BRANDBOOK';
+  position:absolute;bottom:12mm;left:20mm;
+  font-family:'IBM Plex Sans';font-size:8pt;color:var(--gray);letter-spacing:0.12em;font-weight:500;
+}
+.page.no-footer::after,.page.no-footer::before{display:none}
+
+.eyebrow{font-family:'IBM Plex Sans';font-size:9pt;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--cobalt);margin-bottom:8mm}
+h1.page-title{font-size:42pt;margin-bottom:6mm;letter-spacing:-0.03em;font-weight:900}
+h2.section-title{font-size:22pt;margin-bottom:5mm}
+.lead{font-size:13pt;color:var(--ink);line-height:1.6;max-width:155mm;margin-bottom:6mm;font-weight:400}
+p{margin-bottom:3mm}
+img{max-width:100%;display:block;image-rendering:high-quality}
+.divider{height:1px;background:var(--line);margin:6mm 0}
+
+.cover{background:var(--cobalt);color:var(--cream);justify-content:space-between;padding:18mm;position:relative}
+.cover::before,.cover::after{display:none}
+.cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.22;z-index:0}
+.cover > *{position:relative;z-index:1}
+.cover .brand{font-family:'Bodoni Moda',serif;font-size:76pt;font-weight:900;line-height:0.9;color:var(--cream);margin-top:36mm;letter-spacing:-0.035em;font-style:italic}
+.cover .brand small{display:block;font-family:'IBM Plex Sans';font-size:11pt;font-weight:500;color:var(--amber);margin-top:6mm;letter-spacing:0.22em;text-transform:uppercase;font-style:normal}
+.cover .tagline{font-family:'Bodoni Moda';font-size:19pt;font-weight:400;max-width:145mm;margin-bottom:20mm;color:var(--cream);line-height:1.35;font-style:italic}
+.cover .meta{display:flex;gap:10mm;font-size:10pt;color:var(--cream);border-top:1px solid var(--amber);padding-top:8mm}
+.cover .meta strong{display:block;font-family:'Bodoni Moda';font-size:18pt;font-weight:900;color:var(--amber);margin-bottom:2mm}
+
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6mm;margin-top:8mm}
+.stat-box{background:#fff;border:1px solid var(--line);border-radius:2mm;padding:6mm}
+.stat-box .num{font-family:'Bodoni Moda';font-weight:900;font-size:30pt;color:var(--cobalt);line-height:1}
+.stat-box .lbl{font-size:9pt;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-top:2mm;font-weight:500}
+
+.usp-list{list-style:none;margin-top:6mm;counter-reset:usps}
+.usp-list li{padding:4mm 0 4mm 12mm;border-bottom:1px solid var(--line);position:relative;font-size:11pt;font-weight:400}
+.usp-list li::before{
+  content:counter(usps,decimal-leading-zero);counter-increment:usps;
+  position:absolute;left:0;top:4mm;
+  width:9mm;height:9mm;border-radius:50%;
+  background:var(--cobalt);color:var(--cream);
+  font-family:'Bodoni Moda';font-weight:900;font-size:10pt;
+  display:flex;align-items:center;justify-content:center;
+}
+
+.color-row{display:grid;grid-template-columns:repeat(5,1fr);gap:4mm;margin-top:6mm}
+.color-chip{aspect-ratio:1/1.2;border-radius:2mm;padding:4mm;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line)}
+.color-chip .hex{font-family:'Bodoni Moda';font-weight:700;font-size:11pt}
+.color-chip .nm{font-size:8pt;opacity:0.85;margin-top:1mm;font-weight:400}
+.color-chip.dark{color:#fff}
+
+.type-sample{margin-top:8mm;padding:6mm;border-left:3px solid var(--cobalt);background:#fff}
+.type-sample .label{font-size:9pt;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:2mm;font-weight:500}
+.type-sample .demo{font-family:'Bodoni Moda';font-style:italic;font-size:46pt;font-weight:900;color:var(--cobalt);line-height:1}
+.type-sample.body .demo{font-family:'IBM Plex Sans';font-style:normal;font-weight:400;font-size:12pt;color:var(--ink);line-height:1.65}
+
+table{width:100%;border-collapse:collapse;margin-top:4mm;font-size:10pt}
+th,td{padding:3mm 2mm;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:'IBM Plex Sans';font-weight:700;font-size:9pt;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray)}
+td.num{font-family:'Bodoni Moda';font-weight:700;text-align:right;white-space:nowrap}
+.total-row{background:var(--amber);color:var(--ink);font-weight:700}
+.total-row td{border-top:2px solid var(--cobalt);border-bottom:none}
+
+.img-full{width:100%;flex:1;object-fit:cover;border-radius:2mm;margin-top:6mm;min-height:160mm}
+.img-large{width:100%;max-height:170mm;object-fit:cover;margin:4mm 0;border-radius:2mm}
+.caption{font-size:9pt;color:var(--gray);margin-top:3mm;font-style:italic;text-align:center}
+.img-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:6mm}
+.img-grid-2 img{width:100%;height:90mm;object-fit:cover;border-radius:2mm}
+
+.donut-wrap{display:flex;gap:10mm;align-items:center;margin-top:6mm}
+.donut{width:70mm;height:70mm;flex-shrink:0}
+.legend{flex:1}
+.legend-item{display:flex;align-items:center;gap:3mm;padding:2mm 0;font-size:10pt;border-bottom:1px solid var(--line)}
+.legend-dot{width:4mm;height:4mm;border-radius:50%;flex-shrink:0}
+.legend-item .val{margin-left:auto;font-family:'Bodoni Moda';font-weight:700}
+
+.timeline{margin-top:4mm}
+.tl-row{display:grid;grid-template-columns:22mm 1fr;gap:4mm;padding:4mm 0;border-bottom:1px solid var(--line)}
+.tl-week{font-family:'Bodoni Moda';font-weight:900;font-size:16pt;color:var(--cobalt);font-style:italic}
+.tl-week small{display:block;font-family:'IBM Plex Sans';font-size:8pt;color:var(--gray);font-weight:500;text-transform:uppercase;letter-spacing:0.08em;margin-top:1mm;font-style:normal}
+.tl-tasks{font-size:10pt;font-weight:400}
+.tl-tasks li{margin-left:4mm;padding:1mm 0;list-style:disc}
+
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:4mm}
+.reg-card{background:#fff;border:1px solid var(--line);border-radius:2mm;padding:5mm}
+.reg-card h4{font-size:13pt;margin-bottom:3mm;color:var(--cobalt)}
+.reg-card ul{list-style:none;font-size:10pt}
+.reg-card li{padding:1.5mm 0;padding-left:5mm;position:relative;font-weight:400}
+.reg-card li::before{content:'·';position:absolute;left:0;color:var(--amber);font-weight:900;font-size:14pt;line-height:1}
+
+.pattern-demo{height:60mm;background:#fff;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+
+.back-cover{background:var(--ink);color:var(--cream);justify-content:space-between;position:relative}
+.back-cover::before,.back-cover::after{color:#666}
+.back-cover h1{color:var(--amber);font-size:54pt;font-style:italic}
+.back-cover p{color:#BBB;max-width:140mm;font-weight:400}
+
+@media print{body{background:#fff}.page{box-shadow:none;margin:0}}
+</style>
+</head>
+<body>
+
+<!-- 01 · COVER -->
+<section class="page cover no-footer">
+  <img class="cover-bg" src="images/01-hero.png" alt="">
+  <div style="font-size:10pt;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--amber)">SVITA Micro · Concept Brandbook №006</div>
+  <div>
+    <h1 class="brand">Warsaw<br>Waffle<br>Works<small>Gofry z okienka · Ochota · open at eleven</small></h1>
+  </div>
+  <div>
+    <div class="tagline">Thick batter, cast iron, amber syrup.<br>The window is the kitchen.</div>
+    <div class="meta">
+      <div><strong>€9,800</strong>TOTAL BUDGET</div>
+      <div><strong>4 wks</strong>TO LAUNCH</div>
+      <div><strong>10 m²</strong>FOOTPRINT</div>
+      <div><strong>PL</strong>COUNTRY</div>
+      <div><strong>M4</strong>BREAK-EVEN</div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 · EXEC SUMMARY -->
+<section class="page" data-page="02">
+  <div class="eyebrow">Executive Summary</div>
+  <h1 class="page-title">The one-page pitch.</h1>
+  <p class="lead">Warsaw Waffle Works is a 10 m² window-front gofry bar in Ochota, west-central Warsaw, pressing thick Liège-style waffles to order on two cast-iron presses and handing them out through a street-level sliding window. Four configurations only — Klasyczny, Śliwka, Twaróg, Owoc — 11:00 to 19:00, Tuesday through Sunday. Opens within 4 weeks for €9,800 (~42,000 PLN).</p>
+  <div class="divider"></div>
+  <div class="stats-grid">
+    <div class="stat-box"><div class="num">€9,800</div><div class="lbl">Total investment</div></div>
+    <div class="stat-box"><div class="num">€8,400</div><div class="lbl">Monthly revenue (target)</div></div>
+    <div class="stat-box"><div class="num">€2,100</div><div class="lbl">Monthly EBITDA</div></div>
+    <div class="stat-box"><div class="num">Month 4</div><div class="lbl">Break-even</div></div>
+    <div class="stat-box"><div class="num">220 waffles/day</div><div class="lbl">Production target</div></div>
+    <div class="stat-box"><div class="num">11:00 → 19:00</div><div class="lbl">Service window</div></div>
+  </div>
+</section>
+
+<!-- 03 · CONCEPT -->
+<section class="page" data-page="03">
+  <div class="eyebrow">The Concept</div>
+  <h1 class="page-title">A window<br>and two irons.</h1>
+  <p class="lead">Warsaw eats gofry on the street — at Vistula beaches in summer, at Christmas markets in December, out of a paper sleeve, always walking. Warsaw Waffle Works formalises the street ritual into a 10 m² permanent window on Grójecka Street in Ochota, one of the last working-class districts inside the second ring, where the tram still rattles past and the bakery next door still smells of rye at 06:00.</p>
+  <p>No tables, no seating, no indoor dining. Customers queue on the pavement, order at the window, pay by BLIK, and walk away eating. Two 4-waffle cast-iron presses run continuously from 11:00. The batter is mixed twice a day — once at 09:30 for the lunch shift, once at 14:30 for the afternoon crowd — and any unsold batter at 19:00 goes into the bin. Nothing held over.</p>
+  <img class="img-large" src="images/08-pour-detail.png" alt="Thick batter poured onto a hot cast-iron waffle press" style="max-height:90mm">
+  <div style="margin-top:6mm;padding:6mm;background:#fff;border-left:3px solid var(--cobalt)">
+    <strong style="font-family:'IBM Plex Sans';font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--cobalt)">The Window Rule</strong>
+    <p style="margin-top:2mm;font-size:10pt;font-weight:400">No customer ever enters the shop. The whole operation faces Grójecka through a 1.2m × 0.9m sliding window. One baker, one cashier, one queue. The inside is the kitchen — not a stage, not a lounge, not an Instagram set. Monday closed.</p>
+  </div>
+</section>
+
+<!-- 04 · AUDIENCE -->
+<section class="page" data-page="04">
+  <div class="eyebrow">Target Audience</div>
+  <h1 class="page-title">Who queues<br>at the window?</h1>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:6mm">
+    <div style="background:#fff;padding:6mm;border-radius:2mm;border:1px solid var(--line)">
+      <h3 style="font-size:15pt;color:var(--cobalt);margin-bottom:3mm">Persona A · Marek, 35</h3>
+      <p style="font-size:10pt"><strong>Role:</strong> IT contractor, remote days in a Mokotów co-working</p>
+      <p style="font-size:10pt"><strong>Lifestyle:</strong> Cycles the tram line on Saturdays, stops on the way home from the swimming pool</p>
+      <p style="font-size:10pt"><strong>Why he buys:</strong> One-handed food he can eat walking. 14 PLN is less than a coffee. No app required — just tap BLIK at the window.</p>
+      <p style="font-size:10pt"><strong>Ticket:</strong> 14 PLN / €3.30 · <strong>Frequency:</strong> 3×/month</p>
+    </div>
+    <div style="background:#fff;padding:6mm;border-radius:2mm;border:1px solid var(--line)">
+      <h3 style="font-size:15pt;color:var(--cobalt);margin-bottom:3mm">Persona B · Ania, 26</h3>
+      <p style="font-size:10pt"><strong>Role:</strong> Graduate student, philology at Warsaw University</p>
+      <p style="font-size:10pt"><strong>Lifestyle:</strong> Walks the Ochota–Śródmieście corridor between classes, treats are a reward</p>
+      <p style="font-size:10pt"><strong>Why she buys:</strong> Named Polish suppliers on the chalkboard (Grójeckie plums, Piątnica twaróg) feel like home, not a chain. 18 PLN is affordable.</p>
+      <p style="font-size:10pt"><strong>Ticket:</strong> 18 PLN / €4.20 · <strong>Frequency:</strong> 2×/week</p>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <h4 style="font-size:13pt;margin-bottom:3mm">Secondary audiences</h4>
+  <p style="font-size:10pt;font-weight:400">Parents doing school run on Kopińska and Wawelska (waffle as after-school reward, ~22% of revenue, afternoons). Tourists walking from Pole Mokotowskie metro toward the city centre (~10%, weekend peaks). Office lunch crowd from the Grójecka business strip (standing orders for 8–12 waffles, Thursdays). <strong>Explicitly not targeting:</strong> delivery platforms, sit-down diners, anyone looking for savoury waffles, anyone who wants a menu in English only.</p>
+  <img class="img-large" src="images/10-night.png" alt="Warsaw Waffle Works window lit up on Grójecka at dusk" style="max-height:75mm;margin-top:6mm">
+</section>
+
+<!-- 05 · USP -->
+<section class="page" data-page="05">
+  <div class="eyebrow">USPs &amp; Positioning</div>
+  <h1 class="page-title">Why this wins.</h1>
+  <p class="lead">Five defensible advantages over the average Warsaw gofrownia.</p>
+  <ol class="usp-list">
+    <li><strong>Window-only service.</strong> No indoor seating means no wait staff, no toilet compliance, no SANEPID sit-down rules. One baker, one cashier, full stop.</li>
+    <li><strong>Four configurations only.</strong> Klasyczny (cukier puder + bita śmietana), Śliwka (powidła + cynamon), Twaróg (twaróg + miód), Owoc (seasonal fruit). No Nutella. No bananas.</li>
+    <li><strong>Named Polish suppliers.</strong> Mąka z Młyna Jasień, twaróg Piątnica, powidła z Sadów Grójeckich, miód z pasieki Kampinoska. Every supplier on the chalkboard beside the window.</li>
+    <li><strong>Cash + BLIK, no cards, no apps.</strong> Queue moves at window-speed. No wait for card terminals, no Glovo integration, no self-service kiosk.</li>
+    <li><strong>€9,800 to open, 4 weeks from lease signature to first waffle.</strong> No hood extraction (electric presses only), no grease trap, no dining room compliance.</li>
+  </ol>
+  <div class="divider"></div>
+  <h4 style="font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin-top:4mm">Positioning statement</h4>
+  <p style="margin-top:3mm;font-size:13pt;font-style:italic;font-family:'Bodoni Moda';color:var(--cobalt);font-weight:500">For Ochota residents, students on the Wawelska tram, and Warsaw tourists who want one-handed Polish street food, Warsaw Waffle Works is the 10 m² cobalt-blue window whose four-waffle rule turns Grójecka into an afternoon ritual.</p>
+</section>
+
+<!-- 06 · BRAND IDENTITY -->
+<section class="page" data-page="06">
+  <div class="eyebrow">Brand Identity</div>
+  <h1 class="page-title">The visual system.</h1>
+  <p class="lead">A cobalt-blue façade borrowed from Warsaw's post-war neon signs, an amber waffle sleeve, a single white sliding window, and a hand-painted Bodoni Moda italic sign above it. No screens, no illuminated menu board, no QR code. The stack of fresh waffles in the press is the entire brand advertising.</p>
+  <img class="img-large" src="images/03-interior.png" alt="Interior view of Warsaw Waffle Works" style="max-height:155mm">
+  <p class="caption">Master moodboard · cobalt façade, cast-iron presses, amber syrup bottles, white tile, hand-painted sign</p>
+</section>
+
+<!-- 07 · COLOR -->
+<section class="page" data-page="07">
+  <div class="eyebrow">Color Palette</div>
+  <h1 class="page-title">Five colours.<br>One window.</h1>
+  <p class="lead">Cobalt is the façade. Cream is the tile. Amber is the syrup. Rust is the supplier board. Ink is the type. Never introduce a sixth colour — the whole system fails the moment a stray green or pink shows up on the signage.</p>
+  <div class="color-row">
+    <div class="color-chip dark" style="background:#1C3D8C"><div class="hex">#1C3D8C</div><div class="nm">Cobalt · façade</div></div>
+    <div class="color-chip" style="background:#F4EBDD"><div class="hex">#F4EBDD</div><div class="nm">Cream · tile</div></div>
+    <div class="color-chip" style="background:#D9892B"><div class="hex">#D9892B</div><div class="nm">Amber · syrup</div></div>
+    <div class="color-chip dark" style="background:#9A3A1B"><div class="hex">#9A3A1B</div><div class="nm">Rust · supplier</div></div>
+    <div class="color-chip dark" style="background:#0E1624"><div class="hex">#0E1624</div><div class="nm">Ink · type</div></div>
+  </div>
+  <div class="divider"></div>
+  <h4 style="font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin-top:6mm">Usage rules</h4>
+  <table>
+    <tr><td><strong>Cobalt</strong></td><td>Exterior plaster, window frame, awning, paper sleeve stripe</td></tr>
+    <tr><td><strong>Cream</strong></td><td>Interior tile, receipt paper, inside of paper sleeve</td></tr>
+    <tr><td><strong>Amber</strong></td><td>Syrup bottles, menu numbers on the chalkboard — never as wall paint</td></tr>
+    <tr><td><strong>Rust</strong></td><td>Supplier board frame, chalk underline, apron piping</td></tr>
+    <tr><td><strong>Ink</strong></td><td>All type, logo, hand-painted sign outline</td></tr>
+  </table>
+</section>
+
+<!-- 08 · TYPOGRAPHY -->
+<section class="page" data-page="08">
+  <div class="eyebrow">Typography</div>
+  <h1 class="page-title">Bodoni Moda + IBM Plex.</h1>
+  <p class="lead">One display face (Bodoni Moda italic — a modern cut of Bodoni from Indestructible Type, shipped free on Google Fonts) and one body face (IBM Plex Sans). Bodoni Moda italic reads as Polish inter-war café signage without feeling like a costume; IBM Plex, designed in Warsaw's sister-city Portland, is the cleanest Latin grotesk for Polish diacritics that ships free.</p>
+  <div class="type-sample">
+    <div class="label">Display · Bodoni Moda Italic Black (900 italic)</div>
+    <div class="demo">Gofry z okienka.</div>
+  </div>
+  <div class="type-sample body">
+    <div class="label">Body · IBM Plex Sans Regular (400)</div>
+    <div class="demo">The batter is mixed twice a day on Grójecka — once at 09:30, once at 14:30 — from Młyn Jasień flour, Piątnica twaróg, fresh yolks and a pinch of Kłodawa salt, and pressed on two cast-iron irons under the cobalt awning.</div>
+  </div>
+  <div class="divider"></div>
+  <table>
+    <tr><th>Use</th><th>Font</th><th>Weight</th><th>Size</th></tr>
+    <tr><td>Logo · "Warsaw"</td><td>Bodoni Moda</td><td>900 italic</td><td>76pt</td></tr>
+    <tr><td>Page titles</td><td>Bodoni Moda</td><td>900</td><td>42pt</td></tr>
+    <tr><td>Hand-painted window sign</td><td>Bodoni Moda</td><td>700 italic</td><td>28pt</td></tr>
+    <tr><td>Chalkboard menu</td><td>Bodoni Moda</td><td>700 italic</td><td>18pt</td></tr>
+    <tr><td>Body copy</td><td>IBM Plex Sans</td><td>400</td><td>11pt</td></tr>
+    <tr><td>Labels · captions</td><td>IBM Plex Sans</td><td>500</td><td>9pt</td></tr>
+  </table>
+</section>
+
+<!-- 09 · PATTERN -->
+<section class="page" data-page="09">
+  <div class="eyebrow">Pattern Library</div>
+  <h1 class="page-title">The waffle grid.</h1>
+  <p class="lead">The brand pattern is a single idea: the 4×4 cast-iron waffle grid, redrawn as a cobalt square with amber pearl-sugar dots, printed on the paper sleeve, stamped on the receipt, painted above the window. Never rotated, never recoloured.</p>
+  <div class="pattern-demo">
+    <svg viewBox="0 0 600 260" style="width:90%;height:auto">
+      <g>
+        <rect x="80" y="40" width="180" height="180" fill="#1C3D8C" rx="6"/>
+        <g fill="#D9892B">
+          <circle cx="120" cy="80" r="8"/><circle cx="170" cy="80" r="8"/><circle cx="220" cy="80" r="8"/>
+          <circle cx="120" cy="130" r="8"/><circle cx="170" cy="130" r="8"/><circle cx="220" cy="130" r="8"/>
+          <circle cx="120" cy="180" r="8"/><circle cx="170" cy="180" r="8"/><circle cx="220" cy="180" r="8"/>
+        </g>
+        <text x="380" y="120" font-family="Bodoni Moda" font-style="italic" font-size="40" font-weight="900" fill="#1C3D8C">Gofry</text>
+        <text x="380" y="165" font-family="Bodoni Moda" font-style="italic" font-size="24" font-weight="700" fill="#9A3A1B">z okienka</text>
+        <text x="380" y="200" font-family="IBM Plex Sans" font-size="13" font-weight="500" fill="#0E1624">klasyczny · śliwka · twaróg · owoc</text>
+      </g>
+    </svg>
+  </div>
+  <div class="divider"></div>
+  <h4 style="font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray);margin-top:6mm">Rules</h4>
+  <p style="font-size:10pt;font-weight:400">Nine amber dots arranged in a 3×3 sub-grid on a cobalt square. Square edge = 30% of surface width. The word "Gofry" in Bodoni Moda italic always sits to the right of the square at 1.33× the square's height. Never invert the palette. Never add a fourth row of dots.</p>
+</section>
+
+<!-- 10 · SPACE HERO -->
+<section class="page" data-page="10">
+  <div class="eyebrow">Space · Hero</div>
+  <h1 class="page-title">The window at noon.</h1>
+  <img class="img-full" src="images/01-hero.png" alt="Warsaw Waffle Works cobalt storefront on Grójecka">
+  <p class="caption">Warsaw Waffle Works in situ · Grójecka, Ochota · 12:15 Tuesday · queue of four</p>
+</section>
+
+<!-- 11 · FLOOR PLAN -->
+<section class="page" data-page="11">
+  <div class="eyebrow">Floor Plan · 10 m²</div>
+  <h1 class="page-title">Every millimetre counts.</h1>
+  <img class="img-full" src="images/11-axonometric.png" alt="Axonometric interior plan of Warsaw Waffle Works">
+  <p class="caption">Axonometric interior · 2.5m × 4.0m footprint · 2.8m ceiling · two presses, one window, one baker</p>
+</section>
+
+<!-- 12 · FURNITURE -->
+<section class="page" data-page="12">
+  <div class="eyebrow">Furniture · Dimensions</div>
+  <h1 class="page-title">Exact measurements.</h1>
+  <p class="lead">Everything measured in mm. These specs go to the Praga carpentry workshop verbatim. Cobalt exterior, cream interior tile, cast-iron presses on a stainless plinth — no second colour on the façade, ever.</p>
+  <table>
+    <tr><th>Element</th><th>W × D × H (mm)</th><th>Material</th><th>Finish</th><th>Notes</th></tr>
+    <tr><td>Service window (sliding)</td><td>1200 × — × 900</td><td>Aluminium + 6mm glass</td><td>Cobalt powder-coat</td><td>One-handed slide, closes 19:00 sharp</td></tr>
+    <tr><td>Façade cladding</td><td>2500 × — × 2800</td><td>Cement render</td><td>Cobalt #1C3D8C satin</td><td>Hand-painted sign above window</td></tr>
+    <tr><td>Press counter (inside)</td><td>2000 × 600 × 900</td><td>Stainless 304</td><td>Brushed</td><td>Holds two waffle irons + batter ladle station</td></tr>
+    <tr><td>Batter prep station</td><td>800 × 600 × 900</td><td>Stainless 304</td><td>Brushed</td><td>20L dough mixer footprint, drawers</td></tr>
+    <tr><td>Cream interior tile</td><td>2500 × — × 2400</td><td>Glazed ceramic 100×200</td><td>Subway bond</td><td>Local, Ceramika Paradyż</td></tr>
+    <tr><td>Rust supplier chalkboard</td><td>1200 × — × 800</td><td>Slate + rust frame</td><td>Chalk paint, waxed</td><td>Hand-written every Sunday</td></tr>
+    <tr><td>Hand-painted sign</td><td>2000 × — × 350</td><td>Plywood + oil paint</td><td>Ink on cream</td><td>Letterer: Wojtek Freudenreich, Praga</td></tr>
+  </table>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Power:</strong> 32A three-phase 400V (two waffle presses, 3.2 kW each). <strong>Water:</strong> small sink, 15mm inlet, 40mm drain. <strong>Assembly:</strong> 3 days by 2-person crew. <strong>Ventilation:</strong> passive wall vent + extractor above presses (electric, no gas hood required).</p>
+</section>
+
+<!-- 13 · LIGHTING -->
+<section class="page" data-page="13">
+  <div class="eyebrow">Lighting Plan</div>
+  <h1 class="page-title">Warm inside, sharp outside.</h1>
+  <p class="lead">Warsaw Waffle Works serves from 11:00 to 19:00 — half the year that means half the service happens in the dark. Interior lighting is warm 2700K to flatter the waffles in the press; sign lighting is sharp 4000K to cut through the cobalt façade and be legible from the opposite tram stop.</p>
+  <table>
+    <tr><th>Fixture</th><th>Qty</th><th>Purpose</th><th>Spec</th><th>Cost</th></tr>
+    <tr><td>Press counter downlight</td><td>3</td><td>Press + plating zone</td><td>2700K, 9W, CRI&gt;92</td><td class="num">€165</td></tr>
+    <tr><td>Window ledge strip</td><td>1.2m</td><td>Product handoff zone</td><td>3000K, 12W</td><td class="num">€55</td></tr>
+    <tr><td>Sign uplight</td><td>2</td><td>Façade sign legibility</td><td>4000K, 7W, IP65</td><td class="num">€70</td></tr>
+    <tr><td>Supplier chalkboard spot</td><td>1</td><td>Chalk readability</td><td>3000K, 6W</td><td class="num">€35</td></tr>
+    <tr><td>Emergency exit light</td><td>1</td><td>PL fire code</td><td>Battery backup 60 min</td><td class="num">€45</td></tr>
+    <tr class="total-row"><td colspan="4">Total lighting</td><td class="num">€370</td></tr>
+  </table>
+  <p style="margin-top:4mm;font-size:9pt;color:var(--gray)"><em>Lighting is rolled into the equipment and fit-out budget — shown here for specification only.</em></p>
+</section>
+
+<!-- 14 · EQUIPMENT CORE -->
+<section class="page" data-page="14">
+  <div class="eyebrow">Equipment · Core</div>
+  <h1 class="page-title">The tools of the window.</h1>
+  <img class="img-full" src="images/09-equipment.png" alt="Cast-iron waffle presses, batter ladle, amber syrup bottles, icing-sugar shaker">
+  <p class="caption">The seven-tool kit · two waffle presses, dough mixer, batter ladle, syrup bottles, sugar shaker, paper sleeves</p>
+</section>
+
+<!-- 15 · EQUIPMENT LIST -->
+<section class="page" data-page="15">
+  <div class="eyebrow">Equipment · Specifications</div>
+  <h1 class="page-title">The shopping list.</h1>
+  <table>
+    <tr><th>#</th><th>Item</th><th>Brand / Model</th><th>Why this one</th><th>Price</th></tr>
+    <tr><td>1</td><td>Cast-iron Liège press ×2</td><td>Krampouz GECIM4</td><td>4-waffle cast iron, 3.2 kW, 300°C in 6 min</td><td class="num">€1,180</td></tr>
+    <tr><td>2</td><td>Planetary mixer · 20L</td><td>KitchenAid 5KSM70</td><td>Handles 4kg yeasted Liège dough per batch</td><td class="num">€620</td></tr>
+    <tr><td>3</td><td>Cream-coloured subway tile</td><td>Ceramika Paradyż "Bianco"</td><td>Polish-made, 100×200, cream glaze</td><td class="num">€280</td></tr>
+    <tr><td>4</td><td>Sliding aluminium window</td><td>Reynaers CS 38-SL</td><td>Cold-break service window, cobalt RAL 5013</td><td class="num">€720</td></tr>
+    <tr><td>5</td><td>Batter ladle set</td><td>WMF Gourmet 80mm</td><td>Portioned 80g for perfect 4-cell waffle</td><td class="num">€45</td></tr>
+    <tr><td>6</td><td>Amber syrup bottles ×6</td><td>Weck + brass pour-spout</td><td>House-look, dishwasher safe</td><td class="num">€72</td></tr>
+    <tr><td>7</td><td>Sugar shaker ×4</td><td>Vogue stainless</td><td>Icing sugar finish station</td><td class="num">€36</td></tr>
+    <tr><td>8</td><td>Stainless press plinth</td><td>Custom · Praga workshop</td><td>Holds both Krampouz units at 900mm</td><td class="num">€310</td></tr>
+    <tr><td>9</td><td>BLIK terminal</td><td>SumUp Solo</td><td>Contactless + BLIK, no monthly fee</td><td class="num">€85</td></tr>
+    <tr><td>10</td><td>Rust supplier chalkboard</td><td>Custom · Praga workshop</td><td>Slate with rust-painted frame</td><td class="num">€140</td></tr>
+    <tr class="total-row"><td colspan="4">Total equipment</td><td class="num">€3,488</td></tr>
+  </table>
+</section>
+
+<!-- 16 · SIGNAGE -->
+<section class="page" data-page="16">
+  <div class="eyebrow">Signage &amp; Wayfinding</div>
+  <h1 class="page-title">The hand-painted sign.</h1>
+  <img class="img-full" src="images/05-signage.png" alt="Hand-painted Warsaw Waffle Works sign above the cobalt window">
+  <p class="caption">Hand-painted sign · oil on plywood · Bodoni Moda italic by Wojtek Freudenreich, Praga letterer</p>
+</section>
+
+<!-- 17 · PACKAGING -->
+<section class="page" data-page="17">
+  <div class="eyebrow">Packaging</div>
+  <h1 class="page-title">One sleeve, no box.</h1>
+  <p class="lead">Every waffle leaves the window in the same cream paper sleeve with a cobalt stripe and the amber waffle-grid pattern on the back. No boxes, no bags, no plastic. Zero single-use anything else.</p>
+  <img class="img-large" src="images/04-packaging.png" alt="Cream paper sleeve with cobalt stripe holding a warm waffle">
+  <table style="margin-top:4mm">
+    <tr><th>SKU</th><th>Dimensions</th><th>Material</th><th>Print</th><th>Cost / unit</th></tr>
+    <tr><td>Waffle sleeve</td><td>100 × 220mm</td><td>Kraft 120gsm</td><td>2-colour offset · cobalt + amber</td><td class="num">€0.06</td></tr>
+    <tr><td>Receipt / ticket</td><td>58 × 80mm</td><td>Thermal roll</td><td>Stamped pattern · ink only</td><td class="num">€0.01</td></tr>
+    <tr><td>Napkin</td><td>200 × 200mm</td><td>Recycled kraft</td><td>No print</td><td class="num">€0.01</td></tr>
+  </table>
+  <p style="margin-top:6mm;font-size:10pt;font-weight:400"><strong>Supplier:</strong> Kraft &amp; Print Warszawa, ul. Prosta. 5,000-unit runs, 7-day lead time, no minimum order surcharge.</p>
+</section>
+
+<!-- 18 · UNIFORM -->
+<section class="page" data-page="18">
+  <div class="eyebrow">Uniform &amp; Crew</div>
+  <h1 class="page-title">Apron, cap,<br>rolled sleeves.</h1>
+  <p class="lead">The entire team at Warsaw Waffle Works wears the same three things: a cream canvas apron with rust piping, a plain white linen cap, and an ink-coloured cotton shirt rolled to the elbow. Nothing else is branded. No logo t-shirts, no hoodies, no name badges.</p>
+  <img class="img-large" src="images/13-uniform.png" alt="Baker at the window wearing cream apron with rust piping and white linen cap">
+  <table>
+    <tr><th>Item</th><th>Supplier</th><th>Cost per unit</th><th>Qty for launch</th></tr>
+    <tr><td>Canvas apron · cream + rust piping</td><td>Polski Len, Łódź</td><td class="num">€38</td><td>4</td></tr>
+    <tr><td>Linen baker's cap · white</td><td>Polski Len, Łódź</td><td class="num">€14</td><td>6</td></tr>
+    <tr><td>Cotton shirt · ink</td><td>Re-Bell, Warszawa</td><td class="num">€32</td><td>4</td></tr>
+    <tr class="total-row"><td colspan="3">Launch uniform budget</td><td class="num">€364</td></tr>
+  </table>
+</section>
+
+<!-- 19 · MENU -->
+<section class="page" data-page="19">
+  <div class="eyebrow">Menu · Pricing</div>
+  <h1 class="page-title">Four waffles.<br>Four prices.</h1>
+  <p class="lead">One size — the Liège 4-cell waffle. Four configurations. Prices set to stay under the magic 20 PLN line for everything except the seasonal fruit, which floats with the market.</p>
+  <table>
+    <tr><th>Waffle</th><th>Topping</th><th>Supplier</th><th>Price PLN</th><th>Price €</th></tr>
+    <tr><td><strong>Klasyczny</strong></td><td>Cukier puder + bita śmietana</td><td>Piątnica cream</td><td class="num">12 zł</td><td class="num">€2.85</td></tr>
+    <tr><td><strong>Śliwka</strong></td><td>Powidła śliwkowe + cynamon</td><td>Sady Grójeckie węgierka</td><td class="num">14 zł</td><td class="num">€3.30</td></tr>
+    <tr><td><strong>Twaróg</strong></td><td>Twaróg półtłusty + miód</td><td>Piątnica + Kampinoska pasieka</td><td class="num">16 zł</td><td class="num">€3.80</td></tr>
+    <tr><td><strong>Owoc</strong></td><td>Sezonowy owoc + bita śmietana</td><td>Hala Mirowska daily</td><td class="num">18–22 zł</td><td class="num">€4.30–5.20</td></tr>
+  </table>
+  <div class="divider"></div>
+  <h4 style="font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--gray)">Unit economics</h4>
+  <table style="margin-top:2mm">
+    <tr><td>Average ticket</td><td class="num">15 PLN / €3.55</td></tr>
+    <tr><td>Food cost per waffle</td><td class="num">4.20 PLN / €1.00</td></tr>
+    <tr><td>Gross margin</td><td class="num">72%</td></tr>
+    <tr><td>Daily target waffles</td><td class="num">220</td></tr>
+    <tr><td>Daily revenue target</td><td class="num">3,300 PLN / €780</td></tr>
+  </table>
+</section>
+
+<!-- 20 · BUDGET -->
+<section class="page" data-page="20">
+  <div class="eyebrow">Investment Budget</div>
+  <h1 class="page-title">Where the<br>€9,800 goes.</h1>
+  <div class="donut-wrap">
+    <svg class="donut" viewBox="0 0 42 42">
+      <circle cx="21" cy="21" r="15.9" fill="none" stroke="#eee" stroke-width="6"/>
+      <circle cx="21" cy="21" r="15.9" fill="none" stroke="#1C3D8C" stroke-width="6" stroke-dasharray="35.6 64.4" stroke-dashoffset="25" transform="rotate(-90 21 21)"/>
+      <circle cx="21" cy="21" r="15.9" fill="none" stroke="#D9892B" stroke-width="6" stroke-dasharray="22.4 77.6" stroke-dashoffset="-10.6" transform="rotate(-90 21 21)"/>
+      <circle cx="21" cy="21" r="15.9" fill="none" stroke="#9A3A1B" stroke-width="6" stroke-dasharray="15.3 84.7" stroke-dashoffset="-33" transform="rotate(-90 21 21)"/>
+      <circle cx="21" cy="21" r="15.9" fill="none" stroke="#5C6475" stroke-width="6" stroke-dasharray="12.2 87.8" stroke-dashoffset="-48.3" transform="rotate(-90 21 21)"/>
+      <circle cx="21" cy="21" r="15.9" fill="none" stroke="#0E1624" stroke-width="6" stroke-dasharray="14.5 85.5" stroke-dashoffset="-60.5" transform="rotate(-90 21 21)"/>
+      <text x="21" y="20" text-anchor="middle" font-family="Bodoni Moda" font-size="5" font-weight="900" fill="#1C3D8C">€9,800</text>
+      <text x="21" y="25" text-anchor="middle" font-family="IBM Plex Sans" font-size="2.2" fill="#5C6475">total invest.</text>
+    </svg>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-dot" style="background:#1C3D8C"></span>Equipment &amp; fixtures<span class="val">€3,488 · 35.6%</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:#D9892B"></span>Fit-out &amp; tile work<span class="val">€2,200 · 22.4%</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:#9A3A1B"></span>Signage &amp; façade paint<span class="val">€1,500 · 15.3%</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:#5C6475"></span>Branding, legal, uniform<span class="val">€1,200 · 12.2%</span></div>
+      <div class="legend-item"><span class="legend-dot" style="background:#0E1624"></span>Launch stock + contingency<span class="val">€1,412 · 14.5%</span></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <p style="font-size:10pt;font-weight:400"><strong>Funding:</strong> founder equity €6,000, PARP micro-grant "Wsparcie mikrofirm" €2,500, BGK preferential loan €1,300. No external equity. Breakeven month 4 on 180 waffles/day average.</p>
+</section>
+
+<!-- 21 · LEGAL REG -->
+<section class="page" data-page="21">
+  <div class="eyebrow">Legal &amp; Registration · Poland</div>
+  <h1 class="page-title">The paperwork,<br>in plain Polish.</h1>
+  <div class="reg-grid">
+    <div class="reg-card">
+      <h4>1 · JDG &amp; KRS</h4>
+      <ul>
+        <li>Register JDG via CEIDG.gov.pl (free, 1 day)</li>
+        <li>PKD 56.10.B — "ruchome placówki gastronomiczne"</li>
+        <li>VAT: opt-in optional under 200,000 PLN/y</li>
+        <li>ZUS ulga na start: 6 months exempt</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>2 · SANEPID registration</h4>
+      <ul>
+        <li>Powiatowa Stacja Sanitarno-Epidemiologiczna Warszawa</li>
+        <li>Wniosek o wpis do rejestru zakładów żywności</li>
+        <li>HACCP plan: 12 pages, supplied template</li>
+        <li>Inspection: 14 days after submission</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>3 · Zgoda na handel / lokal</h4>
+      <ul>
+        <li>Dzielnica Ochota — zgoda na prowadzenie działalności</li>
+        <li>Zmiana sposobu użytkowania if ex-residential</li>
+        <li>Kasa fiskalna online (required for gastro from 2020)</li>
+        <li>Umowa najmu notarised · 300 PLN</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>4 · ZUS · Insurance · BHP</h4>
+      <ul>
+        <li>ZUS registration via CEIDG one-stop</li>
+        <li>OC for gastronomic business: PZU · €180/year</li>
+        <li>BHP course for owner + first hire · €120</li>
+        <li>Fire-safety inspection · Straż Pożarna · free</li>
+      </ul>
+    </div>
+  </div>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Total legal launch cost:</strong> ~1,850 PLN (~€440). <strong>Lead time:</strong> 14 business days if SANEPID paperwork is clean. <strong>Recommended advisor:</strong> Kancelaria Księgowa Ochota (flat 350 PLN/mo ksiegowość uproszczona).</p>
+</section>
+
+<!-- 22 · TIMELINE -->
+<section class="page" data-page="22">
+  <div class="eyebrow">Launch Timeline</div>
+  <h1 class="page-title">Four weeks<br>to first waffle.</h1>
+  <div class="timeline">
+    <div class="tl-row"><div class="tl-week">Week 1<small>Paper + lease</small></div><ul class="tl-tasks">
+      <li>Sign lease on Grójecka storefront, notarise, pay first month + deposit</li>
+      <li>Open CEIDG JDG, PKD 56.10.B registered same day</li>
+      <li>Submit SANEPID wniosek (day 2), HACCP plan sent day 3</li>
+      <li>Order Krampouz presses, Reynaers window, Ceramika Paradyż tile</li>
+      <li>Brief Praga carpentry workshop on counter + plinth</li>
+    </ul></div>
+    <div class="tl-row"><div class="tl-week">Week 2<small>Demo + façade</small></div><ul class="tl-tasks">
+      <li>Strip existing interior, re-render facade in cobalt #1C3D8C</li>
+      <li>Install sliding window + cast subway tile</li>
+      <li>Commission hand-painted sign from Wojtek Freudenreich</li>
+      <li>Print sleeves, receipts, uniform run at Polski Len</li>
+      <li>Recipe testing: batter hydration, yeast time, pearl-sugar integration</li>
+    </ul></div>
+    <div class="tl-row"><div class="tl-week">Week 3<small>Install + fit</small></div><ul class="tl-tasks">
+      <li>Deliver + install Krampouz presses on stainless plinth</li>
+      <li>Mixer install + first 4 kg dough test batch</li>
+      <li>SANEPID inspection · HACCP walk-through</li>
+      <li>BHP training, fire-safety sign-off</li>
+      <li>Hire + train cashier (BLIK + kasa fiskalna certification)</li>
+    </ul></div>
+    <div class="tl-row"><div class="tl-week">Week 4<small>Soft launch</small></div><ul class="tl-tasks">
+      <li>Mon–Wed: friends &amp; family tasting, 50 waffles/day</li>
+      <li>Thu: press preview — Warsaw Insider, Gazeta Wyborcza local</li>
+      <li>Fri: public soft opening, 11:00–15:00 only</li>
+      <li>Sat–Sun: full service 11:00–19:00, target 180 waffles/day</li>
+      <li>Week-4 review: ingredient flow, queue length, BLIK uptime</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- 23 · P&L -->
+<section class="page" data-page="23">
+  <div class="eyebrow">Monthly P&amp;L</div>
+  <h1 class="page-title">The economics<br>of the window.</h1>
+  <p class="lead">Full operating month, assuming 180 waffles/day average across 26 operating days, average ticket 15 PLN / €3.55, food cost 28%, single full-time baker at 4,800 PLN gross.</p>
+  <table>
+    <tr><th>Line</th><th>€ / mo</th><th>PLN / mo</th><th>% of revenue</th></tr>
+    <tr><td>Revenue · 4,680 waffles</td><td class="num">€8,400</td><td class="num">35,600 zł</td><td class="num">100%</td></tr>
+    <tr><td>Food cost (flour, twaróg, śliwki, owoce, syrup)</td><td class="num">€2,350</td><td class="num">9,970 zł</td><td class="num">28%</td></tr>
+    <tr><td>Gross profit</td><td class="num">€6,050</td><td class="num">25,630 zł</td><td class="num">72%</td></tr>
+    <tr><td>Rent (10 m² Ochota, gross)</td><td class="num">€1,200</td><td class="num">5,080 zł</td><td class="num">14%</td></tr>
+    <tr><td>Baker salary (owner-baker JDG)</td><td class="num">€1,150</td><td class="num">4,880 zł</td><td class="num">14%</td></tr>
+    <tr><td>Cashier salary (part-time, 80h/mo)</td><td class="num">€420</td><td class="num">1,780 zł</td><td class="num">5%</td></tr>
+    <tr><td>Utilities (power + water + gas bottle)</td><td class="num">€310</td><td class="num">1,310 zł</td><td class="num">3.7%</td></tr>
+    <tr><td>ZUS + insurance + accounting</td><td class="num">€280</td><td class="num">1,190 zł</td><td class="num">3.3%</td></tr>
+    <tr><td>Packaging + consumables</td><td class="num">€390</td><td class="num">1,650 zł</td><td class="num">4.6%</td></tr>
+    <tr><td>Marketing + maintenance reserve</td><td class="num">€200</td><td class="num">850 zł</td><td class="num">2.4%</td></tr>
+    <tr class="total-row"><td>EBITDA</td><td class="num">€2,100</td><td class="num">8,890 zł</td><td class="num">25%</td></tr>
+  </table>
+  <p style="margin-top:4mm;font-size:9pt;color:var(--gray)"><strong>Annualised EBITDA:</strong> ~€25,200 (~106,700 PLN). <strong>Payback on €9,800 investment:</strong> ~4.7 months at target. <strong>Downside case:</strong> at 120 waffles/day EBITDA drops to €720/mo, still cash-positive.</p>
+</section>
+
+<!-- 24 · SUPPLIERS -->
+<section class="page" data-page="24">
+  <div class="eyebrow">Suppliers Directory</div>
+  <h1 class="page-title">Everyone on<br>the chalkboard.</h1>
+  <p class="lead">The full Warsaw supplier list goes on the rust-framed chalkboard beside the window, refreshed every Sunday. All named, all within 120 km of Ochota, all telephone-orderable. No distributor middlemen.</p>
+  <table>
+    <tr><th>Category</th><th>Supplier</th><th>Location</th><th>Delivery</th></tr>
+    <tr><td>Flour · type 550</td><td>Młyn Jasień</td><td>Lubelskie</td><td>Weekly, Tuesdays</td></tr>
+    <tr><td>Twaróg półtłusty</td><td>Piątnica SM</td><td>Podlaskie</td><td>Twice weekly</td></tr>
+    <tr><td>Cream 36%</td><td>Piątnica SM</td><td>Podlaskie</td><td>Twice weekly</td></tr>
+    <tr><td>Powidła śliwkowe</td><td>Sady Grójeckie</td><td>Mazowieckie · 50km</td><td>Monthly crates</td></tr>
+    <tr><td>Miód wielokwiatowy</td><td>Pasieka Kampinoska</td><td>Kampinoski PN · 30km</td><td>Fortnightly</td></tr>
+    <tr><td>Pearl sugar</td><td>Cukrownia Dobrzelin</td><td>Mazowieckie · 90km</td><td>Monthly</td></tr>
+    <tr><td>Seasonal fruit</td><td>Hala Mirowska (stall 14)</td><td>Warszawa Śródmieście</td><td>Daily, 06:00</td></tr>
+    <tr><td>Kłodawa salt</td><td>Kopalnia Soli Kłodawa</td><td>Wielkopolskie · 220km</td><td>Quarterly</td></tr>
+    <tr><td>Paper sleeves</td><td>Kraft &amp; Print Warszawa</td><td>Warszawa Wola</td><td>Every 5,000 units</td></tr>
+    <tr><td>Cream subway tile</td><td>Ceramika Paradyż</td><td>Łódzkie</td><td>Launch only</td></tr>
+    <tr><td>Uniform</td><td>Polski Len</td><td>Łódź</td><td>Launch + quarterly</td></tr>
+    <tr><td>Hand-painted sign</td><td>Wojtek Freudenreich</td><td>Warszawa Praga</td><td>One-off</td></tr>
+  </table>
+</section>
+
+<!-- 25 · BACK COVER -->
+<section class="page back-cover no-footer">
+  <div style="font-family:'IBM Plex Sans';font-size:10pt;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--amber)">SVITA Micro · Brandbook №006 · End</div>
+  <div>
+    <h1>Thick<br>batter<br>rules.</h1>
+    <p style="margin-top:8mm;font-size:13pt;font-style:italic;font-family:'Bodoni Moda'">Four waffles, one window, one baker, one queue. The window closes at 19:00. Monday is closed. The irons are Krampouz. The plums are Grójeckie. The cobalt is #1C3D8C. Everything else is discipline.</p>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid #444;padding-top:8mm">
+    <div style="font-size:9pt;color:#999">
+      <div style="color:var(--amber);font-family:'Bodoni Moda';font-weight:900;font-size:14pt;letter-spacing:-0.02em">WARSAW WAFFLE WORKS</div>
+      <div style="margin-top:2mm">Grójecka · Ochota · Warszawa · PL</div>
+      <div>hello@warsawwaffle.works</div>
+    </div>
+    <div style="font-size:8pt;color:#666;text-align:right;letter-spacing:0.1em">
+      <div>micro.svita.ai</div>
+      <div>concept 006 · v1.0 · 2026</div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
