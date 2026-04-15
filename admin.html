@@ -294,6 +294,49 @@ td .actions{display:flex;gap:6px}
 
 .uname-cell{cursor:pointer;transition:color 200ms var(--ease)}
 .uname-cell:hover .name{color:var(--accent)}
+
+/* ===== OVERVIEW / ANALYTICS WIDGETS ===== */
+.grid-2{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:24px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+@media(max-width:1100px){.grid-2{grid-template-columns:1fr}.grid-3{grid-template-columns:1fr}}
+.card{background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px 28px;min-width:0}
+.card .hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card .hdr h3{font-family:'Space Grotesk';font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--text-2)}
+.card .hdr .range{display:flex;gap:4px}
+.range-btn{padding:5px 11px;font-size:10px;font-weight:600;border-radius:100px;border:1px solid var(--line);color:var(--text-3);background:var(--bg-2);cursor:pointer;letter-spacing:0.08em;text-transform:uppercase}
+.range-btn.on{background:rgba(214,255,62,0.12);border-color:rgba(214,255,62,0.35);color:var(--accent)}
+.range-btn:hover{color:var(--text)}
+
+/* Chart */
+.chart-wrap{width:100%;height:240px;display:flex;align-items:flex-end;gap:4px;padding:20px 0 28px;position:relative;overflow-x:auto}
+.chart-bar{flex:1 1 0;min-width:10px;height:var(--h,0);background:linear-gradient(180deg,var(--c,var(--accent)),rgba(214,255,62,0.15));border-radius:4px 4px 0 0;position:relative;transition:opacity 200ms var(--ease);cursor:default}
+.chart-bar:hover{opacity:0.7}
+.chart-bar .chart-axis{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%) rotate(-35deg);transform-origin:left top;font-family:'JetBrains Mono';font-size:9px;color:var(--text-3);white-space:nowrap}
+.chart-lbl{font-family:'JetBrains Mono';font-size:9px;fill:var(--text-3)}
+.chart-bar .chart-val{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono';font-size:9px;color:var(--text-2);font-weight:600;white-space:nowrap;opacity:0;transition:opacity 200ms}
+.chart-bar:hover .chart-val{opacity:1}
+
+/* Funnel */
+.funnel{display:flex;flex-direction:column;gap:10px}
+.fstep{display:grid;grid-template-columns:140px 1fr 120px;gap:14px;align-items:center}
+.fstep .fname{font-size:12px;color:var(--text-2);text-transform:uppercase;letter-spacing:0.1em;font-weight:600}
+.fstep .fbar{height:36px;background:var(--bg-2);border-radius:10px;border:1px solid var(--line);position:relative;overflow:hidden}
+.fstep .fbar .ffill{position:absolute;inset:0;background:linear-gradient(90deg,rgba(214,255,62,0.35),rgba(214,255,62,0.08));border-right:2px solid var(--accent);transition:width 500ms var(--ease)}
+.fstep .fval{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.fstep .fval .n{font-family:'Space Grotesk';font-size:20px;font-weight:700;color:var(--text)}
+.fstep .fval .p{font-family:'JetBrains Mono';font-size:10px;color:var(--text-3)}
+.fstep .fval .p.drop{color:var(--err)}
+
+/* Feed */
+.feed{display:flex;flex-direction:column;gap:8px;max-height:420px;overflow-y:auto;padding-right:8px}
+.feed-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--bg-2);border:1px solid var(--line);border-radius:12px}
+.feed-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
+.feed-icon.purchase{background:rgba(214,255,62,0.12);color:var(--accent)}
+.feed-icon.signup{background:rgba(139,92,246,0.12);color:#a78bfa}
+.feed-body{flex:1;min-width:0}
+.feed-body .who{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.feed-body .what{font-size:11px;color:var(--text-3);margin-top:2px}
+.feed-body .when{font-family:'JetBrains Mono';font-size:10px;color:var(--text-3);margin-top:3px}
 </style>
 </head>
 <body>
@@ -335,11 +378,64 @@ td .actions{display:flex;gap:6px}
 
     <!-- TABS -->
     <div class="tabs" id="tabs">
+      <div class="tab" data-tab="overview" id="tab-overview" style="display:none">Overview</div>
       <div class="tab on" data-tab="concepts">Concepts <span class="count" id="t-concepts">—</span></div>
       <div class="tab" data-tab="brandbooks" id="tab-brandbooks">Brandbooks <span class="count" id="t-brandbooks">—</span></div>
-      <div class="tab" data-tab="purchases" id="tab-purchases" style="display:none">Purchases <span class="count" id="t-purchases">—</span></div>
+      <div class="tab" data-tab="sales" id="tab-sales" style="display:none">Sales <span class="count" id="t-sales">—</span></div>
+      <div class="tab" data-tab="funnel" id="tab-funnel" style="display:none">Funnel</div>
+      <div class="tab" data-tab="cohorts" id="tab-cohorts" style="display:none">Cohorts</div>
       <div class="tab" data-tab="users" id="tab-users" style="display:none">Users <span class="count" id="t-users">—</span></div>
-      <div class="tab" data-tab="metrics" id="tab-metrics" style="display:none">Metrics</div>
+    </div>
+
+    <!-- ═══ OVERVIEW TAB (superadmin) ═══ -->
+    <div class="tab-panel hidden" id="panel-overview">
+      <div class="stats">
+        <div class="stat accent"><div class="lbl">Revenue 30d</div><div class="num" id="o-rev30">—</div><div class="sub" id="o-rev7">— last 7d</div></div>
+        <div class="stat"><div class="lbl">Revenue total</div><div class="num" id="o-revtotal">—</div><div class="sub" id="o-avg">— avg order</div></div>
+        <div class="stat"><div class="lbl">Orders 30d</div><div class="num" id="o-ord30">—</div><div class="sub" id="o-ord7">— last 7d</div></div>
+        <div class="stat"><div class="lbl">Signups 30d</div><div class="num" id="o-sig30">—</div><div class="sub" id="o-sig7">— last 7d</div></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="lbl">Visits 30d</div><div class="num" id="o-vis30">—</div><div class="sub" id="o-vis7">— last 7d</div></div>
+        <div class="stat"><div class="lbl">Pageviews 30d</div><div class="num" id="o-pv30">—</div><div class="sub" id="o-pv7">— last 7d</div></div>
+        <div class="stat"><div class="lbl">Conversion</div><div class="num" id="o-conv">—</div><div class="sub">visits → paid · 30d</div></div>
+        <div class="stat"><div class="lbl">Users total</div><div class="num" id="o-users">—</div><div class="sub" id="o-gifts">— gifts</div></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="hdr">
+            <h3>Revenue timeseries</h3>
+            <div class="range" id="o-rev-range">
+              <button class="range-btn" data-days="7">7d</button>
+              <button class="range-btn on" data-days="30">30d</button>
+              <button class="range-btn" data-days="90">90d</button>
+            </div>
+          </div>
+          <div class="chart-wrap" id="o-rev-chart"></div>
+        </div>
+        <div class="card">
+          <div class="hdr"><h3>Recent activity</h3></div>
+          <div class="feed" id="o-feed"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="hdr">
+          <h3>Top concepts by revenue</h3>
+          <div class="range" id="o-top-range">
+            <button class="range-btn" data-days="7">7d</button>
+            <button class="range-btn on" data-days="30">30d</button>
+            <button class="range-btn" data-days="90">90d</button>
+          </div>
+        </div>
+        <div class="table-wrap" style="border:0;border-radius:0;background:transparent">
+          <table>
+            <thead><tr><th>Concept</th><th>Category</th><th>Views</th><th>Orders</th><th>Revenue</th><th>Conv %</th></tr></thead>
+            <tbody id="o-top-tbl"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
     <!-- ═══ CONCEPTS TAB ═══ -->
@@ -410,54 +506,72 @@ td .actions{display:flex;gap:6px}
       </div>
     </div>
 
-    <!-- ═══ PURCHASES TAB (superadmin only) ═══ -->
-    <div class="tab-panel hidden" id="panel-purchases">
+    <!-- ═══ SALES TAB (superadmin only) ═══ -->
+    <div class="tab-panel hidden" id="panel-sales">
       <div class="stats">
-        <div class="stat accent"><div class="lbl">Total purchases</div><div class="num" id="p-total">—</div><div class="sub">All time</div></div>
-        <div class="stat"><div class="lbl">Revenue</div><div class="num" id="p-revenue">—</div><div class="sub">€ paid only</div></div>
-        <div class="stat"><div class="lbl">Gifts</div><div class="num" id="p-gifts">—</div><div class="sub">Superadmin grants</div></div>
-        <div class="stat"><div class="lbl">Last 7 days</div><div class="num" id="p-7d">—</div><div class="sub">New purchases</div></div>
+        <div class="stat accent"><div class="lbl">Revenue (filter)</div><div class="num" id="sl-rev">—</div><div class="sub" id="sl-rev-sub">— orders</div></div>
+        <div class="stat"><div class="lbl">Avg order</div><div class="num" id="sl-avg">—</div><div class="sub">€ per paid order</div></div>
+        <div class="stat"><div class="lbl">Gifts</div><div class="num" id="sl-gifts">—</div><div class="sub">Superadmin grants</div></div>
+        <div class="stat"><div class="lbl">Last 24h</div><div class="num" id="sl-24">—</div><div class="sub">New orders</div></div>
       </div>
       <div class="tools">
-        <div class="search">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <input type="search" id="pq" placeholder="Search by concept, email or provider…">
+        <div class="range" id="sl-range">
+          <button class="range-btn" data-days="7">7d</button>
+          <button class="range-btn on" data-days="30">30d</button>
+          <button class="range-btn" data-days="90">90d</button>
+          <button class="range-btn" data-days="365">1y</button>
+          <button class="range-btn" data-days="3650">All</button>
         </div>
-        <select class="sel" id="pprov">
+        <select class="sel" id="sl-prov">
           <option value="all">All providers</option>
           <option value="lemon_squeezy">Lemon Squeezy</option>
           <option value="stripe">Stripe</option>
           <option value="superadmin">Gift (superadmin)</option>
         </select>
       </div>
-      <div class="table-wrap" id="ptbl-wrap">
+      <div class="table-wrap">
         <table>
           <thead><tr><th>When</th><th>User</th><th>Concept</th><th>Provider</th><th>Price</th><th>Status</th></tr></thead>
-          <tbody id="ptbl"></tbody>
+          <tbody id="sl-tbl"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- ═══ METRICS TAB (superadmin only) ═══ -->
-    <div class="tab-panel hidden" id="panel-metrics">
-      <div class="stats" style="grid-template-columns:repeat(4,1fr)">
-        <div class="stat"><div class="lbl">Revenue (all time)</div><div class="num" id="m-revenue">—</div><div class="sub">€ total gross</div></div>
-        <div class="stat accent"><div class="lbl">Revenue 30d</div><div class="num" id="m-revenue30">—</div><div class="sub">last 30 days</div></div>
-        <div class="stat"><div class="lbl">Purchases</div><div class="num" id="m-purchases">—</div><div class="sub" id="m-purchases7">— last 7d</div></div>
-        <div class="stat"><div class="lbl">Signups 30d</div><div class="num" id="m-signups30">—</div><div class="sub" id="m-signups7">— last 7d</div></div>
+    <!-- ═══ FUNNEL TAB (superadmin only) ═══ -->
+    <div class="tab-panel hidden" id="panel-funnel">
+      <div class="card">
+        <div class="hdr">
+          <h3>Conversion funnel</h3>
+          <div class="range" id="fn-range">
+            <button class="range-btn" data-days="7">7d</button>
+            <button class="range-btn on" data-days="30">30d</button>
+            <button class="range-btn" data-days="90">90d</button>
+          </div>
+        </div>
+        <div class="funnel" id="fn-funnel"></div>
       </div>
-      <div class="stats" style="grid-template-columns:repeat(4,1fr);margin-top:16px">
-        <div class="stat"><div class="lbl">Users total</div><div class="num" id="m-users">—</div><div class="sub">profiles rows</div></div>
-        <div class="stat"><div class="lbl">Concepts verified</div><div class="num" id="m-verified">—</div><div class="sub" id="m-pending">— pending</div></div>
-        <div class="stat"><div class="lbl">i18n rows</div><div class="num" id="m-i18n">—</div><div class="sub">of 12 × concepts</div></div>
-        <div class="stat"><div class="lbl">Avg order</div><div class="num" id="m-avg">—</div><div class="sub">€ per purchase</div></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="hdr"><h3>Traffic timeseries</h3></div>
+          <div class="chart-wrap" id="fn-traf-chart"></div>
+        </div>
+        <div class="card">
+          <div class="hdr"><h3>Funnel insights</h3></div>
+          <div id="fn-insights" style="display:flex;flex-direction:column;gap:12px;font-size:13px;color:var(--text-2);line-height:1.6"></div>
+        </div>
       </div>
-      <div style="margin-top:32px;padding:24px;background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius-lg)">
-        <div class="eyebrow" style="margin-bottom:16px">Role breakdown</div>
-        <div id="m-roles" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px"></div>
-      </div>
-      <div style="margin-top:16px;text-align:right">
-        <button class="btn-s" id="m-refresh">↻ Refresh</button>
+    </div>
+
+    <!-- ═══ COHORTS TAB (superadmin only) ═══ -->
+    <div class="tab-panel hidden" id="panel-cohorts">
+      <div class="card">
+        <div class="hdr"><h3>Signup cohorts</h3></div>
+        <div class="table-wrap" style="border:0;border-radius:0;background:transparent">
+          <table>
+            <thead><tr><th>Cohort month</th><th>Signups</th><th>Buyers</th><th>Conversion %</th><th>Revenue</th><th>Rev / user</th></tr></thead>
+            <tbody id="ch-tbl"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -530,10 +644,14 @@ async function boot(){
   }
   // Role badge rendered by shared nav (svita-nav.js reads profiles.role).
   if(MY_ROLE === 'superadmin'){
-    $('tab-users').style.display = '';
-    $('tab-metrics').style.display = '';
-    $('tab-purchases').style.display = '';
+    ['overview','sales','funnel','cohorts','users'].forEach(n=>{
+      const t = $('tab-'+n); if(t) t.style.display = '';
+    });
     $('page-eyebrow').textContent = 'Superadmin control';
+    // Default tab for superadmin = overview
+    document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.toggle('on', t.dataset.tab==='overview'));
+    $('panel-concepts').classList.add('hidden');
+    $('panel-overview').classList.remove('hidden');
   } else {
     $('page-eyebrow').textContent = 'Concept admin';
     $('page-title').innerHTML = 'Verify &amp; publish <span class="accent">concepts</span>.';
@@ -542,21 +660,22 @@ async function boot(){
   await loadConcepts();
   loadBrandbooks();
   if(MY_ROLE === 'superadmin'){
-    await loadUsers();
-    await loadMetrics();
-    loadPurchases();
+    loadUsers();
+    loadOverview();
   }
 }
 
 // Tab switching
+const TAB_LOADERS = {};
 document.querySelectorAll('#tabs .tab').forEach(el=>{
   el.addEventListener('click', ()=>{
     const name = el.dataset.tab;
     document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.toggle('on', t===el));
-    ['concepts','brandbooks','purchases','users','metrics'].forEach(n=>{
+    ['overview','concepts','brandbooks','sales','funnel','cohorts','users'].forEach(n=>{
       const p = $('panel-'+n);
       if(p) p.classList.toggle('hidden', n!==name);
     });
+    if(TAB_LOADERS[name]) TAB_LOADERS[name]();
   });
 });
 
@@ -1136,36 +1255,220 @@ async function deleteUser(userId, label){
 window.deleteUser = deleteUser;
 
 // ═══════════════ METRICS (superadmin) ═══════════════
-async function loadMetrics(){
-  const {data, error} = await sb.from('admin_metrics').select('*').maybeSingle();
-  if(error || !data){ console.error('metrics', error); return; }
-  const fmt = n => (n||0).toLocaleString();
-  const eur = n => '€' + fmt(n);
-  $('m-revenue').textContent = eur(data.revenue_eur);
-  $('m-revenue30').textContent = eur(data.revenue_30d);
-  $('m-purchases').textContent = fmt(data.purchases_total);
-  $('m-purchases7').textContent = fmt(data.purchases_7d) + ' last 7d';
-  $('m-signups30').textContent = fmt(data.users_30d);
-  $('m-signups7').textContent = fmt(data.users_7d) + ' last 7d';
-  $('m-users').textContent = fmt(data.users_total);
-  $('m-verified').textContent = fmt(data.concepts_verified);
-  $('m-pending').textContent = fmt(data.concepts_pending) + ' pending';
-  $('m-i18n').textContent = fmt(data.i18n_rows);
-  const avg = data.purchases_total ? Math.round(data.revenue_eur / data.purchases_total) : 0;
-  $('m-avg').textContent = eur(avg);
-  const roles = [
-    ['user', data.users_user, 'var(--text-2)'],
-    ['creator', data.users_creator, '#8b5cf6'],
-    ['admin', data.users_admin, 'var(--accent)'],
-    ['superadmin', data.users_superadmin, '#ef4444'],
-  ];
-  $('m-roles').innerHTML = roles.map(([k,v,c])=>
-    `<div style="padding:16px;background:var(--bg-2);border-radius:var(--radius);border:1px solid var(--line)">
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);margin-bottom:8px">${k}</div>
-      <div style="font-family:'Space Grotesk';font-size:32px;font-weight:700;color:${c}">${fmt(v)}</div>
-    </div>`
-  ).join('');
+// ═══════════════ ANALYTICS — helpers ═══════════════
+const fmtN = n => Number(n||0).toLocaleString();
+const fmtEur = n => '€' + Math.round(Number(n||0)).toLocaleString();
+const fmtDate = s => { try{ return new Date(s).toLocaleDateString(undefined,{month:'short',day:'numeric'}); }catch{ return s; } };
+const fmtDateTime = s => { try{ return new Date(s).toLocaleString(); }catch{ return s; } };
+
+function drawBarChart(container, rows, opts){
+  opts = opts || {};
+  const key = opts.key || 'value';
+  const label = opts.label || 'day';
+  const color = opts.color || 'var(--accent)';
+  const fmt = opts.fmt || fmtN;
+  if(!rows || !rows.length){ container.innerHTML = '<div style="color:var(--text-3);text-align:center;padding:40px">No data</div>'; return; }
+  const max = Math.max(...rows.map(r=>Number(r[key]||0)), 1);
+  container.innerHTML = rows.map(r=>{
+    const v = Number(r[key]||0);
+    const h = max > 0 ? Math.max(2, Math.round((v/max)*100)) : 0;
+    const lbl = r[label] ? fmtDate(r[label]) : '';
+    return `<div class="chart-bar" style="--h:${h}%;--c:${color}"><span class="chart-val">${v>0?fmt(v):''}</span><span class="chart-axis">${lbl}</span></div>`;
+  }).join('');
 }
+
+// ═══════════════ OVERVIEW ═══════════════
+let OVR_RANGE = 30, OVR_TOP_RANGE = 30;
+
+async function loadOverview(){
+  const [statsR, tsR, feedR, topR] = await Promise.all([
+    sb.rpc('admin_dashboard_stats'),
+    sb.rpc('admin_revenue_timeseries', {p_days: OVR_RANGE}),
+    sb.rpc('admin_recent_activity', {p_limit: 20}),
+    sb.rpc('admin_top_concepts', {p_days: OVR_TOP_RANGE, p_limit: 20}),
+  ]);
+  const s = statsR.data || {};
+  $('o-rev30').textContent = fmtEur(s.revenue_30d);
+  $('o-rev7').textContent  = fmtEur(s.revenue_7d) + ' last 7d';
+  $('o-revtotal').textContent = fmtEur(s.revenue_total);
+  const avg = s.orders_total ? Math.round(Number(s.revenue_total)/Number(s.orders_total)) : 0;
+  $('o-avg').textContent = fmtEur(avg) + ' avg order';
+  $('o-ord30').textContent = fmtN(s.orders_30d);
+  $('o-ord7').textContent  = fmtN(s.orders_7d) + ' last 7d';
+  $('o-sig30').textContent = fmtN(s.signups_30d);
+  $('o-sig7').textContent  = fmtN(s.signups_7d) + ' last 7d';
+  $('o-vis30').textContent = fmtN(s.visits_30d);
+  $('o-vis7').textContent  = fmtN(s.visits_7d) + ' last 7d';
+  $('o-pv30').textContent  = fmtN(s.pageviews_30d);
+  $('o-pv7').textContent   = fmtN(s.pageviews_7d) + ' last 7d';
+  const conv = Number(s.visits_30d||0) > 0 ? (Number(s.orders_30d||0)/Number(s.visits_30d)*100) : 0;
+  $('o-conv').textContent  = conv.toFixed(2) + '%';
+  $('o-users').textContent = fmtN(s.users_total);
+  $('o-gifts').textContent = fmtN(s.gifts_total) + ' gifts';
+
+  drawBarChart($('o-rev-chart'), tsR.data || [], {key:'revenue', label:'day', fmt:fmtEur});
+  renderFeed($('o-feed'), feedR.data || []);
+  renderTopConcepts($('o-top-tbl'), topR.data || []);
+}
+TAB_LOADERS.overview = loadOverview;
+
+function renderFeed(el, items){
+  if(!items || !items.length){ el.innerHTML = '<div style="color:var(--text-3);text-align:center;padding:40px">No recent activity</div>'; return; }
+  el.innerHTML = items.map(it=>{
+    const isBuy = it.type === 'purchase';
+    const icon = isBuy ? '€' : '+';
+    const cls = isBuy ? 'purchase' : 'signup';
+    const who = escape(it.who || it.email || '—');
+    const what = isBuy
+      ? `bought <b>${escape(it.concept_slug||'—')}</b> — ${fmtEur(it.amount)}`
+      : `signed up`;
+    return `<div class="feed-item"><div class="feed-icon ${cls}">${icon}</div><div class="feed-body"><div class="who">${who}</div><div class="what">${what}</div><div class="when">${fmtDateTime(it.ts)}</div></div></div>`;
+  }).join('');
+}
+
+function renderTopConcepts(el, rows){
+  if(!rows || !rows.length){ el.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-3);padding:40px">No data</td></tr>'; return; }
+  el.innerHTML = rows.map(r=>`<tr>
+    <td><div class="cell-name"><div class="info"><div class="name">${escape(r.name||r.slug)}</div><div class="slug">${escape(r.slug)}</div></div></div></td>
+    <td><span class="chip">${escape(r.category||'—')}</span></td>
+    <td class="mono">${fmtN(r.views)}</td>
+    <td class="mono">${fmtN(r.orders)}</td>
+    <td class="mono">${fmtEur(r.revenue)}</td>
+    <td class="mono">${Number(r.conv||0).toFixed(2)}%</td>
+  </tr>`).join('');
+}
+
+// Range buttons for Overview
+document.querySelectorAll('#o-rev-range .range-btn').forEach(b=>{
+  b.addEventListener('click', async ()=>{
+    document.querySelectorAll('#o-rev-range .range-btn').forEach(x=>x.classList.toggle('on', x===b));
+    OVR_RANGE = Number(b.dataset.days);
+    const {data} = await sb.rpc('admin_revenue_timeseries', {p_days: OVR_RANGE});
+    drawBarChart($('o-rev-chart'), data || [], {key:'revenue', label:'day', fmt:fmtEur});
+  });
+});
+document.querySelectorAll('#o-top-range .range-btn').forEach(b=>{
+  b.addEventListener('click', async ()=>{
+    document.querySelectorAll('#o-top-range .range-btn').forEach(x=>x.classList.toggle('on', x===b));
+    OVR_TOP_RANGE = Number(b.dataset.days);
+    const {data} = await sb.rpc('admin_top_concepts', {p_days: OVR_TOP_RANGE, p_limit: 20});
+    renderTopConcepts($('o-top-tbl'), data || []);
+  });
+});
+
+// ═══════════════ SALES ═══════════════
+let SL_DAYS = 30, SL_PROV = 'all';
+async function loadSales(){
+  const {data, error} = await sb.rpc('admin_sales_list', {p_days: SL_DAYS, p_provider: SL_PROV, p_limit: 500});
+  if(error){ console.warn('sales', error); return; }
+  const rows = data || [];
+  const paid = rows.filter(r => r.provider !== 'superadmin' && r.status === 'paid');
+  const rev = paid.reduce((a,r)=>a+Number(r.price_paid||0),0);
+  const avg = paid.length ? Math.round(rev/paid.length) : 0;
+  const dayAgo = Date.now() - 24*3600*1000;
+  $('sl-rev').textContent = fmtEur(rev);
+  $('sl-rev-sub').textContent = fmtN(paid.length) + ' paid orders';
+  $('sl-avg').textContent = fmtEur(avg);
+  $('sl-gifts').textContent = fmtN(rows.filter(r=>r.provider==='superadmin').length);
+  $('sl-24').textContent = fmtN(rows.filter(r=>new Date(r.ts).getTime() > dayAgo).length);
+  const tb = $('sl-tbl');
+  if(!rows.length){ tb.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-3);padding:40px">No sales in range</td></tr>'; return; }
+  tb.innerHTML = rows.map(p=>{
+    const prov = p.provider || '—';
+    const provChip = prov==='superadmin' ? '<span class="chip">gift</span>'
+      : prov==='lemon_squeezy' ? '<span class="chip ok">LS</span>'
+      : prov==='stripe' ? '<span class="chip ok">Stripe</span>'
+      : `<span class="chip">${escape(prov)}</span>`;
+    const price = p.price_paid ? `${p.currency||'EUR'} ${p.price_paid}` : '—';
+    const statusChip = p.status==='paid' ? '<span class="chip ok">paid</span>' : `<span class="chip warn">${escape(p.status||'?')}</span>`;
+    return `<tr>
+      <td class="mono" style="color:var(--text-3);font-size:11px">${fmtDateTime(p.ts)}</td>
+      <td><span style="font-size:12px">${escape(p.email || (p.user_id||'').slice(0,8)+'…')}</span></td>
+      <td><span class="slug" style="font-family:'JetBrains Mono';font-size:11px">${escape(p.concept_slug||'—')}</span></td>
+      <td>${provChip}</td>
+      <td class="mono">${price}</td>
+      <td>${statusChip}</td>
+    </tr>`;
+  }).join('');
+}
+TAB_LOADERS.sales = loadSales;
+
+document.querySelectorAll('#sl-range .range-btn').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('#sl-range .range-btn').forEach(x=>x.classList.toggle('on', x===b));
+    SL_DAYS = Number(b.dataset.days);
+    loadSales();
+  });
+});
+// ═══════════════ FUNNEL ═══════════════
+let FN_DAYS = 30;
+async function loadFunnel(){
+  const [fnR, trR] = await Promise.all([
+    sb.rpc('admin_funnel', {p_days: FN_DAYS}),
+    sb.rpc('admin_traffic_timeseries', {p_days: FN_DAYS}),
+  ]);
+  const f = fnR.data || {};
+  const steps = [
+    ['Visits', Number(f.visits||0)],
+    ['Concept viewers', Number(f.viewers||0)],
+    ['Added to cart', Number(f.carts||0)],
+    ['Checkout started', Number(f.checkouts||0)],
+    ['Paid', Number(f.paid||0)],
+  ];
+  const top = steps[0][1] || 1;
+  const el = $('fn-funnel');
+  el.innerHTML = steps.map((s,i)=>{
+    const pct = top > 0 ? (s[1]/top*100) : 0;
+    const drop = i > 0 && steps[i-1][1] > 0 ? (100 - s[1]/steps[i-1][1]*100) : 0;
+    const dropLbl = i > 0 ? `<span class="p ${drop>50?'drop':''}">${s[1]===0?'—':'-'+drop.toFixed(1)+'% drop'}</span>` : '<span class="p">entry</span>';
+    return `<div class="fstep"><div class="fname">${s[0]}</div><div class="fbar"><div class="ffill" style="width:${Math.max(2,pct)}%"></div></div><div class="fval"><span class="n">${fmtN(s[1])}</span>${dropLbl}</div></div>`;
+  }).join('');
+  drawBarChart($('fn-traf-chart'), trR.data || [], {key:'visits', label:'day', fmt:fmtN});
+  const overall = steps[0][1] > 0 ? (steps[4][1]/steps[0][1]*100) : 0;
+  const viewToCart = steps[1][1] > 0 ? (steps[2][1]/steps[1][1]*100) : 0;
+  const cartToPaid = steps[2][1] > 0 ? (steps[4][1]/steps[2][1]*100) : 0;
+  $('fn-insights').innerHTML = `
+    <div>Overall conversion <b style="color:var(--accent)">${overall.toFixed(2)}%</b> — visit to paid</div>
+    <div>View → cart <b>${viewToCart.toFixed(2)}%</b></div>
+    <div>Cart → paid <b>${cartToPaid.toFixed(2)}%</b></div>
+    <div style="color:var(--text-3);font-size:12px;margin-top:6px">Range: last ${FN_DAYS} days</div>
+  `;
+}
+TAB_LOADERS.funnel = loadFunnel;
+
+document.querySelectorAll('#fn-range .range-btn').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('#fn-range .range-btn').forEach(x=>x.classList.toggle('on', x===b));
+    FN_DAYS = Number(b.dataset.days);
+    loadFunnel();
+  });
+});
+
+// ═══════════════ COHORTS ═══════════════
+async function loadCohorts(){
+  const {data, error} = await sb.rpc('admin_cohorts');
+  if(error){ console.warn('cohorts', error); return; }
+  const rows = data || [];
+  const tb = $('ch-tbl');
+  if(!rows.length){ tb.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-3);padding:40px">No cohort data</td></tr>'; return; }
+  tb.innerHTML = rows.map(r=>{
+    const month = r.cohort_month ? new Date(r.cohort_month).toLocaleDateString(undefined,{year:'numeric',month:'long'}) : '—';
+    const signups = Number(r.signups||0);
+    const buyers = Number(r.buyers||0);
+    const pct = Number(r.buyers_pct||0);
+    const rev = Number(r.revenue||0);
+    const perUser = signups ? Math.round(rev/signups) : 0;
+    return `<tr>
+      <td>${month}</td>
+      <td class="mono">${fmtN(signups)}</td>
+      <td class="mono">${fmtN(buyers)}</td>
+      <td class="mono"><span class="chip ${pct>5?'ok':''}">${pct.toFixed(1)}%</span></td>
+      <td class="mono">${fmtEur(rev)}</td>
+      <td class="mono">${fmtEur(perUser)}</td>
+    </tr>`;
+  }).join('');
+}
+TAB_LOADERS.cohorts = loadCohorts;
 
 // ═══════════════ BRANDBOOKS ═══════════════
 let BB_ALL = [], BB_VIEW = [];
@@ -1239,77 +1542,6 @@ async function unmarkBrandbook(slug){
   const c = ALL.find(x=>x.slug===slug); if(c) c.has_brandbook = false;
   loadBrandbooks();
   applyAll();
-}
-
-// ═══════════════ PURCHASES ═══════════════
-let PURCH = [], PURCH_VIEW = [];
-const PSTATE = {q:'', prov:'all'};
-
-async function loadPurchases(){
-  const {data, error} = await sb.from('purchases')
-    .select('id,user_id,concept_slug,status,provider,price_paid,currency,created_at')
-    .order('created_at',{ascending:false})
-    .limit(500);
-  if(error){ console.warn('purchases', error); return; }
-  PURCH = data || [];
-  // Hydrate user email from USERS if available
-  const umap = {};
-  (USERS||[]).forEach(u => { umap[u.user_id] = u.email || u.display_name; });
-  PURCH.forEach(p => { p._email = umap[p.user_id] || (p.user_id||'').slice(0,8)+'…'; });
-  applyPurchases();
-  updatePurchaseStats();
-  $('t-purchases').textContent = PURCH.length;
-}
-
-function applyPurchases(){
-  PURCH_VIEW = PURCH.filter(p=>{
-    if(PSTATE.prov !== 'all' && p.provider !== PSTATE.prov) return false;
-    if(PSTATE.q){
-      const q = PSTATE.q.toLowerCase();
-      if(!((p.concept_slug||'').toLowerCase().includes(q)
-        || (p._email||'').toLowerCase().includes(q)
-        || (p.provider||'').toLowerCase().includes(q))) return false;
-    }
-    return true;
-  });
-  renderPurchases();
-}
-
-function updatePurchaseStats(){
-  const paid = PURCH.filter(p=>p.provider!=='superadmin');
-  const rev = paid.reduce((a,p)=>a+Number(p.price_paid||0), 0);
-  const weekAgo = Date.now() - 7*24*3600*1000;
-  const last7 = PURCH.filter(p=>new Date(p.created_at).getTime() > weekAgo).length;
-  $('p-total').textContent = PURCH.length;
-  $('p-revenue').textContent = '€' + Math.round(rev).toLocaleString();
-  $('p-gifts').textContent = PURCH.filter(p=>p.provider==='superadmin').length;
-  $('p-7d').textContent = last7;
-}
-
-function renderPurchases(){
-  const tb = $('ptbl');
-  if(!PURCH_VIEW.length){
-    tb.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-3);padding:40px">No purchases match the filter.</td></tr>';
-    return;
-  }
-  tb.innerHTML = PURCH_VIEW.slice(0,200).map(p=>{
-    const when = p.created_at ? new Date(p.created_at).toLocaleString() : '—';
-    const prov = p.provider || '—';
-    const provChip = prov==='superadmin' ? '<span class="chip">🎁 gift</span>'
-      : prov==='lemon_squeezy' ? '<span class="chip ok">LS</span>'
-      : prov==='stripe' ? '<span class="chip ok">Stripe</span>'
-      : `<span class="chip">${escape(prov)}</span>`;
-    const price = p.price_paid ? `${p.currency||'EUR'} ${p.price_paid}` : '—';
-    const statusChip = p.status==='paid' ? '<span class="chip ok">paid</span>' : `<span class="chip warn">${escape(p.status||'?')}</span>`;
-    return `<tr>
-      <td class="mono" style="color:var(--text-3);font-size:11px">${when}</td>
-      <td><span style="font-size:12px">${escape(p._email||'—')}</span></td>
-      <td><span class="slug" style="font-family:'JetBrains Mono';font-size:11px">${escape(p.concept_slug||'—')}</span></td>
-      <td>${provChip}</td>
-      <td class="mono">${price}</td>
-      <td>${statusChip}</td>
-    </tr>`;
-  }).join('');
 }
 
 function escape(s){ return (s||'').replace(/[<>&"']/g, c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c])); }
@@ -1479,14 +1711,13 @@ $('bulk-delete').addEventListener('click', async ()=>{
 
 $('uq').addEventListener('input', e=>{USTATE.q=e.target.value;applyUsers()});
 $('urole').addEventListener('change', e=>{USTATE.role=e.target.value;applyUsers()});
-$('m-refresh').addEventListener('click', loadMetrics);
 $('bq').addEventListener('input', e=>{BSTATE.q=e.target.value;applyBrandbooks()});
-$('pq').addEventListener('input', e=>{PSTATE.q=e.target.value;applyPurchases()});
-$('pprov').addEventListener('change', e=>{PSTATE.prov=e.target.value;applyPurchases()});
+$('sl-prov').addEventListener('change', e=>{ SL_PROV = e.target.value; loadSales(); });
 /* signout + nav scroll handled by shared svita-nav.js */
 
 boot();
 </script>
 <script src="js/svita-nav.js"></script>
+<script src="js/svita-analytics.js"></script>
 </body>
 </html>

@@ -470,6 +470,7 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 <!-- ============ NAV (shared) ============ -->
 <nav id="nav"></nav>
 <script src="js/svita-nav.js"></script>
+<script src="js/svita-analytics.js"></script>
 <script src="js/svita-favs.js"></script>
 <script src="js/svita-app.js" defer></script>
 
@@ -1197,6 +1198,7 @@ async function showBuyIntent(slug){
         params.set('checkout[custom][ref]', ref);
         params.set('success_url', decodeURIComponent(success));
         const url = `${base}${joiner}${params.toString()}`;
+        try { window.svitaTrack && window.svitaTrack('checkout_start', { slug: c.slug, price: c.price_eur }); } catch {}
         window.location.href = url;
       };
     }
