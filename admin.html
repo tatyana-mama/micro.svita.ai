@@ -336,6 +336,8 @@ td .actions{display:flex;gap:6px}
     <!-- TABS -->
     <div class="tabs" id="tabs">
       <div class="tab on" data-tab="concepts">Concepts <span class="count" id="t-concepts">—</span></div>
+      <div class="tab" data-tab="brandbooks" id="tab-brandbooks">Brandbooks <span class="count" id="t-brandbooks">—</span></div>
+      <div class="tab" data-tab="purchases" id="tab-purchases" style="display:none">Purchases <span class="count" id="t-purchases">—</span></div>
       <div class="tab" data-tab="users" id="tab-users" style="display:none">Users <span class="count" id="t-users">—</span></div>
       <div class="tab" data-tab="metrics" id="tab-metrics" style="display:none">Metrics</div>
     </div>
@@ -382,6 +384,56 @@ td .actions{display:flex;gap:6px}
             <th>Concept</th><th>Category</th><th>Price</th><th>Budget</th><th>Payment link</th><th>Status</th><th>Brandbook</th><th>i18n</th><th>Actions</th>
           </tr></thead>
           <tbody id="tbl"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ BRANDBOOKS TAB ═══ -->
+    <div class="tab-panel hidden" id="panel-brandbooks">
+      <div class="stats">
+        <div class="stat accent"><div class="lbl">Live brandbooks</div><div class="num" id="b-total">—</div><div class="sub">Shipped & live</div></div>
+        <div class="stat"><div class="lbl">With axonometric</div><div class="num" id="b-axo">—</div><div class="sub">Has 11-axonometric.png</div></div>
+        <div class="stat"><div class="lbl">Pending retrofit</div><div class="num" id="b-pending">—</div><div class="sub">Missing axo</div></div>
+        <div class="stat"><div class="lbl">Ready to sell</div><div class="num" id="b-ready">—</div><div class="sub">Verified + brandbook</div></div>
+      </div>
+      <div class="tools">
+        <div class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="search" id="bq" placeholder="Search brandbooks by name…">
+        </div>
+      </div>
+      <div class="table-wrap" id="btbl-wrap">
+        <table>
+          <thead><tr><th>Concept</th><th>Category</th><th>Status</th><th>Brandbook URL</th><th>Actions</th></tr></thead>
+          <tbody id="btbl"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ PURCHASES TAB (superadmin only) ═══ -->
+    <div class="tab-panel hidden" id="panel-purchases">
+      <div class="stats">
+        <div class="stat accent"><div class="lbl">Total purchases</div><div class="num" id="p-total">—</div><div class="sub">All time</div></div>
+        <div class="stat"><div class="lbl">Revenue</div><div class="num" id="p-revenue">—</div><div class="sub">€ paid only</div></div>
+        <div class="stat"><div class="lbl">Gifts</div><div class="num" id="p-gifts">—</div><div class="sub">Superadmin grants</div></div>
+        <div class="stat"><div class="lbl">Last 7 days</div><div class="num" id="p-7d">—</div><div class="sub">New purchases</div></div>
+      </div>
+      <div class="tools">
+        <div class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="search" id="pq" placeholder="Search by concept, email or provider…">
+        </div>
+        <select class="sel" id="pprov">
+          <option value="all">All providers</option>
+          <option value="lemon_squeezy">Lemon Squeezy</option>
+          <option value="stripe">Stripe</option>
+          <option value="superadmin">Gift (superadmin)</option>
+        </select>
+      </div>
+      <div class="table-wrap" id="ptbl-wrap">
+        <table>
+          <thead><tr><th>When</th><th>User</th><th>Concept</th><th>Provider</th><th>Price</th><th>Status</th></tr></thead>
+          <tbody id="ptbl"></tbody>
         </table>
       </div>
     </div>
@@ -480,6 +532,7 @@ async function boot(){
   if(MY_ROLE === 'superadmin'){
     $('tab-users').style.display = '';
     $('tab-metrics').style.display = '';
+    $('tab-purchases').style.display = '';
     $('page-eyebrow').textContent = 'Superadmin control';
   } else {
     $('page-eyebrow').textContent = 'Concept admin';
@@ -487,9 +540,11 @@ async function boot(){
   }
   $('app').classList.remove('hidden');
   await loadConcepts();
+  loadBrandbooks();
   if(MY_ROLE === 'superadmin'){
     await loadUsers();
     await loadMetrics();
+    loadPurchases();
   }
 }
 
@@ -498,7 +553,7 @@ document.querySelectorAll('#tabs .tab').forEach(el=>{
   el.addEventListener('click', ()=>{
     const name = el.dataset.tab;
     document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.toggle('on', t===el));
-    ['concepts','users','metrics'].forEach(n=>{
+    ['concepts','brandbooks','purchases','users','metrics'].forEach(n=>{
       const p = $('panel-'+n);
       if(p) p.classList.toggle('hidden', n!==name);
     });
@@ -1112,6 +1167,151 @@ async function loadMetrics(){
   ).join('');
 }
 
+// ═══════════════ BRANDBOOKS ═══════════════
+let BB_ALL = [], BB_VIEW = [];
+const BSTATE = {q:''};
+
+async function loadBrandbooks(){
+  // Use already-loaded ALL (admin_concepts) and filter client-side
+  BB_ALL = (ALL||[]).filter(c => c.has_brandbook);
+  // Probe for 11-axonometric.png presence in parallel (HEAD requests)
+  await Promise.all(BB_ALL.map(async c => {
+    try{
+      const r = await fetch(`data/concepts/${c.slug}/images/11-axonometric.png`, {method:'HEAD'});
+      c._has_axo = r.ok;
+    }catch(e){ c._has_axo = false; }
+  }));
+  applyBrandbooks();
+  updateBrandbookStats();
+  $('t-brandbooks').textContent = BB_ALL.length;
+}
+
+function applyBrandbooks(){
+  BB_VIEW = BB_ALL.filter(c=>{
+    if(BSTATE.q){
+      const q = BSTATE.q.toLowerCase();
+      if(!c.name.toLowerCase().includes(q) && !c.slug.toLowerCase().includes(q)) return false;
+    }
+    return true;
+  });
+  renderBrandbooks();
+}
+
+function updateBrandbookStats(){
+  $('b-total').textContent = BB_ALL.length;
+  $('b-axo').textContent = BB_ALL.filter(c=>c._has_axo).length;
+  $('b-pending').textContent = BB_ALL.filter(c=>!c._has_axo).length;
+  $('b-ready').textContent = BB_ALL.filter(c=>c.verified && c._has_axo).length;
+}
+
+function renderBrandbooks(){
+  const tb = $('btbl');
+  if(!BB_VIEW.length){
+    tb.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-3);padding:40px">No brandbooks yet. Mark concepts with <code>has_brandbook=true</code> in Concepts tab.</td></tr>';
+    return;
+  }
+  tb.innerHTML = BB_VIEW.map(c=>{
+    const url = `data/concepts/${c.slug}/${c.slug}-brandbook.html`;
+    const axoChip = c._has_axo
+      ? '<span class="chip ok">✓ Axonometric</span>'
+      : '<span class="chip warn">⚠ No axo</span>';
+    const verifChip = c.verified
+      ? '<span class="chip ok">Live</span>'
+      : '<span class="chip warn">Unverified</span>';
+    return `<tr>
+      <td><div class="cell-name"><div class="info"><div class="name">${escape(c.name)}</div><div class="slug">${escape(c.slug)}</div></div></div></td>
+      <td><span class="chip">${escape(c.category||'—')}</span></td>
+      <td>${verifChip} ${axoChip}</td>
+      <td><a href="${url}" target="_blank" style="font-family:'JetBrains Mono';font-size:11px;color:var(--accent);text-decoration:underline">/${url}</a></td>
+      <td><div class="actions">
+        <a href="${url}" target="_blank" class="btn-s primary">↗ Open</a>
+        <a href="view.html?slug=${encodeURIComponent(c.slug)}" target="_blank" class="btn-s">View page</a>
+        <button class="btn-s danger" onclick="unmarkBrandbook('${escape(c.slug)}')">✕ Unmark</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+async function unmarkBrandbook(slug){
+  if(!confirm(`Unmark "${slug}" as having a brandbook? The HTML files stay on disk.`)) return;
+  const {error} = await sb.from('concepts_catalog').update({has_brandbook:false}).eq('slug', slug);
+  if(error){ alert('Failed: ' + error.message); return; }
+  const c = ALL.find(x=>x.slug===slug); if(c) c.has_brandbook = false;
+  loadBrandbooks();
+  applyAll();
+}
+
+// ═══════════════ PURCHASES ═══════════════
+let PURCH = [], PURCH_VIEW = [];
+const PSTATE = {q:'', prov:'all'};
+
+async function loadPurchases(){
+  const {data, error} = await sb.from('purchases')
+    .select('id,user_id,concept_slug,status,provider,price_paid,currency,created_at')
+    .order('created_at',{ascending:false})
+    .limit(500);
+  if(error){ console.warn('purchases', error); return; }
+  PURCH = data || [];
+  // Hydrate user email from USERS if available
+  const umap = {};
+  (USERS||[]).forEach(u => { umap[u.user_id] = u.email || u.display_name; });
+  PURCH.forEach(p => { p._email = umap[p.user_id] || (p.user_id||'').slice(0,8)+'…'; });
+  applyPurchases();
+  updatePurchaseStats();
+  $('t-purchases').textContent = PURCH.length;
+}
+
+function applyPurchases(){
+  PURCH_VIEW = PURCH.filter(p=>{
+    if(PSTATE.prov !== 'all' && p.provider !== PSTATE.prov) return false;
+    if(PSTATE.q){
+      const q = PSTATE.q.toLowerCase();
+      if(!((p.concept_slug||'').toLowerCase().includes(q)
+        || (p._email||'').toLowerCase().includes(q)
+        || (p.provider||'').toLowerCase().includes(q))) return false;
+    }
+    return true;
+  });
+  renderPurchases();
+}
+
+function updatePurchaseStats(){
+  const paid = PURCH.filter(p=>p.provider!=='superadmin');
+  const rev = paid.reduce((a,p)=>a+Number(p.price_paid||0), 0);
+  const weekAgo = Date.now() - 7*24*3600*1000;
+  const last7 = PURCH.filter(p=>new Date(p.created_at).getTime() > weekAgo).length;
+  $('p-total').textContent = PURCH.length;
+  $('p-revenue').textContent = '€' + Math.round(rev).toLocaleString();
+  $('p-gifts').textContent = PURCH.filter(p=>p.provider==='superadmin').length;
+  $('p-7d').textContent = last7;
+}
+
+function renderPurchases(){
+  const tb = $('ptbl');
+  if(!PURCH_VIEW.length){
+    tb.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-3);padding:40px">No purchases match the filter.</td></tr>';
+    return;
+  }
+  tb.innerHTML = PURCH_VIEW.slice(0,200).map(p=>{
+    const when = p.created_at ? new Date(p.created_at).toLocaleString() : '—';
+    const prov = p.provider || '—';
+    const provChip = prov==='superadmin' ? '<span class="chip">🎁 gift</span>'
+      : prov==='lemon_squeezy' ? '<span class="chip ok">LS</span>'
+      : prov==='stripe' ? '<span class="chip ok">Stripe</span>'
+      : `<span class="chip">${escape(prov)}</span>`;
+    const price = p.price_paid ? `${p.currency||'EUR'} ${p.price_paid}` : '—';
+    const statusChip = p.status==='paid' ? '<span class="chip ok">paid</span>' : `<span class="chip warn">${escape(p.status||'?')}</span>`;
+    return `<tr>
+      <td class="mono" style="color:var(--text-3);font-size:11px">${when}</td>
+      <td><span style="font-size:12px">${escape(p._email||'—')}</span></td>
+      <td><span class="slug" style="font-family:'JetBrains Mono';font-size:11px">${escape(p.concept_slug||'—')}</span></td>
+      <td>${provChip}</td>
+      <td class="mono">${price}</td>
+      <td>${statusChip}</td>
+    </tr>`;
+  }).join('');
+}
+
 function escape(s){ return (s||'').replace(/[<>&"']/g, c=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c])); }
 
 async function changeRole(userId, newRole, selEl){
@@ -1280,6 +1480,9 @@ $('bulk-delete').addEventListener('click', async ()=>{
 $('uq').addEventListener('input', e=>{USTATE.q=e.target.value;applyUsers()});
 $('urole').addEventListener('change', e=>{USTATE.role=e.target.value;applyUsers()});
 $('m-refresh').addEventListener('click', loadMetrics);
+$('bq').addEventListener('input', e=>{BSTATE.q=e.target.value;applyBrandbooks()});
+$('pq').addEventListener('input', e=>{PSTATE.q=e.target.value;applyPurchases()});
+$('pprov').addEventListener('change', e=>{PSTATE.prov=e.target.value;applyPurchases()});
 /* signout + nav scroll handled by shared svita-nav.js */
 
 boot();
