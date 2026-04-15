@@ -476,6 +476,25 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 }
 .btn-danger:hover{background:#ef4444;color:#fff;border-color:#ef4444}
 
+.page-sub{color:var(--text-2);font-size:14px;line-height:1.6}
+.email-inline{font-family:'JetBrains Mono';font-size:13px;color:var(--text);font-weight:500}
+
+.contacts-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border-radius:12px;overflow:hidden}
+.contact-row{
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  background:var(--bg);padding:14px 18px;text-decoration:none;color:var(--text);
+  font-family:inherit;font-size:14px;text-align:left;
+  border:0;cursor:pointer;width:100%;
+  transition:background 180ms var(--ease);
+}
+.contact-row:hover{background:var(--bg-1)}
+.contact-row .crow-kind{
+  font-family:'JetBrains Mono';font-size:10px;text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--text-3);font-weight:600;
+}
+.contact-row .crow-val{font-weight:500;color:var(--text)}
+.contact-row.as-btn{font-size:14px}
+
 /* ============ BUY INTENT ============ */
 .intent{
   background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius);
@@ -697,20 +716,7 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
     <div class="page-head reveal">
       <div class="eyebrow">Your cabinet <span id="role-badge" class="role-badge"></span></div>
       <h1 class="display">Hello, <span class="accent" id="user-name">friend</span>.</h1>
-      <p>Everything you've bought lives here. Click any concept to open its brandbook and launch plan.</p>
-    </div>
-
-    <div class="acc-bar reveal">
-      <div class="left">
-        <span class="label">Signed in as</span>
-        <span class="email" id="user-email"></span>
-      </div>
-      <div class="right">
-        <a href="shop.html" class="btn btn-ghost">Browse shop</a>
-        <button class="btn btn-ghost" id="faq-btn" onclick="document.getElementById('faq-modal').classList.remove('hidden')">FAQ</button>
-        <a href="mailto:support@svita.labs67.com?subject=SVITA%20Micro%20support" class="btn btn-ghost">Support</a>
-        <button class="btn btn-ghost" id="signout-btn">Sign out</button>
-      </div>
+      <p class="page-sub">Signed in as <span class="email-inline" id="user-email"></span> · Everything you've bought lives here.</p>
     </div>
 
     <div id="intent-box" class="hidden"></div>
@@ -804,6 +810,31 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
         <div class="settings-actions">
           <button type="button" class="btn btn-primary" id="set-save-pw">Update password</button>
           <span class="settings-msg" id="set-msg-pw"></span>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <div class="settings-head">
+          <h3>Contacts</h3>
+          <p>Questions, refunds, partnerships — one inbox handles everything.</p>
+        </div>
+        <div class="contacts-list">
+          <a class="contact-row" href="mailto:ceo@labs67.com?subject=SVITA%20Micro%20%E2%80%94%20Support">
+            <span class="crow-kind">Support</span>
+            <span class="crow-val">ceo@labs67.com</span>
+          </a>
+          <a class="contact-row" href="mailto:ceo@labs67.com?subject=SVITA%20Micro%20%E2%80%94%20Commercial%20inquiry">
+            <span class="crow-kind">Commercial</span>
+            <span class="crow-val">ceo@labs67.com</span>
+          </a>
+          <button type="button" class="contact-row as-btn" id="open-faq">
+            <span class="crow-kind">FAQ</span>
+            <span class="crow-val">Common questions →</span>
+          </button>
+          <a class="contact-row" href="shop.html">
+            <span class="crow-kind">Shop</span>
+            <span class="crow-val">Browse 200 concepts →</span>
+          </a>
         </div>
       </div>
 
@@ -1061,7 +1092,7 @@ $('form-reset').addEventListener('submit', async e=>{
   setTimeout(()=> location.href = 'account.html', 1200);
 });
 
-$('signout-btn').addEventListener('click', async ()=>{ await sb.auth.signOut(); });
+// Legacy #signout-btn lived in the old acc-bar; sign-out now lives in Settings › Danger zone.
 
 // ═══════════════ ACCOUNT VIEW ═══════════════
 async function enterAccount(user){
@@ -1235,6 +1266,12 @@ function wireSettings(user, displayName){
   const emailInput = $('set-email');
   if(nameInput) nameInput.value = displayName || '';
   if(emailInput) emailInput.value = user.email || '';
+
+  const faqBtn = $('open-faq');
+  if(faqBtn && !faqBtn.__wired){
+    faqBtn.__wired = true;
+    faqBtn.addEventListener('click', ()=> $('faq-modal').classList.remove('hidden'));
+  }
 
   const saveProfile = $('set-save-profile');
   if(saveProfile && !saveProfile.__wired){
