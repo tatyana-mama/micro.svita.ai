@@ -32,8 +32,11 @@ h1.page-title{font-size:30pt;margin-bottom:6mm;letter-spacing:-0.025em;font-weig
 p{margin-bottom:3mm}
 img{max-width:100%;display:block}
 .divider{height:1px;background:var(--line);margin:6mm 0}
-.cover{background:var(--ink);color:var(--cream);justify-content:space-between;padding:18mm}
+.cover{background:var(--ink);color:var(--cream);justify-content:space-between;padding:18mm;position:relative;overflow:hidden}
 .cover::before,.cover::after{display:none}
+.cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.32;z-index:0}
+.cover > *{position:relative;z-index:1}
+.img-large{width:100%;max-height:160mm;object-fit:contain;border-radius:2mm;margin-top:6mm}
 .cover .brand{font-family:'Fraunces';font-size:58pt;font-weight:800;line-height:0.9;color:var(--neon);margin-top:30mm;letter-spacing:-0.03em}
 .cover .brand small{display:block;font-family:'Inter';font-size:10pt;font-weight:500;color:var(--cream);opacity:0.88;margin-top:8mm;letter-spacing:0.22em;text-transform:uppercase}
 .cover .tagline{font-family:'Fraunces';font-size:15pt;font-weight:400;font-style:italic;max-width:140mm;margin-bottom:18mm;color:var(--cream);opacity:0.94}
@@ -82,8 +85,10 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 .reg-card li{padding:1.5mm 0;padding-left:5mm;position:relative}
 .reg-card li::before{content:'·';position:absolute;left:0;color:var(--neon);font-weight:800;font-size:14pt;line-height:1}
 .plan-wrap{flex:1;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;padding:8mm}
-.back-cover{background:var(--ink);color:var(--cream);justify-content:space-between}
+.back-cover{background:var(--ink);color:var(--cream);justify-content:space-between;position:relative;overflow:hidden}
 .back-cover::before,.back-cover::after{color:#666}
+.back-cover .cover-bg{opacity:0.35}
+.back-cover > *{position:relative;z-index:1}
 .back-cover h1{color:var(--neon);font-size:44pt}
 .back-cover p{color:#BBB;max-width:140mm}
 @media print{body{background:#fff}.page{box-shadow:none;margin:0}}
@@ -92,6 +97,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 <body>
 
 <section class="page cover no-footer">
+  <img class="cover-bg" src="images/01-hero.png" alt="">
   <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);opacity:0.88">SVITA Micro · Concept Brandbook №006</div>
   <div><h1 class="brand">BERLIN<br>VINTAGE<small>Y2K archive · Friedrichshain</small></h1></div>
   <div>
@@ -130,6 +136,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <strong style="font-family:'Inter';font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--neon)">The 200 Rule</strong>
     <p style="margin-top:2mm;font-size:10pt">Never more than 200 hangers on the rack. Every Wednesday morning, 30 new pieces come in, 30 go to the Monday kilo-rail at 50% for overflow. Scarcity is the product.</p>
   </div>
+  <img class="img-large" src="images/08-pour-detail.png" alt="Stylist steaming a Y2K mesh top on chrome hanger" style="max-height:80mm;margin-top:6mm">
 </section>
 
 <section class="page" data-page="04">
@@ -169,6 +176,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <li><strong>RAW-Gelände rent.</strong> €850/month for 32 m² in the old railway depot — 50% below Simon-Dach prices.</li>
     <li><strong>Wed–Sun only.</strong> Closed Mondays for sourcing trips, closed Tuesdays for inventory. Full opening hours only when customers actually shop.</li>
   </ol>
+  <img class="img-large" src="images/02-facade.png" alt="BVS facade with hand-painted BVS monogram ring" style="max-height:70mm;margin-top:4mm">
 </section>
 
 <section class="page" data-page="06">
@@ -261,7 +269,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 <section class="page" data-page="10">
   <div class="eyebrow">Space · Hero</div>
   <h1 class="page-title">The rack.</h1>
-  <img class="img-full" src="https://micro.svita.ai/data/concepts/berlin-vintage-shop/hero.png" alt="Interior">
+  <img class="img-full" src="images/01-hero.png" alt="BVS exterior on RAW-Gelände">
   <p class="caption">BVS interior · 32 m² · concrete floor, cream walls, chrome rack, neon price hit on the back wall</p>
 </section>
 
@@ -269,23 +277,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
   <div class="eyebrow">Floor Plan · 32 m²</div>
   <h1 class="page-title">One rack, one mirror.</h1>
   <p class="lead">4.0 m wide, 8.0 m deep. Rack runs 6.0 m along the left wall. Fitting booth at the back right. Till at the entrance. Exposed RAW-Gelände brick on the right wall, nothing hung there.</p>
-  <div class="plan-wrap">
-    <svg viewBox="0 0 400 600" style="width:60%;height:auto">
-      <rect x="10" y="10" width="380" height="580" fill="#F2EEE6" stroke="#111114" stroke-width="4"/>
-      <rect x="10" y="10" width="380" height="40" fill="#111114"/>
-      <text x="200" y="35" font-family="Inter" font-size="11" font-weight="700" fill="#F5476E" text-anchor="middle">ENTRANCE · 4.0 m</text>
-      <rect x="30" y="70" width="70" height="70" fill="#8A8478" opacity="0.3" stroke="#8A8478" stroke-width="2"/>
-      <text x="65" y="110" font-family="Inter" font-size="9" font-weight="700" fill="#111114" text-anchor="middle">TILL</text>
-      <rect x="30" y="160" width="40" height="380" fill="#D9DCE0" stroke="#D9DCE0" stroke-width="2"/>
-      <text x="50" y="350" font-family="Inter" font-size="10" font-weight="700" fill="#111114" text-anchor="middle" transform="rotate(-90 50 350)">200 RACK · 6.0 m</text>
-      <rect x="120" y="180" width="240" height="260" fill="none" stroke="#8A8478" stroke-dasharray="3 3"/>
-      <text x="240" y="320" font-family="Inter" font-size="9" fill="#5C5852" text-anchor="middle">BROWSING · CUSTOMER FLOW</text>
-      <rect x="260" y="460" width="110" height="110" fill="#F5476E" opacity="0.2" stroke="#F5476E" stroke-width="2"/>
-      <text x="315" y="510" font-family="Inter" font-size="10" font-weight="700" fill="#111114" text-anchor="middle">FITTING</text>
-      <text x="315" y="525" font-family="Inter" font-size="9" fill="#5C5852" text-anchor="middle">+ MIRROR</text>
-      <text x="200" y="585" font-family="Inter" font-size="9" fill="#5C5852" text-anchor="middle">4.0 m × 8.0 m · 32 m²</text>
-    </svg>
-  </div>
+  <img class="img-full" src="images/11-axonometric.png" alt="Axonometric plan of BVS · rack, till, mirror, back stock">
 </section>
 
 <section class="page" data-page="12">
@@ -318,6 +310,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
   </table>
   <div class="divider"></div>
   <p style="font-size:10pt"><strong>CRI:</strong> 95+ mandatory. <strong>Flicker:</strong> &lt; 5%. <strong>Do not:</strong> use cool white, use coloured filters, install dimmers — vintage buyers photograph under your light.</p>
+  <img class="img-large" src="images/03-interior.png" alt="BVS interior: chrome rack, concrete walls, 200 MAX neon" style="max-height:80mm;margin-top:4mm">
 </section>
 
 <section class="page" data-page="14">
@@ -333,6 +326,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <tr><td>Dehumidifier</td><td>Meaco 20L</td><td class="num">240</td><td>Meaco DE</td></tr>
     <tr class="total-row"><td colspan="2">Core equipment subtotal</td><td class="num">2,340</td><td>€</td></tr>
   </table>
+  <img class="img-large" src="images/09-equipment.png" alt="Flat lay: typewriter, hangers, steamer, Polaroid" style="max-height:80mm;margin-top:4mm">
 </section>
 
 <section class="page" data-page="15">
@@ -373,6 +367,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
       <text x="450" y="255" font-family="Inter,sans-serif" font-size="9" fill="#111114" text-anchor="middle">FRI SAT SUN 12–20</text>
     </svg>
   </div>
+  <img class="img-large" src="images/05-signage.png" alt="Hand-painted BERLIN VINTAGE black steel signboard" style="max-height:65mm;margin-top:4mm">
 </section>
 
 <section class="page" data-page="17">
@@ -388,6 +383,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <tr><td>BVS rubber stamp</td><td>Rubber + permanent ink, 40 mm</td><td>Stempel Neumann</td></tr>
     <tr><td>Archival garment bag</td><td>For pieces &gt; €150</td><td>Stumpf Verpackung</td></tr>
   </table>
+  <img class="img-large" src="images/04-packaging.png" alt="BVS black dust bag, hand-typed tag, receipt" style="max-height:75mm;margin-top:4mm">
   <p style="margin-top:6mm;font-size:10pt"><strong>Pre-loved ethos:</strong> every tote is reusable, every tag is paper-archived, every receipt is typewritten. Zero single-use plastic ever.</p>
 </section>
 
@@ -403,6 +399,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
   </table>
   <div class="divider"></div>
   <p style="font-size:10pt"><strong>Rotation rule:</strong> staff can wear pieces from the rack for one shift, then return to inventory. Encourages weekly rotation + creates Instagram content.</p>
+  <img class="img-large" src="images/13-uniform.png" alt="BVS staff uniform: black tee with BVS monogram, black apron" style="max-height:80mm;margin-top:4mm">
 </section>
 
 <section class="page" data-page="19">
@@ -538,6 +535,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 </section>
 
 <section class="page back-cover no-footer">
+  <img class="cover-bg" src="images/10-night.png" alt="">
   <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);opacity:0.6">SVITA Micro · Brandbook №006</div>
   <div>
     <h1 style="margin-top:20mm">Let's curate.</h1>
