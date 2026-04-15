@@ -419,6 +419,32 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 .empty h3 .accent{color:var(--accent);font-style:italic;font-weight:500}
 .empty p{color:var(--text-2);font-size:15px;max-width:440px;margin:0 auto 36px}
 
+/* ============ ACCOUNT TABS ============ */
+.acc-tabs{
+  display:flex;gap:8px;margin-bottom:40px;flex-wrap:wrap;
+  border-bottom:1px solid var(--line);padding-bottom:0;
+}
+.acc-tab{
+  background:transparent;border:0;border-bottom:2px solid transparent;
+  padding:14px 22px;color:var(--text-3);font-family:'Space Grotesk';
+  font-size:15px;font-weight:600;letter-spacing:-0.01em;cursor:pointer;
+  transition:all 180ms var(--ease);display:inline-flex;align-items:center;gap:10px;
+  margin-bottom:-1px;
+}
+.acc-tab:hover{color:var(--text)}
+.acc-tab.on{color:var(--text);border-bottom-color:var(--accent)}
+.acc-tab-count{
+  font-family:'JetBrains Mono';font-size:10px;font-weight:600;
+  padding:3px 8px;border-radius:100px;background:var(--bg-1);color:var(--text-3);
+  min-width:20px;text-align:center;
+}
+.acc-tab.on .acc-tab-count{background:var(--accent);color:#0A0A0B}
+.acc-panel{min-height:200px}
+@media(max-width:640px){
+  .acc-tabs{gap:2px}
+  .acc-tab{padding:12px 14px;font-size:13px}
+}
+
 /* ============ SETTINGS ============ */
 .settings-grid{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px;margin-bottom:60px;
@@ -689,22 +715,40 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 
     <div id="intent-box" class="hidden"></div>
 
-    <div class="owned-head reveal" id="favorites">
-      <h2>Favorites</h2>
-      <span class="count" id="favs-count"></span>
-    </div>
-    <div id="favs-grid" class="favs hidden"></div>
-    <div id="favs-empty" class="favs-empty hidden">
-      No favorites yet. Tap the <span style="color:#ff4d6b">♥</span> on any concept to save it here. <a href="shop.html">Browse shop →</a>
+    <div class="acc-tabs reveal" role="tablist">
+      <button type="button" class="acc-tab" data-tab="owned" role="tab">My concepts <span class="acc-tab-count" id="tab-count-owned"></span></button>
+      <button type="button" class="acc-tab" data-tab="favorites" role="tab">Favorites <span class="acc-tab-count" id="tab-count-favs"></span></button>
+      <button type="button" class="acc-tab" data-tab="settings" role="tab">Settings</button>
     </div>
 
-    <div class="owned-head reveal">
-      <h2>Owned</h2>
-      <span class="count" id="owned-count"></span>
+    <div class="acc-panel hidden" id="acc-panel-owned" role="tabpanel">
+      <div class="owned-head reveal">
+        <h2>My concepts</h2>
+        <span class="count" id="owned-count"></span>
+      </div>
+      <div id="owned-loading" class="loader"><span class="spin"></span></div>
+      <div id="owned-grid" class="owned hidden"></div>
+      <div id="owned-empty" class="empty hidden">
+        <div class="eyebrow">Empty cabinet</div>
+        <h3>Pick your first <span class="accent">concept</span>.</h3>
+        <p>200 ready-to-launch concepts waiting. Coffee shops, matcha kiosks, ramen bars, beauty salons. From €49.</p>
+        <a href="index.html#gallery" class="btn btn-primary">
+          Browse concepts
+          <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
+        </a>
+      </div>
     </div>
 
-    <div id="owned-loading" class="loader"><span class="spin"></span></div>
-    <div id="owned-grid" class="owned hidden"></div>
+    <div class="acc-panel hidden" id="acc-panel-favorites" role="tabpanel">
+      <div class="owned-head reveal">
+        <h2>Favorites</h2>
+        <span class="count" id="favs-count"></span>
+      </div>
+      <div id="favs-grid" class="favs hidden"></div>
+      <div id="favs-empty" class="favs-empty hidden">
+        No favorites yet. Tap the <span style="color:#ff4d6b">♥</span> on any concept to save it here. <a href="shop.html">Browse shop →</a>
+      </div>
+    </div>
 
     <div id="faq-modal" class="faq-overlay hidden" onclick="if(event.target===this)this.classList.add('hidden')">
       <div class="faq-card">
@@ -720,17 +764,8 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
       </div>
     </div>
 
-    <div id="owned-empty" class="empty hidden">
-      <div class="eyebrow">Empty cabinet</div>
-      <h3>Pick your first <span class="accent">concept</span>.</h3>
-      <p>200 ready-to-launch concepts waiting. Coffee shops, matcha kiosks, ramen bars, beauty salons. From €49.</p>
-      <a href="index.html#gallery" class="btn btn-primary">
-        Browse concepts
-        <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
-      </a>
-    </div>
-
-    <div class="owned-head reveal" id="settings">
+    <div class="acc-panel hidden" id="acc-panel-settings" role="tabpanel">
+    <div class="owned-head reveal">
       <h2>Settings</h2>
     </div>
     <div class="settings-grid">
@@ -783,6 +818,7 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
         </div>
         <span class="settings-msg" id="set-msg-danger"></span>
       </div>
+    </div>
     </div>
   </div>
 </section>
@@ -1051,6 +1087,7 @@ async function enterAccount(user){
   // Display name
   const nameEl = $('user-name');
   if(nameEl) nameEl.textContent = displayName || (user.user_metadata && user.user_metadata.name) || user.email.split('@')[0];
+  wireTabs();
   wireSettings(user, displayName);
   observeReveals();
   loadFavorites();
@@ -1110,6 +1147,7 @@ async function loadFavorites(){
   const count = $('favs-count');
   const favs = (window.SvitaFavs && window.SvitaFavs.list()) || [];
   count.textContent = favs.length + ' concept' + (favs.length===1?'':'s');
+  const tc = $('tab-count-favs'); if(tc) tc.textContent = favs.length;
   if(!favs.length){
     grid.classList.add('hidden');
     empty.classList.remove('hidden');
@@ -1156,6 +1194,33 @@ async function loadFavorites(){
   });
 }
 window.addEventListener('svita:favs', ()=> loadFavorites());
+
+// ═══════════════ TABS ═══════════════
+const ACC_TABS = ['owned','favorites','settings'];
+function activateTab(name){
+  if(!ACC_TABS.includes(name)) name = 'owned';
+  document.querySelectorAll('.acc-tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===name));
+  ACC_TABS.forEach(n=>{
+    const p = document.getElementById('acc-panel-'+n);
+    if(p) p.classList.toggle('hidden', n!==name);
+  });
+  if(location.hash.slice(1) !== name){
+    history.replaceState(null,'','#'+name);
+  }
+}
+function wireTabs(){
+  document.querySelectorAll('.acc-tab').forEach(btn=>{
+    if(btn.__wired) return;
+    btn.__wired = true;
+    btn.addEventListener('click', ()=> activateTab(btn.dataset.tab));
+  });
+  window.addEventListener('hashchange', ()=>{
+    const h = location.hash.slice(1);
+    if(ACC_TABS.includes(h)) activateTab(h);
+  });
+  const h = location.hash.slice(1);
+  activateTab(ACC_TABS.includes(h) ? h : 'owned');
+}
 
 // ═══════════════ SETTINGS ═══════════════
 function setMsg(id, text, kind){
@@ -1229,11 +1294,6 @@ function wireSettings(user, displayName){
     });
   }
 
-  // Smooth-scroll when landing via #settings hash
-  if(location.hash === '#settings'){
-    const el = $('settings');
-    if(el) setTimeout(()=>el.scrollIntoView({ behavior:'smooth', block:'start' }), 100);
-  }
 }
 
 async function loadOwned(){
@@ -1241,18 +1301,22 @@ async function loadOwned(){
   show('owned-loading');
   const {data, error} = await sb.from('my_concepts').select('*').order('purchased_at',{ascending:false});
   hide('owned-loading');
+  const setTabCount = n => { const tc = $('tab-count-owned'); if(tc) tc.textContent = n; };
   if(error){
     console.error('loadOwned', error);
     show('owned-empty');
     $('owned-count').textContent = 'Error';
+    setTabCount(0);
     return;
   }
   if(!data || !data.length){
     show('owned-empty');
     $('owned-count').textContent = '0 concepts';
+    setTabCount(0);
     return;
   }
   $('owned-count').textContent = data.length + ' concept' + (data.length===1?'':'s');
+  setTabCount(data.length);
   const grid = $('owned-grid');
   const isSA = MY_ROLE === 'superadmin';
   grid.innerHTML = data.map(c=>{
