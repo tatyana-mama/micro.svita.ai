@@ -46,8 +46,10 @@ img{max-width:100%;display:block}
 .divider{height:1px;background:var(--line);margin:6mm 0}
 
 /* COVER */
-.cover{background:var(--leaf);color:var(--cream);justify-content:space-between;padding:18mm}
+.cover{background:var(--leaf);color:var(--cream);justify-content:space-between;padding:18mm;position:relative;overflow:hidden}
 .cover::before,.cover::after{display:none}
+.cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.22;z-index:0}
+.cover > *{position:relative;z-index:1}
 .cover .brand{font-family:'Fraunces';font-size:58pt;font-weight:800;line-height:0.9;color:var(--cream);margin-top:30mm;letter-spacing:-0.03em}
 .cover .brand small{display:block;font-family:'Inter';font-size:10pt;font-weight:500;color:var(--cream);opacity:0.88;margin-top:8mm;letter-spacing:0.22em;text-transform:uppercase}
 .cover .tagline{font-family:'Fraunces';font-size:15pt;font-weight:400;font-style:italic;max-width:140mm;margin-bottom:18mm;color:var(--cream);opacity:0.94}
@@ -120,8 +122,10 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 .plan-wrap{flex:1;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;padding:8mm}
 
 /* BACK */
-.back-cover{background:var(--ink);color:var(--cream);justify-content:space-between}
+.back-cover{background:var(--ink);color:var(--cream);justify-content:space-between;position:relative;overflow:hidden}
 .back-cover::before,.back-cover::after{color:#666}
+.back-cover .cover-bg{opacity:0.35}
+.back-cover > *{position:relative;z-index:1}
 .back-cover h1{color:var(--zest);font-size:44pt}
 .back-cover p{color:#BBB;max-width:140mm}
 
@@ -132,6 +136,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 
 <!-- PAGE 01 · COVER -->
 <section class="page cover no-footer">
+  <img class="cover-bg" src="images/01-hero.png" alt="">
   <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);opacity:0.88">SVITA Micro · Concept Brandbook №004</div>
   <div>
     <h1 class="brand">AJL<small>Amsterdam Juice Lab · Jordaan</small></h1>
@@ -170,7 +175,8 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
   <h1 class="page-title">Cold-pressed,<br>bottled at dawn.</h1>
   <p class="lead">Amsterdam has two kinds of juice: €2 sugar-spiked supermarket cartons and €9 plastic-cupped tourist smoothies. Nothing in between — a proper hydraulic cold-press in a glass bottle, same day, €6.</p>
   <p>AJL fills that gap with eight disciplined recipes, a Goodnature M-1 single-auger press visible through the window, and a €9,800 kiosk that pays back in Month 4 without a single Deliveroo order.</p>
-  <div style="margin-top:10mm;padding:6mm;background:#fff;border-left:3px solid var(--zest)">
+  <img class="img-large" src="images/08-pour-detail.png" alt="Bright green juice poured from Angel juicer into a swing-top bottle" style="max-height:85mm">
+  <div style="margin-top:6mm;padding:6mm;background:#fff;border-left:3px solid var(--zest)">
     <strong style="font-family:'Inter';font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--zest)">The 12-Hour Rule</strong>
     <p style="margin-top:2mm;font-size:10pt">Every morning at 6am, the day's fruit is pressed on-site. Bottles are numbered, dated, and sold within 12 hours. Whatever's left at 18:00 goes to the staff room or the compost — never to tomorrow. No HPP, no thermal, no preservatives.</p>
   </div>
@@ -215,6 +221,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <li><strong>12 m² corner kiosk.</strong> Rent €650/month in Jordaan — 60% below a café lease. The hatch is the shop.</li>
     <li><strong>Hatch-only, no seats.</strong> No waiters, no table turn, no VAT 21% on dine-in — takeaway 9%.</li>
   </ol>
+  <img class="img-large" src="images/02-facade.png" alt="Jordaan canal-house façade with open green hatch window and chalkboard" style="max-height:75mm;margin-top:4mm">
 </section>
 
 <!-- PAGE 06 · BRAND IDENTITY -->
@@ -312,29 +319,17 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 <section class="page" data-page="10">
   <div class="eyebrow">Space · Hero</div>
   <h1 class="page-title">The hatch.</h1>
-  <img class="img-full" src="https://micro.svita.ai/data/concepts/amsterdam-juice-lab/hero.png" alt="Kiosk exterior">
-  <p class="caption">AJL kiosk · 12 m² · leaf awning, glass hatch, hydraulic press visible from the canal side</p>
+  <img class="img-full" src="images/01-hero.png" alt="AJL hatch window on a Jordaan canal, morning queue">
+  <p class="caption">AJL hatch · Jordaan canal-house, 3.2 m wide, het luikje opens at 07:30</p>
 </section>
 
 <!-- PAGE 11 · FLOOR PLAN -->
 <section class="page" data-page="11">
   <div class="eyebrow">Floor Plan · 12 m²</div>
   <h1 class="page-title">One hatch, one press.</h1>
-  <p class="lead">3.0 m wide, 4.0 m deep. Press wall on the left visible through a glazed panel. Hatch counter on the canal side. Cold room at the back. No seating — takeaway only.</p>
-  <div class="plan-wrap">
-    <svg viewBox="0 0 360 460" style="width:70%;height:auto">
-      <rect x="10" y="10" width="340" height="440" fill="#FAF6EC" stroke="#0F1511" stroke-width="4"/>
-      <rect x="10" y="10" width="340" height="60" fill="#4F8E3E" opacity="0.22" stroke="#4F8E3E" stroke-width="2"/>
-      <text x="180" y="45" font-family="Inter" font-size="11" font-weight="700" fill="#0F1511" text-anchor="middle">HATCH · CANAL SIDE · 3.0 m</text>
-      <rect x="20" y="100" width="90" height="220" fill="#1E3D59" opacity="0.25" stroke="#1E3D59" stroke-width="2"/>
-      <text x="65" y="210" font-family="Inter" font-size="10" font-weight="700" fill="#0F1511" text-anchor="middle" transform="rotate(-90 65 210)">GLASS PRESS WALL</text>
-      <rect x="130" y="100" width="210" height="220" fill="#FAF6EC" stroke="#4F8E3E" stroke-width="1.5"/>
-      <text x="235" y="210" font-family="Inter" font-size="10" font-weight="600" fill="#4F8E3E" text-anchor="middle">PREP · BOTTLE · FRIDGE</text>
-      <rect x="20" y="350" width="320" height="80" fill="#1E3D59" opacity="0.18" stroke="#1E3D59" stroke-width="2"/>
-      <text x="180" y="395" font-family="Inter" font-size="11" font-weight="700" fill="#0F1511" text-anchor="middle">COLD ROOM · WASHING · STORAGE</text>
-      <text x="180" y="445" font-family="Inter" font-size="9" fill="#5C6661" text-anchor="middle">3.0 m × 4.0 m · 12 m²</text>
-    </svg>
-  </div>
+  <p class="lead">3.0 m wide, 4.5 m deep. Press wall on the left visible through a glazed panel. Hatch counter on the canal side. Cold room at the back. No seating — takeaway only.</p>
+  <img class="img-full" src="images/11-axonometric.png" alt="Axonometric interior plan of AJL juice bar, 3×4.5 m, het luikje hatch window">
+  <p class="caption">Axonometric · 3000 × 4500 × 2900 mm · hatch · press · shelf · sink</p>
 </section>
 
 <!-- PAGE 12 · FURNITURE SPECS -->
@@ -369,6 +364,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
   </table>
   <div class="divider"></div>
   <p style="font-size:10pt"><strong>Total lumens:</strong> ~4,200. <strong>CRI:</strong> 90+. <strong>Driver:</strong> Meanwell HLG series, 5-year warranty. <strong>Do not:</strong> install RGB, install spotlights, install dimmers.</p>
+  <img class="img-large" src="images/03-interior.png" alt="AJL interior: lime-washed walls, green beams, brass counter, juicer" style="max-height:85mm;margin-top:6mm">
 </section>
 
 <!-- PAGE 14 · EQUIPMENT CORE -->
@@ -386,6 +382,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <tr><td>POS + card terminal</td><td>SumUp Solo + Air</td><td class="num">120</td><td>SumUp NL</td></tr>
     <tr class="total-row"><td colspan="2">Core equipment subtotal</td><td class="num">5,660</td><td>€</td></tr>
   </table>
+  <img class="img-large" src="images/09-equipment.png" alt="Flat-lay of Angel juicer, brass scale, celery, apples, swing-top bottles" style="max-height:85mm;margin-top:4mm">
 </section>
 
 <!-- PAGE 15 · EQUIPMENT DETAILS -->
@@ -428,6 +425,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
       <text x="420" y="255" font-family="Inter,sans-serif" font-size="9" fill="#0F1511" text-anchor="middle">05 CITRUS 6 · 06 APPLE FIX · 07 C+D · 08 CANAL BLUE</text>
     </svg>
   </div>
+  <img class="img-large" src="images/05-signage.png" alt="Hand-painted AJL wooden signboard above a leaf-green Amsterdam hatch" style="max-height:75mm;margin-top:4mm">
 </section>
 
 <!-- PAGE 17 · PACKAGING -->
@@ -444,7 +442,8 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <tr><td>4-pack crate</td><td>Beech wood, leaf-branded</td><td>Houtatelier Noord</td></tr>
     <tr><td>Carry bag</td><td>Unbleached cotton, AJL stamp</td><td>Tassenfabriek Utrecht</td></tr>
   </table>
-  <p style="margin-top:6mm;font-size:10pt"><strong>Deposit system:</strong> €0.50 per bottle, refunded in cash or recipe credit. Break-even return rate at month 3 is 92%. Target: zero single-use plastic on premises.</p>
+  <img class="img-large" src="images/04-packaging.png" alt="250ml swing-top AJL bottle with cream label and leaf serif wordmark" style="max-height:95mm;margin-top:4mm">
+  <p style="margin-top:3mm;font-size:10pt"><strong>Deposit system:</strong> €0.50 per bottle, refunded in cash or recipe credit. Break-even return rate at month 3 is 92%. Target: zero single-use plastic on premises.</p>
 </section>
 
 <!-- PAGE 18 · UNIFORM -->
@@ -460,8 +459,8 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <tr><td>Shoes</td><td>Birkenstock Professional</td><td>Staff provides, AJL reimburses €80</td></tr>
     <tr><td>Gloves</td><td>Nitrile black</td><td>Pressing + washing only</td></tr>
   </table>
-  <div class="divider"></div>
-  <p style="font-size:10pt"><strong>Laundry:</strong> twice-weekly pickup by Schoon Jordaan (€32/week). <strong>Replacement:</strong> aprons every 6 months, tees every 3 months, reimbursed from staff budget.</p>
+  <img class="img-large" src="images/13-uniform.png" alt="AJL juice maker in cream apron with leaf-green ties, handing a bottle through the hatch" style="max-height:90mm;margin-top:4mm">
+  <p style="font-size:10pt;margin-top:3mm"><strong>Laundry:</strong> twice-weekly pickup by Schoon Jordaan (€32/week). <strong>Replacement:</strong> aprons every 6 months, tees every 3 months, reimbursed from staff budget.</p>
 </section>
 
 <!-- PAGE 19 · MENU -->
@@ -618,6 +617,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 
 <!-- PAGE 25 · BACK COVER -->
 <section class="page back-cover no-footer">
+  <img class="cover-bg" src="images/10-night.png" alt="">
   <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);opacity:0.6">SVITA Micro · Brandbook №004</div>
   <div>
     <h1 style="margin-top:20mm">Let's press.</h1>
