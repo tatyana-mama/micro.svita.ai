@@ -634,34 +634,38 @@ const STATE = {q:'', status:'all', cat:'all'};
 const USTATE = {q:'', role:'all'};
 
 async function boot(){
-  const {data:{session}} = await sb.auth.getSession();
-  if(!session){ location.href = 'account.html'; return; }
-  const {data: prof} = await sb.from('profiles').select('role').eq('user_id', session.user.id).maybeSingle();
-  MY_ROLE = prof?.role || 'user';
-  if(MY_ROLE !== 'admin' && MY_ROLE !== 'superadmin'){
-    $('guard').classList.remove('hidden');
-    return;
-  }
-  // Role badge rendered by shared nav (svita-nav.js reads profiles.role).
-  if(MY_ROLE === 'superadmin'){
-    ['overview','sales','funnel','cohorts','users'].forEach(n=>{
-      const t = $('tab-'+n); if(t) t.style.display = '';
-    });
-    $('page-eyebrow').textContent = 'Superadmin control';
-    // Default tab for superadmin = overview
-    document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.toggle('on', t.dataset.tab==='overview'));
-    $('panel-concepts').classList.add('hidden');
-    $('panel-overview').classList.remove('hidden');
-  } else {
-    $('page-eyebrow').textContent = 'Concept admin';
-    $('page-title').innerHTML = 'Verify &amp; publish <span class="accent">concepts</span>.';
-  }
-  $('app').classList.remove('hidden');
-  await loadConcepts();
-  loadBrandbooks();
-  if(MY_ROLE === 'superadmin'){
-    loadUsers();
-    loadOverview();
+  try {
+    const {data:{session}} = await sb.auth.getSession();
+    if(!session){ location.href = 'account.html'; return; }
+    const {data: prof} = await sb.from('profiles').select('role').eq('user_id', session.user.id).maybeSingle();
+    MY_ROLE = prof?.role || 'user';
+    if(MY_ROLE !== 'admin' && MY_ROLE !== 'superadmin'){
+      $('guard').classList.remove('hidden');
+      return;
+    }
+    // Reveal app FIRST so any error downstream doesn't leave a blank page.
+    $('app').classList.remove('hidden');
+    if(MY_ROLE === 'superadmin'){
+      ['overview','sales','funnel','cohorts','users'].forEach(n=>{
+        const t = $('tab-'+n); if(t) t.style.display = '';
+      });
+      const eb = $('page-eyebrow'); if(eb) eb.textContent = 'Superadmin control';
+      document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.toggle('on', t.dataset.tab==='overview'));
+      const pc = $('panel-concepts'); if(pc) pc.classList.add('hidden');
+      const po = $('panel-overview'); if(po) po.classList.remove('hidden');
+    } else {
+      const eb = $('page-eyebrow'); if(eb) eb.textContent = 'Concept admin';
+      const pt = $('page-title'); if(pt) pt.innerHTML = 'Verify &amp; publish <span class="accent">concepts</span>.';
+    }
+    try { await loadConcepts(); } catch(e){ console.warn('loadConcepts', e); }
+    try { loadBrandbooks(); } catch(e){ console.warn('loadBrandbooks', e); }
+    if(MY_ROLE === 'superadmin'){
+      try { loadUsers(); } catch(e){ console.warn('loadUsers', e); }
+      try { loadOverview(); } catch(e){ console.warn('loadOverview', e); }
+    }
+  } catch(e){
+    console.error('boot failed', e);
+    $('app').classList.remove('hidden');
   }
 }
 
@@ -1281,34 +1285,36 @@ function drawBarChart(container, rows, opts){
 let OVR_RANGE = 30, OVR_TOP_RANGE = 30;
 
 async function loadOverview(){
-  const [statsR, tsR, feedR, topR] = await Promise.all([
-    sb.rpc('admin_dashboard_stats'),
-    sb.rpc('admin_revenue_timeseries', {p_days: OVR_RANGE}),
-    sb.rpc('admin_recent_activity', {p_limit: 20}),
-    sb.rpc('admin_top_concepts', {p_days: OVR_TOP_RANGE, p_limit: 20}),
-  ]);
-  const s = statsR.data || {};
-  $('o-rev30').textContent = fmtEur(s.revenue_30d);
-  $('o-rev7').textContent  = fmtEur(s.revenue_7d) + ' last 7d';
-  $('o-revtotal').textContent = fmtEur(s.revenue_total);
-  const avg = s.orders_total ? Math.round(Number(s.revenue_total)/Number(s.orders_total)) : 0;
-  $('o-avg').textContent = fmtEur(avg) + ' avg order';
-  $('o-ord30').textContent = fmtN(s.orders_30d);
-  $('o-ord7').textContent  = fmtN(s.orders_7d) + ' last 7d';
-  $('o-sig30').textContent = fmtN(s.signups_30d);
-  $('o-sig7').textContent  = fmtN(s.signups_7d) + ' last 7d';
-  $('o-vis30').textContent = fmtN(s.visits_30d);
-  $('o-vis7').textContent  = fmtN(s.visits_7d) + ' last 7d';
-  $('o-pv30').textContent  = fmtN(s.pageviews_30d);
-  $('o-pv7').textContent   = fmtN(s.pageviews_7d) + ' last 7d';
-  const conv = Number(s.visits_30d||0) > 0 ? (Number(s.orders_30d||0)/Number(s.visits_30d)*100) : 0;
-  $('o-conv').textContent  = conv.toFixed(2) + '%';
-  $('o-users').textContent = fmtN(s.users_total);
-  $('o-gifts').textContent = fmtN(s.gifts_total) + ' gifts';
+  try {
+    const [statsR, tsR, feedR, topR] = await Promise.all([
+      sb.rpc('admin_dashboard_stats'),
+      sb.rpc('admin_revenue_timeseries', {p_days: OVR_RANGE}),
+      sb.rpc('admin_recent_activity', {p_limit: 20}),
+      sb.rpc('admin_top_concepts', {p_days: OVR_TOP_RANGE, p_limit: 20}),
+    ]);
+    if(statsR.error) console.warn('dashboard_stats', statsR.error);
+    const s = statsR.data || {};
+    $('o-rev30').textContent = fmtEur(s.revenue_30d);
+    $('o-rev7').textContent  = fmtEur(s.revenue_7d) + ' last 7d';
+    $('o-revtotal').textContent = fmtEur(s.revenue_total);
+    $('o-avg').textContent = fmtEur(s.avg_order) + ' avg order';
+    $('o-ord30').textContent = fmtN(s.purchases_30d);
+    $('o-ord7').textContent  = fmtN(s.purchases_7d) + ' last 7d';
+    $('o-sig30').textContent = fmtN(s.users_30d);
+    $('o-sig7').textContent  = fmtN(s.users_7d) + ' last 7d';
+    $('o-vis30').textContent = fmtN(s.visits_30d);
+    $('o-vis7').textContent  = fmtN(s.visits_7d) + ' last 7d';
+    $('o-pv30').textContent  = fmtN(s.pageviews_30d);
+    $('o-pv7').textContent   = fmtN(s.pageviews_7d) + ' last 7d';
+    const conv = Number(s.visits_30d||0) > 0 ? (Number(s.purchases_30d||0)/Number(s.visits_30d)*100) : 0;
+    $('o-conv').textContent  = conv.toFixed(2) + '%';
+    $('o-users').textContent = fmtN(s.users_total);
+    $('o-gifts').textContent = fmtN(s.gifts_total) + ' gifts';
 
-  drawBarChart($('o-rev-chart'), tsR.data || [], {key:'revenue', label:'day', fmt:fmtEur});
-  renderFeed($('o-feed'), feedR.data || []);
-  renderTopConcepts($('o-top-tbl'), topR.data || []);
+    drawBarChart($('o-rev-chart'), tsR.data || [], {key:'revenue', label:'day', fmt:fmtEur});
+    renderFeed($('o-feed'), feedR.data || []);
+    renderTopConcepts($('o-top-tbl'), topR.data || []);
+  } catch(e){ console.warn('loadOverview', e); }
 }
 TAB_LOADERS.overview = loadOverview;
 
@@ -1359,6 +1365,7 @@ document.querySelectorAll('#o-top-range .range-btn').forEach(b=>{
 // ═══════════════ SALES ═══════════════
 let SL_DAYS = 30, SL_PROV = 'all';
 async function loadSales(){
+  try {
   const {data, error} = await sb.rpc('admin_sales_list', {p_days: SL_DAYS, p_provider: SL_PROV, p_limit: 500});
   if(error){ console.warn('sales', error); return; }
   const rows = data || [];
@@ -1390,6 +1397,7 @@ async function loadSales(){
       <td>${statusChip}</td>
     </tr>`;
   }).join('');
+  } catch(e){ console.warn('loadSales', e); }
 }
 TAB_LOADERS.sales = loadSales;
 
@@ -1403,6 +1411,7 @@ document.querySelectorAll('#sl-range .range-btn').forEach(b=>{
 // ═══════════════ FUNNEL ═══════════════
 let FN_DAYS = 30;
 async function loadFunnel(){
+  try {
   const [fnR, trR] = await Promise.all([
     sb.rpc('admin_funnel', {p_days: FN_DAYS}),
     sb.rpc('admin_traffic_timeseries', {p_days: FN_DAYS}),
@@ -1433,6 +1442,7 @@ async function loadFunnel(){
     <div>Cart → paid <b>${cartToPaid.toFixed(2)}%</b></div>
     <div style="color:var(--text-3);font-size:12px;margin-top:6px">Range: last ${FN_DAYS} days</div>
   `;
+  } catch(e){ console.warn('loadFunnel', e); }
 }
 TAB_LOADERS.funnel = loadFunnel;
 
@@ -1446,6 +1456,7 @@ document.querySelectorAll('#fn-range .range-btn').forEach(b=>{
 
 // ═══════════════ COHORTS ═══════════════
 async function loadCohorts(){
+  try {
   const {data, error} = await sb.rpc('admin_cohorts');
   if(error){ console.warn('cohorts', error); return; }
   const rows = data || [];
@@ -1467,6 +1478,7 @@ async function loadCohorts(){
       <td class="mono">${fmtEur(perUser)}</td>
     </tr>`;
   }).join('');
+  } catch(e){ console.warn('loadCohorts', e); }
 }
 TAB_LOADERS.cohorts = loadCohorts;
 
