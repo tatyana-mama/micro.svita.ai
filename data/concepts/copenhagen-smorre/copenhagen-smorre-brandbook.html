@@ -55,8 +55,10 @@ img{max-width:100%;display:block}
 .divider{height:1px;background:var(--line);margin:6mm 0}
 
 /* COVER */
-.cover{background:var(--blue);color:var(--cream);justify-content:space-between;padding:18mm}
+.cover{background:var(--blue);color:var(--cream);justify-content:space-between;padding:18mm;position:relative;overflow:hidden}
 .cover::before,.cover::after{display:none}
+.cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.32;z-index:0}
+.cover > *{position:relative;z-index:1}
 .cover .brand{font-family:'Fraunces';font-size:58pt;font-weight:800;line-height:0.9;color:var(--cream);margin-top:30mm;font-style:italic;letter-spacing:-0.03em}
 .cover .brand small{display:block;font-family:'Inter';font-size:10pt;font-weight:500;color:var(--brass);margin-top:8mm;letter-spacing:0.22em;text-transform:uppercase;font-style:normal}
 .cover .tagline{font-family:'Fraunces';font-size:15pt;font-weight:400;font-style:italic;max-width:140mm;margin-bottom:18mm;color:var(--cream);opacity:0.92}
@@ -134,10 +136,12 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 .plan-wrap{flex:1;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;padding:8mm}
 
 /* BACK COVER */
-.back-cover{background:var(--ink);color:var(--cream);justify-content:space-between}
+.back-cover{background:var(--ink);color:var(--cream);justify-content:space-between;position:relative;overflow:hidden}
 .back-cover::before,.back-cover::after{color:#666}
 .back-cover h1{color:var(--brass);font-size:44pt}
 .back-cover p{color:#BBB;max-width:140mm}
+.back-cover .cover-bg{opacity:0.35}
+.back-cover > *{position:relative;z-index:1}
 
 @media print{
   body{background:#fff}
@@ -149,6 +153,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 
 <!-- ═══════════ PAGE 01 · COVER ═══════════ -->
 <section class="page cover no-footer">
+  <img class="cover-bg" src="images/01-hero.png" alt="">
   <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--brass)">SVITA Micro · Concept Brandbook №002</div>
 
   <div>
@@ -194,6 +199,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <strong style="font-family:'Inter';font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--brass)">The 90-Second Rule</strong>
     <p style="margin-top:2mm;font-size:10pt">From order to plate, every piece must be built and handed over in under 90 seconds. That means: toppings pre-portioned at 6am, rye sliced by machine, no compound assemblies, no table service. The kitchen runs like a Japanese yakitori stand — one motion per piece.</p>
   </div>
+  <img class="img-large" src="images/08-pour-detail.png" alt="Smørrebrød assembly">
 </section>
 
 <!-- ═══════════ PAGE 04 · TARGET AUDIENCE ═══════════ -->
@@ -243,7 +249,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 <section class="page" data-page="06">
   <div class="eyebrow">Brand Identity</div>
   <h1 class="page-title">The visual system.</h1>
-  <img class="img-full" src="https://micro.svita.ai/data/concepts/copenhagen-smorre/images/02-brand-identity.png" alt="Brand identity">
+  <img class="img-full" src="images/02-brand-identity.png" alt="Brand identity">
   <p class="caption">Master moodboard · logo, palette, stationery, monogrammed linen</p>
 </section>
 
@@ -315,7 +321,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 <section class="page" data-page="10">
   <div class="eyebrow">Space · Hero</div>
   <h1 class="page-title">The counter.</h1>
-  <img class="img-full" src="https://micro.svita.ai/data/concepts/copenhagen-smorre/images/01-hero.png" alt="Interior">
+  <img class="img-full" src="images/01-hero.png" alt="Interior">
   <p class="caption">Købn Smørre interior · 18 m² · pale oak counter, dusty blue wainscoting, rye bread shelf</p>
 </section>
 
@@ -324,29 +330,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
   <div class="eyebrow">Floor Plan · 18 m²</div>
   <h1 class="page-title">Every millimeter counts.</h1>
   <p class="lead">3.6 m wide, 5.0 m deep. Standing counter runs the full depth along the right wall. Prep kitchen sits behind a half-wall at the rear. No seating, no tables, no bathrooms — customers use the neighbouring café's with a token arrangement.</p>
-  <div class="plan-wrap">
-    <svg viewBox="0 0 360 500" style="width:70%;height:auto">
-      <!-- outer walls -->
-      <rect x="10" y="10" width="340" height="480" fill="#F5EFE3" stroke="#1F2426" stroke-width="4"/>
-      <!-- shopfront glass -->
-      <line x1="40" y1="10" x2="310" y2="10" stroke="#5C7A92" stroke-width="6"/>
-      <!-- door opening -->
-      <line x1="230" y1="10" x2="300" y2="10" stroke="#F5EFE3" stroke-width="6"/>
-      <path d="M230 10 A70 70 0 0 1 300 80" fill="none" stroke="#B89456" stroke-width="1.5" stroke-dasharray="3 3"/>
-      <!-- counter along right wall -->
-      <rect x="250" y="40" width="90" height="350" fill="#8C6A42" opacity="0.3" stroke="#8C6A42" stroke-width="2"/>
-      <text x="295" y="220" font-family="Inter" font-size="11" font-weight="600" fill="#1F2426" text-anchor="middle" transform="rotate(-90 295 220)">STANDING COUNTER · 3.5 m</text>
-      <!-- standing zone -->
-      <rect x="30" y="40" width="210" height="350" fill="none" stroke="#5C7A92" stroke-width="1" stroke-dasharray="4 4"/>
-      <text x="135" y="220" font-family="Inter" font-size="11" font-weight="600" fill="#5C7A92" text-anchor="middle">STANDING ZONE · 12 pax</text>
-      <!-- prep kitchen at back -->
-      <rect x="20" y="400" width="320" height="80" fill="#5C7A92" opacity="0.15" stroke="#5C7A92" stroke-width="2"/>
-      <text x="180" y="450" font-family="Inter" font-size="11" font-weight="700" fill="#1F2426" text-anchor="middle">PREP KITCHEN · FRIDGE · SINK · STORAGE</text>
-      <!-- dimensions -->
-      <text x="180" y="500" font-family="Inter" font-size="9" fill="#6B6B6B" text-anchor="middle">3.6 m × 5.0 m · 18 m²</text>
-      <text x="5" y="250" font-family="Inter" font-size="9" fill="#6B6B6B" text-anchor="middle" transform="rotate(-90 5 250)">5.0 m</text>
-    </svg>
-  </div>
+  <img class="img-full" src="images/11-axonometric.png" alt="KØBN SMØRRE 18 m² axonometric plan">
 </section>
 
 <!-- ═══════════ PAGE 12 · FURNITURE SPECS ═══════════ -->
@@ -388,7 +372,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 <section class="page" data-page="14">
   <div class="eyebrow">Equipment · Core</div>
   <h1 class="page-title">Every machine, listed.</h1>
-  <img class="img-full" src="https://micro.svita.ai/data/concepts/copenhagen-smorre/images/04-equipment.png" alt="Equipment lineup">
+  <img class="img-full" src="images/04-equipment.png" alt="Equipment lineup">
   <p class="caption">Complete equipment lineup · details and pricing on next page</p>
 </section>
 
@@ -416,7 +400,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 <section class="page" data-page="16">
   <div class="eyebrow">Signage & Menu Board</div>
   <h1 class="page-title">Read from 20 meters.</h1>
-  <img class="img-full" src="https://micro.svita.ai/data/concepts/copenhagen-smorre/images/05-signage.png" alt="Signage">
+  <img class="img-full" src="images/05-signage.png" alt="Signage">
   <p class="caption">Hand-painted enamelled wooden sign · dusty blue field, white serif type, brass screws</p>
 </section>
 
@@ -435,13 +419,14 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <tr><td>Wax-seal stamp stock</td><td>Pre-cut kraft tabs</td><td>25 mm</td><td class="num">€0.03</td><td>1000</td><td>In-house</td></tr>
     <tr class="total-row"><td colspan="3">First-order launch stock</td><td class="num">€340</td><td colspan="2"></td></tr>
   </table>
+  <img class="img-large" src="images/07-packaging.png" alt="KØBN SMØRRE packaging kit">
 </section>
 
 <!-- ═══════════ PAGE 18 · UNIFORM ═══════════ -->
 <section class="page" data-page="18">
   <div class="eyebrow">Staff Uniform</div>
   <h1 class="page-title">The cook is the room.</h1>
-  <img class="img-full" src="https://micro.svita.ai/data/concepts/copenhagen-smorre/images/06-uniform.png" alt="Uniform flat lay">
+  <img class="img-full" src="images/06-uniform.png" alt="Uniform flat lay">
   <p class="caption">Cream linen apron · chambray shirt · indigo trousers · leather belt · canvas shoes · brass name pin · €90/person · 2 sets per staff</p>
 </section>
 
@@ -610,6 +595,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 
 <!-- ═══════════ PAGE 25 · BACK COVER ═══════════ -->
 <section class="page back-cover no-footer">
+  <img class="cover-bg" src="images/10-night.png" alt="">
   <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--brass)">SVITA Micro · Concept Brandbook</div>
   <div>
     <h1 style="font-size:44pt;margin-bottom:6mm;font-style:italic">Gå i gang.</h1>
