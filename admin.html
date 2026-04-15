@@ -1012,7 +1012,7 @@ function renderConceptModal(c, accessRows, i18n, brand){
         <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
           <a class="btn-s" href="view.html?c=${escape(c.slug)}" target="_blank">Preview</a>
           ${MY_ROLE==='superadmin'?`<a class="btn-s primary" href="edit.html?c=${escape(c.slug)}" target="_blank">✎ Edit</a>`:''}
-          ${c.has_brandbook?`<a class="btn-s" href="data/concepts/${escape(c.slug)}/brandbook.html" target="_blank">📖 Brandbook</a>`:''}
+          ${c.has_brandbook?`<a class="btn-s" href="data/concepts/${escape(c.slug)}/${escape(c.slug)}-brandbook.html" target="_blank">📖 Brandbook</a>`:''}
         </div>
       </div>
 
@@ -1359,7 +1359,7 @@ function render(){
           title="Lemon Squeezy checkout URL">
       </td>
       <td>${c.verified ? '<span class="chip ok">● Verified</span>' : '<span class="chip warn">○ Pending</span>'}</td>
-      <td>${c.has_brandbook ? '<a class="chip ok" href="data/concepts/'+c.slug+'/brandbook.html" target="_blank" rel="noopener" style="text-decoration:none">📖 Ready</a>' : '<span class="chip warn">⏳ In progress</span>'}</td>
+      <td>${c.has_brandbook ? '<a class="chip ok" href="data/concepts/'+c.slug+'/'+c.slug+'-brandbook.html" target="_blank" rel="noopener" style="text-decoration:none">📖 Ready</a>' : '<span class="chip warn">⏳ In progress</span>'}</td>
       <td class="mono">${c.langs_filled||0}<span style="color:var(--text-3)">/12</span></td>
       <td>
         <div class="actions">

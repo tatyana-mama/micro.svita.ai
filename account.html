@@ -1096,7 +1096,7 @@ async function loadOwned(){
     const saButtons = isSA
       ? `<div class="sa-btns">
           <a class="sa-btn" href="edit.html?c=${c.concept_slug}" onclick="event.stopPropagation()">✎ Edit</a>
-          ${hasBB ? `<a class="sa-btn ok" href="data/concepts/${c.concept_slug}/brandbook.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">📖 Brandbook</a>` : ''}
+          ${hasBB ? `<a class="sa-btn ok" href="data/concepts/${c.concept_slug}/${c.concept_slug}-brandbook.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">📖 Brandbook</a>` : ''}
         </div>`
       : '';
     return `

@@ -672,7 +672,7 @@ function renderStatus(){
   $('bb-status').innerHTML = `<div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
       <span>${has ? '<span style="color:var(--ok);font-weight:700">● Ready</span> — full A4 brandbook on disk' : '<span style="color:var(--warn);font-weight:700">⏳ In progress</span> — only inline body_html'}</span>
       <div style="display:flex;gap:8px">
-        ${has ? `<a class="btn btn-ok" href="data/concepts/${slug}/brandbook.html" target="_blank">Open file</a>` : ''}
+        ${has ? `<a class="btn btn-ok" href="data/concepts/${slug}/${slug}-brandbook.html" target="_blank">Open file</a>` : ''}
         <button class="btn" onclick="toggleBrandbook()">${has ? 'Mark as in progress' : 'Mark as ready'}</button>
       </div>
     </div>`;
