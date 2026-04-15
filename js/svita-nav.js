@@ -74,6 +74,34 @@
     return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
+  function injectNavMiniStyles(){
+    if(document.getElementById('nav-mini-styles')) return;
+    const css = `
+      nav{justify-content:flex-start!important}
+      nav .brand{margin-right:auto}
+      .nav-mini{display:flex;align-items:center;gap:10px}
+      .nav-mini .lang{position:relative}
+      @media(min-width:641px){
+        .nav-mini{margin-left:20px}
+      }
+      @media(max-width:640px){
+        nav{gap:8px}
+        .nav-mini{order:2;margin-left:auto;margin-right:6px;z-index:102;position:relative}
+        .nav-mini .lang-btn{padding:6px 10px;font-size:11px;border-radius:100px;border:1px solid var(--line,rgba(255,255,255,0.14));background:rgba(255,255,255,0.04);color:var(--text,#fff);display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;font-weight:600}
+        .nav-mini .lang-menu{position:absolute;top:calc(100% + 6px);right:0;background:rgba(10,10,11,0.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:8px;display:none;grid-template-columns:repeat(3,1fr);gap:4px;min-width:180px;z-index:103}
+        .nav-mini .lang.open .lang-menu{display:grid}
+        .nav-mini .lang-menu button{background:none;border:0;color:var(--text,#fff);font-family:'JetBrains Mono',monospace;font-size:11px;padding:8px 6px;border-radius:6px;cursor:pointer;letter-spacing:0.08em}
+        .nav-mini .lang-menu button:hover,.nav-mini .lang-menu button.active{background:var(--accent,#D6FF3E);color:#0A0A0B}
+        .nav-mini .icon-btn,.nav-mini .cart-icon{width:34px;height:34px;border-radius:50%;border:1px solid var(--line,rgba(255,255,255,0.14));background:rgba(255,255,255,0.04);display:inline-flex;align-items:center;justify-content:center;color:var(--text,#fff);position:relative}
+        .nav-mini .cart-count{position:absolute;top:-4px;right:-4px;background:var(--accent,#D6FF3E);color:#0A0A0B;font-size:9px;font-weight:700;border-radius:100px;padding:1px 5px;font-family:'JetBrains Mono',monospace}
+      }
+    `;
+    const style = document.createElement('style');
+    style.id = 'nav-mini-styles';
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+
   /* ---------- render ---------- */
   function render(user, opts){
     const nav = document.getElementById('nav');
@@ -135,6 +163,8 @@
         <a href="account.html?signup=1" class="nav-cta nav-signup">${t.signup}</a>`;
     }
 
+    injectNavMiniStyles();
+
     nav.innerHTML = `
       <a href="index.html" class="brand">
         <span class="brand-dot"></span>
@@ -143,6 +173,9 @@
       <div class="nav-right">
         <a href="shop.html"${shopActive}>${t.shop}</a>
         <a href="index.html#how">${t.how}</a>
+        ${authArea}
+      </div>
+      <div class="nav-mini">
         <div class="lang" id="lang">
           <button class="lang-btn" type="button" aria-label="Language">
             <span id="lang-current">${lang}</span>
@@ -157,7 +190,6 @@
           </div>
         </div>
         ${cartBtn}
-        ${authArea}
       </div>
       <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     `;
