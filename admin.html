@@ -613,6 +613,26 @@ td .actions{display:flex;gap:6px}
 </section>
 
 <script>
+window.addEventListener('error', e=>{
+  try{
+    let b = document.getElementById('__err_banner');
+    if(!b){
+      b = document.createElement('div');
+      b.id = '__err_banner';
+      b.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:#ef4444;color:#fff;padding:10px 16px;font:12px/1.4 monospace;max-height:30vh;overflow:auto;white-space:pre-wrap';
+      document.body.appendChild(b);
+    }
+    b.textContent = '[' + (e.filename||'admin.html') + ':' + (e.lineno||'?') + '] ' + (e.message||e.error||'unknown');
+  }catch{}
+});
+window.addEventListener('unhandledrejection', e=>{
+  console.error('unhandled promise', e.reason);
+});
+function on(id, ev, fn){
+  const el = document.getElementById(id);
+  if(el) el.addEventListener(ev, fn);
+  else console.warn('[on] missing #' + id);
+}
 const SB_URL='https://ctdleobjnzniqkqomlrq.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
 const sb = supabase.createClient(SB_URL, SB_KEY);
@@ -1669,21 +1689,21 @@ async function toggleVerify(slug, makeVerified){
 }
 window.toggleVerify = toggleVerify;
 
-$('q').addEventListener('input', e=>{STATE.q=e.target.value;applyAll()});
-$('status').addEventListener('change', e=>{STATE.status=e.target.value;applyAll()});
-$('cat').addEventListener('change', e=>{STATE.cat=e.target.value;applyAll()});
+on('q','input', e=>{STATE.q=e.target.value;applyAll()});
+on('status','change', e=>{STATE.status=e.target.value;applyAll()});
+on('cat','change', e=>{STATE.cat=e.target.value;applyAll()});
 
 // ═══ BULK SELECTION ═══
-$('sel-all').addEventListener('change', e => {
-  const on = e.target.checked;
-  VIEW.forEach(c => { if(on) SEL.add(c.slug); else SEL.delete(c.slug); });
+on('sel-all','change', e => {
+  const checked = e.target.checked;
+  VIEW.forEach(c => { if(checked) SEL.add(c.slug); else SEL.delete(c.slug); });
   render();
   updateBulkBar();
 });
-$('bulk-clear').addEventListener('click', ()=>{
+on('bulk-clear','click', ()=>{
   SEL.clear(); render(); updateBulkBar();
 });
-$('bulk-verify').addEventListener('click', async ()=>{
+on('bulk-verify','click', async ()=>{
   if(MY_ROLE !== 'superadmin'){ alert('Only superadmin can verify'); return; }
   const slugs = [...SEL];
   if(!slugs.length) return;
@@ -1695,7 +1715,7 @@ $('bulk-verify').addEventListener('click', async ()=>{
   slugs.forEach(s => { const i = ALL.findIndex(c=>c.slug===s); if(i>=0){ALL[i].verified=true;} });
   applyAll(); updateStats();
 });
-$('bulk-unverify').addEventListener('click', async ()=>{
+on('bulk-unverify','click', async ()=>{
   if(MY_ROLE !== 'superadmin'){ alert('Only superadmin can unverify'); return; }
   const slugs = [...SEL];
   if(!slugs.length) return;
@@ -1707,7 +1727,7 @@ $('bulk-unverify').addEventListener('click', async ()=>{
   slugs.forEach(s => { const i = ALL.findIndex(c=>c.slug===s); if(i>=0){ALL[i].verified=false;} });
   applyAll(); updateStats();
 });
-$('bulk-delete').addEventListener('click', async ()=>{
+on('bulk-delete','click', async ()=>{
   if(MY_ROLE !== 'superadmin'){ alert('Only superadmin can delete'); return; }
   const slugs = [...SEL];
   if(!slugs.length) return;
@@ -1721,15 +1741,17 @@ $('bulk-delete').addEventListener('click', async ()=>{
   updateBulkBar();
 });
 
-$('uq').addEventListener('input', e=>{USTATE.q=e.target.value;applyUsers()});
-$('urole').addEventListener('change', e=>{USTATE.role=e.target.value;applyUsers()});
-$('bq').addEventListener('input', e=>{BSTATE.q=e.target.value;applyBrandbooks()});
-$('sl-prov').addEventListener('change', e=>{ SL_PROV = e.target.value; loadSales(); });
+on('uq','input', e=>{USTATE.q=e.target.value;applyUsers()});
+on('urole','change', e=>{USTATE.role=e.target.value;applyUsers()});
+on('bq','input', e=>{BSTATE.q=e.target.value;applyBrandbooks()});
+on('sl-prov','change', e=>{ SL_PROV = e.target.value; loadSales(); });
 /* signout + nav scroll handled by shared svita-nav.js */
 
 boot();
 </script>
 <script src="js/svita-nav.js"></script>
+<script src="js/svita-metrics-config.js"></script>
+<script src="js/svita-3p-analytics.js"></script>
 <script src="js/svita-analytics.js"></script>
 </body>
 </html>

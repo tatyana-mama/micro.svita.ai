@@ -64,6 +64,8 @@
         body: JSON.stringify(body),
         keepalive: true
       }).catch(()=>{});
+      // Bridge to 3rd-party analytics (Yandex Metrika / Google gtag)
+      try { window.dispatchEvent(new CustomEvent('svita:event', { detail: { event, meta: meta || {} } })); } catch {}
     } catch(e) { /* never break the app */ }
   }
 
