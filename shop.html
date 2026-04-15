@@ -142,11 +142,16 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
 }
 .card .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,11,0) 50%,rgba(10,10,11,0.85) 100%);pointer-events:none}
 .card .price{
-  position:absolute;top:14px;right:14px;z-index:3;
-  background:rgba(10,10,11,0.72);backdrop-filter:blur(14px);
-  border:1px solid rgba(255,255,255,0.12);
-  border-radius:100px;padding:7px 14px;
+  font-family:'JetBrains Mono';font-size:14px;font-weight:700;color:var(--accent);
+  letter-spacing:-0.01em;
+}
+.card .owned-badge-inline{
   font-family:'JetBrains Mono';font-size:11px;font-weight:700;color:var(--accent);
+  letter-spacing:0.02em;
+}
+.card .open-row{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-top:4px;
 }
 .card .country{
   position:absolute;top:14px;left:14px;z-index:3;
@@ -234,7 +239,7 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
   body.menu-open .nav-right{transform:translateX(0);pointer-events:auto}
   body.menu-open{overflow:hidden}
 }
-.owned-badge{position:absolute;top:14px;right:14px;z-index:3;background:var(--accent);color:#0A0A0B;border-radius:100px;padding:7px 14px;font-family:'JetBrains Mono';font-size:11px;font-weight:700;letter-spacing:0.02em;box-shadow:0 2px 12px rgba(214,255,62,0.3)}
+.owned-badge{position:absolute;top:14px;left:14px;z-index:3;background:var(--accent);color:#0A0A0B;border-radius:100px;padding:7px 14px;font-family:'JetBrains Mono';font-size:11px;font-weight:700;letter-spacing:0.02em;box-shadow:0 2px 12px rgba(214,255,62,0.3)}
 .card.owned{border-color:rgba(214,255,62,0.35)}
 .card.owned:hover{border-color:var(--accent)}
 </style>
@@ -404,7 +409,7 @@ function cardHTML(c){
         <button type="button" class="fav-btn" data-fav="${c.slug}" aria-label="Favorite" aria-pressed="false">
           <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg>
         </button>
-        ${owned ? '<span class="owned-badge">✓ Owned</span>' : `<span class="price">€${c.price_eur}</span>`}
+        ${owned ? '<span class="owned-badge">✓ Owned</span>' : ''}
       </div>
       <div class="body">
         <span class="cat">${CAT_LABELS[c.category]||c.category}</span>
@@ -415,7 +420,10 @@ function cardHTML(c){
           <span>${c.size_m2||'—'} m²</span>
           <span>${c.weeks||'—'}w</span>
         </div>
-        <div class="open">Open concept <svg width="14" height="9" viewBox="0 0 14 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4.5h11M8 1l4 3.5-4 3.5"/></svg></div>
+        <div class="open-row">
+          ${owned ? '<span class="owned-badge-inline">✓ Owned</span>' : `<span class="price">€${c.price_eur}</span>`}
+          <span class="open">Open concept <svg width="14" height="9" viewBox="0 0 14 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4.5h11M8 1l4 3.5-4 3.5"/></svg></span>
+        </div>
       </div>
     </a>
   `;
