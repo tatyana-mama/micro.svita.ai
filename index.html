@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SVITA Micro — Your business. Already designed.</title>
-<meta name="description" content="Ready-to-launch business concepts under €20,000. Cafés, salons, kiosks — fully specified, country-ready, instantly yours. From €49.">
+<meta name="description" content="Ready-to-launch business concepts under €15,000. Cafés, salons, kiosks — fully specified, country-ready, instantly yours. From €49.">
 <meta name="theme-color" content="#0A0A0B">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -124,6 +124,7 @@ nav.scrolled{
 .hero-grid{
   display:grid;grid-template-columns:1.1fr 0.9fr;gap:80px;align-items:start;
 }
+.hero-grid > *{min-width:0}
 @media(max-width:1024px){.hero-grid{grid-template-columns:1fr;gap:60px}}
 .hero-text{}
 .hero-text .eyebrow{margin-bottom:20px}
@@ -140,8 +141,15 @@ nav.scrolled{
 
 .hero-sub{
   font-size:clamp(15px,1.4vw,17px);color:var(--text-2);max-width:440px;
-  margin-bottom:48px;line-height:1.55;
+  margin-bottom:28px;line-height:1.55;
   animation:fade 900ms var(--ease) 420ms both;
+}
+.hero-disclaimer{
+  display:inline-block;font-family:'Fraunces',serif;font-style:italic;
+  font-size:clamp(14px,1.25vw,16px);color:var(--accent);
+  border-left:2px solid var(--accent);padding:6px 0 6px 14px;
+  margin-bottom:40px;max-width:440px;line-height:1.45;
+  animation:fade 900ms var(--ease) 500ms both;
 }
 @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
@@ -172,13 +180,13 @@ nav.scrolled{
 .hero-visual{position:relative;animation:fade 1100ms var(--ease) 300ms both}
 
 /* HERO SLIDER */
-.hero-slider{position:relative;width:100%;max-width:480px;margin:0 auto}
-.hero-slider-viewport{position:relative;overflow:hidden;border-radius:var(--radius-lg)}
+.hero-slider{position:relative;width:100%;max-width:480px;margin:0 auto;min-width:0}
+.hero-slider-viewport{position:relative;overflow:hidden;border-radius:var(--radius-lg);width:100%;min-width:0}
 .hero-slider-track{
   display:flex;transition:transform 600ms var(--ease);
-  will-change:transform;
+  will-change:transform;width:100%;min-width:0;
 }
-.hero-slider .slide{flex:0 0 100%;box-sizing:border-box}
+.hero-slider .slide{flex:0 0 100%;min-width:0;max-width:100%;box-sizing:border-box}
 .hero-slider .slide .card{
   box-shadow:0 60px 120px rgba(0,0,0,0.5),0 0 0 1px var(--line);
 }
@@ -372,7 +380,7 @@ nav.scrolled{
 .proof-cell .num .unit{font-size:0.4em;color:var(--text-3);margin-left:4px;font-weight:500}
 .proof-cell .lbl{font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.12em;margin-top:14px}
 
-/* ============ CONTRAST: €20k vs €49 ============ */
+/* ============ CONTRAST: €15k vs €49 ============ */
 .contrast{text-align:center}
 .contrast .eyebrow{margin-bottom:36px}
 .contrast h2{
@@ -549,13 +557,14 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
   <div class="wrap">
     <div class="hero-grid">
       <div class="hero-text">
-        <div class="eyebrow" data-i18n="hero_eyebrow">For founders under €20,000</div>
+        <div class="eyebrow" data-i18n="hero_eyebrow">For founders under €15,000</div>
         <h1 class="display">
           <span class="line"><span data-i18n="hero_h1_1">Your business.</span></span>
           <span class="line"><span class="accent" data-i18n="hero_h1_2">Already</span></span>
           <span class="line"><span data-i18n="hero_h1_3">designed.</span></span>
         </h1>
         <p class="hero-sub" data-i18n="hero_sub">Ready-to-launch concepts, fully specified — equipment, budget, permits, timeline. Pick one. Open in 6 weeks.</p>
+        <p class="hero-disclaimer" data-i18n="hero_disclaimer">We don't sell businesses. We inspire you to build them.</p>
         <div class="hero-ctas">
           <a href="#gallery" class="btn btn-primary" data-i18n="cta_browse">
             Browse concepts
@@ -674,7 +683,7 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
   <div class="wrap">
     <div class="eyebrow reveal" data-i18n="contrast_eyebrow">The math</div>
     <h2 class="display reveal">
-      <span class="cross" data-i18n="contrast_1">€20,000 on mistakes.</span><br>
+      <span class="cross" data-i18n="contrast_1">€15,000 on mistakes.</span><br>
       <span class="hot" data-i18n="contrast_2">€49 on the blueprint.</span>
     </h2>
     <p class="reveal" data-i18n="contrast_sub">The cost of a dinner for two. For a business someone already validated.</p>
@@ -715,16 +724,17 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 const LANGS = ['EN','RU'];
 const DICT = {
   EN: {
-    nav_cta:"Get a concept", hero_eyebrow:"For founders under €20,000",
+    nav_cta:"Get a concept", hero_eyebrow:"For founders under €15,000",
     hero_h1_1:"Your business.", hero_h1_2:"Already", hero_h1_3:"designed.",
     hero_sub:"Ready-to-launch concepts, fully specified — equipment, budget, permits, timeline. Pick one. Open in 6 weeks.",
+    hero_disclaimer:"We don't sell businesses. We inspire you to build them.",
     cta_browse:"Browse concepts", cta_how:"How it works",
     meta_concepts:"Concepts", meta_countries:"EU countries", meta_from:"Starting at",
     gallery_h:"Proven concepts.<br>Cinematic visuals.",
     gallery_hint:"Each concept ships with a 25-page brandbook, equipment list, and country-ready registration plan.",
     soon:"Coming soon · €89",
     proof_1:"Concepts shipped", proof_2:"EU countries covered", proof_3:"From buy to open", proof_4:"Entry point",
-    contrast_eyebrow:"The math", contrast_1:"€20,000 on mistakes.", contrast_2:"€49 on the blueprint.",
+    contrast_eyebrow:"The math", contrast_1:"€15,000 on mistakes.", contrast_2:"€49 on the blueprint.",
     contrast_sub:"The cost of a dinner for two. For a business someone already validated.",
     pricing_eyebrow:"One-time. No subscription.", pricing_h:"Pick a concept.<br>Own it forever.",
     plan_shop_kind:"Shop", plan_custom_kind:"Custom", once:"One-time · Instant access",
@@ -743,16 +753,17 @@ const DICT = {
     final_1:"Stop guessing.", final_2:"Start beautiful.", final_cta:"Pick your concept"
   },
   RU: {
-    nav_cta:"Купить концепцию", hero_eyebrow:"Для основателей с бюджетом до €20,000",
+    nav_cta:"Купить концепцию", hero_eyebrow:"Для основателей с бюджетом до €15,000",
     hero_h1_1:"Твой бизнес.", hero_h1_2:"Уже", hero_h1_3:"придуман.",
     hero_sub:"Готовые концепции под ключ — оборудование, бюджет, разрешения, таймлайн. Выбери и открой за 6 недель.",
+    hero_disclaimer:"Мы не продаём бизнесы. Мы вдохновляем вас на его создание.",
     cta_browse:"Смотреть концепции", cta_how:"Как это работает",
     meta_concepts:"Концепций", meta_countries:"Стран ЕС", meta_from:"Цена от",
     gallery_h:"Проверенные концепции.<br>Кинематографичный визуал.",
     gallery_hint:"В каждой концепции — 25-страничный брендбук, список оборудования, план регистрации под твою страну.",
     soon:"Скоро · €89",
     proof_1:"Концепций готово", proof_2:"Стран ЕС", proof_3:"От покупки до запуска", proof_4:"Точка входа",
-    contrast_eyebrow:"Математика", contrast_1:"€20,000 на ошибках.", contrast_2:"€49 на чертеже.",
+    contrast_eyebrow:"Математика", contrast_1:"€15,000 на ошибках.", contrast_2:"€49 на чертеже.",
     contrast_sub:"Цена ужина на двоих. За бизнес, который кто-то уже проверил.",
     pricing_eyebrow:"Один раз. Без подписки.", pricing_h:"Выбери концепцию.<br>Владей навсегда.",
     plan_shop_kind:"Магазин", plan_custom_kind:"Конструктор", once:"Разово · Мгновенный доступ",
