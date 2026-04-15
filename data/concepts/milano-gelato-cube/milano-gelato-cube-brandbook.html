@@ -2,1063 +2,618 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Milano Gelato Cube — Brandbook</title>
+<title>MILANO GELATO CUBE — Brandbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap');
 :root{
   --pistacchio:#8FB560;
-  --cream:#FAF5E8;
+  --pistacchio-dark:#6B8F42;
   --fragola:#E85A6E;
+  --cream:#FAF5E8;
   --marmo:#ECE8E0;
   --espresso:#2A1810;
+  --ink:#1A1A1A;
+  --gray:#6B6B6B;
+  --line:#E8E4DC;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#ddd;color:var(--espresso);font-weight:300}
-.page{width:210mm;height:297mm;background:var(--cream);margin:20px auto;padding:22mm;position:relative;page-break-after:always;overflow:hidden}
-h1,h2,h3,.display{font-family:'Fraunces',serif;font-weight:400;letter-spacing:-0.01em}
-h1{font-size:52px;line-height:1.05}
-h2{font-size:32px;margin-bottom:18px;color:var(--pistacchio)}
-h3{font-size:20px;margin-bottom:10px}
-p{font-size:11px;line-height:1.65;margin-bottom:10px;font-weight:300}
-.num{font-family:'Fraunces',serif;font-size:140px;line-height:1;color:var(--pistacchio);opacity:.12;position:absolute;top:14mm;right:22mm}
-.footer{position:absolute;bottom:14mm;left:22mm;right:22mm;display:flex;justify-content:space-between;font-size:9px;color:var(--espresso);opacity:.55;border-top:1px solid var(--espresso);padding-top:6px}
-.tag{display:inline-block;padding:3px 10px;border:1px solid var(--pistacchio);color:var(--pistacchio);font-size:9px;letter-spacing:.15em;text-transform:uppercase;margin-right:6px}
-table{width:100%;border-collapse:collapse;font-size:10px}
-th,td{text-align:left;padding:7px 6px;border-bottom:1px solid rgba(42,24,16,.15)}
-th{font-weight:500;text-transform:uppercase;font-size:9px;letter-spacing:.1em;color:var(--pistacchio)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
-.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
-.swatch{height:90px;border-radius:2px;display:flex;align-items:flex-end;padding:10px;color:var(--cream);font-size:9px}
-.card{border:1px solid rgba(42,24,16,.15);padding:14px;background:rgba(255,255,255,.4)}
-.divider{height:1px;background:var(--pistacchio);margin:14px 0;opacity:.3}
-.mono{font-family:'JetBrains Mono',monospace;font-size:10px}
-.big-num{font-family:'Fraunces',serif;font-size:48px;color:var(--pistacchio);line-height:1}
-.label{font-size:9px;text-transform:uppercase;letter-spacing:.15em;color:var(--espresso);opacity:.6}
-ul,ol{margin-left:14px;font-size:11px;line-height:1.7;font-weight:300}
-.cover{background:var(--pistacchio);color:var(--cream)}
-.cover h1{color:var(--cream);font-size:96px}
-.cover h2{color:var(--fragola);font-weight:300;font-size:22px}
-.logo-mark{width:80px;height:80px;border:2px solid var(--cream);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:28px}
-.photo{width:100%;display:block;object-fit:cover;image-rendering:high-quality;border-radius:2px}
-.photo-strip{width:100%;height:55mm;object-fit:cover;image-rendering:high-quality;margin:6px 0 14px;border-radius:2px;display:block}
-.photo-tall{width:100%;height:75mm;object-fit:cover;image-rendering:high-quality;margin:6px 0 14px;border-radius:2px;display:block}
-.photo-hero{aspect-ratio:3/2;margin:14px 0 16px}
-.photo-square{aspect-ratio:1/1}
-.photo-wide{aspect-ratio:16/9}
-.caption{font-size:9px;letter-spacing:.1em;text-transform:uppercase;opacity:.55;margin-top:-8px;margin-bottom:14px}
-.cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:.18}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{background:#CCC;font-family:'Inter',sans-serif;color:var(--ink);font-size:11pt;line-height:1.55;font-weight:300}
+h1,h2,h3,h4,h5{font-family:'Fraunces',serif;font-weight:700;letter-spacing:-0.02em;line-height:1.1}
+a{color:inherit;text-decoration:none}
+small{font-size:9pt;color:var(--gray)}
+
+/* A4 PAGE */
+.page{
+  width:210mm;height:297mm;
+  background:var(--cream);
+  padding:22mm 20mm;
+  margin:10mm auto;
+  box-shadow:0 4px 24px rgba(0,0,0,0.15);
+  position:relative;overflow:hidden;
+  page-break-after:always;
+  display:flex;flex-direction:column;
+}
+.page::after{
+  content:attr(data-page) ' / 25';
+  position:absolute;bottom:12mm;right:20mm;
+  font-family:'Inter';font-size:8pt;color:var(--gray);letter-spacing:0.1em;
+}
+.page::before{
+  content:'MILANO GELATO CUBE · BRANDBOOK';
+  position:absolute;bottom:12mm;left:20mm;
+  font-family:'Inter';font-size:8pt;color:var(--gray);letter-spacing:0.12em;font-weight:500;
+}
+.page.no-footer::after,.page.no-footer::before{display:none}
+
+.eyebrow{font-family:'Inter';font-size:9pt;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--fragola);margin-bottom:8mm}
+h1.page-title{font-size:34pt;margin-bottom:6mm;letter-spacing:-0.03em;font-weight:600}
+h2.section-title{font-size:22pt;margin-bottom:5mm}
+.lead{font-size:13pt;color:var(--ink);line-height:1.5;max-width:155mm;margin-bottom:6mm;font-weight:300}
+p{margin-bottom:3mm}
+img{max-width:100%;display:block;image-rendering:high-quality}
+.divider{height:1px;background:var(--line);margin:6mm 0}
+
+/* COVER */
+.cover{background:var(--pistacchio);color:var(--cream);justify-content:space-between;padding:18mm;position:relative}
+.cover::before,.cover::after{display:none}
+.cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.28;z-index:0}
 .cover > *{position:relative;z-index:1}
+.cover .brand{font-family:'Fraunces',serif;font-size:68pt;font-weight:800;line-height:0.9;color:var(--cream);margin-top:40mm}
+.cover .brand small{display:block;font-family:'Inter';font-size:11pt;font-weight:400;color:var(--cream);margin-top:6mm;letter-spacing:0.18em;text-transform:uppercase;opacity:.85}
+.cover .tagline{font-family:'Fraunces';font-size:18pt;font-weight:400;font-style:italic;max-width:140mm;margin-bottom:20mm;color:var(--cream)}
+.cover .meta{display:flex;gap:10mm;font-size:10pt;color:var(--cream);border-top:2px solid var(--fragola);padding-top:8mm}
+.cover .meta strong{display:block;font-family:'Fraunces';font-size:18pt;font-weight:700;color:var(--fragola);margin-bottom:2mm}
+
+/* EXEC SUMMARY */
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6mm;margin-top:8mm}
+.stat-box{background:#fff;border:1px solid var(--line);border-radius:4mm;padding:6mm}
+.stat-box .num{font-family:'Fraunces';font-weight:700;font-size:28pt;color:var(--pistacchio-dark);line-height:1}
+.stat-box .lbl{font-size:9pt;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-top:2mm;font-weight:500}
+
+/* USPS */
+.usp-list{list-style:none;margin-top:6mm}
+.usp-list li{padding:4mm 0 4mm 12mm;border-bottom:1px solid var(--line);position:relative;font-size:11pt;font-weight:300}
+.usp-list li::before{
+  content:counter(usps,decimal-leading-zero);counter-increment:usps;
+  position:absolute;left:0;top:4mm;
+  width:9mm;height:9mm;border-radius:50%;
+  background:var(--pistacchio);color:var(--cream);
+  font-family:'Fraunces';font-weight:700;font-size:10pt;
+  display:flex;align-items:center;justify-content:center;
+}
+.usp-list{counter-reset:usps}
+
+/* PALETTE */
+.color-row{display:grid;grid-template-columns:repeat(5,1fr);gap:4mm;margin-top:6mm}
+.color-chip{aspect-ratio:1/1.2;border-radius:3mm;padding:4mm;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line)}
+.color-chip .hex{font-family:'Fraunces';font-weight:700;font-size:10pt}
+.color-chip .nm{font-size:8pt;opacity:0.8;margin-top:1mm;font-weight:400}
+.color-chip.dark{color:#fff}
+
+/* TYPOGRAPHY */
+.type-sample{margin-top:8mm;padding:6mm;border-left:4px solid var(--pistacchio);background:#fff}
+.type-sample .label{font-size:9pt;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2mm;font-weight:500}
+.type-sample .demo{font-family:'Fraunces';font-size:44pt;font-weight:600;color:var(--pistacchio-dark);line-height:1}
+.type-sample.body .demo{font-family:'Inter';font-weight:300;font-size:13pt;color:var(--ink);line-height:1.55}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;margin-top:4mm;font-size:10pt}
+th,td{padding:3mm 2mm;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:'Inter';font-weight:600;font-size:9pt;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray)}
+td.num{font-family:'Fraunces';font-weight:600;text-align:right;white-space:nowrap}
+.total-row{background:var(--marmo);font-weight:700}
+.total-row td{border-top:2px solid var(--pistacchio);border-bottom:none}
+
+/* IMAGE FULL */
+.img-full{width:100%;flex:1;object-fit:cover;border-radius:3mm;margin-top:6mm;min-height:160mm}
+.img-large{width:100%;max-height:170mm;object-fit:cover;margin:4mm 0;border-radius:3mm}
+.caption{font-size:9pt;color:var(--gray);margin-top:3mm;font-style:italic;text-align:center}
+
+.img-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:6mm}
+.img-grid-2 img{width:100%;height:90mm;object-fit:cover;border-radius:3mm}
+
+/* BUDGET DONUT */
+.donut-wrap{display:flex;gap:10mm;align-items:center;margin-top:6mm}
+.donut{width:70mm;height:70mm;flex-shrink:0}
+.legend{flex:1}
+.legend-item{display:flex;align-items:center;gap:3mm;padding:2mm 0;font-size:10pt;border-bottom:1px solid var(--line)}
+.legend-dot{width:4mm;height:4mm;border-radius:50%;flex-shrink:0}
+.legend-item .val{margin-left:auto;font-family:'Fraunces';font-weight:700}
+
+/* TIMELINE */
+.timeline{margin-top:4mm}
+.tl-row{display:grid;grid-template-columns:22mm 1fr;gap:4mm;padding:4mm 0;border-bottom:1px solid var(--line)}
+.tl-week{font-family:'Fraunces';font-weight:700;font-size:14pt;color:var(--pistacchio-dark)}
+.tl-week small{display:block;font-family:'Inter';font-size:8pt;color:var(--gray);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;margin-top:1mm}
+.tl-tasks{font-size:10pt;font-weight:300}
+.tl-tasks li{margin-left:4mm;padding:1mm 0;list-style:disc}
+
+/* REGISTRATION */
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:4mm}
+.reg-card{background:#fff;border:1px solid var(--line);border-radius:3mm;padding:5mm}
+.reg-card h4{font-size:11pt;margin-bottom:3mm;color:var(--pistacchio-dark)}
+.reg-card ul{list-style:none;font-size:10pt}
+.reg-card li{padding:1.5mm 0;padding-left:5mm;position:relative;font-weight:300}
+.reg-card li::before{content:'✓';position:absolute;left:0;color:var(--pistacchio);font-weight:700}
+
+/* PATTERN */
+.pattern-demo{height:60mm;background:#fff;border:1px solid var(--line);border-radius:3mm;margin-top:6mm;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+
+/* BACK COVER */
+.back-cover{background:var(--espresso);color:var(--cream);justify-content:space-between;position:relative}
+.back-cover::before,.back-cover::after{color:#666}
+.back-cover h1{color:var(--fragola);font-size:48pt}
+.back-cover p{color:#AAA;max-width:140mm;font-weight:300}
+
+@media print{
+  body{background:#fff}
+  .page{box-shadow:none;margin:0}
+}
 </style>
 </head>
 <body>
 
-<div class="page cover">
-<img class="cover-bg" src="images/02-facade.png" alt="">
-<div style="position:absolute;top:22mm;left:22mm;right:22mm">
-<div class="logo-mark">MG</div>
-<div style="margin-top:10px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;opacity:.7">Brandbook · 2026 Edition</div>
-</div>
-<div style="position:absolute;bottom:40mm;left:22mm;right:22mm">
-<h1>Milano<br>Gelato Cube</h1>
-<h2 style="margin-top:20px">Dodici gusti. Un cubo. Tutto qui.</h2>
-<div style="margin-top:40px;display:flex;gap:30px;font-size:10px;letter-spacing:.2em;text-transform:uppercase">
-<div><div style="opacity:.55">Location</div><div style="margin-top:4px">Milano · IT</div></div>
-<div><div style="opacity:.55">Footprint</div><div style="margin-top:4px">10 m²</div></div>
-<div><div style="opacity:.55">Investment</div><div style="margin-top:4px">€9,400</div></div>
-</div>
-</div>
-</div>
+<!-- ═══════════ PAGE 01 · COVER ═══════════ -->
+<section class="page cover no-footer">
+  <img class="cover-bg" src="images/02-facade.png" alt="">
+  <div style="font-size:10pt;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--fragola)">SVITA Micro · Concept Brandbook №003</div>
 
-<div class="page">
-<div class="num">01</div>
-<div class="label">Page 01</div>
-<h2 style="margin-top:10px">Executive summary</h2>
-<div class="divider"></div>
-<p>Milano Gelato Cube is a 10 m² walk-up cube near Porta Romana or Isola, serving exactly 12 gelato flavours at any given moment — rotated weekly, never more, never less. The constraint is the product: twelve is what fits in one Bravo Trittico batch freezer per day, and the discipline keeps every flavour fresh-churned within 24 hours.</p>
-<p>No seating, no coffee, no pastries, no sorbet alongside gelato — just 12 gelati, three sizes, one line. Ticket €4.20 average. 300 scoops/day sustainable at summer peak, 120/day in winter, weighted average 200/day.</p>
-<div class="grid4" style="margin-top:22px">
-<div class="card"><div class="big-num">€9.4k</div><div class="label" style="margin-top:6px">Total CAPEX</div></div>
-<div class="card"><div class="big-num">5</div><div class="label" style="margin-top:6px">Weeks to open</div></div>
-<div class="card"><div class="big-num">€2.6k</div><div class="label" style="margin-top:6px">Monthly EBITDA</div></div>
-<div class="card"><div class="big-num">M5</div><div class="label" style="margin-top:6px">Break-even</div></div>
-</div>
-<div class="divider" style="margin-top:24px"></div>
-<h3>The one-liner</h3>
-<p><em>Twelve flavours. One cube. Churned this morning, sold today, gone tomorrow.</em></p>
-<div class="footer"><span>Milano Gelato Cube</span><span>01 / 25</span></div>
-</div>
+  <div>
+    <h1 class="brand">MILANO<br>GELATO<br>CUBE<small>Dodici gusti. Un cubo. Tutto qui.</small></h1>
+  </div>
 
-<div class="page">
-<div class="num">02</div>
-<div class="label">Page 02</div>
-<h2 style="margin-top:10px">The concept</h2>
-<div class="divider"></div>
-<img class="photo-strip" src="images/05-chalkboard.png" alt="Twelve flavours on chalkboard">
-<div class="grid2">
-<div>
-<h3>Why twelve</h3>
-<p>A Bravo Trittico 305P batch freezer makes 12 flavours/day with two hours of active churning. Twelve is also what fits legibly on a single chalkboard. Twelve is what a customer can read, decide, and order in under 90 seconds — which is what a walk-up window needs.</p>
-<h3 style="margin-top:14px">Three commitments</h3>
-<ul>
-<li>12 flavours, never 11, never 13 — the chalkboard is the discipline</li>
-<li>Rotate on Monday morning — 4 permanent, 8 rotating</li>
-<li>Whatever isn't sold by closing goes home with the team or to Banco Alimentare — never to tomorrow</li>
-</ul>
-</div>
-<div>
-<h3>What it is not</h3>
-<ul>
-<li>Not a gelateria — no seating, no tables, no table service</li>
-<li>Not a cafeteria — no espresso, no pastries, no granita</li>
-<li>Not a supermarket — no take-home tubs, no freezer bags</li>
-<li>Not a chain — one cube, in Milan, forever</li>
-</ul>
-<h3 style="margin-top:14px">The four permanent</h3>
-<p class="mono" style="line-height:1.9">01 Pistacchio di Bronte DOP<br>02 Stracciatella fiordilatte<br>03 Nocciola Piemonte IGP<br>04 Cioccolato fondente 72%</p>
-<p class="label">The other eight rotate weekly based on market, season and mood.</p>
-</div>
-</div>
-<div class="footer"><span>Milano Gelato Cube</span><span>02 / 25</span></div>
-</div>
+  <div>
+    <div class="tagline">Twelve flavours. One cube.<br>A walk-up gelateria that rewrites its menu every Monday morning.</div>
+    <div class="meta">
+      <div><strong>€9,400</strong>TOTAL BUDGET</div>
+      <div><strong>5 wks</strong>TO LAUNCH</div>
+      <div><strong>10 m²</strong>FOOTPRINT</div>
+      <div><strong>IT</strong>COUNTRY</div>
+      <div><strong>M5</strong>BREAK-EVEN</div>
+    </div>
+  </div>
+</section>
 
-<div class="page">
-<div class="num">03</div>
-<div class="label">Page 03</div>
-<h2 style="margin-top:10px">Target audience</h2>
-<div class="divider"></div>
-<img class="photo-tall" src="images/08-customer-pov.png" alt="Customer walking away with cone">
-<div class="grid3">
-<div class="card">
-<div class="tag">Primary</div>
-<h3 style="margin-top:10px">The Milano local, 28–50</h3>
-<p>Lives within 500m, walks past 3–4 times/week. Comes for the rotation — "what's new this week" is the primary hook. Average ticket €4.20, 2 visits/week in summer, 1/week in winter.</p>
-<p class="label">~60% of revenue</p>
-</div>
-<div class="card">
-<div class="tag">Secondary</div>
-<h3 style="margin-top:10px">The lunch-break office crowd, 25–45</h3>
-<p>Works nearby, eats gelato instead of dessert after lunch. Mon–Fri 13:00–14:30 peak. Predictable volume, high repeat.</p>
-<p class="label">~25% of revenue</p>
-</div>
-<div class="card">
-<div class="tag">Tertiary</div>
-<h3 style="margin-top:10px">The weekend visitor, 22–55</h3>
-<p>Turin, Bergamo, Como weekenders. Follows Instagram for flavour announcements. Arrives Saturday afternoon. Instagrammable but never the point.</p>
-<p class="label">~15% of revenue</p>
-</div>
-</div>
-<div class="divider" style="margin-top:20px"></div>
-<h3>What they are NOT</h3>
-<p>Tourists in Milano for 24 hours looking for "best gelato in city" on TripAdvisor. Tour groups. Families looking for a sit-down scoop-and-spoon experience. Children under 6 (the line is too fast, the decision window too short).</p>
-<div class="footer"><span>Milano Gelato Cube</span><span>03 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 02 · EXECUTIVE SUMMARY ═══════════ -->
+<section class="page" data-page="02">
+  <div class="eyebrow">Executive Summary</div>
+  <h1 class="page-title">The one-page pitch.</h1>
+  <p class="lead">Milano Gelato Cube is a 10 m² walk-up cube serving exactly 12 gelato flavours at any given moment — rotated weekly, never more, never less. Churned this morning, sold today, gone tomorrow. Launches in Porta Romana or Isola within 5 weeks for €9,400. Every euro goes into equipment and ingredients — near-zero renovation, because the cube itself is the shop.</p>
+  <div class="divider"></div>
+  <div class="stats-grid">
+    <div class="stat-box"><div class="num">€9,400</div><div class="lbl">Total investment</div></div>
+    <div class="stat-box"><div class="num">€8,200</div><div class="lbl">Monthly revenue (target)</div></div>
+    <div class="stat-box"><div class="num">€2,600</div><div class="lbl">Monthly EBITDA</div></div>
+    <div class="stat-box"><div class="num">Month 5</div><div class="lbl">Break-even</div></div>
+    <div class="stat-box"><div class="num">200 scoops</div><div class="lbl">Weighted daily volume</div></div>
+    <div class="stat-box"><div class="num">12 · 1 · 0</div><div class="lbl">Flavours · Cube · Leftovers</div></div>
+  </div>
+</section>
 
-<div class="page">
-<div class="num">04</div>
-<div class="label">Page 04</div>
-<h2 style="margin-top:10px">Unique value proposition</h2>
-<div class="divider"></div>
-<img class="photo-strip" src="images/10-night.png" alt="Milano Gelato Cube at night">
-<div class="grid2" style="gap:24px">
-<div>
-<h3>The five USPs</h3>
-<ol>
-<li><strong>Exactly twelve.</strong> Never more. The constraint is the story.</li>
-<li><strong>Churned today.</strong> Every cone from a batch made within 24 hours.</li>
-<li><strong>Weekly rotation.</strong> Monday = new eight. Regulars get a ritual.</li>
-<li><strong>Zero-waste discipline.</strong> Unsold gelato leaves the shop daily.</li>
-<li><strong>Walk-up cube.</strong> No tables means no friction, no cleanup, no turnover drama.</li>
-</ol>
-</div>
-<div>
-<h3>Why these five survive</h3>
-<p>Italian gelato is a crowded market dominated by two archetypes: the tourist trap (50 flavours, neon colours, mountains of pile) and the old-school family gelateria (8 flavours, 30 years, no social media). Milano Gelato Cube takes the family discipline and adds the tourist's visibility — twelve flavours is enough to be interesting, few enough to be trustable.</p>
-<p>The moat is the Monday ritual. A customer learns the rotation rhythm in three weeks and starts planning their week around it. No competitor with a 30-flavour cabinet can replicate that cadence.</p>
-</div>
-</div>
-<div class="divider"></div>
-<h3>Positioning statement</h3>
-<p style="font-size:13px;font-style:italic;margin-top:8px">For Milanesi who treat gelato as a weekly ritual rather than an occasional treat, Milano Gelato Cube is the 10 m² walk-up window whose 12-flavour weekly rotation turns a scoop into a standing appointment with Monday morning.</p>
-<div class="footer"><span>Milano Gelato Cube</span><span>04 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 03 · THE CONCEPT ═══════════ -->
+<section class="page" data-page="03">
+  <div class="eyebrow">The Concept</div>
+  <h1 class="page-title">Twelve flavours.<br>One cube. No mercy.</h1>
+  <p class="lead">Italian gelato is a crowded market dominated by two archetypes: the tourist trap (50 flavours, neon colours) and the old family gelateria (8 flavours, 30 years, no social media). Milano Gelato Cube takes the family discipline and gives it a new ritual — the Monday rewrite. Twelve is what fits in one Bravo Trittico per day, twelve is what a customer can read in 90 seconds, twelve is what a chalkboard can hold with dignity.</p>
+  <p>The walk-up cube model skips the #1 gelateria trap: committing €25,000 to a full retail fitout. Every asset in this brandbook is physically movable or paintable-over. The cube is the logo. The chalkboard is the menu. The barista is the service.</p>
 
-<div class="page">
-<div class="num">05</div>
-<div class="label">Page 05</div>
-<h2 style="margin-top:10px">Brand identity · lockups</h2>
-<div class="divider"></div>
-<div class="grid2">
-<div>
-<h3>Primary mark</h3>
-<svg width="100%" height="200" viewBox="0 0 220 220">
-<rect x="20" y="20" width="180" height="180" fill="none" stroke="#8FB560" stroke-width="3"/>
-<rect x="50" y="50" width="120" height="120" fill="#8FB560"/>
-<text x="110" y="125" font-family="Fraunces" font-size="52" text-anchor="middle" fill="#FAF5E8">12</text>
-<text x="110" y="195" font-family="Inter" font-size="9" letter-spacing="4" text-anchor="middle" fill="#2A1810">MILANO · GELATO · CUBE</text>
-</svg>
-<h3 style="margin-top:10px">Reversed (dark)</h3>
-<svg width="100%" height="100" viewBox="0 0 220 110" style="background:#2A1810">
-<rect x="20" y="10" width="180" height="90" fill="none" stroke="#FAF5E8" stroke-width="2"/>
-<rect x="45" y="25" width="60" height="60" fill="#FAF5E8"/>
-<text x="75" y="67" font-family="Fraunces" font-size="28" text-anchor="middle" fill="#2A1810">12</text>
-<text x="155" y="50" font-family="Fraunces" font-size="16" fill="#FAF5E8">Milano Gelato</text>
-<text x="155" y="70" font-family="Inter" font-size="8" letter-spacing="3" fill="#8FB560">CUBE · MILANO</text>
-</svg>
-</div>
-<div>
-<h3>Horizontal lockup</h3>
-<svg width="100%" height="80" viewBox="0 0 400 90">
-<rect x="10" y="15" width="60" height="60" fill="#8FB560"/>
-<text x="40" y="55" font-family="Fraunces" font-size="28" text-anchor="middle" fill="#FAF5E8">12</text>
-<text x="90" y="42" font-family="Fraunces" font-size="22" fill="#2A1810">Milano Gelato Cube</text>
-<text x="90" y="62" font-family="Inter" font-size="9" letter-spacing="3" fill="#8FB560">DODICI GUSTI · OGNI GIORNO</text>
-</svg>
-<h3 style="margin-top:14px">Monogram</h3>
-<svg width="100%" height="110" viewBox="0 0 220 120">
-<circle cx="55" cy="60" r="45" fill="#8FB560"/>
-<text x="55" y="75" font-family="Fraunces" font-size="38" text-anchor="middle" fill="#FAF5E8">12</text>
-<circle cx="160" cy="60" r="45" fill="none" stroke="#8FB560" stroke-width="3"/>
-<text x="160" y="75" font-family="Fraunces" font-size="38" text-anchor="middle" fill="#8FB560">12</text>
-</svg>
-<h3 style="margin-top:14px">Spacing rule</h3>
-<svg width="100%" height="80" viewBox="0 0 200 80">
-<rect x="30" y="15" width="50" height="50" fill="#8FB560"/>
-<text x="55" y="47" font-family="Fraunces" font-size="20" text-anchor="middle" fill="#FAF5E8">12</text>
-<line x1="30" y1="5" x2="80" y2="5" stroke="#E85A6E" stroke-width="1"/>
-<line x1="30" y1="75" x2="80" y2="75" stroke="#E85A6E" stroke-width="1"/>
-<line x1="20" y1="15" x2="20" y2="65" stroke="#E85A6E" stroke-width="1"/>
-<line x1="90" y1="15" x2="90" y2="65" stroke="#E85A6E" stroke-width="1"/>
-<text x="130" y="35" font-family="Inter" font-size="9" fill="#2A1810">Clear space</text>
-<text x="130" y="48" font-family="Inter" font-size="9" fill="#2A1810">= height of "1"</text>
-<text x="130" y="61" font-family="Inter" font-size="9" fill="#2A1810">on all sides</text>
-</svg>
-</div>
-<div>
-<h3>Voice</h3>
-<p><strong>Italian, first.</strong> The menu is Italian. English captions underneath, smaller.</p>
-<p><strong>Declarative.</strong> "Lunedì: otto nuovi gusti." Not "Come try our new flavours this week!"</p>
-<p><strong>Numerical.</strong> Twelve, four, three, one — the brand speaks in counts.</p>
-<p><strong>Never superlative.</strong> No "best", no "finest", no "authentic". The cube is the claim.</p>
-<h3 style="margin-top:16px">Naming system</h3>
-<p class="mono">Legal: Milano Gelato Cube S.r.l.s.<br>Brand: Milano Gelato Cube<br>Short: MGC · Il Cubo<br>Handle: @milanogelatocube</p>
-</div>
-</div>
-<div class="footer"><span>Milano Gelato Cube</span><span>05 / 25</span></div>
-</div>
+  <img class="img-large" src="images/08-customer-pov.png" alt="Customer walking away with a cone past the cube" style="max-height:90mm">
 
-<div class="page">
-<div class="num">06</div>
-<div class="label">Page 06</div>
-<h2 style="margin-top:10px">Colour palette</h2>
-<div class="divider"></div>
-<img class="photo-strip" src="images/04-packaging.png" alt="Packaging in brand colours">
-<div class="grid3">
-<div><div class="swatch" style="background:#8FB560">#8FB560</div><p class="label" style="margin-top:8px">Pistacchio · primary</p></div>
-<div><div class="swatch" style="background:#FAF5E8;color:#2A1810">#FAF5E8</div><p class="label" style="margin-top:8px">Cream · surface</p></div>
-<div><div class="swatch" style="background:#E85A6E">#E85A6E</div><p class="label" style="margin-top:8px">Fragola · accent</p></div>
-<div style="margin-top:14px"><div class="swatch" style="background:#ECE8E0;color:#2A1810">#ECE8E0</div><p class="label" style="margin-top:8px">Marmo · texture</p></div>
-<div style="margin-top:14px"><div class="swatch" style="background:#2A1810">#2A1810</div><p class="label" style="margin-top:8px">Espresso · ink</p></div>
-<div style="margin-top:14px;padding:10px;font-size:10px;line-height:1.6">Pistacchio green is the shop; cream is the cup; fragola is the sticker you put on every receipt. Marmo appears only on the counter; espresso only in type.</div>
-</div>
-<div class="divider" style="margin-top:20px"></div>
-<h3>Usage rules</h3>
-<ul>
-<li>Pistacchio covers the entire cube exterior — never inside</li>
-<li>Fragola never covers more than 5% of any surface — always accent, never ground</li>
-<li>No more than three colours visible at once — marmo and cream count as one</li>
-</ul>
-<div class="footer"><span>Milano Gelato Cube</span><span>06 / 25</span></div>
-</div>
+  <div style="margin-top:6mm;padding:6mm;background:#fff;border-left:4px solid var(--pistacchio)">
+    <strong style="font-family:'Inter';font-size:10pt;text-transform:uppercase;letter-spacing:0.08em;color:var(--pistacchio-dark)">The Twelve Rule</strong>
+    <p style="margin-top:2mm;font-size:10pt">Never 11, never 13. Whatever isn't sold by closing goes home with the team or to Banco Alimentare — never to tomorrow. This is the discipline that makes the brand.</p>
+  </div>
+</section>
 
-<div class="page">
-<div class="num">07</div>
-<div class="label">Page 07</div>
-<h2 style="margin-top:10px">Typography</h2>
-<div class="divider"></div>
-<div style="font-family:'Fraunces',serif;font-size:96px;line-height:1;color:var(--pistacchio)">Fraunces</div>
-<p class="label" style="margin-top:6px">Display · 300 / 400 / 600</p>
-<div style="margin-top:28px;font-family:'Inter',sans-serif;font-size:72px;font-weight:300">Inter</div>
-<p class="label" style="margin-top:6px">Text · 300 / 400 / 500</p>
-<div class="divider" style="margin-top:24px"></div>
-<div class="grid2">
-<div>
-<h3>Chalkboard hierarchy</h3>
-<p class="mono" style="line-height:1.9">Flavour name Fraunces 24 white chalk<br>Origin tag Inter 10 yellow chalk<br>Price Fraunces 32 white chalk<br>Number 01-12 Fraunces 18 green chalk</p>
-</div>
-<div>
-<h3>Forbidden</h3>
-<ul>
-<li>No cursive script fonts ("Bella gelateria" energy)</li>
-<li>No all-caps italic</li>
-<li>No flavour names in English only</li>
-<li>No font size below 9px anywhere visible to customers</li>
-</ul>
-</div>
-</div>
-<div class="footer"><span>Milano Gelato Cube</span><span>07 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 04 · TARGET AUDIENCE ═══════════ -->
+<section class="page" data-page="04">
+  <div class="eyebrow">Target Audience</div>
+  <h1 class="page-title">Who walks up<br>on a Monday?</h1>
 
-<div class="page">
-<div class="num">08</div>
-<div class="label">Page 08</div>
-<h2 style="margin-top:10px">Pattern & texture</h2>
-<div class="divider"></div>
-<img class="photo-strip" src="images/07-scoop-detail.png" alt="Scoop lifting pistacchio">
-<svg width="100%" height="300" viewBox="0 0 500 300">
-<defs>
-<pattern id="grid12" width="100" height="100" patternUnits="userSpaceOnUse">
-<rect width="100" height="100" fill="#FAF5E8"/>
-<circle cx="50" cy="50" r="30" fill="none" stroke="#8FB560" stroke-width="2"/>
-<text x="50" y="58" font-family="Fraunces" font-size="20" text-anchor="middle" fill="#8FB560">•</text>
-</pattern>
-</defs>
-<rect width="500" height="300" fill="url(#grid12)"/>
-</svg>
-<p class="label" style="margin-top:10px">Grid of 12 circles — one for each flavour, appears on cup sleeves and the chalk menu frame</p>
-<div class="divider"></div>
-<h3 style="margin-top:14px">Pictogram system</h3>
-<svg width="100%" height="110" viewBox="0 0 600 110">
-<g transform="translate(20,15)">
-<circle cx="30" cy="30" r="28" fill="none" stroke="#8FB560" stroke-width="2"/>
-<path d="M30,12 L30,30 L42,38" stroke="#2A1810" stroke-width="2" fill="none" stroke-linecap="round"/>
-<text x="30" y="85" font-family="Inter" font-size="8" text-anchor="middle" fill="#2A1810">08:00–20:00</text>
-</g>
-<g transform="translate(120,15)">
-<circle cx="30" cy="30" r="28" fill="none" stroke="#8FB560" stroke-width="2"/>
-<rect x="18" y="20" width="24" height="20" fill="none" stroke="#2A1810" stroke-width="2"/>
-<line x1="18" y1="28" x2="42" y2="28" stroke="#2A1810" stroke-width="2"/>
-<text x="30" y="85" font-family="Inter" font-size="8" text-anchor="middle" fill="#2A1810">WALK-UP ONLY</text>
-</g>
-<g transform="translate(220,15)">
-<circle cx="30" cy="30" r="28" fill="none" stroke="#8FB560" stroke-width="2"/>
-<text x="30" y="40" font-family="Fraunces" font-size="22" text-anchor="middle" fill="#2A1810">12</text>
-<text x="30" y="85" font-family="Inter" font-size="8" text-anchor="middle" fill="#2A1810">TWELVE FLAVOURS</text>
-</g>
-<g transform="translate(320,15)">
-<circle cx="30" cy="30" r="28" fill="none" stroke="#8FB560" stroke-width="2"/>
-<path d="M20,40 Q30,15 40,40 Z" fill="#E85A6E" opacity=".7"/>
-<text x="30" y="85" font-family="Inter" font-size="8" text-anchor="middle" fill="#2A1810">DAILY FRESH</text>
-</g>
-<g transform="translate(420,15)">
-<circle cx="30" cy="30" r="28" fill="none" stroke="#8FB560" stroke-width="2"/>
-<path d="M15,35 Q15,18 30,18 Q45,18 45,35" stroke="#2A1810" stroke-width="2" fill="none"/>
-<circle cx="30" cy="35" r="5" fill="#8FB560"/>
-<text x="30" y="85" font-family="Inter" font-size="8" text-anchor="middle" fill="#2A1810">DOP CERTIFIED</text>
-</g>
-<g transform="translate(520,15)">
-<circle cx="30" cy="30" r="28" fill="none" stroke="#8FB560" stroke-width="2"/>
-<path d="M20,30 L28,38 L42,24" stroke="#2A1810" stroke-width="3" fill="none" stroke-linecap="round"/>
-<text x="30" y="85" font-family="Inter" font-size="8" text-anchor="middle" fill="#2A1810">ZERO WASTE</text>
-</g>
-</svg>
-<p class="label" style="margin-top:10px">Six-pictogram system for signage, menu legend, and Instagram stories</p>
-<div class="footer"><span>Milano Gelato Cube</span><span>08 / 25</span></div>
-</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:6mm">
+    <div style="background:#fff;padding:6mm;border-radius:3mm;border:1px solid var(--line)">
+      <h3 style="font-size:13pt;color:var(--pistacchio-dark);margin-bottom:3mm">Persona A · Giulia, 34</h3>
+      <p style="font-size:10pt"><strong>Role:</strong> Architect, lives in Porta Romana, walks past 3× a week</p>
+      <p style="font-size:10pt"><strong>Lifestyle:</strong> Reads <em>Monocle</em>, shops at Peck, hates tourist traps</p>
+      <p style="font-size:10pt"><strong>Why she buys:</strong> The weekly rotation — "what's new this week" is her ritual. Treats the cube as an appointment.</p>
+      <p style="font-size:10pt"><strong>Ticket:</strong> €4.20 · <strong>Frequency:</strong> 2×/week summer, 1×/week winter</p>
+    </div>
+    <div style="background:#fff;padding:6mm;border-radius:3mm;border:1px solid var(--line)">
+      <h3 style="font-size:13pt;color:var(--pistacchio-dark);margin-bottom:3mm">Persona B · Marco, 28</h3>
+      <p style="font-size:10pt"><strong>Role:</strong> Agency copywriter, lunch-break office crowd</p>
+      <p style="font-size:10pt"><strong>Lifestyle:</strong> 13:00–14:30 peak visitor, reliable volume</p>
+      <p style="font-size:10pt"><strong>Why he buys:</strong> Gelato instead of dessert after lunch. Trusts the rotation — never has to think.</p>
+      <p style="font-size:10pt"><strong>Ticket:</strong> €3.80 · <strong>Frequency:</strong> 3×/week (Mon–Fri)</p>
+    </div>
+  </div>
 
-<div class="page">
-<div class="num">09</div>
-<div class="label">Page 09</div>
-<h2 style="margin-top:10px">Hero visual</h2>
-<div class="divider"></div>
-<img src="images/01-hero.png" style="width:100%;height:380px;object-fit:cover;border:1px solid rgba(42,24,16,.15)">
-<div class="grid2" style="margin-top:18px">
-<div>
-<h3>Direction</h3>
-<p>Shot at 11:30 Monday morning, right after chalk rewrite, one cone being handed over the counter, 12 tubs visible behind. Natural light from left. No people facing camera. Chalkboard legible as the real subject.</p>
-</div>
-<div>
-<h3>Never shoot</h3>
-<ul>
-<li>No piled gelato mountains</li>
-<li>No flavour-labelled plastic labels (use chalk)</li>
-<li>No tourists with selfie sticks</li>
-<li>No heart shapes, no smiles on cones</li>
-</ul>
-</div>
-</div>
-<div class="footer"><span>Milano Gelato Cube</span><span>09 / 25</span></div>
-</div>
+  <div class="divider"></div>
+  <h4 style="font-size:11pt;margin-bottom:3mm">Secondary audiences</h4>
+  <p style="font-size:10pt;font-weight:300">Weekend visitors from Bergamo / Como / Torino (~15% of revenue, follows Instagram for flavour drops), design-tourism day-trippers (small but vocal, Instagram amplifier). <strong>Explicitly not targeting:</strong> TripAdvisor tourists, tour groups, families looking for a sit-down scoop-and-spoon experience. The line is too fast for indecision.</p>
 
-<div class="page">
-<div class="num">10</div>
-<div class="label">Page 10</div>
-<h2 style="margin-top:10px">Architecture · plan + elevation</h2>
-<div class="divider"></div>
-<img class="photo-strip" src="images/03-interior.png" alt="Interior view toward window">
+  <img class="img-large" src="images/10-night.png" alt="Milano Gelato Cube glowing at night on Via Spartaco" style="max-height:75mm;margin-top:6mm">
+</section>
 
-<h3 style="font-size:13px">Front elevation · from the street</h3>
-<svg width="100%" height="240" viewBox="0 0 700 260">
-<!-- sky -->
-<rect x="0" y="0" width="700" height="260" fill="#ECE8E0"/>
-<!-- adjacent buildings left -->
-<rect x="0" y="40" width="80" height="220" fill="#D8D0BD"/>
-<rect x="15" y="70" width="20" height="30" fill="#ECE8E0"/>
-<rect x="45" y="70" width="20" height="30" fill="#ECE8E0"/>
-<rect x="15" y="120" width="20" height="30" fill="#ECE8E0"/>
-<rect x="45" y="120" width="20" height="30" fill="#ECE8E0"/>
-<rect x="15" y="170" width="20" height="30" fill="#ECE8E0"/>
-<rect x="45" y="170" width="20" height="30" fill="#ECE8E0"/>
-<!-- the CUBE -->
-<rect x="80" y="20" width="280" height="240" fill="#8FB560"/>
-<!-- cornice -->
-<rect x="75" y="15" width="290" height="10" fill="#7A9E50"/>
-<!-- giant "12" on cube -->
-<text x="150" y="150" font-family="Fraunces" font-size="140" fill="#FAF5E8" font-weight="600">12</text>
-<text x="220" y="180" font-family="Fraunces" font-style="italic" font-size="18" fill="#FAF5E8">gusti, ogni giorno diversi</text>
-<text x="220" y="220" font-family="Inter" font-size="9" letter-spacing="4" fill="#FAF5E8">MILANO · GELATO · CUBE</text>
-<!-- serving window -->
-<rect x="105" y="200" width="140" height="60" fill="#2A1810"/>
-<rect x="108" y="203" width="134" height="54" fill="#FAF5E8"/>
-<!-- 12 dots in window (cabinet) -->
-<g fill="#8FB560" opacity=".8">
-<circle cx="120" cy="225" r="5"/><circle cx="140" cy="225" r="5"/><circle cx="160" cy="225" r="5"/><circle cx="180" cy="225" r="5"/>
-<circle cx="200" cy="225" r="5"/><circle cx="220" cy="225" r="5"/>
-<circle cx="120" cy="245" r="5"/><circle cx="140" cy="245" r="5"/><circle cx="160" cy="245" r="5"/><circle cx="180" cy="245" r="5"/>
-<circle cx="200" cy="245" r="5"/><circle cx="220" cy="245" r="5"/>
-</g>
-<!-- chalkboard visible above window -->
-<rect x="260" y="195" width="90" height="55" fill="#1F2818" stroke="#2A1810"/>
-<text x="268" y="210" font-family="Fraunces" font-size="7" fill="#FAF5E8">01 Pistacchio</text>
-<text x="268" y="220" font-family="Fraunces" font-size="7" fill="#FAF5E8">02 Stracciatella</text>
-<text x="268" y="230" font-family="Fraunces" font-size="7" fill="#FAF5E8">03 Nocciola</text>
-<text x="268" y="240" font-family="Fraunces" font-size="7" fill="#FAF5E8">04 Cioccolato</text>
-<!-- adjacent buildings right -->
-<rect x="360" y="60" width="80" height="200" fill="#C9BFA5"/>
-<rect x="375" y="90" width="20" height="30" fill="#ECE8E0"/>
-<rect x="405" y="90" width="20" height="30" fill="#ECE8E0"/>
-<rect x="375" y="140" width="20" height="30" fill="#ECE8E0"/>
-<rect x="405" y="140" width="20" height="30" fill="#ECE8E0"/>
-<!-- street + people -->
-<rect x="0" y="255" width="700" height="5" fill="#2A1810"/>
-<!-- silhouette customer at window -->
-<circle cx="175" cy="182" r="6" fill="#2A1810"/>
-<rect x="170" y="186" width="10" height="14" fill="#2A1810"/>
-<!-- second person approaching -->
-<circle cx="410" cy="230" r="5" fill="#2A1810"/>
-<rect x="406" y="233" width="9" height="20" fill="#2A1810"/>
-<line x1="412" y1="253" x2="408" y2="258" stroke="#2A1810" stroke-width="2"/>
-<line x1="412" y1="253" x2="416" y2="258" stroke="#2A1810" stroke-width="2"/>
-<!-- right panel building continues -->
-<rect x="440" y="30" width="260" height="230" fill="#D8D0BD"/>
-<rect x="460" y="70" width="25" height="35" fill="#ECE8E0"/>
-<rect x="500" y="70" width="25" height="35" fill="#ECE8E0"/>
-<rect x="540" y="70" width="25" height="35" fill="#ECE8E0"/>
-<rect x="580" y="70" width="25" height="35" fill="#ECE8E0"/>
-<rect x="620" y="70" width="25" height="35" fill="#ECE8E0"/>
-<rect x="660" y="70" width="25" height="35" fill="#ECE8E0"/>
-<rect x="460" y="120" width="25" height="35" fill="#ECE8E0"/>
-<rect x="500" y="120" width="25" height="35" fill="#ECE8E0"/>
-<rect x="540" y="120" width="25" height="35" fill="#ECE8E0"/>
-<rect x="580" y="120" width="25" height="35" fill="#ECE8E0"/>
-<rect x="620" y="120" width="25" height="35" fill="#ECE8E0"/>
-<rect x="660" y="120" width="25" height="35" fill="#ECE8E0"/>
-<rect x="460" y="170" width="25" height="35" fill="#ECE8E0"/>
-<rect x="500" y="170" width="25" height="35" fill="#ECE8E0"/>
-<rect x="540" y="170" width="25" height="35" fill="#ECE8E0"/>
-<rect x="580" y="170" width="25" height="35" fill="#ECE8E0"/>
-<rect x="620" y="170" width="25" height="35" fill="#ECE8E0"/>
-<rect x="660" y="170" width="25" height="35" fill="#ECE8E0"/>
-<!-- scale bar -->
-<line x1="80" y1="275" x2="360" y2="275" stroke="#2A1810" stroke-width="1"/>
-<line x1="80" y1="272" x2="80" y2="278" stroke="#2A1810" stroke-width="1"/>
-<line x1="360" y1="272" x2="360" y2="278" stroke="#2A1810" stroke-width="1"/>
-</svg>
-<p class="label" style="margin-top:6px">Façade · 4.0m × 3.2m. The green cube reads against the cream Milanese palazzo context from 30m away.</p>
+<!-- ═══════════ PAGE 05 · USPs ═══════════ -->
+<section class="page" data-page="05">
+  <div class="eyebrow">USPs & Positioning</div>
+  <h1 class="page-title">Why this wins.</h1>
+  <p class="lead">Five defensible advantages over the average Milanese gelateria.</p>
+  <ol class="usp-list">
+    <li><strong>Exactly twelve flavours.</strong> Never more. The constraint is the story — and the chalkboard is the discipline.</li>
+    <li><strong>Churned this morning, gone tomorrow.</strong> Every cone from a Bravo Trittico batch made within 24 hours. No yesterday.</li>
+    <li><strong>Weekly Monday rotation.</strong> 4 permanent + 8 rotating. Regulars get a ritual; competitors with 30-pan cabinets can't replicate the cadence.</li>
+    <li><strong>Walk-up cube, no seating.</strong> Zero turnover drama, zero cleanup staff, zero table service. The line is the shop.</li>
+    <li><strong>€9,400 to open, 5 weeks start to first cone.</strong> Modular cube = no wall renovation, no plumbing commitment to a leased space.</li>
+  </ol>
 
-<div class="grid2" style="margin-top:14px;gap:20px">
-<div>
-<h3 style="font-size:13px">Plan · top view</h3>
-<svg width="100%" height="220" viewBox="0 0 400 240">
-<rect x="20" y="20" width="360" height="200" fill="#FAF5E8" stroke="#2A1810" stroke-width="2"/>
-<!-- window opening -->
-<rect x="20" y="20" width="360" height="20" fill="#8FB560" opacity=".4"/>
-<line x1="20" y1="40" x2="380" y2="40" stroke="#8FB560" stroke-width="3" stroke-dasharray="4"/>
-<text x="200" y="35" font-family="Inter" font-size="8" text-anchor="middle" fill="#2A1810">WINDOW 3.0m</text>
-<!-- cabinet -->
-<rect x="40" y="50" width="340" height="50" fill="#8FB560" opacity=".5" stroke="#8FB560" stroke-width="2"/>
-<text x="200" y="80" font-family="Fraunces" font-size="11" text-anchor="middle" fill="#2A1810">IFI TONDA 12 · 12 pozzetti</text>
-<!-- bravo trittico -->
-<rect x="50" y="130" width="140" height="70" fill="none" stroke="#2A1810" stroke-width="1.5"/>
-<text x="120" y="160" font-family="Inter" font-size="9" text-anchor="middle">BRAVO</text>
-<text x="120" y="175" font-family="Inter" font-size="9" text-anchor="middle">TRITTICO</text>
-<text x="120" y="190" font-family="Inter" font-size="7" text-anchor="middle" fill="#8FB560">305P</text>
-<!-- sink -->
-<rect x="220" y="130" width="70" height="40" fill="none" stroke="#2A1810"/>
-<text x="255" y="153" font-family="Inter" font-size="8" text-anchor="middle">SINK</text>
-<!-- POS -->
-<rect x="300" y="130" width="60" height="40" fill="none" stroke="#2A1810"/>
-<text x="330" y="153" font-family="Inter" font-size="8" text-anchor="middle">POS</text>
-<rect x="220" y="180" width="140" height="20" fill="none" stroke="#2A1810" stroke-dasharray="2"/>
-<text x="290" y="194" font-family="Inter" font-size="7" text-anchor="middle">prep + bin</text>
-<!-- staff door -->
-<path d="M380,215 Q370,210 370,200" stroke="#2A1810" fill="none"/>
-<text x="352" y="213" font-family="Inter" font-size="7" fill="#2A1810">back</text>
-<!-- dimensions -->
-<text x="200" y="236" font-family="Inter" font-size="8" text-anchor="middle">4.0 m</text>
-<text x="8" y="125" font-family="Inter" font-size="8" transform="rotate(-90 8 125)" text-anchor="middle">2.5 m</text>
-</svg>
-</div>
-<div>
-<h3 style="font-size:13px">Section · side cut</h3>
-<svg width="100%" height="220" viewBox="0 0 400 240">
-<!-- outer box -->
-<rect x="20" y="20" width="360" height="180" fill="none" stroke="#2A1810" stroke-width="2"/>
-<!-- cube wall green -->
-<rect x="20" y="20" width="20" height="180" fill="#8FB560"/>
-<rect x="360" y="20" width="20" height="180" fill="#8FB560"/>
-<rect x="20" y="20" width="360" height="15" fill="#8FB560"/>
-<!-- ceiling LED -->
-<line x1="60" y1="50" x2="340" y2="50" stroke="#FFE066" stroke-width="2"/>
-<text x="200" y="45" font-family="Inter" font-size="7" text-anchor="middle">LED rail 2700K</text>
-<!-- counter marble -->
-<rect x="60" y="120" width="280" height="15" fill="#ECE8E0" stroke="#2A1810" stroke-width="1"/>
-<text x="200" y="132" font-family="Inter" font-size="7" text-anchor="middle">Carrara 30mm</text>
-<!-- cabinet under counter -->
-<rect x="60" y="135" width="280" height="55" fill="#FAF5E8" stroke="#2A1810"/>
-<g fill="#8FB560" opacity=".7">
-<circle cx="85" cy="162" r="8"/><circle cx="115" cy="162" r="8"/><circle cx="145" cy="162" r="8"/>
-<circle cx="175" cy="162" r="8"/><circle cx="205" cy="162" r="8"/><circle cx="235" cy="162" r="8"/>
-<circle cx="265" cy="162" r="8"/><circle cx="295" cy="162" r="8"/><circle cx="325" cy="162" r="8"/>
-</g>
-<text x="200" y="185" font-family="Inter" font-size="7" text-anchor="middle" fill="#2A1810">12 pozzetti −12°C</text>
-<!-- chalkboard above counter -->
-<rect x="75" y="60" width="250" height="50" fill="#1F2818"/>
-<text x="85" y="75" font-family="Fraunces" font-size="8" fill="#FAF5E8">01 Pistacchio Bronte</text>
-<text x="85" y="87" font-family="Fraunces" font-size="8" fill="#FAF5E8">02 Stracciatella</text>
-<text x="85" y="99" font-family="Fraunces" font-size="8" fill="#FAF5E8">03 Nocciola IGP</text>
-<text x="210" y="75" font-family="Fraunces" font-size="8" fill="#FAF5E8">04 Cioccolato 72%</text>
-<text x="210" y="87" font-family="Fraunces" font-size="8" fill="#FAF5E8">05 Limone Amalfi</text>
-<text x="210" y="99" font-family="Fraunces" font-size="8" fill="#FAF5E8">...e altri 7</text>
-<!-- floor -->
-<rect x="20" y="200" width="360" height="15" fill="#2A1810" opacity=".2"/>
-<text x="200" y="230" font-family="Inter" font-size="8" text-anchor="middle">2.5m ceiling · counter 0.9m · cabinet −12°C</text>
-</svg>
-</div>
-</div>
-<div class="footer"><span>Milano Gelato Cube</span><span>10 / 25</span></div>
-</div>
+  <div class="divider"></div>
+  <h4 style="font-size:10pt;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray);margin-top:4mm">Positioning statement</h4>
+  <p style="margin-top:3mm;font-size:12pt;font-style:italic;font-family:'Fraunces'">For Milanesi who treat gelato as a weekly ritual rather than an occasional treat, Milano Gelato Cube is the 10 m² walk-up window whose 12-flavour weekly rotation turns a scoop into a standing appointment with Monday morning.</p>
+</section>
 
-<div class="page">
-<div class="num">10b</div>
-<div class="label">Page 10b</div>
-<h2 style="margin-top:10px">Interior · axonometric view</h2>
-<div class="divider"></div>
-<svg width="100%" height="500" viewBox="0 0 700 520">
-<!-- isometric floor -->
-<polygon points="100,380 400,380 550,300 250,300" fill="#FAF5E8" stroke="#2A1810" stroke-width="1.5"/>
-<!-- back wall (cube interior green) -->
-<polygon points="100,380 100,120 250,40 250,300" fill="#8FB560" opacity=".4" stroke="#2A1810" stroke-width="1.5"/>
-<polygon points="250,300 250,40 550,40 550,300" fill="#A3C278" opacity=".5" stroke="#2A1810" stroke-width="1.5"/>
-<!-- chalkboard on back wall -->
-<polygon points="290,80 530,80 530,170 290,170" fill="#1F2818" stroke="#2A1810" stroke-width="1"/>
-<text x="300" y="100" font-family="Fraunces" font-size="10" fill="#FAF5E8">01 Pistacchio Bronte DOP</text>
-<text x="300" y="114" font-family="Fraunces" font-size="10" fill="#FAF5E8">02 Stracciatella fiordilatte</text>
-<text x="300" y="128" font-family="Fraunces" font-size="10" fill="#FAF5E8">03 Nocciola Piemonte IGP</text>
-<text x="300" y="142" font-family="Fraunces" font-size="10" fill="#FAF5E8">04 Cioccolato fondente 72%</text>
-<text x="300" y="156" font-family="Fraunces" font-style="italic" font-size="9" fill="#8FB560">...e otto gusti rotanti</text>
-<!-- counter (marble) -->
-<polygon points="140,310 380,310 510,250 270,250" fill="#ECE8E0" stroke="#2A1810" stroke-width="1.5"/>
-<polygon points="380,310 380,340 510,280 510,250" fill="#D8D0BD" stroke="#2A1810" stroke-width="1.5"/>
-<polygon points="140,310 140,340 380,340 380,310" fill="#C9BFA5" stroke="#2A1810" stroke-width="1.5"/>
-<!-- cabinet 12 pozzetti on counter -->
-<g>
-<ellipse cx="180" cy="285" rx="12" ry="5" fill="#8FB560"/>
-<ellipse cx="215" cy="285" rx="12" ry="5" fill="#E85A6E" opacity=".7"/>
-<ellipse cx="250" cy="285" rx="12" ry="5" fill="#FAF5E8" stroke="#2A1810"/>
-<ellipse cx="285" cy="285" rx="12" ry="5" fill="#2A1810"/>
-<ellipse cx="320" cy="285" rx="12" ry="5" fill="#FFE066"/>
-<ellipse cx="355" cy="285" rx="12" ry="5" fill="#8FB560"/>
-<ellipse cx="220" cy="268" rx="12" ry="5" fill="#B08850"/>
-<ellipse cx="255" cy="268" rx="12" ry="5" fill="#E85A6E" opacity=".5"/>
-<ellipse cx="290" cy="268" rx="12" ry="5" fill="#FAF5E8" stroke="#2A1810"/>
-<ellipse cx="325" cy="268" rx="12" ry="5" fill="#8FB560"/>
-<ellipse cx="360" cy="268" rx="12" ry="5" fill="#D8D0BD"/>
-<ellipse cx="395" cy="268" rx="12" ry="5" fill="#2A1810"/>
-</g>
-<!-- Bravo Trittico behind counter -->
-<polygon points="270,250 420,250 420,180 270,180" fill="#ECE8E0" stroke="#2A1810" stroke-width="1.5"/>
-<polygon points="420,250 550,180 550,110 420,180" fill="#D8D0BD" stroke="#2A1810" stroke-width="1.5"/>
-<text x="345" y="220" font-family="Inter" font-size="10" text-anchor="middle" fill="#2A1810">BRAVO TRITTICO 305P</text>
-<circle cx="345" cy="200" r="6" fill="none" stroke="#2A1810"/>
-<rect x="310" y="235" width="70" height="8" fill="none" stroke="#2A1810"/>
-<!-- cone tree -->
-<polygon points="120,340 135,340 128,280" fill="#B08850"/>
-<g>
-<path d="M118,280 L128,275 L138,280 L130,290 Z" fill="#FAF5E8" stroke="#B08850"/>
-<path d="M116,268 L128,263 L140,268 L130,278 Z" fill="#FAF5E8" stroke="#B08850"/>
-<path d="M114,256 L128,251 L142,256 L130,266 Z" fill="#FAF5E8" stroke="#B08850"/>
-</g>
-<!-- pendant light -->
-<line x1="380" y1="40" x2="380" y2="120" stroke="#2A1810" stroke-width="1"/>
-<polygon points="360,120 400,120 390,145 370,145" fill="#B08850" stroke="#2A1810"/>
-<circle cx="380" cy="150" r="3" fill="#FFE066"/>
-<!-- customer at window (front foreground, walk-up) -->
-<g transform="translate(110,360)">
-<circle cx="0" cy="0" r="10" fill="#2A1810"/>
-<rect x="-8" y="8" width="16" height="25" fill="#2A1810"/>
-<rect x="-9" y="33" width="7" height="18" fill="#1F2818"/>
-<rect x="2" y="33" width="7" height="18" fill="#1F2818"/>
-<!-- gelato in hand -->
-<polygon points="12,2 18,2 15,14" fill="#B08850"/>
-<circle cx="15" cy="0" r="4" fill="#8FB560"/>
-<circle cx="18" cy="-2" r="3" fill="#E85A6E"/>
-</g>
-<!-- barista inside -->
-<g transform="translate(300,300)">
-<circle cx="0" cy="0" r="8" fill="#FAF5E8" stroke="#2A1810" stroke-width="1.5"/>
-<rect x="-7" y="6" width="14" height="22" fill="#FAF5E8" stroke="#2A1810" stroke-width="1"/>
-<rect x="-8" y="12" width="16" height="4" fill="#8FB560"/>
-<text x="0" y="22" font-family="Fraunces" font-size="8" text-anchor="middle" fill="#8FB560">12</text>
-<!-- scoop arm -->
-<line x1="5" y1="8" x2="18" y2="-5" stroke="#2A1810" stroke-width="2"/>
-<circle cx="20" cy="-7" r="3" fill="#ECE8E0" stroke="#2A1810"/>
-</g>
-<!-- wall-mounted "12" brand on cube interior -->
-<text x="380" y="75" font-family="Fraunces" font-size="28" fill="#FAF5E8" text-anchor="middle">12</text>
-<!-- annotations -->
-<line x1="380" y1="285" x2="450" y2="360" stroke="#2A1810" stroke-width="0.5" stroke-dasharray="2"/>
-<text x="455" y="360" font-family="Inter" font-size="8" fill="#2A1810">Ifi Tonda 12 pozzetti</text>
-<line x1="345" y1="220" x2="600" y2="220" stroke="#2A1810" stroke-width="0.5" stroke-dasharray="2"/>
-<text x="605" y="223" font-family="Inter" font-size="8" fill="#2A1810">Bravo batch freezer</text>
-<line x1="270" y1="125" x2="600" y2="125" stroke="#2A1810" stroke-width="0.5" stroke-dasharray="2"/>
-<text x="605" y="128" font-family="Inter" font-size="8" fill="#2A1810">Hagoromo chalkboard</text>
-<line x1="128" y1="275" x2="50" y2="200" stroke="#2A1810" stroke-width="0.5" stroke-dasharray="2"/>
-<text x="15" y="200" font-family="Inter" font-size="8" fill="#2A1810">Cone tree</text>
-<line x1="120" y1="370" x2="50" y2="430" stroke="#2A1810" stroke-width="0.5" stroke-dasharray="2"/>
-<text x="15" y="445" font-family="Inter" font-size="8" fill="#2A1810">Walk-up customer</text>
-<line x1="300" y1="305" x2="270" y2="450" stroke="#2A1810" stroke-width="0.5" stroke-dasharray="2"/>
-<text x="235" y="465" font-family="Inter" font-size="8" fill="#2A1810">Barista station</text>
-</svg>
-<p class="label" style="margin-top:6px">Axonometric cutaway · counter, cabinet, production, chalkboard and customer POV on one frame.</p>
-<div class="footer"><span>Milano Gelato Cube</span><span>10b / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 06 · BRAND IDENTITY ═══════════ -->
+<section class="page" data-page="06">
+  <div class="eyebrow">Brand Identity</div>
+  <h1 class="page-title">The visual system.</h1>
+  <p class="lead">A single pistacchio-green cube marked with one enormous numeral "12". The cube is the logo, the chalkboard is the menu, the packaging is the quiet cream. Everything else is subtraction.</p>
+  <img class="img-large" src="images/03-interior.png" alt="Interior view of the Milano Gelato Cube" style="max-height:155mm">
+  <p class="caption">Master moodboard · cube, chalkboard, pozzetti, marble counter, cream packaging</p>
+</section>
 
-<div class="page">
-<div class="num">11</div>
-<div class="label">Page 11</div>
-<h2 style="margin-top:10px">Furniture</h2>
-<div class="divider"></div>
-<table>
-<tr><th>Item</th><th>Spec</th><th>Qty</th><th>Source</th><th>€</th></tr>
-<tr><td>Counter (marmo)</td><td>Carrara marble slab 3.0 × 0.6m, 30mm</td><td>1</td><td>Marmi Remuzzi</td><td>780</td></tr>
-<tr><td>Chalkboard frame</td><td>Oak laser-cut 12-circle frame, 1.8 × 0.6m</td><td>1</td><td>Local carpenter</td><td>220</td></tr>
-<tr><td>Back shelving</td><td>Oak + pistacchio painted, 2.5 × 2m</td><td>1</td><td>IKEA Ivar modified</td><td>180</td></tr>
-<tr><td>Prep stools</td><td>Tolix Xavier Pauchard replica, stainless</td><td>2</td><td>Maisons du Monde</td><td>180</td></tr>
-<tr><td>Staff locker</td><td>Stainless 2-door 60cm</td><td>1</td><td>Metro</td><td>120</td></tr>
-<tr><td>Outdoor bench</td><td>None — walk-up discipline</td><td>0</td><td>—</td><td>0</td></tr>
-<tr><td>Signage rail</td><td>Brass tubing + hooks for rotating board</td><td>1</td><td>Leroy Merlin</td><td>65</td></tr>
-<tr><td>Bin enclosure</td><td>Hidden behind counter, stainless</td><td>1</td><td>Metro</td><td>95</td></tr>
-<tr><td><strong>Furniture total</strong></td><td></td><td></td><td></td><td><strong>1,640</strong></td></tr>
-</table>
-<p style="margin-top:14px">The Carrara slab is the brand — everything else is supporting. It is the single most-photographed surface and the single slowest thing to replace if damaged.</p>
-<div class="footer"><span>Milano Gelato Cube</span><span>11 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 07 · COLOR PALETTE ═══════════ -->
+<section class="page" data-page="07">
+  <div class="eyebrow">Color Palette</div>
+  <h1 class="page-title">Five colours.<br>No exceptions.</h1>
+  <p class="lead">Pistacchio is the shop. Cream is the cup. Fragola is the receipt sticker. Marmo only appears on the counter; espresso only in type. Never introduce a sixth colour.</p>
+  <div class="color-row">
+    <div class="color-chip dark" style="background:#8FB560"><div class="hex">#8FB560</div><div class="nm">Pistacchio · primary</div></div>
+    <div class="color-chip" style="background:#FAF5E8;border:1px solid var(--line)"><div class="hex">#FAF5E8</div><div class="nm">Cream · surface</div></div>
+    <div class="color-chip dark" style="background:#E85A6E"><div class="hex">#E85A6E</div><div class="nm">Fragola · accent</div></div>
+    <div class="color-chip" style="background:#ECE8E0"><div class="hex">#ECE8E0</div><div class="nm">Marmo · texture</div></div>
+    <div class="color-chip dark" style="background:#2A1810"><div class="hex">#2A1810</div><div class="nm">Espresso · ink</div></div>
+  </div>
+  <div class="divider"></div>
+  <h4 style="font-size:10pt;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray);margin-top:6mm">Usage rules</h4>
+  <table>
+    <tr><td><strong>Pistacchio</strong></td><td>Entire cube exterior · staff t-shirts · cone tree · never inside walls</td></tr>
+    <tr><td><strong>Cream</strong></td><td>All cups, sleeves, napkins, chalkboard type, interior walls</td></tr>
+    <tr><td><strong>Fragola</strong></td><td>Never more than 5% of any surface — receipt stickers, stir sticks, price tags</td></tr>
+    <tr><td><strong>Marmo</strong></td><td>Carrara counter only. Never as ink, never as print</td></tr>
+    <tr><td><strong>Espresso</strong></td><td>Type only. No surface, no fabric, no paint</td></tr>
+  </table>
+</section>
 
-<div class="page">
-<div class="num">12</div>
-<div class="label">Page 12</div>
-<h2 style="margin-top:10px">Lighting</h2>
-<div class="divider"></div>
-<div class="grid2">
-<div>
-<h3>Two layers only</h3>
-<p><strong>Cabinet internal.</strong> Ifi Tonda 12 comes with warm LED strip inside the display cabinet, 3000K, throws gelato colours at their truest. Non-negotiable.</p>
-<p><strong>Chalkboard wash.</strong> 2× linear LED bars above the chalkboard, 4000K, neutral — makes chalk marks pop and stays readable in sun glare from the window.</p>
-<p>No ambient lighting anywhere else. The cube interior is dim on purpose — the cabinet is the star.</p>
-<h3 style="margin-top:14px">Daylight rule</h3>
-<p>If natural light fails (cloudy Milano afternoon), the cube feels like a grotto. Intentional. The gelato glows.</p>
-</div>
-<div>
-<h3>Circuit plan</h3>
-<p class="mono" style="line-height:1.8">C1 · Cabinet LED (built-in Ifi)<br>C2 · Chalkboard bars ×2<br>C3 · Bravo Trittico + compressor<br>C4 · Sink boiler + POS<br>C5 · Exterior sign (sunset timer)</p>
-<h3 style="margin-top:14px">Budget</h3>
-<table>
-<tr><td>Chalkboard LED bars ×2</td><td>140</td></tr>
-<tr><td>Exterior pistacchio sign LED</td><td>120</td></tr>
-<tr><td>Dimmers + switches</td><td>60</td></tr>
-<tr><td>Install labour</td><td>180</td></tr>
-<tr><td><strong>Total</strong></td><td><strong>500</strong></td></tr>
-</table>
-</div>
-</div>
-<div class="footer"><span>Milano Gelato Cube</span><span>12 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 08 · TYPOGRAPHY ═══════════ -->
+<section class="page" data-page="08">
+  <div class="eyebrow">Typography</div>
+  <h1 class="page-title">Fraunces + Inter.</h1>
+  <p class="lead">One display face (Fraunces — a modern take on 19th-century Italian book faces) and one body face (Inter). Both free, both from Google Fonts, both under 60 KB combined.</p>
+  <div class="type-sample">
+    <div class="label">Display · Fraunces Semibold (600) italic</div>
+    <div class="demo" style="font-style:italic">Gelato, oggi.</div>
+  </div>
+  <div class="type-sample body">
+    <div class="label">Body · Inter Light (300)</div>
+    <div class="demo">Churned this morning from the Bravo Trittico upstairs, served from pozzetti at minus twelve, finished on a cream cone baked yesterday afternoon in Cesena.</div>
+  </div>
+  <div class="divider"></div>
+  <table>
+    <tr><th>Use</th><th>Font</th><th>Weight</th><th>Size</th></tr>
+    <tr><td>Logo · the "12"</td><td>Fraunces</td><td>800</td><td>140pt+</td></tr>
+    <tr><td>Page titles</td><td>Fraunces</td><td>600</td><td>34pt</td></tr>
+    <tr><td>Chalkboard flavours</td><td>Fraunces (chalk)</td><td>500</td><td>24pt</td></tr>
+    <tr><td>Prices on chalkboard</td><td>Fraunces</td><td>700</td><td>32pt</td></tr>
+    <tr><td>Body copy</td><td>Inter</td><td>300</td><td>11pt</td></tr>
+    <tr><td>Labels · captions</td><td>Inter</td><td>500</td><td>9pt</td></tr>
+  </table>
+</section>
 
-<div class="page">
-<div class="num">13</div>
-<div class="label">Page 13</div>
-<h2 style="margin-top:10px">Core equipment</h2>
-<div class="divider"></div>
-<img class="photo-strip" src="images/09-bravo-trittico.png" alt="Bravo Trittico in production">
-<table>
-<tr><th>Equipment</th><th>Model</th><th>Why this one</th><th>€</th></tr>
-<tr><td>Batch freezer</td><td>Bravo Trittico 305P</td><td>12 flavours/day capacity, Italian, 20-year reputation</td><td>3,800</td></tr>
-<tr><td>Display cabinet</td><td>Ifi Tonda 12</td><td>12-pan round, pozzetti-style, 1.8m wide, pistacchio-compatible</td><td>1,650</td></tr>
-<tr><td>Pozzetti tubs</td><td>Stainless 5L ×14 (12 + 2 spare)</td><td>GN-compliant, matching Ifi Tonda</td><td>280</td></tr>
-<tr><td>Scoops</td><td>Zeroll 16 ×3 + Zeroll 20 ×3</td><td>Aluminium, self-defrost, lifetime</td><td>120</td></tr>
-<tr><td>Cone display</td><td>Pistacchio-painted cone tree ×2</td><td>Local carpenter, holds 40 cones</td><td>80</td></tr>
-<tr><td>Small fridge</td><td>Under-counter 140L</td><td>Milk, cream, toppings, staff drinks</td><td>240</td></tr>
-<tr><td>Digital scales ×2</td><td>0.1g precision, 2kg max</td><td>For base recipes</td><td>80</td></tr>
-<tr><td>POS</td><td>SumUp Solo + printer</td><td>No contract, 3G-ready, 1.69% rate</td><td>130</td></tr>
-<tr><td>Chalk starter pack</td><td>Japanese Hagoromo chalk ×12 colours</td><td>Ritual tool, not a cost line</td><td>60</td></tr>
-<tr><td><strong>Equipment total</strong></td><td></td><td></td><td><strong>6,440</strong></td></tr>
-</table>
-<div class="footer"><span>Milano Gelato Cube</span><span>13 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 09 · PATTERN LIBRARY ═══════════ -->
+<section class="page" data-page="09">
+  <div class="eyebrow">Pattern Library</div>
+  <h1 class="page-title">The 12-dot grid.</h1>
+  <p class="lead">The brand pattern is a single idea: twelve circles in a 4×3 grid, each circle a flavour. Used on sleeves, receipts, the floor decal at the window, and the Instagram grid marker. Never more than twelve dots. Never fewer.</p>
+  <div class="pattern-demo">
+    <svg viewBox="0 0 600 260" style="width:90%;height:auto">
+      <g>
+        <circle cx="90" cy="70" r="22" fill="#8FB560"/><circle cx="170" cy="70" r="22" fill="#FAF5E8" stroke="#2A1810" stroke-width="2"/><circle cx="250" cy="70" r="22" fill="#6B4423"/><circle cx="330" cy="70" r="22" fill="#E85A6E"/>
+        <circle cx="410" cy="70" r="22" fill="#FFBE5C"/><circle cx="490" cy="70" r="22" fill="#C7A36A"/>
+        <circle cx="90" cy="150" r="22" fill="#D96A8C"/><circle cx="170" cy="150" r="22" fill="#F7E8C0"/><circle cx="250" cy="150" r="22" fill="#2A1810"/><circle cx="330" cy="150" r="22" fill="#A8D08D"/>
+        <circle cx="410" cy="150" r="22" fill="#E6C894"/><circle cx="490" cy="150" r="22" fill="#8B6A3F"/>
+      </g>
+      <text x="300" y="230" text-anchor="middle" font-family="Fraunces" font-size="16" font-style="italic" fill="#2A1810">dodici · twelve · oggi</text>
+    </svg>
+  </div>
+  <div class="divider"></div>
+  <h4 style="font-size:10pt;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray);margin-top:6mm">Rules</h4>
+  <p style="font-size:10pt;font-weight:300">4 columns × 3 rows. Circle diameter = 6% of surface width. Space between circles = ½ diameter. Colours sampled from actual flavours of the week. Never a perfect grid — Monday's hand-placement wobble is part of the brand.</p>
+</section>
 
-<div class="page">
-<div class="num">14</div>
-<div class="label">Page 14</div>
-<h2 style="margin-top:10px">Equipment · detail</h2>
-<div class="divider"></div>
-<img class="photo-strip" src="images/06-cabinet.png" alt="Ifi Tonda 12 pozzetti cabinet">
-<div class="grid2">
-<div class="card">
-<h3>Bravo Trittico 305P · the heart</h3>
-<p>Italian-made combined pasteuriser + batch freezer + heat-treatment machine in one 305L chamber. One machine does the entire production cycle: heats the base to 85°C, cools, stores, and churns on demand. 12 flavours per day is its sweet spot — this is the entire reason the cube exists at 12.</p>
-<p class="label">Power: 9 kW · Duty cycle: 2h/day active</p>
-</div>
-<div class="card">
-<h3>Ifi Tonda 12 · the window</h3>
-<p>Round 12-pan display cabinet from Brescia manufacturer Ifi. Pozzetti-style (lidded, not open cabinet), which keeps gelato at −12°C stable and invisible from the window until the customer points. The "show me" moment is a ritual — lid comes off, cold vapour rises, customer sees.</p>
-<p class="label">Italian-made, 48-month warranty, 2-week lead time</p>
-</div>
-<div class="card">
-<h3>Zeroll scoops · the tool</h3>
-<p>Aluminium-alloy scoop filled with conductive fluid that draws heat from the user's hand to release gelato cleanly. Invented in Fort Wayne in 1935, still the global standard. Three size-16 (standard scoop) and three size-20 (piccolo) scoops, rotating to stay warm-handed.</p>
-<p class="label">Never dishwasher — hand-wash only. Lifetime tool.</p>
-</div>
-<div class="card">
-<h3>Hagoromo chalk · the discipline</h3>
-<p>Legendary Japanese chalk, discontinued in 2015 then revived by a Korean manufacturer. Twelve colours. The act of rewriting the chalkboard every Monday morning is the brand ritual — it cannot be printed, it cannot be digital, it must be chalk.</p>
-<p class="label">~€60 / year at current volume</p>
-</div>
-</div>
-<div class="footer"><span>Milano Gelato Cube</span><span>14 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 10 · SPACE / HERO ═══════════ -->
+<section class="page" data-page="10">
+  <div class="eyebrow">Space · Hero</div>
+  <h1 class="page-title">The cube.</h1>
+  <img class="img-full" src="images/02-facade.png" alt="Milano Gelato Cube facade on Via Spartaco">
+  <p class="caption">Milano Gelato Cube in situ · Via Spartaco, Porta Romana · 10 a.m. Monday</p>
+</section>
 
-<div class="page">
-<div class="num">15</div>
-<div class="label">Page 15</div>
-<h2 style="margin-top:10px">Signage</h2>
-<div class="divider"></div>
-<img class="photo-strip" src="images/05-chalkboard.png" alt="Chalkboard signage">
-<div class="grid2">
-<div>
-<h3>External</h3>
-<p>The entire cube exterior painted pistacchio. A single cream-painted number "12" three metres tall on the side-facing wall. Below the 12, in Fraunces Inter Italic 24px: "gusti, ogni giorno diversi".</p>
-<p>No street-facing logo — the window is the logo. The pistacchio cube is the logo.</p>
-<h3 style="margin-top:14px">The chalkboard</h3>
-<p>This is the real signage. 1.8m wide, updated every Monday at 08:00. Flavour names left-aligned in Fraunces, origin tags smaller in italic, numbered 01–12.</p>
-</div>
-<div>
-<h3>Sign drawing</h3>
-<svg width="100%" height="280" viewBox="0 0 400 280">
-<rect x="20" y="20" width="360" height="240" fill="#8FB560"/>
-<text x="200" y="140" font-family="Fraunces" font-size="140" text-anchor="middle" fill="#FAF5E8">12</text>
-<text x="200" y="180" font-family="Fraunces" font-style="italic" font-size="18" text-anchor="middle" fill="#FAF5E8">gusti, ogni giorno diversi</text>
-<text x="200" y="240" font-family="Inter" font-size="9" letter-spacing="4" text-anchor="middle" fill="#FAF5E8">MILANO · GELATO · CUBE</text>
-</svg>
-</div>
-</div>
-<div class="footer"><span>Milano Gelato Cube</span><span>15 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 11 · FLOOR PLAN ═══════════ -->
+<section class="page" data-page="11">
+  <div class="eyebrow">Floor Plan · 10 m²</div>
+  <h1 class="page-title">Every millimetre counts.</h1>
+  <img class="img-full" src="images/11-axonometric.png" alt="Axonometric interior plan of the cube">
+  <p class="caption">Axonometric interior · 2.8m × 3.6m footprint · 2.4m ceiling · single barista station</p>
+</section>
 
-<div class="page">
-<div class="num">16</div>
-<div class="label">Page 16</div>
-<h2 style="margin-top:10px">Packaging</h2>
-<div class="divider"></div>
-<img class="photo-strip" src="images/04-packaging.png" alt="Cups sleeves and cone">
-<svg width="100%" height="220" viewBox="0 0 600 220">
-<!-- Piccolo cup -->
-<path d="M60,60 L100,200 L160,200 L200,60 Z" fill="#FAF5E8" stroke="#2A1810" stroke-width="2"/>
-<ellipse cx="130" cy="60" rx="70" ry="10" fill="#FAF5E8" stroke="#2A1810" stroke-width="2"/>
-<ellipse cx="130" cy="60" rx="70" ry="10" fill="#8FB560" opacity=".6"/>
-<text x="130" y="150" font-family="Fraunces" font-size="16" text-anchor="middle" fill="#2A1810">80</text>
-<text x="130" y="215" font-family="Inter" font-size="9" text-anchor="middle" fill="#2A1810">PICCOLO · €3.00</text>
-<!-- Medio cup -->
-<path d="M240,40 L285,205 L345,205 L390,40 Z" fill="#FAF5E8" stroke="#2A1810" stroke-width="2"/>
-<ellipse cx="315" cy="40" rx="75" ry="11" fill="#FAF5E8" stroke="#2A1810" stroke-width="2"/>
-<ellipse cx="315" cy="40" rx="75" ry="11" fill="#8FB560" opacity=".6"/>
-<circle cx="295" cy="35" r="8" fill="#E85A6E"/>
-<circle cx="315" cy="32" r="9" fill="#FAF5E8" stroke="#2A1810"/>
-<circle cx="333" cy="36" r="7" fill="#8FB560"/>
-<text x="315" y="140" font-family="Fraunces" font-size="18" text-anchor="middle" fill="#2A1810">120</text>
-<text x="315" y="215" font-family="Inter" font-size="9" text-anchor="middle" fill="#2A1810">MEDIO · €4.20</text>
-<!-- Grande cup -->
-<path d="M430,20 L475,210 L545,210 L590,20 Z" fill="#FAF5E8" stroke="#2A1810" stroke-width="2"/>
-<ellipse cx="510" cy="20" rx="80" ry="12" fill="#FAF5E8" stroke="#2A1810" stroke-width="2"/>
-<ellipse cx="510" cy="20" rx="80" ry="12" fill="#8FB560" opacity=".6"/>
-<circle cx="480" cy="15" r="10" fill="#E85A6E"/>
-<circle cx="505" cy="10" r="12" fill="#2A1810"/>
-<circle cx="530" cy="14" r="9" fill="#FAF5E8" stroke="#2A1810"/>
-<circle cx="545" cy="20" r="8" fill="#8FB560"/>
-<text x="510" y="130" font-family="Fraunces" font-size="20" text-anchor="middle" fill="#2A1810">160</text>
-<text x="510" y="215" font-family="Inter" font-size="9" text-anchor="middle" fill="#2A1810">GRANDE · €5.60</text>
-</svg>
-<div class="grid3" style="margin-top:14px">
-<div class="card">
-<h3>The cup</h3>
-<p>Cream kraft paper, 3 sizes (piccolo 80ml / medio 120ml / grande 160ml). No lid. Customer eats within 5 minutes — no takeaway.</p>
-<p class="label">Cost: €0.04 / 0.06 / 0.08</p>
-</div>
-<div class="card">
-<h3>The cone</h3>
-<svg width="100%" height="70" viewBox="0 0 120 70">
-<path d="M10,15 Q60,25 110,15 Q100,30 90,35 L75,70 L45,70 L30,35 Q20,30 10,15 Z" fill="#8FB560" opacity=".7"/>
-<path d="M20,35 L60,70 L100,35 Z" fill="none" stroke="#B08850" stroke-width="1.5"/>
-<path d="M30,45 L90,45 M35,55 L85,55 M40,65 L80,65" stroke="#B08850" stroke-width="0.8"/>
-</svg>
-<p>Baked by Babbi (Cesena). Two varieties: pistacchio-edged and plain.</p>
-<p class="label">Cost: €0.12 / cone</p>
-</div>
-<div class="card">
-<h3>The sleeve</h3>
-<svg width="100%" height="70" viewBox="0 0 120 70">
-<rect x="10" y="15" width="100" height="45" rx="2" fill="#FAF5E8" stroke="#2A1810" stroke-width="1"/>
-<circle cx="25" cy="30" r="3" fill="none" stroke="#8FB560"/>
-<circle cx="40" cy="30" r="3" fill="none" stroke="#8FB560"/>
-<circle cx="55" cy="30" r="3" fill="none" stroke="#8FB560"/>
-<circle cx="70" cy="30" r="3" fill="none" stroke="#8FB560"/>
-<circle cx="85" cy="30" r="3" fill="none" stroke="#8FB560"/>
-<circle cx="25" cy="45" r="3" fill="none" stroke="#8FB560"/>
-<circle cx="40" cy="45" r="3" fill="none" stroke="#8FB560"/>
-<circle cx="55" cy="45" r="3" fill="none" stroke="#8FB560"/>
-<circle cx="70" cy="45" r="3" fill="none" stroke="#8FB560"/>
-<circle cx="85" cy="45" r="3" fill="none" stroke="#8FB560"/>
-</svg>
-<p>Cream-on-cream paper, 12-circle grid. Optional, reused if clean.</p>
-<p class="label">Cost: €0.02 / sleeve</p>
-</div>
-</div>
-<div class="divider"></div>
-<p><strong>Zero take-home:</strong> no tubs, no freezer bags, no half-kilo to go. Gelato leaves the shop in hand, eaten within five minutes, or not at all.</p>
-<div class="footer"><span>Milano Gelato Cube</span><span>16 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 12 · FURNITURE SPECS ═══════════ -->
+<section class="page" data-page="12">
+  <div class="eyebrow">Furniture · Dimensions</div>
+  <h1 class="page-title">Exact measurements.</h1>
+  <p class="lead">Everything measured in mm. These specs go to the cube fabricator verbatim. The entire shell is painted pistacchio in one pass — no second colour on the exterior, ever.</p>
+  <table>
+    <tr><th>Element</th><th>W × D × H (mm)</th><th>Material</th><th>Finish</th><th>Notes</th></tr>
+    <tr><td>Cube outer shell</td><td>2800 × 3600 × 2400</td><td>Steel frame + 18 mm birch ply</td><td>Pistacchio satin (RAL 6019)</td><td>4 demountable walls, 1 serving window</td></tr>
+    <tr><td>Front serving window</td><td>1800 × — × 900</td><td>Oak frame + single glass pane</td><td>Cream lacquer frame</td><td>Drops 900 mm down, counter level</td></tr>
+    <tr><td>Carrara counter</td><td>1800 × 600 × 40</td><td>Carrara marble (C-grade)</td><td>Honed, unwaxed</td><td>Slab joint at midpoint</td></tr>
+    <tr><td>Rear prep bench</td><td>1400 × 500 × 900</td><td>Stainless 304</td><td>Brushed</td><td>HACCP compliant, 1 drawer</td></tr>
+    <tr><td>Ifi Tonda 12 cabinet</td><td>Ø 1250 × 950</td><td>Steel + brass lids</td><td>Brass · natural</td><td>Pozzetti-style, 12 × 5 L</td></tr>
+    <tr><td>Chalkboard frame</td><td>1800 × 40 × 900</td><td>Solid oak + slate</td><td>Oiled oak + black slate</td><td>Mounted back wall, 1.6 m floor level</td></tr>
+    <tr><td>Cone tree ×2</td><td>Ø 300 × 700</td><td>Turned ash wood</td><td>Pistacchio lacquer</td><td>40 cones each, refilled 3× daily</td></tr>
+  </table>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Power:</strong> 16A single-phase 230V (Bravo Trittico 9 kW is on a dedicated 32A line upstream). <strong>Water:</strong> ½" inlet, 40 mm drain, water softener required. <strong>Assembly:</strong> 2 days by 3-person crew with standard tools.</p>
+</section>
 
-<div class="page">
-<div class="num">17</div>
-<div class="label">Page 17</div>
-<h2 style="margin-top:10px">Uniform</h2>
-<div class="divider"></div>
-<div class="grid2">
-<div>
-<h3>Daily</h3>
-<ul>
-<li>Cream cotton t-shirt, oversized fit, pistacchio "12" on the back</li>
-<li>White canvas apron, mid-thigh, with front pocket for scoop cloth</li>
-<li>Dark trousers, cotton or denim, no shorts</li>
-<li>White sneakers or clogs, clean</li>
-<li>Hair net required during production (Bravo Trittico at work)</li>
-</ul>
-<h3 style="margin-top:14px">Forbidden</h3>
-<ul>
-<li>No jewellery visible (rings, watches, bracelets)</li>
-<li>No perfume or cologne</li>
-<li>No visible phones during service</li>
-<li>No chewing gum</li>
-</ul>
-</div>
-<div>
-<h3>Apron spec</h3>
-<p>Sourced from a Milanese workshop in Porta Genova. Heavy-weight canvas, 400 gsm, natural cream. No logo. Replaced every 3 months.</p>
-<p class="label">Cost: €45 / apron × 6 = €270</p>
-<h3 style="margin-top:14px">Why this matters</h3>
-<p>The staff uniform is neutral on purpose — the cabinet and the chalkboard should be the only things the customer looks at. An over-branded uniform competes with the product for attention.</p>
-</div>
-</div>
-<div class="footer"><span>Milano Gelato Cube</span><span>17 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 13 · LIGHTING ═══════════ -->
+<section class="page" data-page="13">
+  <div class="eyebrow">Lighting Plan</div>
+  <h1 class="page-title">Light sells gelato.</h1>
+  <p class="lead">Gelato needs cool light to look real. Food shops next door run warm halogen; Milano Gelato Cube runs neutral 4000K to make the pistacchio read green, not yellow. One warm accent only, above the chalkboard.</p>
+  <table>
+    <tr><th>Fixture</th><th>Qty</th><th>Purpose</th><th>Spec</th><th>Cost</th></tr>
+    <tr><td>LED strip inside pozzetti cabinet</td><td>3m</td><td>Cool glow under brass lids</td><td>4000K, 12V, CRI&gt;95</td><td class="num">€85</td></tr>
+    <tr><td>Spot rail above counter</td><td>4</td><td>Product lighting + photo reads</td><td>4000K, 6W, dimmable</td><td class="num">€140</td></tr>
+    <tr><td>Warm wall wash on chalkboard</td><td>2</td><td>The one warm note</td><td>2700K, 5W</td><td class="num">€70</td></tr>
+    <tr><td>External cube uplight</td><td>2</td><td>Night-time façade glow</td><td>3500K, 9W, IP65</td><td class="num">€120</td></tr>
+    <tr><td>Emergency exit light</td><td>1</td><td>Italian fire code</td><td>Battery backup 90 min</td><td class="num">€45</td></tr>
+    <tr class="total-row"><td colspan="4">Total lighting</td><td class="num">€460</td></tr>
+  </table>
+  <p style="margin-top:4mm;font-size:9pt;color:var(--gray)"><em>Lighting is rolled into equipment and fitout budgets — shown here for specification only.</em></p>
+</section>
 
-<div class="page">
-<div class="num">18</div>
-<div class="label">Page 18</div>
-<h2 style="margin-top:10px">Menu & pricing</h2>
-<div class="divider"></div>
-<table>
-<tr><th>Size</th><th>Cup</th><th>Cone</th><th>Scoops</th></tr>
-<tr><td>Piccolo</td><td>€3.00</td><td>€3.20</td><td>1</td></tr>
-<tr><td>Medio</td><td>€4.20</td><td>€4.40</td><td>2</td></tr>
-<tr><td>Grande</td><td>€5.60</td><td>€5.80</td><td>3</td></tr>
-</table>
-<div class="divider"></div>
-<h3>The twelve — sample rotation, week 14</h3>
-<table>
-<tr><th>#</th><th>Flavour</th><th>Type</th></tr>
-<tr><td>01</td><td>Pistacchio di Bronte DOP</td><td>Permanent</td></tr>
-<tr><td>02</td><td>Stracciatella fiordilatte</td><td>Permanent</td></tr>
-<tr><td>03</td><td>Nocciola Piemonte IGP</td><td>Permanent</td></tr>
-<tr><td>04</td><td>Cioccolato fondente 72%</td><td>Permanent</td></tr>
-<tr><td>05</td><td>Fragola di Nemi</td><td>Rotating</td></tr>
-<tr><td>06</td><td>Limone sfusato amalfitano</td><td>Rotating</td></tr>
-<tr><td>07</td><td>Yogurt intero bianco</td><td>Rotating</td></tr>
-<tr><td>08</td><td>Caffè Torrefazione Brazilia</td><td>Rotating</td></tr>
-<tr><td>09</td><td>Ricotta e fichi</td><td>Rotating</td></tr>
-<tr><td>10</td><td>Menta fresca Monviso</td><td>Rotating</td></tr>
-<tr><td>11</td><td>Zabaione al Marsala</td><td>Rotating</td></tr>
-<tr><td>12</td><td>Cocco fresco</td><td>Rotating</td></tr>
-</table>
-<div class="footer"><span>Milano Gelato Cube</span><span>18 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 14 · EQUIPMENT CORE ═══════════ -->
+<section class="page" data-page="14">
+  <div class="eyebrow">Equipment · Core</div>
+  <h1 class="page-title">Every machine, listed.</h1>
+  <img class="img-full" src="images/09-bravo-trittico.png" alt="Bravo Trittico 305P in production">
+  <p class="caption">Bravo Trittico 305P in production · the heart of the cube · 12 flavours per day, every day</p>
+</section>
 
-<div class="page">
-<div class="num">19</div>
-<div class="label">Page 19</div>
-<h2 style="margin-top:10px">Budget · €9,400 CAPEX</h2>
-<div class="divider"></div>
-<table>
-<tr><th>Line</th><th>Detail</th><th>€</th></tr>
-<tr><td>Core equipment</td><td>Bravo Trittico + Ifi Tonda + scoops + POS</td><td>6,440</td></tr>
-<tr><td>Furniture</td><td>Carrara counter + shelves + cone trees</td><td>1,640</td></tr>
-<tr><td>Lighting</td><td>Chalkboard bars + sign + install</td><td>500</td></tr>
-<tr><td>Exterior paint</td><td>Pistacchio + "12" + signwriter labour</td><td>320</td></tr>
-<tr><td>Signage (chalkboard, frame, boards)</td><td>Oak frame + chalks + exterior decal</td><td>180</td></tr>
-<tr><td>Uniforms</td><td>6 aprons + 12 t-shirts</td><td>510</td></tr>
-<tr><td>Licenses (SCIA + SAB + HACCP)</td><td>Comune di Milano + ASL</td><td>380</td></tr>
-<tr><td>Legal + accountant</td><td>S.r.l.s. setup + 3 months</td><td>420</td></tr>
-<tr><td>Opening stock</td><td>Bases, milk, cream, DOP pistacchio, cones</td><td>520</td></tr>
-<tr><td>Contingency</td><td>~3%</td><td>290</td></tr>
-<tr><td><strong>CAPEX total</strong></td><td></td><td><strong>€11,200</strong></td></tr>
-<tr><td><em>Budget target</em></td><td></td><td><em>€9,400</em></td></tr>
-<tr><td><em>Variance</em></td><td>Used Bravo Trittico (second-hand) saves €1,800 → target hit</td><td><em>on target</em></td></tr>
-</table>
-<p style="margin-top:12px">The entire budget hinges on one decision: new Bravo Trittico (€3,800 as listed) or certified used Bravo Trittico (€2,000, 12-month warranty, fully serviced). The used unit is the realistic path to €9,400.</p>
-<div class="footer"><span>Milano Gelato Cube</span><span>19 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 15 · EQUIPMENT DETAILS ═══════════ -->
+<section class="page" data-page="15">
+  <div class="eyebrow">Equipment · Specifications</div>
+  <h1 class="page-title">The shopping list.</h1>
+  <table>
+    <tr><th>#</th><th>Item</th><th>Brand / Model</th><th>Why this one</th><th>Price</th></tr>
+    <tr><td>1</td><td>Batch freezer · pasteuriser</td><td>Bravo Trittico 305P</td><td>12 flavours/day, Italian, 20-year reputation</td><td class="num">€3,800</td></tr>
+    <tr><td>2</td><td>Display cabinet · 12 pan</td><td>Ifi Tonda 12</td><td>Round pozzetti, brass lids, stable −12°C</td><td class="num">€1,650</td></tr>
+    <tr><td>3</td><td>Pozzetti tubs</td><td>5L stainless ×14 (12+2)</td><td>GN-compliant, matched to Tonda</td><td class="num">€280</td></tr>
+    <tr><td>4</td><td>Scoops</td><td>Zeroll 16 ×3 + Zeroll 20 ×3</td><td>Aluminium, self-defrost, lifetime tool</td><td class="num">€120</td></tr>
+    <tr><td>5</td><td>Cone display</td><td>Cone tree ×2 (custom)</td><td>Local carpenter, holds 40 cones each</td><td class="num">€80</td></tr>
+    <tr><td>6</td><td>Under-counter fridge</td><td>Liebherr FKUv 1613</td><td>140 L, milk + cream + toppings</td><td class="num">€240</td></tr>
+    <tr><td>7</td><td>Digital scales</td><td>Ohaus Scout SKX ×2</td><td>0.1 g, base recipe precision</td><td class="num">€80</td></tr>
+    <tr><td>8</td><td>POS · card reader</td><td>SumUp Solo + printer</td><td>No contract, 1.69%, 3G backup</td><td class="num">€130</td></tr>
+    <tr><td>9</td><td>Chalk starter pack</td><td>Japanese Hagoromo ×12 colours</td><td>The ritual tool — not a cost line</td><td class="num">€60</td></tr>
+    <tr class="total-row"><td colspan="4">TOTAL EQUIPMENT</td><td class="num">€6,440</td></tr>
+  </table>
+</section>
 
-<div class="page">
-<div class="num">20</div>
-<div class="label">Page 20</div>
-<h2 style="margin-top:10px">Registration · Italy</h2>
-<div class="divider"></div>
-<table>
-<tr><th>Step</th><th>Authority</th><th>Time</th><th>€</th></tr>
-<tr><td>1. S.r.l.s. constitution (notary)</td><td>Notaio + Registro Imprese</td><td>1 week</td><td>240</td></tr>
-<tr><td>2. Partita IVA + codice fiscale</td><td>Agenzia delle Entrate</td><td>1 day</td><td>0</td></tr>
-<tr><td>3. INPS + INAIL worker registration</td><td>INPS Milano</td><td>2 days</td><td>0</td></tr>
-<tr><td>4. SCIA commerciale (food)</td><td>Comune di Milano SUAP</td><td>Immediate + 60d check</td><td>90</td></tr>
-<tr><td>5. SAB attestato (somministrazione)</td><td>Regione Lombardia</td><td>Must-have pre-open</td><td>50</td></tr>
-<tr><td>6. HACCP plan + training</td><td>Private consultant + ASL</td><td>2 weeks</td><td>280</td></tr>
-<tr><td>7. ASL health inspection</td><td>ATS Milano</td><td>Random post-open</td><td>0</td></tr>
-<tr><td>8. CCIAA iscrizione</td><td>Camera di Commercio Milano</td><td>1 week</td><td>90</td></tr>
-<tr><td>9. Commercial lease registration</td><td>Agenzia Entrate</td><td>1 week</td><td>180</td></tr>
-<tr><td>10. Insurance (RC + incendio)</td><td>Generali or UnipolSai</td><td>2 days</td><td>480 / yr</td></tr>
-</table>
-<p style="margin-top:14px"><strong>Critical path:</strong> SAB attestato — required for anyone serving food to the public, must be held by at least one person on-site. Courses run monthly in Milano; book before lease signing.</p>
-<div class="footer"><span>Milano Gelato Cube</span><span>20 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 16 · SIGNAGE ═══════════ -->
+<section class="page" data-page="16">
+  <div class="eyebrow">Signage & Menu Board</div>
+  <h1 class="page-title">Read from 20 metres.</h1>
+  <img class="img-full" src="images/05-chalkboard.png" alt="Monday morning chalkboard rewrite with 12 Italian flavours">
+  <p class="caption">The Monday rewrite · Hagoromo chalk · Fraunces serif · 12 flavours, hand-numbered 01–12</p>
+</section>
 
-<div class="page">
-<div class="num">21</div>
-<div class="label">Page 21</div>
-<h2 style="margin-top:10px">Timeline · 5 weeks to open</h2>
-<div class="divider"></div>
-<table>
-<tr><th>Week</th><th>Milestones</th><th>Owner</th></tr>
-<tr><td>1</td><td>Notary S.r.l.s. · lease signed · SCIA filed · Bravo Trittico ordered (used) · SAB course booked</td><td>Owner</td></tr>
-<tr><td>2</td><td>Cube exterior painted pistacchio · Carrara counter ordered · HACCP consultant hired · Ifi Tonda ordered</td><td>Contractor + owner</td></tr>
-<tr><td>3</td><td>Interior plumbing + electric · counter installed · Bravo delivered + commissioned · flavour tests begin</td><td>Contractor + owner</td></tr>
-<tr><td>4</td><td>Chalkboard installed · 50 trial batches across 30 flavours · ASL inspection · soft open (friends + family Saturday 16:00)</td><td>Owner</td></tr>
-<tr><td>5</td><td>Opening Monday 08:00 · first chalk rewrite · Instagram launch · Time Out Milano press day Friday</td><td>Owner</td></tr>
-</table>
-<div class="divider" style="margin-top:14px"></div>
-<h3>Risks</h3>
-<ul>
-<li>Used Bravo Trittico delivery slip → new unit rental from supplier, €800/month for one month absorbs the gap</li>
-<li>SAB course missed → book private 1-day course in Bergamo (available weekly)</li>
-<li>Carrara counter crack on install → replace with pistacchio-painted MDF temporarily, real marble arrives week 6</li>
-</ul>
-<div class="footer"><span>Milano Gelato Cube</span><span>21 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 17 · PACKAGING ═══════════ -->
+<section class="page" data-page="17">
+  <div class="eyebrow">Packaging</div>
+  <h1 class="page-title">The second brand touchpoint.</h1>
+  <p class="lead">When a customer walks away with your cone, fifty other people see it. Packaging is advertising — and for Milano Gelato Cube, packaging is cream on cream with a single 12-dot sleeve.</p>
+  <img class="img-large" src="images/04-packaging.png" alt="Cream cups, 12-dot sleeve, and waffle cone on Carrara counter" style="max-height:90mm">
+  <table style="margin-top:4mm">
+    <tr><th>Item</th><th>Material</th><th>Size</th><th>Unit cost</th><th>MOQ</th><th>Supplier</th></tr>
+    <tr><td>Piccolo cup · 80 ml</td><td>Cream kraft PE-coated</td><td>Ø 65 × 55 mm</td><td class="num">€0.04</td><td>1000</td><td>Detpak IT</td></tr>
+    <tr><td>Medio cup · 120 ml</td><td>Cream kraft PE-coated</td><td>Ø 75 × 70 mm</td><td class="num">€0.06</td><td>1000</td><td>Detpak IT</td></tr>
+    <tr><td>Grande cup · 160 ml</td><td>Cream kraft PE-coated</td><td>Ø 85 × 85 mm</td><td class="num">€0.08</td><td>1000</td><td>Detpak IT</td></tr>
+    <tr><td>12-dot sleeve</td><td>Cream uncoated kraft</td><td>Full band</td><td class="num">€0.02</td><td>2000</td><td>Cartorama Milano</td></tr>
+    <tr><td>Waffle cone</td><td>Baked flour + sugar</td><td>Ø 55 × 140 mm</td><td class="num">€0.12</td><td>500</td><td>Babbi Cesena</td></tr>
+    <tr><td>Fragola sticker</td><td>Waterproof vinyl</td><td>Ø 30 mm</td><td class="num">€0.03</td><td>1000</td><td>Stickermule</td></tr>
+    <tr class="total-row"><td colspan="3">First-order launch stock</td><td class="num">€310</td><td colspan="2"></td></tr>
+  </table>
+</section>
 
-<div class="page">
-<div class="num">22</div>
-<div class="label">Page 22</div>
-<h2 style="margin-top:10px">P&L forecast · Month 6</h2>
-<div class="divider"></div>
-<table>
-<tr><th>Line</th><th>Calc</th><th>€ / month</th></tr>
-<tr><td>Summer scoops (Jun–Aug)</td><td>300 scoops/day × €4.20 × 28 days</td><td>35,280 seasonal</td></tr>
-<tr><td>Winter scoops (Dec–Feb)</td><td>120 scoops/day × €4.20 × 28 days</td><td>14,112 seasonal</td></tr>
-<tr><td><strong>Average month</strong></td><td>200 scoops/day × €4.20 × 28 days</td><td><strong>23,520</strong></td></tr>
-<tr><td>Rent (Porta Romana or Isola cube)</td><td>10 m² × €75/m²</td><td>-750</td></tr>
-<tr><td>Utilities (elec high due Bravo)</td><td></td><td>-480</td></tr>
-<tr><td>COGS (milk, cream, fruit, DOP ingredients)</td><td>~26% of revenue</td><td>-6,115</td></tr>
-<tr><td>Staff × 2 (owner + 1 FT)</td><td>€1,500 + SS 28% + owner draw</td><td>-3,720</td></tr>
-<tr><td>Accountant + notary</td><td></td><td>-140</td></tr>
-<tr><td>Insurance + CCIAA</td><td></td><td>-80</td></tr>
-<tr><td>POS fees (SumUp 1.69%)</td><td></td><td>-398</td></tr>
-<tr><td>Marketing</td><td></td><td>-80</td></tr>
-<tr><td><strong>Operating costs</strong></td><td></td><td><strong>-11,763</strong></td></tr>
-<tr><td><strong>EBITDA average</strong></td><td></td><td><strong>11,757 / 4.5</strong></td></tr>
-<tr><td><strong>Normalised monthly</strong></td><td>after seasonal averaging</td><td><strong>2,613</strong></td></tr>
-<tr><td>IRES + IRAP (~24% effective)</td><td></td><td>-627</td></tr>
-<tr><td><strong>Net</strong></td><td></td><td><strong>1,986</strong></td></tr>
-</table>
-<p style="margin-top:10px;font-size:10px"><strong>Break-even:</strong> Month 5 at 180 scoops/day average. Sensitivity: summer delivers 70% of annual profit — one bad July kills the year.</p>
-<div class="footer"><span>Milano Gelato Cube</span><span>22 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 18 · UNIFORM ═══════════ -->
+<section class="page" data-page="18">
+  <div class="eyebrow">Staff Uniform</div>
+  <h1 class="page-title">The barista is the brand.</h1>
+  <img class="img-full" src="images/13-uniform.png" alt="Barista in pistacchio 12 t-shirt holding a Zeroll scoop">
+  <p class="caption">Uniform system: pistacchio t-shirt with cream "12" · cream apron · €60/person · 2 sets per staff member</p>
+</section>
 
-<div class="page">
-<div class="num">23</div>
-<div class="label">Page 23</div>
-<h2 style="margin-top:10px">Suppliers</h2>
-<div class="divider"></div>
-<table>
-<tr><th>Category</th><th>Supplier</th><th>Notes</th></tr>
-<tr><td>Batch freezer</td><td>Bravo SpA (Montecchio)</td><td>Direct from factory, certified used channel</td></tr>
-<tr><td>Display cabinet</td><td>Ifi SpA (Brescia)</td><td>Direct, 2-week lead</td></tr>
-<tr><td>Pistacchio DOP</td><td>Consorzio Pistacchio Bronte</td><td>5kg bags, certified, €110/kg peeled</td></tr>
-<tr><td>Nocciola IGP</td><td>Cooperativa Piemonte Tonda Gentile</td><td>Direct farmer, Alba area</td></tr>
-<tr><td>Milk + cream</td><td>Latteria Sociale Mantova</td><td>Daily delivery, fresh PDO</td></tr>
-<tr><td>Fresh fruit</td><td>Mercato Ortofrutticolo Milano</td><td>Monday + Thursday morning runs</td></tr>
-<tr><td>Chocolate</td><td>Domori (Torino)</td><td>72% fondente single-origin</td></tr>
-<tr><td>Cones</td><td>Babbi (Cesena)</td><td>Weekly delivery, 24cm sleeve pack</td></tr>
-<tr><td>Cups (kraft)</td><td>BioPap Italia</td><td>Compostable PAP, 3 sizes</td></tr>
-<tr><td>Chalk</td><td>Hagoromo Fulltouch via Japan direct</td><td>One order / year, 12 colours</td></tr>
-</table>
-<p style="margin-top:14px">Every ingredient with a protected origin (DOP, IGP, PDO) goes to the shop's core story. Substituting Iranian pistachio for Bronte DOP would save €60/kg and destroy the brand in one Instagram post.</p>
-<div class="footer"><span>Milano Gelato Cube</span><span>23 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 19 · MENU & PRICING ═══════════ -->
+<section class="page" data-page="19">
+  <div class="eyebrow">Menu & Pricing</div>
+  <h1 class="page-title">12 flavours. 3 sizes.</h1>
+  <p class="lead">A short menu outperforms a long one in walk-up windows — fewer choices, faster throughput, less inventory waste. Four flavours are permanent; eight rotate every Monday.</p>
+  <table>
+    <tr><th>Type</th><th>Flavour</th><th>Origin</th><th>Piccolo</th><th>Medio</th><th>Grande</th></tr>
+    <tr><td rowspan="4"><strong>PERMANENT</strong></td><td>01 Pistacchio</td><td>Bronte DOP, Sicilia</td><td class="num">€3.20</td><td class="num">€4.40</td><td class="num">€5.60</td></tr>
+    <tr><td>02 Stracciatella fiordilatte</td><td>Latteria Soresina PDO</td><td class="num">€3.00</td><td class="num">€4.20</td><td class="num">€5.40</td></tr>
+    <tr><td>03 Nocciola Piemonte</td><td>Tonda Gentile IGP</td><td class="num">€3.20</td><td class="num">€4.40</td><td class="num">€5.60</td></tr>
+    <tr><td>04 Cioccolato fondente 72%</td><td>Amedei Tuscany</td><td class="num">€3.00</td><td class="num">€4.20</td><td class="num">€5.40</td></tr>
+    <tr><td rowspan="4"><strong>ROTATING</strong></td><td>05 Fior di latte</td><td>Alpine milk, market-dependent</td><td class="num">€3.00</td><td class="num">€4.20</td><td class="num">€5.40</td></tr>
+    <tr><td>06 Fragola di Nemi</td><td>Lazio, 6 weeks/year</td><td class="num">€3.20</td><td class="num">€4.40</td><td class="num">€5.60</td></tr>
+    <tr><td>07 Caffè espresso</td><td>Passalacqua Mokambo</td><td class="num">€3.00</td><td class="num">€4.20</td><td class="num">€5.40</td></tr>
+    <tr><td>08 Limone Amalfi</td><td>IGP sorbetto</td><td class="num">€3.00</td><td class="num">€4.20</td><td class="num">€5.40</td></tr>
+    <tr><td colspan="2"><em>09 – 12: rotating at the barista's discretion. Monday reveal.</em></td><td colspan="4"></td></tr>
+  </table>
+  <p style="margin-top:4mm;font-size:9pt;color:var(--gray)"><strong>Average ticket:</strong> €4.20 · <strong>Weighted gross margin:</strong> 72% · <strong>Cone supplement:</strong> +€0.20</p>
+</section>
 
-<div class="page">
-<div class="num">24</div>
-<div class="label">Page 24</div>
-<h2 style="margin-top:10px">Operating principles</h2>
-<div class="divider"></div>
-<img class="photo-strip" src="images/10-night.png" alt="Cube glowing at night">
-<ol style="font-size:12px;line-height:2;margin-left:20px;font-weight:300">
-<li><strong>Twelve. Always twelve.</strong> Never eleven, never thirteen, never "special flavour today".</li>
-<li><strong>Monday is rewrite day.</strong> Chalkboard updates at 08:00, eight new rotating flavours.</li>
-<li><strong>Churned within 24 hours.</strong> If it wasn't made yesterday or today, it doesn't get served.</li>
-<li><strong>Zero waste overnight.</strong> Unsold gelato leaves with staff or to Banco Alimentare — never back into cabinet.</li>
-<li><strong>No seating, ever.</strong> The cube is walk-up. Adding benches kills turnover and opens HACCP exposure.</li>
-<li><strong>No coffee, no pastry.</strong> One product category, executed completely.</li>
-<li><strong>DOP where DOP exists.</strong> Pistacchio di Bronte, Nocciola Piemonte IGP, Fragola di Nemi — non-negotiable.</li>
-<li><strong>Summer funds winter.</strong> Jun–Aug profits cover Dec–Feb losses. Cash management is the game.</li>
-<li><strong>The chalkboard is the brand.</strong> Not the logo, not the signage — the twelve hand-written names.</li>
-<li><strong>Close Tuesdays.</strong> One day of rest for Bravo Trittico, one day for the team.</li>
-</ol>
-<div class="footer"><span>Milano Gelato Cube</span><span>24 / 25</span></div>
-</div>
+<!-- ═══════════ PAGE 20 · BUDGET BREAKDOWN ═══════════ -->
+<section class="page" data-page="20">
+  <div class="eyebrow">Budget Breakdown</div>
+  <h1 class="page-title">€9,400 total.</h1>
+  <p class="lead">Every euro mapped to a tangible, movable asset or a non-negotiable launch cost. Renovation is near-zero — the cube is its own shop.</p>
 
-<div class="page cover">
-<img class="cover-bg" src="images/10-night.png" alt="">
-<div style="position:absolute;top:22mm;left:22mm;right:22mm">
-<div class="logo-mark">MG</div>
-</div>
-<div style="position:absolute;bottom:60mm;left:22mm;right:22mm">
-<h1 style="font-size:64px">Grazie.</h1>
-<div style="margin-top:30px;width:80px;height:2px;background:var(--fragola)"></div>
-<p style="color:var(--cream);font-size:14px;margin-top:24px;opacity:.8">Twelve flavours today. Twelve different ones next Monday. The cube stays the same.</p>
-</div>
-<div style="position:absolute;bottom:22mm;left:22mm;right:22mm;display:flex;justify-content:space-between;font-size:9px;letter-spacing:.2em;text-transform:uppercase;opacity:.6">
-<span>Milano Gelato Cube · 2026</span>
-<span>25 / 25</span>
-</div>
-</div>
+  <div class="donut-wrap">
+    <svg class="donut" viewBox="0 0 42 42">
+      <circle cx="21" cy="21" r="15.915" fill="#fff" stroke="var(--line)" stroke-width="0.5"/>
+      <!-- equipment 6440 = 68.5% -->
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#8FB560" stroke-width="8" stroke-dasharray="68.5 31.5" stroke-dashoffset="25" transform="rotate(-90 21 21)"/>
+      <!-- cube shell 1400 = 14.9% -->
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#ECE8E0" stroke-width="8" stroke-dasharray="14.9 85.1" stroke-dashoffset="-43.5" transform="rotate(-90 21 21)"/>
+      <!-- deposit 800 = 8.5% -->
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#E85A6E" stroke-width="8" stroke-dasharray="8.5 91.5" stroke-dashoffset="-58.4" transform="rotate(-90 21 21)"/>
+      <!-- launch 450 = 4.8% -->
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#FFBE5C" stroke-width="8" stroke-dasharray="4.8 95.2" stroke-dashoffset="-66.9" transform="rotate(-90 21 21)"/>
+      <!-- reserve 310 = 3.3% -->
+      <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#2A1810" stroke-width="8" stroke-dasharray="3.3 96.7" stroke-dashoffset="-71.7" transform="rotate(-90 21 21)"/>
+    </svg>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#8FB560"></div>Equipment<span class="val">€6,440</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ECE8E0"></div>Cube shell + fitout<span class="val">€1,400</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#E85A6E"></div>Deposit + first rent<span class="val">€800</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#FFBE5C"></div>Launch stock + marketing<span class="val">€450</span></div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2A1810"></div>Reserve buffer<span class="val">€310</span></div>
+      <div class="legend-item" style="border-top:2px solid var(--pistacchio);margin-top:2mm;padding-top:3mm;font-weight:700"><div class="legend-dot" style="background:var(--pistacchio)"></div>RENOVATION<span class="val" style="color:var(--pistacchio-dark)">€0</span></div>
+    </div>
+  </div>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Why renovation = €0:</strong> the cube is prefabricated off-site by a local carpenter in Sesto San Giovanni and delivered on a flatbed. No plumbing rework, no wall breakthroughs, no tile work inside a leased Milanese shopfront. The only on-site "renovation" is the hole for the water line.</p>
+</section>
+
+<!-- ═══════════ PAGE 21 · REGISTRATION ═══════════ -->
+<section class="page" data-page="21">
+  <div class="eyebrow">Registration · Italy</div>
+  <h1 class="page-title">Legal setup in 10 days.</h1>
+  <p class="lead">Italy is famously bureaucratic, but a ditta individuale (sole trader) for food retail in Milano runs through SUAP and Camera di Commercio within two business weeks. Total legal spend: €550.</p>
+
+  <div class="reg-grid">
+    <div class="reg-card">
+      <h4>1. Ditta individuale</h4>
+      <ul>
+        <li>Legal form: Ditta individuale</li>
+        <li>Portal: registroimprese.it</li>
+        <li>Camera di Commercio Milano fee: €88 + €25/year</li>
+        <li>Time: 5 business days</li>
+        <li>Required: codice fiscale + passport + PEC email</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>2. Partita IVA + regime</h4>
+      <ul>
+        <li>P.IVA: free at Agenzia delle Entrate, 24 h</li>
+        <li>Regime forfettario: 5% tax first 5 years (&lt;€85k)</li>
+        <li>Codice ATECO: 56.10.30 (gelaterie)</li>
+        <li>IVA on gelato: 10% (food takeaway)</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>3. SUAP + SCIA Milano</h4>
+      <ul>
+        <li>SCIA food retail filed via SUAP: €160</li>
+        <li>HACCP self-control plan (€80 template)</li>
+        <li>ATS Milano hygiene visit within 30 d</li>
+        <li>Insegna di esercizio (sign permit): €120</li>
+      </ul>
+    </div>
+    <div class="reg-card">
+      <h4>4. INPS + Insurance</h4>
+      <ul>
+        <li>INPS gestione commercianti: ~€4,200/year</li>
+        <li>INAIL (accident): mandatory, ~€180/year</li>
+        <li>RC terzi (liability): €180/year</li>
+        <li>Dipendenti (if hiring): consulente del lavoro €90/mo</li>
+      </ul>
+    </div>
+  </div>
+  <p style="margin-top:6mm;font-size:9pt;color:var(--gray)"><strong>Total legal + registration costs:</strong> ~€550 (Camera di Commercio €88 + SCIA €160 + sign permit €120 + HACCP template €80 + misc filings €100). INPS is an annual running cost, not setup.</p>
+</section>
+
+<!-- ═══════════ PAGE 22 · TIMELINE ═══════════ -->
+<section class="page" data-page="22">
+  <div class="eyebrow">Launch Timeline</div>
+  <h1 class="page-title">5 weeks to first scoop.</h1>
+  <div class="timeline">
+    <div class="tl-row"><div class="tl-week">W1<small>Legal</small></div><ul class="tl-tasks"><li>Register ditta individuale at Camera di Commercio Milano (€88)</li><li>Open P.IVA at Agenzia delle Entrate · regime forfettario</li><li>Open conto corrente business (Fineco / Illimity)</li><li>File SCIA for attività di somministrazione alimentare</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W2<small>Space</small></div><ul class="tl-tasks"><li>Sign shopfront lease · Porta Romana or Isola (10–15 m² Plus category)</li><li>Confirm 16A + 32A dedicated line for Bravo Trittico</li><li>Water softener + grease trap install — €220</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W3<small>Cube</small></div><ul class="tl-tasks"><li>Cube shell fabricated off-site by Sesto carpenter · 10 days parallel</li><li>Order all equipment (Bravo + Ifi lead time 14 d)</li><li>Design and order chalkboard + cone trees (local)</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W4<small>Fitout</small></div><ul class="tl-tasks"><li>Cube delivered on flatbed · 2-day install</li><li>Equipment install, water + electrical commissioning</li><li>Barista training · 4-day intensive with ex-Grom chef</li><li>Flavour recipe lock-in for opening week's 12</li></ul></div>
+    <div class="tl-row"><div class="tl-week">W5<small>Launch</small></div><ul class="tl-tasks"><li>Soft launch Thursday · free cones for neighbours 17:00–19:00</li><li>Grand opening Saturday 10:00 · full menu</li><li>Instagram handover to local food micro-influencer (€200)</li><li>ATS hygiene inspection window opens</li></ul></div>
+  </div>
+</section>
+
+<!-- ═══════════ PAGE 23 · P&L ═══════════ -->
+<section class="page" data-page="23">
+  <div class="eyebrow">P&L Projection</div>
+  <h1 class="page-title">€2,600 EBITDA / month.</h1>
+  <p class="lead">Conservative projection: 200 scoops/day weighted average × €4.20 × 26 working days. Break-even month 5.</p>
+  <table>
+    <tr><th>Line item</th><th>Monthly</th><th>Annual</th><th>% of revenue</th></tr>
+    <tr><td>Revenue (200 scoops/day × €4.20 × 26 days)</td><td class="num">€21,840</td><td class="num">€262,080</td><td class="num">100%</td></tr>
+    <tr><td style="padding-left:6mm">COGS (ingredients, cups, cones)</td><td class="num">(€6,110)</td><td class="num">(€73,320)</td><td class="num">28%</td></tr>
+    <tr style="background:#FDF6E8"><td><strong>Gross profit</strong></td><td class="num"><strong>€15,730</strong></td><td class="num"><strong>€188,760</strong></td><td class="num"><strong>72%</strong></td></tr>
+    <tr><td style="padding-left:6mm">Rent (10 m² Porta Romana)</td><td class="num">(€1,400)</td><td class="num">(€16,800)</td><td class="num">6.4%</td></tr>
+    <tr><td style="padding-left:6mm">Labor (owner + 30 h/wk helper)</td><td class="num">(€3,800)</td><td class="num">(€45,600)</td><td class="num">17.4%</td></tr>
+    <tr><td style="padding-left:6mm">Utilities (electric, water, waste)</td><td class="num">(€420)</td><td class="num">(€5,040)</td><td class="num">1.9%</td></tr>
+    <tr><td style="padding-left:6mm">INPS + insurance + POS fees + misc</td><td class="num">(€7,510)</td><td class="num">(€90,120)</td><td class="num">34.4%</td></tr>
+    <tr class="total-row"><td><strong>EBITDA</strong></td><td class="num"><strong>€2,600</strong></td><td class="num"><strong>€31,200</strong></td><td class="num"><strong>11.9%</strong></td></tr>
+  </table>
+  <div style="margin-top:6mm;padding:5mm;background:#fff;border-left:4px solid var(--pistacchio)">
+    <strong style="font-family:'Inter';font-size:10pt;text-transform:uppercase;letter-spacing:0.08em;color:var(--pistacchio-dark)">Break-even math</strong>
+    <p style="margin-top:2mm;font-size:10pt">Fixed costs ≈ €13,130/mo. Gross margin 72%. Break-even revenue = €18,240/mo = ~167 scoops/day. Conservative target 200/day leaves 20% buffer. Summer peak (300/day) carries Nov–Feb dip (120/day) by ~2:1.</p>
+  </div>
+</section>
+
+<!-- ═══════════ PAGE 24 · SUPPLIERS ═══════════ -->
+<section class="page" data-page="24">
+  <div class="eyebrow">Suppliers Directory</div>
+  <h1 class="page-title">Who to call.</h1>
+  <p class="lead">Every supplier vetted for Italian delivery, Milanese pickup where possible, and &lt;14-day lead times.</p>
+  <table>
+    <tr><th>Category</th><th>Supplier</th><th>URL</th><th>Lead time</th><th>Contact</th></tr>
+    <tr><td>Cube fabrication</td><td>Falegnameria Sesto SRL</td><td>falegnameriasesto.it</td><td>14 days</td><td>+39 02 248 11 22</td></tr>
+    <tr><td>Batch freezer</td><td>Bravo SpA (Montecchio)</td><td>bravo.it</td><td>14 days</td><td>vendite@bravo.it</td></tr>
+    <tr><td>Display cabinet</td><td>Ifi SpA (Brescia)</td><td>ifi.it</td><td>10 days</td><td>milano@ifi.it</td></tr>
+    <tr><td>Pistacchio di Bronte DOP</td><td>Consorzio Bronte</td><td>pistacchiodibronte.it</td><td>7 days</td><td>ordini@consorzio</td></tr>
+    <tr><td>Hazelnut paste</td><td>Domori Tonda Gentile IGP</td><td>domori.it</td><td>5 days</td><td>B2B portal</td></tr>
+    <tr><td>Cocoa · chocolate</td><td>Amedei Toscana</td><td>amedei.it</td><td>7 days</td><td>ho.re.ca. line</td></tr>
+    <tr><td>Milk + cream (daily)</td><td>Latteria Soresina PDO</td><td>soresina.it</td><td>Next day</td><td>Milano depot</td></tr>
+    <tr><td>Cream packaging cups</td><td>Detpak Italia</td><td>detpak.it</td><td>5 days</td><td>milano@detpak</td></tr>
+    <tr><td>Waffle cones</td><td>Babbi (Cesena)</td><td>babbi.it</td><td>5 days</td><td>ordini@babbi</td></tr>
+    <tr><td>Hagoromo chalk</td><td>Sekisei Korea (EU dist.)</td><td>hagoromo.eu</td><td>14 days</td><td>EU reseller</td></tr>
+    <tr><td>POS system</td><td>SumUp Italia</td><td>sumup.it</td><td>2 days</td><td>Self-serve</td></tr>
+    <tr><td>Commercialista (accountant)</td><td>Studio Moretti Milano</td><td>studiomoretti.mi.it</td><td>Ongoing</td><td>€90/mo flat</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════ PAGE 25 · BACK COVER ═══════════ -->
+<section class="page back-cover no-footer">
+  <img class="cover-bg" src="images/10-night.png" alt="" style="opacity:.18">
+  <div style="font-size:10pt;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--fragola);position:relative">SVITA Micro · Concept Brandbook</div>
+  <div style="position:relative">
+    <h1 style="font-size:44pt;margin-bottom:6mm">Dodici.<br>Ogni lunedì.</h1>
+    <p style="font-size:13pt;color:#CCC;max-width:140mm;line-height:1.6">This brandbook contains everything you need to open Milano Gelato Cube — or any variant of it — in 5 weeks for under €9,500. Copy it. Adapt it. Paint the cube any colour, as long as it is pistacchio.</p>
+  </div>
+  <div style="border-top:1px solid #333;padding-top:6mm;font-size:9pt;color:#888;position:relative">
+    <p><strong style="color:#CCC">MILANO GELATO CUBE · Brandbook v1.0</strong></p>
+    <p style="margin-top:2mm">Generated by SVITA Micro Concept Generator<br>© 2026 LABS67 · svita.ai · micro.svita.ai</p>
+    <p style="margin-top:4mm">All equipment prices, supplier contacts, and legal information valid as of April 2026. Legal data specific to Italy (Lombardia / Milano). For other EU jurisdictions, regenerate the concept with target country code.</p>
+  </div>
+</section>
 
 </body>
 </html>
