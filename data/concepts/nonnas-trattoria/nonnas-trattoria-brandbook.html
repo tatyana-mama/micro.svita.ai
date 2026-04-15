@@ -54,8 +54,10 @@ img{max-width:100%;display:block}
 .divider{height:1px;background:var(--line);margin:6mm 0}
 
 /* COVER */
-.cover{background:var(--terracotta);color:var(--cream);justify-content:space-between;padding:18mm}
+.cover{background:var(--terracotta);color:var(--cream);justify-content:space-between;padding:18mm;position:relative;overflow:hidden}
 .cover::before,.cover::after{display:none}
+.cover-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.32;z-index:0}
+.cover > *{position:relative;z-index:1}
 .cover .brand{font-family:'Fraunces';font-size:54pt;font-weight:800;line-height:0.9;color:var(--cream);margin-top:30mm;font-style:italic;letter-spacing:-0.03em}
 .cover .brand small{display:block;font-family:'Inter';font-size:10pt;font-weight:500;color:var(--cream);opacity:0.88;margin-top:8mm;letter-spacing:0.22em;text-transform:uppercase;font-style:normal}
 .cover .tagline{font-family:'Fraunces';font-size:15pt;font-weight:400;font-style:italic;max-width:140mm;margin-bottom:18mm;color:var(--cream);opacity:0.92}
@@ -132,10 +134,12 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 .plan-wrap{flex:1;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:2mm;margin-top:6mm;padding:8mm}
 
 /* BACK */
-.back-cover{background:var(--ink);color:var(--cream);justify-content:space-between}
+.back-cover{background:var(--ink);color:var(--cream);justify-content:space-between;position:relative;overflow:hidden}
 .back-cover::before,.back-cover::after{color:#666}
 .back-cover h1{color:var(--brass);font-size:44pt}
 .back-cover p{color:#BBB;max-width:140mm}
+.back-cover .cover-bg{opacity:0.35}
+.back-cover > *{position:relative;z-index:1}
 
 @media print{
   body{background:#fff}
@@ -147,6 +151,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 
 <!-- ═══════════ PAGE 01 · COVER ═══════════ -->
 <section class="page cover no-footer">
+  <img class="cover-bg" src="images/01-hero.png" alt="">
   <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);opacity:0.88">SVITA Micro · Concept Brandbook №003</div>
 
   <div>
@@ -192,6 +197,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <strong style="font-family:'Inter';font-size:10pt;text-transform:uppercase;letter-spacing:0.1em;color:var(--brass)">The Nonna Rule</strong>
     <p style="margin-top:2mm;font-size:10pt">Every morning at 7am, the pasta is rolled by hand on a marble board — tagliatelle, pappardelle, pici, ravioli. By 11:30 the counter is open. By 22:00 the day's pasta is gone and the shutters are down. No freezer pasta. No second service next day. If it's not made this morning, it's not on the menu.</p>
   </div>
+  <img class="img-large" src="images/08-pour-detail.png" alt="Nonna plating hand-rolled pasta">
 </section>
 
 <!-- ═══════════ PAGE 04 · TARGET AUDIENCE ═══════════ -->
@@ -241,7 +247,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 <section class="page" data-page="06">
   <div class="eyebrow">Brand Identity</div>
   <h1 class="page-title">The visual system.</h1>
-  <img class="img-full" src="https://micro.svita.ai/data/concepts/nonnas-trattoria/images/02-brand-identity.png" alt="Brand identity">
+  <img class="img-full" src="images/02-brand-identity.png" alt="Brand identity">
   <p class="caption">Master moodboard · business card, wax-sealed envelope, orecchiette bowl, kraft menu card</p>
 </section>
 
@@ -313,7 +319,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 <section class="page" data-page="10">
   <div class="eyebrow">Space · Hero</div>
   <h1 class="page-title">The counter.</h1>
-  <img class="img-full" src="https://micro.svita.ai/data/concepts/nonnas-trattoria/images/01-hero.png" alt="Interior">
+  <img class="img-full" src="images/01-hero.png" alt="Interior">
   <p class="caption">Nonna's 12 interior · 18 m² · walnut counter, cream plaster, hand-crank Imperia on the marble board</p>
 </section>
 
@@ -322,26 +328,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
   <div class="eyebrow">Floor Plan · 18 m²</div>
   <h1 class="page-title">Twelve stools, one counter.</h1>
   <p class="lead">3.6 m wide, 5.0 m deep. Counter runs the full depth along the right wall with twelve walnut stools. Open prep zone behind the counter. No tables, no booths — the counter is the experience.</p>
-  <div class="plan-wrap">
-    <svg viewBox="0 0 360 500" style="width:70%;height:auto">
-      <rect x="10" y="10" width="340" height="480" fill="#F5EDE0" stroke="#241A15" stroke-width="4"/>
-      <line x1="40" y1="10" x2="310" y2="10" stroke="#B8533E" stroke-width="6"/>
-      <line x1="230" y1="10" x2="300" y2="10" stroke="#F5EDE0" stroke-width="6"/>
-      <path d="M230 10 A70 70 0 0 1 300 80" fill="none" stroke="#A07E3C" stroke-width="1.5" stroke-dasharray="3 3"/>
-      <rect x="230" y="40" width="110" height="360" fill="#6B7A3D" opacity="0.22" stroke="#6B7A3D" stroke-width="2"/>
-      <text x="285" y="220" font-family="Inter" font-size="11" font-weight="600" fill="#241A15" text-anchor="middle" transform="rotate(-90 285 220)">COUNTER + PREP · 3.6 m</text>
-      <g fill="#A07E3C">
-        <circle cx="200" cy="70" r="8"/><circle cx="200" cy="105" r="8"/><circle cx="200" cy="140" r="8"/>
-        <circle cx="200" cy="175" r="8"/><circle cx="200" cy="210" r="8"/><circle cx="200" cy="245" r="8"/>
-        <circle cx="200" cy="280" r="8"/><circle cx="200" cy="315" r="8"/><circle cx="200" cy="350" r="8"/>
-        <circle cx="200" cy="385" r="8"/><circle cx="130" cy="420" r="8"/><circle cx="165" cy="420" r="8"/>
-      </g>
-      <text x="115" y="220" font-family="Inter" font-size="10" font-weight="600" fill="#B8533E" text-anchor="middle">12 STOOLS · WALNUT</text>
-      <rect x="20" y="440" width="320" height="45" fill="#B8533E" opacity="0.18" stroke="#B8533E" stroke-width="2"/>
-      <text x="180" y="468" font-family="Inter" font-size="11" font-weight="700" fill="#241A15" text-anchor="middle">STORAGE · FRIDGE · DISHWASH</text>
-      <text x="180" y="500" font-family="Inter" font-size="9" fill="#6B5F56" text-anchor="middle">3.6 m × 5.0 m · 18 m²</text>
-    </svg>
-  </div>
+  <img class="img-full" src="images/11-axonometric.png" alt="Nonna's 12 18 m² axonometric plan">
 </section>
 
 <!-- ═══════════ PAGE 12 · FURNITURE SPECS ═══════════ -->
@@ -383,7 +370,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 <section class="page" data-page="14">
   <div class="eyebrow">Equipment · Core</div>
   <h1 class="page-title">Every machine, listed.</h1>
-  <img class="img-full" src="https://micro.svita.ai/data/concepts/nonnas-trattoria/images/04-equipment.png" alt="Equipment lineup">
+  <img class="img-full" src="images/04-equipment.png" alt="Equipment lineup">
   <p class="caption">Complete equipment lineup · details and pricing on next page</p>
 </section>
 
@@ -411,7 +398,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 <section class="page" data-page="16">
   <div class="eyebrow">Signage & Menu Board</div>
   <h1 class="page-title">Read from 20 meters.</h1>
-  <img class="img-full" src="https://micro.svita.ai/data/concepts/nonnas-trattoria/images/05-signage.png" alt="Signage">
+  <img class="img-full" src="images/05-signage.png" alt="Signage">
   <p class="caption">Hand-painted cream enamel sign · terracotta italic "NONNA'S 12" · wheat-and-fork icon · "PASTA FATTA IN CASA"</p>
 </section>
 
@@ -430,13 +417,14 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
     <tr><td>Wax-seal kit + stock</td><td>Pre-cut kraft tabs</td><td>25 mm</td><td class="num">€0.04</td><td>1000</td><td>In-house</td></tr>
     <tr class="total-row"><td colspan="3">First-order launch stock</td><td class="num">€380</td><td colspan="2"></td></tr>
   </table>
+  <img class="img-large" src="images/07-packaging.png" alt="NONNA'S 12 packaging kit">
 </section>
 
 <!-- ═══════════ PAGE 18 · UNIFORM ═══════════ -->
 <section class="page" data-page="18">
   <div class="eyebrow">Staff Uniform</div>
   <h1 class="page-title">The cook is the room.</h1>
-  <img class="img-full" src="https://micro.svita.ai/data/concepts/nonnas-trattoria/images/06-uniform.png" alt="Uniform flat lay">
+  <img class="img-full" src="images/06-uniform.png" alt="Uniform flat lay">
   <p class="caption">Cream linen shirt · terracotta apron with N·12 embroidery · red-striped towel · brown leather clogs · olive sprig · €95/person · 2 sets per staff</p>
 </section>
 
@@ -602,6 +590,7 @@ td.num{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;f
 
 <!-- ═══════════ PAGE 25 · BACK COVER ═══════════ -->
 <section class="page back-cover no-footer">
+  <img class="cover-bg" src="images/10-night.png" alt="">
   <div style="font-size:10pt;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--brass)">SVITA Micro · Concept Brandbook</div>
   <div>
     <h1 style="font-size:44pt;margin-bottom:6mm;font-style:italic">Cominciamo.</h1>
