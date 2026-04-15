@@ -635,7 +635,8 @@ function on(id, ev, fn){
 }
 const SB_URL='https://ctdleobjnzniqkqomlrq.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
-const sb = supabase.createClient(SB_URL, SB_KEY);
+const sb = window.__svitaSb || supabase.createClient(SB_URL, SB_KEY, { auth:{ persistSession:true, autoRefreshToken:true, storageKey:'svita-micro-auth' } });
+if(!window.__svitaSb) window.__svitaSb = sb;
 const $ = id => document.getElementById(id);
 
 const CAT_PAL = {
