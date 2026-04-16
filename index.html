@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="js/svita-ui.css">
 <link rel="stylesheet" href="js/svita-app.css">
+<link rel="stylesheet" href="js/svita-card.css">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -308,9 +309,9 @@ nav.scrolled{
 }
 .card:hover{transform:translateY(-6px);border-color:var(--line-2)}
 .card .media{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--bg-2)}
-.card .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 1200ms var(--ease)}
-.card:hover .img{transform:scale(1.06)}
-.card .ph{
+.card .img,.card .sc-img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 1200ms var(--ease)}
+.card:hover .img,.card:hover .sc-img{transform:scale(1.06)}
+.card .ph,.card .sc-ph{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,var(--ph-a,#1a1a1f),var(--ph-b,#2a2a30));
   font-size:56px;color:rgba(255,255,255,0.08);
@@ -552,6 +553,7 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 <!-- ============ NAV (shared via js/svita-nav.js) ============ -->
 <nav id="nav"></nav>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/svita-card.js"></script>
 <script src="js/svita-nav.js"></script>
 <script src="js/svita-metrics-config.js"></script>
 <script src="js/svita-3p-analytics.js"></script>
@@ -817,18 +819,8 @@ window.setLang = function setLang(code){
 /* Nav scroll + burger wired by js/svita-nav.js */
 
 /* ===================== SHOP RENDERER ===================== */
-const CAT_PAL = {
-  food:['#1a2e1a','#2d4a2d','🌿'], restaurant:['#2e1a1a','#4a2d2d','🍽'],
-  beauty:['#2e1a2a','#4a2d44','💋'], service:['#1a1e2e','#2d334a','✦'],
-  repair:['#2e2a1a','#4a422d','⚙'], craft:['#251a2e','#3d2d4a','◆'],
-  retail:['#1a2e2a','#2d4a44','▲'], wellness:['#1a2e2e','#2d4a4a','○'],
-  health:['#1a2a2e','#2d3e4a','+'], education:['#2e281a','#4a402d','✎']
-};
-const CAT_LABELS = {
-  food:'Food', restaurant:'Restaurant', beauty:'Beauty', service:'Service',
-  repair:'Repair', craft:'Craft', retail:'Retail', wellness:'Wellness',
-  health:'Health', education:'Education'
-};
+const CAT_PAL = SvitaCard.CAT_PAL;
+const CAT_LABELS = SvitaCard.CAT_LABELS;
 let CATALOG = [], FILTERED = [], SHOWN = 0, PAGE = 12;
 const STATE = {cat:'all', sort:'popular', q:''};
 
@@ -929,24 +921,20 @@ function renderMore(){
 function cardEl(c){
   const el = document.createElement('div');
   el.className = 'card';
-  const isPh = !c.hero_image || c.hero_image.startsWith('placeholder:');
-  const pal = CAT_PAL[c.category] || ['#1a1a1f','#2a2a30','◆'];
-  const visual = isPh
-    ? `<div class="ph" style="--ph-a:${pal[0]};--ph-b:${pal[1]}">${pal[2]}</div>`
-    : `<div class="img" style="background-image:url('${c.hero_image}')"></div>`;
+  const vis = SvitaCard.visual(c);
   el.innerHTML = `
     <div class="media">
-      ${visual}
+      ${vis}
       <div class="shade"></div>
-      <button type="button" class="heart" data-fav="${c.slug}" aria-label="Favorite" aria-pressed="false">
+      <button type="button" class="heart" data-fav="${SvitaCard.esc(c.slug)}" aria-label="Favorite" aria-pressed="false">
         <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg>
       </button>
       <span class="price">€${c.price_eur}</span>
     </div>
     <div class="body">
-      <span class="cat">${CAT_LABELS[c.category]||c.category}</span>
-      <h3>${c.name}</h3>
-      <p class="tagline">${c.tagline||''}</p>
+      <span class="cat">${SvitaCard.catLabel(c.category)}</span>
+      <h3>${SvitaCard.esc(c.name)}</h3>
+      <p class="tagline">${SvitaCard.esc(c.tagline||'')}</p>
       <div class="meta">
         <span>€${(c.budget_eur||0).toLocaleString()} launch</span>
         <span>${c.size_m2||'—'} m²</span>

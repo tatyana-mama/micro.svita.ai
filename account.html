@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="js/svita-ui.css">
 <link rel="stylesheet" href="js/svita-app.css">
+<link rel="stylesheet" href="js/svita-card.css">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -545,6 +546,7 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 
 <!-- ============ NAV (shared) ============ -->
 <nav id="nav"></nav>
+<script src="js/svita-card.js"></script>
 <script src="js/svita-nav.js"></script>
 <script src="js/svita-metrics-config.js"></script>
 <script src="js/svita-3p-analytics.js"></script>
@@ -867,13 +869,7 @@ const PAID_SLUG = qs.get('paid');
 let MY_ROLE = 'user';
 // has_brandbook now comes from concepts_catalog row via my_concepts view
 
-const CAT_PAL = {
-  food:['#1a2e1a','#2d4a2d','🌿'], restaurant:['#2e1a1a','#4a2d2d','🍽'],
-  beauty:['#2e1a2a','#4a2d44','💋'], service:['#1a1e2e','#2d334a','✦'],
-  repair:['#2e2a1a','#4a422d','⚙'], craft:['#251a2e','#3d2d4a','◆'],
-  retail:['#1a2e2a','#2d4a44','▲'], wellness:['#1a2e2e','#2d4a4a','○'],
-  health:['#1a2a2e','#2d3e4a','+'], education:['#2e281a','#4a402d','✎']
-};
+const CAT_PAL = SvitaCard.CAT_PAL;
 
 const $ = id => document.getElementById(id);
 function show(id){ $(id).classList.remove('hidden'); }
@@ -1192,37 +1188,9 @@ async function loadFavorites(){
     empty.classList.remove('hidden');
     return;
   }
-  grid.innerHTML = items.map(c=>{
-    const isPh = !c.hero_image || (typeof c.hero_image === 'string' && c.hero_image.startsWith('placeholder:'));
-    const pal = CAT_PAL[c.category] || ['#1a1a1f','#2a2a30','◆'];
-    const visual = isPh
-      ? `<div class="ph" style="--ph-a:${pal[0]};--ph-b:${pal[1]}">${pal[2]}</div>`
-      : `<div class="img" style="background-image:url('${c.hero_image}')"></div>`;
-    return `
-      <div class="fav-tile" data-href="view.html?c=${c.slug}">
-        ${visual}
-        <button type="button" class="rm" data-fav="${c.slug}" aria-label="Remove favorite" title="Remove">
-          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg>
-        </button>
-        <div class="body">
-          <span class="cat">${c.category||''}</span>
-          <h4>${c.name||c.slug}</h4>
-          <div class="meta">
-            <span>€${(c.price_eur||0)}</span>
-            <span>${c.size_m2||'—'} m²</span>
-            <span>${c.weeks||'—'}w</span>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('');
+  grid.innerHTML = items.map(c => SvitaCard.favCard(c)).join('');
   grid.classList.remove('hidden');
-  grid.querySelectorAll('.fav-tile').forEach(tile=>{
-    tile.addEventListener('click', e=>{
-      if(e.target.closest('.rm')) return;
-      location.href = tile.dataset.href;
-    });
-  });
+  SvitaCard.wireClicks(grid);
 }
 window.addEventListener('svita:favs', ()=> loadFavorites());
 
@@ -1356,34 +1324,8 @@ async function loadOwned(){
   setTabCount(data.length);
   const grid = $('owned-grid');
   const isSA = MY_ROLE === 'superadmin';
-  grid.innerHTML = data.map(c=>{
-    const isPh = c.hero_image && c.hero_image.startsWith('placeholder:');
-    const pal = CAT_PAL[c.category] || ['#1a1a1f','#2a2a30','◆'];
-    const visual = isPh
-      ? `<div class="ph" style="--ph-a:${pal[0]};--ph-b:${pal[1]}">${pal[2]}</div>`
-      : `<div class="img" style="background-image:url('${c.hero_image}')"></div>`;
-    const hasBB = !!c.has_brandbook;
-    const saButtons = isSA
-      ? `<div class="sa-btns">
-          <a class="sa-btn" href="edit.html?c=${c.concept_slug}" onclick="event.stopPropagation()">✎ Edit</a>
-          ${hasBB ? `<a class="sa-btn ok" href="data/concepts/${c.concept_slug}/${c.concept_slug}-brandbook.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">📖 Brandbook</a>` : ''}
-        </div>`
-      : '';
-    return `
-      <div class="own-tile" data-href="view.html?c=${c.concept_slug}" onclick="if(!event.target.closest('.sa-btn')) location.href=this.dataset.href">
-        ${visual}
-        <div class="shade"></div>
-        <span class="badge">Owned</span>
-        <div class="info">
-          <span class="cat">${c.category} · ${c.size_m2||'—'}m²</span>
-          <h3>${c.name}</h3>
-          <div class="meta"><span>€${(c.budget_eur||0).toLocaleString()}</span><span>${c.weeks||'—'}w</span></div>
-          <div class="open">Open concept <svg width="14" height="9" viewBox="0 0 14 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4.5h11M8 1l4 3.5-4 3.5"/></svg></div>
-          ${saButtons}
-        </div>
-      </div>
-    `;
-  }).join('');
+  grid.innerHTML = data.map(c => SvitaCard.ownedCard(c, {superadmin: isSA})).join('');
+  SvitaCard.wireClicks(grid);
   show('owned-grid');
 }
 

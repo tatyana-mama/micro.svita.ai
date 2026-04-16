@@ -670,6 +670,7 @@ td .actions{display:flex;gap:6px}
   </div>
 </section>
 
+<script src="js/svita-card.js"></script>
 <script>
 window.addEventListener('error', e=>{
   try{
@@ -697,13 +698,7 @@ const sb = window.__svitaSb || supabase.createClient(SB_URL, SB_KEY, { auth:{ pe
 if(!window.__svitaSb) window.__svitaSb = sb;
 const $ = id => document.getElementById(id);
 
-const CAT_PAL = {
-  food:['#1a2e1a','#2d4a2d','🌿'], restaurant:['#2e1a1a','#4a2d2d','🍽'],
-  beauty:['#2e1a2a','#4a2d44','💋'], service:['#1a1e2e','#2d334a','✦'],
-  repair:['#2e2a1a','#4a422d','⚙'], craft:['#251a2e','#3d2d4a','◆'],
-  retail:['#1a2e2a','#2d4a44','▲'], wellness:['#1a2e2e','#2d4a4a','○'],
-  health:['#1a2a2e','#2d3e4a','+'], education:['#2e281a','#4a402d','✎']
-};
+const CAT_PAL = SvitaCard.CAT_PAL;
 
 let ALL = [], VIEW = [];
 let USERS = [], UVIEW = [];

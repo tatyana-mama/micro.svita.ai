@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="js/svita-ui.css">
 <link rel="stylesheet" href="js/svita-app.css">
+<link rel="stylesheet" href="js/svita-card.css">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -267,6 +268,7 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 <body>
 
 <nav id="nav"></nav>
+<script src="js/svita-card.js"></script>
 <script src="js/svita-nav.js"></script>
 <script src="js/svita-metrics-config.js"></script>
 <script src="js/svita-3p-analytics.js"></script>
@@ -320,18 +322,8 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 </section>
 
 <script>
-const CAT_PAL = {
-  food:['#1a2e1a','#2d4a2d','🌿'], restaurant:['#2e1a1a','#4a2d2d','🍽'],
-  beauty:['#2e1a2a','#4a2d44','💋'], service:['#1a1e2e','#2d334a','✦'],
-  repair:['#2e2a1a','#4a422d','⚙'], craft:['#251a2e','#3d2d4a','◆'],
-  retail:['#1a2e2a','#2d4a44','▲'], wellness:['#1a2e2e','#2d4a4a','○'],
-  health:['#1a2a2e','#2d3e4a','+'], education:['#2e281a','#4a402d','✎']
-};
-const CAT_LABELS = {
-  food:'Food', restaurant:'Restaurant', beauty:'Beauty', service:'Service',
-  repair:'Repair', craft:'Craft', retail:'Retail', wellness:'Wellness',
-  health:'Health', education:'Education'
-};
+const CAT_PAL = SvitaCard.CAT_PAL;
+const CAT_LABELS = SvitaCard.CAT_LABELS;
 
 let ALL = [];
 let VIEW = [];
@@ -417,38 +409,7 @@ function render(){
 }
 
 function cardHTML(c){
-  const isPh = !c.hero_image || c.hero_image.startsWith('placeholder:');
-  const pal = CAT_PAL[c.category] || ['#1a1a1f','#2a2a30','◆'];
-  const visual = isPh
-    ? `<div class="ph" style="--ph-a:${pal[0]};--ph-b:${pal[1]}">${pal[2]}</div>`
-    : `<div class="img" style="background-image:url('${c.hero_image}')"></div>`;
-  const owned = OWNED.has(c.slug);
-  return `
-    <a class="card${owned?' owned':''}" href="view.html?c=${c.slug}">
-      <div class="media">
-        ${visual}
-        <div class="shade"></div>
-        <button type="button" class="fav-btn" data-fav="${c.slug}" aria-label="Favorite" aria-pressed="false">
-          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg>
-        </button>
-        ${owned ? '<span class="owned-badge">✓ Owned</span>' : ''}
-      </div>
-      <div class="body">
-        <span class="cat">${CAT_LABELS[c.category]||c.category}</span>
-        <h3>${c.name}</h3>
-        <p class="tagline">${c.tagline||''}</p>
-        <div class="meta">
-          <span>€${(c.budget_eur||0).toLocaleString()} launch</span>
-          <span>${c.size_m2||'—'} m²</span>
-          <span>${c.weeks||'—'}w</span>
-        </div>
-        <div class="open-row">
-          ${owned ? '<span class="owned-badge-inline">✓ Owned</span>' : `<span class="price">€${c.price_eur}</span>`}
-          <span class="open">Open concept <svg width="14" height="9" viewBox="0 0 14 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4.5h11M8 1l4 3.5-4 3.5"/></svg></span>
-        </div>
-      </div>
-    </a>
-  `;
+  return SvitaCard.shopCard(c, {owned: OWNED.has(c.slug)});
 }
 
 /* controls */
