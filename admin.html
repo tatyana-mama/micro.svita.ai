@@ -10,7 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 :root{
-  --bg:#0A0A0B;--bg-1:#111113;--bg-2:#18181B;
+  --bg:#0A0A0B;--bg-1:#111113;--bg-2:#18181B;--bg-3:#1F1F23;
   --line:#232327;--line-2:#2F2F34;
   --text:#FAFAFA;--text-2:#A1A1AA;--text-3:#6E6E78;
   --accent:#D6FF3E;--warn:#f59e0b;--ok:#84cc16;--err:#ef4444;
@@ -844,8 +844,8 @@ function renderUsers(){
       <td class="mono" style="color:var(--text-3)">${created}</td>
       <td>
         <div class="actions">
-          <button class="btn-s" title="Change password" ${dis} onclick="changeUserPassword('${uid}','${escape(u.email||name)}')">🔑 Password</button>
-          <button class="btn-s danger" title="Delete user" onclick="deleteUser('${uid}','${escape(u.email||name)}')">✕ Delete</button>
+          <button class="btn-s" title="Change password" ${dis} data-uid="${uid}" data-label="${escape(u.email||name)}" onclick="changeUserPassword(this.dataset.uid,this.dataset.label)">🔑 Password</button>
+          <button class="btn-s danger" title="Delete user" data-uid="${uid}" data-label="${escape(u.email||name)}" onclick="deleteUser(this.dataset.uid,this.dataset.label)">✕ Delete</button>
         </div>
       </td>
     </tr>`;
@@ -886,7 +886,12 @@ function closeUserModal(){
 }
 window.closeUserModal = closeUserModal;
 
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeUserModal(); });
+document.addEventListener('keydown', e => {
+  if(e.key !== 'Escape') return;
+  const cm = $('cmodal-bg'), um = $('umodal-bg');
+  if(cm && !cm.classList.contains('hidden')){ closeConceptModal(); return; }
+  if(um && !um.classList.contains('hidden')){ closeUserModal(); }
+});
 
 function renderUserModal(d){
   const p = d.profile || {};
@@ -1088,7 +1093,7 @@ function closeConceptModal(){
 }
 window.closeConceptModal = closeConceptModal;
 
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeConceptModal(); });
+// Escape key handled in the unified keydown listener above (user modal section).
 
 function renderConceptModal(c, accessRows, i18n, brand){
   const fmt = ts => ts ? new Date(ts).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
@@ -1570,8 +1575,8 @@ function renderBrandbooks(){
 }
 
 async function unmarkBrandbook(slug){
-  if(!confirm(`Unmark "${slug}" as having a brandbook? The HTML files stay on disk.`)) return;
-  const {error} = await sb.from('concepts_catalog').update({has_brandbook:false}).eq('slug', slug);
+  if(!confirm(`Remove brandbook for "${slug}"? This deletes the DB row; the trigger will clear has_brandbook.`)) return;
+  const {error} = await sb.from('concept_brandbooks').delete().eq('concept_slug', slug);
   if(error){ alert('Failed: ' + error.message); return; }
   const c = ALL.find(x=>x.slug===slug); if(c) c.has_brandbook = false;
   loadBrandbooks();
@@ -1681,7 +1686,8 @@ window.setPayLink = setPayLink;
 async function toggleVerify(slug, makeVerified){
   const {error} = await sb.from('concepts_catalog').update({
     verified: makeVerified,
-    verified_at: makeVerified ? new Date().toISOString() : null
+    verified_at: makeVerified ? new Date().toISOString() : null,
+    verified_by: makeVerified ? (await sb.auth.getSession()).data?.session?.user?.id || null : null
   }).eq('slug', slug);
   if(error){ alert(error.message); return; }
   const idx = ALL.findIndex(c=>c.slug===slug);
@@ -1711,7 +1717,8 @@ on('bulk-verify','click', async ()=>{
   if(!slugs.length) return;
   if(!confirm(`Verify ${slugs.length} concept(s)?`)) return;
   const {error} = await sb.from('concepts_catalog').update({
-    verified: true, verified_at: new Date().toISOString()
+    verified: true, verified_at: new Date().toISOString(),
+    verified_by: (await sb.auth.getSession()).data?.session?.user?.id || null
   }).in('slug', slugs);
   if(error){ alert(error.message); return; }
   slugs.forEach(s => { const i = ALL.findIndex(c=>c.slug===s); if(i>=0){ALL[i].verified=true;} });
