@@ -43,10 +43,13 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
 
 /* PAGE */
 .page{padding:80px 0 80px}
-.page-head{margin-bottom:40px;display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
-.page-head .title .eyebrow{margin-bottom:20px}
-.page-head h1{font-size:clamp(2.25rem,5vw,4rem);line-height:0.95}
-.page-head h1 .accent{color:var(--accent);font-style:italic;font-weight:500}
+.page-head-compact{margin-bottom:18px}
+.page-head-compact .eyebrow-sm{
+  display:block;font-family:'JetBrains Mono';font-size:10px;text-transform:uppercase;
+  letter-spacing:0.15em;color:var(--text-3);margin-bottom:6px;
+}
+.page-head-compact h1{font-family:'Space Grotesk';font-size:clamp(1.4rem,3vw,2rem);font-weight:700;letter-spacing:-0.02em;line-height:1.1}
+.page-head-compact h1 .accent{color:var(--accent);font-style:italic;font-weight:500}
 
 /* STATS ROW */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}
@@ -368,6 +371,11 @@ td .actions{display:flex;gap:6px}
 
 <section class="page hidden" id="app">
   <div class="wrap">
+
+    <div class="page-head-compact">
+      <span class="eyebrow-sm" id="page-eyebrow">Control panel</span>
+      <h1 id="page-title">Manage <span class="accent">everything</span>.</h1>
+    </div>
 
     <!-- TABS -->
     <div class="tabs" id="tabs">
