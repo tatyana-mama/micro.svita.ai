@@ -301,6 +301,7 @@ td .actions{display:flex;gap:6px}
 /* ===== OVERVIEW / ANALYTICS WIDGETS ===== */
 .grid-2{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:24px}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.grid-2.eq{grid-template-columns:1fr 1fr}
 @media(max-width:1100px){.grid-2{grid-template-columns:1fr}.grid-3{grid-template-columns:1fr}}
 .card{background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px 28px;min-width:0}
 .card .hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
@@ -385,6 +386,7 @@ td .actions{display:flex;gap:6px}
       <div class="tab" data-tab="sales" id="tab-sales" style="display:none">Sales <span class="count" id="t-sales">—</span></div>
       <div class="tab" data-tab="funnel" id="tab-funnel" style="display:none">Funnel</div>
       <div class="tab" data-tab="cohorts" id="tab-cohorts" style="display:none">Cohorts</div>
+      <div class="tab" data-tab="segments" id="tab-segments" style="display:none">Segments</div>
       <div class="tab" data-tab="users" id="tab-users" style="display:none">Users <span class="count" id="t-users">—</span></div>
     </div>
 
@@ -576,6 +578,61 @@ td .actions{display:flex;gap:6px}
       </div>
     </div>
 
+    <!-- ═══ SEGMENTS TAB (superadmin only) ═══ -->
+    <div class="tab-panel hidden" id="panel-segments">
+      <div class="tools">
+        <div class="range" id="seg-range">
+          <button class="range-btn" data-days="7">7d</button>
+          <button class="range-btn on" data-days="30">30d</button>
+          <button class="range-btn" data-days="90">90d</button>
+          <button class="range-btn" data-days="365">1y</button>
+          <button class="range-btn" data-days="0">All</button>
+        </div>
+      </div>
+      <div class="grid-2 eq">
+        <div class="card">
+          <div class="hdr"><h3>By category</h3></div>
+          <div class="table-wrap" style="border:0;border-radius:0;background:transparent">
+            <table><thead><tr><th>Category</th><th>Orders</th><th>Buyers</th><th>Revenue</th><th>Share</th></tr></thead>
+            <tbody id="seg-cat"></tbody></table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="hdr"><h3>By price tier</h3></div>
+          <div class="table-wrap" style="border:0;border-radius:0;background:transparent">
+            <table><thead><tr><th>Tier</th><th>Orders</th><th>Buyers</th><th>Revenue</th><th>Share</th></tr></thead>
+            <tbody id="seg-tier"></tbody></table>
+          </div>
+        </div>
+      </div>
+      <div class="grid-2 eq">
+        <div class="card">
+          <div class="hdr"><h3>By provider</h3></div>
+          <div class="table-wrap" style="border:0;border-radius:0;background:transparent">
+            <table><thead><tr><th>Provider</th><th>Orders</th><th>Revenue</th></tr></thead>
+            <tbody id="seg-prov"></tbody></table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="hdr"><h3>Top buyers</h3></div>
+          <div class="table-wrap" style="border:0;border-radius:0;background:transparent">
+            <table><thead><tr><th>Buyer</th><th>Orders</th><th>Revenue</th></tr></thead>
+            <tbody id="seg-buyers"></tbody></table>
+          </div>
+        </div>
+      </div>
+      <div class="grid-2 eq">
+        <div class="card">
+          <div class="hdr"><h3>By weekday</h3></div>
+          <div class="chart-wrap" id="seg-dow-chart"></div>
+        </div>
+        <div class="card">
+          <div class="hdr"><h3>By hour of day</h3></div>
+          <div class="chart-wrap" id="seg-hour-chart"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- ═══ USERS TAB (superadmin only) ═══ -->
     <div class="tab-panel hidden" id="panel-users">
       <div class="stats">
@@ -668,7 +725,7 @@ async function boot(){
     // Reveal app FIRST so any error downstream doesn't leave a blank page.
     $('app').classList.remove('hidden');
     if(MY_ROLE === 'superadmin'){
-      ['overview','sales','funnel','cohorts','users'].forEach(n=>{
+      ['overview','sales','funnel','cohorts','segments','users'].forEach(n=>{
         const t = $('tab-'+n); if(t) t.style.display = '';
       });
       const eb = $('page-eyebrow'); if(eb) eb.textContent = 'Superadmin control';
@@ -1508,6 +1565,53 @@ async function loadCohorts(){
   } catch(e){ console.warn('loadCohorts', e); }
 }
 TAB_LOADERS.cohorts = loadCohorts;
+
+// ═══════════════ SEGMENTS ═══════════════
+let SEG_DAYS = 30;
+async function loadSegments(){
+  try {
+  const {data, error} = await sb.rpc('admin_segments', {p_days: SEG_DAYS});
+  if(error){ console.warn('segments', error); return; }
+  const d = data || {};
+  const catRows = d.by_category || [];
+  const totalCatRev = catRows.reduce((a,r)=>a+Number(r.revenue||0),0) || 1;
+  $('seg-cat').innerHTML = catRows.length ? catRows.map(r=>{
+    const share = (Number(r.revenue||0)/totalCatRev*100).toFixed(1);
+    return `<tr><td><span class="chip">${escape(r.category||'—')}</span></td><td class="mono">${fmtN(r.orders)}</td><td class="mono">${fmtN(r.buyers)}</td><td class="mono">${fmtEur(r.revenue)}</td><td class="mono">${share}%</td></tr>`;
+  }).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--text-3);padding:30px">No data</td></tr>';
+
+  const tierRows = d.by_price_tier || [];
+  const totalTierRev = tierRows.reduce((a,r)=>a+Number(r.revenue||0),0) || 1;
+  $('seg-tier').innerHTML = tierRows.length ? tierRows.map(r=>{
+    const share = (Number(r.revenue||0)/totalTierRev*100).toFixed(1);
+    return `<tr><td>${escape(r.tier)}</td><td class="mono">${fmtN(r.orders)}</td><td class="mono">${fmtN(r.buyers)}</td><td class="mono">${fmtEur(r.revenue)}</td><td class="mono">${share}%</td></tr>`;
+  }).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--text-3);padding:30px">No data</td></tr>';
+
+  const provRows = d.by_provider || [];
+  $('seg-prov').innerHTML = provRows.length ? provRows.map(r=>{
+    return `<tr><td><span class="chip">${escape(r.provider||'—')}</span></td><td class="mono">${fmtN(r.orders)}</td><td class="mono">${fmtEur(r.revenue)}</td></tr>`;
+  }).join('') : '<tr><td colspan="3" style="text-align:center;color:var(--text-3);padding:30px">No data</td></tr>';
+
+  const buyerRows = d.top_buyers || [];
+  $('seg-buyers').innerHTML = buyerRows.length ? buyerRows.map(r=>{
+    return `<tr><td><span style="font-size:12px">${escape(r.display_name||r.email||'—')}</span></td><td class="mono">${fmtN(r.orders)}</td><td class="mono">${fmtEur(r.revenue)}</td></tr>`;
+  }).join('') : '<tr><td colspan="3" style="text-align:center;color:var(--text-3);padding:30px">No data</td></tr>';
+
+  const dowRows = d.by_weekday || [];
+  drawBarChart($('seg-dow-chart'), dowRows, {key:'orders', label:'dow', fmt:fmtN});
+  const hourRows = d.by_hour || [];
+  drawBarChart($('seg-hour-chart'), hourRows, {key:'orders', label:'hour', fmt:fmtN});
+  } catch(e){ console.warn('loadSegments', e); }
+}
+TAB_LOADERS.segments = loadSegments;
+
+document.querySelectorAll('#seg-range .range-btn').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('#seg-range .range-btn').forEach(x=>x.classList.toggle('on', x===b));
+    SEG_DAYS = Number(b.dataset.days);
+    loadSegments();
+  });
+});
 
 // ═══════════════ BRANDBOOKS ═══════════════
 let BB_ALL = [], BB_VIEW = [];
