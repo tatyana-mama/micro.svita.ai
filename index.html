@@ -821,6 +821,12 @@ window.setLang = function setLang(code){
 /* ===================== SHOP RENDERER ===================== */
 const CAT_PAL = SvitaCard.CAT_PAL;
 const CAT_LABELS = SvitaCard.CAT_LABELS;
+const SB_URL='https://ctdleobjnzniqkqomlrq.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+if(!window.__svitaSb && window.supabase){
+  window.__svitaSb = window.supabase.createClient(SB_URL, SB_KEY, {auth:{persistSession:true,autoRefreshToken:true,storageKey:'svita-micro-auth'}});
+}
+window.SB = window.__svitaSb;
 let CATALOG = [], FILTERED = [], SHOWN = 0, PAGE = 12;
 const STATE = {cat:'all', sort:'popular', q:''};
 
@@ -829,7 +835,12 @@ function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.random()*i+1|0;[a
 async function loadCatalog(){
   try{
     const r = await fetch('data/catalog.json',{cache:'no-store'});
-    CATALOG = shuffle(await r.json());
+    let raw = await r.json();
+    // Enrich with DB: hides concepts flagged verified=false by admin
+    if(window.SB && SvitaCard.enrichFromDB){
+      raw = await SvitaCard.enrichFromDB(raw, window.SB);
+    }
+    CATALOG = shuffle(raw);
     applyFilters();
     buildHeroSlider();
   }catch(err){ console.error('catalog load failed',err); }

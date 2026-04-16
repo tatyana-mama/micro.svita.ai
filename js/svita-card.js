@@ -106,6 +106,34 @@ window.SvitaCard = (function(){
     });
   }
 
+  // Enrich catalog.json with DB-authoritative flags (verified, has_brandbook, ls_url).
+  // Rule: if a concept has a DB row with verified=false -> hide from public shop.
+  //       if no DB row exists (fresh/stub) -> show as-is. This keeps launch-day UX.
+  async function enrichFromDB(catalog, sb){
+    if(!sb || !Array.isArray(catalog)) return catalog;
+    try{
+      const {data, error} = await sb.from('concepts_catalog')
+        .select('slug, verified, has_brandbook, ls_url');
+      if(error || !data) return catalog;
+      const byslug = Object.create(null);
+      data.forEach(function(r){ byslug[r.slug] = r; });
+      return catalog
+        .map(function(c){
+          const row = byslug[c.slug];
+          if(!row) return c;
+          return Object.assign({}, c, {
+            verified: row.verified,
+            has_brandbook: row.has_brandbook,
+            ls_url: row.ls_url,
+            _in_db: true
+          });
+        })
+        .filter(function(c){
+          return !c._in_db || c.verified !== false;
+        });
+    }catch(e){ return catalog; }
+  }
+
   return {
     CAT_PAL: CAT_PAL,
     CAT_LABELS: CAT_LABELS,
@@ -116,6 +144,7 @@ window.SvitaCard = (function(){
     ownedCard: ownedCard,
     favCard: favCard,
     wireClicks: wireClicks,
-    esc: esc
+    esc: esc,
+    enrichFromDB: enrichFromDB
   };
 })();

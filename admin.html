@@ -755,7 +755,7 @@ document.querySelectorAll('#tabs .tab').forEach(el=>{
   el.addEventListener('click', ()=>{
     const name = el.dataset.tab;
     document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.toggle('on', t===el));
-    ['overview','concepts','brandbooks','sales','funnel','cohorts','users'].forEach(n=>{
+    ['overview','concepts','brandbooks','sales','funnel','cohorts','segments','users'].forEach(n=>{
       const p = $('panel-'+n);
       if(p) p.classList.toggle('hidden', n!==name);
     });
@@ -764,14 +764,20 @@ document.querySelectorAll('#tabs .tab').forEach(el=>{
 });
 
 async function loadConcepts(){
-  // Try DB first, fallback to catalog.json
-  const {data: dbData} = await sb.from('admin_concepts').select('*').order('created_at',{ascending:false});
-  if(dbData && dbData.length){
-    ALL = dbData;
-  } else {
+  // DB is source of truth. Fallback to catalog.json only if the admin_concepts view is
+  // missing (fresh install) — NOT if it returns empty (that is a valid state).
+  const {data: dbData, error: dbErr} = await sb.from('admin_concepts').select('*').order('created_at',{ascending:false});
+  if(dbErr){
+    console.warn('admin_concepts view unavailable, falling back to catalog.json:', dbErr.message);
     const r = await fetch('data/catalog.json');
     const local = await r.json();
     ALL = local.map(c => ({...c, verified:false, langs_filled:0}));
+    const warn = document.createElement('div');
+    warn.style.cssText = 'background:#fff3cd;color:#856404;padding:8px 12px;margin:8px 0;border-radius:6px;font-size:13px';
+    warn.textContent = '⚠ DB view admin_concepts unavailable — showing local catalog.json. Verification/stats are disabled.';
+    $('tbl-wrap').before(warn);
+  } else {
+    ALL = dbData || [];
   }
   $('loading').classList.add('hidden');
   $('tbl-wrap').classList.remove('hidden');
@@ -1779,11 +1785,16 @@ function updateBulkBar(){
   const n = SEL.size;
   $('bulk-bar').classList.toggle('hidden', n === 0);
   $('bulk-n').textContent = n;
-  // Non-superadmin can't verify/delete in bulk either
+  // Non-superadmin can't verify/delete in bulk — show disabled with tooltip
   const isSA = MY_ROLE === 'superadmin';
-  $('bulk-verify').style.display = isSA ? '' : 'none';
-  $('bulk-unverify').style.display = isSA ? '' : 'none';
-  $('bulk-delete').style.display = isSA ? '' : 'none';
+  ['bulk-verify','bulk-unverify','bulk-delete'].forEach(id => {
+    const el = $(id);
+    if(!el) return;
+    el.disabled = !isSA;
+    el.title = isSA ? '' : 'Only superadmin can perform this action';
+    el.style.opacity = isSA ? '' : '0.4';
+    el.style.cursor = isSA ? '' : 'not-allowed';
+  });
 }
 
 async function setPayLink(slug, url){

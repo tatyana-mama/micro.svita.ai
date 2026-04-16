@@ -1123,31 +1123,24 @@ async function enterAccount(user){
     const box = $('intent-box');
     box.className = 'intent reveal in';
     box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--accent)">Processing payment…</span><h4>Unlocking your concept</h4><div class="specs">This takes a few seconds.</div></div><div class="actions"><div class="spin" style="margin:0 8px"></div></div>`;
-    // 1) Ensure a paid purchase row exists for auth.uid() + PAID_SLUG.
-    // Try claim RPC first (trust-redirect fallback, no webhook needed).
-    // If RPC missing or fails, check whether a paid row already exists
-    // (e.g. superadmin direct insert, or prior manual grant) and accept that.
+    // Server-side verification only. claim_paid_concept RPC must confirm the purchase
+    // (SECURITY DEFINER on server verifies webhook row in purchases).
+    // Client never inserts paid=true directly — that would be forgeable via DevTools.
     try{
       const {error: claimErr} = await sb.rpc('claim_paid_concept', {p_slug: PAID_SLUG, p_provider: 'lemon_squeezy'});
-      if(claimErr){
-        const {data: existing} = await sb.from('purchases')
-          .select('status')
-          .eq('user_id', user.id)
-          .eq('concept_slug', PAID_SLUG)
-          .eq('status','paid')
-          .maybeSingle();
-        if(!existing){
-          const {error: upErr} = await sb.from('purchases').upsert({
-            user_id: user.id, concept_slug: PAID_SLUG,
-            price_paid: 0, currency:'EUR',
-            provider: MY_ROLE==='superadmin' ? 'superadmin' : 'lemon_squeezy',
-            status:'paid'
-          }, {onConflict:'user_id,concept_slug'});
-          if(upErr) throw upErr;
-        }
+      // If RPC missing or failed, check if a paid row already exists (set by webhook
+      // or superadmin direct grant). Accept it only if status='paid' is already persisted.
+      const {data: existing} = await sb.from('purchases')
+        .select('status')
+        .eq('user_id', user.id)
+        .eq('concept_slug', PAID_SLUG)
+        .eq('status','paid')
+        .maybeSingle();
+      if(claimErr && !existing){
+        throw new Error('Payment not yet confirmed. If you completed checkout, please wait a minute and refresh — our payment webhook will unlock access.');
       }
     }catch(e){
-      box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--err)">Payment issue</span><h4>Could not unlock automatically</h4><div class="specs">${(e && e.message) || 'Unknown error'}. Contact support.</div></div><div class="actions"><button class="btn btn-ghost" onclick="history.replaceState({},'','account.html');this.closest('.intent').className='hidden';">Close</button></div>`;
+      box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--err)">Payment issue</span><h4>Could not unlock automatically</h4><div class="specs">${(e && e.message) || 'Unknown error'}. Contact support at hello@svita.ai.</div></div><div class="actions"><button class="btn btn-ghost" onclick="location.reload()">Retry</button><button class="btn btn-ghost" onclick="history.replaceState({},'','account.html');this.closest('.intent').className='hidden';">Close</button></div>`;
       return;
     }
     await loadOwned();
