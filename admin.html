@@ -537,6 +537,7 @@ td .actions{display:flex;gap:6px}
           <option value="stripe">Stripe</option>
           <option value="superadmin">Gift (superadmin)</option>
         </select>
+        <button class="btn-s" id="sl-export" title="Download filtered rows as CSV">⤓ Export CSV</button>
       </div>
       <div class="table-wrap">
         <table>
@@ -1461,12 +1462,13 @@ document.querySelectorAll('#o-top-range .range-btn').forEach(b=>{
 });
 
 // ═══════════════ SALES ═══════════════
-let SL_DAYS = 30, SL_PROV = 'all';
+let SL_DAYS = 30, SL_PROV = 'all', SL_ROWS = [];
 async function loadSales(){
   try {
   const {data, error} = await sb.rpc('admin_sales_list', {p_days: SL_DAYS, p_provider: SL_PROV, p_limit: 500});
   if(error){ console.warn('sales', error); return; }
   const rows = data || [];
+  SL_ROWS = rows;
   const paid = rows.filter(r => r.provider !== 'superadmin' && r.status === 'paid');
   const rev = paid.reduce((a,r)=>a+Number(r.price_paid||0),0);
   const avg = paid.length ? Math.round(rev/paid.length) : 0;
@@ -1877,6 +1879,19 @@ on('uq','input', e=>{USTATE.q=e.target.value;applyUsers()});
 on('urole','change', e=>{USTATE.role=e.target.value;applyUsers()});
 on('bq','input', e=>{BSTATE.q=e.target.value;applyBrandbooks()});
 on('sl-prov','change', e=>{ SL_PROV = e.target.value; loadSales(); });
+on('sl-export','click', ()=>{
+  if(!SL_ROWS.length){ alert('No rows to export'); return; }
+  const cols = ['ts','email','user_id','concept_slug','provider','price_paid','currency','status'];
+  const esc = v => { const s = v==null?'':String(v); return /[",\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s; };
+  const body = SL_ROWS.map(r => cols.map(k => esc(r[k])).join(',')).join('\n');
+  const csv = cols.join(',') + '\n' + body;
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'svita-sales-'+SL_DAYS+'d-'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
 /* signout + nav scroll handled by shared svita-nav.js */
 
 boot();
