@@ -689,6 +689,16 @@ function renderFrame(c){
           return;
         }
         iframe.srcdoc = data.html_content;
+        const cssVars = {};
+        const varRx = /--([\w-]+)\s*:\s*(#[0-9A-Fa-f]{3,8})/g;
+        let m; while((m = varRx.exec(data.html_content)) !== null) cssVars[m[1]] = m[2];
+        const bg = cssVars['cream'] || cssVars['bg'] || cssVars['background'] || null;
+        const fg = cssVars['rye'] || cssVars['primary'] || cssVars['accent'] || cssVars['ink'] || null;
+        if(bg || fg){
+          const r = document.documentElement;
+          if(bg) r.style.setProperty('--bg-1', bg);
+          if(fg) r.style.setProperty('--bg-2', fg);
+        }
       });
     return;
   }
