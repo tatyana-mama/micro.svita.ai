@@ -341,6 +341,11 @@ td .actions{display:flex;gap:6px}
 .feed-body .who{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .feed-body .what{font-size:11px;color:var(--text-3);margin-top:2px}
 .feed-body .when{font-family:'JetBrains Mono';font-size:10px;color:var(--text-3);margin-top:3px}
+.feed-search{display:flex;gap:8px;margin-bottom:10px}
+.feed-search input{flex:1;background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:7px 12px;color:var(--text);font-size:12px;font-family:'Inter',sans-serif;outline:none;transition:border .2s}
+.feed-search input:focus{border-color:var(--accent)}
+.feed-search input::placeholder{color:var(--text-3)}
+.feed-item.hidden{display:none}
 </style>
 </head>
 <body>
@@ -419,6 +424,7 @@ td .actions{display:flex;gap:6px}
         </div>
         <div class="card">
           <div class="hdr"><h3>Recent activity</h3></div>
+          <div class="feed-search"><input id="o-feed-q" type="text" placeholder="Search by name, action or date…"></div>
           <div class="feed" id="o-feed"></div>
         </div>
       </div>
@@ -1410,6 +1416,13 @@ function renderFeed(el, items){
     return `<div class="feed-item"><div class="feed-icon ${cls}">${icon}</div><div class="feed-body"><div class="who">${who}</div><div class="what">${what}</div><div class="when">${fmtDateTime(it.ts)}</div></div></div>`;
   }).join('');
 }
+
+$('o-feed-q').addEventListener('input', function(){
+  const q = this.value.toLowerCase().trim();
+  document.querySelectorAll('#o-feed .feed-item').forEach(el=>{
+    el.classList.toggle('hidden', q && !el.textContent.toLowerCase().includes(q));
+  });
+});
 
 function renderTopConcepts(el, rows){
   if(!rows || !rows.length){ el.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-3);padding:40px">No data</td></tr>'; return; }

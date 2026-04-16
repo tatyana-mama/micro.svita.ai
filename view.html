@@ -179,6 +179,15 @@ body::after{
   letter-spacing:-0.03em;line-height:1;
 }
 .preview-hero .tag{font-size:14px;opacity:0.9;font-weight:500}
+.star-rating{display:flex;align-items:center;gap:8px;margin-top:2px}
+.star-rating .stars{display:flex;gap:2px;cursor:pointer}
+.star-rating .stars.ro{cursor:default}
+.star-rating .star{width:22px;height:22px;fill:rgba(255,255,255,0.3);transition:fill .15s;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.3))}
+.star-rating .star.on{fill:#FBBF24}
+.star-rating .star:hover{fill:#FCD34D}
+.star-rating .stars.ro .star:hover{fill:rgba(255,255,255,0.3)}
+.star-rating .stars.ro .star.on:hover{fill:#FBBF24}
+.star-rating .info{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
 .preview-body-inner{padding:40px;display:grid;grid-template-columns:2fr 1fr;gap:32px}
 @media(max-width:760px){.preview-body-inner{grid-template-columns:1fr}}
 .preview-body-inner h2{font-family:'Space Grotesk';font-size:22px;margin-bottom:12px}
@@ -812,11 +821,13 @@ function renderFrame(c){
           <div class="tag">${c.category.toUpperCase()} · ${c.size_m2||''}m²</div>
           <h1>${c.name}</h1>
           <div class="tag">${c.tagline||''}</div>
+          <div class="star-rating" id="star-rating"></div>
         </div>
       </div>
       ${body}
     </div>`;
   buildCollage(c);
+  loadRating(c.slug);
 }
 
 async function buildCollage(c){
@@ -889,6 +900,41 @@ function buildLangMenu(){
   document.addEventListener('click', e => { if(!e.target.closest('#langChip')) menu.classList.remove('open'); });
 }
 buildLangMenu();
+
+const STAR_SVG = '<svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>';
+
+async function loadRating(slug){
+  const box = document.getElementById('star-rating');
+  if(!box || !SB) return;
+  const {data:agg} = await SB.from('concept_ratings_agg').select('*').eq('concept_slug', slug).maybeSingle();
+  const avg = agg ? Number(agg.avg_rating) : 0;
+  const cnt = agg ? Number(agg.rating_count) : 0;
+  const {data:{user}} = await SB.auth.getUser();
+  let myRating = 0;
+  if(user){
+    const {data:my} = await SB.from('concept_ratings').select('rating').eq('concept_slug', slug).eq('user_id', user.id).maybeSingle();
+    if(my) myRating = my.rating;
+  }
+  renderStars(box, slug, avg, cnt, myRating, !!user);
+}
+
+function renderStars(box, slug, avg, cnt, my, logged){
+  const display = my || Math.round(avg);
+  const ro = !logged;
+  box.innerHTML = `<div class="stars${ro?' ro':''}">${[1,2,3,4,5].map(i=>
+    `<span data-v="${i}">${STAR_SVG.replace('class="star"','class="star'+(i<=display?' on':'')+'"')}</span>`
+  ).join('')}</div><span class="info">${avg>0?avg.toFixed(1):'—'} (${cnt})</span>`;
+  if(ro) return;
+  box.querySelector('.stars').addEventListener('click', async e=>{
+    const sp = e.target.closest('[data-v]');
+    if(!sp) return;
+    const v = Number(sp.dataset.v);
+    const {data:{user}} = await SB.auth.getUser();
+    if(!user) return;
+    await SB.from('concept_ratings').upsert({user_id:user.id, concept_slug:slug, rating:v, updated_at:new Date().toISOString()},{onConflict:'user_id,concept_slug'});
+    loadRating(slug);
+  });
+}
 </script>
 <script src="js/svita-metrics-config.js"></script>
 <script src="js/svita-3p-analytics.js"></script>
