@@ -824,10 +824,12 @@ const CAT_LABELS = SvitaCard.CAT_LABELS;
 let CATALOG = [], FILTERED = [], SHOWN = 0, PAGE = 12;
 const STATE = {cat:'all', sort:'popular', q:''};
 
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.random()*i+1|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+
 async function loadCatalog(){
   try{
     const r = await fetch('data/catalog.json',{cache:'no-store'});
-    CATALOG = await r.json();
+    CATALOG = shuffle(await r.json());
     applyFilters();
     buildHeroSlider();
   }catch(err){ console.error('catalog load failed',err); }
