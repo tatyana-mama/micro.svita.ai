@@ -152,5 +152,19 @@
     "tagline": "Curated Y2K vintage with Berlin street energy",
     "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
     "has_brandbook": true
+  },
+  {
+    "slug": "berlin-yoga-loft",
+    "name": "Berlin Yoga Loft",
+    "category": "wellness",
+    "country": "DE",
+    "size_m2": 56,
+    "price_eur": 149,
+    "budget_eur": 14800,
+    "weeks": 9,
+    "hero_image": "data/concepts/berlin-yoga-loft/images/01-hero.png",
+    "tagline": "Sun-drenched yoga loft with infrared floors",
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   }
 ]
