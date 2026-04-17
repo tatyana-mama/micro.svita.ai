@@ -36,7 +36,7 @@
     "price_eur": 79,
     "budget_eur": 9800,
     "weeks": 6,
-    "hero_image": "data/concepts/amsterdam-juice-lab/hero.png",
+    "hero_image": "data/concepts/amsterdam-juice-lab/images/01-hero.png",
     "tagline": "Cold-pressed juice kiosk with canal-side vibes",
     "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd",
     "has_brandbook": true
@@ -134,7 +134,7 @@
     "price_eur": 99,
     "budget_eur": 11400,
     "weeks": 7,
-    "hero_image": "data/concepts/paris-candle-atelier/hero.png",
+    "hero_image": "data/concepts/paris-candle-atelier/images/01-hero.png",
     "tagline": "Hand-poured soy candles with perfumer fragrances",
     "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7",
     "has_brandbook": true
@@ -148,7 +148,7 @@
     "price_eur": 129,
     "budget_eur": 14800,
     "weeks": 8,
-    "hero_image": "data/concepts/berlin-vintage-shop/hero.png",
+    "hero_image": "data/concepts/berlin-vintage-shop/images/01-hero.png",
     "tagline": "Curated Y2K vintage with Berlin street energy",
     "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
     "has_brandbook": true

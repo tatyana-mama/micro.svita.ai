@@ -4,7 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SVITA Micro — Shop</title>
+<meta name="description" content="Browse ready-to-launch business concepts. Every one ships with a full brandbook, verified budget, and 7-week launch plan.">
 <meta name="theme-color" content="#0A0A0B">
+<link rel="canonical" href="https://micro.svita.ai/shop.html">
+<link rel="icon" href="/apple-touch-icon.png" type="image/png">
+<meta property="og:site_name" content="SVITA Micro">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://micro.svita.ai/shop.html">
+<meta property="og:title" content="SVITA Micro — Shop">
+<meta property="og:description" content="Ready-to-launch business concepts. Brandbook, budget, 7 weeks to first customer.">
+<meta property="og:image" content="https://micro.svita.ai/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@micro_svita">
+<meta name="twitter:title" content="SVITA Micro — Shop">
+<meta name="twitter:description" content="Ready-to-launch business concepts. Brandbook, budget, 7 weeks to first customer.">
+<meta name="twitter:image" content="https://micro.svita.ai/assets/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -321,6 +335,40 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
   </div>
 </section>
 
+<!-- ================================================= -->
+<!-- Coming Soon — upcoming concepts, waitlist capture -->
+<!-- ================================================= -->
+<section id="coming-soon" style="max-width:1280px;margin:64px auto 40px;padding:0 24px">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:16px;margin-bottom:28px">
+    <div>
+      <div style="font:600 10px/1.2 Inter,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--text-3,#94a3b8);margin-bottom:8px">· COMING SOON ·</div>
+      <h2 style="font:800 36px/1.05 'Fraunces',serif;letter-spacing:-0.02em;color:var(--text,#0f172a);margin:0">
+        <span id="cs-count">188</span> more concepts in the works.
+      </h2>
+      <p style="font:400 14px/1.55 Inter,sans-serif;color:var(--text-2,#475569);max-width:520px;margin:12px 0 0">
+        We release them as each brandbook ships. Tell us which one excites you — we'll notify you the moment it's live, with a founder-only discount.
+      </p>
+    </div>
+  </div>
+  <div id="cs-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px"></div>
+  <div id="cs-loading" style="padding:40px;text-align:center;color:#64748b;font:400 13px Inter">Loading upcoming concepts…</div>
+</section>
+
+<!-- Waitlist modal -->
+<div id="cs-modal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.72);z-index:9999;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:16px;max-width:440px;width:100%;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
+    <button id="cs-close" style="float:right;background:none;border:none;font-size:24px;color:#94a3b8;cursor:pointer;padding:0;line-height:1">×</button>
+    <div id="cs-modal-slug" style="font:600 10px/1 Inter;letter-spacing:.2em;text-transform:uppercase;color:#94a3b8;margin-bottom:8px">—</div>
+    <h3 id="cs-modal-name" style="font:800 24px/1.1 Fraunces,serif;letter-spacing:-0.015em;color:#0f172a;margin:0 0 12px">—</h3>
+    <p style="font:400 14px/1.55 Inter;color:#475569;margin:0 0 20px">Leave your email — we'll tell you the moment this concept's brandbook is live, with a founder-only discount.</p>
+    <form id="cs-form" style="display:flex;flex-direction:column;gap:10px">
+      <input type="email" id="cs-email" placeholder="you@example.com" required style="padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font:400 14px Inter;outline:none">
+      <button type="submit" style="padding:12px;background:#0f172a;color:#fff;border:none;border-radius:10px;font:600 14px Inter;cursor:pointer">Notify me</button>
+      <div id="cs-msg" style="font:400 12px Inter;color:#64748b;min-height:16px"></div>
+    </form>
+  </div>
+</div>
+
 <script>
 const CAT_PAL = SvitaCard.CAT_PAL;
 const CAT_LABELS = SvitaCard.CAT_LABELS;
@@ -332,7 +380,9 @@ const STATE = {cat:'all', sort:'popular', q:'', page:0, per:24};
 
 const SB_URL='https://ctdleobjnzniqkqomlrq.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
-const SB = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY, {auth:{persistSession:true,autoRefreshToken:true,storageKey:'svita-micro-auth'}}) : null;
+// Singleton: reuse window.__svitaSb if already created (nav/app scripts may init it first).
+const SB = window.__svitaSb || (window.supabase ? window.supabase.createClient(SB_URL, SB_KEY, {auth:{persistSession:true,autoRefreshToken:true,storageKey:'svita-micro-auth'}}) : null);
+if(SB) window.__svitaSb = SB;
 
 async function loadOwnedSlugs(){
   if(!SB) return;
@@ -465,6 +515,80 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
 loadCatalog();
 </script>
+
+<script>
+/* Coming Soon: upcoming concepts + waitlist capture */
+(function(){
+  if(!SB) return;
+  const gridEl = document.getElementById('cs-grid');
+  const loadEl = document.getElementById('cs-loading');
+  const countEl = document.getElementById('cs-count');
+  const modal = document.getElementById('cs-modal');
+  const modalSlug = document.getElementById('cs-modal-slug');
+  const modalName = document.getElementById('cs-modal-name');
+  const form = document.getElementById('cs-form');
+  const msgEl = document.getElementById('cs-msg');
+  let currentSlug = null;
+
+  function cardHTML(c){
+    const hero = c.hero_image ? `<img src="${c.hero_image}" alt="" style="width:100%;height:140px;object-fit:cover;display:block;filter:brightness(0.82) saturate(0.9)">` : `<div style="height:140px;background:#f1f5f9"></div>`;
+    const meta = [c.category, c.size_m2 ? `${c.size_m2}m²` : ''].filter(Boolean).join(' · ');
+    return `<article data-slug="${c.slug}" data-name="${(c.name||c.slug).replace(/"/g,'&quot;')}" style="cursor:pointer;background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;transition:transform .2s,box-shadow .2s">
+      <div style="position:relative">${hero}
+        <div style="position:absolute;top:8px;right:8px;background:rgba(15,23,42,0.85);color:#fff;font:700 9px/1 Inter;letter-spacing:.14em;padding:5px 8px;border-radius:4px">COMING SOON</div>
+      </div>
+      <div style="padding:14px 14px 16px">
+        <div style="font:700 15px/1.25 Fraunces,serif;color:#0f172a;margin-bottom:4px;letter-spacing:-0.01em">${c.name || c.slug}</div>
+        <div style="font:400 11px/1.4 Inter;color:#64748b;text-transform:uppercase;letter-spacing:.06em">${meta}</div>
+      </div>
+    </article>`;
+  }
+
+  function openModal(slug, name){
+    currentSlug = slug;
+    modalSlug.textContent = slug;
+    modalName.textContent = name || slug;
+    msgEl.textContent = '';
+    document.getElementById('cs-email').value = '';
+    modal.style.display = 'flex';
+  }
+  function closeModal(){ modal.style.display = 'none'; currentSlug = null; }
+  document.getElementById('cs-close').addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if(!currentSlug) return;
+    const email = document.getElementById('cs-email').value.trim().toLowerCase();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ msgEl.textContent = 'Enter a valid email.'; msgEl.style.color='#dc2626'; return; }
+    msgEl.textContent = 'Saving…';
+    msgEl.style.color = '#64748b';
+    const {error} = await SB.from('waitlist_interest').insert({email, concept_slug: currentSlug});
+    if(error && !String(error.message).includes('duplicate')){
+      msgEl.textContent = 'Could not save. Try again.';
+      msgEl.style.color = '#dc2626';
+      return;
+    }
+    msgEl.textContent = '\u2713 Added. We\'ll notify you.';
+    msgEl.style.color = '#059669';
+    setTimeout(closeModal, 1400);
+  });
+
+  (async()=>{
+    const {data, error} = await SB.from('public_upcoming_concepts').select('*');
+    if(error || !data){ loadEl.textContent = 'Could not load upcoming concepts.'; return; }
+    countEl.textContent = data.length;
+    gridEl.innerHTML = data.map(cardHTML).join('');
+    loadEl.style.display = 'none';
+    gridEl.addEventListener('click', e => {
+      const card = e.target.closest('article[data-slug]');
+      if(!card) return;
+      openModal(card.dataset.slug, card.dataset.name);
+    });
+  })();
+})();
+</script>
+
 <!-- i18n disabled: English-only -->
 <script src="js/svita-footer.js"></script>
 </body>

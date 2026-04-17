@@ -1,5 +1,5 @@
 /* SVITA service worker — minimal offline shell + stale-while-revalidate for catalog */
-const VERSION = 'svita-v5-inspiration';
+const VERSION = 'svita-v6-audit-fixes';
 const SHELL = [
   '/',
   '/index.html',

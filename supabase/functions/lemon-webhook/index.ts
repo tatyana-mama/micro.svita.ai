@@ -87,12 +87,17 @@ Deno.serve(async (req) => {
   }
 
   // LS passes custom data via checkout[custom][<key>] — surfaces in meta.custom_data
+  // Prefer explicit concept_slug + user_id (new). Fall back to legacy ref "<uid>:<slug>".
   const customData = payload.meta?.custom_data ?? {};
+  const explicitSlug = String(customData.concept_slug ?? '');
+  const explicitUser = String(customData.user_id ?? '');
   const ref = String(customData.ref ?? '');
-  const [userId, slug] = ref.split(':');
+  const [refUser, refSlug] = ref.split(':');
+  const slug = explicitSlug || refSlug;
+  const userId = explicitUser || refUser;
 
   if (!userId || !slug) {
-    console.warn('lemon-webhook: missing ref', { ref, eventName });
+    console.warn('lemon-webhook: missing slug/user', { customData, eventName });
     return new Response('ok', { status: 200 });
   }
 
