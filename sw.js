@@ -1,5 +1,5 @@
 /* SVITA service worker — minimal offline shell + stale-while-revalidate for catalog */
-const VERSION = 'svita-v14-view-db-fallback';
+const VERSION = 'svita-v15-placeholder-contract';
 const SHELL = [
   '/',
   '/index.html',

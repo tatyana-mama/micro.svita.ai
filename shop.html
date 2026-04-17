@@ -542,15 +542,13 @@ loadCatalog();
   let currentSlug = null;
 
   function cardHTML(c){
-    const heroSrc = (c.hero_image && c.hero_image.trim()) ? c.hero_image : '';
-    const heroBG = 'width:100%;height:140px;background:linear-gradient(135deg,#f4f2ec 0%,#e4e1d9 60%,#d8d4c8 100%);position:relative;overflow:hidden';
-    const hero = heroSrc
-      ? `<div style="${heroBG}"><img src="${heroSrc}" alt="" loading="lazy" onerror="this.style.display='none'" style="width:100%;height:140px;object-fit:cover;display:block;filter:brightness(0.82) saturate(0.9)"></div>`
-      : `<div style="${heroBG}"></div>`;
+    // Reuse canonical hero renderer — honors `placeholder:category:palette` tokens
+    // via .sc-ph (CSS gradient + emoji), real paths via .sc-img. Single source of truth.
+    const vis = SvitaCard.visual(c);
     const meta = [c.category, c.size_m2 ? `${c.size_m2}m²` : ''].filter(Boolean).join(' · ');
     return `<article data-slug="${c.slug}" data-name="${(c.name||c.slug).replace(/"/g,'&quot;')}" style="cursor:pointer;background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;transition:transform .2s,box-shadow .2s">
-      <div style="position:relative">${hero}
-        <div style="position:absolute;top:8px;right:8px;background:rgba(15,23,42,0.85);color:#fff;font:700 9px/1 Inter;letter-spacing:.14em;padding:5px 8px;border-radius:4px">COMING SOON</div>
+      <div style="position:relative;height:140px;overflow:hidden">${vis}
+        <div style="position:absolute;top:8px;right:8px;background:rgba(15,23,42,0.85);color:#fff;font:700 9px/1 Inter;letter-spacing:.14em;padding:5px 8px;border-radius:4px;z-index:2">COMING SOON</div>
       </div>
       <div style="padding:14px 14px 16px">
         <div style="font:700 15px/1.25 Fraunces,serif;color:#0f172a;margin-bottom:4px;letter-spacing:-0.01em">${c.name || c.slug}</div>

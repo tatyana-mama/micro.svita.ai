@@ -1046,7 +1046,9 @@ function renderFrame(c){
 
 async function buildCollage(c){
   const slug = c.slug;
-  const hero = c.hero_image || (SA_FULL && SA_FULL.catalog && SA_FULL.catalog.hero_image) || '';
+  const heroRaw = c.hero_image || (SA_FULL && SA_FULL.catalog && SA_FULL.catalog.hero_image) || '';
+  // Honor `placeholder:*` data contract — a token, not a URL. Skip probing.
+  const hero = (typeof heroRaw === 'string' && heroRaw.startsWith('placeholder:')) ? '' : heroRaw;
   const paths = [];
   if(hero) paths.push(hero);
   paths.push(
