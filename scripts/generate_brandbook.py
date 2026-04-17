@@ -48,8 +48,11 @@ COUNTRY = {
 }
 
 
-def brandbook_html(c: dict) -> str:
-    """Return a 14-page A4 brandbook for concept `c`."""
+def brandbook_html(c: dict, has_images: bool = True) -> str:
+    """Return a 14-page A4 brandbook for concept `c`.
+    When has_images=False, all image blocks render as CSS gradient placeholders
+    in the category palette so concepts without asset packs still ship a
+    complete, on-brand brandbook."""
     slug = c["slug"]
     pal = PALETTES.get(c.get("category", "food"), PALETTES["food"])
     name = c.get("name") or slug.replace("-", " ").upper()
@@ -61,6 +64,14 @@ def brandbook_html(c: dict) -> str:
 
     img_base = f"images"  # relative path from brandbook HTML inside concept dir
 
+    def img_or_ph(rel_path: str, alt: str, cls: str = "img-full", caption: str | None = None) -> str:
+        """Emit <img> when images are shipped, else a gradient placeholder div."""
+        if has_images:
+            tag = f'<img class="{cls}" src="{img_base}/{rel_path}" alt="{alt}">'
+        else:
+            tag = f'<div class="{cls} img-placeholder" role="img" aria-label="{alt}"><span>{alt}</span></div>'
+        return tag
+
     def page(num: int, cls: str, content: str) -> str:
         return (
             f'<div class="page {cls}" data-page="{num:02d}">{content}</div>\n'
@@ -70,8 +81,13 @@ def brandbook_html(c: dict) -> str:
     pages: list[str] = []
 
     # 1 Cover
+    cover_bg = (
+        f'<img class="cover-bg" src="{img_base}/01-hero.png" alt="">'
+        if has_images
+        else '<div class="cover-bg cover-ph" aria-hidden="true"></div>'
+    )
     pages.append(page(1, "cover no-footer", f"""
-        <img class="cover-bg" src="{img_base}/01-hero.png" alt="">
+        {cover_bg}
         <div class="brand">{name}<small>· Brandbook 2026 ·</small></div>
         <div class="tagline">"{tagline}"</div>
         <div class="meta">
@@ -106,7 +122,7 @@ def brandbook_html(c: dict) -> str:
         <div class="eyebrow">02 · Moodboard</div>
         <h1 class="page-title">The feeling.</h1>
         <p class="lead">The room you walk into. The first thing the customer sees before they read a single word.</p>
-        <img class="img-full" src="{img_base}/01-hero.png" alt="Hero">
+        {img_or_ph("01-hero.png", "Moodboard")}
     """))
 
     # 4 Color
@@ -146,7 +162,7 @@ def brandbook_html(c: dict) -> str:
         <div class="eyebrow">05 · Logo</div>
         <h1 class="page-title">One mark. Two lockups.</h1>
         <p class="lead">Primary logo locks the wordmark with the category glyph. Secondary is wordmark-only, used where space is tight.</p>
-        <img class="img-large" src="{img_base}/05-signage.png" alt="Signage with logo">
+        {img_or_ph("05-signage.png", "Signage with logo", cls="img-large")}
         <p class="caption">Clear space = height of the ampersand on all sides. Minimum print size = 20mm wide.</p>
     """))
 
@@ -154,37 +170,37 @@ def brandbook_html(c: dict) -> str:
     pages.append(page(7, "", f"""
         <div class="eyebrow">06 · Facade</div>
         <h1 class="page-title">What the street sees.</h1>
-        <img class="img-full" src="{img_base}/02-facade.png" alt="Facade">
+        {img_or_ph("02-facade.png", "Facade")}
     """))
 
     # 8 Interior
     pages.append(page(8, "", f"""
         <div class="eyebrow">07 · Interior</div>
         <h1 class="page-title">What the customer remembers.</h1>
-        <img class="img-full" src="{img_base}/03-interior.png" alt="Interior">
+        {img_or_ph("03-interior.png", "Interior")}
     """))
 
     # 9 Packaging
     pages.append(page(9, "", f"""
         <div class="eyebrow">08 · Packaging &amp; collateral</div>
         <h1 class="page-title">Branded touch at every step.</h1>
-        <img class="img-full" src="{img_base}/04-packaging.png" alt="Packaging">
+        {img_or_ph("04-packaging.png", "Packaging")}
     """))
 
     # 10 Signage
     pages.append(page(10, "", f"""
         <div class="eyebrow">09 · Signage</div>
         <h1 class="page-title">The promise, hung on the wall.</h1>
-        <img class="img-full" src="{img_base}/05-signage.png" alt="Signage">
+        {img_or_ph("05-signage.png", "Signage")}
     """))
 
     # 11 Interior layout (isometric technical drawing)
     layout_file = CONCEPTS_DIR / slug / "images" / "06-layout.png"
-    if layout_file.exists():
+    if layout_file.exists() or not has_images:
         pages.append(page(11, "", f"""
             <div class="eyebrow">10 · Interior layout</div>
             <h1 class="page-title">Every square metre, placed.</h1>
-            <img class="img-full" src="{img_base}/06-layout.png" alt="Interior layout">
+            {img_or_ph("06-layout.png", "Interior layout")}
             <p class="caption" style="margin-top:4mm;font-size:10pt;color:{pal['gray']}">Isometric reference showing typical equipment placement, staff flow, and dimensions for a {size}m² footprint. Adapt to your exact premise.</p>
         """))
 
@@ -322,6 +338,10 @@ td.num{{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;
 .total-row td{{border-top:2px solid var(--primary);border-bottom:none}}
 .img-full{{width:100%;flex:1;object-fit:cover;border-radius:2mm;margin-top:6mm;min-height:0}}
 .img-large{{width:100%;max-height:160mm;object-fit:contain;margin:4mm 0;border-radius:2mm}}
+.img-placeholder{{background:linear-gradient(135deg,{pal['primary']} 0%,{pal['accent']} 55%,{pal['mist']} 100%);display:flex;align-items:flex-end;justify-content:flex-start;padding:8mm;position:relative}}
+.img-placeholder::before{{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 25%,rgba(255,255,255,0.22),transparent 55%)}}
+.img-placeholder span{{font-family:'Inter';font-weight:600;font-size:9pt;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.88);position:relative;z-index:1}}
+.cover-ph{{background:linear-gradient(135deg,{pal['ink']} 0%,{pal['primary']} 65%,{pal['accent']} 100%);opacity:0.45}}
 .caption{{font-size:9pt;color:var(--gray);margin-top:3mm;font-style:italic;text-align:center}}
 .page.hero-num{{justify-content:center;align-items:flex-start;padding:30mm 22mm}}
 .page.hero-num .eyebrow{{margin-bottom:24mm}}
@@ -344,7 +364,7 @@ td.num{{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;
 """
 
 
-def write_brandbook(slug: str) -> bool:
+def write_brandbook(slug: str, force: bool = False) -> bool:
     with CATALOG.open() as f:
         catalog = json.load(f)
     concept = next((c for c in catalog if c["slug"] == slug), None)
@@ -353,32 +373,62 @@ def write_brandbook(slug: str) -> bool:
         return False
     images_dir = CONCEPTS_DIR / slug / "images"
     required = ["01-hero.png", "02-facade.png", "03-interior.png", "04-packaging.png", "05-signage.png"]
-    missing = [r for r in required if not (images_dir / r).exists()]
-    if missing:
-        print(f"  [skip] {slug}: missing {missing}")
-        return False
-    out = CONCEPTS_DIR / slug / f"{slug}-brandbook.html"
-    if out.exists():
+    has_images = all((images_dir / r).exists() for r in required)
+    out_dir = CONCEPTS_DIR / slug
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out = out_dir / f"{slug}-brandbook.html"
+    if out.exists() and not force:
         print(f"  [skip] {slug}: brandbook already exists")
         return False
-    out.write_text(brandbook_html(concept), encoding="utf-8")
-    print(f"  [ok]   {slug}")
+    out.write_text(brandbook_html(concept, has_images=has_images), encoding="utf-8")
+    tag = "ok" if has_images else "ok-text"
+    print(f"  [{tag}] {slug}")
+    return True
+
+
+def write_brandbook_from_data(concept: dict, force: bool = False) -> bool:
+    """Generate brandbook directly from a concept dict (DB row, etc.)
+    without requiring catalog.json presence. Auto-detects image availability."""
+    slug = concept["slug"]
+    images_dir = CONCEPTS_DIR / slug / "images"
+    required = ["01-hero.png", "02-facade.png", "03-interior.png", "04-packaging.png", "05-signage.png"]
+    has_images = images_dir.exists() and all((images_dir / r).exists() for r in required)
+    out_dir = CONCEPTS_DIR / slug
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out = out_dir / f"{slug}-brandbook.html"
+    if out.exists() and not force:
+        print(f"  [skip] {slug}: brandbook already exists")
+        return False
+    out.write_text(brandbook_html(concept, has_images=has_images), encoding="utf-8")
+    tag = "ok" if has_images else "ok-text"
+    print(f"  [{tag}] {slug}")
     return True
 
 
 def main():
     args = sys.argv[1:]
+    force = "--force" in args
+    args = [a for a in args if a != "--force"]
+    # --from-stdin: read JSON array from stdin (list of concept dicts)
+    if args and args[0] == "--from-stdin":
+        data = json.load(sys.stdin)
+        created = 0
+        for concept in data:
+            if write_brandbook_from_data(concept, force=force):
+                created += 1
+        print(f"\nGenerated {created} brandbooks.")
+        return
     if not args or args[0] == "--all":
         created = 0
         for concept_dir in sorted(CONCEPTS_DIR.iterdir()):
             if not concept_dir.is_dir():
                 continue
-            if write_brandbook(concept_dir.name):
+            if write_brandbook(concept_dir.name, force=force):
                 created += 1
         print(f"\nGenerated {created} brandbooks.")
     else:
         for slug in args:
-            write_brandbook(slug)
+            write_brandbook(slug, force=force)
 
 
 if __name__ == "__main__":
