@@ -726,16 +726,16 @@ function renderBuyCTA(c){
     return '<button class="btn" disabled style="opacity:0.5;cursor:not-allowed;pointer-events:none">Sold out</button>';
   }
   const slug = String(c.slug||'').replace(/'/g,'');
+  const price = c.current_price_eur != null ? c.current_price_eur : (c.price_eur||0);
   return '<div class="buy-block">'
     + '<label class="buy-consent">'
     +   '<input type="checkbox" id="buy-consent-'+slug+'" class="buy-consent-chk">'
     +   '<span>I agree to the <a href="/legal.html#offer" target="_blank">Public Offer</a>, <a href="/legal.html#refund" target="_blank">Refund Policy</a> and <a href="/legal.html#license" target="_blank">Brandbook License</a>.</span>'
     + '</label>'
     + '<button type="button" class="btn buy-cta" data-slug="'+slug+'" onclick="startCheckout(\''+slug+'\')">'
-    +   'Proceed to checkout'
+    +   'Buy €' + price
     +   '<svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h12M9 1l4 4-4 4"/></svg>'
     + '</button>'
-    + '<div style="margin-top:8px;font-size:11px;color:#64748B;text-align:center">Final price shown on checkout · Instant access after payment</div>'
     + '</div>';
 }
 
