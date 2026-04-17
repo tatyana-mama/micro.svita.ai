@@ -1,4 +1,5 @@
 /* SVITA MICRO — shared UI layer (mobile + nav consistency) */
+@import url('svita-mobile.css');
 
 /* Unified nav sizing across pages */
 nav#nav{padding:18px 32px}

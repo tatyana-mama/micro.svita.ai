@@ -48,4 +48,11 @@
   } else {
     render();
   }
+
+  // Register PWA service worker. Silent failure is fine — site still works.
+  if('serviceWorker' in navigator && location.protocol === 'https:'){
+    window.addEventListener('load', ()=>{
+      navigator.serviceWorker.register('/sw.js').catch(()=>{});
+    });
+  }
 })();
