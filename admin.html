@@ -1312,10 +1312,15 @@ function renderConceptModal(c, accessRows, i18n, brand){
     </div>
   `;
 
-  // Inject brandbook HTML into iframe via srcdoc (avoids huge attribute in template literal escapes)
+  // Inject brandbook HTML into iframe. Brandbooks use RELATIVE image paths
+  // (images/01-hero.png), so we prepend a <base> tag pointing to the live disk
+  // folder. Without base, iframe.srcdoc has no document URL and images 404.
   if(brand && brand.html_content){
     const fr = document.getElementById('cbrand-frame');
-    if(fr) fr.srcdoc = brand.html_content;
+    if(fr){
+      const base = `<base href="${location.origin}/data/concepts/${encodeURIComponent(c.slug)}/">`;
+      fr.srcdoc = brand.html_content.replace('<head>', '<head>' + base);
+    }
   }
 }
 

@@ -942,7 +942,9 @@ function renderFrame(c){
             iframe.srcdoc = '<!doctype html><body style="font-family:system-ui;padding:40px;color:#dc2626;text-align:center"><h3>Not uploaded</h3></body>';
             return;
           }
-          iframe.srcdoc = data.html_content;
+          // Brandbook HTML uses relative image paths — inject <base> so they resolve.
+          const base = `<base href="${location.origin}/data/concepts/${encodeURIComponent(c.slug)}/">`;
+          iframe.srcdoc = data.html_content.replace('<head>', '<head>' + base);
         });
     } else {
       // Owner: server-minted token; raw file is not publicly linked
