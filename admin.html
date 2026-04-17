@@ -1153,13 +1153,23 @@ async function openConceptModal(slug){
   box.innerHTML = '<div style="padding:60px;text-align:center;color:var(--text-3)"><div class="spin" style="margin:0 auto 16px"></div>Loading concept...</div>';
   document.body.style.overflow = 'hidden';
   try{
-    const concept = (window.ALL||[]).find(c=>c.slug===slug) || {slug, name:slug};
-    const [accessRes, i18nRes, brandRes] = await Promise.all([
+    // Source of truth: fresh RPC read — never rely on stale window.ALL cache.
+    // The cache is only a fallback if the network hiccups on the RPC.
+    const [conceptRes, accessRes, i18nRes, brandRes] = await Promise.all([
+      sb.rpc('admin_get_concept', { p_slug: slug }),
       sb.rpc('admin_concept_access_list', { p_slug: slug }),
       sb.from('concepts_i18n').select('lang_code,description,body_html').eq('concept_slug', slug).eq('lang_code','en').maybeSingle(),
       sb.from('concept_brandbooks').select('concept_slug,updated_at,html_content').eq('concept_slug', slug).maybeSingle()
     ]);
     if(accessRes.error) throw accessRes.error;
+    const fresh = !conceptRes.error && Array.isArray(conceptRes.data) && conceptRes.data[0];
+    const cached = (window.ALL||[]).find(c=>c.slug===slug);
+    const concept = fresh || cached || {slug, name:slug};
+    // Keep cache in sync so table row reflects fresh DB state.
+    if(fresh){
+      const idx = (window.ALL||[]).findIndex(c=>c.slug===slug);
+      if(idx>=0) Object.assign(window.ALL[idx], fresh);
+    }
     renderConceptModal(concept, accessRes.data || [], (i18nRes && i18nRes.data) || null, (brandRes && brandRes.data) || null);
   }catch(e){
     box.innerHTML = '<div style="padding:60px;text-align:center;color:var(--err)">Error: '+escape(e.message||String(e))+'<br><button class="btn-s" style="margin-top:16px" onclick="closeConceptModal()">Close</button></div>';
