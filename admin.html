@@ -406,6 +406,8 @@ td .actions{display:flex;gap:6px}
       <div class="tab" data-tab="cohorts" id="tab-cohorts" style="display:none">Cohorts</div>
       <div class="tab" data-tab="segments" id="tab-segments" style="display:none">Segments</div>
       <div class="tab" data-tab="users" id="tab-users" style="display:none">Users <span class="count" id="t-users">—</span></div>
+      <div class="tab" data-tab="upcoming" id="tab-upcoming">Upcoming <span class="count" id="t-upcoming">—</span></div>
+      <div class="tab" data-tab="waitlist" id="tab-waitlist">Waitlist <span class="count" id="t-waitlist">—</span></div>
     </div>
 
     <!-- ═══ OVERVIEW TAB (superadmin) ═══ -->
@@ -687,6 +689,65 @@ td .actions{display:flex;gap:6px}
       </div>
     </div>
 
+    <!-- ═══ UPCOMING TAB — 188 unverified concepts ═══ -->
+    <div class="tab-panel hidden" id="panel-upcoming">
+      <div class="stats">
+        <div class="stat"><div class="lbl">Unverified</div><div class="num" id="up-total">—</div><div class="sub">Awaiting moderation</div></div>
+        <div class="stat accent"><div class="lbl">Waitlist emails</div><div class="num" id="up-waitlist">—</div><div class="sub">Interested buyers</div></div>
+        <div class="stat"><div class="lbl">With images</div><div class="num" id="up-images">—</div><div class="sub">Ready to verify</div></div>
+      </div>
+      <div class="tools">
+        <div class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="search" id="upq" placeholder="Search by slug, name, category…">
+        </div>
+        <select class="sel" id="upcat">
+          <option value="all">All categories</option>
+          <option value="food">Food</option>
+          <option value="restaurant">Restaurant</option>
+          <option value="beauty">Beauty</option>
+          <option value="wellness">Wellness</option>
+          <option value="health">Health</option>
+          <option value="retail">Retail</option>
+          <option value="service">Service</option>
+          <option value="craft">Craft</option>
+          <option value="education">Education</option>
+        </select>
+      </div>
+      <div class="table-wrap" id="uptbl-wrap">
+        <table>
+          <thead><tr>
+            <th style="width:60px">Hero</th><th>Slug</th><th>Name</th><th>Category</th><th>Size</th><th>Country</th><th>Interest</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="uptbl"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ WAITLIST TAB — emails × slug ═══ -->
+    <div class="tab-panel hidden" id="panel-waitlist">
+      <div class="stats">
+        <div class="stat"><div class="lbl">Total interest</div><div class="num" id="wl-total">—</div><div class="sub">Email × concept pairs</div></div>
+        <div class="stat accent"><div class="lbl">Unique emails</div><div class="num" id="wl-emails">—</div><div class="sub">Distinct subscribers</div></div>
+        <div class="stat"><div class="lbl">Top concept</div><div class="num" style="font-size:14px" id="wl-top">—</div><div class="sub">Most-requested</div></div>
+      </div>
+      <div class="tools">
+        <div class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="search" id="wlq" placeholder="Search by email or slug…">
+        </div>
+        <button class="btn btn-ghost" id="wl-export" style="padding:8px 14px;font-size:12px">Export CSV</button>
+      </div>
+      <div class="table-wrap" id="wltbl-wrap">
+        <table>
+          <thead><tr>
+            <th>Email</th><th>Concept slug</th><th>Signed up</th>
+          </tr></thead>
+          <tbody id="wltbl"></tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -771,13 +832,149 @@ document.querySelectorAll('#tabs .tab').forEach(el=>{
   el.addEventListener('click', ()=>{
     const name = el.dataset.tab;
     document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.toggle('on', t===el));
-    ['overview','concepts','brandbooks','sales','funnel','cohorts','segments','users'].forEach(n=>{
+    ['overview','concepts','brandbooks','sales','funnel','cohorts','segments','users','upcoming','waitlist'].forEach(n=>{
       const p = $('panel-'+n);
       if(p) p.classList.toggle('hidden', n!==name);
     });
     if(TAB_LOADERS[name]) TAB_LOADERS[name]();
   });
 });
+
+TAB_LOADERS.upcoming = loadUpcoming;
+TAB_LOADERS.waitlist = loadWaitlist;
+
+// ═══ UPCOMING — 188 unverified concepts ═══
+let UP_ALL = [];
+async function loadUpcoming(){
+  const tbl = $('uptbl');
+  tbl.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:24px;color:#64748b">Loading…</td></tr>';
+  // Bypass RLS via admin read (we're already authed as admin); fetch all unverified
+  const {data, error} = await sb.from('concepts_catalog')
+    .select('slug,name,category,country,size_m2,hero_image,is_active,verified')
+    .eq('verified', false)
+    .order('slug');
+  if(error){ tbl.innerHTML = `<tr><td colspan="8" style="color:#dc2626">${error.message}</td></tr>`; return; }
+  UP_ALL = data || [];
+  // stats
+  const {count: wlCount} = await sb.from('waitlist_interest').select('*', { count:'exact', head:true });
+  $('up-total').textContent = UP_ALL.length;
+  $('up-waitlist').textContent = wlCount || 0;
+  $('up-images').textContent = UP_ALL.filter(c => c.hero_image).length;
+  $('t-upcoming').textContent = UP_ALL.length;
+  renderUpcoming();
+}
+function renderUpcoming(){
+  const q = ($('upq').value||'').toLowerCase().trim();
+  const cat = $('upcat').value;
+  const tbl = $('uptbl');
+  const filtered = UP_ALL.filter(c => {
+    if(cat !== 'all' && c.category !== cat) return false;
+    if(q && !(c.slug.toLowerCase().includes(q) || (c.name||'').toLowerCase().includes(q) || (c.category||'').includes(q))) return false;
+    return true;
+  });
+  if(!filtered.length){ tbl.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:24px;color:#64748b">No matches.</td></tr>'; return; }
+  const interestByConcept = UP_INTEREST || {};
+  tbl.innerHTML = filtered.map(c => {
+    const heroSrc = c.hero_image ? (c.hero_image.startsWith('http') ? c.hero_image : '/' + c.hero_image) : '';
+    const heroCell = heroSrc
+      ? `<img src="${heroSrc}" loading="lazy" style="width:54px;height:36px;object-fit:cover;border-radius:4px;background:#1e293b">`
+      : `<div style="width:54px;height:36px;border-radius:4px;background:#1e293b;display:flex;align-items:center;justify-content:center;color:#475569;font-size:10px">—</div>`;
+    const interest = interestByConcept[c.slug] || 0;
+    return `<tr>
+      <td>${heroCell}</td>
+      <td style="font-family:monospace;font-size:11px">${c.slug}</td>
+      <td>${c.name || '—'}</td>
+      <td><span class="tag">${c.category || '—'}</span></td>
+      <td>${c.size_m2 ? c.size_m2 + 'm²' : '—'}</td>
+      <td>${c.country || '—'}</td>
+      <td>${interest > 0 ? `<strong style="color:#D6FF3E">${interest}</strong>` : '—'}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-ghost" style="padding:4px 10px;font-size:11px" onclick="verifyConcept('${c.slug}')">Verify</button>
+        <button class="btn btn-ghost" style="padding:4px 10px;font-size:11px;color:#fca5a5" onclick="archiveConcept('${c.slug}')">Archive</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+$('upq').addEventListener('input', renderUpcoming);
+$('upcat').addEventListener('change', renderUpcoming);
+
+let UP_INTEREST = {};
+async function fetchInterestCounts(){
+  const {data} = await sb.from('waitlist_interest').select('concept_slug');
+  if(!data) return;
+  const counts = {};
+  data.forEach(r => { counts[r.concept_slug] = (counts[r.concept_slug]||0) + 1; });
+  UP_INTEREST = counts;
+}
+
+window.verifyConcept = async function(slug){
+  if(!confirm('Verify "' + slug + '" and publish to the shop?')) return;
+  const {error} = await sb.rpc('admin_patch_concept', {
+    p_slug: slug,
+    p_catalog: { verified: true }
+  });
+  if(error){ alert('Verify failed: ' + error.message); return; }
+  await loadUpcoming();
+  if(typeof loadConcepts === 'function') loadConcepts();
+};
+
+window.archiveConcept = async function(slug){
+  if(!confirm('Archive "' + slug + '"? It will be hidden from shop and Coming Soon.')) return;
+  const {error} = await sb.rpc('admin_patch_concept', {
+    p_slug: slug,
+    p_catalog: { is_active: false, archived: true }
+  });
+  if(error){ alert('Archive failed: ' + error.message); return; }
+  await loadUpcoming();
+};
+
+// ═══ WAITLIST ═══
+let WL_ALL = [];
+async function loadWaitlist(){
+  const tbl = $('wltbl');
+  tbl.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:24px;color:#64748b">Loading…</td></tr>';
+  const {data, error} = await sb.from('waitlist_interest')
+    .select('email,concept_slug,created_at')
+    .order('created_at', { ascending: false });
+  if(error){ tbl.innerHTML = `<tr><td colspan="3" style="color:#dc2626">${error.message}</td></tr>`; return; }
+  WL_ALL = data || [];
+  // stats
+  const emails = new Set(WL_ALL.map(r => r.email));
+  const counts = {};
+  WL_ALL.forEach(r => { counts[r.concept_slug] = (counts[r.concept_slug]||0) + 1; });
+  const topSlug = Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];
+  $('wl-total').textContent = WL_ALL.length;
+  $('wl-emails').textContent = emails.size;
+  $('wl-top').textContent = topSlug ? `${topSlug[0]} (${topSlug[1]})` : '—';
+  $('t-waitlist').textContent = WL_ALL.length;
+  renderWaitlist();
+  // piggyback: refresh upcoming counts next time
+  await fetchInterestCounts();
+}
+function renderWaitlist(){
+  const q = ($('wlq').value||'').toLowerCase().trim();
+  const tbl = $('wltbl');
+  const filtered = q ? WL_ALL.filter(r => r.email.includes(q) || r.concept_slug.includes(q)) : WL_ALL;
+  if(!filtered.length){ tbl.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:24px;color:#64748b">No signups yet.</td></tr>'; return; }
+  tbl.innerHTML = filtered.map(r => `<tr>
+    <td style="font-family:monospace;font-size:12px">${r.email}</td>
+    <td style="font-family:monospace;font-size:11px">${r.concept_slug}</td>
+    <td style="color:#64748b;font-size:11px">${new Date(r.created_at).toLocaleString()}</td>
+  </tr>`).join('');
+}
+$('wlq').addEventListener('input', renderWaitlist);
+$('wl-export').addEventListener('click', ()=>{
+  const rows = [['email','concept_slug','created_at']].concat(WL_ALL.map(r => [r.email, r.concept_slug, r.created_at]));
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'waitlist-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+});
+
+// Preload interest counts in background so Upcoming tab shows them immediately
+fetchInterestCounts().catch(()=>{});
 
 async function loadConcepts(){
   // DB is source of truth. Fallback to catalog.json only if the admin_concepts view is
@@ -924,6 +1121,7 @@ function renderUsers(){
       <td class="mono" style="color:var(--text-3)">${created}</td>
       <td>
         <div class="actions">
+          <button class="btn-s" title="Gift concept" ${dis} data-uid="${uid}" data-label="${escape(u.email||name)}" onclick="openGiftModal(this.dataset.uid,this.dataset.label)">🎁 Gift</button>
           <button class="btn-s" title="Change password" ${dis} data-uid="${uid}" data-label="${escape(u.email||name)}" onclick="changeUserPassword(this.dataset.uid,this.dataset.label)">🔑 Password</button>
           <button class="btn-s danger" title="Delete user" data-uid="${uid}" data-label="${escape(u.email||name)}" onclick="deleteUser(this.dataset.uid,this.dataset.label)">✕ Delete</button>
         </div>
@@ -931,6 +1129,121 @@ function renderUsers(){
     </tr>`;
   }).join('');
 }
+
+// ═══════════════ GIFT CONCEPT MODAL ═══════════════
+window.openGiftModal = async function(userId, userLabel){
+  // Fetch all concepts admin can see (verified + unverified, active)
+  const {data: concepts, error} = await sb.from('concepts_catalog')
+    .select('slug,name,category,price_eur,is_active')
+    .eq('is_active', true)
+    .order('verified', { ascending: false })
+    .order('name');
+  if(error){ alert('Could not load concepts: ' + error.message); return; }
+
+  // Fetch user's current purchases to pre-check owned concepts
+  const {data: owned} = await sb.from('purchases')
+    .select('concept_slug,status')
+    .eq('user_id', userId);
+  const ownedSet = new Set((owned||[]).filter(p => p.status === 'paid').map(p => p.concept_slug));
+
+  // Build modal
+  let modal = document.getElementById('gift-modal');
+  if(modal) modal.remove();
+  modal = document.createElement('div');
+  modal.id = 'gift-modal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px';
+  modal.innerHTML = `
+    <div style="background:#0f172a;border:1px solid #334155;border-radius:14px;max-width:640px;width:100%;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 30px 70px rgba(0,0,0,0.5)">
+      <div style="padding:20px 24px;border-bottom:1px solid #334155;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font:600 10px/1 Inter;letter-spacing:.2em;text-transform:uppercase;color:#94a3b8;margin-bottom:4px">Gift concept to</div>
+          <div style="font:700 15px/1.2 Inter;color:#e2e8f0">${escape(userLabel)}</div>
+        </div>
+        <button id="gift-close" style="background:none;border:none;font-size:28px;color:#94a3b8;cursor:pointer;padding:0;line-height:1">&times;</button>
+      </div>
+      <div style="padding:12px 20px;border-bottom:1px solid #334155;background:#1e293b">
+        <input id="gift-search" type="search" placeholder="Search by name or slug…" style="width:100%;padding:8px 12px;background:#0f172a;border:1px solid #334155;color:#e2e8f0;border-radius:8px;outline:none;font:400 13px Inter">
+      </div>
+      <div id="gift-list" style="flex:1;overflow-y:auto;padding:8px 0"></div>
+      <div style="padding:14px 20px;border-top:1px solid #334155;display:flex;justify-content:space-between;align-items:center;gap:10px;background:#1e293b">
+        <div style="font:400 11px Inter;color:#94a3b8"><span id="gift-count">0</span> selected</div>
+        <div style="display:flex;gap:8px">
+          <button id="gift-cancel" class="btn btn-ghost" style="padding:8px 14px;font:600 12px Inter">Cancel</button>
+          <button id="gift-confirm" class="btn btn-primary" style="padding:8px 16px;font:600 12px Inter">Gift selected</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+
+  const list = modal.querySelector('#gift-list');
+  const searchEl = modal.querySelector('#gift-search');
+  const countEl = modal.querySelector('#gift-count');
+  const selected = new Set();
+
+  function render(){
+    const q = (searchEl.value||'').toLowerCase().trim();
+    const filtered = concepts.filter(c => {
+      if(ownedSet.has(c.slug)) return false;
+      if(!q) return true;
+      return (c.slug||'').toLowerCase().includes(q) || (c.name||'').toLowerCase().includes(q) || (c.category||'').includes(q);
+    });
+    list.innerHTML = filtered.map(c => {
+      const on = selected.has(c.slug);
+      const price = c.price_eur != null ? ('€' + c.price_eur) : '—';
+      return `<label class="gift-row" data-slug="${c.slug}" style="display:flex;align-items:center;padding:10px 20px;cursor:pointer;border-bottom:1px solid #1e293b;${on?'background:rgba(214,255,62,0.06)':''}">
+        <input type="checkbox" ${on?'checked':''} style="margin-right:12px;width:16px;height:16px;accent-color:#D6FF3E">
+        <div style="flex:1">
+          <div style="font:600 13px/1.2 Inter;color:#e2e8f0">${escape(c.name||c.slug)}</div>
+          <div style="font:400 11px/1.3 Inter;color:#64748b;font-family:monospace">${c.slug}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font:700 12px Inter;color:#D6FF3E">${price}</div>
+          <div style="font:400 10px Inter;color:#64748b;text-transform:uppercase;letter-spacing:.08em">${c.category||'—'}</div>
+        </div>
+      </label>`;
+    }).join('') || '<div style="padding:40px;text-align:center;color:#64748b;font:400 13px Inter">No concepts match.</div>';
+  }
+
+  list.addEventListener('click', e => {
+    const row = e.target.closest('.gift-row');
+    if(!row) return;
+    e.preventDefault();
+    const slug = row.dataset.slug;
+    if(selected.has(slug)) selected.delete(slug); else selected.add(slug);
+    countEl.textContent = selected.size;
+    render();
+  });
+  searchEl.addEventListener('input', render);
+  modal.querySelector('#gift-close').onclick = () => modal.remove();
+  modal.querySelector('#gift-cancel').onclick = () => modal.remove();
+  modal.addEventListener('click', e => { if(e.target === modal) modal.remove(); });
+
+  modal.querySelector('#gift-confirm').onclick = async () => {
+    if(!selected.size){ alert('Pick at least one concept.'); return; }
+    const confirmBtn = modal.querySelector('#gift-confirm');
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = 'Gifting…';
+    const results = [];
+    for(const slug of selected){
+      const {data, error} = await sb.rpc('admin_grant_concept', {
+        p_user_id: userId,
+        p_slug: slug,
+        p_note: 'admin_gift'
+      });
+      results.push({slug, ok: !error, error: error && error.message});
+    }
+    const ok = results.filter(r => r.ok).length;
+    const fail = results.filter(r => !r.ok);
+    if(fail.length){
+      alert(`Gifted ${ok}. Failed ${fail.length}:\n` + fail.map(f => `${f.slug}: ${f.error}`).join('\n'));
+    } else {
+      alert(`Gifted ${ok} concept(s) to ${userLabel}.`);
+    }
+    modal.remove();
+  };
+
+  render();
+};
 
 async function changeUserPassword(userId, label){
   const np = prompt('New password for ' + label + ' (min 8 chars):');
