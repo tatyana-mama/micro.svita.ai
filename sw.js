@@ -1,5 +1,5 @@
 /* SVITA service worker — minimal offline shell + stale-while-revalidate for catalog */
-const VERSION = 'svita-v2-en-only';
+const VERSION = 'svita-v3-zapiex-unified';
 const SHELL = [
   '/',
   '/index.html',
