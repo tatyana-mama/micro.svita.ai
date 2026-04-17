@@ -188,72 +188,75 @@ def brandbook_html(c: dict) -> str:
             <p class="caption" style="margin-top:4mm;font-size:10pt;color:{pal['gray']}">Isometric reference showing typical equipment placement, staff flow, and dimensions for a {size}m² footprint. Adapt to your exact premise.</p>
         """))
 
-    # 12 Equipment (approximate)
+    # 12 — The one number that matters: launch budget as hero statement
+    pages.append(page(12, "hero-num", f"""
+        <div class="eyebrow">11 · The money</div>
+        <div class="big-number">€{budget:,}</div>
+        <div class="big-sub">to open.</div>
+        <div class="big-note">One-time. No subscription. No consultant.<br>Every line item verified against European supplier quotes ({country} reference).</div>
+    """))
+
+    # 13 — Payback as hero statement
+    monthly_rev = int(budget * 0.35)
+    monthly_cost = int(monthly_rev * 0.65)
+    margin = monthly_rev - monthly_cost
+    payback = max(1, round(budget / max(1, margin)))
+    pages.append(page(13, "hero-num", f"""
+        <div class="eyebrow">12 · When it pays back</div>
+        <div class="big-number">~{payback} months</div>
+        <div class="big-sub">to break even.</div>
+        <div class="big-note">Assumes €{monthly_rev:,}/mo revenue by month 6 · €{margin:,}/mo contribution margin.<br>Your local rent, labour, and product mix will move the number.</div>
+    """))
+
+    # 14 — Timeline as big weeks statement + short strip
+    weekly = [
+        (1, "Sign. Deposit. Measure."),
+        (2, "Concept lands with landlord. Permits go in."),
+        (3, "Contractor on site."),
+        (4, "Fit-out. Equipment on the way."),
+        (5, "Finishes. Signage goes up."),
+        (6, "Staff trained. Suppliers locked."),
+        (7, "Soft open. First customer walks in."),
+    ][:weeks]
+    week_cards = "\n".join(
+        f'<div class="wk-card"><div class="wk-num">W{w}</div><div class="wk-txt">{t}</div></div>'
+        for w,t in weekly
+    )
+    pages.append(page(14, "hero-num", f"""
+        <div class="eyebrow">13 · The journey</div>
+        <div class="big-number">{weeks} weeks</div>
+        <div class="big-sub">from signature to first customer.</div>
+        <div class="wk-strip">{week_cards}</div>
+    """))
+
+    # 15 — Appendix: CAPEX breakdown (small footnote-style table, kept for due diligence)
     lines = [
-        ("Fit-out & finishes (surfaces, lighting, paint)", int(budget*0.30)),
-        ("Core equipment (primary category-specific hardware)", int(budget*0.28)),
+        ("Fit-out & finishes", int(budget*0.30)),
+        ("Core equipment", int(budget*0.28)),
         ("Furniture & fixtures", int(budget*0.12)),
-        ("Signage, wayfinding, branded packaging (first batch)", int(budget*0.06)),
-        ("IT, POS, WiFi, payment terminal", int(budget*0.05)),
-        ("Licensing, permits, inspections", int(budget*0.04)),
-        ("Inventory — opening stock", int(budget*0.10)),
+        ("Signage & packaging", int(budget*0.06)),
+        ("IT, POS, WiFi", int(budget*0.05)),
+        ("Licensing & permits", int(budget*0.04)),
+        ("Opening stock", int(budget*0.10)),
         ("Contingency (5%)", int(budget*0.05)),
     ]
     tbl_rows = "\n".join(
         f'<tr><td>{k}</td><td class="num">€{v:,}</td></tr>' for k,v in lines
     )
-    pages.append(page(12, "", f"""
-        <div class="eyebrow">11 · Equipment &amp; CAPEX</div>
-        <h1 class="page-title">Where the €{budget:,} goes.</h1>
+    pages.append(page(15, "appendix", f"""
+        <div class="eyebrow">14 · Appendix · for the curious</div>
+        <h1 class="page-title" style="font-size:22pt">Where the €{budget:,} lands.</h1>
         <table>
-          <thead><tr><th>Line item</th><th style="text-align:right">Budget</th></tr></thead>
           <tbody>
             {tbl_rows}
-            <tr class="total-row"><td>Total CAPEX</td><td class="num">€{budget:,}</td></tr>
+            <tr class="total-row"><td>Total</td><td class="num">€{budget:,}</td></tr>
           </tbody>
         </table>
-        <p style="margin-top:4mm;font-size:10pt;color:{pal['gray']}">All prices are European averages, benchmarked against supplier quotes in {country} as the reference example. micro.svita.ai bears no liability for discrepancies with actual supplier prices in your local market — check the latest list via your cabinet.</p>
+        <p style="margin-top:6mm;font-size:9pt;color:{pal['gray']};line-height:1.5">Prices are European averages, benchmarked against supplier quotes in {country} as the reference example. micro.svita.ai bears no liability for discrepancies with actual supplier prices in your local market. This brandbook is the complete deliverable — no separate spreadsheet is provided.</p>
     """))
 
-    # 12 Financials (very rough placeholder template)
-    monthly_rev = int(budget * 0.35)  # rough heuristic
-    monthly_cost = int(monthly_rev * 0.65)
-    pages.append(page(13, "", f"""
-        <div class="eyebrow">12 · Financial model</div>
-        <h1 class="page-title">Break-even in sight.</h1>
-        <div class="stats-grid">
-          <div class="stat-box"><div class="num">€{monthly_rev:,}</div><div class="lbl">Target monthly revenue (month 6)</div></div>
-          <div class="stat-box"><div class="num">€{monthly_cost:,}</div><div class="lbl">Monthly operating cost</div></div>
-          <div class="stat-box"><div class="num">€{monthly_rev-monthly_cost:,}</div><div class="lbl">Contribution margin</div></div>
-          <div class="stat-box"><div class="num">~{max(1, round(budget/max(1,monthly_rev-monthly_cost))):02d}mo</div><div class="lbl">Payback (if targets hit)</div></div>
-        </div>
-        <p style="margin-top:6mm;font-size:10pt;color:{pal['gray']}">Figures are a planning benchmark only. Local rent, labour, and product mix will shift them. This brandbook is the complete deliverable — no separate spreadsheet is provided.</p>
-    """))
-
-    # 13 Timeline
-    weekly = [
-        (1, "Lease signed, deposit paid, measurements taken"),
-        (2, "Concept finalized with landlord, permits filed"),
-        (3, "Contractor onboarded, demolition if needed"),
-        (4, "Fit-out in progress, equipment ordered"),
-        (5, "Interior finishes, signage produced"),
-        (6, "Staff hiring, training, suppliers locked"),
-        (7, "Soft-opening week, menu/offer dial-in, launch"),
-    ][:weeks]
-    rows = "\n".join(
-        f'<tr><td class="num" style="text-align:left;width:20mm">Week {w}</td><td>{t}</td></tr>' for w,t in weekly
-    )
-    pages.append(page(14, "", f"""
-        <div class="eyebrow">13 · {weeks}-week launch plan</div>
-        <h1 class="page-title">Signing to open.</h1>
-        <table>
-          <thead><tr><th>When</th><th>What happens</th></tr></thead>
-          <tbody>{rows}</tbody>
-        </table>
-    """))
-
-    # 15 Back cover
-    pages.append(page(15, "cover no-footer", f"""
+    # 16 Back cover
+    pages.append(page(16, "cover no-footer", f"""
         <div class="brand" style="margin-top:50mm;font-size:32pt">Ready.<small>{name}</small></div>
         <div class="tagline">{tagline}</div>
         <div class="meta">
@@ -320,6 +323,17 @@ td.num{{font-family:'Inter';font-weight:600;text-align:right;white-space:nowrap;
 .img-full{{width:100%;flex:1;object-fit:cover;border-radius:2mm;margin-top:6mm;min-height:0}}
 .img-large{{width:100%;max-height:160mm;object-fit:contain;margin:4mm 0;border-radius:2mm}}
 .caption{{font-size:9pt;color:var(--gray);margin-top:3mm;font-style:italic;text-align:center}}
+.page.hero-num{{justify-content:center;align-items:flex-start;padding:30mm 22mm}}
+.page.hero-num .eyebrow{{margin-bottom:24mm}}
+.big-number{{font-family:'Fraunces',serif;font-weight:800;font-size:120pt;line-height:0.9;color:var(--primary);letter-spacing:-0.04em;margin-bottom:4mm}}
+.big-sub{{font-family:'Fraunces',serif;font-weight:500;font-style:italic;font-size:26pt;color:var(--ink);margin-bottom:16mm;letter-spacing:-0.01em}}
+.big-note{{font-family:'Inter',sans-serif;font-size:11pt;color:var(--gray);line-height:1.6;max-width:150mm}}
+.wk-strip{{display:grid;grid-template-columns:repeat(auto-fit,minmax(42mm,1fr));gap:4mm;margin-top:14mm;width:100%}}
+.wk-card{{background:#fff;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:1.5mm;padding:5mm}}
+.wk-num{{font-family:'Fraunces',serif;font-weight:800;font-size:18pt;color:var(--primary);line-height:1;margin-bottom:2mm;letter-spacing:-0.02em}}
+.wk-txt{{font-family:'Inter',sans-serif;font-size:9.5pt;color:var(--ink);line-height:1.45}}
+.page.appendix table{{font-size:9.5pt}}
+.page.appendix td{{padding:2.5mm 2mm}}
 @media print{{body{{background:#fff}}.page{{margin:0;box-shadow:none}}}}
 </style>
 </head>
