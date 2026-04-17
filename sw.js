@@ -1,14 +1,14 @@
 /* SVITA service worker — minimal offline shell + stale-while-revalidate for catalog */
-const VERSION = 'svita-v1';
+const VERSION = 'svita-v2-en-only';
 const SHELL = [
   '/',
   '/index.html',
   '/shop.html',
+  '/legal.html',
   '/js/svita-card.js',
   '/js/svita-card.css',
   '/js/svita-nav.js',
-  '/js/labs67-i18n.js',
-  '/js/svita-i18n-dict.js',
+  '/js/svita-footer.js',
   '/data/catalog.json'
 ];
 

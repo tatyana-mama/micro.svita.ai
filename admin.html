@@ -43,13 +43,18 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
 
 /* PAGE */
 .page{padding:80px 0 80px}
-.page-head-compact{margin-bottom:18px}
-.page-head-compact .eyebrow-sm{
-  display:block;font-family:'JetBrains Mono';font-size:10px;text-transform:uppercase;
-  letter-spacing:0.15em;color:var(--text-3);margin-bottom:6px;
-}
-.page-head-compact h1{font-family:'Space Grotesk';font-size:clamp(1.4rem,3vw,2rem);font-weight:700;letter-spacing:-0.02em;line-height:1.1}
-.page-head-compact h1 .accent{color:var(--accent);font-style:italic;font-weight:500}
+.adm-hdr{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;margin:0 0 24px;background:var(--bg-1);border:1px solid var(--line);border-radius:12px;position:sticky;top:12px;z-index:50;backdrop-filter:blur(14px)}
+.adm-hdr-left,.adm-hdr-right{display:flex;align-items:center;gap:14px}
+.adm-brand{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;letter-spacing:-.01em;color:var(--text);text-decoration:none}
+.adm-brand small{font-size:9px;letter-spacing:.22em;color:var(--accent);margin-left:4px}
+.adm-brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+.adm-sep{width:1px;height:20px;background:var(--line)}
+.adm-eyebrow{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;text-transform:uppercase;letter-spacing:.18em;color:var(--text-3)}
+.adm-link{font-size:12px;color:var(--text-3);text-decoration:none;transition:color .15s}
+.adm-link:hover{color:var(--text)}
+.adm-user{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;color:var(--text-3);padding:4px 10px;border:1px solid var(--line);border-radius:20px}
+.adm-user:empty{display:none}
+@media(max-width:640px){.adm-hdr{padding:10px 12px;flex-wrap:wrap}.adm-hdr-right{margin-left:auto}}
 
 /* STATS ROW */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}
@@ -378,10 +383,18 @@ td .actions{display:flex;gap:6px}
 <section class="page hidden" id="app">
   <div class="wrap">
 
-    <div class="page-head-compact">
-      <span class="eyebrow-sm" id="page-eyebrow">Control panel</span>
-      <h1 id="page-title">Manage <span class="accent">everything</span>.</h1>
-    </div>
+    <header class="adm-hdr">
+      <div class="adm-hdr-left">
+        <a href="/index.html" class="adm-brand"><span class="adm-brand-dot"></span>SVITA<small>MICRO</small></a>
+        <span class="adm-sep"></span>
+        <span class="adm-eyebrow" id="page-eyebrow">Admin</span>
+      </div>
+      <div class="adm-hdr-right">
+        <a href="/shop.html" class="adm-link">Shop</a>
+        <a href="/account.html" class="adm-link">Account</a>
+        <span id="adm-user" class="adm-user"></span>
+      </div>
+    </header>
 
     <!-- TABS -->
     <div class="tabs" id="tabs">
@@ -726,6 +739,8 @@ async function boot(){
     }
     // Reveal app FIRST so any error downstream doesn't leave a blank page.
     $('app').classList.remove('hidden');
+    const admU = $('adm-user');
+    if(admU) admU.textContent = (session.user.email || '—') + ' · ' + MY_ROLE;
     if(MY_ROLE === 'superadmin'){
       ['overview','sales','funnel','cohorts','segments','users'].forEach(n=>{
         const t = $('tab-'+n); if(t) t.style.display = '';
@@ -1224,10 +1239,11 @@ function renderConceptModal(c, accessRows, i18n, brand){
         ${c.tagline?`<div style="color:var(--text-2);font-size:14px;margin-bottom:12px;font-style:italic">${escape(c.tagline)}</div>`:''}
         ${description?`<div style="color:var(--text-2);font-size:13px;line-height:1.6">${escape(description)}</div>`:''}
         ${!c.tagline && !description?'<div style="color:var(--text-3);font-size:12px">No description yet</div>':''}
-        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
           <a class="btn-s" href="view.html?c=${escape(c.slug)}" target="_blank">Preview</a>
           ${MY_ROLE==='superadmin'?`<a class="btn-s primary" href="edit.html?c=${escape(c.slug)}" target="_blank">✎ Edit</a>`:''}
-          ${c.has_brandbook?`<a class="btn-s" href="data/concepts/${escape(c.slug)}/${escape(c.slug)}-brandbook.html" target="_blank">📖 Brandbook</a>`:''}
+          <button type="button" class="btn-s" onclick="copyToClipboard(location.origin + '/view.html?c=${escape(c.slug)}', this)">📎 Copy concept link</button>
+          ${c.ls_url?`<button type="button" class="btn-s" onclick="copyToClipboard(${JSON.stringify(c.ls_url)}, this)">💳 Copy payment link</button>`:'<span class="btn-s" style="opacity:.5;cursor:not-allowed" title="Set payment link in the table row">💳 No payment link</span>'}
         </div>
       </div>
 
@@ -1750,7 +1766,7 @@ function render(){
           title="Lemon Squeezy checkout URL">
       </td>
       <td>${c.verified ? '<span class="chip ok">● Verified</span>' : '<span class="chip warn">○ Pending</span>'}</td>
-      <td>${c.has_brandbook ? '<a class="chip ok" href="data/concepts/'+c.slug+'/'+c.slug+'-brandbook.html" target="_blank" rel="noopener" style="text-decoration:none">📖 Ready</a>' : '<span class="chip warn">⏳ In progress</span>'}</td>
+      <td>${c.has_brandbook ? '<span class="chip ok" title="Protected · only buyers see via token">📖 Ready</span>' : '<span class="chip warn">⏳ In progress</span>'}</td>
       <td class="mono">${c.langs_filled||0}<span style="color:var(--text-3)">/12</span></td>
       <td>
         <div class="actions">
@@ -1798,6 +1814,26 @@ function updateBulkBar(){
     el.style.cursor = isSA ? '' : 'not-allowed';
   });
 }
+
+async function copyToClipboard(text, btnEl){
+  try{
+    await navigator.clipboard.writeText(text);
+    if(btnEl){
+      const prev = btnEl.innerHTML;
+      btnEl.innerHTML = '✓ Copied';
+      btnEl.style.background = 'rgba(132,204,22,0.18)';
+      setTimeout(()=>{btnEl.innerHTML = prev; btnEl.style.background = '';}, 1400);
+    }
+  }catch(e){
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.top='-100px';
+    document.body.appendChild(ta); ta.select();
+    try{document.execCommand('copy');}catch(_){}
+    document.body.removeChild(ta);
+    if(btnEl){ btnEl.innerHTML = '✓ Copied'; setTimeout(()=>btnEl.innerHTML='Copy link', 1400); }
+  }
+}
+window.copyToClipboard = copyToClipboard;
 
 async function setPayLink(slug, url){
   const clean = (url||'').trim() || null;
@@ -1900,7 +1936,6 @@ boot();
 <script src="js/svita-metrics-config.js"></script>
 <script src="js/svita-3p-analytics.js"></script>
 <script src="js/svita-analytics.js"></script>
-<script src="js/svita-i18n-dict.js"></script>
-<script src="js/labs67-i18n.js"></script>
+<!-- i18n disabled: site is English-only -->
 </body>
 </html>

@@ -190,19 +190,6 @@
         ${authArea}
       </div>
       <div class="nav-mini">
-        <div class="lang" id="lang">
-          <button class="lang-btn" type="button" aria-label="Language">
-            <span id="lang-current">${lang}</span>
-            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
-          </button>
-          <div class="lang-menu">
-            ${getLangList().map(l=>{
-              const c = l.code.toUpperCase();
-              const title = l.name ? ` title="${escape(l.name)}"` : '';
-              return `<button type="button" data-lang="${c}"${title}${c===lang?' class="active"':''}>${c}</button>`;
-            }).join('')}
-          </div>
-        </div>
         ${cartBtn}
       </div>
       <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>

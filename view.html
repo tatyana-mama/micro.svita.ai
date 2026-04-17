@@ -206,6 +206,12 @@ body::after{
   text-decoration:none;
 }
 .specs .btn:hover{background:var(--accent);transform:translateY(-1px)}
+.buy-block{display:flex;flex-direction:column;gap:0;margin-top:16px}
+.buy-consent{display:flex;gap:8px;align-items:flex-start;font-size:11px;color:#64748B;line-height:1.5;cursor:pointer;padding:10px 12px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;margin-bottom:10px;transition:color .2s}
+.buy-consent input{margin-top:2px;flex-shrink:0;width:14px;height:14px;accent-color:var(--accent)}
+.buy-consent a{color:var(--accent);text-decoration:underline}
+.buy-consent a:hover{color:var(--ink)}
+.buy-cta{margin-top:0 !important}
 .lock-note{
   margin-top:16px;padding:14px 18px;background:rgba(255,255,255,0.7);
   border-radius:12px;font-size:12px;color:#64748B;text-align:center;
@@ -308,7 +314,7 @@ body::after{
 </style>
 </head>
 <body>
-<div class="lang-switcher" style="position:fixed;top:16px;right:16px;z-index:9998"></div>
+<!-- lang-switcher removed: English-only -->
 <div class="grain"></div>
 
 <div class="loading" id="loading"><div class="spinner"></div></div>
@@ -721,11 +727,33 @@ function renderBuyCTA(c){
   if(c.archived){
     return '<button class="btn" disabled style="opacity:0.5;cursor:not-allowed;pointer-events:none">Sold out</button>';
   }
-  return '<a class="btn" href="account.html?buy='+c.slug+'">'
-    + t('buy') + ' €' + price
-    + '<svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h12M9 1l4 4-4 4"/></svg>'
-    + '</a>';
+  const slug = String(c.slug||'').replace(/'/g,'');
+  return '<div class="buy-block">'
+    + '<label class="buy-consent">'
+    +   '<input type="checkbox" id="buy-consent-'+slug+'" class="buy-consent-chk">'
+    +   '<span>I agree to the <a href="/legal.html#offer" target="_blank">Public Offer</a>, <a href="/legal.html#refund" target="_blank">Refund Policy</a> and <a href="/legal.html#license" target="_blank">Brandbook License</a>.</span>'
+    + '</label>'
+    + '<a class="btn buy-cta" data-slug="'+slug+'" href="account.html?buy='+slug+'" onclick="return requireConsent(event,\''+slug+'\')">'
+    +   t('buy') + ' €' + price
+    +   '<svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h12M9 1l4 4-4 4"/></svg>'
+    + '</a>'
+    + '</div>';
 }
+
+window.requireConsent = function(ev, slug){
+  const chk = document.getElementById('buy-consent-' + slug);
+  if(!chk || !chk.checked){
+    ev.preventDefault();
+    const lbl = chk && chk.closest('.buy-consent');
+    if(lbl){
+      lbl.style.color = '#dc2626';
+      lbl.animate([{transform:'translateX(0)'},{transform:'translateX(-4px)'},{transform:'translateX(4px)'},{transform:'translateX(0)'}],{duration:260});
+      setTimeout(()=>{lbl.style.color=''}, 1500);
+    }
+    return false;
+  }
+  return true;
+};
 
 // Admin inline-edit panel: floating editor for SA/admin with autosave via admin_patch_concept RPC.
 function mountAdminEditor(concept){
@@ -1082,7 +1110,7 @@ function renderStars(box, slug, avg, cnt, my, logged){
 <script src="js/svita-metrics-config.js"></script>
 <script src="js/svita-3p-analytics.js"></script>
 <script src="js/svita-analytics.js"></script>
-<script src="js/svita-i18n-dict.js"></script>
-<script src="js/labs67-i18n.js"></script>
+<!-- i18n disabled: site is English-only -->
+<script src="js/svita-footer.js"></script>
 </body>
 </html>
