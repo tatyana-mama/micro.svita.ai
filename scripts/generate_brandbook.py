@@ -178,7 +178,17 @@ def brandbook_html(c: dict) -> str:
         <img class="img-full" src="{img_base}/05-signage.png" alt="Signage">
     """))
 
-    # 11 Equipment (approximate)
+    # 11 Interior layout (isometric technical drawing)
+    layout_file = CONCEPTS_DIR / slug / "images" / "06-layout.png"
+    if layout_file.exists():
+        pages.append(page(11, "", f"""
+            <div class="eyebrow">10 · Interior layout</div>
+            <h1 class="page-title">Every square metre, placed.</h1>
+            <img class="img-full" src="{img_base}/06-layout.png" alt="Interior layout">
+            <p class="caption" style="margin-top:4mm;font-size:10pt;color:{pal['gray']}">Isometric reference showing typical equipment placement, staff flow, and dimensions for a {size}m² footprint. Adapt to your exact premise.</p>
+        """))
+
+    # 12 Equipment (approximate)
     lines = [
         ("Fit-out & finishes (surfaces, lighting, paint)", int(budget*0.30)),
         ("Core equipment (primary category-specific hardware)", int(budget*0.28)),
@@ -192,8 +202,8 @@ def brandbook_html(c: dict) -> str:
     tbl_rows = "\n".join(
         f'<tr><td>{k}</td><td class="num">€{v:,}</td></tr>' for k,v in lines
     )
-    pages.append(page(11, "", f"""
-        <div class="eyebrow">10 · Equipment &amp; CAPEX</div>
+    pages.append(page(12, "", f"""
+        <div class="eyebrow">11 · Equipment &amp; CAPEX</div>
         <h1 class="page-title">Where the €{budget:,} goes.</h1>
         <table>
           <thead><tr><th>Line item</th><th style="text-align:right">Budget</th></tr></thead>
@@ -202,14 +212,14 @@ def brandbook_html(c: dict) -> str:
             <tr class="total-row"><td>Total CAPEX</td><td class="num">€{budget:,}</td></tr>
           </tbody>
         </table>
-        <p style="margin-top:4mm;font-size:10pt;color:{pal['gray']}">All line items verified against supplier quotes for {country}. Prices refresh quarterly — check the latest list via your cabinet.</p>
+        <p style="margin-top:4mm;font-size:10pt;color:{pal['gray']}">All prices are European averages, benchmarked against supplier quotes in {country} as the reference example. micro.svita.ai bears no liability for discrepancies with actual supplier prices in your local market — check the latest list via your cabinet.</p>
     """))
 
     # 12 Financials (very rough placeholder template)
     monthly_rev = int(budget * 0.35)  # rough heuristic
     monthly_cost = int(monthly_rev * 0.65)
-    pages.append(page(12, "", f"""
-        <div class="eyebrow">11 · Financial model</div>
+    pages.append(page(13, "", f"""
+        <div class="eyebrow">12 · Financial model</div>
         <h1 class="page-title">Break-even in sight.</h1>
         <div class="stats-grid">
           <div class="stat-box"><div class="num">€{monthly_rev:,}</div><div class="lbl">Target monthly revenue (month 6)</div></div>
@@ -217,7 +227,7 @@ def brandbook_html(c: dict) -> str:
           <div class="stat-box"><div class="num">€{monthly_rev-monthly_cost:,}</div><div class="lbl">Contribution margin</div></div>
           <div class="stat-box"><div class="num">~{max(1, round(budget/max(1,monthly_rev-monthly_cost))):02d}mo</div><div class="lbl">Payback (if targets hit)</div></div>
         </div>
-        <p style="margin-top:6mm;font-size:10pt;color:{pal['gray']}">Figures are a planning benchmark. Your local rent, labour, and product mix will shift them. The full Excel model is delivered alongside this brandbook.</p>
+        <p style="margin-top:6mm;font-size:10pt;color:{pal['gray']}">Figures are a planning benchmark only. Local rent, labour, and product mix will shift them. This brandbook is the complete deliverable — no separate spreadsheet is provided.</p>
     """))
 
     # 13 Timeline
@@ -233,8 +243,8 @@ def brandbook_html(c: dict) -> str:
     rows = "\n".join(
         f'<tr><td class="num" style="text-align:left;width:20mm">Week {w}</td><td>{t}</td></tr>' for w,t in weekly
     )
-    pages.append(page(13, "", f"""
-        <div class="eyebrow">12 · {weeks}-week launch plan</div>
+    pages.append(page(14, "", f"""
+        <div class="eyebrow">13 · {weeks}-week launch plan</div>
         <h1 class="page-title">Signing to open.</h1>
         <table>
           <thead><tr><th>When</th><th>What happens</th></tr></thead>
@@ -242,8 +252,8 @@ def brandbook_html(c: dict) -> str:
         </table>
     """))
 
-    # 14 Back cover
-    pages.append(page(14, "cover no-footer", f"""
+    # 15 Back cover
+    pages.append(page(15, "cover no-footer", f"""
         <div class="brand" style="margin-top:50mm;font-size:32pt">Ready.<small>{name}</small></div>
         <div class="tagline">{tagline}</div>
         <div class="meta">
@@ -253,6 +263,7 @@ def brandbook_html(c: dict) -> str:
     """))
 
     body = "\n".join(pages)
+    total_pages = len(pages)
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -268,7 +279,7 @@ html,body{{background:#BBB;font-family:'Inter',sans-serif;color:var(--ink);font-
 h1,h2,h3{{font-family:'Fraunces',serif;font-weight:800;letter-spacing:-0.02em;line-height:1.1}}
 a{{color:inherit;text-decoration:none}}
 .page{{width:210mm;height:297mm;background:var(--bg);padding:22mm 20mm;margin:10mm auto;box-shadow:0 4px 24px rgba(0,0,0,0.18);position:relative;overflow:hidden;page-break-after:always;display:flex;flex-direction:column}}
-.page::after{{content:attr(data-page) ' / 14';position:absolute;bottom:12mm;right:20mm;font-family:'Inter';font-size:8pt;color:var(--gray);letter-spacing:0.1em}}
+.page::after{{content:attr(data-page) ' / {total_pages}';position:absolute;bottom:12mm;right:20mm;font-family:'Inter';font-size:8pt;color:var(--gray);letter-spacing:0.1em}}
 .page::before{{content:"{name.upper()} · BRANDBOOK";position:absolute;bottom:12mm;left:20mm;font-family:'Inter';font-size:8pt;color:var(--gray);letter-spacing:0.12em;font-weight:500}}
 .page.no-footer::after,.page.no-footer::before{{display:none}}
 .eyebrow{{font-family:'Inter';font-size:9pt;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--primary);margin-bottom:8mm}}

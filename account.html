@@ -864,7 +864,26 @@ const sb = window.__svitaSb || supabase.createClient(SB_URL, SB_KEY, { auth:{ pe
 window.__svitaSb = sb;
 
 const qs = new URLSearchParams(location.search);
-const BUY_INTENT = qs.get('buy');
+// BUY_INTENT: prefer URL param, fall back to localStorage (guest handoff survival).
+// Persist for ~24h so email-confirmation flow can restore intent after tab close.
+const PENDING_KEY = 'svita_pending_buy';
+const PENDING_TTL_MS = 24 * 60 * 60 * 1000;
+function readPendingBuy(){
+  try{
+    const raw = localStorage.getItem(PENDING_KEY);
+    if(!raw) return null;
+    const {slug, ts} = JSON.parse(raw);
+    if(Date.now() - ts > PENDING_TTL_MS){ localStorage.removeItem(PENDING_KEY); return null; }
+    return slug || null;
+  }catch{ return null; }
+}
+function writePendingBuy(slug){
+  try{ localStorage.setItem(PENDING_KEY, JSON.stringify({slug, ts: Date.now()})); }catch{}
+}
+function clearPendingBuy(){ try{ localStorage.removeItem(PENDING_KEY); }catch{} }
+const _buyFromUrl = qs.get('buy');
+if(_buyFromUrl) writePendingBuy(_buyFromUrl);
+const BUY_INTENT = _buyFromUrl || readPendingBuy();
 const PAID_SLUG = qs.get('paid');
 let MY_ROLE = 'user';
 // has_brandbook now comes from concepts_catalog row via my_concepts view
@@ -1120,6 +1139,7 @@ async function enterAccount(user){
   loadFavorites();
   await loadOwned();
   if(PAID_SLUG){
+    clearPendingBuy();
     const box = $('intent-box');
     box.className = 'intent reveal in';
     box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--accent)">Processing payment…</span><h4>Unlocking your concept</h4><div class="specs">This takes a few seconds.</div></div><div class="actions"><div class="spin" style="margin:0 8px"></div></div>`;

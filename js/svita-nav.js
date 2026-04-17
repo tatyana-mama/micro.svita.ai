@@ -7,26 +7,6 @@
   const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
   const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
 
-  /* 12 supported languages, alphabetical. Adding a language here requires
-     adding a matching LABELS entry, otherwise the nav falls back to EN. */
-  const DEFAULT_LANGS = [
-    {code:'BE',name:'Беларуская'},
-    {code:'DE',name:'Deutsch'},
-    {code:'EN',name:'English'},
-    {code:'ES',name:'Español'},
-    {code:'FR',name:'Français'},
-    {code:'IT',name:'Italiano'},
-    {code:'JA',name:'日本語'},
-    {code:'KO',name:'한국어'},
-    {code:'PL',name:'Polski'},
-    {code:'PT',name:'Português'},
-    {code:'RU',name:'Русский'},
-    {code:'UK',name:'Українська'}
-  ];
-  function getLangList(){
-    if(Array.isArray(window.SVITA_LANGS) && window.SVITA_LANGS.length) return window.SVITA_LANGS;
-    return DEFAULT_LANGS;
-  }
   const LABELS = {
     EN:{shop:'Shop',how:'How it works',signin:'Log in',signup:'Sign up',cabinet:'My cabinet',favs:'Favorites',mine:'My concepts',cart:'Cart',settings:'Settings',signout:'Sign out',admin:'Admin'}
   };
