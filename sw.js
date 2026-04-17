@@ -1,5 +1,5 @@
 /* SVITA service worker — minimal offline shell + stale-while-revalidate for catalog */
-const VERSION = 'svita-v9-gift-links';
+const VERSION = 'svita-v10-ls-price-sync';
 const SHELL = [
   '/',
   '/index.html',
