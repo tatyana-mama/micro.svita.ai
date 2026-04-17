@@ -216,7 +216,6 @@
     }
 
     document.addEventListener('click', (e)=>{
-      if(!e.target.closest('#lang')) lang && lang.classList.remove('open');
       const um = document.getElementById('user-menu');
       if(um && !e.target.closest('#user-menu')) um.classList.remove('open');
     }, { once:false });
