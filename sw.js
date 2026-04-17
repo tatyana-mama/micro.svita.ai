@@ -1,5 +1,5 @@
 /* SVITA service worker — minimal offline shell + stale-while-revalidate for catalog */
-const VERSION = 'svita-v12-cs-fallback';
+const VERSION = 'svita-v13-cs-fallback-div';
 const SHELL = [
   '/',
   '/index.html',
