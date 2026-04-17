@@ -1837,10 +1837,53 @@ window.copyToClipboard = copyToClipboard;
 
 async function setPayLink(slug, url){
   const clean = (url||'').trim() || null;
-  const {error} = await sb.from('concepts_catalog').update({ls_url: clean}).eq('slug', slug);
-  if(error){ alert('Cannot save link: ' + error.message); return; }
-  const idx = ALL.findIndex(c=>c.slug===slug);
-  if(idx>=0) ALL[idx].ls_url = clean;
+  const input = document.querySelector(`input.pay-input[value*="${(clean||'').slice(-20)}"], input.pay-input`);
+  const cell = input && input.closest('td');
+  const showStatus = (msg, color) => {
+    if(!cell) return;
+    let st = cell.querySelector('.pay-status');
+    if(!st){ st = document.createElement('div'); st.className='pay-status'; st.style.cssText='font-size:10px;margin-top:4px;font-family:JetBrains Mono,monospace'; cell.appendChild(st); }
+    st.textContent = msg; st.style.color = color;
+  };
+
+  if(clean === null){
+    const {error} = await sb.from('concepts_catalog').update({ls_url: null, ls_product_id: null, ls_price_cents: null, ls_currency: null, ls_checked_at: null}).eq('slug', slug);
+    if(error){ alert('Cannot clear link: ' + error.message); return; }
+    const idx = ALL.findIndex(c=>c.slug===slug);
+    if(idx>=0){ ALL[idx].ls_url = null; ALL[idx].ls_product_id = null; }
+    showStatus('cleared', 'var(--text-3)');
+    return;
+  }
+
+  showStatus('validating with LS API…', 'var(--warn)');
+  try{
+    const {data, error: fErr} = await sb.functions.invoke('lemon-validate-url', { body: { url: clean } });
+    if(fErr) throw fErr;
+    if(!data || !data.ok){
+      showStatus('✕ ' + (data && data.reason || 'invalid'), 'var(--danger, #fca5a5)');
+      alert('Lemon Squeezy link rejected: ' + (data?.reason || 'unknown')
+        + '\n\nThis prevents a broken checkout URL from being saved. Use a real product URL from your LS store.');
+      return;
+    }
+    const {error} = await sb.from('concepts_catalog').update({
+      ls_url: clean,
+      ls_product_id: data.product_id,
+      ls_price_cents: data.price,
+      ls_currency: data.currency,
+      ls_checked_at: new Date().toISOString()
+    }).eq('slug', slug);
+    if(error){ showStatus('✕ DB: ' + error.message, 'var(--danger, #fca5a5)'); return; }
+    const idx = ALL.findIndex(c=>c.slug===slug);
+    if(idx>=0){
+      ALL[idx].ls_url = clean;
+      ALL[idx].ls_product_id = data.product_id;
+      ALL[idx].ls_price_cents = data.price;
+      ALL[idx].ls_currency = data.currency;
+    }
+    showStatus(`✓ ${data.name} · ${(data.price/100).toFixed(2)} ${data.currency}`, 'var(--ok)');
+  }catch(e){
+    showStatus('✕ ' + (e.message || 'validation failed'), 'var(--danger, #fca5a5)');
+  }
 }
 window.setPayLink = setPayLink;
 
