@@ -610,6 +610,21 @@ async function loadSuperadminFullConcept(slug){
     }
   }catch(e){}
 
+  // DB fallback: concept may exist only in DB (not in static catalog.json).
+  // Try public verified view first (anon-safe), then concepts_catalog (admin/RLS-permitted).
+  if(!concept && SB){
+    try{
+      const {data} = await SB.from('public_verified_catalog').select('*').eq('slug', slug).maybeSingle();
+      if(data) concept = data;
+    }catch(e){}
+  }
+  if(!concept && SB){
+    try{
+      const {data} = await SB.from('concepts_catalog').select('*').eq('slug', slug).maybeSingle();
+      if(data) concept = data;
+    }catch(e){}
+  }
+
   if(!concept && slug==='poppy-matcha'){
     concept = {
       slug:'poppy-matcha', name:'POPPY MATCHA', category:'food', country:'NL',
