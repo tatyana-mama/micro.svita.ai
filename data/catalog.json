@@ -10,7 +10,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/warsaw-zapiekanka-okno/images/01-hero.png",
     "tagline": "Street window serving 3 zapiekanki and nothing else.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9",
+    "has_brandbook": true
   },
   {
     "slug": "poppy-matcha",
@@ -23,7 +24,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/poppy-matcha/images/01-hero-interior.png",
     "tagline": "Ceremonial-grade matcha kiosk with Memphis soul",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9",
+    "has_brandbook": true
   },
   {
     "slug": "madonna-pop-salon",
@@ -49,7 +51,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/amsterdam-juice-lab/hero.png",
     "tagline": "Cold-pressed juice kiosk with canal-side vibes",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd",
+    "has_brandbook": true
   },
   {
     "slug": "porto-pastel-bar",
@@ -62,7 +65,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/porto-pastel-bar/images/01-hero.png",
     "tagline": "Warm pastel de nata straight from the tile-lined oven",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd",
+    "has_brandbook": true
   },
   {
     "slug": "wien-kaffee-tram",
@@ -75,7 +79,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/wien-kaffee-tram/images/01-hero.png",
     "tagline": "Tiny Viennese coffee kiosk inside a retro tram shell",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9",
+    "has_brandbook": true
   },
   {
     "slug": "helsinki-salmiakki",
@@ -88,7 +93,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/helsinki-salmiakki/images/01-hero.png",
     "tagline": "Finnish licorice kiosk for brave Nordic tastebuds",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9",
+    "has_brandbook": true
   },
   {
     "slug": "berlin-bagel-co",
@@ -101,7 +107,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/berlin-bagel-co/images/01-hero.png",
     "tagline": "Hand-rolled Brooklyn-style bagels with Berlin edge",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7",
+    "has_brandbook": true
   },
   {
     "slug": "dublin-donut-den",
@@ -114,7 +121,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/dublin-donut-den/images/01-hero.png",
     "tagline": "Cloud-soft donuts with Guinness-glaze twist",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd",
+    "has_brandbook": true
   },
   {
     "slug": "athens-gyro-box",
@@ -127,7 +135,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/athens-gyro-box/images/01-hero.png",
     "tagline": "Fast-spinning gyro kiosk under the Acropolis sun",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9",
+    "has_brandbook": true
   },
   {
     "slug": "copenhagen-smorre",
@@ -140,7 +149,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/copenhagen-smorre/images/01-hero.png",
     "tagline": "Open-face smorrebrod bar for lunchtime purists",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd",
+    "has_brandbook": true
   },
   {
     "slug": "milano-gelato-cube",
@@ -153,7 +163,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/milano-gelato-cube/images/01-hero.png",
     "tagline": "Minimalist gelato kiosk with 12 rotating flavors",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9",
+    "has_brandbook": true
   },
   {
     "slug": "prague-trdelnik",
@@ -166,7 +177,8 @@
     "weeks": 4,
     "hero_image": "data/concepts/prague-trdelnik/images/01-hero.png",
     "tagline": "Spiral chimney cakes glowing over open coals",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9",
+    "has_brandbook": true
   },
   {
     "slug": "zagreb-bubble-tea",
@@ -179,7 +191,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/zagreb-bubble-tea/images/01-hero.png",
     "tagline": "Taiwan-style bubble tea with Adriatic fruit twists",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd",
+    "has_brandbook": true
   },
   {
     "slug": "riga-rye-bakery",
@@ -192,7 +205,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/riga-rye-bakery/images/01-hero.png",
     "tagline": "Dark-rye loaves from grandmother's Latvian oven",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7",
+    "has_brandbook": true
   },
   {
     "slug": "sofia-banitsa-bar",
@@ -205,7 +219,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/sofia-banitsa-bar/images/01-hero.png",
     "tagline": "Flaky cheese banitsa baked every 20 minutes",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9",
+    "has_brandbook": true
   },
   {
     "slug": "warsaw-waffle-works",
@@ -218,7 +233,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/warsaw-waffle-works/images/01-hero.png",
     "tagline": "Liege waffles on a stick for Warsaw weekenders",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9",
+    "has_brandbook": true
   },
   {
     "slug": "madrid-churro-cart",
@@ -231,7 +247,8 @@
     "weeks": 4,
     "hero_image": "data/concepts/madrid-churro-cart/images/01-hero.png",
     "tagline": "Crispy churros with thick chocolate dip, 24/7",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9",
+    "has_brandbook": true
   },
   {
     "slug": "brussels-frites-box",
@@ -244,7 +261,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/brussels-frites-box/images/01-hero.png",
     "tagline": "Double-fried Belgian frites with 20 dipping sauces",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9",
+    "has_brandbook": true
   },
   {
     "slug": "osaka-takoyaki",
@@ -257,7 +275,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/osaka-takoyaki/images/01-hero.png",
     "tagline": "Sizzling octopus balls at Roman night market",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
+    "has_brandbook": true
   },
   {
     "slug": "cairo-shawarma",
@@ -270,7 +289,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/cairo-shawarma/images/01-hero.png",
     "tagline": "Rotating shawarma spit with Cairo souk flavors",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
+    "has_brandbook": true
   },
   {
     "slug": "oaxaca-taco-joint",
@@ -296,7 +316,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/tel-aviv-hummus/images/01-hero.png",
     "tagline": "Silky hummus bowls with warm pita and zhug",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
+    "has_brandbook": true
   },
   {
     "slug": "lisbon-bifana",
@@ -309,7 +330,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/lisbon-bifana/images/01-hero.png",
     "tagline": "Marinated pork sandwiches in a tiled tavern",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
+    "has_brandbook": true
   },
   {
     "slug": "sofia-barber-shop",
@@ -322,7 +344,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/sofia-barber-shop/hero.png",
     "tagline": "Old-school barbershop with hot-towel ritual",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7",
+    "has_brandbook": true
   },
   {
     "slug": "milano-nail-studio",
@@ -335,7 +358,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/milano-nail-studio/images/01-hero.png",
     "tagline": "Gel-nail studio with Italian art direction",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7",
+    "has_brandbook": true
   },
   {
     "slug": "paris-brow-bar",
@@ -348,7 +372,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/paris-brow-bar/images/01-hero.png",
     "tagline": "Five-minute brow shaping by trained Parisian pros",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd",
+    "has_brandbook": true
   },
   {
     "slug": "stockholm-blow-dry",
@@ -361,7 +386,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/stockholm-blow-dry/images/01-hero.png",
     "tagline": "Express blow-dry bar with Scandi styling",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
+    "has_brandbook": true
   },
   {
     "slug": "dublin-lash-lounge",
@@ -374,7 +400,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/dublin-lash-lounge/images/01-hero.png",
     "tagline": "Lash extensions on velvet recliners, tea included",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd",
+    "has_brandbook": true
   },
   {
     "slug": "vienna-makeup-salon",
@@ -387,7 +414,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/vienna-makeup-salon/images/01-hero.png",
     "tagline": "Bridal-ready makeup bar with Austrian elegance",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7",
+    "has_brandbook": true
   },
   {
     "slug": "lisbon-barber-co",
@@ -400,7 +428,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/lisbon-barber-co/images/01-hero.png",
     "tagline": "Azulejo-tiled barbershop with craft beer on tap",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7",
+    "has_brandbook": true
   },
   {
     "slug": "amsterdam-tattoo-atelier",
@@ -413,7 +442,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/amsterdam-tattoo-atelier/images/01-hero.png",
     "tagline": "Fine-line tattoo studio with gallery-quality art",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
+    "has_brandbook": true
   },
   {
     "slug": "cluj-hair-salon",
@@ -426,7 +456,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/cluj-hair-salon/images/01-hero.png",
     "tagline": "Full-service hair salon with Transylvanian charm",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
+    "has_brandbook": true
   },
   {
     "slug": "tallinn-spa-nook",
@@ -439,7 +470,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/tallinn-spa-nook/images/01-hero.png",
     "tagline": "Petite spa with sauna, plunge and hot stones",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
+    "has_brandbook": true
   },
   {
     "slug": "krakow-nail-art",
@@ -452,7 +484,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/krakow-nail-art/images/01-hero.png",
     "tagline": "Hand-painted nail art on old-town stations",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd",
+    "has_brandbook": true
   },
   {
     "slug": "luxembourg-brow",
@@ -465,7 +498,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/luxembourg-brow/images/01-hero.png",
     "tagline": "Precision brow lamination inside glass atrium",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0c6c7ffd-5616-4a1f-abe4-2038e39039bd",
+    "has_brandbook": true
   },
   {
     "slug": "athens-waxing-co",
@@ -1011,7 +1045,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/paris-candle-atelier/hero.png",
     "tagline": "Hand-poured soy candles with perfumer fragrances",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7",
+    "has_brandbook": true
   },
   {
     "slug": "lisbon-ceramic-studio",
@@ -1245,7 +1280,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/berlin-vintage-shop/hero.png",
     "tagline": "Curated Y2K vintage with Berlin street energy",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
+    "has_brandbook": true
   },
   {
     "slug": "paris-bookstore",
@@ -1830,7 +1866,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/nonnas-trattoria/images/01-hero.png",
     "tagline": "12-seat Tuscan pasta bar, one nonna, one menu.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/30cd0157-6ce7-44dc-add4-637a24949175"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/30cd0157-6ce7-44dc-add4-637a24949175",
+    "has_brandbook": true
   },
   {
     "slug": "tokyo-ramen-bar",
@@ -1843,7 +1880,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/tokyo-ramen-bar/images/01-hero.png",
     "tagline": "8-seat izakaya counter ramen bar.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "scandi-coffee",
@@ -1856,7 +1894,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/scandi-coffee/images/01-hero.png",
     "tagline": "10m² Scandi specialty coffee kiosk in Copenhagen.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
+    "has_brandbook": true
   },
   {
     "slug": "vibrant-coffee",
@@ -1869,7 +1908,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/vibrant-coffee/images/01-hero.png",
     "tagline": "Brutalist yellow espresso cart under city arcade.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/c8291de6-9b5c-4e75-9aa0-d03ed09d93c7",
+    "has_brandbook": true
   },
   {
     "slug": "lyon-boulangerie",
@@ -1882,7 +1922,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/lyon-boulangerie/images/01-hero.png",
     "tagline": "12m² sourdough micro-bakery window.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
+    "has_brandbook": true
   },
   {
     "slug": "barcelona-tapas-nook",
@@ -1895,7 +1936,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/barcelona-tapas-nook/images/01-hero.png",
     "tagline": "8-seat Catalan tapas nook with a single chef.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127",
+    "has_brandbook": true
   },
   {
     "slug": "seville-tapas-nook",
@@ -1908,7 +1950,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/seville-tapas-nook/images/01-hero.png",
     "tagline": "12m² Sevillan tapas window with patio 6 stools.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "munich-wurst-haus",
@@ -1921,7 +1964,8 @@
     "weeks": 5,
     "hero_image": "data/concepts/munich-wurst-haus/images/01-hero.png",
     "tagline": "9m² bratwurst takeaway stand Munich style.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "paris-bistro-petit",
@@ -1934,7 +1978,8 @@
     "weeks": 10,
     "hero_image": "data/concepts/paris-bistro-petit/images/01-hero.png",
     "tagline": "14-seat Parisian micro-bistro with zinc bar.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127",
+    "has_brandbook": true
   },
   {
     "slug": "seoul-kbbq-table",
@@ -1947,7 +1992,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/seoul-kbbq-table/images/01-hero.png",
     "tagline": "single-table Korean BBQ room, 6 seats.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/30cd0157-6ce7-44dc-add4-637a24949175"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/30cd0157-6ce7-44dc-add4-637a24949175",
+    "has_brandbook": true
   },
   {
     "slug": "bangkok-pad-thai",
@@ -1960,7 +2006,8 @@
     "weeks": 4,
     "hero_image": "data/concepts/bangkok-pad-thai/images/01-hero.png",
     "tagline": "Single-wok Bangkok pad thai street stall.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "mumbai-curry-house",
@@ -1986,7 +2033,8 @@
     "weeks": 6,
     "hero_image": "data/concepts/hanoi-pho-spot/images/01-hero.png",
     "tagline": "8-stool Hanoi pho broth counter.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "lima-ceviche-bar",
@@ -1999,7 +2047,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/lima-ceviche-bar/images/01-hero.png",
     "tagline": "8-seat Lima ceviche bar, tiger's milk focus.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "istanbul-kebap-ev",
@@ -2012,7 +2061,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/istanbul-kebap-ev/images/01-hero.png",
     "tagline": "10-seat Istanbul döner counter, vertical grill.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127",
+    "has_brandbook": true
   },
   {
     "slug": "beirut-mezze-den",
@@ -2025,7 +2075,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/beirut-mezze-den/images/01-hero.png",
     "tagline": "12-seat Lebanese mezze counter.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "sardinia-pasta-lab",
@@ -2038,7 +2089,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/sardinia-pasta-lab/images/01-hero.png",
     "tagline": "10-seat Sardinian fresh pasta lab.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "napoli-pizza-forno",
@@ -2051,7 +2103,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/napoli-pizza-forno/images/01-hero.png",
     "tagline": "wood-fired Naples pizza window, 14 pizzas/hour.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/30cd0157-6ce7-44dc-add4-637a24949175"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/30cd0157-6ce7-44dc-add4-637a24949175",
+    "has_brandbook": true
   },
   {
     "slug": "berlin-skin-clinic",
@@ -2064,7 +2117,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/berlin-skin-clinic/images/01-hero.png",
     "tagline": "12m² Berlin skincare micro-clinic, 1 chair.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127",
+    "has_brandbook": true
   },
   {
     "slug": "dublin-dog-daycare",
@@ -2077,7 +2131,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/dublin-dog-daycare/images/01-hero.png",
     "tagline": "20m² Dublin doggy daycare and grooming.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "stockholm-car-wash",
@@ -2103,7 +2158,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/helsinki-sauna-rent/images/01-hero.png",
     "tagline": "2-person rental sauna pod, Helsinki dockside.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
+    "has_brandbook": true
   },
   {
     "slug": "brussels-bike-cafe",
@@ -2116,7 +2172,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/brussels-bike-cafe/images/01-hero.png",
     "tagline": "bike repair + espresso counter, 18m² Brussels.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
+    "has_brandbook": true
   },
   {
     "slug": "bucharest-car-detail",
@@ -2129,7 +2186,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/bucharest-car-detail/images/01-hero.png",
     "tagline": "car detailing bay, Bucharest industrial unit.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "stockholm-glass-blow",
@@ -2155,7 +2213,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/helsinki-wood-studio/images/01-hero.png",
     "tagline": "woodworker micro-atelier, 16m² with shop window.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/906b00f1-5d73-4053-9c36-702f260d809e",
+    "has_brandbook": true
   },
   {
     "slug": "milano-design-store",
@@ -2168,7 +2227,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/milano-design-store/images/01-hero.png",
     "tagline": "12m² Milanese design object micro-shop.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "paris-meditation",
@@ -2207,7 +2267,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/helsinki-sauna-club/images/01-hero.png",
     "tagline": "2-person private sauna room, Helsinki centre.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127",
+    "has_brandbook": true
   },
   {
     "slug": "lisbon-pilates",
@@ -2220,7 +2281,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/lisbon-pilates/images/01-hero.png",
     "tagline": "3-reformer Lisbon pilates micro-studio.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "madrid-yoga-barre",
@@ -2272,7 +2334,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/brussels-yoga-shala/images/01-hero.png",
     "tagline": "8-mat Brussels hot yoga shala.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "prague-crystal-spa",
@@ -2311,7 +2374,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/athens-olive-spa/images/01-hero.png",
     "tagline": "2-chair Athens olive oil massage bar.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "budapest-bath-mini",
@@ -2324,7 +2388,8 @@
     "weeks": 10,
     "hero_image": "data/concepts/budapest-bath-mini/images/01-hero.png",
     "tagline": "4-seat micro thermal bath, Budapest centre.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127",
+    "has_brandbook": true
   },
   {
     "slug": "berlin-dental-hygiene",
@@ -2337,7 +2402,8 @@
     "weeks": 10,
     "hero_image": "data/concepts/berlin-dental-hygiene/images/01-hero.png",
     "tagline": "single-chair hygienist-only micro clinic.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127",
+    "has_brandbook": true
   },
   {
     "slug": "paris-optometry",
@@ -2363,7 +2429,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/amsterdam-physio/images/01-hero.png",
     "tagline": "single-room Amsterdam physio studio.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127",
+    "has_brandbook": true
   },
   {
     "slug": "rome-posture-clinic",
@@ -2402,7 +2469,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/copenhagen-physio/images/01-hero.png",
     "tagline": "single-bed Copenhagen physio room.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127",
+    "has_brandbook": true
   },
   {
     "slug": "vienna-dental-spa",
@@ -2428,7 +2496,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/lisbon-osteo-clinic/images/01-hero.png",
     "tagline": "single-room Lisbon osteopathy.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "brussels-chiro-care",
@@ -2441,7 +2510,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/brussels-chiro-care/images/01-hero.png",
     "tagline": "single-table Brussels chiropractor.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "warsaw-hygiene-hub",
@@ -2480,7 +2550,8 @@
     "weeks": 9,
     "hero_image": "data/concepts/ljubljana-sleep-lab/images/01-hero.png",
     "tagline": "single-bed sleep consult room, Ljubljana.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "berlin-code-camp",
@@ -2493,7 +2564,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/berlin-code-camp/images/01-hero.png",
     "tagline": "6-seat Berlin kids coding micro-studio.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a40d194f-82bc-436d-a289-364ca4c68127",
+    "has_brandbook": true
   },
   {
     "slug": "amsterdam-kids-studio",
@@ -2506,7 +2578,8 @@
     "weeks": 7,
     "hero_image": "data/concepts/amsterdam-kids-studio/images/01-hero.png",
     "tagline": "8-seat Amsterdam kids maker space.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "rome-italian-school",
@@ -2558,7 +2631,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/helsinki-design-lab/images/01-hero.png",
     "tagline": "8-seat Helsinki design sprint room.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "copenhagen-makers",
@@ -2584,7 +2658,8 @@
     "weeks": 8,
     "hero_image": "data/concepts/budapest-dance-studio/images/01-hero.png",
     "tagline": "10-person Budapest micro dance studio.",
-    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac"
+    "ls_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a79e825a-6fc6-470a-a972-80d3994fdaac",
+    "has_brandbook": true
   },
   {
     "slug": "ljubljana-yoga-teach",
