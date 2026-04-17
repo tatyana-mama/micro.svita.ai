@@ -308,6 +308,7 @@ body::after{
 </style>
 </head>
 <body>
+<div class="lang-switcher" style="position:fixed;top:16px;right:16px;z-index:9998"></div>
 <div class="grain"></div>
 
 <div class="loading" id="loading"><div class="spinner"></div></div>
@@ -628,13 +629,35 @@ async function loadSuperadminFullConcept(slug){
   CONCEPT.has_brandbook = false;
   if(SB){
     try{
-      const {data:live} = await SB.from('concepts_catalog').select('has_brandbook').eq('slug',slug).maybeSingle();
-      if(live) CONCEPT.has_brandbook = !!live.has_brandbook;
+      const [liveRes, scRes] = await Promise.all([
+        SB.from('concepts_catalog').select('has_brandbook').eq('slug',slug).maybeSingle(),
+        SB.from('public_concepts_scarcity').select('*').eq('slug',slug).maybeSingle()
+      ]);
+      if(liveRes.data) CONCEPT.has_brandbook = !!liveRes.data.has_brandbook;
+      if(scRes.data){
+        CONCEPT.copies_left = scRes.data.copies_left;
+        CONCEPT.max_copies = scRes.data.max_copies;
+        CONCEPT.copies_sold = scRes.data.copies_sold;
+        CONCEPT.archived = scRes.data.archived;
+        if(scRes.data.current_price_eur != null) CONCEPT.current_price_eur = scRes.data.current_price_eur;
+      }
     }catch(e){}
   }
   await loadI18nOverride(slug, CURRENT_LANG);
   rerenderAll();
   document.getElementById('loading').classList.add('hidden');
+  // Mount inline editor for admin/superadmin
+  try{
+    if(SB){
+      const {data:{session}} = await SB.auth.getSession();
+      if(session){
+        const {data:prof} = await SB.from('profiles').select('role').eq('user_id', session.user.id).maybeSingle();
+        if(prof && (prof.role === 'admin' || prof.role === 'superadmin')){
+          mountAdminEditor(CONCEPT);
+        }
+      }
+    }
+  }catch(e){}
 })();
 
 async function loadI18nOverride(slug, lang){
@@ -677,6 +700,137 @@ function rerenderAll(){
   document.documentElement.lang = CURRENT_LANG;
   renderChip(loc);
   renderFrame(loc);
+}
+
+// Scarcity panel: dynamic price, badge, "sold out" state
+function renderScarcityPanel(c){
+  const basePrice = c.current_price_eur != null ? c.current_price_eur : (c.price_eur||0);
+  const archived = !!c.archived;
+  if(archived){
+    return '<div class="price" style="text-decoration:line-through;opacity:0.5">€'+basePrice+'</div>'
+      +'<div style="font-size:13px;font-weight:700;color:#dc2626;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:18px">◉ Sold out — this concept is permanently archived</div>';
+  }
+  const scarcity = (window.SvitaCard && SvitaCard.scarcityBadge) ? SvitaCard.scarcityBadge(c) : '';
+  return '<div class="price">€'+basePrice+'</div>'
+    +'<div style="font-size:11px;color:#94A3B8;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">'+t('once')+'</div>'
+    +(scarcity ? '<div style="margin-bottom:16px">'+scarcity+'</div>' : '<div style="margin-bottom:12px"></div>');
+}
+
+function renderBuyCTA(c){
+  const price = c.current_price_eur != null ? c.current_price_eur : (c.price_eur||0);
+  if(c.archived){
+    return '<button class="btn" disabled style="opacity:0.5;cursor:not-allowed;pointer-events:none">Sold out</button>';
+  }
+  return '<a class="btn" href="account.html?buy='+c.slug+'">'
+    + t('buy') + ' €' + price
+    + '<svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h12M9 1l4 4-4 4"/></svg>'
+    + '</a>';
+}
+
+// Admin inline-edit panel: floating editor for SA/admin with autosave via admin_patch_concept RPC.
+function mountAdminEditor(concept){
+  if(document.getElementById('admin-inline-editor')) return;
+  const wrap = document.createElement('aside');
+  wrap.id = 'admin-inline-editor';
+  wrap.style.cssText = [
+    'position:fixed','bottom:20px','right:20px','width:320px','max-height:72vh',
+    'overflow-y:auto','background:#0f172a','color:#fff','border:1px solid #334155',
+    'border-radius:12px','padding:16px','z-index:9999',
+    'font-family:system-ui,sans-serif','font-size:13px','box-shadow:0 20px 60px rgba(0,0,0,0.45)'
+  ].join(';');
+  wrap.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <strong style="letter-spacing:0.06em;text-transform:uppercase;font-size:11px;color:#94a3b8">Inline editor · ${concept.slug}</strong>
+      <button type="button" id="aie-close" style="background:none;border:0;color:#94a3b8;cursor:pointer;font-size:16px">✕</button>
+    </div>
+    <label style="display:block;margin-bottom:8px">
+      <span style="display:block;color:#94a3b8;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">Name</span>
+      <input data-aie-field="name" data-aie-scope="i18n" value="${(concept.name||'').replace(/"/g,'&quot;')}" style="width:100%;padding:6px 8px;background:#1e293b;border:1px solid #334155;color:#fff;border-radius:6px">
+    </label>
+    <label style="display:block;margin-bottom:8px">
+      <span style="display:block;color:#94a3b8;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">Tagline</span>
+      <input data-aie-field="tagline" data-aie-scope="i18n" value="${(concept.tagline||'').replace(/"/g,'&quot;')}" style="width:100%;padding:6px 8px;background:#1e293b;border:1px solid #334155;color:#fff;border-radius:6px">
+    </label>
+    <label style="display:block;margin-bottom:8px">
+      <span style="display:block;color:#94a3b8;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">Base price €</span>
+      <input type="number" step="1" data-aie-field="base_price_eur" data-aie-scope="catalog" value="${concept.base_price_eur||concept.price_eur||49}" style="width:100%;padding:6px 8px;background:#1e293b;border:1px solid #334155;color:#fff;border-radius:6px">
+    </label>
+    <label style="display:block;margin-bottom:8px">
+      <span style="display:block;color:#94a3b8;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">Max copies</span>
+      <input type="number" step="1" min="1" max="100" data-aie-field="max_copies" data-aie-scope="catalog" value="${concept.max_copies||5}" style="width:100%;padding:6px 8px;background:#1e293b;border:1px solid #334155;color:#fff;border-radius:6px">
+    </label>
+    <label style="display:block;margin-bottom:8px">
+      <span style="display:block;color:#94a3b8;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">Category</span>
+      <select data-aie-field="category" data-aie-scope="catalog" style="width:100%;padding:6px 8px;background:#1e293b;border:1px solid #334155;color:#fff;border-radius:6px">
+        ${['food','restaurant','beauty','service','repair','craft','retail','wellness','health','education'].map(x=>`<option value="${x}"${x===concept.category?' selected':''}>${x}</option>`).join('')}
+      </select>
+    </label>
+    <label style="display:block;margin-bottom:12px">
+      <span style="display:block;color:#94a3b8;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">Lemon Squeezy URL</span>
+      <input data-aie-field="ls_url" data-aie-scope="catalog" value="${(concept.ls_url||'').replace(/"/g,'&quot;')}" placeholder="https://..." style="width:100%;padding:6px 8px;background:#1e293b;border:1px solid #334155;color:#fff;border-radius:6px">
+    </label>
+    <div id="aie-status" style="font-size:11px;color:#94a3b8;min-height:16px">Edits autosave after 600ms idle.</div>
+  `;
+  document.body.appendChild(wrap);
+  document.getElementById('aie-close').onclick = ()=> wrap.remove();
+
+  const status = document.getElementById('aie-status');
+  let timer = null;
+  const pending = { i18n: {}, catalog: {} };
+
+  wrap.querySelectorAll('[data-aie-field]').forEach(input=>{
+    input.addEventListener('input', ()=>{
+      const f = input.dataset.aieField;
+      const scope = input.dataset.aieScope;
+      pending[scope][f] = input.value;
+      status.textContent = 'Saving…';
+      status.style.color = '#fbbf24';
+      clearTimeout(timer);
+      timer = setTimeout(saveNow, 600);
+    });
+  });
+
+  async function saveNow(){
+    if(!SB){ status.textContent = 'No DB client'; return; }
+    try{
+      const args = { p_slug: concept.slug };
+      if(Object.keys(pending.i18n).length){
+        args.p_lang = CURRENT_LANG;
+        args.p_i18n = pending.i18n;
+      }
+      if(Object.keys(pending.catalog).length){
+        args.p_catalog = pending.catalog;
+      }
+      const {error} = await SB.rpc('admin_patch_concept', args);
+      if(error) throw error;
+      status.textContent = '✓ Saved ' + new Date().toLocaleTimeString();
+      status.style.color = '#86efac';
+      pending.i18n = {}; pending.catalog = {};
+    }catch(e){
+      status.textContent = '✕ ' + (e.message || 'Save failed');
+      status.style.color = '#fca5a5';
+    }
+  }
+}
+
+// Tokenized brandbook access: ask server for a one-per-user token, then fetch HTML through it.
+// Prevents raw /data/concepts/{slug}/{slug}-brandbook.html leaks to non-buyers.
+async function loadBrandbookViaToken(slug, iframeEl){
+  if(!SB){
+    iframeEl.srcdoc = '<!doctype html><body style="font-family:system-ui;padding:40px;color:#dc2626;text-align:center"><h3>Database unavailable</h3></body>';
+    return;
+  }
+  iframeEl.srcdoc = '<!doctype html><body style="font-family:system-ui;padding:40px;color:#64748b;text-align:center">Loading brandbook…</body>';
+  try{
+    const {data: tok, error: tErr} = await SB.rpc('my_brandbook_token', {p_slug: slug});
+    if(tErr) throw tErr;
+    const {data: html, error: hErr} = await SB.rpc('get_brandbook_by_token', {p_token: tok});
+    if(hErr) throw hErr;
+    if(!html){ iframeEl.srcdoc = '<!doctype html><body style="font-family:system-ui;padding:40px;color:#dc2626;text-align:center"><h3>Brandbook not yet uploaded</h3><p>Contact support if you believe this is a mistake.</p></body>'; return; }
+    iframeEl.srcdoc = html;
+  }catch(e){
+    iframeEl.srcdoc = '<!doctype html><body style="font-family:system-ui;padding:40px;color:#dc2626;text-align:center"><h3>Access denied</h3><p>'+(e.message||'Unknown error')+'</p></body>';
+  }
 }
 
 /* Shared nav hook: shared nav calls window.setLang(code) on language change. */
@@ -738,30 +892,23 @@ function renderFrame(c){
     const iframe = document.createElement('iframe');
     iframe.title = c.name + ' brandbook';
     iframe.setAttribute('sandbox','allow-same-origin');
-    iframe.srcdoc = '<!doctype html><html><body style="font-family:system-ui;padding:40px;color:#64748b;text-align:center">Loading brandbook…</body></html>';
     frame.appendChild(iframe);
-    // Fetch protected HTML via RLS — only rows user has access to are returned.
-    SB.from('concept_brandbooks')
-      .select('html_content')
-      .eq('concept_slug', c.slug)
-      .maybeSingle()
-      .then(({ data, error })=>{
-        if(error || !data || !data.html_content){
-          iframe.srcdoc = '<!doctype html><html><body style="font-family:system-ui;padding:40px;color:#dc2626;text-align:center"><h3>Brandbook not available</h3><p>This brandbook has not been uploaded yet or your access was revoked.</p></body></html>';
-          return;
-        }
-        iframe.srcdoc = data.html_content;
-        const cssVars = {};
-        const varRx = /--([\w-]+)\s*:\s*(#[0-9A-Fa-f]{3,8})/g;
-        let m; while((m = varRx.exec(data.html_content)) !== null) cssVars[m[1]] = m[2];
-        const bg = cssVars['cream'] || cssVars['bg'] || cssVars['background'] || null;
-        const fg = cssVars['rye'] || cssVars['primary'] || cssVars['accent'] || cssVars['ink'] || null;
-        if(bg || fg){
-          const r = document.documentElement;
-          if(bg) r.style.setProperty('--bg-1', bg);
-          if(fg) r.style.setProperty('--bg-2', fg);
-        }
-      });
+    if(IS_SA){
+      // Superadmin: direct read via RLS — bypass token flow for preview/review
+      iframe.srcdoc = '<!doctype html><html><body style="font-family:system-ui;padding:40px;color:#64748b;text-align:center">Loading brandbook (SA direct)…</body></html>';
+      SB.from('concept_brandbooks')
+        .select('html_content').eq('concept_slug', c.slug).maybeSingle()
+        .then(({ data, error })=>{
+          if(error || !data || !data.html_content){
+            iframe.srcdoc = '<!doctype html><body style="font-family:system-ui;padding:40px;color:#dc2626;text-align:center"><h3>Not uploaded</h3></body>';
+            return;
+          }
+          iframe.srcdoc = data.html_content;
+        });
+    } else {
+      // Owner: server-minted token; raw file is not publicly linked
+      loadBrandbookViaToken(c.slug, iframe);
+    }
     return;
   }
   // Superadmin: full product review — fetch all fields via authed client, render body_html
@@ -799,16 +946,12 @@ function renderFrame(c){
           <p>${t('lockedP')}</p>
         </div>
         <div class="specs">
-          <div class="price">€${c.price_eur}</div>
-          <div style="font-size:11px;color:#94A3B8;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:20px">${t('once')}</div>
+          ${renderScarcityPanel(c)}
           <div class="row"><span class="k">${t('budget')}</span><span class="v">€${c.budget_eur.toLocaleString('en-US')}</span></div>
           <div class="row"><span class="k">${t('timeline')}</span><span class="v">${c.weeks||8} ${t('weeks')}</span></div>
           <div class="row"><span class="k">${t('size')}</span><span class="v">${c.size_m2||'—'}m²</span></div>
           <div class="row"><span class="k">${t('category')}</span><span class="v">${c.category}</span></div>
-          <a class="btn" href="account.html?buy=${c.slug}">
-            ${t('buy')} €${c.price_eur}
-            <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h12M9 1l4 4-4 4"/></svg>
-          </a>
+          ${renderBuyCTA(c)}
           <div class="lock-note">${t('lockNote')}</div>
         </div>
       </div>`;
@@ -939,5 +1082,6 @@ function renderStars(box, slug, avg, cnt, my, logged){
 <script src="js/svita-metrics-config.js"></script>
 <script src="js/svita-3p-analytics.js"></script>
 <script src="js/svita-analytics.js"></script>
+<script src="js/labs67-i18n.js"></script>
 </body>
 </html>

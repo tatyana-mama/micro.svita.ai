@@ -152,3 +152,20 @@
   .sc-name{font-size:16px}
   .sc-card.sc-owned-tile .sc-media{aspect-ratio:auto}
 }
+
+/* scarcity badge */
+.sc-scarcity{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  padding:4px 9px;border-radius:999px;
+  background:rgba(214,255,62,0.12);color:var(--accent);
+  border:1px solid rgba(214,255,62,0.26);
+  margin-top:8px;align-self:flex-start;cursor:help;
+}
+.sc-scarcity.sc-hot{background:rgba(255,183,66,0.14);color:#ffb742;border-color:rgba(255,183,66,0.32)}
+.sc-scarcity.sc-last{background:rgba(255,77,107,0.14);color:#ff4d6b;border-color:rgba(255,77,107,0.34);animation:sc-pulse 1.8s ease-in-out infinite}
+.sc-scarcity.sc-archived{background:rgba(255,255,255,0.06);color:var(--text-3);border-color:rgba(255,255,255,0.1)}
+@keyframes sc-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,77,107,0.35)}50%{box-shadow:0 0 0 6px rgba(255,77,107,0)}}
+.sc-card-archived{opacity:0.72;filter:grayscale(0.3)}
+.sc-card-archived:hover{opacity:1;filter:none}
+.sc-archived-price{text-decoration:line-through;color:var(--text-3);font-weight:500}

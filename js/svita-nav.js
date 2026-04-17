@@ -7,23 +7,39 @@
   const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
   const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
 
-  /* Supported languages — must stay in lockstep with LABELS below.
-     Adding a language here without a LABELS entry will break the nav render. */
+  /* 12 supported languages, alphabetical. Adding a language here requires
+     adding a matching LABELS entry, otherwise the nav falls back to EN. */
   const DEFAULT_LANGS = [
+    {code:'BE',name:'Беларуская'},
+    {code:'DE',name:'Deutsch'},
     {code:'EN',name:'English'},
+    {code:'ES',name:'Español'},
+    {code:'FR',name:'Français'},
+    {code:'IT',name:'Italiano'},
+    {code:'JA',name:'日本語'},
+    {code:'KO',name:'한국어'},
+    {code:'PL',name:'Polski'},
+    {code:'PT',name:'Português'},
     {code:'RU',name:'Русский'},
+    {code:'UK',name:'Українська'}
   ];
   function getLangList(){
     if(Array.isArray(window.SVITA_LANGS) && window.SVITA_LANGS.length) return window.SVITA_LANGS;
     return DEFAULT_LANGS;
   }
   const LABELS = {
-    EN: { shop:'Shop', how:'How it works', signin:'Log in', signup:'Sign up',
-          cabinet:'My cabinet', favs:'Favorites', mine:'My concepts', cart:'Cart', settings:'Settings', signout:'Sign out',
-          admin:'Admin' },
-    RU: { shop:'Магазин', how:'Как работает', signin:'Войти', signup:'Регистрация',
-          cabinet:'Мой кабинет', favs:'Избранные', mine:'Мои концепции', cart:'Корзина', settings:'Настройки', signout:'Выйти',
-          admin:'Админ' }
+    EN:{shop:'Shop',how:'How it works',signin:'Log in',signup:'Sign up',cabinet:'My cabinet',favs:'Favorites',mine:'My concepts',cart:'Cart',settings:'Settings',signout:'Sign out',admin:'Admin'},
+    RU:{shop:'Магазин',how:'Как работает',signin:'Войти',signup:'Регистрация',cabinet:'Мой кабинет',favs:'Избранные',mine:'Мои концепции',cart:'Корзина',settings:'Настройки',signout:'Выйти',admin:'Админ'},
+    BE:{shop:'Крама',how:'Як працуе',signin:'Увайсці',signup:'Рэгістрацыя',cabinet:'Мой кабінет',favs:'Абраныя',mine:'Мае канцэпцыі',cart:'Кошык',settings:'Настаўленні',signout:'Выйсці',admin:'Адмін'},
+    UK:{shop:'Магазин',how:'Як працює',signin:'Увійти',signup:'Реєстрація',cabinet:'Мій кабінет',favs:'Обране',mine:'Мої концепції',cart:'Кошик',settings:'Налаштування',signout:'Вийти',admin:'Адмін'},
+    PL:{shop:'Sklep',how:'Jak to działa',signin:'Zaloguj',signup:'Zarejestruj',cabinet:'Mój panel',favs:'Ulubione',mine:'Moje koncepty',cart:'Koszyk',settings:'Ustawienia',signout:'Wyloguj',admin:'Admin'},
+    DE:{shop:'Shop',how:'So funktioniert es',signin:'Anmelden',signup:'Registrieren',cabinet:'Mein Bereich',favs:'Favoriten',mine:'Meine Konzepte',cart:'Warenkorb',settings:'Einstellungen',signout:'Abmelden',admin:'Admin'},
+    FR:{shop:'Boutique',how:'Comment ça marche',signin:'Connexion',signup:'Inscription',cabinet:'Mon espace',favs:'Favoris',mine:'Mes concepts',cart:'Panier',settings:'Réglages',signout:'Déconnexion',admin:'Admin'},
+    ES:{shop:'Tienda',how:'Cómo funciona',signin:'Entrar',signup:'Registrarse',cabinet:'Mi panel',favs:'Favoritos',mine:'Mis conceptos',cart:'Carrito',settings:'Ajustes',signout:'Salir',admin:'Admin'},
+    IT:{shop:'Negozio',how:'Come funziona',signin:'Accedi',signup:'Registrati',cabinet:'Il mio pannello',favs:'Preferiti',mine:'I miei concept',cart:'Carrello',settings:'Impostazioni',signout:'Esci',admin:'Admin'},
+    PT:{shop:'Loja',how:'Como funciona',signin:'Entrar',signup:'Registar',cabinet:'Meu painel',favs:'Favoritos',mine:'Meus conceitos',cart:'Carrinho',settings:'Definições',signout:'Sair',admin:'Admin'},
+    JA:{shop:'ショップ',how:'仕組み',signin:'ログイン',signup:'登録',cabinet:'マイページ',favs:'お気に入り',mine:'購入済み',cart:'カート',settings:'設定',signout:'ログアウト',admin:'管理'},
+    KO:{shop:'상점',how:'작동 방식',signin:'로그인',signup:'회원가입',cabinet:'내 캐비닛',favs:'즐겨찾기',mine:'내 컨셉',cart:'장바구니',settings:'설정',signout:'로그아웃',admin:'관리'}
   };
 
   /* ---------- localStorage helpers ---------- */
@@ -112,7 +128,7 @@
     const role = (opts && opts.role) || null; // 'superadmin' | null
     const page = currentPage();
     const lang = getLang();
-    const t = LABELS[lang];
+    const t = LABELS[lang] || LABELS.EN;
     const cartN = getCartCount();
 
     const shopActive = page === 'shop' ? ' class="active"' : '';

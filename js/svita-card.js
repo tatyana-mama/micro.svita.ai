@@ -34,7 +34,14 @@ window.SvitaCard = (function(){
     const owned = opts.owned || false;
     const slug = c.slug || c.concept_slug || '';
     const vis = visual(c);
-    return '<a class="sc-card'+(owned?' sc-owned':'')+'" href="view.html?c='+esc(slug)+'">'
+    const price = (c.current_price_eur != null) ? c.current_price_eur : (c.price_eur||0);
+    const archived = !!c.archived;
+    const priceBlock = owned
+      ? '<span class="sc-owned-tag">Owned</span>'
+      : (archived
+          ? '<span class="sc-price sc-archived-price">Sold out</span>'
+          : '<span class="sc-price">€'+price+'</span>');
+    return '<a class="sc-card'+(owned?' sc-owned':'')+(archived?' sc-card-archived':'')+'" href="view.html?c='+esc(slug)+'">'
       +'<div class="sc-media">'+vis+'<div class="sc-shade"></div>'
       +'<button type="button" class="sc-fav" data-fav="'+esc(slug)+'" aria-label="Favorite" aria-pressed="false">'
       +'<svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg></button>'
@@ -49,8 +56,9 @@ window.SvitaCard = (function(){
       +'<span>'+(c.size_m2||'—')+' m²</span>'
       +'<span>'+(c.weeks||'—')+'w</span>'
       +'</div>'
+      +scarcityBadge(c)
       +'<div class="sc-bottom">'
-      +(owned?'<span class="sc-owned-tag">Owned</span>':'<span class="sc-price">€'+(c.price_eur||0)+'</span>')
+      +priceBlock
       +'<span class="sc-open">Open <svg width="14" height="9" viewBox="0 0 14 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4.5h11M8 1l4 3.5-4 3.5"/></svg></span>'
       +'</div></div></a>';
   }
@@ -106,27 +114,51 @@ window.SvitaCard = (function(){
     });
   }
 
-  // Enrich catalog.json with DB-authoritative flags (has_brandbook, ls_url, verified).
-  // Never filters out items — catalog.json is the source of truth for public visibility.
-  // Admin can still hide concepts by deleting the row from concepts_catalog if needed.
+  // Enrich catalog.json with DB flags + scarcity metrics.
+  // Reads two sources in parallel: concepts_catalog (flags, ls_url) and
+  // public_concepts_scarcity (copies_left, current_price_eur, archived).
   async function enrichFromDB(catalog, sb){
     if(!sb || !Array.isArray(catalog)) return catalog;
     try{
-      const {data, error} = await sb.from('concepts_catalog')
-        .select('slug, verified, has_brandbook, ls_url');
-      if(error || !data) return catalog;
+      const [catRes, scRes] = await Promise.all([
+        sb.from('concepts_catalog').select('slug, verified, has_brandbook, ls_url'),
+        sb.from('public_concepts_scarcity').select('*')
+      ]);
       const byslug = Object.create(null);
-      data.forEach(function(r){ byslug[r.slug] = r; });
+      (catRes.data || []).forEach(function(r){ byslug[r.slug] = r; });
+      const scBySlug = Object.create(null);
+      (scRes.data || []).forEach(function(r){ scBySlug[r.slug] = r; });
       return catalog.map(function(c){
         const row = byslug[c.slug];
-        if(!row) return c;
-        return Object.assign({}, c, {
+        const sc = scBySlug[c.slug];
+        const base = row ? Object.assign({}, c, {
           verified: row.verified,
           has_brandbook: row.has_brandbook,
           ls_url: row.ls_url
+        }) : c;
+        if(!sc) return base;
+        return Object.assign({}, base, {
+          copies_left: sc.copies_left,
+          max_copies: sc.max_copies,
+          copies_sold: sc.copies_sold,
+          archived: sc.archived,
+          current_price_eur: sc.current_price_eur
         });
       });
     }catch(e){ return catalog; }
+  }
+
+  // Scarcity badge HTML: "2/5 copies left" with tooltip explaining the rule
+  function scarcityBadge(c){
+    if(c.archived){
+      return '<span class="sc-scarcity sc-archived" title="This concept is sold out and will never be sold again. It is now an exclusive asset of its owners.">◉ Sold out</span>';
+    }
+    if(typeof c.copies_left !== 'number') return '';
+    const left = c.copies_left;
+    const cap = c.max_copies || 5;
+    const tip = 'Only ' + cap + ' copies of this concept are ever sold. After that, it goes into the permanent archive and is retired forever. The fewer copies remain, the higher the price climbs.';
+    const cls = left <= 1 ? 'sc-scarcity sc-last' : (left <= 2 ? 'sc-scarcity sc-hot' : 'sc-scarcity');
+    return '<span class="'+cls+'" title="'+esc(tip)+'">◉ '+left+'/'+cap+' copies left</span>';
   }
 
   return {
@@ -140,6 +172,7 @@ window.SvitaCard = (function(){
     favCard: favCard,
     wireClicks: wireClicks,
     esc: esc,
-    enrichFromDB: enrichFromDB
+    enrichFromDB: enrichFromDB,
+    scarcityBadge: scarcityBadge
   };
 })();
