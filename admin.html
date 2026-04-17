@@ -80,6 +80,10 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
 .table-wrap{background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden}
 table{width:100%;border-collapse:collapse}
 thead th{text-align:left;padding:16px 18px;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);font-weight:600;border-bottom:1px solid var(--line);background:var(--bg-2)}
+thead th.sortable{cursor:pointer;user-select:none;transition:color 150ms var(--ease)}
+thead th.sortable:hover{color:var(--text)}
+thead th.sortable.active{color:var(--accent)}
+thead th .sort-ind{display:inline-block;margin-left:6px;font-size:11px;opacity:0.8}
 tbody tr{border-bottom:1px solid var(--line);transition:background 200ms var(--ease)}
 tbody tr:hover{background:var(--bg-2)}
 tbody tr:last-child{border-bottom:0}
@@ -524,7 +528,13 @@ td .actions{display:flex;gap:6px}
       </div>
       <div class="table-wrap" id="btbl-wrap">
         <table>
-          <thead><tr><th>Concept</th><th>Category</th><th>Status</th><th>Access</th><th>Actions</th></tr></thead>
+          <thead><tr>
+            <th class="sortable" data-sort="name">Concept <span class="sort-ind"></span></th>
+            <th class="sortable" data-sort="category">Category <span class="sort-ind"></span></th>
+            <th class="sortable" data-sort="status">Status <span class="sort-ind"></span></th>
+            <th>Access</th>
+            <th>Actions</th>
+          </tr></thead>
           <tbody id="btbl"></tbody>
         </table>
       </div>
@@ -2043,7 +2053,48 @@ document.querySelectorAll('#seg-range .range-btn').forEach(b=>{
 
 // ═══════════════ BRANDBOOKS ═══════════════
 let BB_ALL = [], BB_VIEW = [];
-const BSTATE = {q:''};
+const BSTATE = {q:'', sortKey:null, sortDir:1};
+
+function bbSortValue(c, key){
+  if(key === 'name') return (c.name || c.slug || '').toLowerCase();
+  if(key === 'category') return (c.category || '').toLowerCase();
+  if(key === 'status'){
+    // Live + Axo > Live + NoAxo > Unverified + Axo > Unverified + NoAxo
+    return (c.verified ? 0 : 2) + (c._has_axo ? 0 : 1);
+  }
+  return '';
+}
+
+function sortBrandbooks(){
+  if(!BSTATE.sortKey) return;
+  BB_VIEW.sort((a,b)=>{
+    const av = bbSortValue(a, BSTATE.sortKey);
+    const bv = bbSortValue(b, BSTATE.sortKey);
+    if(av < bv) return -1 * BSTATE.sortDir;
+    if(av > bv) return  1 * BSTATE.sortDir;
+    return 0;
+  });
+}
+
+function setBrandbookSort(key){
+  if(BSTATE.sortKey === key){ BSTATE.sortDir *= -1; }
+  else { BSTATE.sortKey = key; BSTATE.sortDir = 1; }
+  applyBrandbooks();
+}
+
+function updateSortIndicators(){
+  document.querySelectorAll('#btbl-wrap th.sortable').forEach(th=>{
+    const ind = th.querySelector('.sort-ind');
+    if(!ind) return;
+    if(th.dataset.sort === BSTATE.sortKey){
+      ind.textContent = BSTATE.sortDir === 1 ? '↑' : '↓';
+      th.classList.add('active');
+    } else {
+      ind.textContent = '';
+      th.classList.remove('active');
+    }
+  });
+}
 
 async function loadBrandbooks(){
   // Use already-loaded ALL (admin_concepts) and filter client-side
@@ -2068,7 +2119,9 @@ function applyBrandbooks(){
     }
     return true;
   });
+  sortBrandbooks();
   renderBrandbooks();
+  updateSortIndicators();
 }
 
 function updateBrandbookStats(){
@@ -2356,6 +2409,9 @@ on('bulk-delete','click', async ()=>{
 on('uq','input', e=>{USTATE.q=e.target.value;applyUsers()});
 on('urole','change', e=>{USTATE.role=e.target.value;applyUsers()});
 on('bq','input', e=>{BSTATE.q=e.target.value;applyBrandbooks()});
+document.querySelectorAll('#btbl-wrap th.sortable').forEach(th=>{
+  th.addEventListener('click', ()=> setBrandbookSort(th.dataset.sort));
+});
 on('sl-prov','change', e=>{ SL_PROV = e.target.value; loadSales(); });
 on('sl-export','click', ()=>{
   if(!SL_ROWS.length){ alert('No rows to export'); return; }
