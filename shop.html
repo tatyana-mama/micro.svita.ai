@@ -542,17 +542,17 @@ loadCatalog();
   let currentSlug = null;
 
   function cardHTML(c){
-    // Reuse canonical hero renderer — honors `placeholder:category:palette` tokens
-    // via .sc-ph (CSS gradient + emoji), real paths via .sc-img. Single source of truth.
+    // Dark-theme card matching .sc-card aesthetic; hero via SvitaCard.visual()
+    // (honors placeholder:* contract). Clickable → waitlist modal (not view.html).
     const vis = SvitaCard.visual(c);
     const meta = [c.category, c.size_m2 ? `${c.size_m2}m²` : ''].filter(Boolean).join(' · ');
-    return `<article data-slug="${c.slug}" data-name="${(c.name||c.slug).replace(/"/g,'&quot;')}" style="cursor:pointer;background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;transition:transform .2s,box-shadow .2s">
-      <div style="position:relative;height:140px;overflow:hidden">${vis}
-        <div style="position:absolute;top:8px;right:8px;background:rgba(15,23,42,0.85);color:#fff;font:700 9px/1 Inter;letter-spacing:.14em;padding:5px 8px;border-radius:4px;z-index:2">COMING SOON</div>
+    return `<article class="sc-card" data-slug="${c.slug}" data-name="${(c.name||c.slug).replace(/"/g,'&quot;')}" style="cursor:pointer">
+      <div class="sc-media" style="aspect-ratio:auto;height:160px">${vis}<div class="sc-shade"></div>
+        <div style="position:absolute;top:10px;right:10px;background:rgba(10,10,11,0.72);backdrop-filter:blur(6px);color:var(--text);font:600 9px/1 Inter;letter-spacing:.16em;padding:6px 9px;border-radius:100px;z-index:2;text-transform:uppercase">Coming soon</div>
       </div>
-      <div style="padding:14px 14px 16px">
-        <div style="font:700 15px/1.25 Fraunces,serif;color:#0f172a;margin-bottom:4px;letter-spacing:-0.01em">${c.name || c.slug}</div>
-        <div style="font:400 11px/1.4 Inter;color:#64748b;text-transform:uppercase;letter-spacing:.06em">${meta}</div>
+      <div style="padding:14px 16px 16px">
+        <div style="font:400 10px/1 Inter;color:var(--text-3);text-transform:uppercase;letter-spacing:.14em;margin-bottom:8px">${meta}</div>
+        <div style="font:600 16px/1.25 Fraunces,serif;color:var(--text);letter-spacing:-0.01em">${c.name || c.slug}</div>
       </div>
     </article>`;
   }

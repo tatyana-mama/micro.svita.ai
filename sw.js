@@ -1,5 +1,5 @@
 /* SVITA service worker — minimal offline shell + stale-while-revalidate for catalog */
-const VERSION = 'svita-v15-placeholder-contract';
+const VERSION = 'svita-v16-cs-dark-theme';
 const SHELL = [
   '/',
   '/index.html',
