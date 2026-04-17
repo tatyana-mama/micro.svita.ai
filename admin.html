@@ -522,7 +522,7 @@ td .actions{display:flex;gap:6px}
       </div>
       <div class="table-wrap" id="btbl-wrap">
         <table>
-          <thead><tr><th>Concept</th><th>Category</th><th>Status</th><th>Brandbook URL</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Concept</th><th>Category</th><th>Status</th><th>Access</th><th>Actions</th></tr></thead>
           <tbody id="btbl"></tbody>
         </table>
       </div>
@@ -1699,7 +1699,10 @@ function renderBrandbooks(){
     return;
   }
   tb.innerHTML = BB_VIEW.map(c=>{
-    const url = `data/concepts/${c.slug}/${c.slug}-brandbook.html`;
+    // Brandbook HTML lives only in Supabase (concept_brandbooks table). Disk copies
+    // were removed for anti-leak reasons — use the protected view.html path instead,
+    // which reads via RPC + token (or direct RLS for superadmin).
+    const viewUrl = `view.html?c=${encodeURIComponent(c.slug)}`;
     const axoChip = c._has_axo
       ? '<span class="chip ok">✓ Axonometric</span>'
       : '<span class="chip warn">⚠ No axo</span>';
@@ -1710,10 +1713,10 @@ function renderBrandbooks(){
       <td><div class="cell-name"><div class="info"><div class="name">${escape(c.name)}</div><div class="slug">${escape(c.slug)}</div></div></div></td>
       <td><span class="chip">${escape(c.category||'—')}</span></td>
       <td>${verifChip} ${axoChip}</td>
-      <td><a href="${url}" target="_blank" style="font-family:'JetBrains Mono';font-size:11px;color:var(--accent);text-decoration:underline">/${url}</a></td>
+      <td><span style="font-family:'JetBrains Mono';font-size:11px;color:var(--text-3)" title="Served via get_brandbook_by_token RPC with email watermark. No public URL.">🔒 Protected · DB-only</span></td>
       <td><div class="actions">
-        <a href="${url}" target="_blank" class="btn-s primary">↗ Open</a>
-        <a href="view.html?slug=${encodeURIComponent(c.slug)}" target="_blank" class="btn-s">View page</a>
+        <a href="${viewUrl}" target="_blank" class="btn-s primary">↗ Open</a>
+        <button class="btn-s" onclick="openConceptModal('${escape(c.slug)}')">Edit</button>
         <button class="btn-s danger" onclick="unmarkBrandbook('${escape(c.slug)}')">✕ Unmark</button>
       </div></td>
     </tr>`;
