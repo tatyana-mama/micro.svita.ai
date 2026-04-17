@@ -442,7 +442,8 @@ const UI_STRINGS = {
 
 /* ===== MAIN ===== */
 let CONCEPT = null;
-let CURRENT_LANG = (localStorage.getItem('svita_micro_lang') || 'en').toLowerCase();
+// Site is English-only — language state locked to 'en'.
+const CURRENT_LANG = 'en';
 let I18N_ROW = null; // row from concepts_i18n
 let IS_SA = false;   // superadmin flag
 let IS_OWNED = false; // user owns this concept (paid or gift)
@@ -594,8 +595,6 @@ async function loadSuperadminFullConcept(slug){
 (async function init(){
   const params = new URLSearchParams(location.search);
   const slug = params.get('c') || params.get('slug') || 'poppy-matcha';
-  const urlLang = params.get('lang');
-  if(urlLang && LANGS.some(l=>l.c===urlLang)) CURRENT_LANG = urlLang;
 
   let concept = null;
   try{
@@ -861,19 +860,8 @@ async function loadBrandbookViaToken(slug, iframeEl){
   }
 }
 
-/* Shared nav hook: shared nav calls window.setLang(code) on language change. */
-window.setLang = async function(code){
-  const lc = (code || 'en').toLowerCase();
-  if(!LANGS.some(l=>l.c===lc)) return;
-  CURRENT_LANG = lc;
-  localStorage.setItem('svita_micro_lang', lc);
-  const u = new URL(location.href); u.searchParams.set('lang', lc);
-  history.replaceState({},'',u);
-  if(CONCEPT){
-    await loadI18nOverride(CONCEPT.slug, lc);
-    rerenderAll();
-  }
-};
+/* Site is English-only — setLang is a no-op kept for nav compatibility. */
+window.setLang = function(){};
 
 function applyTheme(concept){
   const theme = THEMES[concept.slug] || CATEGORY_PALETTES[concept.category] || CATEGORY_PALETTES.food;
@@ -1049,28 +1037,7 @@ async function buildCollage(c){
   ).join('');
 }
 
-/* ===== Topbar lang menu wire-up ===== */
-function buildLangMenu(){
-  const menu = document.getElementById('langMenu');
-  const cur = document.getElementById('langCurrent');
-  if(!menu || !cur) return;
-  cur.textContent = CURRENT_LANG.toUpperCase();
-  menu.innerHTML = LANGS.map(l =>
-    `<button type="button" data-lang="${l.c}"${l.c===CURRENT_LANG?' class="active"':''}>${l.c.toUpperCase()} · ${l.n}</button>`
-  ).join('');
-  menu.querySelectorAll('button').forEach(b => {
-    b.addEventListener('click', () => {
-      menu.classList.remove('open');
-      window.setLang(b.dataset.lang);
-      cur.textContent = b.dataset.lang.toUpperCase();
-      menu.querySelectorAll('button').forEach(x => x.classList.toggle('active', x.dataset.lang === b.dataset.lang));
-    });
-  });
-  const btn = document.getElementById('langBtn');
-  btn.addEventListener('click', e => { e.stopPropagation(); menu.classList.toggle('open'); });
-  document.addEventListener('click', e => { if(!e.target.closest('#langChip')) menu.classList.remove('open'); });
-}
-buildLangMenu();
+/* Language menu removed — site is English-only. */
 
 const STAR_SVG = '<svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>';
 
