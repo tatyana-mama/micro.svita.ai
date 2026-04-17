@@ -395,13 +395,24 @@ async function loadOwnedSlugs(){
 }
 
 async function loadCatalog(){
-  try{
-    const r = await fetch('data/catalog.json');
-    ALL = await r.json();
-    if(window.SvitaCard && SvitaCard.enrichFromDB){
-      ALL = await SvitaCard.enrichFromDB(ALL, SB);
-    }
-  }catch(e){ ALL = []; }
+  // Primary source: live Supabase view `public_verified_catalog` — driven by admin UI Verify button.
+  // Fallback: static data/catalog.json for offline/SW cache.
+  ALL = [];
+  if(SB){
+    try{
+      const {data, error} = await SB.from('public_verified_catalog').select('*');
+      if(!error && Array.isArray(data) && data.length) ALL = data;
+    }catch(e){}
+  }
+  if(!ALL.length){
+    try{
+      const r = await fetch('data/catalog.json');
+      ALL = await r.json();
+    }catch(e){ ALL = []; }
+  }
+  if(window.SvitaCard && SvitaCard.enrichFromDB){
+    try{ ALL = await SvitaCard.enrichFromDB(ALL, SB); }catch(e){}
+  }
   await loadOwnedSlugs();
   buildFilters();
   applyAll();
