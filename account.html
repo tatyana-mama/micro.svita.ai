@@ -130,12 +130,23 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 .role-badge{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,0.05);border:1px solid var(--line);color:var(--text-2)}
 .role-badge[data-role="admin"]{color:var(--accent);border-color:rgba(214,255,62,0.3);background:rgba(214,255,62,0.08)}
 .role-badge[data-role="superadmin"]{color:#fff;border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.08)}
-.page-head h1{
-  font-size:clamp(0.5rem,1vw,0.75rem);
-  margin-bottom:12px;
+/* Account page: unified small type — no giant display headings. */
+.page-head h1,
+.page-head h1.display{
+  font-size:20px !important;
+  font-weight:600;
+  line-height:1.3;
+  letter-spacing:-0.01em;
+  margin-bottom:6px;
 }
 .page-head h1 .accent{color:var(--accent);font-style:italic;font-weight:500}
-.page-head p{font-size:clamp(15px,1.4vw,17px);color:var(--text-2);max-width:520px;line-height:1.55}
+.page-head p,
+.page-head p.page-sub{
+  font-size:13px !important;
+  color:var(--text-2);
+  max-width:520px;
+  line-height:1.55;
+}
 
 /* ============ LOGIN MODAL ============ */
 .login-shell{
@@ -300,7 +311,7 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 
 /* ============ OWNED GRID (bento like gallery) ============ */
 .owned-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;gap:32px;flex-wrap:wrap}
-.owned-head h2{font-family:'Space Grotesk';font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:700;letter-spacing:-0.03em;line-height:1}
+.owned-head h2{font-family:'Space Grotesk';font-size:20px;font-weight:600;letter-spacing:-0.01em;line-height:1.25}
 .owned-head .count{font-family:'JetBrains Mono';font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.12em}
 
 .owned{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(160px,auto);gap:20px}
