@@ -722,7 +722,6 @@ function renderScarcityPanel(c){
 }
 
 function renderBuyCTA(c){
-  const price = c.current_price_eur != null ? c.current_price_eur : (c.price_eur||0);
   if(c.archived){
     return '<button class="btn" disabled style="opacity:0.5;cursor:not-allowed;pointer-events:none">Sold out</button>';
   }
@@ -732,26 +731,51 @@ function renderBuyCTA(c){
     +   '<input type="checkbox" id="buy-consent-'+slug+'" class="buy-consent-chk">'
     +   '<span>I agree to the <a href="/legal.html#offer" target="_blank">Public Offer</a>, <a href="/legal.html#refund" target="_blank">Refund Policy</a> and <a href="/legal.html#license" target="_blank">Brandbook License</a>.</span>'
     + '</label>'
-    + '<a class="btn buy-cta" data-slug="'+slug+'" href="account.html?buy='+slug+'" onclick="return requireConsent(event,\''+slug+'\')">'
-    +   t('buy') + ' €' + price
+    + '<button type="button" class="btn buy-cta" data-slug="'+slug+'" onclick="startCheckout(\''+slug+'\')">'
+    +   'Proceed to checkout'
     +   '<svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h12M9 1l4 4-4 4"/></svg>'
-    + '</a>'
+    + '</button>'
+    + '<div style="margin-top:8px;font-size:11px;color:#64748B;text-align:center">Final price shown on checkout · Instant access after payment</div>'
     + '</div>';
 }
 
-window.requireConsent = function(ev, slug){
+/* Direct checkout: view.html → LS (no account.html middleman).
+   Single source of truth for ls_url: concepts_catalog (DB).
+   Price is set inside LS product — site does not enforce it. */
+window.startCheckout = async function(slug){
   const chk = document.getElementById('buy-consent-' + slug);
   if(!chk || !chk.checked){
-    ev.preventDefault();
     const lbl = chk && chk.closest('.buy-consent');
     if(lbl){
       lbl.style.color = '#dc2626';
-      lbl.animate([{transform:'translateX(0)'},{transform:'translateX(-4px)'},{transform:'translateX(4px)'},{transform:'translateX(0)'}],{duration:260});
+      try { lbl.animate([{transform:'translateX(0)'},{transform:'translateX(-4px)'},{transform:'translateX(4px)'},{transform:'translateX(0)'}],{duration:260}); } catch(_){}
       setTimeout(()=>{lbl.style.color=''}, 1500);
     }
-    return false;
+    return;
   }
-  return true;
+  if(!SB){ location.href = 'account.html?buy=' + slug; return; }
+  const {data:{session}} = await SB.auth.getSession();
+  if(!session){ location.href = 'account.html?buy=' + slug; return; }
+
+  const {data: row, error} = await SB.from('concepts_catalog').select('ls_url, name').eq('slug', slug).maybeSingle();
+  if(error || !row || !row.ls_url){
+    alert('Checkout not configured for this concept yet. Contact support: ceo@labs67.com');
+    return;
+  }
+
+  const base = row.ls_url;
+  const joiner = base.includes('?') ? '&' : '?';
+  const ref = session.user.id + ':' + slug;
+  const email = session.user.email || '';
+  const success = location.origin + '/account.html?paid=' + encodeURIComponent(slug);
+  const p = new URLSearchParams();
+  p.set('checkout[email]', email);
+  p.set('checkout[custom][ref]', ref);
+  p.set('client_reference_id', ref);
+  p.set('prefilled_email', email);
+  p.set('success_url', success);
+  try { window.svitaTrack && window.svitaTrack('checkout_start', { slug }); } catch(_){}
+  location.href = base + joiner + p.toString();
 };
 
 // Admin inline-edit panel: floating editor for SA/admin with autosave via admin_patch_concept RPC.
