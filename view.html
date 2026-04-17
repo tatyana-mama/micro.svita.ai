@@ -757,7 +757,12 @@ window.startCheckout = async function(slug){
   const {data:{session}} = await SB.auth.getSession();
   if(!session){ location.href = 'account.html?buy=' + slug; return; }
 
-  const {data: row, error} = await SB.from('concepts_catalog').select('ls_url, name').eq('slug', slug).maybeSingle();
+  // Use SECURITY DEFINER RPC to bypass the verified=true RLS gate on concepts_catalog.
+  // Rationale: a buyer may land on view.html via direct link even if moderation hasn't
+  // verified the concept yet — we still want to honor the purchase intent if the concept
+  // is active and has a valid checkout URL.
+  const {data: rows, error} = await SB.rpc('resolve_checkout', { p_slug: slug });
+  const row = Array.isArray(rows) ? rows[0] : rows;
   if(error || !row || !row.ls_url){
     alert('Checkout not configured for this concept yet. Contact support: ceo@labs67.com');
     return;
