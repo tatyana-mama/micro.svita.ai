@@ -1,5 +1,5 @@
 /* SVITA service worker — minimal offline shell + stale-while-revalidate for catalog */
-const VERSION = 'svita-v8-watermark-and-fonts';
+const VERSION = 'svita-v9-gift-links';
 const SHELL = [
   '/',
   '/index.html',
