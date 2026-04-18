@@ -92,9 +92,11 @@ Deno.serve(async (req) => {
   const explicitSlug = String(customData.concept_slug ?? '');
   const explicitUser = String(customData.user_id ?? '');
   const ref = String(customData.ref ?? '');
-  const [refUser, refSlug] = ref.split(':');
+  // Ref format: "<uid>:<slug>" (legacy) or "<uid>:<slug>:<tier>" (new).
+  const [refUser, refSlug, refTier] = ref.split(':');
   const slug = explicitSlug || refSlug;
   const userId = explicitUser || refUser;
+  const tier = String(customData.tier ?? refTier ?? 'basic').toLowerCase();
 
   if (!userId || !slug) {
     console.warn('lemon-webhook: missing slug/user', { customData, eventName });
@@ -122,6 +124,23 @@ Deno.serve(async (req) => {
   if (error) {
     console.error('lemon-webhook: upsert failed', error);
     return new Response(`db error: ${error.message}`, { status: 500 });
+  }
+
+  // Exclusive buyout: atomically archive the concept and record the sole owner.
+  // If two buyers race, only the first UPDATE wins (ok=true); the second one
+  // succeeded at payment but we'll need to refund them out-of-band.
+  if (tier === 'exclusive') {
+    const { data: claim, error: claimErr } = await supabase.rpc('claim_exclusive', {
+      p_slug: slug,
+      p_owner: userId,
+    });
+    if (claimErr) {
+      console.error('lemon-webhook: claim_exclusive failed', claimErr, { slug, userId });
+    } else if (claim && claim.ok === false) {
+      console.warn('lemon-webhook: exclusive already claimed', { slug, userId, providerRef });
+    } else {
+      console.log('lemon-webhook: exclusive claimed', { slug, userId });
+    }
   }
 
   return new Response('ok', { status: 200 });
