@@ -1643,6 +1643,10 @@ function renderConceptModal(c, accessRows, i18n, brand){
         <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
           <a class="btn-s" href="view.html?c=${escape(c.slug)}" target="_blank">Preview</a>
           ${MY_ROLE==='superadmin'?`<a class="btn-s primary" href="edit.html?c=${escape(c.slug)}" target="_blank">✎ Edit</a>`:''}
+          ${MY_ROLE==='superadmin'?(c.verified
+            ? `<button type="button" class="btn-s danger" onclick="toggleVerifyModal('${escape(c.slug)}', false)">✗ Unverify</button>`
+            : `<button type="button" class="btn-s primary" onclick="toggleVerifyModal('${escape(c.slug)}', true)" style="background:rgba(132,204,22,0.16);color:var(--ok);border-color:rgba(132,204,22,0.45)">✓ Verify</button>`
+          ):''}
           <button type="button" class="btn-s" onclick="copyToClipboard(location.origin + '/view.html?c=${escape(c.slug)}', this)">📎 Copy concept link</button>
           ${c.ls_url?`<button type="button" class="btn-s" onclick="copyToClipboard(${JSON.stringify(c.ls_url)}, this)">💳 Copy payment link</button>`:'<span class="btn-s" style="opacity:.5;cursor:not-allowed" title="Set payment link in the table row">💳 No payment link</span>'}
         </div>
@@ -2352,6 +2356,25 @@ async function toggleVerify(slug, makeVerified){
   updateStats();
 }
 window.toggleVerify = toggleVerify;
+
+async function toggleVerifyModal(slug, makeVerified){
+  if(MY_ROLE !== 'superadmin'){ alert('Only superadmin can verify'); return; }
+  const verb = makeVerified ? 'Verify' : 'Unverify';
+  if(!confirm(`${verb} "${slug}"?`)) return;
+  const {error} = await sb.from('concepts_catalog').update({
+    verified: makeVerified,
+    verified_at: makeVerified ? new Date().toISOString() : null,
+    verified_by: makeVerified ? (await sb.auth.getSession()).data?.session?.user?.id || null : null
+  }).eq('slug', slug);
+  if(error){ alert(error.message); return; }
+  const idx = (window.ALL||[]).findIndex(c=>c.slug===slug);
+  if(idx>=0) window.ALL[idx].verified = makeVerified;
+  if(typeof applyAll==='function') applyAll();
+  if(typeof updateStats==='function') updateStats();
+  if(typeof showStatus==='function') showStatus(`${makeVerified?'✓ Verified':'○ Unverified'} · ${slug}`, makeVerified?'var(--ok)':'var(--warn)');
+  await openConceptModal(slug);
+}
+window.toggleVerifyModal = toggleVerifyModal;
 
 on('q','input', e=>{STATE.q=e.target.value;applyAll()});
 on('status','change', e=>{STATE.status=e.target.value;applyAll()});
