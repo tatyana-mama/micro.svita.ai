@@ -671,6 +671,10 @@ async function loadSuperadminFullConcept(slug){
   await loadI18nOverride(slug, CURRENT_LANG);
   rerenderAll();
   document.getElementById('loading').classList.add('hidden');
+  // Auto-open the tier modal when arriving from the homepage "Buy" CTA.
+  if (params.get('buy') === '1' && CONCEPT && !CONCEPT.archived) {
+    setTimeout(() => { try { window.openBuyModal(CONCEPT.slug); } catch(_){} }, 60);
+  }
   // Mount inline editor for admin/superadmin
   try{
     if(SB){

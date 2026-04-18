@@ -926,7 +926,8 @@ function cardEl(c){
   el.addEventListener('click', e=>{
     if(e.target.closest('[data-buy]')){
       e.stopPropagation();
-      window.location.href = `account.html?buy=${c.slug}`;
+      // Keep the user in a logged-in session; the 3-tier modal lives on view.html.
+      window.location.href = `view.html?c=${c.slug}&buy=1`;
       return;
     }
     window.location.href = `view.html?c=${c.slug}`;
