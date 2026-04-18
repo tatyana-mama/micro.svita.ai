@@ -1039,8 +1039,9 @@ function applyTheme(concept){
 }
 
 function renderChip(c){
+  const catLabel = (c.category||'concept').replace(/_/g,' ');
   document.getElementById('chipText').innerHTML =
-    '<strong>'+c.name+'</strong> · €'+c.budget_eur.toLocaleString('en-US');
+    '<strong>'+c.name+'</strong> · '+catLabel+' · '+(c.size_m2||'—')+'m²';
 }
 
 function renderFrame(c){
@@ -1108,10 +1109,9 @@ function renderFrame(c){
         </div>
         <div class="specs">
           ${renderScarcityPanel(c)}
-          <div class="row"><span class="k">${t('budget')}</span><span class="v">€${c.budget_eur.toLocaleString('en-US')}</span></div>
-          <div class="row"><span class="k">${t('timeline')}</span><span class="v">${c.weeks||8} ${t('weeks')}</span></div>
           <div class="row"><span class="k">${t('size')}</span><span class="v">${c.size_m2||'—'}m²</span></div>
           <div class="row"><span class="k">${t('category')}</span><span class="v">${c.category}</span></div>
+          <div class="row"><span class="k">Format</span><span class="v">Concept brief</span></div>
           ${renderBuyCTA(c)}
           <div class="lock-note">${t('lockNote')}</div>
         </div>

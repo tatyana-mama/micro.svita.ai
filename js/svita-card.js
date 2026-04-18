@@ -52,9 +52,9 @@ window.SvitaCard = (function(){
       +'<h3 class="sc-name">'+esc(c.name||slug)+'</h3>'
       +(c.tagline?'<p class="sc-tagline">'+esc(c.tagline)+'</p>':'')
       +'<div class="sc-meta">'
-      +'<span>€'+(c.budget_eur||0).toLocaleString()+' launch</span>'
       +'<span>'+(c.size_m2||'—')+' m²</span>'
       +'<span>'+(c.weeks||'—')+'w</span>'
+      +'<span>concept brief</span>'
       +'</div>'
       +scarcityBadge(c)
       +'<div class="sc-bottom">'
@@ -78,9 +78,9 @@ window.SvitaCard = (function(){
       +'<span class="sc-cat">'+esc(catLabel(c.category))+'</span>'
       +'<h3 class="sc-name">'+esc(c.name||slug)+'</h3>'
       +'<div class="sc-meta">'
-      +'<span>€'+(c.budget_eur||0).toLocaleString()+'</span>'
       +'<span>'+(c.size_m2||'—')+' m²</span>'
       +'<span>'+(c.weeks||'—')+'w</span>'
+      +'<span>concept brief</span>'
       +'</div>'
       +'<div class="sc-bottom">'
       +'<span class="sc-open">Open <svg width="14" height="9" viewBox="0 0 14 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4.5h11M8 1l4 3.5-4 3.5"/></svg></span>'
