@@ -362,8 +362,8 @@ input.mono{font-family:'JetBrains Mono',monospace;font-size:12px}
 
         <div class="section">
           <div class="section-head">
-            <h3>Pricing</h3>
-            <span class="hint">EUR · launch budget & sale price</span>
+            <h3>Pricing — 3 tiers</h3>
+            <span class="hint">Basic · AI-tuned · Exclusive (→ archive)</span>
           </div>
           <div class="field-row">
             <div class="field">
@@ -371,8 +371,18 @@ input.mono{font-family:'JetBrains Mono',monospace;font-size:12px}
               <input type="number" id="f-budget" min="0" step="100">
             </div>
             <div class="field">
-              <label>Sale price (€)</label>
+              <label>Basic price (€)</label>
               <input type="number" id="f-price" min="0" step="1">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>AI-tuned price (€) · default ×2</label>
+              <input type="number" id="f-price-ai" min="0" step="1" placeholder="auto ×2">
+            </div>
+            <div class="field">
+              <label>Exclusive price (€) · default ×3</label>
+              <input type="number" id="f-price-exclusive" min="0" step="1" placeholder="auto ×3">
             </div>
           </div>
         </div>
@@ -380,11 +390,19 @@ input.mono{font-family:'JetBrains Mono',monospace;font-size:12px}
         <div class="section">
           <div class="section-head">
             <h3>Payment links</h3>
-            <span class="hint">Lemon Squeezy / Stripe</span>
+            <span class="hint">Lemon Squeezy variant URLs (one per tier) · Stripe</span>
           </div>
           <div class="field">
-            <label>Lemon Squeezy URL</label>
-            <input type="url" id="f-ls" class="mono" placeholder="https://...lemonsqueezy.com/checkout/buy/...">
+            <label>LS — Basic variant URL</label>
+            <input type="url" id="f-ls" class="mono" placeholder="https://...lemonsqueezy.com/buy/<variant-uuid>">
+          </div>
+          <div class="field">
+            <label>LS — AI-tuned variant URL</label>
+            <input type="url" id="f-ls-ai" class="mono" placeholder="https://...lemonsqueezy.com/buy/<variant-uuid>">
+          </div>
+          <div class="field">
+            <label>LS — Exclusive variant URL</label>
+            <input type="url" id="f-ls-exclusive" class="mono" placeholder="https://...lemonsqueezy.com/buy/<variant-uuid>">
           </div>
           <div class="field">
             <label>Stripe Price ID</label>
@@ -570,9 +588,13 @@ function renderCatalog(){
   $('f-hero').value = CATALOG.hero_image || '';
   $('f-budget').value = CATALOG.budget_eur || '';
   $('f-price').value = CATALOG.price_eur || '';
+  $('f-price-ai').value = CATALOG.price_ai_eur || '';
+  $('f-price-exclusive').value = CATALOG.price_exclusive_eur || '';
   $('f-ls').value = CATALOG.ls_url || '';
+  $('f-ls-ai').value = CATALOG.ls_url_ai || '';
+  $('f-ls-exclusive').value = CATALOG.ls_url_exclusive || '';
   $('f-stripe').value = CATALOG.stripe_price_id || '';
-  ['f-name','f-category','f-size','f-weeks','f-hero','f-budget','f-price','f-ls','f-stripe'].forEach(id=>{
+  ['f-name','f-category','f-size','f-weeks','f-hero','f-budget','f-price','f-price-ai','f-price-exclusive','f-ls','f-ls-ai','f-ls-exclusive','f-stripe'].forEach(id=>{
     $(id).addEventListener('input', markDirty);
   });
 }
@@ -714,7 +736,11 @@ async function saveAll(){
       hero_image: $('f-hero').value || null,
       budget_eur: parseInt($('f-budget').value)||0,
       price_eur: parseInt($('f-price').value)||0,
+      price_ai_eur: parseInt($('f-price-ai').value)||null,
+      price_exclusive_eur: parseInt($('f-price-exclusive').value)||null,
       ls_url: $('f-ls').value || null,
+      ls_url_ai: $('f-ls-ai').value || null,
+      ls_url_exclusive: $('f-ls-exclusive').value || null,
       stripe_price_id: $('f-stripe').value || null,
       verified: !!CATALOG.verified,
       is_active: !!CATALOG.is_active,
