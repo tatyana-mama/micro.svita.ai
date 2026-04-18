@@ -228,19 +228,20 @@ input.mono{font-family:'JetBrains Mono',monospace;font-size:12px}
 }
 @keyframes rot{to{transform:rotate(360deg)}}
 
-/* TOAST */
+/* TOAST — bottom-left so it never overlaps the Save button on the right */
 .toast{
-  position:fixed;bottom:24px;right:24px;
-  padding:14px 20px;border-radius:12px;
+  position:fixed;bottom:20px;left:24px;
+  padding:10px 16px;border-radius:10px;
   background:var(--bg-2);border:1px solid var(--line);
-  font-size:13px;color:var(--text);
+  font-size:12px;line-height:1;color:var(--text);
   box-shadow:0 12px 40px rgba(0,0,0,0.5);
-  z-index:300;
-  animation:toastIn 240ms var(--ease);
+  z-index:300;pointer-events:none;
+  animation:toastIn 200ms var(--ease);
+  max-width:280px;
 }
-.toast.ok{border-color:rgba(132,204,22,0.4);background:rgba(132,204,22,0.08)}
-.toast.err{border-color:rgba(239,68,68,0.4);background:rgba(239,68,68,0.08)}
-@keyframes toastIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.toast.ok{border-color:rgba(132,204,22,0.4);background:rgba(132,204,22,0.12);color:#bef264}
+.toast.err{border-color:rgba(239,68,68,0.4);background:rgba(239,68,68,0.12);color:#fca5a5}
+@keyframes toastIn{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
 
 /* CONTENT LENGTH BAR */
 .length-meter{
