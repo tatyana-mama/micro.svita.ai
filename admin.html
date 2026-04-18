@@ -485,6 +485,11 @@ td .actions{display:flex;gap:6px}
           <option value="verified">Verified only</option>
           <option value="unverified">Unverified only</option>
         </select>
+        <select class="sel" id="bb">
+          <option value="all">Brandbook: any</option>
+          <option value="yes">With brandbook</option>
+          <option value="no">No brandbook</option>
+        </select>
         <select class="sel" id="cat">
           <option value="all">All categories</option>
         </select>
@@ -525,6 +530,16 @@ td .actions{display:flex;gap:6px}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
           <input type="search" id="bq" placeholder="Search brandbooks by name…">
         </div>
+        <select class="sel" id="b-status">
+          <option value="all">All statuses</option>
+          <option value="verified">Verified only</option>
+          <option value="unverified">Unverified only</option>
+        </select>
+        <select class="sel" id="b-axo">
+          <option value="all">Axonometric: any</option>
+          <option value="yes">With axonometric</option>
+          <option value="no">Missing axonometric</option>
+        </select>
       </div>
       <div class="table-wrap" id="btbl-wrap">
         <table>
@@ -801,7 +816,7 @@ let ALL = [], VIEW = [];
 let USERS = [], UVIEW = [];
 // has_brandbook read from concepts_catalog.has_brandbook column
 let MY_ROLE = 'user';
-const STATE = {q:'', status:'all', cat:'all'};
+const STATE = {q:'', status:'all', cat:'all', bb:'all'};
 const USTATE = {q:'', role:'all'};
 
 async function boot(){
@@ -1070,6 +1085,8 @@ function applyAll(){
     if(STATE.cat !== 'all' && c.category !== STATE.cat) return false;
     if(STATE.status === 'verified' && !c.verified) return false;
     if(STATE.status === 'unverified' && c.verified) return false;
+    if(STATE.bb === 'yes' && !c.has_brandbook) return false;
+    if(STATE.bb === 'no' && c.has_brandbook) return false;
     return true;
   });
   render();
@@ -2057,7 +2074,7 @@ document.querySelectorAll('#seg-range .range-btn').forEach(b=>{
 
 // ═══════════════ BRANDBOOKS ═══════════════
 let BB_ALL = [], BB_VIEW = [];
-const BSTATE = {q:'', sortKey:null, sortDir:1};
+const BSTATE = {q:'', status:'all', axo:'all', sortKey:null, sortDir:1};
 
 function bbSortValue(c, key){
   if(key === 'name') return (c.name || c.slug || '').toLowerCase();
@@ -2105,9 +2122,12 @@ async function loadBrandbooks(){
   BB_ALL = (ALL||[]).filter(c => c.has_brandbook);
   // Probe for 11-axonometric.png presence in parallel (HEAD requests)
   await Promise.all(BB_ALL.map(async c => {
+    // Prefer new convention (06-layout.png); fall back to legacy (11-axonometric.png).
     try{
-      const r = await fetch(`data/concepts/${c.slug}/images/11-axonometric.png`, {method:'HEAD'});
-      c._has_axo = r.ok;
+      const r1 = await fetch(`data/concepts/${c.slug}/images/06-layout.png`, {method:'HEAD'});
+      if(r1.ok){ c._has_axo = true; return; }
+      const r2 = await fetch(`data/concepts/${c.slug}/images/11-axonometric.png`, {method:'HEAD'});
+      c._has_axo = r2.ok;
     }catch(e){ c._has_axo = false; }
   }));
   applyBrandbooks();
@@ -2121,6 +2141,10 @@ function applyBrandbooks(){
       const q = BSTATE.q.toLowerCase();
       if(!c.name.toLowerCase().includes(q) && !c.slug.toLowerCase().includes(q)) return false;
     }
+    if(BSTATE.status === 'verified' && !c.verified) return false;
+    if(BSTATE.status === 'unverified' && c.verified) return false;
+    if(BSTATE.axo === 'yes' && !c._has_axo) return false;
+    if(BSTATE.axo === 'no' && c._has_axo) return false;
     return true;
   });
   sortBrandbooks();
@@ -2379,6 +2403,7 @@ window.toggleVerifyModal = toggleVerifyModal;
 on('q','input', e=>{STATE.q=e.target.value;applyAll()});
 on('status','change', e=>{STATE.status=e.target.value;applyAll()});
 on('cat','change', e=>{STATE.cat=e.target.value;applyAll()});
+on('bb','change', e=>{STATE.bb=e.target.value;applyAll()});
 
 // ═══ BULK SELECTION ═══
 on('sel-all','change', e => {
@@ -2432,6 +2457,8 @@ on('bulk-delete','click', async ()=>{
 on('uq','input', e=>{USTATE.q=e.target.value;applyUsers()});
 on('urole','change', e=>{USTATE.role=e.target.value;applyUsers()});
 on('bq','input', e=>{BSTATE.q=e.target.value;applyBrandbooks()});
+on('b-status','change', e=>{BSTATE.status=e.target.value;applyBrandbooks()});
+on('b-axo','change', e=>{BSTATE.axo=e.target.value;applyBrandbooks()});
 document.querySelectorAll('#btbl-wrap th.sortable').forEach(th=>{
   th.addEventListener('click', ()=> setBrandbookSort(th.dataset.sort));
 });
