@@ -1197,21 +1197,24 @@ async function loadFavorites(){
   const empty = $('favs-empty');
   const count = $('favs-count');
   const favs = (window.SvitaFavs && window.SvitaFavs.list()) || [];
-  count.textContent = favs.length + ' concept' + (favs.length===1?'':'s');
-  const tc = $('tab-count-favs'); if(tc) tc.textContent = favs.length;
-  if(!favs.length){
+  const catalog = favs.length ? await getCatalog() : [];
+  const items = favs.map(slug => catalog.find(c => c.slug === slug)).filter(Boolean);
+  // Purge stale entries (favorited concept that no longer exists / archived-out-of-catalog)
+  // so the tab badge matches what the user actually sees.
+  if(items.length < favs.length && window.SvitaFavs && window.SvitaFavs.set){
+    const valid = items.map(c => c.slug);
+    const stale = favs.filter(s => !valid.includes(s));
+    stale.forEach(s => window.SvitaFavs.toggle && window.SvitaFavs.toggle(s));
+  }
+  const n = items.length;
+  count.textContent = n + ' concept' + (n===1?'':'s');
+  const tc = $('tab-count-favs'); if(tc) tc.textContent = n;
+  if(!n){
     grid.classList.add('hidden');
     empty.classList.remove('hidden');
     return;
   }
   empty.classList.add('hidden');
-  const catalog = await getCatalog();
-  const items = favs.map(slug => catalog.find(c => c.slug === slug)).filter(Boolean);
-  if(!items.length){
-    grid.classList.add('hidden');
-    empty.classList.remove('hidden');
-    return;
-  }
   grid.innerHTML = items.map(c => SvitaCard.favCard(c)).join('');
   grid.classList.remove('hidden');
   SvitaCard.wireClicks(grid);

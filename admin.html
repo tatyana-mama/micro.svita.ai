@@ -411,6 +411,7 @@ td .actions{display:flex;gap:6px}
       <div class="tab" data-tab="segments" id="tab-segments" style="display:none">Segments</div>
       <div class="tab" data-tab="users" id="tab-users" style="display:none">Users <span class="count" id="t-users">—</span></div>
       <div class="tab" data-tab="upcoming" id="tab-upcoming">Upcoming <span class="count" id="t-upcoming">—</span></div>
+      <div class="tab" data-tab="archive" id="tab-archive">Archive <span class="count" id="t-archive">—</span></div>
       <div class="tab" data-tab="waitlist" id="tab-waitlist">Waitlist <span class="count" id="t-waitlist">—</span></div>
     </div>
 
@@ -755,6 +756,28 @@ td .actions{display:flex;gap:6px}
       </div>
     </div>
 
+    <!-- ═══ ARCHIVE TAB — concepts sold as exclusive (owner-locked) ═══ -->
+    <div class="tab-panel hidden" id="panel-archive">
+      <div class="stats">
+        <div class="stat accent"><div class="lbl">Archived concepts</div><div class="num" id="ar-total">—</div><div class="sub">Exclusive sold · locked to owner</div></div>
+        <div class="stat"><div class="lbl">Exclusive revenue</div><div class="num" id="ar-rev">—</div><div class="sub">Sum of exclusive sales</div></div>
+      </div>
+      <div class="tools">
+        <div class="search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="search" id="arq" placeholder="Search archived concepts…">
+        </div>
+      </div>
+      <div class="table-wrap" id="artbl-wrap">
+        <table>
+          <thead><tr>
+            <th>Concept</th><th>Category</th><th>Exclusive €</th><th>Owner</th><th>Archived at</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="artbl"></tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- ═══ WAITLIST TAB — emails × slug ═══ -->
     <div class="tab-panel hidden" id="panel-waitlist">
       <div class="stats">
@@ -863,7 +886,7 @@ document.querySelectorAll('#tabs .tab').forEach(el=>{
   el.addEventListener('click', ()=>{
     const name = el.dataset.tab;
     document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.toggle('on', t===el));
-    ['overview','concepts','brandbooks','sales','funnel','cohorts','segments','users','upcoming','waitlist'].forEach(n=>{
+    ['overview','concepts','brandbooks','sales','funnel','cohorts','segments','users','upcoming','archive','waitlist'].forEach(n=>{
       const p = $('panel-'+n);
       if(p) p.classList.toggle('hidden', n!==name);
     });
@@ -873,6 +896,7 @@ document.querySelectorAll('#tabs .tab').forEach(el=>{
 
 TAB_LOADERS.upcoming = loadUpcoming;
 TAB_LOADERS.waitlist = loadWaitlist;
+TAB_LOADERS.archive = loadArchive;
 
 // ═══ UPCOMING — 188 unverified concepts ═══
 let UP_ALL = [];
@@ -994,6 +1018,57 @@ window.archiveConcept = async function(slug){
   if(error){ alert('Archive failed: ' + error.message); return; }
   await loadUpcoming();
 };
+
+// ═══ ARCHIVE — concepts sold as exclusive (archived=true, locked to owner) ═══
+let AR_ALL = [], AR_STATE = {q:''};
+async function loadArchive(){
+  const tbl = $('artbl');
+  tbl.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:24px;color:#64748b">Loading…</td></tr>';
+  const {data, error} = await sb.from('concepts_catalog')
+    .select('slug,name,category,country,price_eur,price_exclusive_eur,archived,exclusive_owner_id,verified_at,created_at')
+    .eq('archived', true)
+    .order('slug');
+  if(error){ tbl.innerHTML = `<tr><td colspan="6" style="color:#dc2626">${error.message}</td></tr>`; return; }
+  AR_ALL = data || [];
+  $('t-archive').textContent = AR_ALL.length;
+  $('ar-total').textContent = AR_ALL.length;
+  const rev = AR_ALL.reduce((s,c)=> s + (c.price_exclusive_eur||0), 0);
+  $('ar-rev').textContent = '€' + rev.toLocaleString();
+  renderArchive();
+}
+function renderArchive(){
+  const tbl = $('artbl');
+  const q = (AR_STATE.q||'').toLowerCase();
+  const rows = AR_ALL.filter(c => !q || c.slug.toLowerCase().includes(q) || (c.name||'').toLowerCase().includes(q));
+  if(!rows.length){
+    tbl.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:28px;color:var(--text-3)">No archived concepts yet. When someone buys Exclusive, it lands here.</td></tr>';
+    return;
+  }
+  tbl.innerHTML = rows.map(c=>`
+    <tr>
+      <td><div class="cell-name uname-cell" onclick="openConceptModal('${escape(c.slug)}')"><b>${escape(c.name||c.slug)}</b><div style="font-size:11px;color:var(--text-3)">${escape(c.slug)}</div></div></td>
+      <td>${escape(c.category||'—')}</td>
+      <td>€${(c.price_exclusive_eur||0).toLocaleString()}</td>
+      <td style="font-family:'JetBrains Mono';font-size:11px;color:var(--text-2)">${c.exclusive_owner_id ? escape(String(c.exclusive_owner_id).slice(0,8))+'…' : '—'}</td>
+      <td style="font-size:11px;color:var(--text-3)">${c.verified_at ? fmt(c.verified_at) : '—'}</td>
+      <td>
+        ${MY_ROLE==='superadmin' ? `<button class="btn-s danger" onclick="unarchiveConcept('${escape(c.slug)}')">Unarchive</button>` : ''}
+      </td>
+    </tr>
+  `).join('');
+}
+async function unarchiveConcept(slug){
+  if(MY_ROLE !== 'superadmin'){ return; }
+  if(!confirm(`Unarchive "${slug}"? It will go back to the shop and can be bought again.`)) return;
+  const {error} = await sb.from('concepts_catalog').update({
+    archived: false, exclusive_owner_id: null
+  }).eq('slug', slug);
+  if(error){ alert(error.message); return; }
+  await loadArchive();
+  if(typeof showStatus==='function') showStatus(`○ Unarchived ${slug}`, 'var(--warn)');
+}
+window.unarchiveConcept = unarchiveConcept;
+on('arq','input', e=>{AR_STATE.q=e.target.value;renderArchive()});
 
 // ═══ WAITLIST ═══
 let WL_ALL = [];
