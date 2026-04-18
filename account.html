@@ -745,6 +745,13 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
         <h2>My concepts</h2>
         <span class="count" id="owned-count"></span>
       </div>
+      <div id="owned-bonus" class="hidden" style="margin:12px 0 20px;padding:14px 18px;border:1px solid var(--line,#e2e8f0);border-radius:12px;background:linear-gradient(90deg,#f7fee7,#ecfccb);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
+        <div style="font-size:14px;line-height:1.5">
+          <b>✓ Your bonus · Day-1 opening checklist</b>
+          <div style="color:#475569;margin-top:2px">Printable PDF · 48 pre-launch tasks · included with every concept you own.</div>
+        </div>
+        <a href="data/bonuses/day1-checklist.pdf" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:13px;padding:8px 14px;white-space:nowrap">Download PDF →</a>
+      </div>
       <div id="owned-loading" class="loader"><span class="spin"></span></div>
       <div id="owned-grid" class="owned hidden"></div>
       <div id="owned-empty" class="empty hidden">
@@ -1343,12 +1350,14 @@ async function loadOwned(){
   }
   if(!data || !data.length){
     show('owned-empty');
+    hide('owned-bonus');
     $('owned-count').textContent = '0 concepts';
     setTabCount(0);
     return;
   }
   $('owned-count').textContent = data.length + ' concept' + (data.length===1?'':'s');
   setTabCount(data.length);
+  show('owned-bonus');
   const grid = $('owned-grid');
   const isSA = MY_ROLE === 'superadmin';
   grid.innerHTML = data.map(c => SvitaCard.ownedCard(c, {superadmin: isSA})).join('');
