@@ -159,10 +159,8 @@ img, video, iframe { max-width: 100%; height: auto; }
   /* bonus note smaller */
   .bonus-note { font-size: 10.5px !important; padding: 10px 12px !important; }
 
-  /* AI chat — full-screen bottom sheet, big touch targets */
-  [id^="ai-chat"], .ai-chat, #aiChat, .ai-chat-panel {
-    position: fixed !important;
-    inset: auto 0 0 0 !important;
+  /* AI chat — bottom-sheet on phones (target ONLY the sidebar, not child ids) */
+  #ai-chat-sidebar {
     top: 10vh !important;
     width: 100vw !important;
     max-width: 100vw !important;
@@ -170,8 +168,8 @@ img, video, iframe { max-width: 100%; height: auto; }
     border-radius: 20px 20px 0 0 !important;
     box-shadow: 0 -20px 60px rgba(0,0,0,0.45) !important;
   }
-  .ai-chat-body, #ai-chat .body { font-size: 14.5px; line-height: 1.55; }
-  .ai-chat-input, #ai-chat textarea, #ai-chat input[type="text"] { font-size: 16px !important; min-height: 48px; }
+  #ai-chat-body { font-size: 14.5px; line-height: 1.55; }
+  #ai-chat-input { font-size: 16px !important; min-height: 48px; }
 
   /* frame/iframe: tighter padding, fuller height */
   .stage { padding: 54px 6px 12px !important; }
@@ -188,14 +186,7 @@ img, video, iframe { max-width: 100%; height: auto; }
   .concept-chip { order: 3; width: 100%; max-width: none !important; margin-top: 6px; text-align: center; }
 }
 
-/* ---------- AI chat popup on mobile ---------- */
-@media (max-width: 640px) {
-  #ai-chat, .ai-chat-panel, [class*="aiChat"] {
-    left: 8px !important; right: 8px !important;
-    width: auto !important; max-width: none !important;
-    max-height: 70vh;
-  }
-}
+/* (deprecated — old generic selector left off; see #ai-chat-sidebar rule above) */
 
 /* ---------- shop / admin tables become cards on mobile ---------- */
 @media (max-width: 768px) {
