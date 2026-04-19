@@ -1,13 +1,11 @@
 /*
  * SVITA analytics loader — single file, fires only when IDs are set.
  *
- * Fill the IDs below and each service activates automatically.
- * Leave blank to disable that particular service.
- *
- *   GA4         · G-XXXXXXXXXX       — Google Analytics 4
- *   YANDEX      · XXXXXXXX (digits)  — Yandex.Metrica counter ID
- *   CLARITY     · xxxxxxxxxx         — Microsoft Clarity (session replay + heatmaps, free)
- *   PLAUSIBLE   · micro.svita.ai     — Plausible (privacy-friendly, paid)
+ *   GTM        · GTM-XXXXXXX        — Google Tag Manager (routes GA4/Ads/etc.)
+ *   GA4        · G-XXXXXXXXXX       — Google Analytics 4 (direct, only if no GTM)
+ *   YANDEX     · XXXXXXXX (digits)  — Yandex.Metrica counter ID
+ *   CLARITY    · xxxxxxxxxx         — Microsoft Clarity (session replay + heatmaps, free)
+ *   PLAUSIBLE  · micro.svita.ai     — Plausible (privacy-friendly, paid)
  *
  * Respect Do-Not-Track: `navigator.doNotTrack === '1'` blocks everything.
  */
@@ -16,10 +14,11 @@
   if (navigator.doNotTrack === '1') return;
 
   var CFG = {
-    GA4:       '',   // e.g. 'G-ABC123XYZ0'
-    YANDEX:    '',   // e.g. '99887766'
-    CLARITY:   '',   // e.g. 'abcdefghij'
-    PLAUSIBLE: ''    // e.g. 'micro.svita.ai'
+    GTM:       'GTM-T2974BPD',
+    GA4:       '',
+    YANDEX:    '',
+    CLARITY:   '',
+    PLAUSIBLE: ''
   };
 
   function load(src, attrs){
@@ -31,8 +30,40 @@
     return s;
   }
 
-  // Google Analytics 4
-  if (CFG.GA4) {
+  // Google Tag Manager (head snippet)
+  if (CFG.GTM) {
+    (function(w,d,s,l,i){
+      w[l]=w[l]||[];
+      w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+      var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),
+          dl = l !== 'dataLayer' ? '&l='+l : '';
+      j.async=true;
+      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+      f.parentNode.insertBefore(j,f);
+    })(window, document, 'script', 'dataLayer', CFG.GTM);
+
+    // GTM noscript fallback (inserted into <body>)
+    (function(){
+      function insertNoscript(){
+        if (!document.body) return;
+        if (document.getElementById('gtm-noscript')) return;
+        var ns = document.createElement('noscript');
+        ns.id = 'gtm-noscript';
+        ns.innerHTML = '<iframe src="https://www.googletagmanager.com/ns.html?id=' + CFG.GTM
+          + '" height="0" width="0" style="display:none;visibility:hidden"></iframe>';
+        document.body.insertBefore(ns, document.body.firstChild);
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', insertNoscript);
+      } else {
+        insertNoscript();
+      }
+    })();
+  }
+
+  // Direct GA4 (only if GTM isn't used)
+  if (!CFG.GTM && CFG.GA4) {
     load('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(CFG.GA4));
     window.dataLayer = window.dataLayer || [];
     window.gtag = function(){ window.dataLayer.push(arguments); };
@@ -62,10 +93,13 @@
     load('https://plausible.io/js/script.js', { 'data-domain': CFG.PLAUSIBLE });
   }
 
-  // expose a tiny track() shim — calls through to whichever backend is active
+  // Unified event shim — pushes to dataLayer (GTM/GA4 pick up), Yandex goals, Plausible events
   window.svitaTrack = function(event, params){
     params = params || {};
-    if (CFG.GA4 && window.gtag) gtag('event', event, params);
+    if (CFG.GTM || CFG.GA4) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(Object.assign({ event: event }, params));
+    }
     if (CFG.YANDEX && window.ym) ym(parseInt(CFG.YANDEX,10), 'reachGoal', event, params);
     if (CFG.PLAUSIBLE && window.plausible) window.plausible(event, { props: params });
   };

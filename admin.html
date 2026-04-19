@@ -479,7 +479,7 @@ td .actions{display:flex;gap:6px}
       <div class="tools">
         <div class="search">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <input type="search" id="q" placeholder="Search by name or slug…">
+          <input type="search" id="q" placeholder="Search by # (001/032), name or slug…">
         </div>
         <select class="sel" id="status">
           <option value="all">All statuses</option>
@@ -511,6 +511,7 @@ td .actions{display:flex;gap:6px}
         <table>
           <thead><tr>
             <th style="width:36px"><input type="checkbox" id="sel-all" class="chkb"></th>
+            <th style="width:58px" title="Catalog number — stable identifier shown on shop cards">#</th>
             <th>Concept</th><th>Category</th><th>Price</th><th>Budget</th><th>Payment link</th><th>Status</th><th>Brandbook</th><th>i18n</th><th>Actions</th>
           </tr></thead>
           <tbody id="tbl"></tbody>
@@ -1154,8 +1155,13 @@ function buildFilters(){
 function applyAll(){
   VIEW = ALL.filter(c=>{
     if(STATE.q){
-      const q = STATE.q.toLowerCase();
-      if(!(c.name.toLowerCase().includes(q) || c.slug.toLowerCase().includes(q))) return false;
+      const q = STATE.q.toLowerCase().trim();
+      const qDigits = q.replace(/\D+/g,'');
+      const numStr = c.catalog_number != null ? String(c.catalog_number) : '';
+      const numPadded = c.catalog_number != null ? String(c.catalog_number).padStart(3,'0') : '';
+      const nameMatch = c.name.toLowerCase().includes(q) || c.slug.toLowerCase().includes(q);
+      const numMatch = qDigits !== '' && (numStr === qDigits || numPadded === qDigits || numStr.startsWith(qDigits));
+      if(!nameMatch && !numMatch) return false;
     }
     if(STATE.cat !== 'all' && c.category !== STATE.cat) return false;
     if(STATE.status === 'verified' && !c.verified) return false;
@@ -1164,8 +1170,33 @@ function applyAll(){
     if(STATE.bb === 'no' && c.has_brandbook) return false;
     return true;
   });
+  // Sort: if user is searching by a number, prefer exact match on top; else by catalog_number asc (nulls last)
+  VIEW.sort((a,b)=>{
+    const na = a.catalog_number == null ? Infinity : a.catalog_number;
+    const nb = b.catalog_number == null ? Infinity : b.catalog_number;
+    return na - nb;
+  });
   render();
 }
+
+async function setCatalogNumber(slug, raw){
+  if(MY_ROLE !== 'superadmin') return;
+  const v = String(raw||'').trim();
+  const num = v === '' ? null : parseInt(v, 10);
+  if(v !== '' && (isNaN(num) || num < 1 || num > 9999)){ alert('Введите целое число 1…9999 или пусто'); return; }
+  const {error} = await sb.from('concepts_catalog').update({catalog_number: num}).eq('slug', slug);
+  if(error){
+    if(error.message && error.message.toLowerCase().includes('unique')) alert('Этот номер уже занят другой концепцией');
+    else alert('Ошибка: ' + error.message);
+    await loadConcepts();
+    return;
+  }
+  const row = ALL.find(r => r.slug === slug);
+  if(row) row.catalog_number = num;
+  applyAll();
+  if(typeof showStatus === 'function') showStatus(`# ${num == null ? 'cleared' : num} → ${slug}`, 'var(--accent)');
+}
+window.setCatalogNumber = setCatalogNumber;
 
 function updateStats(){
   const total = ALL.length;
@@ -2299,8 +2330,12 @@ function render(){
       ? `<div class="ph-thumb" style="--ph-a:${pal[0]};--ph-b:${pal[1]}">${pal[2]}</div>`
       : `<div class="thumb" style="background-image:url('${c.hero_image}')"></div>`;
     const checked = SEL.has(c.slug) ? 'checked' : '';
+    const numStr = c.catalog_number != null ? String(c.catalog_number).padStart(3,'0') : '—';
     return `<tr data-slug="${c.slug}" class="${SEL.has(c.slug)?'row-sel':''}">
       <td><input type="checkbox" class="chkb row-chk" data-slug="${c.slug}" ${checked}></td>
+      <td>${MY_ROLE==='superadmin'
+          ? `<input type="text" inputmode="numeric" class="num-input" data-slug="${c.slug}" value="${c.catalog_number != null ? c.catalog_number : ''}" placeholder="—" onchange="setCatalogNumber('${c.slug}', this.value)" title="Edit # (stable catalog number)" style="width:52px;padding:4px 6px;border-radius:6px;border:1px solid var(--line);background:var(--bg-2);color:var(--text);font-family:'JetBrains Mono';font-size:11px;text-align:center">`
+          : `<span class="mono" style="color:var(--text-2)">${numStr}</span>`}</td>
       <td>
         <div class="cell-name uname-cell" onclick="openConceptModal('${c.slug}')" title="Click to view concept details & access">
           ${thumb}

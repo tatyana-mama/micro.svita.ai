@@ -41,10 +41,14 @@ window.SvitaCard = (function(){
       : (archived
           ? '<span class="sc-price sc-archived-price">Sold out</span>'
           : '<span class="sc-price">€'+price+'</span>');
+    const numBadge = (c.catalog_number != null)
+      ? '<span class="sc-num">#' + String(c.catalog_number).padStart(3,'0') + '</span>'
+      : '';
     return '<a class="sc-card'+(owned?' sc-owned':'')+(archived?' sc-card-archived':'')+'" href="view.html?c='+esc(slug)+'">'
       +'<div class="sc-media">'+vis+'<div class="sc-shade"></div>'
       +'<button type="button" class="sc-fav" data-fav="'+esc(slug)+'" aria-label="Favorite" aria-pressed="false">'
       +'<svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg></button>'
+      +numBadge
       +(owned?'<span class="sc-badge">Owned</span>':'')
       +'</div>'
       +'<div class="sc-body">'
