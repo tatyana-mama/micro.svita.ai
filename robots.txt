@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /edit.html
+Disallow: /account.html
+Disallow: /data/threads/
+Disallow: /supabase/
+
+Sitemap: https://micro.svita.ai/sitemap.xml

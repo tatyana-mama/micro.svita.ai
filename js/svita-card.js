@@ -119,13 +119,13 @@ window.SvitaCard = (function(){
   }
 
   // Enrich catalog.json with DB flags + scarcity metrics.
-  // Reads two sources in parallel: concepts_catalog (flags, ls_url) and
-  // public_concepts_scarcity (copies_left, current_price_eur, archived).
+  // Reads two anon-safe views: public_verified_catalog (flags + catalog_number + ls_url)
+  // and public_concepts_scarcity (copies_left, current_price_eur, archived).
   async function enrichFromDB(catalog, sb){
     if(!sb || !Array.isArray(catalog)) return catalog;
     try{
       const [catRes, scRes] = await Promise.all([
-        sb.from('concepts_catalog').select('slug, verified, has_brandbook, ls_url'),
+        sb.from('public_verified_catalog').select('slug, has_brandbook, ls_url, catalog_number'),
         sb.from('public_concepts_scarcity').select('*')
       ]);
       const byslug = Object.create(null);
@@ -136,9 +136,10 @@ window.SvitaCard = (function(){
         const row = byslug[c.slug];
         const sc = scBySlug[c.slug];
         const base = row ? Object.assign({}, c, {
-          verified: row.verified,
+          verified: true,
           has_brandbook: row.has_brandbook,
-          ls_url: row.ls_url
+          ls_url: row.ls_url,
+          catalog_number: row.catalog_number
         }) : c;
         if(!sc) return base;
         return Object.assign({}, base, {
