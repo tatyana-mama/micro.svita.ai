@@ -1497,6 +1497,7 @@ function mountAiChat(slug, concept){
         method:'POST',
         headers:{
           'Authorization':'Bearer '+session.access_token,
+          'apikey': SB_KEY,
           'Content-Type':'application/json'
         },
         body: JSON.stringify({ slug, message: text, history: history.slice(-8, -1) })
