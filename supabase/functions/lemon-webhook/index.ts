@@ -151,26 +151,53 @@ Deno.serve(async (req) => {
     return new Response('ignored', { status: 200 });
   }
 
-  // LS passes custom data via checkout[custom][<key>] — surfaces in meta.custom_data
-  // Prefer explicit concept_slug + user_id (new). Fall back to legacy ref "<uid>:<slug>".
+  // LS passes custom data via checkout[custom][<key>] — surfaces in meta.custom_data.
+  // Signed Custom Checkouts (?signature=) do NOT accept checkout[custom][*]
+  // query overrides (returns 403 Invalid signature) and also don't emit real
+  // custom_data in webhooks. We fall back to pending_purchases table: the client
+  // enqueued {user_id, email, slug, tier} right before redirecting to LS, and
+  // we claim the most recent unclaimed row by buyer email.
   const customData = payload.meta?.custom_data ?? {};
   const explicitSlug = String(customData.concept_slug ?? '');
   const explicitUser = String(customData.user_id ?? '');
   const ref = String(customData.ref ?? '');
-  // Ref format: "<uid>:<slug>" (legacy) or "<uid>:<slug>:<tier>" (new).
   const [refUser, refSlug, refTier] = ref.split(':');
-  const slug = explicitSlug || refSlug;
-  const userId = explicitUser || refUser;
-  const tier = String(customData.tier ?? refTier ?? 'basic').toLowerCase();
+  let slug = explicitSlug || refSlug;
+  let userId = explicitUser || refUser;
+  let tier = String(customData.tier ?? refTier ?? '').toLowerCase();
+  const providerRef = String(payload.data?.id ?? '');
+  const buyerEmail = String(payload.data?.attributes?.user_email ?? '').trim();
+
+  // Skip reconcile if placeholder values leaked through (sealed checkout tests).
+  const PLACEHOLDER = 'placeholder';
+  if (slug === PLACEHOLDER) slug = '';
+  if (userId === PLACEHOLDER) userId = '';
+  if (tier === PLACEHOLDER) tier = '';
+
+  if ((!userId || !slug) && buyerEmail) {
+    const { data: claim, error: claimErr } = await supabase.rpc('claim_pending_purchase', {
+      p_email: buyerEmail,
+      p_order_id: providerRef,
+    });
+    if (claimErr) {
+      console.error('lemon-webhook: claim_pending_purchase failed', claimErr);
+    } else if (Array.isArray(claim) && claim.length > 0) {
+      slug = claim[0].concept_slug;
+      userId = claim[0].user_id;
+      tier = claim[0].tier || tier || 'basic';
+      console.log('lemon-webhook: reconciled via pending_purchases', { slug, userId, tier, email: buyerEmail });
+    }
+  }
+
+  if (!tier) tier = 'basic';
 
   if (!userId || !slug) {
-    console.warn('lemon-webhook: missing slug/user', { customData, eventName });
+    console.warn('lemon-webhook: missing slug/user after reconcile', { customData, buyerEmail, eventName });
     return new Response('ok', { status: 200 });
   }
 
   const pricePaid = Math.round((payload.data?.attributes?.total ?? 0) / 100);
   const currency = (payload.data?.attributes?.currency ?? 'EUR').toUpperCase();
-  const providerRef = String(payload.data?.id ?? '');
 
   const normalizedTier = (tier === 'ai' || tier === 'exclusive') ? tier : 'basic';
 
@@ -197,7 +224,6 @@ Deno.serve(async (req) => {
   // Exclusive buyout: atomically archive the concept and record the sole owner.
   // If two buyers race, only the first UPDATE wins (ok=true); the second one
   // succeeded at payment but we'll need to refund them out-of-band.
-  const buyerEmail = String(payload.data?.attributes?.user_email ?? '').trim();
   if (buyerEmail) {
     const { data: concept } = await supabase
       .from('concepts_catalog')

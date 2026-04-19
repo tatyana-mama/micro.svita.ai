@@ -891,17 +891,31 @@ window.goToLs = async function(slug, tier){
   const email = session.user.email || '';
   const success = location.origin + '/account.html?paid=' + encodeURIComponent(slug) + '&tier=' + encodeURIComponent(tier);
   // LS signed Custom Checkout (`?signature=...`) seals the entire request;
-  // any extra query param triggers 403 "Invalid signature". Stash ref in
-  // localStorage so account.html can reconcile after LS redirects back.
+  // any extra query param triggers 403 "Invalid signature". For signed URLs we
+  // enqueue a pending_purchases row on the server so the webhook can reconcile
+  // the order by buyer email after LS finishes the payment.
   const isSigned = /[?&]signature=/.test(base);
   try {
     localStorage.setItem('svita:pendingCheckout', JSON.stringify({ ref, slug, tier, email, ts: Date.now() }));
   } catch(_){}
-  try { window.svitaTrack && window.svitaTrack('checkout_start', { slug, tier, signed: isSigned }); } catch(_){}
   if (isSigned) {
+    try {
+      const { error: qErr } = await SB.rpc('enqueue_pending_checkout', { p_slug: slug, p_tier: tier });
+      if (qErr) {
+        console.error('enqueue_pending_checkout failed', qErr);
+        alert('Payment setup failed. Please try again or contact ceo@labs67.com');
+        return;
+      }
+    } catch (e) {
+      console.error('enqueue_pending_checkout threw', e);
+      alert('Payment setup failed. Please try again or contact ceo@labs67.com');
+      return;
+    }
+    try { window.svitaTrack && window.svitaTrack('checkout_start', { slug, tier, signed: true }); } catch(_){}
     location.href = base;
     return;
   }
+  try { window.svitaTrack && window.svitaTrack('checkout_start', { slug, tier, signed: false }); } catch(_){}
   const joiner = base.includes('?') ? '&' : '?';
   const p = new URLSearchParams();
   p.set('checkout[email]', email);
