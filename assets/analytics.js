@@ -15,7 +15,7 @@
 
   var CFG = {
     GTM:       'GTM-T2974BPD',
-    GA4:       '',
+    GA4:       '',             // Empty: GA4 loads via GTM (GA4 Config tag with Measurement ID G-BX01J95VVG inside GTM)
     YANDEX:    '',
     CLARITY:   '',
     PLAUSIBLE: ''
@@ -62,8 +62,10 @@
     })();
   }
 
-  // Direct GA4 (only if GTM isn't used)
-  if (!CFG.GTM && CFG.GA4) {
+  // Direct GA4 — fires independently of GTM so data starts flowing immediately.
+  // If later you add a GA4 Config tag inside GTM pointing to the SAME ID,
+  // clear CFG.GA4 above to avoid double-counting.
+  if (CFG.GA4) {
     load('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(CFG.GA4));
     window.dataLayer = window.dataLayer || [];
     window.gtag = function(){ window.dataLayer.push(arguments); };
