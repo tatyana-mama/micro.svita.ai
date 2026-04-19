@@ -757,11 +757,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ============ ACCOUNT VIEW ============ -->
 <section id="account-view" class="page hidden">
   <div class="wrap">
-    <div class="page-head reveal">
+    <div class="page-head reveal" style="position:relative">
       <div class="eyebrow">Your cabinet <span id="role-badge" class="role-badge"></span></div>
       <h1 class="display">Hello, <span class="accent" id="user-name">friend</span>.</h1>
       <p class="page-sub">Signed in as <span class="email-inline" id="user-email"></span> · Everything you've bought lives here.</p>
+      <button type="button" id="top-signout" class="btn btn-ghost" style="position:absolute;top:0;right:0;padding:10px 16px;font-size:12px;font-weight:600;letter-spacing:.04em">Sign out</button>
     </div>
+    <style>
+      @media(max-width:640px){
+        #top-signout{position:static !important;display:block;margin-top:14px;width:100%}
+      }
+    </style>
 
     <div id="intent-box" class="hidden"></div>
 
@@ -962,8 +968,28 @@ async function boot(){
     return;
   }
   const {data:{session}} = await sb.auth.getSession();
-  if(session && session.user) enterAccount(session.user);
-  else { show('login-view'); hide('account-view'); showPanel('signin'); }
+  if(session && session.user){ enterAccount(session.user); return; }
+
+  // Post-LS-checkout recovery: user returned from Lemon Squeezy with ?paid=...&email=...
+  // but Safari/Chrome ITP may have dropped the first-party localStorage through the
+  // cross-site redirect. Auto-email a magic sign-in link so they don't type a password.
+  const paidSlug = qs.get('paid');
+  const paidEmail = qs.get('email');
+  if(paidSlug && paidEmail && /.+@.+\..+/.test(paidEmail)){
+    show('login-view'); hide('account-view'); showPanel('signin');
+    const box = document.getElementById('intent-box') || (()=>{ const d=document.createElement('div'); d.id='paid-banner'; d.style.cssText='max-width:560px;margin:16px auto 0;padding:16px 20px;border:1px solid var(--line);border-radius:14px;background:rgba(132,204,22,0.08);color:var(--text);font:500 14px/1.5 Inter'; document.querySelector('#login-view .wrap')?.prepend(d); return d; })();
+    box.classList.remove('hidden');
+    box.innerHTML = 'Payment received — sending you a 1-click sign-in link to <b>'+paidEmail.replace(/[<>&"]/g,'')+'</b>…';
+    try {
+      await sb.auth.signInWithOtp({ email: paidEmail, options: { emailRedirectTo: location.origin + '/account.html' } });
+      box.innerHTML = '✓ Check your inbox at <b>'+paidEmail.replace(/[<>&"]/g,'')+'</b> — click the link to enter your cabinet. (Or sign in with your password below.)';
+    } catch(e){
+      box.innerHTML = 'Please sign in below with <b>'+paidEmail.replace(/[<>&"]/g,'')+'</b> to see your new concept.';
+    }
+    try { const em = document.getElementById('si-email'); if(em) em.value = paidEmail; } catch(_){}
+    return;
+  }
+  show('login-view'); hide('account-view'); showPanel('signin');
 }
 
 sb.auth.onAuthStateChange((event, session)=>{
@@ -1344,6 +1370,11 @@ function wireSettings(user, displayName){
   if(soBtn && !soBtn.__wired){
     soBtn.__wired = true;
     soBtn.addEventListener('click', async ()=>{ await sb.auth.signOut(); location.href = 'account.html'; });
+  }
+  const topSo = $('top-signout');
+  if(topSo && !topSo.__wired){
+    topSo.__wired = true;
+    topSo.addEventListener('click', async ()=>{ await sb.auth.signOut(); location.href = 'account.html'; });
   }
 
   const delBtn = $('set-delete');

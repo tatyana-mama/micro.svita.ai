@@ -928,7 +928,7 @@ window.goToLs = async function(slug, tier){
   }
   const ref = session.user.id + ':' + slug + ':' + tier;
   const email = session.user.email || '';
-  const success = location.origin + '/account.html?paid=' + encodeURIComponent(slug) + '&tier=' + encodeURIComponent(tier);
+  const success = location.origin + '/account.html?paid=' + encodeURIComponent(slug) + '&tier=' + encodeURIComponent(tier) + (email ? '&email=' + encodeURIComponent(email) : '');
   // LS signed Custom Checkout (`?signature=...`) seals the entire request;
   // any extra query param triggers 403 "Invalid signature". For signed URLs we
   // enqueue a pending_purchases row on the server so the webhook can reconcile
