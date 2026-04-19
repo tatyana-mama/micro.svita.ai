@@ -20,7 +20,7 @@
   // set CFG.GA4 to '' below to avoid double-counting hits in GA4.
   var CFG = {
     GTM:       '',                 // inline snippet already loads GTM-T2974BPD
-    GA4:       'G-BX01J95VVG',
+    GA4:       '',                 // GA4 Config tag publishes G-BX01J95VVG via GTM — keep empty to avoid double-hit
     YANDEX:    '',
     CLARITY:   '',
     PLAUSIBLE: ''
