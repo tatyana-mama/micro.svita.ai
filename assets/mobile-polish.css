@@ -82,23 +82,110 @@ img, video, iframe { max-width: 100%; height: auto; }
   .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 20px; }
 }
 
-/* ---------- view.html brandbook iframe fix ----------
-   On mobile .frame becomes height:auto (min-height: calc(100vh - 120px)).
-   An iframe with height:100% inside an auto-height parent collapses to 0.
-   Force a tall fixed viewport-height so brandbook pages scroll correctly. */
+/* ======================================================
+   view.html — mobile-first logical layout
+   - iframe: explicit vh height (auto-height parent collapses iframe:100%)
+   - preview: reflowed as vertical stack, specs become sticky bottom CTA
+   - topbar: compact, single row, brand+close only
+   - AI chat panel: full-screen bottom sheet on phones
+   ====================================================== */
+
 @media (max-width: 1024px) {
-  .stage { padding: 68px 12px 20px; }
-  .frame { min-height: calc(100vh - 88px); }
-  .frame iframe {
-    height: calc(100vh - 88px);
-    min-height: 720px;
+  .stage { padding: 60px 10px 16px; }
+  .frame {
+    min-height: calc(100vh - 76px);
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
   }
-  .preview-body { min-height: calc(100vh - 88px); }
+  .frame iframe {
+    height: calc(100vh - 76px);
+    min-height: 560px;
+  }
+  .preview-body { min-height: calc(100vh - 76px); }
+
+  /* compact topbar */
+  .topbar { padding: 10px 12px !important; gap: 8px !important; flex-wrap: nowrap !important; }
+  .brand { padding: 6px 10px !important; font-size: 12px !important; }
+  .brand small { display: none; }
+  .concept-chip { padding: 6px 10px !important; font-size: 10.5px !important; max-width: 55vw !important; }
+  .btn-close { padding: 6px 10px !important; font-size: 11px !important; }
 }
+
 @media (max-width: 640px) {
-  .frame { border-radius: 14px; }
-  .frame iframe { height: calc(100vh - 72px); min-height: 640px; }
-  .stage { padding: 60px 8px 16px; }
+  /* preview hero — smaller + sharper */
+  .preview-hero {
+    aspect-ratio: auto !important;
+    min-height: 260px !important;
+    padding: 20px !important;
+  }
+  .preview-hero h1 { font-size: clamp(22px, 6vw, 32px) !important; line-height: 1.05; }
+  .preview-hero .tag { font-size: 12px !important; }
+  .preview-hero .glyph { font-size: 120px !important; }
+
+  /* body inner is single column already; tighten padding */
+  .preview-body-inner {
+    padding: 20px 18px 100px 18px !important; /* reserve room for sticky CTA */
+    gap: 18px !important;
+  }
+  .preview-body-inner h2 { font-size: 17px !important; }
+  .preview-body-inner p { font-size: 14px; line-height: 1.55; }
+
+  /* specs block — remove sticky from inner, let the CTA be sticky at the bottom */
+  .specs { padding: 16px !important; border-radius: 14px; }
+  .specs .price { font-size: 34px !important; margin-bottom: 4px; }
+  .specs .row { padding: 8px 0; font-size: 12.5px; }
+
+  /* deliverables: scrollable row on phone */
+  .deliverables {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .deliverables::-webkit-scrollbar { display: none; }
+  .dlv { scroll-snap-align: start; flex-shrink: 0; }
+
+  /* buy CTA — turn into sticky bottom bar on mobile */
+  .buy-cta, .specs .btn {
+    position: sticky !important;
+    bottom: 12px;
+    z-index: 30;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.35);
+  }
+
+  /* bonus note smaller */
+  .bonus-note { font-size: 10.5px !important; padding: 10px 12px !important; }
+
+  /* AI chat — full-screen bottom sheet, big touch targets */
+  [id^="ai-chat"], .ai-chat, #aiChat, .ai-chat-panel {
+    position: fixed !important;
+    inset: auto 0 0 0 !important;
+    top: 10vh !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 90vh !important;
+    border-radius: 20px 20px 0 0 !important;
+    box-shadow: 0 -20px 60px rgba(0,0,0,0.45) !important;
+  }
+  .ai-chat-body, #ai-chat .body { font-size: 14.5px; line-height: 1.55; }
+  .ai-chat-input, #ai-chat textarea, #ai-chat input[type="text"] { font-size: 16px !important; min-height: 48px; }
+
+  /* frame/iframe: tighter padding, fuller height */
+  .stage { padding: 54px 6px 12px !important; }
+  .frame { border-radius: 12px; min-height: calc(100vh - 64px); }
+  .frame iframe { height: calc(100vh - 64px); min-height: 520px; }
+
+  /* hide decor watermarks on phone — take up RAM on animation */
+  #brand-decor { display: none !important; }
+}
+
+/* very narrow — drop chip to second row so brand+close remain tappable */
+@media (max-width: 380px) {
+  .topbar { flex-wrap: wrap !important; }
+  .concept-chip { order: 3; width: 100%; max-width: none !important; margin-top: 6px; text-align: center; }
 }
 
 /* ---------- AI chat popup on mobile ---------- */
