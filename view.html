@@ -1116,9 +1116,7 @@ function mountAdminEditor(concept){
 // Prevents raw /data/concepts/{slug}/{slug}-brandbook.html leaks to non-buyers.
 async function loadBrandbookViaToken(slug, iframeEl){
   if(!SB){
-    iframeEl.srcdoc = '<!doctype html><body style="font-family:system-ui;padding:40px;color:#dc2626;text-align:center"><h3>Database unavailable</h3><script src="assets/analytics.js" defer></script>
-<script src="assets/consent.js" defer></script>
-</body>';
+    iframeEl.srcdoc = '<!doctype html><body style="font-family:system-ui;padding:40px;color:#dc2626;text-align:center"><h3>Database unavailable</h3></body>';
     return;
   }
   iframeEl.srcdoc = '<!doctype html><body style="font-family:system-ui;padding:40px;color:#64748b;text-align:center">Loading brandbook…</body>';
