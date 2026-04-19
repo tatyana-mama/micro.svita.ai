@@ -44,7 +44,7 @@ window.SvitaCard = (function(){
     const numBadge = (c.catalog_number != null)
       ? '<span class="sc-num">#' + String(c.catalog_number).padStart(3,'0') + '</span>'
       : '';
-    const readyBadge = (c.has_brandbook && !archived)
+    const readyBadge = (c.brandbook_actualised && !archived)
       ? '<span class="sc-ready">● READY FOR SALE</span>'
       : '';
     return '<a class="sc-card'+(owned?' sc-owned':'')+(archived?' sc-card-archived':'')+'" href="view.html?c='+esc(slug)+'">'
@@ -129,7 +129,7 @@ window.SvitaCard = (function(){
     if(!sb || !Array.isArray(catalog)) return catalog;
     try{
       const [catRes, scRes] = await Promise.all([
-        sb.from('public_verified_catalog').select('slug, has_brandbook, ls_url, catalog_number'),
+        sb.from('public_verified_catalog').select('slug, has_brandbook, brandbook_actualised, ls_url, catalog_number'),
         sb.from('public_concepts_scarcity').select('*')
       ]);
       const byslug = Object.create(null);
@@ -142,6 +142,7 @@ window.SvitaCard = (function(){
         const base = row ? Object.assign({}, c, {
           verified: true,
           has_brandbook: row.has_brandbook,
+          brandbook_actualised: row.brandbook_actualised,
           ls_url: row.ls_url,
           catalog_number: row.catalog_number
         }) : c;

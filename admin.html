@@ -1211,6 +1211,16 @@ function applyAll(){
   render();
 }
 
+async function toggleBrandbookActualised(slug, val){
+  if(MY_ROLE !== 'superadmin') return;
+  const {error} = await sb.from('concepts_catalog').update({brandbook_actualised: !!val}).eq('slug', slug);
+  if(error){ alert('Error: ' + error.message); return; }
+  const idx = (window.ALL||[]).findIndex(c => c.slug === slug);
+  if(idx >= 0) window.ALL[idx].brandbook_actualised = !!val;
+  render();
+}
+window.toggleBrandbookActualised = toggleBrandbookActualised;
+
 async function setCatalogNumber(slug, raw){
   if(MY_ROLE !== 'superadmin') return;
   const v = String(raw||'').trim();
@@ -2294,7 +2304,7 @@ function updateBrandbookStats(){
   $('b-total').textContent = BB_ALL.length;
   $('b-axo').textContent = BB_ALL.filter(c=>c._has_axo).length;
   $('b-pending').textContent = BB_ALL.filter(c=>!c._has_axo).length;
-  $('b-ready').textContent = BB_ALL.filter(c=>c.verified && c._has_axo).length;
+  $('b-ready').textContent = BB_ALL.filter(c=>c.brandbook_actualised).length;
 }
 
 function renderBrandbooks(){
@@ -2388,7 +2398,9 @@ function render(){
           title="Lemon Squeezy checkout URL">
       </td>
       <td>${c.verified ? '<span class="chip ok">● Verified</span>' : '<span class="chip warn">○ Pending</span>'}</td>
-      <td>${c.has_brandbook ? '<span class="chip ready-pill" title="Actualised brandbook PDF — visible as blue badge on shop card">● READY FOR SALE</span>' : '<span class="chip warn">⏳ In progress</span>'}</td>
+      <td>${MY_ROLE==='superadmin'
+        ? `<label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer" title="Toggle: brandbook_actualised — blue badge on shop card"><input type="checkbox" ${c.brandbook_actualised?'checked':''} onchange="toggleBrandbookActualised('${c.slug}', this.checked)">${c.brandbook_actualised?'<span class="chip ready-pill">● READY FOR SALE</span>':'<span class="chip warn">⏳ In progress</span>'}</label>`
+        : (c.brandbook_actualised ? '<span class="chip ready-pill">● READY FOR SALE</span>' : '<span class="chip warn">⏳ In progress</span>')}</td>
       <td class="mono">${c.langs_filled||0}<span style="color:var(--text-3)">/12</span></td>
       <td>
         <div class="actions">
