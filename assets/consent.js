@@ -63,11 +63,11 @@
     bar.setAttribute('role','dialog');
     bar.setAttribute('aria-label','Cookie consent');
     bar.innerHTML =
-      '<p>We use cookies and Google Analytics to understand how the marketplace is used. ' +
-      'No personal data is sold. <a href="legal.html#privacy" target="_blank" rel="noopener">Privacy</a>.</p>' +
+      '<p>We use anonymous analytics to improve the marketplace. Accept to also allow ads & remarketing ' +
+      'cookies, or reject to keep only analytics. <a href="legal.html#privacy" target="_blank" rel="noopener">Privacy</a>.</p>' +
       '<div class="btns">' +
-        '<button type="button" class="reject">Reject</button>' +
-        '<button type="button" class="primary accept">Accept</button>' +
+        '<button type="button" class="reject">Reject ads</button>' +
+        '<button type="button" class="primary accept">Accept all</button>' +
       '</div>';
     document.body.appendChild(bar);
 
