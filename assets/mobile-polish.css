@@ -82,6 +82,25 @@ img, video, iframe { max-width: 100%; height: auto; }
   .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 20px; }
 }
 
+/* ---------- view.html brandbook iframe fix ----------
+   On mobile .frame becomes height:auto (min-height: calc(100vh - 120px)).
+   An iframe with height:100% inside an auto-height parent collapses to 0.
+   Force a tall fixed viewport-height so brandbook pages scroll correctly. */
+@media (max-width: 1024px) {
+  .stage { padding: 68px 12px 20px; }
+  .frame { min-height: calc(100vh - 88px); }
+  .frame iframe {
+    height: calc(100vh - 88px);
+    min-height: 720px;
+  }
+  .preview-body { min-height: calc(100vh - 88px); }
+}
+@media (max-width: 640px) {
+  .frame { border-radius: 14px; }
+  .frame iframe { height: calc(100vh - 72px); min-height: 640px; }
+  .stage { padding: 60px 8px 16px; }
+}
+
 /* ---------- AI chat popup on mobile ---------- */
 @media (max-width: 640px) {
   #ai-chat, .ai-chat-panel, [class*="aiChat"] {
