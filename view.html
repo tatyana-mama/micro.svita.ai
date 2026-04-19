@@ -887,10 +887,22 @@ window.goToLs = async function(slug, tier){
       : 'The ' + tier + ' plan isn\'t set up yet for this concept. Try another plan or contact ceo@labs67.com.');
     return;
   }
-  const joiner = base.includes('?') ? '&' : '?';
   const ref = session.user.id + ':' + slug + ':' + tier;
   const email = session.user.email || '';
-  const success = location.origin + '/account.html?paid=' + encodeURIComponent(slug);
+  const success = location.origin + '/account.html?paid=' + encodeURIComponent(slug) + '&tier=' + encodeURIComponent(tier);
+  // LS signed Custom Checkout (`?signature=...`) seals the entire request;
+  // any extra query param triggers 403 "Invalid signature". Stash ref in
+  // localStorage so account.html can reconcile after LS redirects back.
+  const isSigned = /[?&]signature=/.test(base);
+  try {
+    localStorage.setItem('svita:pendingCheckout', JSON.stringify({ ref, slug, tier, email, ts: Date.now() }));
+  } catch(_){}
+  try { window.svitaTrack && window.svitaTrack('checkout_start', { slug, tier, signed: isSigned }); } catch(_){}
+  if (isSigned) {
+    location.href = base;
+    return;
+  }
+  const joiner = base.includes('?') ? '&' : '?';
   const p = new URLSearchParams();
   p.set('checkout[email]', email);
   p.set('checkout[custom][ref]', ref);
@@ -900,7 +912,6 @@ window.goToLs = async function(slug, tier){
   p.set('client_reference_id', ref);
   p.set('prefilled_email', email);
   p.set('success_url', success);
-  try { window.svitaTrack && window.svitaTrack('checkout_start', { slug, tier }); } catch(_){}
   location.href = base + joiner + p.toString();
 };
 
