@@ -1253,7 +1253,7 @@ function renderFrame(c){
         <div class="collage" id="collage"></div>
         <div class="glyph" id="glyph">${c._theme.glyph || ''}</div>
         <div class="meta">
-          <div class="tag">${c.catalog_number != null ? '#' + String(c.catalog_number).padStart(3,'0') + ' · ' : ''}${c.category.toUpperCase()} · ${c.size_m2||''}m²</div>
+          <div class="tag">${c.catalog_number != null ? '#' + String(c.catalog_number).padStart(3,'0') + ' · ' : ''}${(c.category||'').toUpperCase()} · ${c.size_m2||''}m²</div>
           <h1>${c.name}</h1>
           <div class="tag">${c.tagline||''}</div>
           <div class="star-rating" id="star-rating"></div>
