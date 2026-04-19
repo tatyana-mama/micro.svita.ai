@@ -1,0 +1,123 @@
+/* ============================================================
+   mobile-polish.css — global responsive refinements
+   Non-invasive: no layout rewrites. Fluid type, touch sizing,
+   media containment, and cleaner spacing on phones.
+   Loaded last so it overrides page-specific styles.
+   ============================================================ */
+
+/* ---------- global base ---------- */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { overflow-x: hidden; }
+
+img, video, iframe { max-width: 100%; height: auto; }
+.sc-img, .card .img, [style*="background-image"] { background-size: cover; background-position: center; }
+
+/* ---------- fluid typography (kicks in below 1024px) ---------- */
+@media (max-width: 1024px) {
+  :root {
+    --fluid-h1: clamp(28px, 8vw, 56px);
+    --fluid-h2: clamp(22px, 5.5vw, 40px);
+    --fluid-h3: clamp(18px, 4.5vw, 28px);
+    --fluid-body: clamp(14px, 3.8vw, 17px);
+  }
+  h1, .display { font-size: var(--fluid-h1); line-height: 1.1; }
+  h2 { font-size: var(--fluid-h2); line-height: 1.15; }
+  h3 { font-size: var(--fluid-h3); line-height: 1.2; }
+  p, li { font-size: var(--fluid-body); line-height: 1.55; }
+}
+
+/* ---------- touch-friendly interactive elements ---------- */
+@media (max-width: 768px) {
+  button, .btn, .sc-fav, .sc-rm, .chip, .acc-tab, input, select, textarea, a.btn, a.chip, a.sc-sa-btn {
+    min-height: 44px;
+  }
+  .chip, .sc-chip { padding: 10px 14px; }
+  .acc-tab { padding: 14px 12px; font-size: 14px; }
+  input[type="text"], input[type="email"], input[type="password"], input[type="url"], textarea {
+    font-size: 16px; /* prevents iOS auto-zoom on focus */
+  }
+}
+
+/* ---------- containers + grid (fluid) ---------- */
+@media (max-width: 768px) {
+  .wrap, .container, main > section { padding-left: 18px; padding-right: 18px; }
+  section { padding-top: 48px; padding-bottom: 48px; }
+  .grid, #grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+}
+@media (min-width: 481px) and (max-width: 900px) {
+  .grid, #grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---------- nav / header on mobile ---------- */
+@media (max-width: 768px) {
+  nav, .nav, header nav { flex-wrap: wrap; gap: 8px; }
+  .nav-links, .nav-menu { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .nav-links::-webkit-scrollbar, .nav-menu::-webkit-scrollbar { display: none; }
+  .nav-links a, .nav-menu a { white-space: nowrap; }
+}
+
+/* ---------- card internals ---------- */
+@media (max-width: 640px) {
+  .sc-card { border-radius: 14px; }
+  .sc-body { padding: 14px 16px 18px; gap: 8px; }
+  .sc-name { font-size: 17px; }
+  .sc-tagline { font-size: 13px; }
+  .sc-meta { font-size: 10px; gap: 10px; }
+  .sc-num, .sc-badge, .sc-ready { font-size: 9.5px; padding: 5px 9px; }
+}
+
+/* ---------- modals, overlays ---------- */
+@media (max-width: 768px) {
+  .modal, .overlay, .buy-modal, [role="dialog"] {
+    width: min(96vw, 520px) !important;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 16px;
+  }
+}
+
+/* ---------- footer ---------- */
+@media (max-width: 768px) {
+  footer, .footer { padding: 40px 18px; text-align: center; }
+  .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 20px; }
+}
+
+/* ---------- AI chat popup on mobile ---------- */
+@media (max-width: 640px) {
+  #ai-chat, .ai-chat-panel, [class*="aiChat"] {
+    left: 8px !important; right: 8px !important;
+    width: auto !important; max-width: none !important;
+    max-height: 70vh;
+  }
+}
+
+/* ---------- shop / admin tables become cards on mobile ---------- */
+@media (max-width: 768px) {
+  table.responsive-table,
+  table.responsive-table thead,
+  table.responsive-table tbody,
+  table.responsive-table th,
+  table.responsive-table td,
+  table.responsive-table tr {
+    display: block; width: 100%;
+  }
+  table.responsive-table thead { display: none; }
+  table.responsive-table tr { margin-bottom: 12px; border: 1px solid var(--line, #1e1e25); border-radius: 10px; padding: 10px; }
+  table.responsive-table td { border: 0; padding: 6px 4px; }
+  table.responsive-table td::before {
+    content: attr(data-label) ': ';
+    font-weight: 600;
+    color: var(--text-3, #94a3b8);
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-bottom: 2px;
+  }
+}
+
+/* ---------- safe-area for iOS notch ---------- */
+@supports (padding: env(safe-area-inset-top)) {
+  body { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+  nav.fixed, .nav.scrolled { padding-top: max(12px, env(safe-area-inset-top)); }
+}
