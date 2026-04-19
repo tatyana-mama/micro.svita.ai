@@ -348,7 +348,7 @@ body::after{
   .specs .price{font-size:32px}
 }
 </style>
-<link rel="stylesheet" href="assets/mobile-polish.css?v=3">
+<link rel="stylesheet" href="assets/mobile-polish.css?v=4">
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -1127,7 +1127,9 @@ async function loadBrandbookViaToken(slug, iframeEl){
     const {data: html, error: hErr} = await SB.rpc('get_brandbook_by_token', {p_token: tok});
     if(hErr) throw hErr;
     if(!html){ iframeEl.srcdoc = '<!doctype html><body style="font-family:system-ui;padding:40px;color:#dc2626;text-align:center"><h3>Brandbook not yet uploaded</h3><p>Contact support if you believe this is a mistake.</p></body>'; return; }
-    iframeEl.srcdoc = html;
+    // Inject responsive viewport + overflow guards so brandbook fits mobile screens
+    const mobileFix = '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><style>html,body{max-width:100vw !important;overflow-x:hidden !important} body{box-sizing:border-box;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)} img,video,iframe,svg,table{max-width:100% !important;height:auto} *{box-sizing:border-box;max-width:100%}</style>';
+    iframeEl.srcdoc = html.replace('<head>', '<head>' + mobileFix);
   }catch(e){
     iframeEl.srcdoc = '<!doctype html><body style="font-family:system-ui;padding:40px;color:#dc2626;text-align:center"><h3>Access denied</h3><p>'+(e.message||'Unknown error')+'</p></body>';
   }
@@ -1193,9 +1195,10 @@ function renderFrame(c){
             iframe.srcdoc = '<!doctype html><body style="font-family:system-ui;padding:40px;color:#dc2626;text-align:center"><h3>Not uploaded</h3></body>';
             return;
           }
-          // Brandbook HTML uses relative image paths — inject <base> so they resolve.
+          // Brandbook HTML uses relative image paths — inject <base> + mobile-viewport + overflow guard.
           const base = `<base href="${location.origin}/data/concepts/${encodeURIComponent(c.slug)}/">`;
-          iframe.srcdoc = data.html_content.replace('<head>', '<head>' + base);
+          const mobileFix = '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><style>html,body{max-width:100vw !important;overflow-x:hidden !important} body{box-sizing:border-box;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)} img,video,iframe,svg,table{max-width:100% !important;height:auto} *{box-sizing:border-box;max-width:100%}</style>';
+          iframe.srcdoc = data.html_content.replace('<head>', '<head>' + base + mobileFix);
         });
     } else {
       // Owner: server-minted token; raw file is not publicly linked
@@ -1440,7 +1443,20 @@ function mountAiChat(slug, concept){
   const input = sidebar.querySelector('#ai-chat-input');
   const sendBtn = sidebar.querySelector('#ai-chat-send');
   const form = sidebar.querySelector('#ai-chat-form');
-  const history = [];
+  const HISTORY_KEY = 'svita:ai:history:' + slug;
+  const HISTORY_MAX = 50; // pairs kept locally
+  let history = [];
+  try {
+    const raw = localStorage.getItem(HISTORY_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) history = parsed.slice(-HISTORY_MAX * 2);
+    }
+  } catch(_){}
+
+  function persist(){
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(-HISTORY_MAX * 2))); } catch(_){}
+  }
 
   function pushMsg(role, text){
     const el = document.createElement('div');
@@ -1451,7 +1467,33 @@ function mountAiChat(slug, concept){
     return el;
   }
 
-  pushMsg('bot', 'Привет. Я — AI-консультант этой концепции. Отвечаю только из её брендбука. Спросите про оборудование, смету, площадь, запуск — что угодно.');
+  // Add "Clear" button to header
+  const head = sidebar.querySelector('#ai-chat-head');
+  if (head && !head.querySelector('.ai-chat-clear')) {
+    const clearBtn = document.createElement('button');
+    clearBtn.type = 'button';
+    clearBtn.className = 'ai-chat-clear';
+    clearBtn.title = 'Очистить чат';
+    clearBtn.setAttribute('aria-label', 'clear chat');
+    clearBtn.textContent = '↺';
+    clearBtn.style.cssText = 'background:none;border:0;color:#94a3b8;font-size:18px;cursor:pointer;line-height:1;padding:0;margin-right:8px;margin-top:-2px';
+    clearBtn.addEventListener('click', ()=>{
+      if (!confirm('Очистить историю чата?')) return;
+      history = [];
+      persist();
+      body.innerHTML = '';
+      pushMsg('bot', 'Чат очищен. Спросите что-нибудь о концепции заново.');
+    });
+    head.insertBefore(clearBtn, head.querySelector('#ai-chat-close'));
+  }
+
+  if (history.length === 0) {
+    pushMsg('bot', 'Привет. Я — AI-консультант этой концепции. Отвечаю только из её брендбука. Спросите про оборудование, смету, площадь, запуск — что угодно.');
+  } else {
+    for (const m of history) {
+      if (m && m.role && m.content) pushMsg(m.role === 'user' ? 'user' : 'bot', m.content);
+    }
+  }
 
   function openSidebar(){
     document.body.classList.add('ai-chat-open');
@@ -1483,6 +1525,7 @@ function mountAiChat(slug, concept){
     if(!text || sendBtn.disabled) return;
     pushMsg('user', text);
     history.push({role:'user', content:text});
+    persist();
     input.value = '';
     input.style.height = 'auto';
     sendBtn.disabled = true;
@@ -1520,6 +1563,7 @@ function mountAiChat(slug, concept){
       const answer = String(data.answer || '').trim() || '…ответ пуст.';
       pushMsg('bot', answer);
       history.push({role:'assistant', content:answer});
+      persist();
       // footer meta: provider + model
       try {
         const meta = document.createElement('div');
