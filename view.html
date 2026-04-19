@@ -1339,9 +1339,10 @@ function renderFrame(c){
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
   if (hasBrandbookAccess) {
-    const tryPdf = c.brandbook_pdf_url
-      ? Promise.resolve(c.brandbook_pdf_url)
-      : loadPresentationManifest().then(m => m && m[c.slug] ? m[c.slug] : null);
+    // Manifest is source of truth (rebuilt on every push). DB column is
+    // the fallback in case manifest fetch fails or the slug isn't listed.
+    const tryPdf = loadPresentationManifest()
+      .then(m => (m && m[c.slug]) || c.brandbook_pdf_url || null);
     frame.innerHTML = '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#0a0a0b;color:#64748b;font:400 13px Inter">Loading brandbook…</div>';
     tryPdf.then(pdfUrl => {
       frame.innerHTML = '';
