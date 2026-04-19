@@ -1501,7 +1501,7 @@ function mountAiChat(slug, concept){
           'apikey': SB_KEY,
           'Content-Type':'application/json'
         },
-        body: JSON.stringify({ slug, message: text, history: history.slice(-8, -1) })
+        body: JSON.stringify({ slug, message: text, history: history.slice(-8, -1), lang: (document.documentElement.lang||'en').toLowerCase().slice(0,2) })
       });
       typing.remove();
       const data = await r.json().catch(()=>({error:'bad_response'}));
@@ -1509,17 +1509,24 @@ function mountAiChat(slug, concept){
         const msg = data.error === 'not_owned' ? 'Концепция ещё не принадлежит вам.' :
                    data.error === 'ai_not_included' ? 'AI-консультант доступен только в тарифе AI или Exclusive.' :
                    data.error === 'brandbook_unavailable' ? 'Брендбук для этой концепции пока не опубликован.' :
-                   data.error === 'ai_not_configured' ? 'AI-консультант не настроен на сервере (нет ANTHROPIC_API_KEY).' :
-                   data.error === 'ai_upstream' ? ('Anthropic API вернул ошибку '+(data.status||'')+'.') :
-                   data.error === 'ai_upstream_threw' ? 'Сетевой сбой до Anthropic API.' :
-                   data.error === 'unauthorized' ? 'Сессия не авторизована на сервере.' :
-                   ('Не получилось ответить: ' + (data.error || r.status));
+                   data.error === 'concept_not_found' ? 'Концепция не найдена в базе.' :
+                   data.error === 'ai_not_configured' ? 'AI не настроен (' + (data.reason||'') + ').' :
+                   data.error === 'ai_upstream' ? ('Backend ' + (data.provider||'') + ' вернул ошибку. ' + (data.detail||'')) :
+                   data.error === 'unauthorized' ? 'Сессия не авторизована.' :
+                   ('Ошибка: ' + (data.error || r.status) + (data.detail ? ' — '+data.detail : ''));
         pushMsg('err', msg);
         return;
       }
       const answer = String(data.answer || '').trim() || '…ответ пуст.';
       pushMsg('bot', answer);
       history.push({role:'assistant', content:answer});
+      // footer meta: provider + model
+      try {
+        const meta = document.createElement('div');
+        meta.style.cssText = 'font:400 10px/1.3 JetBrains Mono,ui-monospace;color:rgba(148,163,184,0.45);margin:-2px 0 10px 12px;letter-spacing:0.02em';
+        meta.textContent = (data.provider||'') + (data.model ? ' · ' + data.model.replace(/\.gguf$/, '').slice(0,40) : '');
+        body.appendChild(meta);
+      } catch(_){}
     }catch(err){
       typing.remove();
       pushMsg('err', 'Сетевой сбой: '+ (err.message||err));
