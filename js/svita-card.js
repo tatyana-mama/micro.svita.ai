@@ -129,7 +129,7 @@ window.SvitaCard = (function(){
     if(!sb || !Array.isArray(catalog)) return catalog;
     try{
       const [catRes, scRes] = await Promise.all([
-        sb.from('public_verified_catalog').select('slug, has_brandbook, brandbook_actualised, ls_url, catalog_number'),
+        sb.from('public_verified_catalog').select('slug, has_brandbook, brandbook_actualised, brandbook_pdf_url, ls_url, catalog_number'),
         sb.from('public_concepts_scarcity').select('*')
       ]);
       const byslug = Object.create(null);
@@ -143,6 +143,7 @@ window.SvitaCard = (function(){
           verified: true,
           has_brandbook: row.has_brandbook,
           brandbook_actualised: row.brandbook_actualised,
+          brandbook_pdf_url: row.brandbook_pdf_url,
           ls_url: row.ls_url,
           catalog_number: row.catalog_number
         }) : c;

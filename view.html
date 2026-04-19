@@ -348,7 +348,7 @@ body::after{
   .specs .price{font-size:32px}
 }
 </style>
-<link rel="stylesheet" href="assets/mobile-polish.css?v=6">
+<link rel="stylesheet" href="assets/mobile-polish.css?v=7">
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -1279,43 +1279,86 @@ function mountMobileSlideReader(c, frame){
   });
 }
 
+// Cached promise for presentations/manifest.json so we fetch once per page load.
+let __manifestPromise = null;
+function loadPresentationManifest(){
+  if (__manifestPromise) return __manifestPromise;
+  __manifestPromise = fetch('presentations/manifest.json', { cache: 'no-cache' })
+    .then(r => r.ok ? r.json() : {})
+    .catch(() => ({}));
+  return __manifestPromise;
+}
+
+function renderLegacyHtmlBrandbook(c, frame){
+  const iframe = document.createElement('iframe');
+  iframe.title = c.name + ' brandbook';
+  iframe.setAttribute('sandbox','allow-same-origin');
+  iframe.style.cssText = 'width:100%;height:100%;border:0;display:block;background:#fff';
+  frame.appendChild(iframe);
+  const mobileFix = '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><style>html,body{max-width:100vw !important;overflow-x:hidden !important} body{box-sizing:border-box;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)} img,video,iframe,svg,table{max-width:100% !important;height:auto} *{box-sizing:border-box;max-width:100%}</style>';
+  if (IS_SA) {
+    iframe.srcdoc = '<!doctype html><html><body style="font-family:system-ui;padding:40px;color:#64748b;text-align:center">Loading brandbook (SA direct)…</body></html>';
+    SB.from('concept_brandbooks').select('html_content').eq('concept_slug', c.slug).maybeSingle()
+      .then(({ data, error }) => {
+        if (error || !data || !data.html_content) {
+          iframe.srcdoc = '<!doctype html><body style="font-family:system-ui;padding:40px;color:#dc2626;text-align:center"><h3>Brandbook not yet uploaded</h3></body>';
+          return;
+        }
+        const base = `<base href="${location.origin}/data/concepts/${encodeURIComponent(c.slug)}/">`;
+        iframe.srcdoc = data.html_content.replace('<head>', '<head>' + base + mobileFix);
+      });
+  } else {
+    loadBrandbookViaToken(c.slug, iframe);
+  }
+}
+
+function renderPdfDeck(c, pdfUrl, frame){
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'position:absolute;inset:0;background:#0a0a0b;border-radius:inherit;overflow:hidden';
+  const open = document.createElement('a');
+  open.href = pdfUrl; open.target = '_blank'; open.rel = 'noopener';
+  open.textContent = '⤢ Fullscreen';
+  open.style.cssText = 'position:absolute;top:10px;right:10px;z-index:3;padding:8px 12px;border-radius:100px;background:rgba(255,255,255,0.92);color:#0a0a0b;font:700 11px Inter;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;box-shadow:0 4px 18px rgba(0,0,0,0.4)';
+  const pdf = document.createElement('iframe');
+  pdf.src = pdfUrl + '#view=FitH';
+  pdf.title = (c.name || c.slug) + ' · brandbook';
+  pdf.style.cssText = 'width:100%;height:100%;border:0;display:block;background:#0a0a0b';
+  pdf.setAttribute('loading','eager');
+  wrap.appendChild(pdf);
+  wrap.appendChild(open);
+  frame.appendChild(wrap);
+}
+
 function renderFrame(c){
   const frame = document.getElementById('frame');
   frame.innerHTML = '';
-  const canSeeBrandbook = !!c.has_brandbook && CURRENT_LANG === 'en' && (IS_SA || IS_OWNED);
+  // Ownership gate: SA or owner → try to show a brandbook.
+  // The chain is: PDF deck (in-row column OR manifest.json lookup) →
+  // mobile PNG slide reader → legacy HTML brandbook iframe → friendly empty.
+  const hasBrandbookAccess = (IS_SA || IS_OWNED);
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  if(canSeeBrandbook && isMobile){
-    // Telegram-style slide reader: horizontal swipe between available PNG slides
-    // with pinch-zoom. Gracefully falls back to the iframe if no slides render.
-    mountMobileSlideReader(c, frame);
+
+  if (hasBrandbookAccess) {
+    const tryPdf = c.brandbook_pdf_url
+      ? Promise.resolve(c.brandbook_pdf_url)
+      : loadPresentationManifest().then(m => m && m[c.slug] ? m[c.slug] : null);
+    frame.innerHTML = '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#0a0a0b;color:#64748b;font:400 13px Inter">Loading brandbook…</div>';
+    tryPdf.then(pdfUrl => {
+      frame.innerHTML = '';
+      if (pdfUrl) { renderPdfDeck(c, pdfUrl, frame); return; }
+      if (c.has_brandbook || c.brandbook_actualised) {
+        if (isMobile) { mountMobileSlideReader(c, frame); return; }
+        renderLegacyHtmlBrandbook(c, frame);
+        return;
+      }
+      // No brandbook anywhere → friendly empty state for the owner
+      frame.innerHTML = '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0a0a0b;color:#e2e8f0;text-align:center;padding:32px;gap:12px"><h2 style="font:700 22px \'Space Grotesk\';margin:0">Brandbook coming soon</h2><p style="font:400 13px/1.5 Inter;color:#94a3b8;max-width:320px;margin:0">Concept is yours — the full editorial deck is being finalised and will appear here shortly.</p></div>';
+    });
     return;
   }
-  if(canSeeBrandbook){
-    const iframe = document.createElement('iframe');
-    iframe.title = c.name + ' brandbook';
-    iframe.setAttribute('sandbox','allow-same-origin');
-    frame.appendChild(iframe);
-    if(IS_SA){
-      // Superadmin: direct read via RLS — bypass token flow for preview/review
-      iframe.srcdoc = '<!doctype html><html><body style="font-family:system-ui;padding:40px;color:#64748b;text-align:center">Loading brandbook (SA direct)…</body></html>';
-      SB.from('concept_brandbooks')
-        .select('html_content').eq('concept_slug', c.slug).maybeSingle()
-        .then(({ data, error })=>{
-          if(error || !data || !data.html_content){
-            iframe.srcdoc = '<!doctype html><body style="font-family:system-ui;padding:40px;color:#dc2626;text-align:center"><h3>Not uploaded</h3></body>';
-            return;
-          }
-          // Brandbook HTML uses relative image paths — inject <base> + mobile-viewport + overflow guard.
-          const base = `<base href="${location.origin}/data/concepts/${encodeURIComponent(c.slug)}/">`;
-          const mobileFix = '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><style>html,body{max-width:100vw !important;overflow-x:hidden !important} body{box-sizing:border-box;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)} img,video,iframe,svg,table{max-width:100% !important;height:auto} *{box-sizing:border-box;max-width:100%}</style>';
-          iframe.srcdoc = data.html_content.replace('<head>', '<head>' + base + mobileFix);
-        });
-    } else {
-      // Owner: server-minted token; raw file is not publicly linked
-      loadBrandbookViaToken(c.slug, iframe);
-    }
-    return;
-  }
+
+  // (Legacy HTML iframe path moved to renderLegacyHtmlBrandbook — used only as
+  //  a fallback when no PDF deck is available yet.)
   // Superadmin: full product review — fetch all fields via authed client, render body_html
   const saReview = IS_SA ? renderSuperadminReview(c) : '';
   const unlocked = IS_SA || IS_OWNED;
