@@ -669,6 +669,15 @@ async function loadSuperadminFullConcept(slug){
   }
 
   CONCEPT = concept;
+  try {
+    window.svitaTrack && window.svitaTrack('concept_view', {
+      slug: concept.slug,
+      catalog_number: concept.catalog_number || null,
+      name: concept.name || '',
+      category: concept.category || '',
+      price_eur: concept.price_eur || 0
+    });
+  } catch(_){}
   applyTheme(concept);
   IS_SA = await detectSuperadmin();
   if(IS_SA){

@@ -610,6 +610,7 @@ loadCatalog();
       msgEl.style.color = '#dc2626';
       return;
     }
+    try { window.svitaTrack && window.svitaTrack('waitlist_joined', { slug: currentSlug }); } catch(_){}
     msgEl.textContent = '\u2713 Added. We\'ll notify you.';
     msgEl.style.color = '#059669';
     setTimeout(closeModal, 1400);
