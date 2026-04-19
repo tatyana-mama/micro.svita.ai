@@ -348,7 +348,7 @@ body::after{
   .specs .price{font-size:32px}
 }
 </style>
-<link rel="stylesheet" href="assets/mobile-polish.css?v=5">
+<link rel="stylesheet" href="assets/mobile-polish.css?v=6">
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -1176,10 +1176,120 @@ function renderChip(c){
     '<strong>'+c.name+'</strong> · '+catLabel+' · '+(c.size_m2||'—')+'m²';
 }
 
+// Telegram-style mobile slide reader: detects available slide PNGs per concept
+// and renders them as a horizontal scroll-snap strip with native pinch-zoom,
+// fullscreen dark chrome, and dot page indicator at the bottom.
+function mountMobileSlideReader(c, frame){
+  const slug = c.slug;
+  const base = `data/concepts/${encodeURIComponent(slug)}/images/`;
+  const candidates = [
+    '01-hero.png','02-facade.png','03-interior.png','04-packaging.png',
+    '05-signage.png','06-layout.png','07-detail.png','08-branding.png',
+    '09-stilllife.png','10-ritual.png','11-axonometric.png',
+  ];
+  // container skeleton
+  frame.innerHTML = `
+    <style>
+      .tg-reader{position:absolute;inset:0;background:#0a0a0b;color:#fff;display:flex;flex-direction:column;overflow:hidden;border-radius:inherit}
+      .tg-reader .tg-strip{flex:1;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+      .tg-reader .tg-strip::-webkit-scrollbar{display:none}
+      .tg-reader .tg-slide{flex:0 0 100%;height:100%;scroll-snap-align:center;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center;overflow:auto;touch-action:pan-x pan-y pinch-zoom;position:relative}
+      .tg-reader .tg-slide img{max-width:100%;max-height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none;touch-action:pinch-zoom}
+      .tg-reader .tg-slide .tg-cap{position:absolute;left:12px;right:12px;bottom:14px;padding:10px 14px;background:rgba(10,10,11,0.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:10px;font:500 12px/1.4 Inter;letter-spacing:0.02em;color:#fff;text-align:center}
+      .tg-reader .tg-dots{flex:0 0 auto;display:flex;justify-content:center;align-items:center;gap:6px;padding:10px 0 14px}
+      .tg-reader .tg-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.32);transition:all 200ms ease}
+      .tg-reader .tg-dot.on{background:#D6FF3E;width:20px;border-radius:3px}
+      .tg-reader .tg-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#94a3b8;font:400 13px Inter}
+      .tg-reader .tg-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;gap:14px}
+      .tg-reader .tg-empty h3{font:700 18px 'Space Grotesk';margin:0}
+      .tg-reader .tg-empty p{font:400 13px Inter;color:#94a3b8;max-width:280px;margin:0;line-height:1.5}
+      .tg-reader .tg-empty .tg-link{display:inline-block;margin-top:6px;padding:10px 18px;border-radius:100px;background:#D6FF3E;color:#0a0a0b;text-decoration:none;font:700 12px Inter;letter-spacing:0.06em;text-transform:uppercase}
+    </style>
+    <div class="tg-reader">
+      <div class="tg-loading">Загружаем брендбук…</div>
+      <div class="tg-strip" aria-label="brandbook slides"></div>
+      <div class="tg-dots" aria-hidden="true"></div>
+    </div>`;
+  const strip = frame.querySelector('.tg-strip');
+  const dots = frame.querySelector('.tg-dots');
+  const loading = frame.querySelector('.tg-loading');
+  const SLIDE_LABELS = {
+    '01-hero.png':'Hero · первое впечатление',
+    '02-facade.png':'Фасад',
+    '03-interior.png':'Интерьер',
+    '04-packaging.png':'Упаковка и POS',
+    '05-signage.png':'Навигация и signage',
+    '06-layout.png':'Планировка / axonometric',
+    '07-detail.png':'Детали материалов',
+    '08-branding.png':'Идентичность',
+    '09-stilllife.png':'Still-life продукта',
+    '10-ritual.png':'Ритуал клиента',
+    '11-axonometric.png':'Axonometric',
+  };
+  function probe(name){
+    return new Promise(res => {
+      const img = new Image();
+      img.onload = () => res({name, ok:true, url: base + name});
+      img.onerror = () => res({name, ok:false});
+      img.src = base + name;
+    });
+  }
+  Promise.all(candidates.map(probe)).then(results => {
+    const slides = results.filter(r => r.ok);
+    loading.remove();
+    if(!slides.length){
+      strip.remove(); dots.remove();
+      const box = document.createElement('div');
+      box.className = 'tg-empty';
+      box.innerHTML = `
+        <h3>${(c.name||slug).replace(/</g,'&lt;')}</h3>
+        <p>Брендбук пока лучше открывать на планшете или ноутбуке — мобильная версия слайдов ещё готовится.</p>
+        <a class="tg-link" href="#" onclick="event.preventDefault();alert('Откройте страницу на планшете или десктопе для полного брендбука.');return false;">Открыть на десктопе</a>`;
+      frame.querySelector('.tg-reader').appendChild(box);
+      return;
+    }
+    slides.forEach((s, i) => {
+      const slide = document.createElement('div');
+      slide.className = 'tg-slide';
+      slide.innerHTML = `<img src="${s.url}" alt="Slide ${i+1} — ${s.name}" loading="${i<2?'eager':'lazy'}" decoding="async">`
+        + `<div class="tg-cap">${(i+1)} / ${slides.length} · ${SLIDE_LABELS[s.name] || s.name.replace(/\.[^.]+$/,'').replace(/-/g,' ')}</div>`;
+      strip.appendChild(slide);
+      const d = document.createElement('button');
+      d.type = 'button'; d.className = 'tg-dot' + (i===0?' on':''); d.dataset.idx = String(i);
+      d.setAttribute('aria-label', 'Slide '+(i+1));
+      dots.appendChild(d);
+    });
+    // dot click → scroll
+    dots.addEventListener('click', e => {
+      const b = e.target.closest('.tg-dot'); if(!b) return;
+      const idx = parseInt(b.dataset.idx, 10);
+      const slideW = strip.clientWidth;
+      strip.scrollTo({ left: idx * slideW, behavior: 'smooth' });
+    });
+    // scroll → active dot
+    let raf = 0;
+    strip.addEventListener('scroll', () => {
+      if(raf) return;
+      raf = requestAnimationFrame(() => {
+        const idx = Math.round(strip.scrollLeft / strip.clientWidth);
+        dots.querySelectorAll('.tg-dot').forEach((el,i) => el.classList.toggle('on', i===idx));
+        raf = 0;
+      });
+    }, { passive: true });
+  });
+}
+
 function renderFrame(c){
   const frame = document.getElementById('frame');
   frame.innerHTML = '';
   const canSeeBrandbook = !!c.has_brandbook && CURRENT_LANG === 'en' && (IS_SA || IS_OWNED);
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if(canSeeBrandbook && isMobile){
+    // Telegram-style slide reader: horizontal swipe between available PNG slides
+    // with pinch-zoom. Gracefully falls back to the iframe if no slides render.
+    mountMobileSlideReader(c, frame);
+    return;
+  }
   if(canSeeBrandbook){
     const iframe = document.createElement('iframe');
     iframe.title = c.name + ' brandbook';

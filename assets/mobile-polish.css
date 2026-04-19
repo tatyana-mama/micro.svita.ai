@@ -93,9 +93,11 @@ img, video, iframe { max-width: 100%; height: auto; }
 @media (max-width: 1024px) {
   .stage { padding: 60px 10px 16px; }
   .frame {
+    position: relative; /* anchor absolute children like .tg-reader */
     min-height: calc(100vh - 76px);
     border-radius: 14px;
     box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    background: #0a0a0b; /* match tg-reader fallback */
   }
   .frame iframe {
     height: calc(100vh - 76px);
