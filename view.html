@@ -1507,7 +1507,11 @@ function mountAiChat(slug, concept){
         const msg = data.error === 'not_owned' ? 'Концепция ещё не принадлежит вам.' :
                    data.error === 'ai_not_included' ? 'AI-консультант доступен только в тарифе AI или Exclusive.' :
                    data.error === 'brandbook_unavailable' ? 'Брендбук для этой концепции пока не опубликован.' :
-                   'Не получилось ответить. Попробуйте ещё раз.';
+                   data.error === 'ai_not_configured' ? 'AI-консультант не настроен на сервере (нет ANTHROPIC_API_KEY).' :
+                   data.error === 'ai_upstream' ? ('Anthropic API вернул ошибку '+(data.status||'')+'.') :
+                   data.error === 'ai_upstream_threw' ? 'Сетевой сбой до Anthropic API.' :
+                   data.error === 'unauthorized' ? 'Сессия не авторизована на сервере.' :
+                   ('Не получилось ответить: ' + (data.error || r.status));
         pushMsg('err', msg);
         return;
       }
