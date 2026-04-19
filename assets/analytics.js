@@ -13,9 +13,11 @@
   'use strict';
   if (navigator.doNotTrack === '1') return;
 
+  // GTM is loaded INLINE in each page's <head> (so Tag Assistant and Consent tools detect it reliably).
+  // This loader handles only Yandex, Clarity and Plausible below. GA4 flows via the GTM Config tag.
   var CFG = {
-    GTM:       'GTM-T2974BPD',
-    GA4:       '',             // Empty: GA4 loads via GTM (GA4 Config tag with Measurement ID G-BX01J95VVG inside GTM)
+    GTM:       '',             // kept empty here — inline head snippet already loads GTM-T2974BPD
+    GA4:       '',             // GA4 Measurement ID G-BX01J95VVG set inside GTM Config tag
     YANDEX:    '',
     CLARITY:   '',
     PLAUSIBLE: ''
