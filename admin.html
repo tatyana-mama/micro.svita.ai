@@ -182,6 +182,10 @@ td .actions{display:flex;gap:6px}
 .tab{padding:14px 22px;font-size:13px;font-weight:500;color:var(--text-3);cursor:pointer;border-bottom:2px solid transparent;transition:all 200ms var(--ease);margin-bottom:-1px}
 .tab:hover{color:var(--text-2)}
 .tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+.tab.tab-trash{color:#fca5a5}
+.tab.tab-trash.on{color:#ef4444;border-bottom-color:#ef4444}
+.tab.tab-trash:hover{color:#ef4444}
+.btn-trash:hover{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.4)}
 .tab .count{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:100px;background:var(--bg-2);color:var(--text-3);font-size:10px;font-weight:600;font-family:'JetBrains Mono'}
 .tab.on .count{background:rgba(214,255,62,0.12);color:var(--accent)}
 
@@ -452,7 +456,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="tab" data-tab="segments" id="tab-segments" style="display:none">Segments</div>
       <div class="tab" data-tab="users" id="tab-users" style="display:none">Users <span class="count" id="t-users">—</span></div>
       <div class="tab" data-tab="upcoming" id="tab-upcoming">Upcoming <span class="count" id="t-upcoming">—</span></div>
-      <div class="tab" data-tab="archive" id="tab-archive">Archive <span class="count" id="t-archive">—</span></div>
+      <div class="tab tab-trash" data-tab="archive" id="tab-archive" title="Sold-out concepts — permanent archive (the trash bin)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>Archive <span class="count" id="t-archive">—</span></div>
       <div class="tab" data-tab="waitlist" id="tab-waitlist">Waitlist <span class="count" id="t-waitlist">—</span></div>
     </div>
 
@@ -542,7 +546,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="bulk-actions">
           <button class="btn-s primary" id="bulk-verify">✓ Verify</button>
           <button class="btn-s" id="bulk-unverify">○ Unverify</button>
-          <button class="btn-s danger" id="bulk-delete">✕ Delete</button>
+          <button class="btn-s danger" id="bulk-delete" style="display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>Delete</button>
           <button class="btn-s" id="bulk-clear">Clear</button>
         </div>
       </div>
@@ -916,6 +920,9 @@ async function boot(){
       try { loadUsers(); } catch(e){ console.warn('loadUsers', e); }
       try { loadOverview(); } catch(e){ console.warn('loadOverview', e); }
     }
+    // Restore last-viewed tab from hash or localStorage, only after role-based tabs
+    // are revealed (superadmin-only tabs would otherwise fail to activate).
+    try { restoreActiveTab(); } catch(e){ console.warn('restoreActiveTab', e); }
   } catch(e){
     console.error('boot failed', e);
     $('app').classList.remove('hidden');
@@ -924,16 +931,32 @@ async function boot(){
 
 // Tab switching
 const TAB_LOADERS = {};
-document.querySelectorAll('#tabs .tab').forEach(el=>{
-  el.addEventListener('click', ()=>{
-    const name = el.dataset.tab;
-    document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.toggle('on', t===el));
-    ['overview','concepts','brandbooks','sales','funnel','cohorts','segments','users','upcoming','archive','waitlist'].forEach(n=>{
-      const p = $('panel-'+n);
-      if(p) p.classList.toggle('hidden', n!==name);
-    });
-    if(TAB_LOADERS[name]) TAB_LOADERS[name]();
+const TAB_NAMES = ['overview','concepts','brandbooks','sales','funnel','cohorts','segments','users','upcoming','archive','waitlist'];
+function activateTab(name){
+  const el = document.querySelector(`#tabs .tab[data-tab="${name}"]`);
+  if(!el || el.style.display === 'none') return false;
+  document.querySelectorAll('#tabs .tab').forEach(t=>t.classList.toggle('on', t===el));
+  TAB_NAMES.forEach(n=>{
+    const p = $('panel-'+n);
+    if(p) p.classList.toggle('hidden', n!==name);
   });
+  if(TAB_LOADERS[name]) TAB_LOADERS[name]();
+  try { localStorage.setItem('admin_active_tab', name); } catch(e){}
+  try { history.replaceState(null, '', '#'+name); } catch(e){}
+  return true;
+}
+function restoreActiveTab(){
+  const fromHash = (location.hash || '').replace(/^#/, '');
+  const fromLs = (()=>{ try { return localStorage.getItem('admin_active_tab') || ''; } catch(e){ return ''; } })();
+  const target = TAB_NAMES.includes(fromHash) ? fromHash : (TAB_NAMES.includes(fromLs) ? fromLs : null);
+  if(target) activateTab(target);
+}
+document.querySelectorAll('#tabs .tab').forEach(el=>{
+  el.addEventListener('click', ()=> activateTab(el.dataset.tab));
+});
+window.addEventListener('hashchange', ()=>{
+  const name = (location.hash||'').replace(/^#/,'');
+  if(TAB_NAMES.includes(name)) activateTab(name);
 });
 
 TAB_LOADERS.upcoming = loadUpcoming;
@@ -987,7 +1010,7 @@ function renderUpcoming(){
       <td>${interest > 0 ? `<strong style="color:#D6FF3E">${interest}</strong>` : '—'}</td>
       <td style="white-space:nowrap">
         <button class="btn btn-ghost" style="padding:4px 10px;font-size:11px" onclick="verifyConcept('${c.slug}')">Verify</button>
-        <button class="btn btn-ghost" style="padding:4px 10px;font-size:11px;color:#fca5a5" onclick="archiveConcept('${c.slug}')">Archive</button>
+        <button class="btn btn-ghost btn-trash" style="padding:4px 10px;font-size:11px;color:#fca5a5;display:inline-flex;align-items:center;gap:5px" onclick="archiveConcept('${c.slug}')" title="Move concept to Archive (trash bin)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>Archive</button>
       </td>
     </tr>`;
   }).join('');
