@@ -1262,5 +1262,21 @@
     "brandbook_actualised": true,
     "brandbook_pdf_url": "presentations/82-warsaw-movement%20%5Bgood%5D/RUCH_deck.pdf",
     "catalog_number": 82
+  },
+  {
+    "slug": "gdansk-amber-atelier",
+    "name": "BURSZTYN 14",
+    "category": "craft",
+    "country": "PL",
+    "size_m2": 10,
+    "price_eur": 79,
+    "budget_eur": 17400,
+    "weeks": 9,
+    "hero_image": "data/concepts/gdansk-amber-atelier/images/01-hero-interior.png",
+    "tagline": "Open-window amber atelier on Mariacka — polish, sell, teach the craft.",
+    "has_brandbook": false,
+    "brandbook_actualised": false,
+    "brandbook_pdf_url": null,
+    "catalog_number": 83
   }
 ]
