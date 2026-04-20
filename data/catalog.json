@@ -12,7 +12,7 @@
     "tagline": "single-bed sleep consult room, Ljubljana.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/01-ljubljana-sleep-lab%20%5Bgood%5D/SEN-LAB_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/ljubljana-sleep-lab.pdf",
     "catalog_number": 1
   },
   {
@@ -28,7 +28,7 @@
     "tagline": "hand car wash bay, 25m² Stockholm lot.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/02-stockholm-car-wash/ALKA-VASK_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/stockholm-car-wash.pdf",
     "catalog_number": 2
   },
   {
@@ -44,7 +44,7 @@
     "tagline": "single cryotherapy chamber studio.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/03-stockholm-cryo-bar%20%5Bgood%5D/CRYO-3_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/stockholm-cryo-bar.pdf",
     "catalog_number": 3
   },
   {
@@ -60,7 +60,7 @@
     "tagline": "glassblowing micro-studio, 14m² with public window.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/04-stockholm-glass-blow%20%5Bgood%5D/BLAS-STUDIO_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/stockholm-glass-blow.pdf",
     "catalog_number": 4
   },
   {
@@ -76,7 +76,7 @@
     "tagline": "single-room Stockholm wellness consult.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/05-stockholm-wellness%20%5Bgood%5D/LAGOM-LAB_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/stockholm-wellness.pdf",
     "catalog_number": 5
   },
   {
@@ -92,7 +92,7 @@
     "tagline": "dentist-style spa with single chair Vienna.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/06-vienna-dental-spa%20%5Bgood%5D/ZAHN-SPA_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/vienna-dental-spa.pdf",
     "catalog_number": 6
   },
   {
@@ -108,7 +108,7 @@
     "tagline": "10-seat Copenhagen craft makerspace.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/07-copenhagen-makers/MAKER-10_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/copenhagen-makers.pdf",
     "catalog_number": 7
   },
   {
@@ -124,7 +124,7 @@
     "tagline": "8-seat Dublin English class room.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/08-dublin-english-hub/ENGLISH-HUB_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/dublin-english-hub.pdf",
     "catalog_number": 8
   },
   {
@@ -140,8 +140,24 @@
     "tagline": "yoga teacher training room, 12-mat Ljubljana.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/09-ljubljana-yoga-teach/TEACH-YOGA_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/ljubljana-yoga-teach.pdf",
     "catalog_number": 9
+  },
+  {
+    "slug": "madrid-yoga-barre",
+    "name": "BARRE 10",
+    "category": "wellness",
+    "country": "ES",
+    "size_m2": 24,
+    "price_eur": 49,
+    "budget_eur": 14200,
+    "weeks": 9,
+    "hero_image": "data/concepts/madrid-yoga-barre/images/01-hero.png",
+    "tagline": "10-mat Madrid barre+yoga micro-studio.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/madrid-yoga-barre.pdf",
+    "catalog_number": 10
   },
   {
     "slug": "paris-meditation",
@@ -156,7 +172,7 @@
     "tagline": "silent meditation room, 14m² Paris loft.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/11-paris-meditation/PAUSE_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/paris-meditation.pdf",
     "catalog_number": 11
   },
   {
@@ -172,7 +188,7 @@
     "tagline": "12m² Milanese design object micro-shop.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/12-milano-design-store%20%5Bgood%5D/OGGETTO_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/milano-design-store.pdf",
     "catalog_number": 12
   },
   {
@@ -188,7 +204,7 @@
     "tagline": "3-reformer Lisbon pilates micro-studio.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/13-lisbon-pilates%20%5Bgood%5D/REFORMER-3_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/lisbon-pilates.pdf",
     "catalog_number": 13
   },
   {
@@ -204,7 +220,7 @@
     "tagline": "woodworker micro-atelier, 16m² with shop window.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/14-helsinki-wood-studio/KOVA-WOOD_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/helsinki-wood-studio.pdf",
     "catalog_number": 14
   },
   {
@@ -220,8 +236,24 @@
     "tagline": "2-person private sauna room, Helsinki centre.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/15-helsinki-sauna-club%20%5Bgood%5D/LOYLY-MINI_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/helsinki-sauna-club.pdf",
     "catalog_number": 15
+  },
+  {
+    "slug": "amsterdam-massage",
+    "name": "Amsterdam Massage",
+    "category": "wellness",
+    "country": "NL",
+    "size_m2": 34,
+    "price_eur": 129,
+    "budget_eur": 14800,
+    "weeks": 8,
+    "hero_image": "data/concepts/amsterdam-massage/images/01-hero.png",
+    "tagline": "Thai and deep-tissue massage in canal house",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/amsterdam-massage.pdf",
+    "catalog_number": 16
   },
   {
     "slug": "amsterdam-letterpress",
@@ -236,7 +268,7 @@
     "tagline": "Vintage letterpress studio for bespoke stationery",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/17-amsterdam-letterpress/LETTERPRESS_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/amsterdam-letterpress.pdf",
     "catalog_number": 17
   },
   {
@@ -252,7 +284,7 @@
     "tagline": "2-chair Athens olive oil massage bar.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/18-athens-olive-spa%20%5Bgood%5D/ELIA_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/athens-olive-spa.pdf",
     "catalog_number": 18
   },
   {
@@ -268,7 +300,7 @@
     "tagline": "6-seat Berlin kids coding micro-studio.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/19-berlin-code-camp/CODE-6_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/berlin-code-camp.pdf",
     "catalog_number": 19
   },
   {
@@ -284,7 +316,7 @@
     "tagline": "single-table Brussels chiropractor.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/20-brussels-chiro-care/CHIRO-1_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/brussels-chiro-care.pdf",
     "catalog_number": 20
   },
   {
@@ -300,7 +332,7 @@
     "tagline": "6m² Parisian eyewear fitting bar.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/21-paris-optometry/LUNETTE-6_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/paris-optometry.pdf",
     "catalog_number": 21
   },
   {
@@ -316,7 +348,7 @@
     "tagline": "Vintage film camera restoration workshop",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/22-rome-camera-repair/OTTICA-MECCANICA_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/rome-camera-repair.pdf",
     "catalog_number": 22
   },
   {
@@ -332,7 +364,7 @@
     "tagline": "10-seat Rome Italian micro-school for tourists.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/23-rome-italian-school/PARLA_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/rome-italian-school.pdf",
     "catalog_number": 23
   },
   {
@@ -348,7 +380,7 @@
     "tagline": "single-bed Roman posture correction room.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/24-rome-posture-clinic%20%5Bgood%5D/POSTURA_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/rome-posture-clinic.pdf",
     "catalog_number": 24
   },
   {
@@ -364,7 +396,7 @@
     "tagline": "2-seat Roman thermal soak tub.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/25-rome-thermal-bath/PICCOLA-TERMA_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/rome-thermal-bath.pdf",
     "catalog_number": 25
   },
   {
@@ -379,8 +411,8 @@
     "hero_image": "data/concepts/sofia-eco-store/images/01-hero.png",
     "tagline": "Zero-waste grocery with refill station",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/sofia-eco-store.pdf",
     "catalog_number": 26
   },
   {
@@ -395,8 +427,8 @@
     "hero_image": "data/concepts/lisbon-osteo-clinic/images/01-hero.png",
     "tagline": "single-room Lisbon osteopathy.",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/lisbon-osteo-clinic.pdf",
     "catalog_number": 27
   },
   {
@@ -411,8 +443,8 @@
     "hero_image": "data/concepts/amsterdam-physio/images/01-hero.png",
     "tagline": "single-room Amsterdam physio studio.",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/amsterdam-physio.pdf",
     "catalog_number": 28
   },
   {
@@ -428,7 +460,7 @@
     "tagline": "8-mat Brussels hot yoga shala.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/29-brussels-yoga-shala/SHALA-8_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/brussels-yoga-shala.pdf",
     "catalog_number": 29
   },
   {
@@ -444,7 +476,7 @@
     "tagline": "4-seat micro thermal bath, Budapest centre.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/30-budapest-bath-mini/THERMAL-4_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/budapest-bath-mini.pdf",
     "catalog_number": 30
   },
   {
@@ -460,7 +492,7 @@
     "tagline": "8-seat Amsterdam kids maker space.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/31-amsterdam-kids-studio/KIDS-MAKE_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/amsterdam-kids-studio.pdf",
     "catalog_number": 31
   },
   {
@@ -476,7 +508,7 @@
     "tagline": "Street window serving 3 zapiekanki and nothing else.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/32-warsaw-zapiekanka-okno%20%5Bgood%5D/ZAPIEX_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/warsaw-zapiekanka-okno.pdf",
     "catalog_number": 32
   },
   {
@@ -491,8 +523,8 @@
     "hero_image": "data/concepts/warsaw-waffle-works/images/01-hero.png",
     "tagline": "Liege waffles on a stick for Warsaw weekenders",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/warsaw-waffle-works.pdf",
     "catalog_number": 33
   },
   {
@@ -507,8 +539,8 @@
     "hero_image": "data/concepts/copenhagen-smorre/images/01-hero.png",
     "tagline": "Open-face smorrebrod bar for lunchtime purists",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/copenhagen-smorre.pdf",
     "catalog_number": 34
   },
   {
@@ -524,7 +556,7 @@
     "tagline": "Ceremonial-grade matcha kiosk with Memphis soul",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/35-poppy-matcha/POPPY-MATCHA_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/poppy-matcha.pdf",
     "catalog_number": 35
   },
   {
@@ -539,8 +571,8 @@
     "hero_image": "data/concepts/amsterdam-juice-lab/images/01-hero.png",
     "tagline": "Cold-pressed juice kiosk with canal-side vibes",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/amsterdam-juice-lab.pdf",
     "catalog_number": 36
   },
   {
@@ -555,8 +587,8 @@
     "hero_image": "data/concepts/berlin-bagel-co/images/01-hero.png",
     "tagline": "Hand-rolled Brooklyn-style bagels with Berlin edge",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/berlin-bagel-co.pdf",
     "catalog_number": 37
   },
   {
@@ -571,8 +603,8 @@
     "hero_image": "data/concepts/berlin-vintage-shop/images/01-hero.png",
     "tagline": "Curated Y2K vintage with Berlin street energy",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/berlin-vintage-shop.pdf",
     "catalog_number": 38
   },
   {
@@ -587,8 +619,8 @@
     "hero_image": "data/concepts/berlin-yoga-loft/images/01-hero.png",
     "tagline": "Sun-drenched yoga loft with infrared floors",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/berlin-yoga-loft.pdf",
     "catalog_number": 39
   },
   {
@@ -603,9 +635,25 @@
     "hero_image": "data/concepts/lisbon-barber-co/images/01-hero.png",
     "tagline": "Azulejo-tiled barbershop with craft beer on tap",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/lisbon-barber-co.pdf",
     "catalog_number": 40
+  },
+  {
+    "slug": "milano-gelato-cube",
+    "name": "Milano Gelato Cube",
+    "category": "food",
+    "country": "IT",
+    "size_m2": 10,
+    "price_eur": 49,
+    "budget_eur": 9400,
+    "weeks": 5,
+    "hero_image": "data/concepts/milano-gelato-cube/images/01-hero.png",
+    "tagline": "Minimalist gelato kiosk with 12 rotating flavors",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/milano-gelato-cube.pdf",
+    "catalog_number": 41
   },
   {
     "slug": "paris-candle-atelier",
@@ -619,8 +667,8 @@
     "hero_image": "data/concepts/paris-candle-atelier/images/01-hero.png",
     "tagline": "Hand-poured soy candles with perfumer fragrances",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/paris-candle-atelier.pdf",
     "catalog_number": 42
   },
   {
@@ -635,8 +683,8 @@
     "hero_image": "data/concepts/tel-aviv-hummus/images/01-hero.png",
     "tagline": "Silky hummus bowls with warm pita and zhug",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/tel-aviv-hummus.pdf",
     "catalog_number": 43
   },
   {
@@ -652,7 +700,7 @@
     "tagline": "single-chair hygienist-only micro clinic.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/44-berlin-dental-hygiene/HYGIENE-LAB_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/berlin-dental-hygiene.pdf",
     "catalog_number": 44
   },
   {
@@ -667,8 +715,8 @@
     "hero_image": "data/concepts/bruges-beauty-bar/images/01-hero.png",
     "tagline": "Medieval-chic beauty bar by the canals",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/bruges-beauty-bar.pdf",
     "catalog_number": 45
   },
   {
@@ -683,8 +731,8 @@
     "hero_image": "data/concepts/brussels-chocolatier/images/01-hero.png",
     "tagline": "Small-batch pralines made in window atelier",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/brussels-chocolatier.pdf",
     "catalog_number": 46
   },
   {
@@ -699,8 +747,8 @@
     "hero_image": "data/concepts/brussels-kids-code/images/01-hero.png",
     "tagline": "Coding classes for 8-14 year olds, project-based",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/brussels-kids-code.pdf",
     "catalog_number": 47
   },
   {
@@ -715,8 +763,8 @@
     "hero_image": "data/concepts/bucharest-eggcraft/images/01-hero.png",
     "tagline": "Hand-painted Romanian eggs and folk art",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/bucharest-eggcraft.pdf",
     "catalog_number": 48
   },
   {
@@ -731,8 +779,8 @@
     "hero_image": "data/concepts/bucharest-english-kids/images/01-hero.png",
     "tagline": "Play-based English immersion for young kids",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/bucharest-english-kids.pdf",
     "catalog_number": 49
   },
   {
@@ -748,7 +796,7 @@
     "tagline": "10-person Budapest micro dance studio.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/50-budapest-dance-studio/TANC-10_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/budapest-dance-studio.pdf",
     "catalog_number": 50
   },
   {
@@ -763,8 +811,8 @@
     "hero_image": "data/concepts/copenhagen-physio/images/01-hero.png",
     "tagline": "single-bed Copenhagen physio room.",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/copenhagen-physio.pdf",
     "catalog_number": 51
   },
   {
@@ -780,7 +828,7 @@
     "tagline": "8-seat Helsinki design sprint room.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/52-helsinki-design-lab/DESIGN-8_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/helsinki-design-lab.pdf",
     "catalog_number": 52
   },
   {
@@ -795,8 +843,8 @@
     "hero_image": "data/concepts/marseille-soap-house/images/01-hero.png",
     "tagline": "Olive oil soap bars cured in front of customers",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/marseille-soap-house.pdf",
     "catalog_number": 53
   },
   {
@@ -811,8 +859,8 @@
     "hero_image": "data/concepts/milano-key-cutting/images/01-hero.png",
     "tagline": "Instant key duplication kiosk in metro stations",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/milano-key-cutting.pdf",
     "catalog_number": 54
   },
   {
@@ -827,8 +875,8 @@
     "hero_image": "data/concepts/mumbai-curry-house/images/01-hero.png",
     "tagline": "10-seat Mumbai thali counter, single cook.",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/mumbai-curry-house.pdf",
     "catalog_number": 55
   },
   {
@@ -843,8 +891,8 @@
     "hero_image": "data/concepts/nicosia-glow-studio/images/01-hero.png",
     "tagline": "Radiance facials with Cypriot rosewater",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/nicosia-glow-studio.pdf",
     "catalog_number": 56
   },
   {
@@ -859,8 +907,8 @@
     "hero_image": "data/concepts/nicosia-weavers/images/01-hero.png",
     "tagline": "Traditional Cypriot weaving studio and shop",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/nicosia-weavers.pdf",
     "catalog_number": 57
   },
   {
@@ -876,7 +924,7 @@
     "tagline": "Corn-tortilla tacos with smoky mole sauces",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/58-oaxaca-taco-joint/MASA-3_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/oaxaca-taco-joint.pdf",
     "catalog_number": 58
   },
   {
@@ -891,8 +939,8 @@
     "hero_image": "data/concepts/paris-bookstore/images/01-hero.png",
     "tagline": "Independent bookstore with cafe and reading loft",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/paris-bookstore.pdf",
     "catalog_number": 59
   },
   {
@@ -907,8 +955,8 @@
     "hero_image": "data/concepts/paris-language-cafe/images/01-hero.png",
     "tagline": "Drop-in language cafe with native speakers",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/paris-language-cafe.pdf",
     "catalog_number": 60
   },
   {
@@ -923,8 +971,8 @@
     "hero_image": "data/concepts/paris-laptop-medic/images/01-hero.png",
     "tagline": "Walk-in MacBook diagnostics and board repair",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/paris-laptop-medic.pdf",
     "catalog_number": 61
   },
   {
@@ -939,8 +987,8 @@
     "hero_image": "data/concepts/paris-laundry-spot/images/01-hero.png",
     "tagline": "Self-serve laundromat with cafe and coworking",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/paris-laundry-spot.pdf",
     "catalog_number": 62
   },
   {
@@ -956,7 +1004,7 @@
     "tagline": "Azulejo-inspired hand-painted tile workshop",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/63-porto-tile-studio/AZULEJO-4_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/porto-tile-studio.pdf",
     "catalog_number": 63
   },
   {
@@ -971,8 +1019,8 @@
     "hero_image": "data/concepts/prague-acupuncture/images/01-hero.png",
     "tagline": "Traditional Chinese medicine in baroque flat",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/prague-acupuncture.pdf",
     "catalog_number": 64
   },
   {
@@ -987,8 +1035,8 @@
     "hero_image": "data/concepts/prague-book-nook/images/01-hero.png",
     "tagline": "Antique and rare books in Gothic Old Town",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/prague-book-nook.pdf",
     "catalog_number": 65
   },
   {
@@ -1003,8 +1051,8 @@
     "hero_image": "data/concepts/prague-chess-club/images/01-hero.png",
     "tagline": "Chess academy with grandmaster masterclasses",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/prague-chess-club.pdf",
     "catalog_number": 66
   },
   {
@@ -1019,8 +1067,8 @@
     "hero_image": "data/concepts/prague-clock-shop/images/01-hero.png",
     "tagline": "Antique clock restoration in baroque quarter",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/prague-clock-shop.pdf",
     "catalog_number": 67
   },
   {
@@ -1036,7 +1084,7 @@
     "tagline": "single crystal sound bath room, Prague.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/68-prague-crystal-spa/CRYSTAL-1_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/prague-crystal-spa.pdf",
     "catalog_number": 68
   },
   {
@@ -1051,8 +1099,8 @@
     "hero_image": "data/concepts/prague-pet-wash/images/01-hero.png",
     "tagline": "Self-service dog wash stations with grooming add-ons",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/prague-pet-wash.pdf",
     "catalog_number": 69
   },
   {
@@ -1067,8 +1115,8 @@
     "hero_image": "data/concepts/prague-puppet-atelier/images/01-hero.png",
     "tagline": "Marionette-making atelier with custom orders",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/prague-puppet-atelier.pdf",
     "catalog_number": 70
   },
   {
@@ -1083,8 +1131,8 @@
     "hero_image": "data/concepts/riga-amber-bar/images/01-hero.png",
     "tagline": "Baltic amber jewelry made at the counter",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/riga-amber-bar.pdf",
     "catalog_number": 71
   },
   {
@@ -1099,8 +1147,8 @@
     "hero_image": "data/concepts/riga-cold-plunge/images/01-hero.png",
     "tagline": "Wim Hof cold plunge and breathwork studio",
     "has_brandbook": true,
-    "brandbook_actualised": false,
-    "brandbook_pdf_url": null,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/riga-cold-plunge.pdf",
     "catalog_number": 72
   },
   {
@@ -1116,7 +1164,7 @@
     "tagline": "10-seat Sardinian fresh pasta lab.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/73-sardinia-pasta-lab/MALLOREDDUS_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/sardinia-pasta-lab.pdf",
     "catalog_number": 73
   },
   {
@@ -1132,7 +1180,7 @@
     "tagline": "12m² Sevillan tapas window with patio 6 stools.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/74-seville-tapas-nook/LA-NIETA_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/seville-tapas-nook.pdf",
     "catalog_number": 74
   },
   {
@@ -1148,7 +1196,7 @@
     "tagline": "Single-wok Bangkok pad thai street stall.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/75-bangkok-pad-thai%20%5Bgood%5D/KRUA-6_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/bangkok-pad-thai.pdf",
     "catalog_number": 75
   },
   {
@@ -1164,7 +1212,7 @@
     "tagline": "12-seat Lebanese mezze counter.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/76-beirut-mezze-den%20%5Bgood%5D/MEZZE-12_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/beirut-mezze-den.pdf",
     "catalog_number": 76
   },
   {
@@ -1180,7 +1228,7 @@
     "tagline": "Urban jungle plant shop with repotting bar",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/77-lisbon-plant-store/VERDE-22_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/lisbon-plant-store.pdf",
     "catalog_number": 77
   },
   {
@@ -1196,7 +1244,7 @@
     "tagline": "Luxury handbag restoration and leather care",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/78-ljubljana-bag-fix/CUIR-9_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/ljubljana-bag-fix.pdf",
     "catalog_number": 78
   },
   {
@@ -1212,7 +1260,7 @@
     "tagline": "Guitar and piano lessons for all ages",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/79-madrid-music-lessons/ACORDE-3_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/madrid-music-lessons.pdf",
     "catalog_number": 79
   },
   {
@@ -1228,7 +1276,7 @@
     "tagline": "6-easel Warsaw oil painting studio.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/80-warsaw-art-studio/ATELIER-6_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/warsaw-art-studio.pdf",
     "catalog_number": 80
   },
   {
@@ -1244,7 +1292,7 @@
     "tagline": "dental hygiene hub Warsaw, 1 chair.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/81-warsaw-hygiene-hub/HIG-HUB_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/warsaw-hygiene-hub.pdf",
     "catalog_number": 81
   },
   {
@@ -1260,7 +1308,7 @@
     "tagline": "movement-therapy micro-studio, 20m² Warsaw.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/82-warsaw-movement%20%5Bgood%5D/RUCH_deck.pdf",
+    "brandbook_pdf_url": "storage://brandbooks/warsaw-movement.pdf",
     "catalog_number": 82
   },
   {
@@ -1278,5 +1326,869 @@
     "brandbook_actualised": false,
     "brandbook_pdf_url": null,
     "catalog_number": 83
+  },
+  {
+    "slug": "amsterdam-bike-fix",
+    "name": "Amsterdam Bike Fix",
+    "category": "service",
+    "country": "NL",
+    "size_m2": 28,
+    "price_eur": 99,
+    "budget_eur": 11800,
+    "weeks": 7,
+    "hero_image": "data/concepts/amsterdam-bike-fix/images/01-hero.png",
+    "tagline": "Walk-in bike repair hub for daily commuters",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/amsterdam-bike-fix.pdf",
+    "catalog_number": 84
+  },
+  {
+    "slug": "amsterdam-records",
+    "name": "Amsterdam Records",
+    "category": "retail",
+    "country": "NL",
+    "size_m2": 24,
+    "price_eur": 129,
+    "budget_eur": 13600,
+    "weeks": 8,
+    "hero_image": "data/concepts/amsterdam-records/images/01-hero.png",
+    "tagline": "Vinyl record shop with listening stations",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/amsterdam-records.pdf",
+    "catalog_number": 85
+  },
+  {
+    "slug": "amsterdam-tattoo-atelier",
+    "name": "Amsterdam Tattoo Atelier",
+    "category": "beauty",
+    "country": "NL",
+    "size_m2": 26,
+    "price_eur": 129,
+    "budget_eur": 13700,
+    "weeks": 8,
+    "hero_image": "data/concepts/amsterdam-tattoo-atelier/images/01-hero.png",
+    "tagline": "Fine-line tattoo studio with gallery-quality art",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/amsterdam-tattoo-atelier.pdf",
+    "catalog_number": 86
+  },
+  {
+    "slug": "amsterdam-vinyl-fix",
+    "name": "Amsterdam Vinyl Fix",
+    "category": "repair",
+    "country": "NL",
+    "size_m2": 14,
+    "price_eur": 79,
+    "budget_eur": 9500,
+    "weeks": 6,
+    "hero_image": "data/concepts/amsterdam-vinyl-fix/images/01-hero.png",
+    "tagline": "Turntable restoration and vinyl cleaning lab",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/amsterdam-vinyl-fix.pdf",
+    "catalog_number": 87
+  },
+  {
+    "slug": "athens-gyro-box",
+    "name": "Athens Gyro Box",
+    "category": "food",
+    "country": "GR",
+    "size_m2": 11,
+    "price_eur": 49,
+    "budget_eur": 8400,
+    "weeks": 5,
+    "hero_image": "data/concepts/athens-gyro-box/images/01-hero.png",
+    "tagline": "Fast-spinning gyro kiosk under the Acropolis sun",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/athens-gyro-box.pdf",
+    "catalog_number": 89
+  },
+  {
+    "slug": "athens-waxing-co",
+    "name": "Athens Waxing Co",
+    "category": "beauty",
+    "country": "GR",
+    "size_m2": 18,
+    "price_eur": 79,
+    "budget_eur": 10700,
+    "weeks": 6,
+    "hero_image": "data/concepts/athens-waxing-co/images/01-hero.png",
+    "tagline": "Gentle sugar waxing with Mediterranean oils",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/athens-waxing-co.pdf",
+    "catalog_number": 94
+  },
+  {
+    "slug": "barcelona-tapas-nook",
+    "name": "CAL PEP 8",
+    "category": "restaurant",
+    "country": "ES",
+    "size_m2": 16,
+    "price_eur": 79,
+    "budget_eur": 14700,
+    "weeks": 9,
+    "hero_image": "data/concepts/barcelona-tapas-nook/images/01-hero.png",
+    "tagline": "8-seat Catalan tapas nook with a single chef.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/barcelona-tapas-nook.pdf",
+    "catalog_number": 95
+  },
+  {
+    "slug": "berlin-dog-grooming",
+    "name": "Berlin Dog Grooming",
+    "category": "service",
+    "country": "DE",
+    "size_m2": 24,
+    "price_eur": 99,
+    "budget_eur": 12400,
+    "weeks": 7,
+    "hero_image": "data/concepts/berlin-dog-grooming/images/01-hero.png",
+    "tagline": "Modern dog spa with bubble baths and blueberry facials",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/berlin-dog-grooming.pdf",
+    "catalog_number": 96
+  },
+  {
+    "slug": "berlin-phone-fix",
+    "name": "Berlin Phone Fix",
+    "category": "repair",
+    "country": "DE",
+    "size_m2": 14,
+    "price_eur": 79,
+    "budget_eur": 9400,
+    "weeks": 6,
+    "hero_image": "data/concepts/berlin-phone-fix/images/01-hero.png",
+    "tagline": "iPhone screen swaps in 15 minutes flat",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/berlin-phone-fix.pdf",
+    "catalog_number": 97
+  },
+  {
+    "slug": "berlin-screen-print",
+    "name": "Berlin Screen Print",
+    "category": "craft",
+    "country": "DE",
+    "size_m2": 28,
+    "price_eur": 129,
+    "budget_eur": 14400,
+    "weeks": 8,
+    "hero_image": "data/concepts/berlin-screen-print/images/01-hero.png",
+    "tagline": "Screen-print shop with on-demand tee printing",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/berlin-screen-print.pdf",
+    "catalog_number": 98
+  },
+  {
+    "slug": "berlin-skin-clinic",
+    "name": "SKIN ATELIER",
+    "category": "beauty",
+    "country": "DE",
+    "size_m2": 12,
+    "price_eur": 99,
+    "budget_eur": 14800,
+    "weeks": 9,
+    "hero_image": "data/concepts/berlin-skin-clinic/images/01-hero.png",
+    "tagline": "12m² Berlin skincare micro-clinic, 1 chair.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/berlin-skin-clinic.pdf",
+    "catalog_number": 99
+  },
+  {
+    "slug": "bratislava-tv-fix",
+    "name": "Bratislava TV Fix",
+    "category": "repair",
+    "country": "SK",
+    "size_m2": 16,
+    "price_eur": 79,
+    "budget_eur": 9700,
+    "weeks": 6,
+    "hero_image": "data/concepts/bratislava-tv-fix/images/01-hero.png",
+    "tagline": "TV and monitor repair with parts in stock",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/bratislava-tv-fix.pdf",
+    "catalog_number": 100
+  },
+  {
+    "slug": "brussels-bike-cafe",
+    "name": "VELO CAFE",
+    "category": "service",
+    "country": "BE",
+    "size_m2": 18,
+    "price_eur": 49,
+    "budget_eur": 13900,
+    "weeks": 8,
+    "hero_image": "data/concepts/brussels-bike-cafe/images/01-hero.png",
+    "tagline": "bike repair + espresso counter, 18m² Brussels.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/brussels-bike-cafe.pdf",
+    "catalog_number": 101
+  },
+  {
+    "slug": "brussels-frites-box",
+    "name": "Brussels Frites Box",
+    "category": "food",
+    "country": "BE",
+    "size_m2": 10,
+    "price_eur": 49,
+    "budget_eur": 8100,
+    "weeks": 5,
+    "hero_image": "data/concepts/brussels-frites-box/images/01-hero.png",
+    "tagline": "Double-fried Belgian frites with 20 dipping sauces",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/brussels-frites-box.pdf",
+    "catalog_number": 102
+  },
+  {
+    "slug": "bucharest-car-detail",
+    "name": "DETAIL BOX",
+    "category": "service",
+    "country": "RO",
+    "size_m2": 22,
+    "price_eur": 49,
+    "budget_eur": 12600,
+    "weeks": 7,
+    "hero_image": "data/concepts/bucharest-car-detail/images/01-hero.png",
+    "tagline": "car detailing bay, Bucharest industrial unit.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/bucharest-car-detail.pdf",
+    "catalog_number": 103
+  },
+  {
+    "slug": "cairo-shawarma",
+    "name": "Cairo Shawarma",
+    "category": "restaurant",
+    "country": "BE",
+    "size_m2": 28,
+    "price_eur": 129,
+    "budget_eur": 14200,
+    "weeks": 8,
+    "hero_image": "data/concepts/cairo-shawarma/images/01-hero.png",
+    "tagline": "Rotating shawarma spit with Cairo souk flavors",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/cairo-shawarma.pdf",
+    "catalog_number": 109
+  },
+  {
+    "slug": "cluj-hair-salon",
+    "name": "Cluj Hair Salon",
+    "category": "beauty",
+    "country": "RO",
+    "size_m2": 30,
+    "price_eur": 129,
+    "budget_eur": 14200,
+    "weeks": 8,
+    "hero_image": "data/concepts/cluj-hair-salon/images/01-hero.png",
+    "tagline": "Full-service hair salon with Transylvanian charm",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/cluj-hair-salon.pdf",
+    "catalog_number": 110
+  },
+  {
+    "slug": "dublin-dog-daycare",
+    "name": "PAW LOFT",
+    "category": "service",
+    "country": "IE",
+    "size_m2": 20,
+    "price_eur": 49,
+    "budget_eur": 13400,
+    "weeks": 8,
+    "hero_image": "data/concepts/dublin-dog-daycare/images/01-hero.png",
+    "tagline": "20m² Dublin doggy daycare and grooming.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/dublin-dog-daycare.pdf",
+    "catalog_number": 116
+  },
+  {
+    "slug": "dublin-donut-den",
+    "name": "Dublin Donut Den",
+    "category": "food",
+    "country": "IE",
+    "size_m2": 16,
+    "price_eur": 79,
+    "budget_eur": 11100,
+    "weeks": 6,
+    "hero_image": "data/concepts/dublin-donut-den/images/01-hero.png",
+    "tagline": "Cloud-soft donuts with Guinness-glaze twist",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/dublin-donut-den.pdf",
+    "catalog_number": 117
+  },
+  {
+    "slug": "dublin-lash-lounge",
+    "name": "Dublin Lash Lounge",
+    "category": "beauty",
+    "country": "IE",
+    "size_m2": 16,
+    "price_eur": 79,
+    "budget_eur": 10400,
+    "weeks": 6,
+    "hero_image": "data/concepts/dublin-lash-lounge/images/01-hero.png",
+    "tagline": "Lash extensions on velvet recliners, tea included",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/dublin-lash-lounge.pdf",
+    "catalog_number": 120
+  },
+  {
+    "slug": "hanoi-pho-spot",
+    "name": "PHO GO",
+    "category": "restaurant",
+    "country": "SE",
+    "size_m2": 10,
+    "price_eur": 49,
+    "budget_eur": 10900,
+    "weeks": 6,
+    "hero_image": "data/concepts/hanoi-pho-spot/images/01-hero.png",
+    "tagline": "8-stool Hanoi pho broth counter.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/hanoi-pho-spot.pdf",
+    "catalog_number": 123
+  },
+  {
+    "slug": "helsinki-salmiakki",
+    "name": "Helsinki Salmiakki",
+    "category": "food",
+    "country": "FI",
+    "size_m2": 9,
+    "price_eur": 49,
+    "budget_eur": 7200,
+    "weeks": 5,
+    "hero_image": "data/concepts/helsinki-salmiakki/images/01-hero.png",
+    "tagline": "Finnish licorice kiosk for brave Nordic tastebuds",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/helsinki-salmiakki.pdf",
+    "catalog_number": 126
+  },
+  {
+    "slug": "helsinki-sauna-rent",
+    "name": "VUOKRA SAUNA",
+    "category": "service",
+    "country": "FI",
+    "size_m2": 8,
+    "price_eur": 49,
+    "budget_eur": 14200,
+    "weeks": 8,
+    "hero_image": "data/concepts/helsinki-sauna-rent/images/01-hero.png",
+    "tagline": "2-person rental sauna pod, Helsinki dockside.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/helsinki-sauna-rent.pdf",
+    "catalog_number": 127
+  },
+  {
+    "slug": "istanbul-kebap-ev",
+    "name": "KEBAP EV",
+    "category": "restaurant",
+    "country": "AT",
+    "size_m2": 14,
+    "price_eur": 49,
+    "budget_eur": 12400,
+    "weeks": 7,
+    "hero_image": "data/concepts/istanbul-kebap-ev/images/01-hero.png",
+    "tagline": "10-seat Istanbul döner counter, vertical grill.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/istanbul-kebap-ev.pdf",
+    "catalog_number": 128
+  },
+  {
+    "slug": "krakow-nail-art",
+    "name": "Krakow Nail Art",
+    "category": "beauty",
+    "country": "PL",
+    "size_m2": 16,
+    "price_eur": 79,
+    "budget_eur": 10200,
+    "weeks": 6,
+    "hero_image": "data/concepts/krakow-nail-art/images/01-hero.png",
+    "tagline": "Hand-painted nail art on old-town stations",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/krakow-nail-art.pdf",
+    "catalog_number": 130
+  },
+  {
+    "slug": "lima-ceviche-bar",
+    "name": "BARRA NIKKEI",
+    "category": "restaurant",
+    "country": "FR",
+    "size_m2": 14,
+    "price_eur": 49,
+    "budget_eur": 13200,
+    "weeks": 8,
+    "hero_image": "data/concepts/lima-ceviche-bar/images/01-hero.png",
+    "tagline": "8-seat Lima ceviche bar, tiger's milk focus.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/lima-ceviche-bar.pdf",
+    "catalog_number": 132
+  },
+  {
+    "slug": "lisbon-bifana",
+    "name": "Lisbon Bifana",
+    "category": "restaurant",
+    "country": "PT",
+    "size_m2": 26,
+    "price_eur": 129,
+    "budget_eur": 13200,
+    "weeks": 8,
+    "hero_image": "data/concepts/lisbon-bifana/images/01-hero.png",
+    "tagline": "Marinated pork sandwiches in a tiled tavern",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/lisbon-bifana.pdf",
+    "catalog_number": 133
+  },
+  {
+    "slug": "luxembourg-brow",
+    "name": "Luxembourg Brow",
+    "category": "beauty",
+    "country": "LU",
+    "size_m2": 12,
+    "price_eur": 79,
+    "budget_eur": 9600,
+    "weeks": 5,
+    "hero_image": "data/concepts/luxembourg-brow/images/01-hero.png",
+    "tagline": "Precision brow lamination inside glass atrium",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/luxembourg-brow.pdf",
+    "catalog_number": 141
+  },
+  {
+    "slug": "lyon-boulangerie",
+    "name": "MIE DE LYON",
+    "category": "food",
+    "country": "FR",
+    "size_m2": 12,
+    "price_eur": 49,
+    "budget_eur": 14400,
+    "weeks": 7,
+    "hero_image": "data/concepts/lyon-boulangerie/images/01-hero.png",
+    "tagline": "12m² sourdough micro-bakery window.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/lyon-boulangerie.pdf",
+    "catalog_number": 144
+  },
+  {
+    "slug": "madonna-pop-salon",
+    "name": "Madonna Pop Salon",
+    "category": "beauty",
+    "country": "ES",
+    "size_m2": 35,
+    "price_eur": 99,
+    "budget_eur": 14500,
+    "weeks": 8,
+    "hero_image": "data/concepts/beauty-salon-popart/images/01-salon-popart.png",
+    "tagline": "Pop-art beauty salon where every chair is a canvas",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/madonna-pop-salon.pdf",
+    "catalog_number": 145
+  },
+  {
+    "slug": "madrid-churro-cart",
+    "name": "Madrid Churro Cart",
+    "category": "food",
+    "country": "ES",
+    "size_m2": 9,
+    "price_eur": 49,
+    "budget_eur": 7600,
+    "weeks": 4,
+    "hero_image": "data/concepts/madrid-churro-cart/images/01-hero.png",
+    "tagline": "Crispy churros with thick chocolate dip, 24/7",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/madrid-churro-cart.pdf",
+    "catalog_number": 146
+  },
+  {
+    "slug": "milano-nail-studio",
+    "name": "Milano Nail Studio",
+    "category": "beauty",
+    "country": "IT",
+    "size_m2": 18,
+    "price_eur": 99,
+    "budget_eur": 11600,
+    "weeks": 7,
+    "hero_image": "data/concepts/milano-nail-studio/images/01-hero.png",
+    "tagline": "Gel-nail studio with Italian art direction",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/milano-nail-studio.pdf",
+    "catalog_number": 152
+  },
+  {
+    "slug": "munich-wurst-haus",
+    "name": "KLEIN WURST",
+    "category": "restaurant",
+    "country": "DE",
+    "size_m2": 9,
+    "price_eur": 49,
+    "budget_eur": 10400,
+    "weeks": 5,
+    "hero_image": "data/concepts/munich-wurst-haus/images/01-hero.png",
+    "tagline": "9m² bratwurst takeaway stand Munich style.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/munich-wurst-haus.pdf",
+    "catalog_number": 153
+  },
+  {
+    "slug": "napoli-pizza-forno",
+    "name": "FORNO 14",
+    "category": "restaurant",
+    "country": "IT",
+    "size_m2": 18,
+    "price_eur": 79,
+    "budget_eur": 14900,
+    "weeks": 9,
+    "hero_image": "data/concepts/napoli-pizza-forno/images/01-hero.png",
+    "tagline": "wood-fired Naples pizza window, 14 pizzas/hour.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/napoli-pizza-forno.pdf",
+    "catalog_number": 154
+  },
+  {
+    "slug": "nonnas-trattoria",
+    "name": "NONNA'S 12",
+    "category": "restaurant",
+    "country": "IT",
+    "size_m2": 18,
+    "price_eur": 79,
+    "budget_eur": 14900,
+    "weeks": 9,
+    "hero_image": "data/concepts/nonnas-trattoria/images/01-hero.png",
+    "tagline": "12-seat Tuscan pasta bar, one nonna, one menu.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/nonnas-trattoria.pdf",
+    "catalog_number": 155
+  },
+  {
+    "slug": "osaka-takoyaki",
+    "name": "Osaka Takoyaki",
+    "category": "restaurant",
+    "country": "IT",
+    "size_m2": 22,
+    "price_eur": 129,
+    "budget_eur": 13900,
+    "weeks": 8,
+    "hero_image": "data/concepts/osaka-takoyaki/images/01-hero.png",
+    "tagline": "Sizzling octopus balls at Roman night market",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/osaka-takoyaki.pdf",
+    "catalog_number": 156
+  },
+  {
+    "slug": "paris-bistro-petit",
+    "name": "PETIT 14",
+    "category": "restaurant",
+    "country": "FR",
+    "size_m2": 20,
+    "price_eur": 99,
+    "budget_eur": 14900,
+    "weeks": 10,
+    "hero_image": "data/concepts/paris-bistro-petit/images/01-hero.png",
+    "tagline": "14-seat Parisian micro-bistro with zinc bar.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/paris-bistro-petit.pdf",
+    "catalog_number": 157
+  },
+  {
+    "slug": "paris-brow-bar",
+    "name": "Paris Brow Bar",
+    "category": "beauty",
+    "country": "FR",
+    "size_m2": 14,
+    "price_eur": 79,
+    "budget_eur": 9800,
+    "weeks": 6,
+    "hero_image": "data/concepts/paris-brow-bar/images/01-hero.png",
+    "tagline": "Five-minute brow shaping by trained Parisian pros",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/paris-brow-bar.pdf",
+    "catalog_number": 158
+  },
+  {
+    "slug": "porto-pastel-bar",
+    "name": "Porto Pastel Bar",
+    "category": "food",
+    "country": "PT",
+    "size_m2": 14,
+    "price_eur": 79,
+    "budget_eur": 10400,
+    "weeks": 6,
+    "hero_image": "data/concepts/porto-pastel-bar/images/01-hero.png",
+    "tagline": "Warm pastel de nata straight from the tile-lined oven",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/porto-pastel-bar.pdf",
+    "catalog_number": 159
+  },
+  {
+    "slug": "prague-trdelnik",
+    "name": "Prague Trdelnik",
+    "category": "food",
+    "country": "CZ",
+    "size_m2": 8,
+    "price_eur": 49,
+    "budget_eur": 6800,
+    "weeks": 4,
+    "hero_image": "data/concepts/prague-trdelnik/images/01-hero.png",
+    "tagline": "Spiral chimney cakes glowing over open coals",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/prague-trdelnik.pdf",
+    "catalog_number": 160
+  },
+  {
+    "slug": "riga-rye-bakery",
+    "name": "Riga Rye Bakery",
+    "category": "food",
+    "country": "LV",
+    "size_m2": 24,
+    "price_eur": 99,
+    "budget_eur": 14600,
+    "weeks": 8,
+    "hero_image": "data/concepts/riga-rye-bakery/images/01-hero.png",
+    "tagline": "Dark-rye loaves from grandmother's Latvian oven",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/riga-rye-bakery.pdf",
+    "catalog_number": 161
+  },
+  {
+    "slug": "scandi-coffee",
+    "name": "ALKA KAFFE",
+    "category": "food",
+    "country": "PL",
+    "size_m2": 10,
+    "price_eur": 49,
+    "budget_eur": 13200,
+    "weeks": 6,
+    "hero_image": "data/concepts/scandi-coffee/images/01-hero.png",
+    "tagline": "10m² Scandi specialty coffee kiosk in Copenhagen.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/scandi-coffee.pdf",
+    "catalog_number": 162
+  },
+  {
+    "slug": "seoul-kbbq-table",
+    "name": "ONE TABLE KBBQ",
+    "category": "restaurant",
+    "country": "NL",
+    "size_m2": 12,
+    "price_eur": 79,
+    "budget_eur": 13800,
+    "weeks": 8,
+    "hero_image": "data/concepts/seoul-kbbq-table/images/01-hero.png",
+    "tagline": "single-table Korean BBQ room, 6 seats.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/seoul-kbbq-table.pdf",
+    "catalog_number": 163
+  },
+  {
+    "slug": "sofia-banitsa-bar",
+    "name": "Sofia Banitsa Bar",
+    "category": "food",
+    "country": "BG",
+    "size_m2": 12,
+    "price_eur": 49,
+    "budget_eur": 7800,
+    "weeks": 5,
+    "hero_image": "data/concepts/sofia-banitsa-bar/images/01-hero.png",
+    "tagline": "Flaky cheese banitsa baked every 20 minutes",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/sofia-banitsa-bar.pdf",
+    "catalog_number": 164
+  },
+  {
+    "slug": "sofia-barber-shop",
+    "name": "Sofia Barber Shop",
+    "category": "beauty",
+    "country": "BG",
+    "size_m2": 22,
+    "price_eur": 99,
+    "budget_eur": 12400,
+    "weeks": 7,
+    "hero_image": "data/concepts/sofia-barber-shop/hero.png",
+    "tagline": "Old-school barbershop with hot-towel ritual",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/sofia-barber-shop.pdf",
+    "catalog_number": 165
+  },
+  {
+    "slug": "stockholm-blow-dry",
+    "name": "Stockholm Blow Dry",
+    "category": "beauty",
+    "country": "SE",
+    "size_m2": 24,
+    "price_eur": 129,
+    "budget_eur": 13800,
+    "weeks": 8,
+    "hero_image": "data/concepts/stockholm-blow-dry/images/01-hero.png",
+    "tagline": "Express blow-dry bar with Scandi styling",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/stockholm-blow-dry.pdf",
+    "catalog_number": 171
+  },
+  {
+    "slug": "tallinn-spa-nook",
+    "name": "Tallinn Spa Nook",
+    "category": "beauty",
+    "country": "EE",
+    "size_m2": 28,
+    "price_eur": 129,
+    "budget_eur": 14500,
+    "weeks": 8,
+    "hero_image": "data/concepts/tallinn-spa-nook/images/01-hero.png",
+    "tagline": "Petite spa with sauna, plunge and hot stones",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/tallinn-spa-nook.pdf",
+    "catalog_number": 175
+  },
+  {
+    "slug": "tokyo-ramen-bar",
+    "name": "KATSU 8",
+    "category": "restaurant",
+    "country": "DE",
+    "size_m2": 14,
+    "price_eur": 79,
+    "budget_eur": 14800,
+    "weeks": 9,
+    "hero_image": "data/concepts/tokyo-ramen-bar/images/01-hero.png",
+    "tagline": "8-seat izakaya counter ramen bar.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/tokyo-ramen-bar.pdf",
+    "catalog_number": 178
+  },
+  {
+    "slug": "vibrant-coffee",
+    "name": "YELLOW POLE",
+    "category": "food",
+    "country": "FR",
+    "size_m2": 6,
+    "price_eur": 49,
+    "budget_eur": 9600,
+    "weeks": 5,
+    "hero_image": "data/concepts/vibrant-coffee/images/01-hero.png",
+    "tagline": "Brutalist yellow espresso cart under city arcade.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/vibrant-coffee.pdf",
+    "catalog_number": 184
+  },
+  {
+    "slug": "vienna-float-tank",
+    "name": "FLOAT 2",
+    "category": "wellness",
+    "country": "AT",
+    "size_m2": 14,
+    "price_eur": 79,
+    "budget_eur": 14800,
+    "weeks": 9,
+    "hero_image": "data/concepts/vienna-float-tank/images/01-hero.png",
+    "tagline": "2-pod float tank studio Vienna.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/vienna-float-tank.pdf",
+    "catalog_number": 187
+  },
+  {
+    "slug": "vienna-makeup-salon",
+    "name": "Vienna Makeup Salon",
+    "category": "beauty",
+    "country": "AT",
+    "size_m2": 20,
+    "price_eur": 99,
+    "budget_eur": 11900,
+    "weeks": 7,
+    "hero_image": "data/concepts/vienna-makeup-salon/images/01-hero.png",
+    "tagline": "Bridal-ready makeup bar with Austrian elegance",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/vienna-makeup-salon.pdf",
+    "catalog_number": 189
+  },
+  {
+    "slug": "wien-kaffee-tram",
+    "name": "Wien Kaffee Tram",
+    "category": "food",
+    "country": "AT",
+    "size_m2": 10,
+    "price_eur": 49,
+    "budget_eur": 8900,
+    "weeks": 5,
+    "hero_image": "data/concepts/wien-kaffee-tram/images/01-hero.png",
+    "tagline": "Tiny Viennese coffee kiosk inside a retro tram shell",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/wien-kaffee-tram.pdf",
+    "catalog_number": 195
+  },
+  {
+    "slug": "zagreb-bubble-tea",
+    "name": "Zagreb Bubble Tea",
+    "category": "food",
+    "country": "HR",
+    "size_m2": 15,
+    "price_eur": 79,
+    "budget_eur": 10200,
+    "weeks": 6,
+    "hero_image": "data/concepts/zagreb-bubble-tea/images/01-hero.png",
+    "tagline": "Taiwan-style bubble tea with Adriatic fruit twists",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/zagreb-bubble-tea.pdf",
+    "catalog_number": 198
+  },
+  {
+    "slug": "zagreb-kids-dental",
+    "name": "DZIECI",
+    "category": "health",
+    "country": "HR",
+    "size_m2": 14,
+    "price_eur": 79,
+    "budget_eur": 14200,
+    "weeks": 9,
+    "hero_image": "data/concepts/zagreb-kids-dental/images/01-hero.png",
+    "tagline": "kids-only dental micro clinic, 1 chair Zagreb.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "storage://brandbooks/zagreb-kids-dental.pdf",
+    "catalog_number": 200
   }
 ]
