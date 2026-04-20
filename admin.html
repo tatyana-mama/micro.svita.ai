@@ -124,6 +124,11 @@ td .cell-name .slug{font-family:'JetBrains Mono';font-size:10px;color:var(--text
 .chip.ok{background:rgba(132,204,22,0.1);color:var(--ok);border-color:rgba(132,204,22,0.3)}
 .chip.warn{background:rgba(245,158,11,0.1);color:var(--warn);border-color:rgba(245,158,11,0.3)}
 .chip.ready-pill{background:#3BA9F5;color:#0A0A0B;border-color:#3BA9F5;font-weight:700;letter-spacing:0.08em;box-shadow:0 2px 10px rgba(59,169,245,0.3)}
+.status-select{appearance:none;-webkit-appearance:none;padding:6px 26px 6px 10px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;cursor:pointer;border:1px solid var(--line);background-repeat:no-repeat;background-position:right 8px center;background-size:10px;min-width:130px;transition:all .15s ease}
+.status-select.is-ready{background-color:#3BA9F5;color:#0A0A0B;border-color:#3BA9F5;box-shadow:0 2px 10px rgba(59,169,245,0.3);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none' stroke='%230A0A0B' stroke-width='1.5'><path d='M1 1l4 4 4-4'/></svg>")}
+.status-select.is-progress{background-color:rgba(245,158,11,0.1);color:var(--warn);border-color:rgba(245,158,11,0.3);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='none' stroke='%23f59e0b' stroke-width='1.5'><path d='M1 1l4 4 4-4'/></svg>")}
+.status-select:hover{filter:brightness(1.1)}
+.status-select option{background:var(--bg-2);color:var(--text);font-weight:600}
 
 /* checkboxes + bulk bar */
 .chkb{
@@ -2400,7 +2405,10 @@ function render(){
       </td>
       <td>${c.verified ? '<span class="chip ok">● Verified</span>' : '<span class="chip warn">○ Pending</span>'}</td>
       <td>${MY_ROLE==='superadmin'
-        ? `<label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer" title="Toggle: brandbook_actualised — blue badge on shop card"><input type="checkbox" ${c.brandbook_actualised?'checked':''} onchange="toggleBrandbookActualised('${c.slug}', this.checked)">${c.brandbook_actualised?'<span class="chip ready-pill">● READY FOR SALE</span>':'<span class="chip warn">⏳ In progress</span>'}</label>`
+        ? `<select class="status-select ${c.brandbook_actualised?'is-ready':'is-progress'}" onchange="toggleBrandbookActualised('${c.slug}', this.value==='ready')" title="brandbook_actualised — blue badge on shop card">
+            <option value="progress" ${!c.brandbook_actualised?'selected':''}>⏳ In progress</option>
+            <option value="ready" ${c.brandbook_actualised?'selected':''}>● Ready for sale</option>
+          </select>`
         : (c.brandbook_actualised ? '<span class="chip ready-pill">● READY FOR SALE</span>' : '<span class="chip warn">⏳ In progress</span>')}</td>
       <td class="mono">${c.langs_filled||0}<span style="color:var(--text-3)">/12</span></td>
       <td>

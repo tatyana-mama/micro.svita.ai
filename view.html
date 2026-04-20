@@ -730,6 +730,13 @@ async function loadSuperadminFullConcept(slug){
       if(session){
         const {data:prof} = await SB.from('profiles').select('role').eq('user_id', session.user.id).maybeSingle();
         if(prof && (prof.role === 'admin' || prof.role === 'superadmin')){
+          // Catalog.json is public and strips admin-only fields (ls_url, stripe_price_id,
+          // base_price_eur, max_copies). Pull fresh row from concepts_catalog so the editor
+          // reflects the DB source of truth, not the stale static snapshot.
+          try{
+            const {data:fresh} = await SB.from('concepts_catalog').select('*').eq('slug', CONCEPT.slug).maybeSingle();
+            if(fresh) Object.assign(CONCEPT, fresh);
+          }catch(e){ console.warn('inline-editor fresh fetch failed', e); }
           mountAdminEditor(CONCEPT);
         }
       }
