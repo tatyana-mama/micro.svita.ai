@@ -1247,9 +1247,14 @@ async function toggleBrandbookActualised(slug, val){
   if(MY_ROLE !== 'superadmin') return;
   const {error} = await sb.from('concepts_catalog').update({brandbook_actualised: !!val}).eq('slug', slug);
   if(error){ alert('Error: ' + error.message); return; }
-  const idx = (window.ALL||[]).findIndex(c => c.slug === slug);
-  if(idx >= 0) window.ALL[idx].brandbook_actualised = !!val;
-  render();
+  // Update both the master ALL array AND the filtered VIEW so the row redraws immediately
+  // without waiting for a full page refresh.
+  const idxAll = (window.ALL || []).findIndex(c => c.slug === slug);
+  if(idxAll >= 0) window.ALL[idxAll].brandbook_actualised = !!val;
+  const idxView = (window.VIEW || []).findIndex(c => c.slug === slug);
+  if(idxView >= 0) window.VIEW[idxView].brandbook_actualised = !!val;
+  // Re-run filters/sort + redraw counts + redraw the tbody.
+  try { applyAll(); } catch(_) { render(); updateStats(); }
 }
 window.toggleBrandbookActualised = toggleBrandbookActualised;
 
