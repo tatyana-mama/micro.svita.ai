@@ -348,7 +348,7 @@ body::after{
   .specs .price{font-size:32px}
 }
 </style>
-<link rel="stylesheet" href="assets/mobile-polish.css?v=10">
+<link rel="stylesheet" href="assets/mobile-polish.css?v=11">
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -1360,10 +1360,12 @@ async function buildClientPdfFromSlides(slug){
   return URL.createObjectURL(blob);
 }
 
-function renderPdfDeck(c, pdfUrl, frame){
-  // One UX, mobile + desktop: full-bleed cover + one BIG button in the centre
-  // with clear call-to-action. Click/tap opens the PDF in a new tab where the
-  // browser's native viewer gives pinch-zoom + swipe.
+function renderPdfDeck(c, _unused, frame){
+  // Cover + BIG centred CTA. Tap → fetch watermarked PDF blob from the
+  // `brandbook-stream` edge function (JWT-gated, verifies purchase, overlays
+  // user's email on every page with pdf-lib), then open the blob URL in a
+  // new tab where the browser's native PDF viewer renders it with pinch-zoom
+  // and page swipe. Raw PDF URL never touches the client.
   const cover = (c.hero_image && !c.hero_image.startsWith('placeholder:'))
     ? c.hero_image
     : `data/concepts/${encodeURIComponent(c.slug)}/images/01-hero.png`;
@@ -1372,8 +1374,8 @@ function renderPdfDeck(c, pdfUrl, frame){
   const wrap = document.createElement('div');
   wrap.style.cssText = 'position:absolute;inset:0;background:#0a0a0b;border-radius:inherit;overflow:hidden';
   wrap.innerHTML = `
-    <a href="${pdfUrl}" target="_blank" rel="noopener"
-       style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;overflow:hidden">
+    <button type="button" id="bb-open"
+       style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;overflow:hidden;border:0;background:transparent;cursor:pointer;font:inherit;padding:0;width:100%">
       <div style="position:absolute;inset:0;background-image:url('${cover}');background-size:cover;background-position:center;filter:brightness(0.55)"></div>
       <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%)"></div>
       <div style="position:relative;z-index:1;text-align:center;max-width:560px;padding:32px 20px">
@@ -1381,29 +1383,55 @@ function renderPdfDeck(c, pdfUrl, frame){
         <h2 style="font:700 clamp(30px,5vw,54px)/1.04 'Space Grotesk';letter-spacing:-0.03em;margin:0 0 10px">${nameSafe}</h2>
         <p style="font:400 clamp(13px,1.3vw,16px)/1.5 Inter;color:rgba(255,255,255,0.85);margin:0 0 22px">${taglineSafe}</p>
         <div style="font:500 12px/1.5 Inter;color:#D6FF3E;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px">↓ Tap to open the full brandbook ↓</div>
-        <div style="display:inline-flex;align-items:center;gap:12px;padding:20px 36px;border-radius:100px;background:#D6FF3E;color:#0a0a0b;font:700 clamp(14px,1.4vw,16px) Inter;letter-spacing:0.08em;text-transform:uppercase;box-shadow:0 20px 50px rgba(214,255,62,0.35),0 8px 20px rgba(0,0,0,0.4);animation:pulseCta 2.4s ease-in-out infinite">
+        <div id="bb-cta" style="display:inline-flex;align-items:center;gap:12px;padding:20px 36px;border-radius:100px;background:#D6FF3E;color:#0a0a0b;font:700 clamp(14px,1.4vw,16px) Inter;letter-spacing:0.08em;text-transform:uppercase;box-shadow:0 20px 50px rgba(214,255,62,0.35),0 8px 20px rgba(0,0,0,0.4);animation:pulseCta 2.4s ease-in-out infinite">
           Open brandbook
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </div>
-        <div style="margin-top:18px;font:400 11px/1.4 Inter;color:rgba(255,255,255,0.65);letter-spacing:0.02em">Opens in your browser — swipe pages, pinch to zoom.</div>
+        <div style="margin-top:18px;font:400 11px/1.4 Inter;color:rgba(255,255,255,0.65);letter-spacing:0.02em">Each copy is watermarked with your email — swipe pages, pinch to zoom.</div>
       </div>
-    </a>
+    </button>
     <style>@keyframes pulseCta{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}</style>`;
   frame.appendChild(wrap);
-  return;
-  // legacy iframe path (unused now, kept for later A/B)
-  const open = document.createElement('a');
-  open.href = pdfUrl; open.target = '_blank'; open.rel = 'noopener';
-  open.textContent = '⤢ Fullscreen';
-  open.style.cssText = 'position:absolute;top:10px;right:10px;z-index:3;padding:8px 12px;border-radius:100px;background:rgba(255,255,255,0.92);color:#0a0a0b;font:700 11px Inter;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;box-shadow:0 4px 18px rgba(0,0,0,0.4)';
-  const pdf = document.createElement('iframe');
-  pdf.src = pdfUrl + '#view=FitH';
-  pdf.title = (c.name || c.slug) + ' · brandbook';
-  pdf.style.cssText = 'width:100%;height:100%;border:0;display:block;background:#0a0a0b';
-  pdf.setAttribute('loading','eager');
-  wrap.appendChild(pdf);
-  wrap.appendChild(open);
-  frame.appendChild(wrap);
+
+  const btn = wrap.querySelector('#bb-open');
+  const cta = wrap.querySelector('#bb-cta');
+  btn.addEventListener('click', async () => {
+    const origCta = cta.innerHTML;
+    // Open placeholder tab synchronously during the user gesture → avoids popup block
+    const newTab = window.open('about:blank', '_blank');
+    cta.innerHTML = 'Preparing your copy…';
+    try {
+      const { data: { session } } = await SB.auth.getSession();
+      if (!session) throw new Error('not_signed_in');
+      const r = await fetch('https://ctdleobjnzniqkqomlrq.supabase.co/functions/v1/brandbook-stream', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + session.access_token,
+          'apikey': SB_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ slug: c.slug }),
+      });
+      if (!r.ok) {
+        const err = await r.json().catch(() => ({ error: 'http_' + r.status }));
+        throw new Error(err.error || 'stream_failed');
+      }
+      const blob = await r.blob();
+      const url = URL.createObjectURL(blob);
+      if (newTab) { newTab.location.href = url; }
+      else { const a = document.createElement('a'); a.href = url; a.target = '_blank'; a.click(); }
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    } catch (e) {
+      if (newTab) try { newTab.close(); } catch (_) {}
+      const msg = String(e.message || e);
+      const human = msg === 'not_signed_in' ? 'Войдите в аккаунт.'
+        : msg === 'not_owned' ? 'Концепция ещё не принадлежит вам.'
+        : msg === 'brandbook_missing' ? 'Брендбук ещё не загружен на сервер.'
+        : 'Не удалось открыть брендбук: ' + msg;
+      alert(human);
+    }
+    cta.innerHTML = origCta;
+  });
 }
 
 function renderFrame(c){
@@ -1416,21 +1444,41 @@ function renderFrame(c){
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
   if (hasBrandbookAccess) {
-    frame.innerHTML = '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#0a0a0b;color:#64748b;font:400 13px Inter">Loading brandbook…</div>';
+    // Source of truth: DB column brandbook_pdf_url (set to 'storage://brandbooks/<slug>.pdf'
+    // by the seeder). If it's present → brandbook-stream can serve a watermarked copy.
+    // If absent → try to assemble a temporary PDF client-side from slide PNGs.
+    const hasStoredDeck = !!c.brandbook_pdf_url;
+    if (hasStoredDeck) {
+      // Cover with centred CTA; click calls brandbook-stream with JWT.
+      renderPdfDeck(c, null, frame);
+      return;
+    }
+    // No server-side deck yet → client-side assembly from slide PNGs
+    frame.innerHTML = '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0a0a0b;color:#94a3b8;font:400 13px Inter;gap:10px"><div style="width:34px;height:34px;border:3px solid rgba(255,255,255,0.1);border-top-color:#D6FF3E;border-radius:50%;animation:spin 900ms linear infinite"></div>Compiling your brandbook…</div>';
     (async () => {
-      // 1. Pre-built editorial deck from manifest.json (or DB column as fallback)
-      const manifest = await loadPresentationManifest();
-      let pdfUrl = (manifest && manifest[c.slug]) || c.brandbook_pdf_url || null;
-      // 2. No pre-built deck — assemble one client-side from slide PNGs
-      if (!pdfUrl) {
-        frame.innerHTML = '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0a0a0b;color:#94a3b8;font:400 13px Inter;gap:8px"><div style="width:34px;height:34px;border:3px solid rgba(255,255,255,0.1);border-top-color:#D6FF3E;border-radius:50%;animation:spin 900ms linear infinite"></div>Compiling your brandbook…</div>';
-        try { pdfUrl = await buildClientPdfFromSlides(c.slug); }
-        catch(e){ console.warn('pdf build failed', e); }
-      }
+      let pdfUrl = null;
+      try { pdfUrl = await buildClientPdfFromSlides(c.slug); } catch(e){ console.warn('pdf build failed', e); }
       frame.innerHTML = '';
-      if (pdfUrl) { renderPdfDeck(c, pdfUrl, frame); return; }
-      // 3. Nothing to show → friendly empty state
-      frame.innerHTML = '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0a0a0b;color:#e2e8f0;text-align:center;padding:32px;gap:12px"><h2 style="font:700 22px \'Space Grotesk\';margin:0">Brandbook coming soon</h2><p style="font:400 13px/1.5 Inter;color:#94a3b8;max-width:320px;margin:0">Concept is yours — the full editorial deck is being finalised and will appear here shortly.</p></div>';
+      if (pdfUrl) {
+        // Fallback render: legacy "open in new tab" flow for ephemeral client-built PDFs
+        const cover = (c.hero_image && !c.hero_image.startsWith('placeholder:'))
+          ? c.hero_image
+          : `data/concepts/${encodeURIComponent(c.slug)}/images/01-hero.png`;
+        const nameSafe = (c.name || c.slug).replace(/[<>&]/g,'');
+        frame.innerHTML = `
+          <a href="${pdfUrl}" target="_blank" rel="noopener" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;overflow:hidden">
+            <div style="position:absolute;inset:0;background-image:url('${cover}');background-size:cover;background-position:center;filter:brightness(0.55)"></div>
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.6) 100%)"></div>
+            <div style="position:relative;z-index:1;text-align:center;max-width:520px;padding:32px 20px">
+              <div style="font:600 10px/1 'JetBrains Mono';letter-spacing:0.22em;text-transform:uppercase;color:#D6FF3E;margin-bottom:12px">Preview deck · PDF</div>
+              <h2 style="font:700 clamp(28px,5vw,48px)/1.05 'Space Grotesk';letter-spacing:-0.03em;margin:0 0 14px">${nameSafe}</h2>
+              <div style="display:inline-flex;align-items:center;gap:12px;padding:18px 32px;border-radius:100px;background:#D6FF3E;color:#0a0a0b;font:700 14px Inter;letter-spacing:0.08em;text-transform:uppercase;box-shadow:0 20px 50px rgba(214,255,62,0.35)">Open preview →</div>
+              <div style="margin-top:14px;font:400 11px Inter;color:rgba(255,255,255,0.6)">Editorial 25-page deck will replace this preview soon.</div>
+            </div>
+          </a>`;
+        return;
+      }
+      frame.innerHTML = '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0a0a0b;color:#e2e8f0;text-align:center;padding:32px;gap:12px"><h2 style="font:700 22px \'Space Grotesk\';margin:0">Brandbook coming soon</h2><p style="font:400 13px/1.5 Inter;color:#94a3b8;max-width:320px;margin:0">Concept is yours — editorial deck is being finalised.</p></div>';
     })();
     return;
   }
