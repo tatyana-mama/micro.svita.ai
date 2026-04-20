@@ -1851,11 +1851,11 @@ function mountAiChat(slug, concept){
       pushMsg('bot', answer);
       history.push({role:'assistant', content:answer});
       persist();
-      // footer meta: provider + model
+      // footer meta: branded signature
       try {
         const meta = document.createElement('div');
         meta.style.cssText = 'font:400 10px/1.3 JetBrains Mono,ui-monospace;color:rgba(148,163,184,0.45);margin:-2px 0 10px 12px;letter-spacing:0.02em';
-        meta.textContent = (data.provider||'') + (data.model ? ' · ' + data.model.replace(/\.gguf$/, '').slice(0,40) : '');
+        meta.textContent = 'SVITA AI v 1.2';
         body.appendChild(meta);
       } catch(_){}
     }catch(err){
