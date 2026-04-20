@@ -348,7 +348,7 @@ body::after{
   .specs .price{font-size:32px}
 }
 </style>
-<link rel="stylesheet" href="assets/mobile-polish.css?v=13">
+<link rel="stylesheet" href="assets/mobile-polish.css?v=14">
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -692,9 +692,11 @@ async function loadSuperadminFullConcept(slug){
   OWN_TYPE = own.type;
   OWN_TIER = own.tier;
   if(IS_OWNED) document.body.classList.add('owned-mode');
-  if(IS_OWNED && (OWN_TIER === 'ai' || OWN_TIER === 'exclusive')){
+  // AI chat is now included with every paid tier (basic/ai/exclusive).
+  // Superadmin/admin also mounts for preview.
+  if (IS_OWNED || IS_SA) {
     document.body.classList.add('ai-enabled');
-    try{ mountAiChat(slug, CONCEPT); }catch(e){ console.warn('ai chat mount failed', e); }
+    try { mountAiChat(slug, CONCEPT); } catch (e) { console.warn('ai chat mount failed', e); }
   }
   // SSOT: has_brandbook always from DB. catalog.json is static metadata only.
   CONCEPT.has_brandbook = false;
@@ -1057,20 +1059,18 @@ function mountAdminEditor(concept){
       IS_OWNED = true;
       OWN_TYPE = 'paid';
       OWN_TIER = t;
-      document.body.classList.add('owned-mode');
-      if(t === 'ai' || t === 'exclusive') document.body.classList.add('ai-enabled');
-      else document.body.classList.remove('ai-enabled','ai-chat-open');
+      document.body.classList.add('owned-mode', 'ai-enabled');
     }
     // Re-render preview panel (bonus-note, Buy CTA hide/show, Owned badge)
     try{ rerenderAll(); }catch(_){}
-    // Remount or tear down AI chat
+    // Mount AI chat for any owner tier (basic/ai/exclusive) or tear down on release.
     const existing = document.getElementById('ai-chat-sidebar');
     const toggle = document.getElementById('ai-chat-toggle');
-    if(t === 'ai' || t === 'exclusive'){
-      if(!existing){ try{ mountAiChat(CONCEPT.slug, CONCEPT); }catch(_){} }
+    if (t) {
+      if (!existing) { try { mountAiChat(CONCEPT.slug, CONCEPT); } catch(_){} }
     } else {
-      if(existing) existing.remove();
-      if(toggle) toggle.remove();
+      if (existing) existing.remove();
+      if (toggle) toggle.remove();
     }
   }
 
