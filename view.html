@@ -348,7 +348,7 @@ body::after{
   .specs .price{font-size:32px}
 }
 </style>
-<link rel="stylesheet" href="assets/mobile-polish.css?v=9">
+<link rel="stylesheet" href="assets/mobile-polish.css?v=10">
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -1361,42 +1361,37 @@ async function buildClientPdfFromSlides(slug){
 }
 
 function renderPdfDeck(c, pdfUrl, frame){
-  // iOS Safari can't render PDFs inside <iframe> — they come back empty.
-  // On touch devices (iPhone/iPad) we show a hero tap-target that opens the
-  // PDF in the browser's native full-screen viewer (Telegram-like: vertical
-  // page swipe + pinch-zoom, shared sheet included). On desktop we keep the
-  // inline iframe viewer which works in Chrome/Firefox/Safari-macOS.
-  const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches
-    || window.matchMedia('(max-width: 900px)').matches;
+  // One UX, mobile + desktop: full-bleed cover + one BIG button in the centre
+  // with clear call-to-action. Click/tap opens the PDF in a new tab where the
+  // browser's native viewer gives pinch-zoom + swipe.
+  const cover = (c.hero_image && !c.hero_image.startsWith('placeholder:'))
+    ? c.hero_image
+    : `data/concepts/${encodeURIComponent(c.slug)}/images/01-hero.png`;
+  const nameSafe = (c.name || c.slug).replace(/[<>&]/g,'');
+  const taglineSafe = (c.tagline || '').replace(/[<>&]/g,'');
   const wrap = document.createElement('div');
   wrap.style.cssText = 'position:absolute;inset:0;background:#0a0a0b;border-radius:inherit;overflow:hidden';
-
-  if (isTouch) {
-    // Use slide 01-hero.png (or hero_image) as the tap-to-open cover.
-    const cover = (c.hero_image && !c.hero_image.startsWith('placeholder:'))
-      ? c.hero_image
-      : `data/concepts/${encodeURIComponent(c.slug)}/images/01-hero.png`;
-    wrap.innerHTML = `
-      <a href="${pdfUrl}" style="position:absolute;inset:0;display:flex;flex-direction:column;color:#fff;text-decoration:none;background:#0a0a0b;overflow:hidden">
-        <div style="flex:1;background-image:url('${cover}');background-size:cover;background-position:center;position:relative">
-          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,11,0) 45%,rgba(10,10,11,0.88) 100%)"></div>
-          <div style="position:absolute;left:20px;right:20px;bottom:0;padding:26px 0 28px">
-            <div style="font:600 10px/1 'JetBrains Mono',ui-monospace;letter-spacing:0.22em;text-transform:uppercase;color:#D6FF3E;margin-bottom:10px">Brandbook · 25 страниц · PDF</div>
-            <h2 style="font:700 clamp(26px,6vw,36px)/1.05 'Space Grotesk';letter-spacing:-0.02em;margin:0 0 6px">${(c.name||c.slug).replace(/[<>&]/g,'')}</h2>
-            <p style="font:400 13px/1.5 Inter;color:rgba(255,255,255,0.78);margin:0 0 18px;max-width:420px">${(c.tagline||'').replace(/[<>&]/g,'')}</p>
-            <div style="display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:100px;background:#D6FF3E;color:#0a0a0b;font:700 13px Inter;letter-spacing:0.06em;text-transform:uppercase">
-              Открыть брендбук
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </div>
-            <div style="margin-top:14px;font:400 11px/1.4 Inter;color:rgba(255,255,255,0.55);letter-spacing:0.02em">Листается как в Telegram: вертикальный свайп, pinch-zoom.</div>
-          </div>
+  wrap.innerHTML = `
+    <a href="${pdfUrl}" target="_blank" rel="noopener"
+       style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;overflow:hidden">
+      <div style="position:absolute;inset:0;background-image:url('${cover}');background-size:cover;background-position:center;filter:brightness(0.55)"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%)"></div>
+      <div style="position:relative;z-index:1;text-align:center;max-width:560px;padding:32px 20px">
+        <div style="font:600 10px/1 'JetBrains Mono',ui-monospace;letter-spacing:0.24em;text-transform:uppercase;color:#D6FF3E;margin-bottom:14px">Brandbook · 25 pages · PDF</div>
+        <h2 style="font:700 clamp(30px,5vw,54px)/1.04 'Space Grotesk';letter-spacing:-0.03em;margin:0 0 10px">${nameSafe}</h2>
+        <p style="font:400 clamp(13px,1.3vw,16px)/1.5 Inter;color:rgba(255,255,255,0.85);margin:0 0 22px">${taglineSafe}</p>
+        <div style="font:500 12px/1.5 Inter;color:#D6FF3E;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px">↓ Tap to open the full brandbook ↓</div>
+        <div style="display:inline-flex;align-items:center;gap:12px;padding:20px 36px;border-radius:100px;background:#D6FF3E;color:#0a0a0b;font:700 clamp(14px,1.4vw,16px) Inter;letter-spacing:0.08em;text-transform:uppercase;box-shadow:0 20px 50px rgba(214,255,62,0.35),0 8px 20px rgba(0,0,0,0.4);animation:pulseCta 2.4s ease-in-out infinite">
+          Open brandbook
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </div>
-      </a>`;
-    frame.appendChild(wrap);
-    return;
-  }
-
-  // Desktop: inline PDF iframe (native viewer of Chrome/Firefox/Safari-macOS)
+        <div style="margin-top:18px;font:400 11px/1.4 Inter;color:rgba(255,255,255,0.65);letter-spacing:0.02em">Opens in your browser — swipe pages, pinch to zoom.</div>
+      </div>
+    </a>
+    <style>@keyframes pulseCta{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}</style>`;
+  frame.appendChild(wrap);
+  return;
+  // legacy iframe path (unused now, kept for later A/B)
   const open = document.createElement('a');
   open.href = pdfUrl; open.target = '_blank'; open.rel = 'noopener';
   open.textContent = '⤢ Fullscreen';
