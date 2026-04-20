@@ -485,6 +485,7 @@ let CONCEPT = null;
 const CURRENT_LANG = 'en';
 let I18N_ROW = null; // row from concepts_i18n
 let IS_SA = false;   // superadmin flag
+let IS_SA_PREVIEW_GUEST = false; // when SA toggles "Preview as Public/Basic", emulate non-SA for gating
 let IS_OWNED = false; // user owns this concept (paid or gift)
 let OWN_TYPE = null;  // 'paid' | 'gift' | null
 let OWN_TIER = null;  // 'basic' | 'ai' | 'exclusive' | null
@@ -697,7 +698,10 @@ async function loadSuperadminFullConcept(slug){
   if(IS_OWNED) document.body.classList.add('owned-mode');
   // AI chat is now included with every paid tier (basic/ai/exclusive).
   // Superadmin/admin also mounts for preview.
-  if (IS_OWNED || IS_SA) {
+  // AI consultant is a paid upgrade: AI-tuned + Exclusive only. Basic owners get brandbook but no chat.
+  // Superadmin always sees chat for QA/preview.
+  const AI_TIERS = new Set(['ai', 'exclusive']);
+  if (IS_SA || (IS_OWNED && AI_TIERS.has(OWN_TIER))) {
     document.body.classList.add('ai-enabled');
     try { mountAiChat(slug, CONCEPT); } catch (e) { console.warn('ai chat mount failed', e); }
   }
@@ -1060,6 +1064,10 @@ function mountAdminEditor(concept){
     });
   });
   function applyPreviewTier(t){
+    const AI_TIERS = new Set(['ai', 'exclusive']);
+    // When SA picks a preview tier, neutralise SA bypass so the page renders exactly
+    // like that buyer sees it. Only 'exclusive' keeps SA-grade visibility.
+    IS_SA_PREVIEW_GUEST = (t !== 'exclusive');
     if(t === 'public'){
       IS_OWNED = false;
       OWN_TYPE = null;
@@ -1069,14 +1077,16 @@ function mountAdminEditor(concept){
       IS_OWNED = true;
       OWN_TYPE = 'paid';
       OWN_TIER = t;
-      document.body.classList.add('owned-mode', 'ai-enabled');
+      document.body.classList.add('owned-mode');
+      document.body.classList.toggle('ai-enabled', AI_TIERS.has(t));
+      if (!AI_TIERS.has(t)) document.body.classList.remove('ai-chat-open');
     }
     // Re-render preview panel (bonus-note, Buy CTA hide/show, Owned badge)
     try{ rerenderAll(); }catch(_){}
-    // Mount AI chat for any owner tier (basic/ai/exclusive) or tear down on release.
+    // Mount AI chat only for AI-tuned / Exclusive; tear down otherwise.
     const existing = document.getElementById('ai-chat-sidebar');
     const toggle = document.getElementById('ai-chat-toggle');
-    if (t) {
+    if (t && AI_TIERS.has(t)) {
       if (!existing) { try { mountAiChat(CONCEPT.slug, CONCEPT); } catch(_){} }
     } else {
       if (existing) existing.remove();
@@ -1451,7 +1461,8 @@ function renderFrame(c){
   // Ownership gate: SA or owner → try to show a brandbook.
   // The chain is: PDF deck (in-row column OR manifest.json lookup) →
   // mobile PNG slide reader → legacy HTML brandbook iframe → friendly empty.
-  const hasBrandbookAccess = (IS_SA || IS_OWNED);
+  const saCanSee = IS_SA && !IS_SA_PREVIEW_GUEST;
+  const hasBrandbookAccess = (saCanSee || IS_OWNED);
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
   if (hasBrandbookAccess) {
@@ -1494,6 +1505,40 @@ function renderFrame(c){
     return;
   }
 
+  // Public (not owned, not SA-unlocked): paywall. The Buy CTA lives elsewhere on the page,
+  // but the brandbook frame must make it obvious that the deck is locked behind a purchase.
+  {
+    const cover = (c.hero_image && !c.hero_image.startsWith('placeholder:'))
+      ? c.hero_image
+      : `data/concepts/${encodeURIComponent(c.slug)}/images/01-hero.png`;
+    const nameSafe = (c.name || c.slug).replace(/[<>&]/g, '');
+    const taglineSafe = (c.tagline || '').replace(/[<>&]/g, '');
+    const priceBasic = c.price_eur || c.price_basic_eur || 99;
+    frame.innerHTML = `
+      <div style="position:absolute;inset:0;overflow:hidden;border-radius:inherit;background:#0a0a0b">
+        <div style="position:absolute;inset:0;background-image:url('${cover}');background-size:cover;background-position:center;filter:blur(14px) brightness(0.35);transform:scale(1.08)"></div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.85) 100%)"></div>
+        <div style="position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;color:#fff">
+          <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:100px;background:rgba(214,255,62,0.12);border:1px solid rgba(214,255,62,0.4);color:#D6FF3E;font:600 11px/1 'JetBrains Mono',ui-monospace;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:20px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Locked · paid concept
+          </div>
+          <h2 style="font:700 clamp(28px,5vw,52px)/1.05 'Space Grotesk';letter-spacing:-0.03em;margin:0 0 14px;max-width:640px">${nameSafe}</h2>
+          <p style="font:400 clamp(13px,1.4vw,17px)/1.5 Inter;color:rgba(255,255,255,0.75);margin:0 0 28px;max-width:520px">${taglineSafe}</p>
+          <div style="font:500 12px/1.5 Inter;color:rgba(255,255,255,0.55);letter-spacing:0.04em;max-width:420px;margin-bottom:22px">
+            The 25-page editorial brandbook unlocks after purchase — Basic from €${priceBasic}, AI-tuned unlocks the SVITA AI consultant, Exclusive moves the concept into the archive under your name.
+          </div>
+          <a href="#buy" onclick="try{window.openBuyModal&&window.openBuyModal('${c.slug}')}catch(_){};event.preventDefault();return false;"
+             style="display:inline-flex;align-items:center;gap:12px;padding:18px 34px;border-radius:100px;background:#D6FF3E;color:#0a0a0b;font:700 14px Inter;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;box-shadow:0 20px 50px rgba(214,255,62,0.35),0 8px 20px rgba(0,0,0,0.4)">
+            Unlock concept — from €${priceBasic}
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>`;
+    return;
+  }
+
+  // (Unreachable — kept for legacy diff context.)
   // (Legacy HTML iframe path moved to renderLegacyHtmlBrandbook — used only as
   //  a fallback when no PDF deck is available yet.)
   // Superadmin: full product review — fetch all fields via authed client, render body_html
