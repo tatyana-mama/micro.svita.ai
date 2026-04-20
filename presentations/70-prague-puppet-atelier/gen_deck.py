@@ -132,11 +132,15 @@ SLIDES = [
         p(
             7,
             "MATERIALS / LIME-WOOD, LINEN, BRASS HOOKS",
-            "Close macro photograph: a craftsman's weathered hands holding a small "
-            "lime-wood marionette torso, one hand with a gouge carving a delicate "
-            "curve, fresh wood shavings spiralling off, a tiny brass control hook "
-            "beside it, a strip of hand-dyed linen costume fabric, gentle warm window "
-            "light, burgundy apron in the background blur."
+            "Close macro photograph: a craftsman's weathered hands holding a "
+            "small lime-wood marionette torso on a burgundy linen cloth on a "
+            "dark oak workbench. One hand holds a gouge mid-cut against the "
+            "wood. A scatter of fresh wood shavings and sawdust lies loose on "
+            "the workbench AROUND the torso — not floating, not suspended in "
+            "mid-air, resting naturally on the wood surface under gravity. A "
+            "few brass control-hooks lie beside it. A strip of hand-dyed linen "
+            "fabric folded on the bench. Warm soft window side light. Realistic "
+            "physics, every shaving touches a surface, nothing hovering."
         ),
     ),
     (
@@ -200,11 +204,20 @@ SLIDES = [
         p(
             12,
             "WELCOME KIT / KRAFT, LINEN, HAND-WRITTEN CARD",
-            "Flat-lay on pale plank floor: a small marionette wrapped in kraft paper "
-            "and tied with linen twine, a folded natural linen cloth beside it, a "
-            "cream letterpress card with calligraphy 'LOUTKA · Malá Strana · "
-            "Harlequin, carved 2026 · costumed by Vojtěch', a small wax seal in "
-            "burgundy with the letters 'LA'. Warm soft window light."
+            "Flat-lay on a pale oak plank floor: a marionette-shaped parcel "
+            "FULLY WRAPPED in brown kraft paper tied with linen twine in a "
+            "neat bow (like a long candy wrapper with two twisted ends) — NO "
+            "part of the puppet, NO face, NO head, NO feet, NO limbs, NO "
+            "wood visible; the parcel is completely enclosed. Beside it: a "
+            "folded natural linen cloth. On top of the linen cloth: a cream "
+            "deckle-edge letterpress card bearing EXACTLY this three-line "
+            "text in a classic thin serif, spelled perfectly with NO typos:\n"
+            "'LOUTKA · Malá Strana'\n"
+            "'Harlequin · carved 2026'\n"
+            "'costumed by Vojtěch'\n"
+            "A small wine-burgundy wax seal with the letters 'LA' in the "
+            "bottom right corner of the card. Warm soft window side light, "
+            "quiet shadow, clean composition."
         ),
     ),
     (
