@@ -696,12 +696,9 @@ async function loadSuperadminFullConcept(slug){
   OWN_TYPE = own.type;
   OWN_TIER = own.tier;
   if(IS_OWNED) document.body.classList.add('owned-mode');
-  // AI chat is now included with every paid tier (basic/ai/exclusive).
-  // Superadmin/admin also mounts for preview.
-  // AI consultant is a paid upgrade: AI-tuned + Exclusive only. Basic owners get brandbook but no chat.
-  // Superadmin always sees chat for QA/preview.
-  const AI_TIERS = new Set(['ai', 'exclusive']);
-  if (IS_SA || (IS_OWNED && AI_TIERS.has(OWN_TIER))) {
+  // Two tiers only: Basic €49 (brandbook + AI consultant) and Exclusive €149 (same + concept archived).
+  // AI is included in every paid tier; superadmin/admin always sees chat for QA/preview.
+  if (IS_SA || IS_OWNED) {
     document.body.classList.add('ai-enabled');
     try { mountAiChat(slug, CONCEPT); } catch (e) { console.warn('ai chat mount failed', e); }
   }
@@ -812,7 +809,7 @@ function renderBuyCTA(c){
     return '<button class="btn" disabled style="opacity:0.5;cursor:not-allowed;pointer-events:none">Sold out — concept archived</button>';
   }
   const slug = String(c.slug||'').replace(/'/g,'');
-  const tip = 'Three plans: Basic · AI-tuned · Exclusive (→ archive, 1 owner only)';
+  const tip = 'Two plans: Basic €49 (brandbook + AI) · Exclusive €149 (we retire the concept)';
   return '<button type="button" class="btn buy-cta" data-slug="'+slug+'" title="'+tip+'" onclick="openBuyModal(\''+slug+'\')">'
     +   'Buy — choose plan'
     +   '<svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h12M9 1l4 4-4 4"/></svg>'
@@ -1008,11 +1005,10 @@ function mountAdminEditor(concept){
       <div style="color:#94a3b8;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">Preview as</div>
       <div id="aie-preview-tiers" style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px">
         <button type="button" data-tier="public"    class="aie-pv">Public</button>
-        <button type="button" data-tier="basic"     class="aie-pv">Basic</button>
-        <button type="button" data-tier="ai"        class="aie-pv">AI-tuned</button>
-        <button type="button" data-tier="exclusive" class="aie-pv">Exclusive</button>
+        <button type="button" data-tier="basic"     class="aie-pv">Basic €49</button>
+        <button type="button" data-tier="exclusive" class="aie-pv">Exclusive €149</button>
       </div>
-      <div id="aie-pv-note" style="font-size:10px;color:#64748b;margin-top:6px;line-height:1.4">Shows what a buyer of each plan sees — AI-chat, bonus PDF, buy CTA.</div>
+      <div id="aie-pv-note" style="font-size:10px;color:#64748b;margin-top:6px;line-height:1.4">Two tiers. AI + brandbook in both. Exclusive retires the concept.</div>
     </div>
     <style>
       #aie-preview-tiers .aie-pv{background:#0f172a;color:#cbd5e1;border:1px solid #334155;border-radius:6px;padding:6px 4px;font-size:11px;cursor:pointer;letter-spacing:0.02em}
@@ -1526,7 +1522,7 @@ function renderFrame(c){
           <h2 style="font:700 clamp(28px,5vw,52px)/1.05 'Space Grotesk';letter-spacing:-0.03em;margin:0 0 14px;max-width:640px">${nameSafe}</h2>
           <p style="font:400 clamp(13px,1.4vw,17px)/1.5 Inter;color:rgba(255,255,255,0.75);margin:0 0 28px;max-width:520px">${taglineSafe}</p>
           <div style="font:500 12px/1.5 Inter;color:rgba(255,255,255,0.55);letter-spacing:0.04em;max-width:420px;margin-bottom:22px">
-            The 25-page editorial brandbook unlocks after purchase — Basic from €${priceBasic}, AI-tuned unlocks the SVITA AI consultant, Exclusive moves the concept into the archive under your name.
+            Two tiers: <b>Basic €49</b> — full 25-page brandbook + SVITA AI consultant. <b>Exclusive €149</b> — same, plus we retire this concept from the catalogue. Nobody else can buy it again.
           </div>
           <a href="#buy" onclick="try{window.openBuyModal&&window.openBuyModal('${c.slug}')}catch(_){};event.preventDefault();return false;"
              style="display:inline-flex;align-items:center;gap:12px;padding:18px 34px;border-radius:100px;background:#D6FF3E;color:#0a0a0b;font:700 14px Inter;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;box-shadow:0 20px 50px rgba(214,255,62,0.35),0 8px 20px rgba(0,0,0,0.4)">
