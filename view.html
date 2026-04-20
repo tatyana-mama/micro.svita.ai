@@ -875,26 +875,20 @@ window.openBuyModal = async function(slug){
     <div id="buy-modal" style="position:relative" onclick="event.stopPropagation()">
       <button class="close" onclick="document.getElementById('buy-modal-bg').remove()">×</button>
       <h2>${escape(row.name||slug)}</h2>
-      <div class="sub">Choose a plan. All three unlock the full brandbook; the difference is what comes with it.</div>
+      <div class="sub">Two plans. Both unlock the full brandbook and the SVITA AI consultant. Exclusive retires the concept from the catalogue.</div>
       <div class="tiers">
-        <div class="tier">
-          <span class="label">Basic</span>
-          <div class="price">€${(row.price_eur||0).toLocaleString()}</div>
-          <div class="desc">Full brandbook + image pack. Yours forever, non-exclusive. Other buyers can also open the same concept.</div>
-          <button type="button" onclick="goToLs('${slug}','basic')">Buy Basic →</button>
-        </div>
         <div class="tier featured">
           <span class="badge">Recommended</span>
-          <span class="label">AI-tuned</span>
-          <div class="price">€${(row.price_ai_eur||0).toLocaleString()}</div>
-          <div class="desc">Basic + a private AI assistant pre-loaded with this concept's context (brand, layout, equipment, market). It answers strictly inside this concept — no wandering.</div>
-          <button type="button" onclick="goToLs('${slug}','ai')">Buy with AI →</button>
+          <span class="label">Basic</span>
+          <div class="price">€${(row.price_eur||0).toLocaleString()}</div>
+          <div class="desc">Full 25-page brandbook + image pack + <b>SVITA AI consultant</b> pre-loaded with this concept's context (brand, layout, equipment, market). Yours forever, non-exclusive — other buyers can also open this concept.</div>
+          <button type="button" onclick="goToLs('${slug}','basic')">Buy Basic →</button>
         </div>
         <div class="tier exclusive">
           <span class="badge ex">Exclusive · 1 owner</span>
           <span class="label">Exclusive</span>
           <div class="price">€${(row.price_exclusive_eur||0).toLocaleString()}</div>
-          <div class="desc">Everything above, plus the concept is <b>taken off the market forever</b>. Only you own it. Includes the AI assistant.</div>
+          <div class="desc">Everything in Basic, plus the concept is <b>taken off the market forever</b>. We retire it from the catalogue — no one else can buy it again. Only you own it.</div>
           <div class="archive-note">◉ On purchase: concept moves to archive</div>
           <button type="button" onclick="goToLs('${slug}','exclusive')">Buy Exclusive →</button>
         </div>
