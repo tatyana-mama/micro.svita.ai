@@ -348,7 +348,7 @@ body::after{
   .specs .price{font-size:32px}
 }
 </style>
-<link rel="stylesheet" href="assets/mobile-polish.css?v=12">
+<link rel="stylesheet" href="assets/mobile-polish.css?v=13">
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -1341,20 +1341,21 @@ async function buildClientPdfFromSlides(slug){
     });
   }
   const { jsPDF } = window.jspdf;
-  // Use the first slide's aspect ratio as page size so pages sit flush.
+  // Each PDF page matches its slide's dimensions exactly — no white padding
+  // even when slides are mixed sizes (e.g. 1264×848 landscape + 1024×1024
+  // square). Image fills the page edge-to-edge.
   const first = slides[0];
-  const pageW = 1080;
-  const pageH = Math.round(pageW * (first.h / first.w));
-  const pdf = new jsPDF({ unit: 'px', format: [pageW, pageH], orientation: 'portrait', hotfixes: ['px_scaling'] });
-  for (let i = 0; i < slides.length; i++){
+  const pdf = new jsPDF({
+    unit: 'px',
+    format: [first.w, first.h],
+    orientation: first.w > first.h ? 'landscape' : 'portrait',
+    hotfixes: ['px_scaling'],
+  });
+  pdf.addImage(first.el, 'PNG', 0, 0, first.w, first.h, undefined, 'FAST');
+  for (let i = 1; i < slides.length; i++) {
     const s = slides[i];
-    if (i > 0) pdf.addPage([pageW, pageH], 'portrait');
-    // Scale each slide to fit page while keeping aspect
-    const aspect = s.w / s.h;
-    let w = pageW, h = pageW / aspect;
-    if (h > pageH) { h = pageH; w = pageH * aspect; }
-    const x = (pageW - w) / 2, y = (pageH - h) / 2;
-    pdf.addImage(s.el, 'PNG', x, y, w, h, undefined, 'FAST');
+    pdf.addPage([s.w, s.h], s.w > s.h ? 'landscape' : 'portrait');
+    pdf.addImage(s.el, 'PNG', 0, 0, s.w, s.h, undefined, 'FAST');
   }
   const blob = pdf.output('blob');
   return URL.createObjectURL(blob);
