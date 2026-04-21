@@ -1,0 +1,24 @@
+{
+  "slug": "copenhagen-print-bar",
+  "category": "retail",
+  "country": "DK",
+  "variant": 1,
+  "region": "Nordic",
+  "archetype": "Design Purist",
+  "hero_hue": "#D8C7A6",
+  "palette": [
+    "#D8C7A6",
+    "#0F1115",
+    "#B8C9B2",
+    "#5A6A6E",
+    "#3A4A56"
+  ],
+  "mood": "deep-warm",
+  "light": "blue-hour",
+  "composition": "diagonal",
+  "texture": "stone",
+  "human": "full-body",
+  "season": "autumn",
+  "time_of_day": "noon",
+  "collision_score": 1
+}

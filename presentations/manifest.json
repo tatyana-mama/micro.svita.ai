@@ -326,5 +326,9 @@
   "krakow-wodka-buffet": {
     "name": "209 · WÓDKA",
     "pdf": "presentations/209-krakow-wodka-buffet/WODKA_deck.pdf"
+  },
+  "copenhagen-print-bar": {
+    "name": "111 · TRYK 22",
+    "pdf": "presentations/111-copenhagen-print-bar/TRYK-22_deck.pdf"
   }
 }
