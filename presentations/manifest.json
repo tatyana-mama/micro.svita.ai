@@ -318,5 +318,9 @@
   "bratislava-tv-fix": {
     "name": "100 · TELE 16",
     "pdf": "presentations/100-bratislava-tv-fix/TELE-16_deck.pdf"
+  },
+  "bucharest-car-detail": {
+    "name": "103 · DETAIL BOX",
+    "pdf": "presentations/103-bucharest-car-detail/DETAIL-BOX_deck.pdf"
   }
 }

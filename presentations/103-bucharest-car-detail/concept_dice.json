@@ -1,0 +1,24 @@
+{
+  "slug": "bucharest-car-detail",
+  "category": "service",
+  "country": "RO",
+  "variant": 2,
+  "region": "Mediterranean",
+  "archetype": "Digital Monk",
+  "hero_hue": "#E8C79F",
+  "palette": [
+    "#E8C79F",
+    "#F0E4CF",
+    "#C7755B",
+    "#3A4F3A",
+    "#A89560"
+  ],
+  "mood": "night-lit",
+  "light": "candlelit",
+  "composition": "diagonal",
+  "texture": "wood",
+  "human": "portrait",
+  "season": "winter",
+  "time_of_day": "noon",
+  "collision_score": 1
+}
