@@ -10,6 +10,70 @@
 
 ---
 
+## 🎲 RANDOMIZATION MECHANIC — защита от однообразия
+
+**Проблема:** без механики рандома агенты сходятся к своим «любимым» комбинациям (moss + linen + quiet для wellness, terracotta + olive + warm-host для food и т.п.) → каталог выглядит как один бренд в 10 разных костюмах.
+
+**Решение:** `scripts/concept_dice.py` — детерминированный dice на 10 осях. Каждая концепция получает **один** уникальный бросок от `hash(slug)`, с проверкой anti-collision против последних 5 концепций в `_DICE_HISTORY.md`.
+
+### Осей 10, collision-relevant 6
+
+| Ось | Варианты | Collision check |
+|---|---|---|
+| **Region** | 13 (из PALETTE MATRIX), сужено по `country` | ✓ |
+| **Archetype** | 12 (из WOW LAYER), сужено по `category` | ✓ |
+| **Hero hue** | 1 из 10 (из палитры региона) | — (производный) |
+| **Palette (5)** | детерминированная перестановка 10-цветного региона | — (производный) |
+| **Mood** | 5: `deep-warm · cool-crisp · neutral-moody · sun-faded · night-lit` | ✓ |
+| **Light** | 5: `backlit · sidelit · overhead · candlelit · blue-hour` | ✓ |
+| **Composition** | 4: `symmetric · rule-of-thirds · diagonal · centered-void` | ✓ |
+| **Texture** | 6: `wood · stone · metal · fabric · ceramic · glass` | ✓ |
+| **Human** | 4: `macro-hand · portrait · full-body · empty-scene` | — |
+| **Season** | 4: `winter · spring · summer · autumn` | — |
+| **Time-of-day** | 6: `dawn · morning · noon · afternoon · evening · night` | — |
+
+**Комбинаторный потенциал:** 13 × 12 × 5 × 5 × 4 × 6 × 4 × 4 × 6 ≈ **4.5 млн комбинаций**. При 200 концепциях каталога — пересечения по всем осям невозможны.
+
+### Использование
+
+```bash
+cd ~/labs67/micro.svita.ai
+python3 scripts/concept_dice.py <slug> --category <cat> --country <ISO-2> --nn <NN>
+# результат: presentations/NN-<slug>/concept_dice.json + строка в _DICE_HISTORY.md
+```
+
+Скрипт автоматически:
+1. Детерминированно бросает (seed = `hash(slug)`)
+2. Читает последние 5 записей `_DICE_HISTORY.md`
+3. Если ≥2 collision-осей совпадают → перекатывает до 10 раз с `variant++`
+4. Если не смог отстроиться за 10 попыток — берёт лучший результат и пишет warning
+
+### Как dice попадает в промпты nano-banana
+
+В каждом slide-промпте **первая секция** — rigid block, точной выгрузкой из `concept_dice.json`:
+```
+RIGID DICE CONSTRAINTS (do not override):
+· region: Baltic
+· archetype: Nurturer
+· strict palette: #5A6A42, #CBB88E, #6B5A3D, #2E3A2B, #3E2E1F (hero: #5A6A42)
+· mood: sun-faded, light: blue-hour, composition: rule-of-thirds
+· dominant texture: fabric
+```
+
+### `_DICE_HISTORY.md` — память между сессиями
+
+Append-only лог. Каждая новая сессия **должна** перед стартом:
+```bash
+tail -7 presentations/_DICE_HISTORY.md
+```
+чтобы глазом увидеть последние броски. Скрипт уже это делает автоматически, но человеку / агенту полезно понимать контекст.
+
+### Dice НЕ ограничивает воображение
+
+Dice задаёт **визуальный якорь** (палитра, тон, композиция). Всё остальное — **ритуал, signature moment, hero persona, необычные детали, странные идеи, формат заведения** — свободное воображение, чем оригинальнее тем лучше. Dice — страховка от однообразия, а не сценарий.
+
+---
+
 ## 🔢 NUMBERING RULE — ИСКЛЮЧИТЕЛЬНО ВСЕГДА
 
 Ко всем названиям концепций **ВСЕГДА** добавлять номер из NN-префикса папки.

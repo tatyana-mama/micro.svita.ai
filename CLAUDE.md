@@ -14,6 +14,19 @@
 
 Любая новая концепция должна **соответствовать** их планке: dramatically, плотность, типографика, editorial-подача. В ТЗ всегда строка `reference: 42 · 43 · 94` (или одна ближайшая по категории). Подробности применения — в `presentations/_SESSION_PROMPT.md`.
 
+## 🎲 Рандомизатор стилей (не пропускать)
+
+Перед генерацией **любой** новой концепции — запустить dice, чтобы получить уникальную комбинацию (region / archetype / palette / mood / light / composition / texture / human / season / time):
+
+```bash
+cd ~/labs67/micro.svita.ai
+python3 scripts/concept_dice.py <slug> --category <cat> --country <ISO> --nn <NN>
+```
+
+Результат: `presentations/NN-<slug>/concept_dice.json` (rigid constraints в промпты nano-banana) + строка в [`presentations/_DICE_HISTORY.md`](presentations/_DICE_HISTORY.md) (лог истории).
+
+Скрипт автоматически свертывается с последними 5 концепциями — если ≥2 оси совпадают, перекатывает. Полное описание: `_SOP.md` § 🎲 RANDOMIZATION MECHANIC.
+
 ## Ключевые инварианты (не нарушать)
 
 - **NUMBERING RULE:** название концепции **ВСЕГДА** идёт как `NN · <BRAND>` (пример: `01 · SEN LAB`, `07 · ZAPIEX`). Применяется на slide-01 / 02 / 14 / 25, в `manifest.json.name`, в `concepts_catalog.name`, в `shop.html` / `view.html` карточках, в Obsidian логе. Без исключений.
