@@ -1,0 +1,25 @@
+{
+  "slug": "copenhagen-zen-den",
+  "category": "wellness",
+  "country": "DK",
+  "variant": 0,
+  "region": "Nordic",
+  "archetype": "Heritage Keeper",
+  "hero_hue": "#3A4A56",
+  "palette": [
+    "#3A4A56",
+    "#0F1115",
+    "#7A6B5D",
+    "#E5EEF5",
+    "#B8C9B2"
+  ],
+  "mood": "cool-crisp",
+  "light": "overhead",
+  "composition": "symmetric",
+  "texture": "metal",
+  "human": "empty-scene",
+  "season": "spring",
+  "time_of_day": "dawn",
+  "collision_score": 2,
+  "warning": "kept best of 10 attempts (score=2, ≥2 means overlap with recent)"
+}

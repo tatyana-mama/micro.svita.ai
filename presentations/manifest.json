@@ -358,5 +358,9 @@
   "mumbai-curry-house": {
     "name": "55 · TIFFIN 10",
     "pdf": "presentations/55-mumbai-curry-house/TIFFIN-10_deck.pdf"
+  },
+  "copenhagen-zen-den": {
+    "name": "113 · RO 32",
+    "pdf": "presentations/113-copenhagen-zen-den/RO-32_deck.pdf"
   }
 }
