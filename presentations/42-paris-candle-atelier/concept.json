@@ -1,0 +1,47 @@
+{
+  "slug": "paris-candle-atelier",
+  "name": "CIRE 11",
+  "category": "atelier · fragrance · candle",
+  "country": "FR",
+  "city": "Paris",
+  "district": "Le Marais, 11e arr.",
+  "size_m2": 22,
+  "weeks": 7,
+  "palette": ["ivory-wax", "pale-ochre", "antique-brass", "smoked-glass", "burgundy-wick", "warm-limestone"],
+  "tagline": "atelier of 11 monogram candles · hand-poured in the Marais",
+  "equipment": [
+    "copper double-boiler wax melter (12 L, brass gauge)",
+    "walnut pouring table with brass edge",
+    "apothecary shelves — smoked-glass jars of perfume oil (40 flasks)",
+    "hand-dipping rack with linen-wrapped wicks",
+    "wax thermometer + analog brass scale",
+    "trimming station: gold scissors, sealing-wax, embossing press"
+  ],
+  "audience": [
+    "Parisian flaneurs seeking scent-anchored memory",
+    "gift-giving couples on rue de Rivoli walks",
+    "editors of interiors magazines",
+    "Tokyo + Seoul tourists chasing quiet rituals"
+  ],
+  "rituals": "consultation → smell 11 mother-scents on linen strips → client chooses 3 → wax poured live → wick set → 20-min cooling → hot-wax seal with monogram",
+  "signature_scent": "Marais 1889 — cedar, beeswax, bitter orange, smoked leather",
+  "unique": "only candle atelier in Paris that pours your custom blend in front of you, seals it with a personalised wax monogram, and boxes it in ivory linen paper tied with burgundy silk",
+  "price_range": "€38 — €240",
+  "prices": {
+    "small_votive": "€38",
+    "signature_jar": "€92",
+    "bespoke_blend": "€240",
+    "seasonal_collection_trio": "€180"
+  },
+  "economics": {
+    "rent_month_eur": 3900,
+    "revenue_month_eur": 24500,
+    "cogs_percent": 28,
+    "margin_percent": 46,
+    "break_even_month": 7,
+    "capex_eur": 41000
+  },
+  "materials": "hand-cast limestone counters · unlacquered brass fittings · waxed oak floorboards · smoked glass · ivory linen curtains · burgundy grosgrain ribbon",
+  "font_pair": "Canela Text (display) · Söhne (body)",
+  "brandmark": "monogram CIRE·11 hand-engraved · burgundy wax-seal stamp · typewriter-style serial on each jar"
+}
