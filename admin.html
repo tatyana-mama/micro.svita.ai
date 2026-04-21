@@ -451,10 +451,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="tab on" data-tab="concepts">Concepts <span class="count" id="t-concepts">—</span></div>
       <div class="tab" data-tab="brandbooks" id="tab-brandbooks">Brandbooks <span class="count" id="t-brandbooks">—</span></div>
       <div class="tab" data-tab="sales" id="tab-sales" style="display:none">Sales <span class="count" id="t-sales">—</span></div>
+      <div class="tab" data-tab="users" id="tab-users" style="display:none">Users <span class="count" id="t-users">—</span></div>
       <div class="tab" data-tab="funnel" id="tab-funnel" style="display:none">Funnel</div>
       <div class="tab" data-tab="cohorts" id="tab-cohorts" style="display:none">Cohorts</div>
       <div class="tab" data-tab="segments" id="tab-segments" style="display:none">Segments</div>
-      <div class="tab" data-tab="users" id="tab-users" style="display:none">Users <span class="count" id="t-users">—</span></div>
       <div class="tab" data-tab="upcoming" id="tab-upcoming">Upcoming <span class="count" id="t-upcoming">—</span></div>
       <div class="tab tab-trash" data-tab="archive" id="tab-archive" title="Sold-out concepts — permanent archive (the trash bin)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>Archive <span class="count" id="t-archive">—</span></div>
       <div class="tab" data-tab="waitlist" id="tab-waitlist">Waitlist <span class="count" id="t-waitlist">—</span></div>
@@ -763,12 +763,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- ═══ UPCOMING TAB — 188 unverified concepts ═══ -->
     <div class="tab-panel hidden" id="panel-upcoming">
-      <div style="margin-bottom:16px;padding:12px 16px;background:rgba(214,255,62,0.06);border:1px solid rgba(214,255,62,0.25);border-radius:8px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-        <div style="font:400 12px/1.5 Inter;color:var(--text-2)">
-          <strong style="color:var(--accent)">⚙ LS price sync</strong> — pushes price_eur from DB into Lemon Squeezy variants via API. Requires LEMONSQUEEZY_API_KEY Supabase secret.
-        </div>
-        <button class="btn btn-ghost" id="ls-fix-prices-btn" style="padding:6px 14px;font:600 11px Inter">Sync LS prices now</button>
-      </div>
       <div class="stats">
         <div class="stat"><div class="lbl">Unverified</div><div class="num" id="up-total">—</div><div class="sub">Awaiting moderation</div></div>
         <div class="stat accent"><div class="lbl">Waitlist emails</div><div class="num" id="up-waitlist">—</div><div class="sub">Interested buyers</div></div>
@@ -1007,7 +1001,7 @@ function renderUpcoming(){
       <td><span class="tag">${c.category || '—'}</span></td>
       <td>${c.size_m2 ? c.size_m2 + 'm²' : '—'}</td>
       <td>${c.country || '—'}</td>
-      <td>${interest > 0 ? `<strong style="color:#D6FF3E">${interest}</strong>` : '—'}</td>
+      <td>${interest > 0 ? `<button class="btn btn-ghost" style="padding:2px 8px;font-size:11px;color:#D6FF3E;border-color:rgba(214,255,62,.25)" onclick="showInterestDetails('${c.slug}','${(c.name||'').replace(/'/g,"\\'")}')">${interest}</button>` : '—'}</td>
       <td style="white-space:nowrap">
         <button class="btn btn-ghost" style="padding:4px 10px;font-size:11px" onclick="verifyConcept('${c.slug}')">Verify</button>
         <button class="btn btn-ghost btn-trash" style="padding:4px 10px;font-size:11px;color:#fca5a5;display:inline-flex;align-items:center;gap:5px" onclick="archiveConcept('${c.slug}')" title="Move concept to Archive (trash bin)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>Archive</button>
@@ -1018,42 +1012,6 @@ function renderUpcoming(){
 $('upq').addEventListener('input', renderUpcoming);
 $('upcat').addEventListener('change', renderUpcoming);
 
-// Trigger LS price sync via edge function (uses LEMONSQUEEZY_API_KEY secret).
-const lsFixBtn = document.getElementById('ls-fix-prices-btn');
-if(lsFixBtn){
-  lsFixBtn.addEventListener('click', async ()=>{
-    if(!confirm('Push DB price_eur into every LS variant? Variants will be overwritten.')) return;
-    const orig = lsFixBtn.textContent;
-    lsFixBtn.disabled = true;
-    lsFixBtn.textContent = 'Syncing…';
-    try{
-      const {data:{session}} = await sb.auth.getSession();
-      const res = await fetch('https://ctdleobjnzniqkqomlrq.supabase.co/functions/v1/ls-fix-prices', {
-        method:'POST',
-        headers: {
-          'Authorization': 'Bearer ' + (session && session.access_token ? session.access_token : ''),
-          'Content-Type':'application/json'
-        },
-        body: '{}'
-      });
-      const body = await res.json();
-      if(!res.ok){
-        alert('LS sync failed:\n' + JSON.stringify(body, null, 2));
-      } else {
-        const fixed = body.fixed || 0;
-        const details = (body.results||[]).map(r => `${r.productId.slice(0,8)}… [${(r.slugs||[]).join(',')}] ${r.before||'—'} → ${r.after||'—'} ${r.ok?'✓':'✗'+(r.error?(' '+r.error):'')}`).join('\n');
-        alert(`LS sync done. ${fixed} variant(s) updated.\n\n${details}`);
-        loadUpcoming();
-      }
-    }catch(e){
-      alert('Error: ' + e.message);
-    }finally{
-      lsFixBtn.disabled = false;
-      lsFixBtn.textContent = orig;
-    }
-  });
-}
-
 let UP_INTEREST = {};
 async function fetchInterestCounts(){
   const {data} = await sb.from('waitlist_interest').select('concept_slug');
@@ -1062,6 +1020,47 @@ async function fetchInterestCounts(){
   data.forEach(r => { counts[r.concept_slug] = (counts[r.concept_slug]||0) + 1; });
   UP_INTEREST = counts;
 }
+
+// Click on Upcoming "Interest" count → show who's waiting for this slug
+window.showInterestDetails = async function(slug, name){
+  const {data, error} = await sb.from('waitlist_interest')
+    .select('email, created_at')
+    .eq('concept_slug', slug)
+    .order('created_at', {ascending:false});
+  if(error){ alert('Load failed: ' + error.message); return; }
+  const list = data || [];
+  const rows = list.map(r => {
+    const d = new Date(r.created_at).toLocaleString('en-GB', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    return `<tr><td style="padding:6px 10px;font-family:monospace;font-size:12px">${r.email}</td><td style="padding:6px 10px;color:#64748b;font-size:11px;text-align:right">${d}</td></tr>`;
+  }).join('');
+  const csv = list.map(r => `${r.email},${r.created_at},${slug}`).join('\n');
+  const html = `
+    <div style="position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px" onclick="if(event.target===this)this.remove()">
+      <div style="background:#0F0F11;border:1px solid #1F1F23;border-radius:12px;max-width:560px;width:100%;padding:24px;color:#F4F4F5" onclick="event.stopPropagation()">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:16px;margin-bottom:4px">
+          <div>
+            <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#71717A">Waitlist</div>
+            <div style="font-size:18px;font-weight:600;margin-top:4px">${name || slug}</div>
+            <div style="font-size:11px;font-family:monospace;color:#52525B;margin-top:2px">${slug}</div>
+          </div>
+          <button onclick="this.closest('div[style*=fixed]').remove()" style="background:none;border:0;color:#71717A;font-size:20px;cursor:pointer;padding:0 4px">×</button>
+        </div>
+        <div style="margin:16px 0;font-size:13px;color:#A1A1AA">
+          <strong style="color:#D6FF3E">${list.length}</strong> email${list.length===1?'':'s'} waiting. Copy → notify on release.
+        </div>
+        ${list.length ? `<div style="border:1px solid #1F1F23;border-radius:8px;max-height:320px;overflow:auto">
+          <table style="width:100%;border-collapse:collapse"><tbody>${rows}</tbody></table>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:16px">
+          <button onclick="navigator.clipboard.writeText(${JSON.stringify(list.map(r=>r.email).join(', '))});this.textContent='Copied ✓'" style="flex:1;padding:8px 14px;background:#1F1F23;border:1px solid #27272A;color:#F4F4F5;border-radius:6px;font-size:12px;cursor:pointer">Copy emails</button>
+          <button onclick="const b=new Blob([${JSON.stringify('email,created_at,slug\n'+csv)}],{type:'text/csv'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='waitlist-${slug}.csv';a.click();URL.revokeObjectURL(u)" style="flex:1;padding:8px 14px;background:#1F1F23;border:1px solid #27272A;color:#F4F4F5;border-radius:6px;font-size:12px;cursor:pointer">Export CSV</button>
+        </div>` : '<div style="text-align:center;padding:32px;color:#52525B">No emails yet.</div>'}
+      </div>
+    </div>`;
+  const wrap = document.createElement('div');
+  wrap.innerHTML = html;
+  document.body.appendChild(wrap.firstElementChild);
+};
 
 window.verifyConcept = async function(slug){
   if(!confirm('Verify "' + slug + '" and publish to the shop?')) return;
@@ -2301,6 +2300,10 @@ function updateSortIndicators(){
     }
   });
 }
+
+TAB_LOADERS.users = () => { try { loadUsers(); } catch(e){ console.warn('loadUsers', e); } };
+TAB_LOADERS.brandbooks = () => { try { loadBrandbooks(); } catch(e){ console.warn('loadBrandbooks', e); } };
+TAB_LOADERS.concepts = () => { try { loadConcepts(); } catch(e){ console.warn('loadConcepts', e); } };
 
 async function loadBrandbooks(){
   // Use already-loaded ALL (admin_concepts) and filter client-side
