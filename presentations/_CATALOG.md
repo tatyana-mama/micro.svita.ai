@@ -1,6 +1,70 @@
 # MICRO.SVITA.AI — CONCEPTS CATALOG
 
-*Источник правды: Supabase `concepts_catalog` (project `ctdleobjnzniqkqomlrq`). Снимок: 2026-04-21.*
+*Источник правды: Supabase `concepts_catalog` (project `ctdleobjnzniqkqomlrq`). Снимок: 2026-04-21 (v2 · 242 total, +40 new batch).*
+
+---
+
+## 🆕 NEW BATCH 2026-04-21 (catalog 203-242) — 40 mini-pubs / mono-coffee / unusual
+
+Свежая волна концепций без брендбуков — **приоритет для следующей волны декков**. Все WIP (`is_active=false`). Появятся в `shop.html` после Фаз 1-8 SOP.
+
+### Mini-pubs / bars (15)
+| #   | Slug | Brand | City, Country | m² · w | Идея |
+|-----|------|-------|---------------|--------|------|
+| 203 | `amsterdam-jenever-stoel` | BRUIN | Amsterdam, NL | 16 · 8 | 18 jenevers, kopstootje ritual |
+| 204 | `berlin-spaeti-window-bar` | SPÄTI 1 | Berlin, DE | 8 · 5 | Street-window späti: shot + beer + cigarette |
+| 205 | `brussels-trappist-nook` | ABBAYE | Brussels, BE | 12 · 7 | 4 abbey beers, monastery glassware, candles |
+| 206 | `budapest-palinka-cellar` | PÁL | Budapest, HU | 15 · 8 | 8 fruit pálinkas, wood walls |
+| 207 | `copenhagen-akvavit-window` | AKVA | København, DK | 9 · 6 | Akvavit + rye + herring at window counter |
+| 208 | `dublin-cask-snug` | THE SNUG | Dublin, IE | 14 · 8 | 3 cask ales, one snug door |
+| 209 | `krakow-wodka-buffet` | WÓDKA | Kraków, PL | 14 · 7 | 12 infusions + herring + pickle, standing |
+| 211 | `lisbon-vermouth-hour` | VERMU | Lisboa, PT | 16 · 7 | Vermouth on tap, 17:00 ritual |
+| 212 | `madrid-cerveza-artesana` | CAÑA | Madrid, ES | 10 · 6 | 6 craft taps, stand-up, one olive per step |
+| 214 | `milano-negroni-solo` | NEGRO | Milano, IT | 11 · 6 | Only Negroni × 3 variants |
+| 215 | `palermo-marsala-stool` | MARSALA | Palermo, IT | 10 · 6 | 3 Marsalas + anchovy bread, rattan stools |
+| 217 | `porto-ginjinha-door` | GINJA | Porto, PT | 6 · 5 | Ginjinha в chocolate cup, street window |
+| 218 | `reykjavik-brennivin-bench` | SVARTI | Reykjavik, IS | 10 · 7 | Brennivín, wool blanket, bench for 3 |
+| 220 | `tallinn-schnapps-cabinet` | KÄBI | Tallinn, EE | 12 · 7 | 40 home-infused schnapps (birch, juniper…) |
+| 221 | `vienna-heuriger-corner` | HEURIG | Wien, AT | 18 · 8 | 3 own-press wines, cold plate, long bench |
+
+### Mono-coffee (10)
+| #   | Slug | Brand | City, Country | m² · w | Метод |
+|-----|------|-------|---------------|--------|-------|
+| 210 | `lisbon-bica-stand` | BICA | Lisboa, PT | 6 · 5 | Bica espresso only, 50¢, azulejo stand |
+| 213 | `milan-espresso-otto` | OTTO | Milano, IT | 6 · 5 | Espresso + macchiato only, 80¢ |
+| 216 | `paris-chemex-only` | CHEMEX 1 | Paris, FR | 8 · 6 | Chemex pour-over, 4 single-origins, Satie |
+| 219 | `stockholm-filter-lab` | FILTER | Stockholm, SE | 12 · 7 | V60/Melitta only, scale + timer per table |
+| 222 | `vienna-melange-mini` | MELANGE | Wien, AT | 14 · 8 | Melange only, marble, piano, newspaper sticks |
+| 227 | `istanbul-turk-kahve-sedir` | SEDIR | Istanbul, TR | 10 · 6 | Turkish coffee on copper sand + loukoum |
+| 232 | `naples-napoletano-otto` | TAZZA | Napoli, IT | 8 · 6 | Napoletano moka only, 70¢, blue azulejo |
+| 236 | `paris-phinh-corner` | PHINH | Paris, FR | 9 · 6 | Vietnamese phin drip, condensed milk, egg coffee |
+| 238 | `rome-orzo-bar` | ORZO | Roma, IT | 10 · 6 | Roasted-barley (caffeine-free) + biscotti |
+| 241 | `warsaw-kawa-owsiana` | OWIES | Warszawa, PL | 13 · 7 | Oat-only latte, 3 oats × 3 origins |
+
+### Mono-заведения food (5)
+| #   | Slug | Brand | City, Country | m² · w | Идея |
+|-----|------|-------|---------------|--------|------|
+| 225 | `copenhagen-smorrebrod-six` | SMØR 6 | København, DK | 14 · 7 | 6 smørrebrød daily, 11:00-14:00 |
+| 226 | `edinburgh-porridge-inn` | OATS | Edinburgh, GB | 12 · 7 | 3 porridges, wool blankets, rain window |
+| 230 | `lyon-quenelle-zinc` | ZINC | Lyon, FR | 16 · 8 | Quenelle de brochet only, zinc bar |
+| 233 | `naples-sfogliatella-bar` | SFOGLI | Napoli, IT | 8 · 6 | Sfogliatella riccia + espresso, 1935 counter |
+| 235 | `paris-croissant-only` | BEURRE | Paris, FR | 10 · 6 | Butter-croissant, 5 butters, oven-to-hand 30s |
+
+### Unusual / странные (10)
+| #   | Slug | Brand | City, Country | m² · w | Идея |
+|-----|------|-------|---------------|--------|------|
+| 223 | `amsterdam-gelato-lab` | GELO 9 | Amsterdam, NL | 12 · 7 | 9 strange gelati: olive oil, basil, tomato |
+| 224 | `bucharest-amaro-cabinet` | AMARO 40 | București, RO | 11 · 7 | 40 Italian digestifs, floor-to-ceiling cabinet |
+| 228 | `lisbon-haiku-tea` | SEVENTEEN | Lisboa, PT | 14 · 7 | Tea + resident poet → typewritten haiku |
+| 229 | `lyon-kintsugi-studio` | YOBITSUGI | Lyon, FR | 14 · 8 | Japanese gold-seam ceramic repair |
+| 231 | `madrid-knife-sharp` | FILO | Madrid, ES | 8 · 5 | Water-stone knife sharpening, 20 min |
+| 234 | `oslo-breath-lab` | PUST | Oslo, NO | 8 · 6 | Single-person breath lab, Wim Hof / pranayama |
+| 237 | `prague-wax-seal-atelier` | SIGIL | Praha, CZ | 10 · 7 | Wax seal master, monogram & crest live |
+| 239 | `tallinn-darkroom-cabinet` | GELATIN | Tallinn, EE | 12 · 7 | Single-bay photo darkroom, develop film 40 min |
+| 240 | `vienna-listening-bar` | CONRAD | Wien, AT | 22 · 9 | Hi-fi listening bar, 2000 vinyl, silence is rule |
+| 242 | `warsaw-scent-library` | NASAL | Warszawa, PL | 16 · 8 | 100 natural aromas on blotters |
+
+---
 
 > **ОБЯЗАТЕЛЬНО для любой сессии:** новые концепции **НЕ ПРИДУМЫВАТЬ**. Брать slug только из этого списка. Если запрошенной концепции нет — запросить у господина подтверждение или пометку «новая» с YAML-брифом (см. `_HOW_TO_ORDER.md`).
 
