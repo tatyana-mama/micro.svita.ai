@@ -294,5 +294,9 @@
   "paris-chemex-only": {
     "name": "216 · CHEMEX 1",
     "pdf": "presentations/216-paris-chemex-only/CHEMEX-1_deck.pdf"
+  },
+  "brussels-bike-cafe": {
+    "name": "101 · VELO CAFE",
+    "pdf": "presentations/101-brussels-bike-cafe/VELO-CAFE_deck.pdf"
   }
 }

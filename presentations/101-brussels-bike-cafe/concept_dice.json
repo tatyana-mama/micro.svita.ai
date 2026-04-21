@@ -1,0 +1,24 @@
+{
+  "slug": "brussels-bike-cafe",
+  "category": "service",
+  "country": "BE",
+  "variant": 2,
+  "region": "Lisbon",
+  "archetype": "Heritage Keeper",
+  "hero_hue": "#E8B4A8",
+  "palette": [
+    "#E8B4A8",
+    "#8B6F4F",
+    "#B8927A",
+    "#C5A16F",
+    "#A8C2A8"
+  ],
+  "mood": "night-lit",
+  "light": "blue-hour",
+  "composition": "centered-void",
+  "texture": "metal",
+  "human": "empty-scene",
+  "season": "winter",
+  "time_of_day": "afternoon",
+  "collision_score": 1
+}
