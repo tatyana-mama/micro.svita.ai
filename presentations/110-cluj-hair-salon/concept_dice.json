@@ -1,0 +1,25 @@
+{
+  "slug": "cluj-hair-salon",
+  "category": "beauty",
+  "country": "RO",
+  "variant": 2,
+  "region": "Mediterranean",
+  "archetype": "Punk Florist",
+  "hero_hue": "#F0E4CF",
+  "palette": [
+    "#F0E4CF",
+    "#8B5E3C",
+    "#3A4F3A",
+    "#7A8B4F",
+    "#5C3A2E"
+  ],
+  "mood": "sun-faded",
+  "light": "blue-hour",
+  "composition": "symmetric",
+  "texture": "stone",
+  "human": "empty-scene",
+  "season": "winter",
+  "time_of_day": "noon",
+  "collision_score": 2,
+  "warning": "kept best of 10 attempts (score=2, ≥2 means overlap with recent)"
+}

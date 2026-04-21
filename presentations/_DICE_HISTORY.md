@@ -30,3 +30,5 @@
 | 2026-04-22 | 110 | cluj-hair-salon | Mediterranean | Punk Florist | `#F0E4CF` | sun-faded | blue-hour | symmetric | stone | empty-scene |
 | 2026-04-22 | 30 | budapest-bath-mini | Alpine | Digital Monk | `#D4C4A8` | neutral-moody | sidelit | rule-of-thirds | ceramic | empty-scene |
 | 2026-04-22 | 48 | bucharest-eggcraft | Mediterranean | Nurturer | `#D4A679` | sun-faded | overhead | diagonal | wood | portrait |
+| 2026-04-22 | 26 | sofia-eco-store | Mediterranean | Modern Alchemist | `#C7755B` | night-lit | overhead | centered-void | fabric | empty-scene |
+| 2026-04-22 | 55 | mumbai-curry-house | Mediterranean | Urban Rebel | `#D4A679` | deep-warm | sidelit | diagonal | metal | empty-scene |

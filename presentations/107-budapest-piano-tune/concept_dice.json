@@ -1,0 +1,25 @@
+{
+  "slug": "budapest-piano-tune",
+  "category": "service",
+  "country": "HU",
+  "variant": 1,
+  "region": "Baltic",
+  "archetype": "Quiet Master",
+  "hero_hue": "#2E3A2B",
+  "palette": [
+    "#2E3A2B",
+    "#A8512B",
+    "#6B5A3D",
+    "#3E2E1F",
+    "#CBB88E"
+  ],
+  "mood": "cool-crisp",
+  "light": "blue-hour",
+  "composition": "diagonal",
+  "texture": "glass",
+  "human": "full-body",
+  "season": "autumn",
+  "time_of_day": "evening",
+  "collision_score": 2,
+  "warning": "kept best of 10 attempts (score=2, ≥2 means overlap with recent)"
+}

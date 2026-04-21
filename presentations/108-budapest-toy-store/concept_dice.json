@@ -1,0 +1,24 @@
+{
+  "slug": "budapest-toy-store",
+  "category": "retail",
+  "country": "HU",
+  "variant": 0,
+  "region": "Alpine",
+  "archetype": "Punk Florist",
+  "hero_hue": "#F3EEE0",
+  "palette": [
+    "#F3EEE0",
+    "#5A6651",
+    "#A89E88",
+    "#D4C4A8",
+    "#BBA988"
+  ],
+  "mood": "sun-faded",
+  "light": "backlit",
+  "composition": "centered-void",
+  "texture": "wood",
+  "human": "macro-hand",
+  "season": "spring",
+  "time_of_day": "dawn",
+  "collision_score": 0
+}

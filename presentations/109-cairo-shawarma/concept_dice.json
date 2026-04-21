@@ -1,0 +1,24 @@
+{
+  "slug": "cairo-shawarma",
+  "category": "food",
+  "country": "EG",
+  "variant": 1,
+  "region": "Mediterranean",
+  "archetype": "Street Poet",
+  "hero_hue": "#E8C79F",
+  "palette": [
+    "#E8C79F",
+    "#8B5E3C",
+    "#A89560",
+    "#7A8B4F",
+    "#1F2E28"
+  ],
+  "mood": "night-lit",
+  "light": "candlelit",
+  "composition": "symmetric",
+  "texture": "wood",
+  "human": "full-body",
+  "season": "summer",
+  "time_of_day": "dawn",
+  "collision_score": 1
+}

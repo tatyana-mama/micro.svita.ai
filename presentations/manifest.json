@@ -338,5 +338,21 @@
   "copenhagen-stationery": {
     "name": "112 · BLÆK 4",
     "pdf": "presentations/112-copenhagen-stationery/BLAEK-4_deck.pdf"
+  },
+  "budapest-piano-tune": {
+    "name": "107 · HANGOLÁS 22",
+    "pdf": "presentations/107-budapest-piano-tune/PIANO-22_deck.pdf"
+  },
+  "budapest-toy-store": {
+    "name": "108 · JÁTÉK 26",
+    "pdf": "presentations/108-budapest-toy-store/JATEK-26_deck.pdf"
+  },
+  "cairo-shawarma": {
+    "name": "109 · SHAM 28",
+    "pdf": "presentations/109-cairo-shawarma/SHAM-28_deck.pdf"
+  },
+  "cluj-hair-salon": {
+    "name": "110 · SALON 30",
+    "pdf": "presentations/110-cluj-hair-salon/SALON-30_deck.pdf"
   }
 }
