@@ -1,0 +1,24 @@
+{
+  "slug": "berlin-phone-fix",
+  "category": "repair",
+  "country": "DE",
+  "variant": 2,
+  "region": "Alpine",
+  "archetype": "Quiet Master",
+  "hero_hue": "#6B7A6E",
+  "palette": [
+    "#6B7A6E",
+    "#3E2A1D",
+    "#BBA988",
+    "#F3EEE0",
+    "#2F4F3A"
+  ],
+  "mood": "sun-faded",
+  "light": "sidelit",
+  "composition": "rule-of-thirds",
+  "texture": "glass",
+  "human": "empty-scene",
+  "season": "spring",
+  "time_of_day": "noon",
+  "collision_score": 1
+}

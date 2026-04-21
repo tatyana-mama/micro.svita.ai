@@ -302,5 +302,21 @@
   "brussels-frites-box": {
     "name": "102 · FRITES 2",
     "pdf": "presentations/102-brussels-frites-box/FRITES-2_deck.pdf"
+  },
+  "berlin-phone-fix": {
+    "name": "97 · FON.FIX",
+    "pdf": "presentations/97-berlin-phone-fix/FON-FIX_deck.pdf"
+  },
+  "berlin-screen-print": {
+    "name": "98 · PRESS 28",
+    "pdf": "presentations/98-berlin-screen-print/PRESS-28_deck.pdf"
+  },
+  "berlin-skin-clinic": {
+    "name": "99 · SKIN ATELIER 12",
+    "pdf": "presentations/99-berlin-skin-clinic/SKIN-ATELIER-12_deck.pdf"
+  },
+  "bratislava-tv-fix": {
+    "name": "100 · TELE 16",
+    "pdf": "presentations/100-bratislava-tv-fix/TELE-16_deck.pdf"
   }
 }

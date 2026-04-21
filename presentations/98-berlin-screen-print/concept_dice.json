@@ -1,0 +1,24 @@
+{
+  "slug": "berlin-screen-print",
+  "category": "craft",
+  "country": "DE",
+  "variant": 4,
+  "region": "Berlin",
+  "archetype": "Old Soul",
+  "hero_hue": "#6B5A4D",
+  "palette": [
+    "#6B5A4D",
+    "#3A3A3A",
+    "#C0D62F",
+    "#1C1E22",
+    "#2E2E2E"
+  ],
+  "mood": "cool-crisp",
+  "light": "sidelit",
+  "composition": "centered-void",
+  "texture": "stone",
+  "human": "portrait",
+  "season": "summer",
+  "time_of_day": "evening",
+  "collision_score": 1
+}
