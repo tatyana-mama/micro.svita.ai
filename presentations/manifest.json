@@ -282,5 +282,9 @@
   "amsterdam-physio": {
     "name": "28 · PHYSIO 1",
     "pdf": "presentations/28-amsterdam-physio/PHYSIO_1_deck.pdf"
+  },
+  "delft-blue-tile-studio": {
+    "name": "94 · BLAAUW 9",
+    "pdf": "presentations/94-delft-blue-tile-studio/BLAAUW-9_deck.pdf"
   }
 }

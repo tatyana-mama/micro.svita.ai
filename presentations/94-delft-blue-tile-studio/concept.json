@@ -1,0 +1,48 @@
+{
+  "slug": "delft-blue-tile-studio",
+  "name": "BLAAUW 9",
+  "category": "craft · atelier · ceramics",
+  "country": "NL",
+  "city": "Delft",
+  "district": "Oude Delft canal, 9",
+  "size_m2": 24,
+  "weeks": 6,
+  "palette": ["delft-cobalt", "porcelain-white", "warm-clay", "linen-cream", "brass-gold", "graphite-grey", "canal-water"],
+  "tagline": "nine hand-painted tiles, fired on the canal",
+  "equipment": [
+    "electric kiln 1200°C (65 L capacity)",
+    "slipware-ready bisque tile stock (13×13 cm)",
+    "hand-blended cobalt-oxide paint stand",
+    "sable-hair brushes #000–#6 rack (42 brushes)",
+    "dipping-glaze bucket with turntable",
+    "oak framing table with canal-facing window",
+    "drying rack for 90 tiles"
+  ],
+  "audience": [
+    "Delft locals commissioning house-number tiles for their stoep",
+    "Dutch design collectors seeking canal scenes",
+    "Tokyo + Seoul tourists on the Vermeer trail",
+    "interior designers from Amsterdam and Antwerp"
+  ],
+  "rituals": "client brings sketch or memory → atelier-keeper draws in pencil on bisque → paints in cobalt by hand → signs verso with year + canal-water drop → dip-glazes → fires overnight → client collects after three days, warm from kiln",
+  "signature_tile": "CANAL NR. 9 — a Vermeer-blue view of Oude Delft at sunset, windmill silhouette, one swan",
+  "unique": "the only Delft atelier where the customer watches the cobalt brush touch the tile, signs their own tile verso, and returns three days later to retrieve the fired result still warm",
+  "price_range": "€48 — €380",
+  "prices": {
+    "small_tile_13cm": "€48",
+    "house_number_set": "€140",
+    "bespoke_canal_scene": "€260",
+    "commission_six_tiles": "€380"
+  },
+  "economics": {
+    "rent_month_eur": 1800,
+    "revenue_month_eur": 18200,
+    "cogs_percent": 22,
+    "margin_percent": 48,
+    "break_even_month": 6,
+    "capex_eur": 32000
+  },
+  "materials": "warm-clay bisque tile · cobalt-oxide paint · clear tin-lead glaze · waxed oak framing table · brass fittings · linen apron · canal-water pigment test card",
+  "font_pair": "Canela Text (display) · Söhne Buch (body)",
+  "brandmark": "hand-painted cobalt numeral 9 inside a single tile outline · signature 'BLAAUW 9 · Oude Delft' along bottom edge"
+}
