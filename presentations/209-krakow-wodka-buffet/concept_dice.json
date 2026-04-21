@@ -1,0 +1,24 @@
+{
+  "slug": "krakow-wodka-buffet",
+  "category": "food",
+  "country": "PL",
+  "variant": 0,
+  "region": "Slavic PL",
+  "archetype": "Village Elder",
+  "hero_hue": "#2B4C8C",
+  "palette": [
+    "#2B4C8C",
+    "#7E4A2A",
+    "#CBA74C",
+    "#5A6B3D",
+    "#3E2C1E"
+  ],
+  "mood": "deep-warm",
+  "light": "overhead",
+  "composition": "rule-of-thirds",
+  "texture": "glass",
+  "human": "macro-hand",
+  "season": "autumn",
+  "time_of_day": "night",
+  "collision_score": 1
+}

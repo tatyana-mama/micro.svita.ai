@@ -322,5 +322,9 @@
   "bucharest-car-detail": {
     "name": "103 · DETAIL BOX",
     "pdf": "presentations/103-bucharest-car-detail/DETAIL-BOX_deck.pdf"
+  },
+  "krakow-wodka-buffet": {
+    "name": "209 · WÓDKA",
+    "pdf": "presentations/209-krakow-wodka-buffet/WODKA_deck.pdf"
   }
 }
