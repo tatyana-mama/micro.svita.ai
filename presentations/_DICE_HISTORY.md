@@ -14,3 +14,7 @@
 | 2026-04-21 | 98 | berlin-screen-print | Berlin | Old Soul | `#6B5A4D` | cool-crisp | sidelit | centered-void | stone | portrait |
 | 2026-04-21 | 99 | berlin-skin-clinic | Berlin | Punk Florist | `#A8A8A8` | neutral-moody | blue-hour | symmetric | stone | full-body |
 | 2026-04-21 | 100 | bratislava-tv-fix | Slavic PL | Heritage Keeper | `#D2C3A3` | cool-crisp | overhead | symmetric | ceramic | portrait |
+| 2026-04-21 | 36 | amsterdam-juice-lab | Lisbon | Modern Alchemist | `#1F2A22` | neutral-moody | overhead | diagonal | fabric | portrait |
+| 2026-04-21 | 101 | brussels-bike-cafe | Lisbon | Heritage Keeper | `#E8B4A8` | night-lit | blue-hour | centered-void | metal | empty-scene |
+| 2026-04-21 | 102 | brussels-frites-box | Lisbon | Loud Host | `#B8927A` | cool-crisp | backlit | rule-of-thirds | wood | empty-scene |
+| 2026-04-21 | 103 | bucharest-car-detail | Mediterranean | Digital Monk | `#E8C79F` | night-lit | candlelit | diagonal | wood | portrait |

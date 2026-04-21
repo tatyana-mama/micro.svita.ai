@@ -17,18 +17,18 @@
   },
   {
     "slug": "amsterdam-juice-lab",
-    "name": "Amsterdam Juice Lab",
+    "name": "36 · JUICE LAB",
     "category": "food",
     "country": "NL",
     "size_m2": 12,
     "price_eur": 49,
-    "budget_eur": 9800,
+    "budget_eur": 14200,
     "weeks": 6,
     "hero_image": "presentations/36-amsterdam-juice-lab/slide-01-cover.png",
-    "tagline": "Cold-pressed juice kiosk with canal-side vibes",
+    "tagline": "Eight numbered cold-press elixirs. Pressed 17h, picked up morning after.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "storage://brandbooks/amsterdam-juice-lab.pdf",
+    "brandbook_pdf_url": "presentations/36-amsterdam-juice-lab/JUICE-LAB_deck.pdf",
     "catalog_number": 36
   },
   {

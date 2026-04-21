@@ -1,0 +1,24 @@
+{
+  "slug": "amsterdam-juice-lab",
+  "category": "food",
+  "country": "NL",
+  "variant": 0,
+  "region": "Lisbon",
+  "archetype": "Modern Alchemist",
+  "hero_hue": "#1F2A22",
+  "palette": [
+    "#1F2A22",
+    "#A8C2A8",
+    "#3D2E26",
+    "#8B6F4F",
+    "#B8927A"
+  ],
+  "mood": "neutral-moody",
+  "light": "overhead",
+  "composition": "diagonal",
+  "texture": "fabric",
+  "human": "portrait",
+  "season": "winter",
+  "time_of_day": "evening",
+  "collision_score": 1
+}
