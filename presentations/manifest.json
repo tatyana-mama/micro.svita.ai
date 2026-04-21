@@ -298,5 +298,9 @@
   "brussels-bike-cafe": {
     "name": "101 · VELO CAFE",
     "pdf": "presentations/101-brussels-bike-cafe/VELO-CAFE_deck.pdf"
+  },
+  "brussels-frites-box": {
+    "name": "102 · FRITES 2",
+    "pdf": "presentations/102-brussels-frites-box/FRITES-2_deck.pdf"
   }
 }

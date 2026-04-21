@@ -1,0 +1,24 @@
+{
+  "slug": "brussels-frites-box",
+  "category": "food",
+  "country": "BE",
+  "variant": 3,
+  "region": "Lisbon",
+  "archetype": "Loud Host",
+  "hero_hue": "#B8927A",
+  "palette": [
+    "#B8927A",
+    "#A8C2A8",
+    "#3D2E26",
+    "#8DA389",
+    "#1F2A22"
+  ],
+  "mood": "cool-crisp",
+  "light": "backlit",
+  "composition": "rule-of-thirds",
+  "texture": "wood",
+  "human": "empty-scene",
+  "season": "winter",
+  "time_of_day": "evening",
+  "collision_score": 1
+}
