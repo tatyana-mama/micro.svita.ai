@@ -1,0 +1,24 @@
+{
+  "slug": "copenhagen-stationery",
+  "category": "retail",
+  "country": "DK",
+  "variant": 0,
+  "region": "Nordic",
+  "archetype": "Modern Alchemist",
+  "hero_hue": "#B8C9B2",
+  "palette": [
+    "#B8C9B2",
+    "#A0B8C9",
+    "#EFE9DC",
+    "#3A4A56",
+    "#7A6B5D"
+  ],
+  "mood": "neutral-moody",
+  "light": "sidelit",
+  "composition": "rule-of-thirds",
+  "texture": "ceramic",
+  "human": "portrait",
+  "season": "spring",
+  "time_of_day": "night",
+  "collision_score": 1
+}

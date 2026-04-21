@@ -334,5 +334,9 @@
   "bucharest-eggcraft": {
     "name": "48 · ÎNCONDEI",
     "pdf": "presentations/48-bucharest-eggcraft/INCONDEI_deck.pdf"
+  },
+  "copenhagen-stationery": {
+    "name": "112 · BLÆK 4",
+    "pdf": "presentations/112-copenhagen-stationery/BLAEK-4_deck.pdf"
   }
 }
