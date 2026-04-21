@@ -1,0 +1,24 @@
+{
+  "slug": "berlin-bagel-co",
+  "category": "food",
+  "country": "DE",
+  "variant": 1,
+  "region": "Alpine",
+  "archetype": "Modern Alchemist",
+  "hero_hue": "#D4C4A8",
+  "palette": [
+    "#D4C4A8",
+    "#6B7A6E",
+    "#8B7E6B",
+    "#1F2A22",
+    "#2F4F3A"
+  ],
+  "mood": "cool-crisp",
+  "light": "candlelit",
+  "composition": "symmetric",
+  "texture": "glass",
+  "human": "empty-scene",
+  "season": "winter",
+  "time_of_day": "morning",
+  "collision_score": 1
+}

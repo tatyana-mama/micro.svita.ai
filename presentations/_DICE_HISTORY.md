@@ -18,3 +18,13 @@
 | 2026-04-21 | 101 | brussels-bike-cafe | Lisbon | Heritage Keeper | `#E8B4A8` | night-lit | blue-hour | centered-void | metal | empty-scene |
 | 2026-04-21 | 102 | brussels-frites-box | Lisbon | Loud Host | `#B8927A` | cool-crisp | backlit | rule-of-thirds | wood | empty-scene |
 | 2026-04-21 | 103 | bucharest-car-detail | Mediterranean | Digital Monk | `#E8C79F` | night-lit | candlelit | diagonal | wood | portrait |
+| 2026-04-21 | 33 | warsaw-waffle-works | Slavic PL | Nurturer | `#F3EAD9` | sun-faded | sidelit | diagonal | wood | portrait |
+| 2026-04-21 | 37 | berlin-bagel-co | Alpine | Modern Alchemist | `#D4C4A8` | cool-crisp | candlelit | symmetric | glass | empty-scene |
+| 2026-04-22 | 209 | krakow-wodka-buffet | Slavic PL | Village Elder | `#2B4C8C` | deep-warm | overhead | rule-of-thirds | glass | macro-hand |
+| 2026-04-22 | 111 | copenhagen-print-bar | Nordic | Design Purist | `#D8C7A6` | deep-warm | blue-hour | diagonal | stone | full-body |
+| 2026-04-22 | 112 | copenhagen-stationery | Nordic | Modern Alchemist | `#B8C9B2` | neutral-moody | sidelit | rule-of-thirds | ceramic | portrait |
+| 2026-04-22 | 113 | copenhagen-zen-den | Nordic | Heritage Keeper | `#3A4A56` | cool-crisp | overhead | symmetric | metal | empty-scene |
+| 2026-04-22 | 107 | budapest-piano-tune | Baltic | Quiet Master | `#2E3A2B` | cool-crisp | blue-hour | diagonal | glass | full-body |
+| 2026-04-22 | 108 | budapest-toy-store | Alpine | Punk Florist | `#F3EEE0` | sun-faded | backlit | centered-void | wood | macro-hand |
+| 2026-04-22 | 109 | cairo-shawarma | Mediterranean | Street Poet | `#E8C79F` | night-lit | candlelit | symmetric | wood | full-body |
+| 2026-04-22 | 110 | cluj-hair-salon | Mediterranean | Punk Florist | `#F0E4CF` | sun-faded | blue-hour | symmetric | stone | empty-scene |

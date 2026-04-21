@@ -1,0 +1,25 @@
+{
+  "slug": "warsaw-waffle-works",
+  "category": "food",
+  "country": "PL",
+  "variant": 2,
+  "region": "Slavic PL",
+  "archetype": "Nurturer",
+  "hero_hue": "#F3EAD9",
+  "palette": [
+    "#F3EAD9",
+    "#3E2C1E",
+    "#7E4A2A",
+    "#D2C3A3",
+    "#8B6F47"
+  ],
+  "mood": "sun-faded",
+  "light": "sidelit",
+  "composition": "diagonal",
+  "texture": "wood",
+  "human": "portrait",
+  "season": "autumn",
+  "time_of_day": "noon",
+  "collision_score": 2,
+  "warning": "kept best of 10 attempts (score=2, ≥2 means overlap with recent)"
+}
