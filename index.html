@@ -1,1043 +1,183 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-<!-- Consent Mode v2 default (set BEFORE GTM) -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('consent','default',{
-    ad_storage:'denied',
-    ad_user_data:'denied',
-    ad_personalization:'denied',
-    analytics_storage:'granted',
-    functionality_storage:'granted',
-    personalization_storage:'granted',
-    security_storage:'granted',
-    wait_for_update: 500
-  });
-</script>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-T2974BPD');</script>
-<!-- End Google Tag Manager -->
-
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="frame-ancestors 'none'">
-<meta name="referrer" content="strict-origin-when-cross-origin">
-
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>SVITA Micro — Your business. Already designed.</title>
-<meta name="description" content="82 small-business concepts to spark yours. Cafés, salons, kiosks, studios — imagined down to the brand, the room, and the day-1 feeling. From €49.">
-<meta name="theme-color" content="#0A0A0B">
-<!-- OG / Twitter / canonical -->
+<meta name="theme-color" content="#0E0D0B">
+<title>micro.svita — before it exists, we photograph it</title>
+<meta name="description" content="An atlas of 242 micro-businesses — imagined, photographed, costed. Open yours across Europe.">
+<meta property="og:title" content="micro.svita · atlas of businesses yet to open">
+<meta property="og:description" content="An atlas of 242 micro-businesses across Europe — imagined before they exist.">
+<meta property="og:image" content="https://micro.svita.ai/data/hero/home-hero-v1.png">
 <link rel="canonical" href="https://micro.svita.ai/">
 <link rel="icon" href="/apple-touch-icon.png" type="image/png">
-<meta property="og:site_name" content="SVITA Micro">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://micro.svita.ai/">
-<meta property="og:title" content="SVITA Micro — Your business. Already designed.">
-<meta property="og:description" content="82 small-business concepts to help you imagine yours. Brandbook, brand world, room, feeling — from €49.">
-<meta property="og:image" content="https://micro.svita.ai/assets/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="675">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="SVITA Micro — Your business. Already designed.">
-<meta name="twitter:description" content="Ready-to-launch business concepts. Brandbook, budget, 7 weeks to first customer.">
-<meta name="twitter:image" content="https://micro.svita.ai/assets/og-image.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="js/svita-ui.css">
-<link rel="stylesheet" href="js/svita-app.css">
-<link rel="stylesheet" href="js/svita-card.css">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SVITA">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
-/* ============ TOKENS ============ */
-:root{
-  --bg:#0A0A0B;
-  --bg-1:#111113;
-  --bg-2:#18181B;
-  --line:#232327;
-  --line-2:#2F2F34;
-  --text:#FAFAFA;
-  --text-2:#A1A1AA;
-  --text-3:#6E6E78;
-  --accent:#D6FF3E;         /* acid lime — single hero accent */
-  --accent-dim:#9FC22F;
-  --radius:18px;
-  --radius-sm:10px;
-  --radius-lg:28px;
-  --ease:cubic-bezier(.22,1,.36,1);
-  --max:1400px;
-}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
-html,body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-weight:400;font-feature-settings:"ss01","cv11"}
-html{scroll-behavior:smooth}
-body{overflow-x:hidden;min-height:100vh;line-height:1.5}
-a{color:inherit;text-decoration:none}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-img,svg{display:block;max-width:100%}
-::selection{background:var(--accent);color:#0A0A0B}
-
-/* ============ TYPE ============ */
-.display{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-0.035em;line-height:0.92}
-.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
-.eyebrow{
-  font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-3);
-  font-weight:500;display:inline-flex;align-items:center;gap:10px;
-}
-.eyebrow::before{content:'';width:24px;height:1px;background:var(--text-3)}
-
-/* ============ LAYOUT ============ */
-.wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
-@media(max-width:640px){.wrap{padding:0 20px}}
-section{position:relative;padding:120px 0}
-@media(max-width:768px){section{padding:80px 0}}
-
-/* ============ NAV ============ */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:20px 32px;
-  display:flex;align-items:center;justify-content:space-between;
-  transition:all 300ms var(--ease);
-}
-nav.scrolled{
-  background:rgba(10,10,11,0.72);
-  backdrop-filter:blur(24px) saturate(180%);
-  -webkit-backdrop-filter:blur(24px) saturate(180%);
-  border-bottom:1px solid var(--line);
-  padding:16px 32px;
-}
-.brand{display:flex;align-items:baseline;gap:10px;font-family:'Space Grotesk';font-weight:700;font-size:18px;letter-spacing:-0.02em}
-.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);align-self:center;box-shadow:0 0 16px var(--accent)}
-.brand small{font-family:'Inter';font-weight:400;font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.15em}
-.nav-right{display:flex;align-items:center;gap:20px}
-
-/* Lang switcher */
-.lang{position:relative}
-.lang-btn{
-  display:flex;align-items:center;gap:6px;
-  font-size:12px;color:var(--text-2);font-weight:500;
-  padding:8px 12px;border:1px solid var(--line);border-radius:100px;
-  text-transform:uppercase;letter-spacing:0.1em;
-  transition:all 200ms var(--ease);
-}
-.lang-btn:hover{border-color:var(--line-2);color:var(--text)}
-.lang-btn svg{width:10px;height:10px;opacity:0.6}
-.lang-menu{
-  position:absolute;top:calc(100% + 8px);right:0;
-  background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius-sm);
-  padding:6px;min-width:140px;display:none;
-  box-shadow:0 24px 60px rgba(0,0,0,0.5);
-}
-.lang.open .lang-menu{display:block}
-.lang-menu button{
-  display:block;width:100%;text-align:left;padding:9px 14px;
-  font-size:12px;color:var(--text-2);border-radius:6px;
-  text-transform:uppercase;letter-spacing:0.08em;
-  transition:all 150ms var(--ease);
-}
-.lang-menu button:hover{background:var(--bg-2);color:var(--text)}
-.lang-menu button.active{color:var(--accent)}
-
-.nav-cta{
-  font-size:13px;font-weight:500;padding:11px 20px;
-  background:var(--text);color:var(--bg);border-radius:100px;
-  transition:all 200ms var(--ease);
-}
-.nav-cta:hover{background:var(--accent);transform:translateY(-1px)}
-
-/* ============ HERO ============ */
-.hero{padding:96px 0 80px;position:relative;overflow:hidden}
-@media(max-width:768px){.hero{padding:80px 0 60px}}
-.hero::before{
-  content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;
-  background:radial-gradient(circle,rgba(214,255,62,0.06) 0%,transparent 60%);
-  pointer-events:none;
-}
-.hero-grid{
-  display:grid;grid-template-columns:1.1fr 0.9fr;gap:80px;align-items:start;
-}
-.hero-grid > *{min-width:0}
-@media(max-width:1024px){.hero-grid{grid-template-columns:1fr;gap:60px}}
-.hero-text{}
-.hero-text .eyebrow{margin-bottom:20px}
-.hero h1{
-  font-size:clamp(3.25rem,8vw,6.75rem);
-  margin-bottom:36px;
-}
-.hero h1 .accent{color:var(--accent);font-style:italic;font-weight:500}
-.hero h1 .line{display:block;overflow:hidden}
-.hero h1 .line span{display:inline-block;animation:rise 900ms var(--ease) both}
-.hero h1 .line:nth-child(2) span{animation-delay:120ms}
-.hero h1 .line:nth-child(3) span{animation-delay:240ms}
-@keyframes rise{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
-
-.hero-sub{
-  font-size:clamp(15px,1.4vw,17px);color:var(--text-2);max-width:440px;
-  margin-bottom:28px;line-height:1.55;
-  animation:fade 900ms var(--ease) 420ms both;
-}
-.hero-disclaimer{
-  display:inline-block;font-family:'Fraunces',serif;font-style:italic;
-  font-size:clamp(14px,1.25vw,16px);color:var(--accent);
-  border-left:2px solid var(--accent);padding:6px 0 6px 14px;
-  margin-bottom:40px;max-width:440px;line-height:1.45;
-  animation:fade 900ms var(--ease) 500ms both;
-}
-@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-
-.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;animation:fade 900ms var(--ease) 540ms both}
-.btn{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:16px 28px;font-size:14px;font-weight:500;
-  border-radius:100px;transition:all 250ms var(--ease);
-  white-space:nowrap;
-}
-.btn-primary{background:var(--accent);color:#0A0A0B;font-weight:600}
-.btn-primary:hover{background:#fff;transform:translateY(-2px);box-shadow:0 16px 40px rgba(214,255,62,0.25)}
-.btn-primary svg{transition:transform 250ms var(--ease)}
-.btn-primary:hover svg{transform:translateX(4px)}
-.btn-ghost{color:var(--text);border:1px solid var(--line-2)}
-.btn-ghost:hover{border-color:var(--text);background:var(--bg-1)}
-
-.hero-meta{
-  display:flex;gap:48px;margin-top:64px;padding-top:32px;
-  border-top:1px solid var(--line);
-  animation:fade 900ms var(--ease) 660ms both;
-}
-.hero-meta .m{display:flex;flex-direction:column;gap:4px}
-.hero-meta .m strong{font-family:'Space Grotesk';font-size:26px;font-weight:700;color:var(--text);letter-spacing:-0.02em}
-.hero-meta .m span{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.12em}
-
-/* Hero visual — cinematic image slot */
-.hero-visual{position:relative;animation:fade 1100ms var(--ease) 300ms both}
-
-/* HERO SLIDER */
-.hero-slider{position:relative;width:100%;max-width:480px;margin:0 auto;min-width:0}
-.hero-slider-viewport{position:relative;overflow:hidden;border-radius:var(--radius-lg);width:100%;min-width:0}
-.hero-slider-track{
-  display:flex;transition:transform 600ms var(--ease);
-  will-change:transform;width:100%;min-width:0;
-}
-.hero-slider .slide{flex:0 0 100%;min-width:0;max-width:100%;box-sizing:border-box}
-.hero-slider .slide .card{
-  box-shadow:0 60px 120px rgba(0,0,0,0.5),0 0 0 1px var(--line);
-}
-.hero-slider .slide .card .media{aspect-ratio:4/5}
-.hero-slider-dots{
-  display:flex;gap:8px;justify-content:center;margin-top:22px;
-}
-.hero-slider-dots button{
-  width:28px;height:4px;border-radius:2px;border:0;padding:0;
-  background:var(--line-2);cursor:pointer;transition:all 300ms var(--ease);
-}
-.hero-slider-dots button.on{background:var(--accent);width:44px}
-.hero-slider-arrows{
-  position:absolute;top:50%;left:-18px;right:-18px;
-  transform:translateY(-50%);display:flex;justify-content:space-between;
-  pointer-events:none;z-index:3;
-}
-.hero-slider-arrows button{
-  pointer-events:auto;width:44px;height:44px;border-radius:50%;
-  background:rgba(10,10,11,0.78);backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,0.14);color:var(--text);
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  transition:all 200ms var(--ease);
-}
-.hero-slider-arrows button:hover{background:var(--accent);color:#0a0a0b;border-color:var(--accent)}
-@media(max-width:640px){
-  .hero-slider{max-width:100%}
-  .hero-visual{overflow:hidden;padding:0}
-  .hero-slider-arrows{left:8px;right:8px}
-  .hero-slider-arrows button{width:36px;height:36px}
-  .hero-slider .slide .card{box-shadow:0 16px 36px rgba(0,0,0,0.5),0 0 0 1px var(--line)}
-  .hero-slider .slide .card .media{aspect-ratio:3/2}
-  .hero-slider .slide .card .body{padding:14px 16px 16px;gap:7px}
-  .hero-slider .slide .card h3{font-size:17px}
-  .hero-slider .slide .card .tagline{font-size:11.5px}
-}
-
-/* ============ MARQUEE ============ */
-.marquee{
-  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  padding:28px 0;overflow:hidden;
-}
-.marquee-track{
-  display:flex;gap:64px;white-space:nowrap;
-  animation:scroll 40s linear infinite;
-  font-family:'Space Grotesk';font-size:clamp(22px,2.4vw,30px);font-weight:700;
-  letter-spacing:-0.02em;color:var(--text);
-}
-.marquee-track span{display:inline-flex;align-items:center;gap:64px}
-.marquee-track span::after{content:'●';color:var(--accent);font-size:10px}
-@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-/* ============ GALLERY ============ */
-.gallery-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;gap:40px;flex-wrap:wrap}
-.gallery-head h2{font-size:clamp(2rem,4.5vw,3.75rem);max-width:680px;line-height:1}
-.gallery-head .hint{font-size:13px;color:var(--text-3);max-width:280px}
-
-/* SHOP TOOLBAR */
-.shop-toolbar{
-  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-  padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  margin-bottom:20px;position:sticky;top:72px;z-index:20;
-  background:rgba(10,10,11,0.85);backdrop-filter:blur(16px) saturate(160%);
-  -webkit-backdrop-filter:blur(16px) saturate(160%);
-}
-.toolbar-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.chip{
-  padding:9px 16px;border-radius:100px;border:1px solid var(--line);
-  font-size:12px;font-weight:500;color:var(--text-2);cursor:pointer;
-  transition:all 200ms var(--ease);background:var(--bg-1);white-space:nowrap;font-family:inherit;
-}
-.chip:hover{border-color:var(--line-2);color:var(--text)}
-.chip.on{background:var(--accent);color:#0A0A0B;border-color:var(--accent);font-weight:600}
-.sel{
-  padding:10px 38px 10px 18px;border-radius:100px;border:1px solid var(--line);
-  font-size:12px;font-weight:500;color:var(--text);background:var(--bg-1);
-  font-family:inherit;cursor:pointer;transition:all 200ms var(--ease);
-  appearance:none;-webkit-appearance:none;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none' stroke='%23A1A1AA' stroke-width='1.5'><path d='M1 1l4 4 4-4'/></svg>");
-  background-repeat:no-repeat;background-position:right 16px center;
-}
-.sel:hover{border-color:var(--line-2)}
-.sel:focus{outline:none;border-color:var(--accent)}
-.spacer{flex:1}
-.shop-toolbar .count{font-family:'JetBrains Mono';font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.1em}
-.shop-countline{margin-bottom:20px}
-.cols{display:inline-flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:100px;background:var(--bg-1)}
-.col-btn{
-  padding:7px 14px;border-radius:100px;font-size:11px;font-weight:600;
-  color:var(--text-3);transition:all 200ms var(--ease);cursor:pointer;
-  font-family:'JetBrains Mono';background:none;border:0;
-}
-.col-btn:hover{color:var(--text-2)}
-.col-btn.on{background:var(--accent);color:#0A0A0B}
-.shop-search{
-  display:flex;align-items:center;gap:10px;
-  padding:10px 18px;border-radius:100px;border:1px solid var(--line);
-  background:var(--bg-1);transition:all 200ms var(--ease);min-width:220px;
-}
-.shop-search:focus-within{border-color:var(--accent);box-shadow:0 0 0 4px rgba(214,255,62,0.08)}
-.shop-search svg{color:var(--text-3);flex-shrink:0}
-.shop-search input{
-  background:none;border:0;outline:none;color:var(--text);font-family:inherit;
-  font-size:13px;width:100%;
-}
-.shop-search input::placeholder{color:var(--text-3)}
-
-/* SHOP GRID */
-.shop-grid{display:grid;gap:22px;grid-template-columns:repeat(var(--cols,4),1fr)}
-@media(max-width:1024px){.shop-grid{grid-template-columns:repeat(min(var(--cols,4),2),1fr) !important}}
-@media(max-width:640px){.shop-grid{grid-template-columns:1fr !important}}
-
-.card{
-  position:relative;border-radius:var(--radius);overflow:hidden;
-  background:var(--bg-1);border:1px solid var(--line);
-  transition:transform 500ms var(--ease),border-color 300ms var(--ease);
-  cursor:pointer;display:flex;flex-direction:column;
-}
-.card:hover{transform:translateY(-6px);border-color:var(--line-2)}
-.card .media{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--bg-2)}
-.card .img,.card .sc-img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 1200ms var(--ease)}
-.card:hover .img,.card:hover .sc-img{transform:scale(1.06)}
-.card .ph,.card .sc-ph{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,var(--ph-a,#1a1a1f),var(--ph-b,#2a2a30));
-  font-size:56px;color:rgba(255,255,255,0.08);
-}
-.card .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,11,0) 50%,rgba(10,10,11,0.85) 100%);pointer-events:none}
-.card .price{
-  position:absolute;top:14px;right:14px;z-index:3;
-  background:rgba(10,10,11,0.72);backdrop-filter:blur(14px);
-  border:1px solid rgba(255,255,255,0.12);
-  border-radius:100px;padding:7px 14px;
-  font-family:'JetBrains Mono';font-size:11px;font-weight:700;color:var(--accent);
-}
-.card .country{
-  position:absolute;top:14px;left:14px;z-index:3;
-  background:rgba(10,10,11,0.72);backdrop-filter:blur(14px);
-  border:1px solid rgba(255,255,255,0.12);
-  border-radius:100px;padding:7px 12px;
-  font-family:'JetBrains Mono';font-size:10px;font-weight:600;color:#fff;letter-spacing:0.1em;
-}
-.card .heart{
-  position:absolute;top:12px;right:14px;z-index:4;
-  width:36px;height:36px;border-radius:50%;
-  background:rgba(10,10,11,0.72);backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  border:1px solid rgba(255,255,255,0.14);color:#fff;
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  transition:all 200ms var(--ease);padding:0;
-}
-.card .heart svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;transition:all 200ms var(--ease)}
-.card .heart:hover{border-color:var(--accent);color:var(--accent);transform:scale(1.08)}
-.card .heart.on{background:var(--accent);border-color:var(--accent);color:#0a0a0b}
-.card .heart.on svg{fill:currentColor}
-/* when heart is in top-right, push price below it */
-.card .media .price{top:58px}
-.card .body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
-.card .cat{font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent);font-weight:600}
-.card h3{font-family:'Space Grotesk';font-size:20px;font-weight:700;letter-spacing:-0.02em;line-height:1.1;color:#fff}
-.card .tagline{font-size:12px;color:var(--text-3);line-height:1.5;flex:1}
-.card .meta{display:flex;gap:14px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-3);margin-top:4px;padding-top:14px;border-top:1px solid var(--line)}
-.card .buy-row{display:flex;gap:10px;margin-top:14px}
-.card .buy{
-  flex:1;background:var(--accent);color:#0A0A0B;border:none;cursor:pointer;
-  padding:12px 16px;border-radius:100px;font-family:'Space Grotesk';font-weight:700;
-  font-size:13px;display:inline-flex;justify-content:center;align-items:center;gap:6px;
-  transition:all 200ms var(--ease);
-}
-.card .buy:hover{background:#fff}
-.card .view{
-  padding:12px 16px;border-radius:100px;border:1px solid var(--line-2);color:var(--text);
-  font-size:12px;font-weight:500;cursor:pointer;background:transparent;transition:all 200ms var(--ease);
-}
-.card .view:hover{border-color:var(--text);background:var(--bg-2)}
-
-.load-more-wrap{text-align:center;margin-top:48px}
-.load-more{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:16px 32px;font-size:13px;font-weight:500;
-  border:1px solid var(--line-2);border-radius:100px;color:var(--text);
-  background:transparent;cursor:pointer;transition:all 200ms var(--ease);
-  font-family:inherit;
-}
-.load-more:hover{background:var(--bg-1);border-color:var(--text);transform:translateY(-2px)}
-.empty{text-align:center;padding:80px 20px;color:var(--text-3);grid-column:1/-1}
-
-
-/* ============ PROOF (big numbers) ============ */
-.proof{background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.proof-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:40px}
-@media(max-width:900px){.proof-grid{grid-template-columns:repeat(2,1fr);gap:32px}}
-.proof-cell .num{font-family:'Space Grotesk';font-size:clamp(3rem,6vw,5rem);font-weight:700;letter-spacing:-0.04em;color:var(--text);line-height:0.95}
-.proof-cell .num .unit{font-size:0.4em;color:var(--text-3);margin-left:4px;font-weight:500}
-.proof-cell .lbl{font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.12em;margin-top:14px}
-
-/* ============ CONTRAST: €15k vs €49 ============ */
-.contrast{text-align:center}
-.contrast .eyebrow{margin-bottom:36px}
-.contrast h2{
-  font-size:clamp(2.4rem,7vw,6rem);line-height:0.95;max-width:920px;margin:0 auto;
-}
-.contrast h2 .cross{text-decoration:line-through;text-decoration-color:rgba(161,161,170,0.5);text-decoration-thickness:4px;color:var(--text-2)}
-.contrast h2 .hot{color:var(--accent)}
-.contrast p{color:var(--text-3);margin-top:28px;font-size:15px;max-width:520px;margin-inline:auto}
-
-/* ============ PRICING ============ */
-.pricing-head{text-align:center;margin-bottom:72px}
-.pricing-head h2{font-size:clamp(2.2rem,5vw,4.25rem);line-height:1;margin-top:20px}
-.plans{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:980px;margin:0 auto}
-@media(max-width:768px){.plans{grid-template-columns:1fr}}
-.plan{
-  background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius-lg);
-  padding:44px 40px;position:relative;overflow:hidden;
-  transition:all 400ms var(--ease);
-}
-.plan:hover{border-color:var(--line-2);transform:translateY(-4px)}
-.plan.featured{background:linear-gradient(160deg,rgba(214,255,62,0.06),transparent 50%);border-color:rgba(214,255,62,0.3)}
-.plan.featured::before{
-  content:'Most chosen';position:absolute;top:20px;right:20px;
-  background:var(--accent);color:#0A0A0B;font-size:10px;font-weight:700;
-  padding:6px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:0.1em;
-}
-.plan .kind{font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-3);font-weight:500}
-.plan .price{font-family:'Space Grotesk';font-size:84px;font-weight:700;letter-spacing:-0.04em;color:var(--text);line-height:1;margin:16px 0 8px}
-.plan .price .cur{font-size:0.4em;vertical-align:top;margin-right:4px;color:var(--text-2);font-weight:500}
-.plan .once{font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:32px}
-.plan ul{list-style:none;display:flex;flex-direction:column;gap:14px;margin-bottom:36px}
-.plan li{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--text-2);line-height:1.5}
-.plan li svg{flex:none;width:16px;height:16px;margin-top:2px;color:var(--accent)}
-.plan .btn{width:100%;justify-content:center}
-
-/* ============ FINAL CTA ============ */
-.final{text-align:center;padding:160px 0}
-.final h2{font-size:clamp(2.8rem,8vw,7rem);line-height:0.92;margin-bottom:48px}
-.final h2 .accent{color:var(--accent);font-style:italic;font-weight:500}
-
-/* ============ FOOTER ============ */
-footer{border-top:1px solid var(--line);padding:48px 0 64px}
-.footer-grid{display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
-.footer-links{display:flex;gap:28px;font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.12em}
-.footer-links a{transition:color 200ms var(--ease)}
-.footer-links a:hover{color:var(--accent)}
-.footer-copy{font-size:11px;color:var(--text-3);font-family:'JetBrains Mono',monospace}
-
-/* ============ REVEAL ANIMATION ============ */
-.reveal{opacity:0;transform:translateY(40px);transition:all 1000ms var(--ease)}
-.reveal.in{opacity:1;transform:translateY(0)}
-
-/* ============ SHOP ENTRANCE FX ============ */
-#gallery{position:relative;scroll-margin-top:80px}
-#gallery::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(214,255,62,0.08),transparent 70%);
-  opacity:0;transition:opacity 1200ms var(--ease);
-}
-#gallery.armed::before{opacity:1}
-#gallery.armed .gallery-head h2{animation:shopTitleIn 900ms var(--ease) both}
-#gallery.armed .card{animation:tileFlyIn 900ms var(--ease) both}
-#gallery.armed .card:nth-child(1){animation-delay:40ms}
-#gallery.armed .card:nth-child(2){animation-delay:120ms}
-#gallery.armed .card:nth-child(3){animation-delay:200ms}
-#gallery.armed .card:nth-child(4){animation-delay:280ms}
-#gallery.armed .card:nth-child(5){animation-delay:360ms}
-#gallery.armed .card:nth-child(6){animation-delay:440ms}
-#gallery.armed .card:nth-child(7){animation-delay:520ms}
-@keyframes shopTitleIn{
-  0%{opacity:0;transform:translateY(60px) scale(0.92);filter:blur(12px)}
-  60%{filter:blur(0)}
-  100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
-}
-@keyframes tileFlyIn{
-  0%{opacity:0;transform:translateY(80px) scale(0.94);filter:blur(8px)}
-  100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
-}
-#shop-flash{
-  position:fixed;inset:0;pointer-events:none;z-index:9999;
-  background:radial-gradient(circle at 50% 50%,rgba(214,255,62,0.35),transparent 60%);
-  opacity:0;
-}
-#shop-flash.go{animation:shopFlash 700ms var(--ease)}
-@keyframes shopFlash{
-  0%{opacity:0}
-  30%{opacity:1}
-  100%{opacity:0}
-}
-
-/* ============ PROTECTION ============ */
-.protected,.protected *{
-  -webkit-user-select:none;user-select:none;
-  -webkit-user-drag:none;-webkit-touch-callout:none;
-}
-
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
-}
-
-/* ============ MOBILE POLISH ============ */
-@media(max-width:768px){
-  nav{padding:14px 18px}
-  nav.scrolled{padding:12px 18px}
-  .brand{font-size:15px}
-  .brand small{display:none}
-  .nav-right{gap:10px}
-  .nav-cta{padding:9px 14px;font-size:12px}
-  .lang-btn{padding:7px 10px;font-size:11px}
-  .hero{padding:72px 0 40px}
-  .hero h1{font-size:clamp(2.5rem,11vw,4rem);margin-bottom:24px}
-  .hero-sub{font-size:14px;margin-bottom:32px}
-  .hero-ctas{gap:10px}
-  .btn{padding:13px 20px;font-size:13px}
-  .hero-meta{gap:24px;margin-top:40px;padding-top:24px;flex-wrap:wrap}
-  .hero-meta .m strong{font-size:20px}
-  .hero-meta .m span{font-size:10px}
-  .proof-grid{grid-template-columns:repeat(2,1fr)!important;gap:28px!important}
-  section{padding:48px 0}
-  h2,.h2{font-size:clamp(1.8rem,6.5vw,2.6rem)!important}
-  .shop-grid{gap:14px!important}
-  .card .media{aspect-ratio:16/10}
-  .card .body{padding:14px 16px 16px;gap:7px}
-  .card h3{font-size:17px}
-  .card .tagline{font-size:11.5px;line-height:1.45}
-  .card .meta{font-size:9px;gap:10px;padding-top:10px;margin-top:2px}
-  .card .cat{font-size:9px}
-  .card .country{font-size:9px;padding:5px 9px;top:10px;left:10px}
-  .card .heart{width:32px;height:32px}
-  .hero-slider .slide .card .media{aspect-ratio:4/5}
-}
-@media(max-width:420px){
-  .shop-grid .card .media{aspect-ratio:3/2}
-  .shop-grid .card h3{font-size:16px}
-}
-@media(max-width:480px){
-  .hero-meta{gap:20px}
-  .hero-meta .m{flex:1 0 40%}
-}
-/* BURGER */
-.burger{display:none;width:44px;height:44px;background:none;border:0;cursor:pointer;padding:0;flex-direction:column;gap:5px;align-items:center;justify-content:center;z-index:101;position:relative}
-.burger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:transform 250ms var(--ease),opacity 200ms var(--ease)}
-body.menu-open .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-body.menu-open .burger span:nth-child(2){opacity:0}
-body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-@media(max-width:640px){
-  .burger{display:flex}
-  .nav-right{
-    position:fixed;top:0;right:0;bottom:0;left:0;
-    background:rgba(10,10,11,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-    flex-direction:column;justify-content:center;align-items:center;gap:28px;
-    transform:translateX(100%);transition:transform 320ms var(--ease);
-    z-index:99;padding:80px 24px 40px;pointer-events:none;
+  :root{
+    --ink:#F3EAD9;
+    --ink-dim:rgba(243,234,217,.62);
+    --ink-faint:rgba(243,234,217,.38);
+    --amber:#D4A679;
+    --bg:#0E0D0B;
+    --hero:url('/data/hero/home-hero-v1.png');
   }
-  .nav-right a,.nav-right .lang{font-size:20px}
-  .nav-right .nav-cta{font-size:15px;padding:14px 28px}
-  body.menu-open .nav-right{transform:translateX(0);pointer-events:auto}
-  body.menu-open{overflow:hidden}
-}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;letter-spacing:.01em;min-height:100vh;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+
+  .hero{
+    position:relative;width:100%;min-height:100vh;
+    display:flex;flex-direction:column;justify-content:space-between;
+    background-image:
+      linear-gradient(180deg, rgba(14,13,11,.62) 0%, rgba(14,13,11,.18) 30%, rgba(14,13,11,.18) 60%, rgba(14,13,11,.88) 100%),
+      var(--hero);
+    background-size:cover;background-position:center;
+    padding:36px 48px 40px;
+  }
+  @media(max-width:720px){.hero{padding:22px 22px 32px}}
+
+  .nav{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:'Cormorant Garamond',serif;
+  }
+  .brand{font-size:20px;font-weight:400;letter-spacing:.14em;text-transform:lowercase;color:var(--ink)}
+  .brand em{font-style:italic;font-weight:300;color:var(--amber)}
+  .nav-links{display:flex;gap:28px;align-items:center;font-family:'Inter';font-size:12px;font-weight:400;letter-spacing:.18em;text-transform:uppercase}
+  .nav-links a{color:var(--ink-dim);transition:color .25s}
+  .nav-links a:hover{color:var(--ink)}
+  @media(max-width:600px){
+    .nav-links{gap:16px}
+    .nav-links a{font-size:10px;letter-spacing:.14em}
+  }
+
+  .stage{
+    max-width:920px;margin:0 auto;padding:0 12px;
+    text-align:center;display:flex;flex-direction:column;align-items:center;gap:28px;
+  }
+  .eyebrow{
+    font-family:'Inter';font-size:10px;font-weight:500;
+    letter-spacing:.32em;text-transform:uppercase;color:var(--amber);
+    opacity:.9;
+  }
+  .headline{
+    font-family:'Cormorant Garamond',serif;font-weight:300;
+    font-size:clamp(40px, 6.6vw, 88px);
+    line-height:1.04;letter-spacing:-.012em;color:var(--ink);
+    font-style:italic;
+  }
+  .headline .k{font-style:normal;color:var(--amber)}
+  .sub{
+    max-width:560px;font-size:15px;line-height:1.65;color:var(--ink-dim);font-weight:300;
+  }
+  @media(max-width:720px){.sub{font-size:13.5px}}
+  .ctas{
+    display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:6px;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 28px;border:1px solid;border-radius:100px;
+    font-family:'Inter';font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;
+    transition:all .25s ease;cursor:pointer;
+  }
+  .btn.primary{border-color:var(--amber);background:var(--amber);color:#1B1814}
+  .btn.primary:hover{background:transparent;color:var(--amber);transform:translateY(-1px)}
+  .btn.ghost{border-color:rgba(243,234,217,.28);color:var(--ink)}
+  .btn.ghost:hover{border-color:var(--ink);background:rgba(243,234,217,.05)}
+  .btn svg{width:14px;height:14px}
+
+  .numbers{
+    display:flex;justify-content:center;gap:clamp(18px,5vw,64px);
+    font-family:'Cormorant Garamond',serif;
+    margin-top:auto;padding-top:40px;flex-wrap:wrap;
+  }
+  .num-item{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:60px}
+  .num-val{font-size:clamp(22px,3vw,34px);font-weight:400;color:var(--ink)}
+  .num-lbl{font-family:'Inter';font-size:9.5px;font-weight:400;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-faint)}
+  @media(max-width:600px){.numbers{gap:20px 28px}}
+
+  .foot{
+    margin-top:28px;padding-top:18px;border-top:1px solid rgba(243,234,217,.12);
+    display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+    font-family:'Inter';font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);
+  }
+  .foot a{color:inherit;transition:color .25s}
+  .foot a:hover{color:var(--ink)}
+  .foot-right{display:flex;gap:22px}
+  @media(max-width:480px){.foot-right{gap:14px}}
+
+  @media (prefers-reduced-motion: no-preference){
+    .fade{opacity:0;transform:translateY(14px);animation:up .9s ease-out forwards}
+    .d1{animation-delay:.08s}.d2{animation-delay:.22s}.d3{animation-delay:.38s}
+    .d4{animation-delay:.54s}.d5{animation-delay:.72s}.d6{animation-delay:.9s}
+    @keyframes up{to{opacity:1;transform:translateY(0)}}
+  }
+
+  .hero::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse at center, transparent 40%, rgba(14,13,11,.38) 100%);
+  }
+  .hero > *{position:relative;z-index:1}
 </style>
-<link rel="stylesheet" href="assets/mobile-polish.css?v=14">
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T2974BPD"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 
-<div id="shop-flash"></div>
+<section class="hero">
 
-<!-- ============ NAV (shared via js/svita-nav.js) ============ -->
-<nav id="nav"></nav>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/svita-card.js"></script>
-<script src="js/svita-nav.js"></script>
-<script src="js/svita-metrics-config.js"></script>
-<script src="js/svita-3p-analytics.js"></script>
-<script src="js/svita-analytics.js"></script>
-<script src="js/svita-favs.js"></script>
-<script src="js/svita-app.js" defer></script>
+  <nav class="nav fade d1">
+    <div class="brand">micro<em>.</em>svita</div>
+    <div class="nav-links">
+      <a href="/shop.html">shop</a>
+      <a href="/account.html">account</a>
+    </div>
+  </nav>
 
-<!-- ============ HERO ============ -->
-<section class="hero" id="top">
-  <div class="wrap">
-    <div class="hero-grid">
-      <div class="hero-text">
-        <div class="eyebrow">82 small-business concepts to imagine yours.</div>
-        <h1 class="display">
-          <span class="line"><span>Someone else</span></span>
-          <span class="line"><span class="accent">imagined</span></span>
-          <span class="line"><span>it first.</span></span>
-        </h1>
-        <p class="hero-sub">Cafés, salons, kiosks, studios — each one dreamed up in detail. Brand, room, rituals, day-1 feeling. You take what sparks, make it yours.</p>
-        <p class="hero-disclaimer">We don't sell businesses. We sell imagination — a fully-formed concept to help you picture what your own could be.</p>
-        <div class="hero-ctas">
-          <a href="#gallery" class="btn btn-primary">
-            Browse concepts
-            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
-          </a>
-          <a href="#how" class="btn btn-ghost">How it works</a>
-        </div>
-        <div class="hero-meta">
-          <div class="m"><strong>200</strong><span>Concepts</span></div>
-          <div class="m"><strong>5</strong><span>Max copies each</span></div>
-          <div class="m"><strong>€49</strong><span>Starting at</span></div>
-        </div>
-      </div>
+  <div class="stage">
+    <div class="eyebrow fade d2">An atlas of businesses yet to open</div>
 
-      <div class="hero-visual protected">
-        <div class="hero-slider" id="hero-slider">
-          <div class="hero-slider-viewport">
-            <div class="hero-slider-track" id="hero-track"></div>
-          </div>
-          <div class="hero-slider-arrows">
-            <button id="hero-prev" aria-label="Previous concept"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2L4 7l5 5"/></svg></button>
-            <button id="hero-next" aria-label="Next concept"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 2l5 5-5 5"/></svg></button>
-          </div>
-          <div class="hero-slider-dots" id="hero-dots"></div>
-        </div>
+    <h1 class="headline fade d3">
+      Before it exists,<br><span class="k">we photograph it.</span>
+    </h1>
+
+    <p class="sub fade d4">
+      242 micro-businesses across Europe — imagined, styled, costed.
+      Each a 25-slide brandbook, a world ready to step into.
+      One lit window at dawn. Yours could be next.
+    </p>
+
+    <div class="ctas fade d5">
+      <a href="/shop.html" class="btn primary">
+        Browse the atlas
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a href="/account.html" class="btn ghost">Sign in</a>
+    </div>
+  </div>
+
+  <div>
+    <div class="numbers fade d6">
+      <div class="num-item"><div class="num-val">242</div><div class="num-lbl">concepts</div></div>
+      <div class="num-item"><div class="num-val">13</div><div class="num-lbl">categories</div></div>
+      <div class="num-item"><div class="num-val">25</div><div class="num-lbl">slides · brandbook</div></div>
+      <div class="num-item"><div class="num-val">€49</div><div class="num-lbl">from</div></div>
+      <div class="num-item"><div class="num-val">12</div><div class="num-lbl">EU languages</div></div>
+    </div>
+
+    <div class="foot fade d6">
+      <div>micro.svita · Warsaw · 2026</div>
+      <div class="foot-right">
+        <a href="/shop.html">atlas</a>
+        <a href="/account.html">sign in</a>
+        <a href="mailto:hello@micro.svita.ai">contact</a>
       </div>
     </div>
   </div>
+
 </section>
 
-<!-- ============ MARQUEE ============ -->
-<div class="marquee">
-  <div class="marquee-track">
-    <span>CAFÉ</span><span>BARBERSHOP</span><span>MATCHA KIOSK</span><span>RAMEN BAR</span><span>TRATTORIA</span><span>NAIL STUDIO</span><span>PHONE REPAIR</span><span>CANDLE WORKSHOP</span>
-    <span>CAFÉ</span><span>BARBERSHOP</span><span>MATCHA KIOSK</span><span>RAMEN BAR</span><span>TRATTORIA</span><span>NAIL STUDIO</span><span>PHONE REPAIR</span><span>CANDLE WORKSHOP</span>
-  </div>
-</div>
-
-<!-- ============ HOW IT WORKS ============ -->
-<section id="how" style="padding:80px 0 40px;background:var(--bg-1)">
-  <div class="wrap" style="max-width:1120px;margin:0 auto;padding:0 24px">
-    <div class="reveal" style="text-align:center;margin-bottom:56px">
-      <div style="font:600 10px/1 Inter,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--accent,#D6FF3E);margin-bottom:14px">· HOW IT WORKS ·</div>
-      <h2 class="display" style="font:800 42px/1.05 'Space Grotesk',sans-serif;letter-spacing:-0.02em;color:var(--text,#fff);margin:0 0 14px">Three steps. Seven weeks.</h2>
-      <p class="hint" style="font:400 15px/1.55 Inter,sans-serif;color:var(--text-2,#94a3b8);max-width:620px;margin:0 auto">No consultants. No coaching calls. No monthly fee. Buy the brandbook, follow the plan, open the doors.</p>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-bottom:24px">
-      <div class="reveal" style="background:var(--bg,#0A0A0B);border:1px solid var(--line,#1f2937);border-radius:16px;padding:28px 24px">
-        <div style="font:800 36px/1 'Space Grotesk',sans-serif;color:var(--accent,#D6FF3E);letter-spacing:-0.03em;margin-bottom:14px">01</div>
-        <h3 style="font:700 19px/1.3 'Space Grotesk',sans-serif;color:var(--text,#fff);margin:0 0 8px">Pick a concept.</h3>
-        <p style="font:400 14px/1.55 Inter,sans-serif;color:var(--text-2,#94a3b8);margin:0">Browse 82 concept briefs. Each one is a fully imagined small-business: brand, room, signage, rituals. From €49 one-time — no subscription.</p>
-      </div>
-      <div class="reveal" style="background:var(--bg,#0A0A0B);border:1px solid var(--line,#1f2937);border-radius:16px;padding:28px 24px">
-        <div style="font:800 36px/1 'Space Grotesk',sans-serif;color:var(--accent,#D6FF3E);letter-spacing:-0.03em;margin-bottom:14px">02</div>
-        <h3 style="font:700 19px/1.3 'Space Grotesk',sans-serif;color:var(--text,#fff);margin:0 0 8px">Open the brandbook.</h3>
-        <p style="font:400 14px/1.55 Inter,sans-serif;color:var(--text-2,#94a3b8);margin:0">15 pages: identity, equipment list, interior layout, financial model, week-by-week plan. Everything you need to sign a lease next week.</p>
-      </div>
-      <div class="reveal" style="background:var(--bg,#0A0A0B);border:1px solid var(--line,#1f2937);border-radius:16px;padding:28px 24px">
-        <div style="font:800 36px/1 'Space Grotesk',sans-serif;color:var(--accent,#D6FF3E);letter-spacing:-0.03em;margin-bottom:14px">03</div>
-        <h3 style="font:700 19px/1.3 'Space Grotesk',sans-serif;color:var(--text,#fff);margin:0 0 8px">Open the doors.</h3>
-        <p style="font:400 14px/1.55 Inter,sans-serif;color:var(--text-2,#94a3b8);margin:0">From signature to first customer in seven weeks. The brandbook is the playbook. You follow it, adapt to your city, open.</p>
-      </div>
-    </div>
-
-    <div class="reveal" style="text-align:center;margin-top:32px;font:400 13px/1.6 Inter,sans-serif;color:var(--text-3,#64748b)">
-      Each concept is capped at 5 copies across Europe. Once it's gone, it's archived.
-    </div>
-  </div>
-</section>
-
-<!-- ============ GALLERY ============ -->
-<section id="gallery">
-  <div class="wrap">
-    <div class="gallery-head reveal">
-      <h2 class="display">Shop concepts.<br>Launch yours anywhere.</h2>
-      <p class="hint">Each concept ships with a 14-page brandbook, equipment list, and fit-out plan. City names are cultural references — deploy in any city you choose.</p>
-    </div>
-
-    <!-- SHOP TOOLBAR -->
-    <div class="shop-toolbar reveal">
-      <div class="toolbar-group" id="cat-chips">
-        <button class="chip on" data-cat="all">All</button>
-        <button class="chip" data-cat="food">Food</button>
-        <button class="chip" data-cat="restaurant">Restaurant</button>
-        <button class="chip" data-cat="beauty">Beauty</button>
-        <button class="chip" data-cat="service">Service</button>
-        <button class="chip" data-cat="repair">Repair</button>
-        <button class="chip" data-cat="craft">Craft</button>
-        <button class="chip" data-cat="retail">Retail</button>
-        <button class="chip" data-cat="wellness">Wellness</button>
-        <button class="chip" data-cat="health">Health</button>
-        <button class="chip" data-cat="education">Education</button>
-      </div>
-      <div class="spacer"></div>
-      <div class="shop-search">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <input type="search" id="shop-q" placeholder="Search concepts…">
-      </div>
-      <select class="sel" id="f-sort">
-        <option value="popular">Sort: Popular</option>
-        <option value="price-asc">Price: low → high</option>
-        <option value="price-desc">Price: high → low</option>
-        <option value="name">Name A → Z</option>
-      </select>
-      <div class="cols" id="f-cols">
-        <button class="col-btn" data-cols="2">2</button>
-        <button class="col-btn on" data-cols="4">4</button>
-        <button class="col-btn" data-cols="6">6</button>
-      </div>
-    </div>
-
-    <div class="shop-countline reveal"><span class="count" id="f-count">0 concepts</span></div>
-
-    <div class="shop-grid" id="shop-grid" style="--cols:4"></div>
-    <div class="load-more-wrap"><button class="load-more" id="load-more" style="display:none">Load more <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h12M9 1l4 4-4 4"/></svg></button></div>
-  </div>
-</section>
-
-<!-- ============ PROOF ============ -->
-<section class="proof">
-  <div class="wrap">
-    <div class="proof-grid">
-      <div class="proof-cell reveal">
-        <div class="num">200<span class="unit">+</span></div>
-        <div class="lbl">Concepts in catalog</div>
-      </div>
-      <div class="proof-cell reveal">
-        <div class="num">3</div>
-        <div class="lbl">Tiers: Basic · AI · Exclusive</div>
-      </div>
-      <div class="proof-cell reveal">
-        <div class="num">5</div>
-        <div class="lbl">Copies max — then archived</div>
-      </div>
-      <div class="proof-cell reveal">
-        <div class="num">€49</div>
-        <div class="lbl">Entry point</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CONTRAST ============ -->
-<section class="contrast">
-  <div class="wrap">
-    <div class="eyebrow reveal">The idea</div>
-    <h2 class="display reveal">
-      <span class="cross">Market research.</span><br>
-      <span class="hot">Pre-imagined.</span>
-    </h2>
-    <p class="reveal">Each concept is a fully-dreamed small-business — brand world, space, objects, rituals, opening-day feeling. You take what inspires and build your own version.</p>
-  </div>
-</section>
-
-<!-- ============ FINAL CTA ============ -->
-<section class="final">
-  <div class="wrap">
-    <h2 class="display reveal">
-      <span>Stop guessing.</span><br>
-      <span class="accent">Start beautiful.</span>
-    </h2>
-    <a href="#gallery" class="btn btn-primary reveal">
-      Pick your concept
-      <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
-    </a>
-  </div>
-</section>
-
-<!-- ============ FOOTER ============ -->
-<footer>
-  <div class="wrap">
-    <div class="footer-grid">
-      <div class="brand"><span class="brand-dot"></span>SVITA<small>MICRO</small></div>
-      <div class="footer-links">
-        <a href="/legal.html#offer">Offer</a>
-        <a href="/legal.html#terms">Terms</a>
-        <a href="/legal.html#privacy">Privacy</a>
-        <a href="/legal.html#refund">Refund</a>
-        <a href="/legal.html#license">License</a>
-        <a href="/legal.html#imprint">Imprint</a>
-      </div>
-      <div class="footer-copy">© 2026 SVITA · LABS67 · <a href="/legal.html" style="color:inherit">Legal</a></div>
-    </div>
-  </div>
-</footer>
-
-<script>
-document.documentElement.lang = 'en';
-/* Language logic removed — site is English-only. setLang kept as no-op for nav compat. */
-window.setLang = function(){};
-
-/* Nav scroll + burger wired by js/svita-nav.js */
-
-/* ===================== SHOP RENDERER ===================== */
-const CAT_PAL = SvitaCard.CAT_PAL;
-const CAT_LABELS = SvitaCard.CAT_LABELS;
-const SB_URL='https://ctdleobjnzniqkqomlrq.supabase.co';
-const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
-if(!window.__svitaSb && window.supabase){
-  window.__svitaSb = window.supabase.createClient(SB_URL, SB_KEY, {auth:{persistSession:true,autoRefreshToken:true,storageKey:'svita-micro-auth'}});
-}
-window.SB = window.__svitaSb;
-let CATALOG = [], FILTERED = [], SHOWN = 0, PAGE = 12;
-const STATE = {cat:'all', sort:'popular', q:''};
-
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.random()*i+1|0;[a[i],a[j]]=[a[j],a[i]]}return a}
-
-async function loadCatalog(){
-  try{
-    const r = await fetch('data/catalog.json',{cache:'no-store'});
-    let raw = await r.json();
-    if(window.SB && SvitaCard.enrichFromDB){
-      raw = await SvitaCard.enrichFromDB(raw, window.SB);
-    }
-    CATALOG = shuffle(raw);
-    applyFilters();
-    buildHeroSlider();
-  }catch(err){ console.error('catalog load failed',err); }
-}
-
-/* ===================== HERO SLIDER ===================== */
-const HERO_SLUGS = ['poppy-matcha','berlin-vintage-shop','paris-candle-atelier','berlin-yoga-loft','berlin-dental-hygiene','berlin-code-camp'];
-function buildHeroSlider(){
-  const track = document.getElementById('hero-track');
-  const dots  = document.getElementById('hero-dots');
-  if(!track || !dots) return;
-  const pick = HERO_SLUGS.map(s=>CATALOG.find(c=>c.slug===s)).filter(Boolean);
-  const featured = pick.length ? pick : CATALOG.slice(0,6);
-  if(!featured.length) return;
-  track.innerHTML = '';
-  dots.innerHTML = '';
-  featured.forEach((c,i)=>{
-    const slide = document.createElement('div');
-    slide.className = 'slide';
-    slide.appendChild(cardEl(c));
-    track.appendChild(slide);
-    const dot = document.createElement('button');
-    if(i===0) dot.classList.add('on');
-    dot.setAttribute('aria-label','Slide '+(i+1));
-    dot.addEventListener('click',()=>{ go(i); bump(); });
-    dots.appendChild(dot);
-  });
-  let idx = 0, t;
-  function go(n){
-    idx = (n + featured.length) % featured.length;
-    track.style.transform = `translateX(-${idx*100}%)`;
-    dots.querySelectorAll('button').forEach((b,j)=>b.classList.toggle('on',j===idx));
-  }
-  function auto(){ go(idx+1); }
-  function bump(){ clearInterval(t); t = setInterval(auto, 6000); }
-  document.getElementById('hero-prev').addEventListener('click',()=>{ go(idx-1); bump(); });
-  document.getElementById('hero-next').addEventListener('click',()=>{ go(idx+1); bump(); });
-  t = setInterval(auto, 6000);
-  const wrap = document.getElementById('hero-slider');
-  wrap.addEventListener('mouseenter',()=>clearInterval(t));
-  wrap.addEventListener('mouseleave',()=>{ t = setInterval(auto, 6000); });
-  // swipe
-  let sx = 0, dx = 0;
-  track.addEventListener('touchstart',e=>{ sx = e.touches[0].clientX; dx = 0; clearInterval(t); },{passive:true});
-  track.addEventListener('touchmove', e=>{ dx = e.touches[0].clientX - sx; },{passive:true});
-  track.addEventListener('touchend',  ()=>{ if(Math.abs(dx)>40) go(idx + (dx<0?1:-1)); bump(); });
-}
-
-function applyFilters(){
-  FILTERED = CATALOG.filter(c=>{
-    if(STATE.cat !== 'all' && c.category !== STATE.cat) return false;
-    if(STATE.q){
-      const q = STATE.q.toLowerCase();
-      if(!(c.name.toLowerCase().includes(q) || (c.tagline||'').toLowerCase().includes(q))) return false;
-    }
-    return true;
-  });
-  const cmp = {
-    'price-asc':(a,b)=>a.price_eur-b.price_eur,
-    'price-desc':(a,b)=>b.price_eur-a.price_eur,
-    'budget-asc':(a,b)=>a.budget_eur-b.budget_eur,
-    'budget-desc':(a,b)=>b.budget_eur-a.budget_eur,
-    'weeks-asc':(a,b)=>(a.weeks||99)-(b.weeks||99),
-    'name':(a,b)=>a.name.localeCompare(b.name),
-    'popular':(a,b)=>0,
-  }[STATE.sort];
-  if(cmp) FILTERED.sort(cmp);
-  SHOWN = 0;
-  document.getElementById('shop-grid').innerHTML = '';
-  document.getElementById('f-count').textContent = FILTERED.length + ' concept' + (FILTERED.length===1?'':'s');
-  renderMore();
-}
-
-function renderMore(){
-  const grid = document.getElementById('shop-grid');
-  if(!FILTERED.length){
-    grid.innerHTML = '<div class="empty">No concepts match these filters.</div>';
-    document.getElementById('load-more').style.display = 'none';
-    return;
-  }
-  const end = Math.min(SHOWN + PAGE, FILTERED.length);
-  const frag = document.createDocumentFragment();
-  for(let i = SHOWN; i < end; i++){
-    frag.appendChild(cardEl(FILTERED[i]));
-  }
-  grid.appendChild(frag);
-  SHOWN = end;
-  document.getElementById('load-more').style.display = SHOWN < FILTERED.length ? 'inline-flex' : 'none';
-}
-
-function cardEl(c){
-  const el = document.createElement('div');
-  el.className = 'card';
-  const vis = SvitaCard.visual(c);
-  el.innerHTML = `
-    <div class="media">
-      ${vis}
-      <div class="shade"></div>
-      <button type="button" class="heart" data-fav="${SvitaCard.esc(c.slug)}" aria-label="Favorite" aria-pressed="false">
-        <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg>
-      </button>
-      <span class="price">€${c.price_eur}</span>
-    </div>
-    <div class="body">
-      <span class="cat">${SvitaCard.catLabel(c.category)}</span>
-      <h3>${SvitaCard.esc(c.name)}</h3>
-      <p class="tagline">${SvitaCard.esc(c.tagline||'')}</p>
-      <div class="meta">
-        <span>€${(c.budget_eur||0).toLocaleString()} launch</span>
-        <span>${c.size_m2||'—'} m²</span>
-        <span>${c.weeks||'—'}w</span>
-      </div>
-      <div class="buy-row">
-        <button class="buy" data-buy>Buy €${c.price_eur} <svg width="14" height="9" viewBox="0 0 14 9" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 4.5h11M8 1l4 3.5-4 3.5"/></svg></button>
-        <button class="view" data-view>View</button>
-      </div>
-    </div>`;
-  el.addEventListener('click', e=>{
-    if(e.target.closest('[data-buy]')){
-      e.stopPropagation();
-      // Keep the user in a logged-in session; the 3-tier modal lives on view.html.
-      window.location.href = `view.html?c=${c.slug}&buy=1`;
-      return;
-    }
-    window.location.href = `view.html?c=${c.slug}`;
-  });
-  return el;
-}
-
-/* wiring */
-document.getElementById('cat-chips').addEventListener('click', e=>{
-  const b = e.target.closest('.chip');
-  if(!b) return;
-  document.querySelectorAll('#cat-chips .chip').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on');
-  STATE.cat = b.dataset.cat;
-  applyFilters();
-});
-document.getElementById('f-sort').addEventListener('change',e=>{ STATE.sort=e.target.value; applyFilters(); });
-document.getElementById('shop-q').addEventListener('input',e=>{ STATE.q=e.target.value; applyFilters(); });
-document.getElementById('load-more').addEventListener('click', renderMore);
-
-/* col switcher */
-document.getElementById('f-cols').addEventListener('click', e=>{
-  const b = e.target.closest('.col-btn');
-  if(!b) return;
-  document.querySelectorAll('#f-cols .col-btn').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on');
-  document.getElementById('shop-grid').style.setProperty('--cols', b.dataset.cols);
-  localStorage.setItem('shop_cols', b.dataset.cols);
-});
-const savedCols = localStorage.getItem('shop_cols');
-if(savedCols){
-  document.querySelectorAll('#f-cols .col-btn').forEach(x=>x.classList.toggle('on', x.dataset.cols===savedCols));
-  document.getElementById('shop-grid').style.setProperty('--cols', savedCols);
-}
-
-loadCatalog();
-
-/* ===================== SHOP ENTRANCE FX ===================== */
-const gallery = document.getElementById('gallery');
-const flash = document.getElementById('shop-flash');
-function enterShop(){
-  flash.classList.remove('go'); void flash.offsetWidth; flash.classList.add('go');
-  gallery.classList.remove('armed'); void gallery.offsetWidth; gallery.classList.add('armed');
-  gallery.scrollIntoView({behavior:'smooth', block:'start'});
-}
-document.querySelectorAll('a[href="#gallery"], [data-buy]').forEach(el=>{
-  el.addEventListener('click', e=>{
-    e.preventDefault();
-    enterShop();
-  });
-});
-
-/* ===================== REVEAL ON SCROLL ===================== */
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-  });
-},{threshold:0.12, rootMargin:'0px 0px -60px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-/* ===================== PREVIEW PROTECTION ===================== */
-document.querySelectorAll('.protected').forEach(root=>{
-  root.addEventListener('contextmenu',e=>{e.preventDefault();return false;});
-  root.addEventListener('dragstart',e=>{e.preventDefault();return false;});
-  root.addEventListener('selectstart',e=>{e.preventDefault();return false;});
-});
-document.querySelectorAll('.gallery img, .hero-visual img').forEach(el=>{
-  el.setAttribute('draggable','false');
-});
-document.addEventListener('keydown',e=>{
-  if((e.ctrlKey||e.metaKey) && ['s','u','p'].includes(e.key.toLowerCase())){
-    if(document.activeElement && document.activeElement.closest('.protected')){
-      e.preventDefault();
-    }
-  }
-});
-</script>
-<!-- i18n disabled: site is English-only -->
-<script src="assets/analytics.js" defer></script>
-<script src="assets/consent.js" defer></script>
 </body>
 </html>
