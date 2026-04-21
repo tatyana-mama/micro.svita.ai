@@ -28,3 +28,5 @@
 | 2026-04-22 | 108 | budapest-toy-store | Alpine | Punk Florist | `#F3EEE0` | sun-faded | backlit | centered-void | wood | macro-hand |
 | 2026-04-22 | 109 | cairo-shawarma | Mediterranean | Street Poet | `#E8C79F` | night-lit | candlelit | symmetric | wood | full-body |
 | 2026-04-22 | 110 | cluj-hair-salon | Mediterranean | Punk Florist | `#F0E4CF` | sun-faded | blue-hour | symmetric | stone | empty-scene |
+| 2026-04-22 | 30 | budapest-bath-mini | Alpine | Digital Monk | `#D4C4A8` | neutral-moody | sidelit | rule-of-thirds | ceramic | empty-scene |
+| 2026-04-22 | 48 | bucharest-eggcraft | Mediterranean | Nurturer | `#D4A679` | sun-faded | overhead | diagonal | wood | portrait |

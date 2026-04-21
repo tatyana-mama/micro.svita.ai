@@ -330,5 +330,9 @@
   "copenhagen-print-bar": {
     "name": "111 · TRYK 22",
     "pdf": "presentations/111-copenhagen-print-bar/TRYK-22_deck.pdf"
+  },
+  "bucharest-eggcraft": {
+    "name": "48 · ÎNCONDEI",
+    "pdf": "presentations/48-bucharest-eggcraft/INCONDEI_deck.pdf"
   }
 }

@@ -1,0 +1,25 @@
+{
+  "slug": "bucharest-eggcraft",
+  "category": "heritage-craft",
+  "country": "RO",
+  "variant": 0,
+  "region": "Mediterranean",
+  "archetype": "Nurturer",
+  "hero_hue": "#D4A679",
+  "palette": [
+    "#D4A679",
+    "#5C3A2E",
+    "#7A8B4F",
+    "#F0E4CF",
+    "#3A4F3A"
+  ],
+  "mood": "sun-faded",
+  "light": "overhead",
+  "composition": "diagonal",
+  "texture": "wood",
+  "human": "portrait",
+  "season": "autumn",
+  "time_of_day": "morning",
+  "collision_score": 2,
+  "warning": "kept best of 10 attempts (score=2, ≥2 means overlap with recent)"
+}
