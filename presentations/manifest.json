@@ -286,5 +286,9 @@
   "delft-blue-tile-studio": {
     "name": "94 · BLAAUW 9",
     "pdf": "presentations/94-delft-blue-tile-studio/BLAAUW-9_deck.pdf"
+  },
+  "bordeaux-wine-cave": {
+    "name": "95 · CAVE 9",
+    "pdf": "presentations/95-bordeaux-wine-cave/CAVE-9_deck.pdf"
   }
 }
