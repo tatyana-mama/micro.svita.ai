@@ -1,74 +1,272 @@
 {
-  "ljubljana-sleep-lab": "presentations/01-ljubljana-sleep-lab%20%5Bgood%5D/SEN-LAB_deck.pdf",
-  "stockholm-car-wash": "presentations/02-stockholm-car-wash/ALKA-VASK_deck.pdf",
-  "stockholm-cryo-bar": "presentations/03-stockholm-cryo-bar%20%5Bgood%5D/CRYO-3_deck.pdf",
-  "stockholm-glass-blow": "presentations/04-stockholm-glass-blow%20%5Bgood%5D/BLAS-STUDIO_deck.pdf",
-  "stockholm-wellness": "presentations/05-stockholm-wellness%20%5Bgood%5D/LAGOM-LAB_deck.pdf",
-  "vienna-dental-spa": "presentations/06-vienna-dental-spa%20%5Bgood%5D/ZAHN-SPA_deck.pdf",
-  "copenhagen-makers": "presentations/07-copenhagen-makers/MAKER-10_deck.pdf",
-  "dublin-english-hub": "presentations/08-dublin-english-hub/ENGLISH-HUB_deck.pdf",
-  "ljubljana-yoga-teach": "presentations/09-ljubljana-yoga-teach/TEACH-YOGA_deck.pdf",
-  "madrid-yoga-barre": "presentations/10-madrid-yoga-barre/BARRE-10_deck.pdf",
-  "paris-meditation": "presentations/11-paris-meditation/PAUSE_deck.pdf",
-  "milano-design-store": "presentations/12-milano-design-store%20%5Bgood%5D/OGGETTO_deck.pdf",
-  "lisbon-pilates": "presentations/13-lisbon-pilates%20%5Bgood%5D/REFORMER-3_deck.pdf",
-  "helsinki-wood-studio": "presentations/14-helsinki-wood-studio/KOVA-WOOD_deck.pdf",
-  "helsinki-sauna-club": "presentations/15-helsinki-sauna-club%20%5Bgood%5D/LOYLY-MINI_deck.pdf",
-  "amsterdam-letterpress": "presentations/17-amsterdam-letterpress/LETTERPRESS_deck.pdf",
-  "athens-olive-spa": "presentations/18-athens-olive-spa%20%5Bgood%5D/ELIA_deck.pdf",
-  "berlin-code-camp": "presentations/19-berlin-code-camp%20%5Bgood%5D/CODE-6_deck.pdf",
-  "brussels-chiro-care": "presentations/20-brussels-chiro-care%20%5Bgood%5D/CHIRO-1_deck.pdf",
-  "paris-optometry": "presentations/21-paris-optometry%20%5Bgood%5D/LUNETTE-6_deck.pdf",
-  "rome-camera-repair": "presentations/22-rome-camera-repair/OTTICA-MECCANICA_deck.pdf",
-  "rome-italian-school": "presentations/23-rome-italian-school/PARLA_deck.pdf",
-  "rome-posture-clinic": "presentations/24-rome-posture-clinic%20%5Bgood%5D/POSTURA_deck.pdf",
-  "rome-thermal-bath": "presentations/25-rome-thermal-bath/PICCOLA-TERMA_deck.pdf",
-  "brussels-yoga-shala": "presentations/29-brussels-yoga-shala/SHALA-8_deck.pdf",
-  "budapest-bath-mini": "presentations/30-budapest-bath-mini/THERMAL-4_deck.pdf",
-  "amsterdam-kids-studio": "presentations/31-amsterdam-kids-studio/KIDS-MAKE_deck.pdf",
-  "warsaw-zapiekanka-okno": "presentations/32-warsaw-zapiekanka-okno%20%5Bgood%5D/ZAPIEX_deck.pdf",
-  "poppy-matcha": "presentations/35-poppy-matcha/POPPY-MATCHA_deck.pdf",
-  "berlin-dental-hygiene": "presentations/44-berlin-dental-hygiene/HYGIENE-LAB_deck.pdf",
-  "budapest-dance-studio": "presentations/50-budapest-dance-studio/TANC-10_deck.pdf",
-  "helsinki-design-lab": "presentations/52-helsinki-design-lab/DESIGN-8_deck.pdf",
-  "oaxaca-taco-joint": "presentations/58-oaxaca-taco-joint/MASA-3_deck.pdf",
-  "porto-tile-studio": "presentations/63-porto-tile-studio%20%5Bgood%5D/AZULEJO-4_deck.pdf",
-  "prague-crystal-spa": "presentations/68-prague-crystal-spa/CRYSTAL-1_deck.pdf",
-  "sardinia-pasta-lab": "presentations/73-sardinia-pasta-lab%20%5Bgood%5D/MALLOREDDUS_deck.pdf",
-  "seville-tapas-nook": "presentations/74-seville-tapas-nook/LA-NIETA_deck.pdf",
-  "bangkok-pad-thai": "presentations/75-bangkok-pad-thai%20%5Bgood%5D/KRUA-6_deck.pdf",
-  "beirut-mezze-den": "presentations/76-beirut-mezze-den%20%5Bgood%5D/MEZZE-12_deck.pdf",
-  "lisbon-plant-store": "presentations/77-lisbon-plant-store/VERDE-22_deck.pdf",
-  "ljubljana-bag-fix": "presentations/78-ljubljana-bag-fix/CUIR-9_deck.pdf",
-  "madrid-music-lessons": "presentations/79-madrid-music-lessons/ACORDE-3_deck.pdf",
-  "warsaw-art-studio": "presentations/80-warsaw-art-studio/ATELIER-6_deck.pdf",
-  "warsaw-hygiene-hub": "presentations/81-warsaw-hygiene-hub/HIG-HUB_deck.pdf",
-  "warsaw-movement": "presentations/82-warsaw-movement%20%5Bgood%5D/RUCH_deck.pdf",
-  "prague-puppet-atelier": "presentations/70-prague-puppet-atelier/LOUTKA_deck.pdf",
-  "sofia-eco-store": "presentations/26-sofia-eco-store/SOFIA-ECO-STORE_deck.pdf",
-  "lisbon-osteo-clinic": "presentations/27-lisbon-osteo-clinic/OSTEO-1_deck.pdf",
-  "krakow-obwarzanek-cart": "presentations/84-krakow-obwarzanek-cart/OBWARZANEK-6_deck.pdf",
-  "reykjavik-wool-room": "presentations/85-reykjavik-wool-room/LOPI_deck.pdf",
-  "zurich-fondue-cellar": "presentations/86-zurich-fondue-cellar/CHAESTLI_deck.pdf",
-  "oslo-waffle-cart": "presentations/87-oslo-waffle-cart/VAFFEL-5_deck.pdf",
-  "poznan-rogale-co": "presentations/88-poznan-rogale-co/ROGALE-PR5_deck.pdf",
-  "paris-candle-atelier": "presentations/42-paris-candle-atelier/CIRE_11_deck.pdf",
-  "gdansk-amber-atelier": "presentations/83-gdansk-amber-atelier/BURSZTYN-6_deck.pdf",
+  "ljubljana-sleep-lab": {
+    "name": "01 · SEN-LAB",
+    "pdf": "presentations/01-ljubljana-sleep-lab%20%5Bgood%5D/SEN-LAB_deck.pdf"
+  },
+  "stockholm-car-wash": {
+    "name": "02 · ALKA-VASK",
+    "pdf": "presentations/02-stockholm-car-wash/ALKA-VASK_deck.pdf"
+  },
+  "stockholm-cryo-bar": {
+    "name": "03 · CRYO 3",
+    "pdf": "presentations/03-stockholm-cryo-bar%20%5Bgood%5D/CRYO-3_deck.pdf"
+  },
+  "stockholm-glass-blow": {
+    "name": "04 · BLAS-STUDIO",
+    "pdf": "presentations/04-stockholm-glass-blow%20%5Bgood%5D/BLAS-STUDIO_deck.pdf"
+  },
+  "stockholm-wellness": {
+    "name": "05 · LAGOM-LAB",
+    "pdf": "presentations/05-stockholm-wellness%20%5Bgood%5D/LAGOM-LAB_deck.pdf"
+  },
+  "vienna-dental-spa": {
+    "name": "06 · ZAHN-SPA",
+    "pdf": "presentations/06-vienna-dental-spa%20%5Bgood%5D/ZAHN-SPA_deck.pdf"
+  },
+  "copenhagen-makers": {
+    "name": "07 · MAKER 10",
+    "pdf": "presentations/07-copenhagen-makers/MAKER-10_deck.pdf"
+  },
+  "dublin-english-hub": {
+    "name": "08 · ENGLISH-HUB",
+    "pdf": "presentations/08-dublin-english-hub/ENGLISH-HUB_deck.pdf"
+  },
+  "ljubljana-yoga-teach": {
+    "name": "09 · TEACH-YOGA",
+    "pdf": "presentations/09-ljubljana-yoga-teach/TEACH-YOGA_deck.pdf"
+  },
+  "madrid-yoga-barre": {
+    "name": "10 · BARRE 10",
+    "pdf": "presentations/10-madrid-yoga-barre/BARRE-10_deck.pdf"
+  },
+  "paris-meditation": {
+    "name": "11 · PAUSE",
+    "pdf": "presentations/11-paris-meditation/PAUSE_deck.pdf"
+  },
+  "milano-design-store": {
+    "name": "12 · OGGETTO",
+    "pdf": "presentations/12-milano-design-store%20%5Bgood%5D/OGGETTO_deck.pdf"
+  },
+  "lisbon-pilates": {
+    "name": "13 · REFORMER 3",
+    "pdf": "presentations/13-lisbon-pilates%20%5Bgood%5D/REFORMER-3_deck.pdf"
+  },
+  "helsinki-wood-studio": {
+    "name": "14 · KOVA-WOOD",
+    "pdf": "presentations/14-helsinki-wood-studio/KOVA-WOOD_deck.pdf"
+  },
+  "helsinki-sauna-club": {
+    "name": "15 · LOYLY-MINI",
+    "pdf": "presentations/15-helsinki-sauna-club%20%5Bgood%5D/LOYLY-MINI_deck.pdf"
+  },
+  "amsterdam-letterpress": {
+    "name": "17 · LETTERPRESS",
+    "pdf": "presentations/17-amsterdam-letterpress/LETTERPRESS_deck.pdf"
+  },
+  "athens-olive-spa": {
+    "name": "18 · ELIA",
+    "pdf": "presentations/18-athens-olive-spa%20%5Bgood%5D/ELIA_deck.pdf"
+  },
+  "berlin-code-camp": {
+    "name": "19 · CODE 6",
+    "pdf": "presentations/19-berlin-code-camp%20%5Bgood%5D/CODE-6_deck.pdf"
+  },
+  "brussels-chiro-care": {
+    "name": "20 · CHIRO 1",
+    "pdf": "presentations/20-brussels-chiro-care%20%5Bgood%5D/CHIRO-1_deck.pdf"
+  },
+  "paris-optometry": {
+    "name": "21 · LUNETTE 6",
+    "pdf": "presentations/21-paris-optometry%20%5Bgood%5D/LUNETTE-6_deck.pdf"
+  },
+  "rome-camera-repair": {
+    "name": "22 · OTTICA-MECCANICA",
+    "pdf": "presentations/22-rome-camera-repair/OTTICA-MECCANICA_deck.pdf"
+  },
+  "rome-italian-school": {
+    "name": "23 · PARLA",
+    "pdf": "presentations/23-rome-italian-school/PARLA_deck.pdf"
+  },
+  "rome-posture-clinic": {
+    "name": "24 · POSTURA",
+    "pdf": "presentations/24-rome-posture-clinic%20%5Bgood%5D/POSTURA_deck.pdf"
+  },
+  "rome-thermal-bath": {
+    "name": "25 · PICCOLA-TERMA",
+    "pdf": "presentations/25-rome-thermal-bath/PICCOLA-TERMA_deck.pdf"
+  },
+  "brussels-yoga-shala": {
+    "name": "29 · SHALA 8",
+    "pdf": "presentations/29-brussels-yoga-shala/SHALA-8_deck.pdf"
+  },
+  "budapest-bath-mini": {
+    "name": "30 · THERMAL 4",
+    "pdf": "presentations/30-budapest-bath-mini/THERMAL-4_deck.pdf"
+  },
+  "amsterdam-kids-studio": {
+    "name": "31 · KIDS-MAKE",
+    "pdf": "presentations/31-amsterdam-kids-studio/KIDS-MAKE_deck.pdf"
+  },
+  "warsaw-zapiekanka-okno": {
+    "name": "32 · ZAPIEX",
+    "pdf": "presentations/32-warsaw-zapiekanka-okno%20%5Bgood%5D/ZAPIEX_deck.pdf"
+  },
+  "poppy-matcha": {
+    "name": "35 · POPPY-MATCHA",
+    "pdf": "presentations/35-poppy-matcha/POPPY-MATCHA_deck.pdf"
+  },
+  "berlin-dental-hygiene": {
+    "name": "44 · HYGIENE-LAB",
+    "pdf": "presentations/44-berlin-dental-hygiene/HYGIENE-LAB_deck.pdf"
+  },
+  "budapest-dance-studio": {
+    "name": "50 · TANC 10",
+    "pdf": "presentations/50-budapest-dance-studio/TANC-10_deck.pdf"
+  },
+  "helsinki-design-lab": {
+    "name": "52 · DESIGN 8",
+    "pdf": "presentations/52-helsinki-design-lab/DESIGN-8_deck.pdf"
+  },
+  "oaxaca-taco-joint": {
+    "name": "58 · MASA 3",
+    "pdf": "presentations/58-oaxaca-taco-joint/MASA-3_deck.pdf"
+  },
+  "porto-tile-studio": {
+    "name": "63 · AZULEJO 4",
+    "pdf": "presentations/63-porto-tile-studio%20%5Bgood%5D/AZULEJO-4_deck.pdf"
+  },
+  "prague-crystal-spa": {
+    "name": "68 · CRYSTAL 1",
+    "pdf": "presentations/68-prague-crystal-spa/CRYSTAL-1_deck.pdf"
+  },
+  "sardinia-pasta-lab": {
+    "name": "73 · MALLOREDDUS",
+    "pdf": "presentations/73-sardinia-pasta-lab%20%5Bgood%5D/MALLOREDDUS_deck.pdf"
+  },
+  "seville-tapas-nook": {
+    "name": "74 · LA-NIETA",
+    "pdf": "presentations/74-seville-tapas-nook/LA-NIETA_deck.pdf"
+  },
+  "bangkok-pad-thai": {
+    "name": "75 · KRUA 6",
+    "pdf": "presentations/75-bangkok-pad-thai%20%5Bgood%5D/KRUA-6_deck.pdf"
+  },
+  "beirut-mezze-den": {
+    "name": "76 · MEZZE 12",
+    "pdf": "presentations/76-beirut-mezze-den%20%5Bgood%5D/MEZZE-12_deck.pdf"
+  },
+  "lisbon-plant-store": {
+    "name": "77 · VERDE 22",
+    "pdf": "presentations/77-lisbon-plant-store/VERDE-22_deck.pdf"
+  },
+  "ljubljana-bag-fix": {
+    "name": "78 · CUIR 9",
+    "pdf": "presentations/78-ljubljana-bag-fix/CUIR-9_deck.pdf"
+  },
+  "madrid-music-lessons": {
+    "name": "79 · ACORDE 3",
+    "pdf": "presentations/79-madrid-music-lessons/ACORDE-3_deck.pdf"
+  },
+  "warsaw-art-studio": {
+    "name": "80 · ATELIER 6",
+    "pdf": "presentations/80-warsaw-art-studio/ATELIER-6_deck.pdf"
+  },
+  "warsaw-hygiene-hub": {
+    "name": "81 · HIG-HUB",
+    "pdf": "presentations/81-warsaw-hygiene-hub/HIG-HUB_deck.pdf"
+  },
+  "warsaw-movement": {
+    "name": "82 · RUCH",
+    "pdf": "presentations/82-warsaw-movement%20%5Bgood%5D/RUCH_deck.pdf"
+  },
+  "prague-puppet-atelier": {
+    "name": "70 · LOUTKA",
+    "pdf": "presentations/70-prague-puppet-atelier/LOUTKA_deck.pdf"
+  },
+  "sofia-eco-store": {
+    "name": "26 · SOFIA-ECO-STORE",
+    "pdf": "presentations/26-sofia-eco-store/SOFIA-ECO-STORE_deck.pdf"
+  },
+  "lisbon-osteo-clinic": {
+    "name": "27 · OSTEO 1",
+    "pdf": "presentations/27-lisbon-osteo-clinic/OSTEO-1_deck.pdf"
+  },
+  "krakow-obwarzanek-cart": {
+    "name": "84 · OBWARZANEK 6",
+    "pdf": "presentations/84-krakow-obwarzanek-cart/OBWARZANEK-6_deck.pdf"
+  },
+  "reykjavik-wool-room": {
+    "name": "85 · LOPI",
+    "pdf": "presentations/85-reykjavik-wool-room/LOPI_deck.pdf"
+  },
+  "zurich-fondue-cellar": {
+    "name": "86 · CHAESTLI",
+    "pdf": "presentations/86-zurich-fondue-cellar/CHAESTLI_deck.pdf"
+  },
+  "oslo-waffle-cart": {
+    "name": "87 · VAFFEL 5",
+    "pdf": "presentations/87-oslo-waffle-cart/VAFFEL-5_deck.pdf"
+  },
+  "poznan-rogale-co": {
+    "name": "88 · ROGALE-PR5",
+    "pdf": "presentations/88-poznan-rogale-co/ROGALE-PR5_deck.pdf"
+  },
+  "paris-candle-atelier": {
+    "name": "42 · CIRE 11",
+    "pdf": "presentations/42-paris-candle-atelier/CIRE_11_deck.pdf"
+  },
+  "gdansk-amber-atelier": {
+    "name": "83 · BURSZTYN 6",
+    "pdf": "presentations/83-gdansk-amber-atelier/BURSZTYN-6_deck.pdf"
+  },
   "tallinn-rye-bakery": {
     "name": "91 · MUST-LEIB",
     "pdf": "presentations/91-tallinn-rye-bakery/MUST-LEIB_deck.pdf"
   },
-  "tel-aviv-hummus": "presentations/43-tel-aviv-hummus/HUMUS_14_deck.pdf",
-  "amsterdam-massage": "presentations/16-amsterdam-massage/RUST_deck.pdf",
-  "warsaw-waffle-works": "presentations/33-warsaw-waffle-works/WAFEL-DWORZEC_deck.pdf",
-  "copenhagen-smorre": "presentations/34-copenhagen-smorre/SMORREBROD-10_deck.pdf",
-  "amsterdam-juice-lab": "presentations/36-amsterdam-juice-lab/JUICE-LAB_deck.pdf",
-  "berlin-bagel-co": "presentations/37-berlin-bagel-co/BAGELHAUS_deck.pdf",
-  "berlin-vintage-shop": "presentations/38-berlin-vintage-shop/ARCHIV-90_deck.pdf",
-  "berlin-yoga-loft": "presentations/39-berlin-yoga-loft/BERLIN_YOGA_LOFT_deck.pdf",
-  "lisbon-barber-co": "presentations/40-lisbon-barber-co/BARBA_AZUL_deck.pdf",
-  "milano-gelato-cube": "presentations/41-milano-gelato-cube/CUBO_deck.pdf",
-  "bruges-beauty-bar": "presentations/45-bruges-beauty-bar/LIEFDE_deck.pdf",
+  "tel-aviv-hummus": {
+    "name": "43 · HUMUS 14",
+    "pdf": "presentations/43-tel-aviv-hummus/HUMUS_14_deck.pdf"
+  },
+  "amsterdam-massage": {
+    "name": "16 · RUST",
+    "pdf": "presentations/16-amsterdam-massage/RUST_deck.pdf"
+  },
+  "warsaw-waffle-works": {
+    "name": "33 · WAFEL-DWORZEC",
+    "pdf": "presentations/33-warsaw-waffle-works/WAFEL-DWORZEC_deck.pdf"
+  },
+  "copenhagen-smorre": {
+    "name": "34 · SMORREBROD 10",
+    "pdf": "presentations/34-copenhagen-smorre/SMORREBROD-10_deck.pdf"
+  },
+  "amsterdam-juice-lab": {
+    "name": "36 · JUICE-LAB",
+    "pdf": "presentations/36-amsterdam-juice-lab/JUICE-LAB_deck.pdf"
+  },
+  "berlin-bagel-co": {
+    "name": "37 · BAGELHAUS",
+    "pdf": "presentations/37-berlin-bagel-co/BAGELHAUS_deck.pdf"
+  },
+  "berlin-vintage-shop": {
+    "name": "38 · ARCHIV 90",
+    "pdf": "presentations/38-berlin-vintage-shop/ARCHIV-90_deck.pdf"
+  },
+  "berlin-yoga-loft": {
+    "name": "39 · BERLIN YOGA LOFT",
+    "pdf": "presentations/39-berlin-yoga-loft/BERLIN_YOGA_LOFT_deck.pdf"
+  },
+  "lisbon-barber-co": {
+    "name": "40 · BARBA AZUL",
+    "pdf": "presentations/40-lisbon-barber-co/BARBA_AZUL_deck.pdf"
+  },
+  "milano-gelato-cube": {
+    "name": "41 · CUBO",
+    "pdf": "presentations/41-milano-gelato-cube/CUBO_deck.pdf"
+  },
+  "bruges-beauty-bar": {
+    "name": "45 · LIEFDE",
+    "pdf": "presentations/45-bruges-beauty-bar/LIEFDE_deck.pdf"
+  },
   "edinburgh-whisky-flights": {
     "name": "92 · DRAM SIX",
     "pdf": "presentations/92-edinburgh-whisky-flights/DRAM-SIX_deck.pdf"
@@ -80,5 +278,9 @@
   "basel-watch-repair": {
     "name": "94 · UHR 3",
     "pdf": "presentations/94-basel-watch-repair/UHR-3_deck.pdf"
+  },
+  "amsterdam-physio": {
+    "name": "28 · PHYSIO 1",
+    "pdf": "presentations/28-amsterdam-physio/PHYSIO_1_deck.pdf"
   }
 }
