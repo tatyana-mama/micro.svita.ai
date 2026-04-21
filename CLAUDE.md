@@ -5,6 +5,15 @@
 > 1. [`presentations/_SOP.md`](presentations/_SOP.md) — полный протокол (PALETTE MATRIX, WOW LAYER, 25-slide spec, фазы 0-8)
 > 2. [`presentations/_SESSION_PROMPT.md`](presentations/_SESSION_PROMPT.md) — короткая копируемая версия с NUMBERING RULE
 
+## 🏆 GOLD STANDARD
+
+Эталонные брендбуки — сессия, выдавшая лучший уровень по SOP:
+- [`42-paris-candle-atelier`](presentations/42-paris-candle-atelier/) · CIRE 11 · craft
+- [`43-tel-aviv-hummus`](presentations/43-tel-aviv-hummus/) · HUMUS 14 · food
+- [`94-basel-watch-repair`](presentations/94-basel-watch-repair/) · UHR 3 · repair/service
+
+Любая новая концепция должна **соответствовать** их планке: dramatically, плотность, типографика, editorial-подача. В ТЗ всегда строка `reference: 42 · 43 · 94` (или одна ближайшая по категории). Подробности применения — в `presentations/_SESSION_PROMPT.md`.
+
 ## Ключевые инварианты (не нарушать)
 
 - **NUMBERING RULE:** название концепции **ВСЕГДА** идёт как `NN · <BRAND>` (пример: `01 · SEN LAB`, `07 · ZAPIEX`). Применяется на slide-01 / 02 / 14 / 25, в `manifest.json.name`, в `concepts_catalog.name`, в `shop.html` / `view.html` карточках, в Obsidian логе. Без исключений.
