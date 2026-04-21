@@ -4,3 +4,6 @@
 android/
 ios/
 node_modules/
+
+# Intermediate Vertex nano-banana artifacts — not needed in repo
+presentations/*/_photos/
