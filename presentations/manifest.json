@@ -54,7 +54,10 @@
   "poznan-rogale-co": "presentations/88-poznan-rogale-co/ROGALE-PR5_deck.pdf",
   "paris-candle-atelier": "presentations/42-paris-candle-atelier/CIRE_11_deck.pdf",
   "gdansk-amber-atelier": "presentations/83-gdansk-amber-atelier/BURSZTYN-6_deck.pdf",
-  "tallinn-rye-bakery": "presentations/91-tallinn-rye-bakery/MUST-LEIB_deck.pdf",
+  "tallinn-rye-bakery": {
+    "name": "91 · MUST-LEIB",
+    "pdf": "presentations/91-tallinn-rye-bakery/MUST-LEIB_deck.pdf"
+  },
   "tel-aviv-hummus": "presentations/43-tel-aviv-hummus/HUMUS_14_deck.pdf",
   "amsterdam-massage": "presentations/16-amsterdam-massage/RUST_deck.pdf",
   "warsaw-waffle-works": "presentations/33-warsaw-waffle-works/WAFEL-DWORZEC_deck.pdf",
@@ -66,5 +69,12 @@
   "lisbon-barber-co": "presentations/40-lisbon-barber-co/BARBA_AZUL_deck.pdf",
   "milano-gelato-cube": "presentations/41-milano-gelato-cube/CUBO_deck.pdf",
   "bruges-beauty-bar": "presentations/45-bruges-beauty-bar/LIEFDE_deck.pdf",
-  "edinburgh-whisky-flights": "presentations/92-edinburgh-whisky-flights/DRAM-SIX_deck.pdf"
+  "edinburgh-whisky-flights": {
+    "name": "92 · DRAM SIX",
+    "pdf": "presentations/92-edinburgh-whisky-flights/DRAM-SIX_deck.pdf"
+  },
+  "marseille-savon-atelier": {
+    "name": "93 · SAVON 7",
+    "pdf": "presentations/93-marseille-savon-atelier/SAVON-7_deck.pdf"
+  }
 }
