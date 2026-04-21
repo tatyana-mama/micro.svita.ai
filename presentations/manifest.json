@@ -290,5 +290,9 @@
   "bordeaux-wine-cave": {
     "name": "95 · CAVE 9",
     "pdf": "presentations/95-bordeaux-wine-cave/CAVE-9_deck.pdf"
+  },
+  "paris-chemex-only": {
+    "name": "216 · CHEMEX 1",
+    "pdf": "presentations/216-paris-chemex-only/CHEMEX-1_deck.pdf"
   }
 }

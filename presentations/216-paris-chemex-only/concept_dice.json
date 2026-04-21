@@ -1,0 +1,24 @@
+{
+  "slug": "paris-chemex-only",
+  "category": "food",
+  "country": "FR",
+  "variant": 0,
+  "region": "French",
+  "archetype": "Heritage Keeper",
+  "hero_hue": "#A25C4A",
+  "palette": [
+    "#A25C4A",
+    "#3D2E26",
+    "#D7C6A8",
+    "#E5D4AA",
+    "#F3EBD7"
+  ],
+  "mood": "night-lit",
+  "light": "backlit",
+  "composition": "centered-void",
+  "texture": "fabric",
+  "human": "macro-hand",
+  "season": "summer",
+  "time_of_day": "dawn",
+  "collision_score": 0
+}

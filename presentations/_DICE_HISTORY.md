@@ -8,3 +8,9 @@
 
 | Date | NN | Slug | Region | Archetype | Hero hue | Mood | Light | Composition | Texture | Human |
 |---|---|---|---|---|---|---|---|---|---|---|
+| 2026-04-21 | 216 | paris-chemex-only | French | Heritage Keeper | `#A25C4A` | night-lit | backlit | centered-void | fabric | macro-hand |
+| 2026-04-21 | 201 | zagreb-pottery-class | Mediterranean | Design Purist | `#7A8B4F` | neutral-moody | blue-hour | rule-of-thirds | metal | portrait |
+| 2026-04-21 | 97 | berlin-phone-fix | Alpine | Quiet Master | `#6B7A6E` | sun-faded | sidelit | rule-of-thirds | glass | empty-scene |
+| 2026-04-21 | 98 | berlin-screen-print | Berlin | Old Soul | `#6B5A4D` | cool-crisp | sidelit | centered-void | stone | portrait |
+| 2026-04-21 | 99 | berlin-skin-clinic | Berlin | Punk Florist | `#A8A8A8` | neutral-moody | blue-hour | symmetric | stone | full-body |
+| 2026-04-21 | 100 | bratislava-tv-fix | Slavic PL | Heritage Keeper | `#D2C3A3` | cool-crisp | overhead | symmetric | ceramic | portrait |

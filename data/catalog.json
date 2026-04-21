@@ -2206,5 +2206,21 @@
     "brandbook_actualised": true,
     "brandbook_pdf_url": "storage://brandbooks/zagreb-kids-dental.pdf",
     "catalog_number": 200
+  },
+  {
+    "slug": "paris-chemex-only",
+    "name": "216 · CHEMEX 1",
+    "category": "food",
+    "country": "FR",
+    "size_m2": 8,
+    "price_eur": 49,
+    "budget_eur": 9400,
+    "weeks": 6,
+    "hero_image": "presentations/216-paris-chemex-only/slide-01-cover.png",
+    "tagline": "Only Chemex. Only mornings. Four single-origins on rotation.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "presentations/216-paris-chemex-only/CHEMEX-1_deck.pdf",
+    "catalog_number": 216
   }
 ]
