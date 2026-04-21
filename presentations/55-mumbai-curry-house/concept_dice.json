@@ -1,0 +1,25 @@
+{
+  "slug": "mumbai-curry-house",
+  "category": "food-takeaway",
+  "country": "IN",
+  "variant": 0,
+  "region": "Mediterranean",
+  "archetype": "Urban Rebel",
+  "hero_hue": "#D4A679",
+  "palette": [
+    "#D4A679",
+    "#1F2E28",
+    "#F0E4CF",
+    "#A89560",
+    "#E8C79F"
+  ],
+  "mood": "deep-warm",
+  "light": "sidelit",
+  "composition": "diagonal",
+  "texture": "metal",
+  "human": "empty-scene",
+  "season": "summer",
+  "time_of_day": "afternoon",
+  "collision_score": 2,
+  "warning": "kept best of 10 attempts (score=2, ≥2 means overlap with recent)"
+}
