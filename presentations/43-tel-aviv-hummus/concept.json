@@ -1,0 +1,51 @@
+{
+  "slug": "tel-aviv-hummus",
+  "name": "HUMUS 14",
+  "category": "hummus-bar · counter-kitchen",
+  "country": "IL",
+  "city": "Tel Aviv",
+  "district": "Florentin, 14 Vital st.",
+  "size_m2": 34,
+  "weeks": 5,
+  "palette": ["olive-oil-gold", "terracotta", "charred-ochre", "tahini-cream", "zaatar-green", "burnt-black", "raw-concrete"],
+  "tagline": "one bowl · six garnishes · warm pita every four minutes",
+  "equipment": [
+    "granite stone mill for fresh-ground chickpeas (Tufi Matana, Turkey)",
+    "twin pressure-cookers for overnight ful (100 L each)",
+    "wood-burning taboon oven for pita (hand-built by Ramat Gan masons)",
+    "tahini-drizzle brass spoons rack (hand-beaten in Jaffa)",
+    "ice-well with six copper-lidded garnish bowls",
+    "salvaged concrete counter with brass footrail"
+  ],
+  "audience": [
+    "Florentin locals on lunch break from print-shops and studios",
+    "Tel Aviv tech workers escaping high-rise towers",
+    "tourists sent by a friend — never by a guidebook",
+    "night-shift DJs after Cuckoo's Nest closes"
+  ],
+  "rituals": "customer orders one of six garnish styles → ladle of warm hummus poured from the centre → well of olive oil pressed into middle → whole chickpeas + garnish spooned in → pita handed over the counter straight from taboon oven, still steaming",
+  "signature_dish": "HUMUS MASABACHA — whole warm chickpeas, sunny tahini, split lemon, crushed cumin, smoked olive oil, fresh parsley",
+  "unique": "the only hummus bar in Tel Aviv that mills chickpeas fresh every morning at 05:30, serves only six garnish styles (never more), and closes the moment the last chickpea is ground",
+  "price_range": "₪28 — ₪54",
+  "prices": {
+    "humus_masabacha": "₪38",
+    "humus_ful": "₪42",
+    "humus_mushroom": "₪44",
+    "humus_tahini_only": "₪28",
+    "humus_lamb": "₪54",
+    "humus_onion_jam": "₪40",
+    "warm_pita_extra": "₪6",
+    "sahlab_dessert": "₪18"
+  },
+  "economics": {
+    "rent_month_eur": 2200,
+    "revenue_month_eur": 32000,
+    "cogs_percent": 26,
+    "margin_percent": 52,
+    "break_even_month": 5,
+    "capex_eur": 38000
+  },
+  "materials": "raw concrete counter with brass footrail · glazed terracotta bowls · olive-wood boards · unlacquered brass · hand-thrown clay cups · cream Jaffa stone walls · stained pine shelving",
+  "font_pair": "Söhne Breit (display, hebrew + latin) · Atlas Grotesk (body)",
+  "brandmark": "numeral 14 in solid olive-ochre, hand-painted HUMUS below · stamped on kraft takeaway bags with burnt-ochre ink"
+}
