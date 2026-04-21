@@ -253,7 +253,7 @@ open presentations/NN-<slug>/{BRAND}_deck.pdf
 - [ ] без таблиц с границами
 - [ ] без «гарантированный успех»
 - [ ] slide-25 CTA: **€49 Concept / €149 Exclusive** (никаких €490)
-- [ ] PNG ≥ 1.4 MB каждый
+- [ ] PNG ≥ 400 KB каждый (nano-banana PRO обычно 460-720 KB для 16:9)
 - [ ] brand abbreviation в PDF-имени
 
 **Localhost preview:**

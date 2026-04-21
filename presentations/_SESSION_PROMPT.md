@@ -4,6 +4,32 @@
 
 ---
 
+## 🚀 БЫСТРЫЙ СТАРТ НОВОЙ СЕССИИ
+
+Вариант 1 — **короткая команда** (достаточно, если сессия открыта в `~/labs67/micro.svita.ai/`):
+```
+Прочитай CLAUDE.md, presentations/_SOP.md и presentations/_SESSION_PROMPT.md — потом берём концепцию <slug>.
+```
+
+Вариант 2 — **если сессия в другой директории**:
+```
+cd ~/labs67/micro.svita.ai
+Прочитай CLAUDE.md + presentations/_SOP.md + presentations/_SESSION_PROMPT.md. Берём концепцию <slug>.
+```
+
+Вариант 3 — **агент/subagent** (общий prompt-шаблон):
+```
+Ты работаешь над брендбуком micro.svita.ai. Перед первым действием прочитай:
+1. ~/labs67/micro.svita.ai/CLAUDE.md
+2. ~/labs67/micro.svita.ai/presentations/_SOP.md
+3. ~/labs67/micro.svita.ai/presentations/_SESSION_PROMPT.md
+Затем берём <slug> и следуем SOP фазам 0-8.
+```
+
+CLAUDE.md загружается автоматически в Claude Code когда `cwd` = директория проекта (или её подпапка) — но явное упоминание гарантирует, что агент точно его перечитает.
+
+---
+
 ## 🔢 NUMBERING RULE — ИСКЛЮЧИТЕЛЬНО ВСЕГДА
 
 Ко всем названиям концепций **ВСЕГДА** добавлять номер из NN-префикса папки `presentations/NN-<slug>/`.
@@ -233,7 +259,7 @@ open presentations/NN-<slug>/{BRAND}_deck.pdf
 - [ ] **`NN · <BRAND>`** на слайдах 01, 02, 14, 25
 - [ ] единая палитра (visual diff с cover)
 - [ ] без стоковых улыбок, чужих logos
-- [ ] размер каждой PNG ≥ 1.4 MB
+- [ ] размер каждой PNG ≥ 400 KB (nano-banana PRO обычно 460-720 KB для 16:9)
 - [ ] текст: без «гарантированный успех», «100% прибыль»
 - [ ] таблиц с границами нет — только hairlines / pull-quotes
 - [ ] эмодзи только `·` `◉` `◆` `✦`
