@@ -1,9 +1,10 @@
 # micro.svita.ai — ПРАВИЛА СЕССИИ
 
-> **ОБЯЗАТЕЛЬНО при старте:** если задача связана с концепцией / брендбуком / `presentations/` — прочитай оба файла **до первого действия**:
+> **ОБЯЗАТЕЛЬНО при старте:** если задача связана с концепцией / брендбуком / `presentations/` — прочитай 3 файла **до первого действия**:
 >
-> 1. [`presentations/_SOP.md`](presentations/_SOP.md) — полный протокол (PALETTE MATRIX, WOW LAYER, 25-slide spec, фазы 0-8)
-> 2. [`presentations/_SESSION_PROMPT.md`](presentations/_SESSION_PROMPT.md) — короткая копируемая версия с NUMBERING RULE
+> 1. [`presentations/_CATALOG.md`](presentations/_CATALOG.md) — список всех **242 концепций** (источник правды). **НЕ ПРИДУМЫВАТЬ новые** — брать slug только отсюда.
+> 2. [`presentations/_SOP.md`](presentations/_SOP.md) — полный протокол (PALETTE MATRIX, WOW LAYER, 25-slide spec, фазы 0-8, dice-механика)
+> 3. [`presentations/_SESSION_PROMPT.md`](presentations/_SESSION_PROMPT.md) — короткая копируемая версия с NUMBERING RULE + GOLD STANDARD + DICE
 
 ## 🏆 GOLD STANDARD
 
@@ -29,6 +30,7 @@ python3 scripts/concept_dice.py <slug> --category <cat> --country <ISO> --nn <NN
 
 ## Ключевые инварианты (не нарушать)
 
+- **КАТАЛОГ = ИСТОЧНИК ПРАВДЫ:** Slug'и только из `presentations/_CATALOG.md` (242 концепции). Если в запросе slug, которого там нет — запросить у господина подтверждение или полный YAML-бриф. **НЕ ПРИДУМЫВАТЬ концепции самостоятельно.**
 - **NUMBERING RULE:** название концепции **ВСЕГДА** идёт как `NN · <BRAND>` (пример: `01 · SEN LAB`, `07 · ZAPIEX`). Применяется на slide-01 / 02 / 14 / 25, в `manifest.json.name`, в `concepts_catalog.name`, в `shop.html` / `view.html` карточках, в Obsidian логе. Без исключений.
 - **Модель:** nano-banana **PRO** (не flash), 16:9, page-mark `NN / 25` top-right.
 - **Tier:** только 2 — `Concept €49` / `Exclusive €149`. Никаких €490, €2000, AI/Premium.
@@ -42,10 +44,13 @@ python3 scripts/concept_dice.py <slug> --category <cat> --country <ISO> --nn <NN
 | Что | Путь |
 |---|---|
 | Мастер-директория | `~/labs67/micro.svita.ai/` |
+| **Каталог 242 концепций** | `presentations/_CATALOG.md` ← источник правды |
 | SOP полный | `presentations/_SOP.md` |
 | SOP короткий для новой сессии | `presentations/_SESSION_PROMPT.md` |
 | Мастер-спека 25 слайдов | `presentations/_MASTER_PROMPT.md` |
 | Форматы ввода ТЗ | `presentations/_HOW_TO_ORDER.md` |
+| История dice-бросков | `presentations/_DICE_HISTORY.md` |
+| Рандомайзер стилей | `scripts/concept_dice.py` |
 | Manifest (slug → PDF) | `presentations/manifest.json` |
 | Каталог фронта | `data/catalog.json` (поле `hero_image` → cover концепции) |
 | Supabase проект | `ctdleobjnzniqkqomlrq` · таблица `concepts_catalog` |
