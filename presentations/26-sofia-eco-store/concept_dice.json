@@ -1,25 +1,25 @@
 {
   "slug": "sofia-eco-store",
-  "category": "retail",
+  "category": "food",
   "country": "BG",
-  "variant": 4,
+  "variant": 1,
   "region": "Mediterranean",
-  "archetype": "Modern Alchemist",
-  "hero_hue": "#C7755B",
+  "archetype": "Heritage Keeper",
+  "hero_hue": "#A89560",
   "palette": [
+    "#A89560",
+    "#1F2E28",
     "#C7755B",
-    "#7A8B4F",
     "#D4A679",
-    "#E8C79F",
-    "#5C3A2E"
+    "#7A8B4F"
   ],
   "mood": "night-lit",
-  "light": "overhead",
-  "composition": "centered-void",
-  "texture": "fabric",
-  "human": "empty-scene",
+  "light": "sidelit",
+  "composition": "symmetric",
+  "texture": "ceramic",
+  "human": "macro-hand",
   "season": "summer",
-  "time_of_day": "morning",
+  "time_of_day": "dawn",
   "collision_score": 2,
   "warning": "kept best of 10 attempts (score=2, ≥2 means overlap with recent)"
 }
