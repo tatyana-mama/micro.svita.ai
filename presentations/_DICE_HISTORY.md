@@ -32,3 +32,5 @@
 | 2026-04-22 | 48 | bucharest-eggcraft | Mediterranean | Nurturer | `#D4A679` | sun-faded | overhead | diagonal | wood | portrait |
 | 2026-04-22 | 26 | sofia-eco-store | Mediterranean | Modern Alchemist | `#C7755B` | night-lit | overhead | centered-void | fabric | empty-scene |
 | 2026-04-22 | 55 | mumbai-curry-house | Mediterranean | Urban Rebel | `#D4A679` | deep-warm | sidelit | diagonal | metal | empty-scene |
+| 2026-04-22 | 26 | sofia-eco-store | Mediterranean | Heritage Keeper | `#A89560` | night-lit | sidelit | symmetric | ceramic | macro-hand |
+| 2026-04-22 | 22 | rome-camera-repair | Mediterranean | Quiet Master | `#1F2E28` | sun-faded | candlelit | rule-of-thirds | stone | macro-hand |

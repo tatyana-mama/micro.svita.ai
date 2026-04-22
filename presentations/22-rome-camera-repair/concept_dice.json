@@ -1,0 +1,25 @@
+{
+  "slug": "rome-camera-repair",
+  "category": "repair",
+  "country": "IT",
+  "variant": 1,
+  "region": "Mediterranean",
+  "archetype": "Quiet Master",
+  "hero_hue": "#1F2E28",
+  "palette": [
+    "#1F2E28",
+    "#7A8B4F",
+    "#3A4F3A",
+    "#F0E4CF",
+    "#C7755B"
+  ],
+  "mood": "sun-faded",
+  "light": "candlelit",
+  "composition": "rule-of-thirds",
+  "texture": "stone",
+  "human": "macro-hand",
+  "season": "autumn",
+  "time_of_day": "noon",
+  "collision_score": 2,
+  "warning": "kept best of 10 attempts (score=2, ≥2 means overlap with recent)"
+}
