@@ -38,6 +38,19 @@ pre{background:#000;border:1px solid rgba(212,166,121,.3);border-radius:6px;padd
 </div>
 
 <div class="step">
+<h2>Шаг 1c — если пароль «неверный»</h2>
+<p>Попробуй более сложный. Скопируй команду:</p>
+<pre id="c1c">sudo passwd ubuntu</pre>
+<button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('c1c').innerText);this.innerText='✓ скопировано'">копировать</button>
+<p>На «New password:» введи вручную: <b>Jetson22!</b> (точно такой, с большой J и !) → Enter → повтори тот же → Enter.</p>
+<p>Потом запусти SSH + Tailscale:</p>
+<pre id="c1d">sudo systemctl enable --now ssh
+sudo tailscale up</pre>
+<button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('c1d').innerText);this.innerText='✓ скопировано'">копировать</button>
+<div class="note">После <code>tailscale up</code> появится URL <code>https://login.tailscale.com/a/XXX</code> — скопируй, открой в Firefox, войди <b>tatyana-mama@</b>, нажми Connect.</div>
+</div>
+
+<div class="step">
 <h2>Шаг 2 — узнать IP (после Tailscale auth)</h2>
 <pre id="c2">tailscale ip -4</pre>
 <button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('c2').innerText);this.innerText='✓ скопировано'">копировать</button>
