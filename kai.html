@@ -37,6 +37,22 @@ pre{background:#000;border:1px solid rgba(212,166,121,.3);border-radius:6px;padd
 <div class="note">Когда появится URL вида <code>https://login.tailscale.com/a/...</code> — скопируй его, открой в Firefox, войди как <b>tatyana-mama@</b>, нажми «Connect».</div>
 </div>
 
+<div class="step" style="border-color:#D4A679;background:rgba(212,166,121,.08)">
+<h2>⚠️ Если Tailscale не подключается — auth URL</h2>
+<p><b>Проблема:</b> нужно открыть <b>специальный</b> URL из терминала, а не главный сайт Tailscale.</p>
+<p>1. В терминале <b>прокрути вверх</b> — найди строку:</p>
+<pre style="font-size:11px">To authenticate, visit:
+    https://login.tailscale.com/a/XXXXXXXXXXXX</pre>
+<p>2. <b>Выдели URL мышкой</b> (именно эту ссылку с `/a/` внутри) → Ctrl+Shift+C</p>
+<p>3. Открой <b>новую вкладку Firefox</b> → Ctrl+L → Ctrl+Shift+V → Enter</p>
+<p>4. Появится страница: <b>«Do you want to add this device to tailnet tatyana-mama.github?»</b></p>
+<p>5. Кнопка <b>«Connect»</b> (синяя, по центру) → жми</p>
+<p>6. Вернись в терминал — увидишь <code>Success.</code></p>
+<p>Если URL потерялся — запусти снова:</p>
+<pre id="cretry">sudo tailscale up</pre>
+<button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('cretry').innerText);this.innerText='✓ скопировано'">копировать</button>
+</div>
+
 <div class="step">
 <h2>Шаг 1c — если пароль «неверный»</h2>
 <p>Попробуй более сложный. Скопируй команду:</p>
