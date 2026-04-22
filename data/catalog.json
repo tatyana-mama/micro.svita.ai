@@ -1872,7 +1872,7 @@
     "catalog_number": 165
   },
   {
-    "slug": "sofia-eco-store",
+    "slug": "sofia-mountain-forage",
     "name": "26 · GORA 8",
     "category": "food",
     "country": "BG",
@@ -1880,11 +1880,11 @@
     "price_eur": 49,
     "budget_eur": 6400,
     "weeks": 6,
-    "hero_image": "presentations/26-sofia-eco-store/slide-01-cover.png",
+    "hero_image": "presentations/26-sofia-mountain-forage/slide-01-cover.png",
     "tagline": "Eight wild-foraged items from Vitosha mountain, tied in cream paper.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/26-sofia-eco-store/GORA-8_deck.pdf",
+    "brandbook_pdf_url": "presentations/26-sofia-mountain-forage/GORA-8_deck.pdf",
     "catalog_number": 26
   },
   {

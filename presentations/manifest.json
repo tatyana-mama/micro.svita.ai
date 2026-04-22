@@ -183,10 +183,6 @@
     "name": "70 · LOUTKA",
     "pdf": "presentations/70-prague-puppet-atelier/LOUTKA_deck.pdf"
   },
-  "sofia-eco-store": {
-    "name": "26 · GORA 8",
-    "pdf": "presentations/26-sofia-eco-store/GORA-8_deck.pdf"
-  },
   "lisbon-osteo-clinic": {
     "name": "27 · OSTEO 1",
     "pdf": "presentations/27-lisbon-osteo-clinic/OSTEO-1_deck.pdf"
@@ -362,5 +358,9 @@
   "copenhagen-zen-den": {
     "name": "113 · RO 32",
     "pdf": "presentations/113-copenhagen-zen-den/RO-32_deck.pdf"
+  },
+  "sofia-mountain-forage": {
+    "name": "26 · GORA 8",
+    "pdf": "presentations/26-sofia-mountain-forage/GORA-8_deck.pdf"
   }
 }
