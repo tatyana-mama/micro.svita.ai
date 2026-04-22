@@ -1,0 +1,25 @@
+{
+  "slug": "sofia-eco-store",
+  "category": "retail",
+  "country": "BG",
+  "variant": 4,
+  "region": "Mediterranean",
+  "archetype": "Modern Alchemist",
+  "hero_hue": "#C7755B",
+  "palette": [
+    "#C7755B",
+    "#7A8B4F",
+    "#D4A679",
+    "#E8C79F",
+    "#5C3A2E"
+  ],
+  "mood": "night-lit",
+  "light": "overhead",
+  "composition": "centered-void",
+  "texture": "fabric",
+  "human": "empty-scene",
+  "season": "summer",
+  "time_of_day": "morning",
+  "collision_score": 2,
+  "warning": "kept best of 10 attempts (score=2, ≥2 means overlap with recent)"
+}
