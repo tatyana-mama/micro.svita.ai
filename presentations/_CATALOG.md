@@ -22,7 +22,7 @@
 | **wip** | verified=false — в БД есть, но в shop.html не показывается, ждёт брендбук+модерацию |
 | **arch** | archived=true — sold out exclusive, retired |
 
-## FOOD — 54 концепций
+## FOOD — 52 концепций
 
 | # | Slug | Name | City, Country | m² · w | DB | Folder |
 |---|------|------|---------------|--------|----|--------|
@@ -35,12 +35,10 @@
 | 41 | `milano-gelato-cube` | Milano Gelato Cube | Milano, IT | 10 · 5 | **V+A** | ◉ WIP+PDF |
 | 89 | `athens-gyro-box` | Athens Gyro Box | Athens, GR | 11 · 5 | **V+A** | — no folder |
 | 102 | `brussels-frites-box` | Brussels Frites Box | Brussels, BE | 10 · 5 | **V+A** | — no folder |
-| 117 | `dublin-donut-den` | Dublin Donut Den | Dublin, IE | 16 · 6 | **V+A** | — no folder |
 | 126 | `helsinki-salmiakki` | Helsinki Salmiakki | Helsinki, FI | 9 · 5 | **V+A** | — no folder |
 | 144 | `lyon-boulangerie` | MIE DE LYON | Lyon, FR | 12 · 7 | **V+A** | — no folder |
 | 146 | `madrid-churro-cart` | Madrid Churro Cart | Madrid, ES | 9 · 4 | **V+A** | — no folder |
 | 159 | `porto-pastel-bar` | Porto Pastel Bar | Porto, PT | 14 · 6 | **V+A** | — no folder |
-| 160 | `prague-trdelnik` | Prague Trdelnik | Prague, CZ | 8 · 4 | **V+A** | — no folder |
 | 161 | `riga-rye-bakery` | Riga Rye Bakery | Riga, LV | 24 · 8 | **V+A** | — no folder |
 | 162 | `scandi-coffee` | ALKA KAFFE | Scandi, PL | 10 · 6 | **V+A** | — no folder |
 | 164 | `sofia-banitsa-bar` | Sofia Banitsa Bar | Sofia, BG | 12 · 5 | **V+A** | — no folder |
@@ -182,7 +180,7 @@
 | 173 | `tallinn-blood-test` | Tallinn Blood Test | Tallinn, EE | 22 · 8 | wip | — no folder |
 | 200 | `zagreb-kids-dental` | DZIECI | Zagreb, HR | 14 · 9 | **V+A** | — no folder |
 
-## SERVICE — 22 концепций
+## SERVICE — 24 концепций
 
 | # | Slug | Name | City, Country | m² · w | DB | Folder |
 |---|------|------|---------------|--------|----|--------|
@@ -197,10 +195,12 @@
 | 103 | `bucharest-car-detail` | DETAIL BOX | Bucharest, RO | 22 · 7 | **V+A** | — no folder |
 | 111 | `copenhagen-print-bar` | Copenhagen Print Bar | Copenhagen, DK | 22 · 7 | wip | — no folder |
 | 116 | `dublin-dog-daycare` | PAW LOFT | Dublin, IE | 20 · 8 | **V+A** | — no folder |
+| 117 | `dublin-pet-grooming` | BRUSH & BARK | Dublin, IE | 18 · 7 | **V+A** | — no folder |
 | 127 | `helsinki-sauna-rent` | VUOKRA SAUNA | Helsinki, FI | 8 · 8 | **V+A** | — no folder |
 | 135 | `lisbon-flower-studio` | Lisbon Flower Studio | Lisbon, PT | 16 · 6 | wip | — no folder |
 | 139 | `ljubljana-ski-wax` | Ljubljana Ski Wax | Ljubljana, SI | 22 · 7 | wip | — no folder |
 | 149 | `madrid-shoe-repair` | Madrid Shoe Repair | Madrid, ES | 14 · 6 | wip | — no folder |
+| 160 | `prague-pet-grooming` | PRAHA PAWS | Prague, CZ | 14 · 5 | **V+A** | — no folder |
 | 177 | `tallinn-tech-fix` | Tallinn Tech Fix | Tallinn, EE | 16 · 6 | wip | — no folder |
 | 180 | `valletta-boat-clean` | Valletta Boat Clean | Valletta, MT | 20 · 7 | wip | — no folder |
 | 188 | `vienna-gift-wrap` | Vienna Gift Wrap | Vienna, AT | 10 · 4 | wip | — no folder |
