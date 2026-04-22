@@ -362,5 +362,9 @@
   "sofia-mountain-forage": {
     "name": "26 · GORA 8",
     "pdf": "presentations/26-sofia-mountain-forage/GORA-8_deck.pdf"
+  },
+  "svyatlitsa-dental": {
+    "name": "250 · SVYATLITSA",
+    "pdf": "presentations/250-svyatlitsa-dental/SVYATLITSA_deck.pdf"
   }
 }
