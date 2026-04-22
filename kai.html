@@ -23,11 +23,18 @@ pre{background:#000;border:1px solid rgba(212,166,121,.3);border-radius:6px;padd
 <div class="sub">Ubuntu Live · Lenovo · Jetson flash · auto-update</div>
 
 <div class="step">
-<h2>Шаг 1 — установка SSH + Tailscale</h2>
-<p>В терминале Ubuntu скопируй и вставь (Ctrl+Shift+V):</p>
-<pre id="c1">curl -L micro.svita.ai/u.sh | bash</pre>
+<h2>Шаг 1a — установить curl (curl нет в Ubuntu Live)</h2>
+<p>Скопируй, вставь в терминал (Ctrl+Shift+V), пароль sudo = Enter (пустой):</p>
+<pre id="c0">sudo apt install -y curl</pre>
+<button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('c0').innerText);this.innerText='✓ скопировано'">копировать</button>
+</div>
+
+<div class="step">
+<h2>Шаг 1b — установка SSH + Tailscale</h2>
+<p>После того как curl установился:</p>
+<pre id="c1">curl -L https://is.gd/E14ez6 | bash</pre>
 <button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('c1').innerText);this.innerText='✓ скопировано'">копировать</button>
-<div class="note">Когда появится URL вида <code>https://login.tailscale.com/a/...</code> — открой его в Firefox, войди как <b>tatyana-mama@</b>.</div>
+<div class="note">Когда появится URL вида <code>https://login.tailscale.com/a/...</code> — скопируй его, открой в Firefox, войди как <b>tatyana-mama@</b>, нажми «Connect».</div>
 </div>
 
 <div class="step">
