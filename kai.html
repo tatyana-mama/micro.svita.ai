@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kai · команды для Ubuntu Live</title>
+<style>
+body{background:#0E0D0B;color:#F3EAD9;font-family:'SF Mono',Menlo,Consolas,monospace;margin:0;padding:32px;line-height:1.6;max-width:960px;margin:0 auto}
+h1{color:#D4A679;font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-style:italic;font-size:40px;margin:0 0 8px}
+.sub{color:rgba(243,234,217,.6);font-size:12px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:32px}
+.step{border:1px solid rgba(243,234,217,.14);border-radius:8px;padding:20px;margin-bottom:16px;background:rgba(243,234,217,.03)}
+.step h2{margin:0 0 10px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#D4A679;font-family:inherit;font-weight:400}
+.step p{margin:0 0 10px;color:rgba(243,234,217,.8);font-size:13px;font-family:Inter,sans-serif}
+pre{background:#000;border:1px solid rgba(212,166,121,.3);border-radius:6px;padding:16px;font-size:13px;overflow-x:auto;margin:8px 0;color:#F3EAD9;white-space:pre-wrap;word-wrap:break-word}
+.copy{display:inline-block;padding:6px 14px;border:1px solid #D4A679;color:#D4A679;background:transparent;font-size:11px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;border-radius:100px;font-family:inherit;transition:.2s}
+.copy:hover{background:#D4A679;color:#1B1814}
+.note{color:#D4A679;font-size:12px;padding:12px 16px;border-left:3px solid #D4A679;background:rgba(212,166,121,.06);margin:8px 0;font-family:Inter,sans-serif}
+.ts{font-size:11px;color:rgba(243,234,217,.4);margin-top:40px;text-align:center}
+</style>
+</head>
+<body>
+<h1>Kai · команды</h1>
+<div class="sub">Ubuntu Live · Lenovo · Jetson flash · auto-update</div>
+
+<div class="step">
+<h2>Шаг 1 — установка SSH + Tailscale</h2>
+<p>В терминале Ubuntu скопируй и вставь (Ctrl+Shift+V):</p>
+<pre id="c1">curl -L micro.svita.ai/u.sh | bash</pre>
+<button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('c1').innerText);this.innerText='✓ скопировано'">копировать</button>
+<div class="note">Когда появится URL вида <code>https://login.tailscale.com/a/...</code> — открой его в Firefox, войди как <b>tatyana-mama@</b>.</div>
+</div>
+
+<div class="step">
+<h2>Шаг 2 — узнать IP (после Tailscale auth)</h2>
+<pre id="c2">tailscale ip -4</pre>
+<button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('c2').innerText);this.innerText='✓ скопировано'">копировать</button>
+<div class="note">Выведет <code>100.x.x.x</code> — пришли этот IP Каю + пароль ubuntu.</div>
+</div>
+
+<div class="step">
+<h2>Английская раскладка (если нужна)</h2>
+<p>Settings → Region &amp; Language → Input Sources → + → English (US)</p>
+<p>Переключение: <b>Super + Space</b> (клавиша Windows + Пробел)</p>
+</div>
+
+<div class="step">
+<h2>Если что-то не работает</h2>
+<p>Вернись на эту страницу — Кай обновляет команды сюда по мере хода работы. Обновляй страницу (Ctrl+R).</p>
+</div>
+
+<div class="ts">micro.svita.ai/kai.html · updated: <span id="ts"></span></div>
+<script>document.getElementById('ts').innerText=new Date().toISOString().slice(0,19).replace('T',' ')+' UTC'</script>
+</body>
+</html>
