@@ -229,6 +229,32 @@ body::after{
 .star-rating .info{font-size:12px;color:rgba(255,255,255,0.8);font-weight:500}
 .preview-body-inner{padding:40px;display:grid;grid-template-columns:2fr 1fr;gap:32px}
 @media(max-width:760px){.preview-body-inner{grid-template-columns:1fr}}
+
+/* peek-inside slide preview band (between hero and body) */
+.preview-slides{padding:28px 40px 32px;background:#FAFAFA;border-top:1px solid #EDE9DE;border-bottom:1px solid #EDE9DE;display:none}
+.preview-slides.on{display:block}
+.preview-slides .ps-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.preview-slides .ps-eyebrow{font:500 10px 'Inter';letter-spacing:.22em;text-transform:uppercase;color:#94A3B8;display:inline-flex;align-items:center;gap:10px}
+.preview-slides .ps-eyebrow::before{content:'';width:22px;height:1px;background:#CBD5E1}
+.preview-slides .ps-title{font:700 18px 'Space Grotesk';letter-spacing:-.02em;color:var(--ink);margin-top:4px}
+.preview-slides .ps-sub{font:400 12.5px Inter;color:#64748B;max-width:460px}
+.preview-slides .ps-meta{font:500 11px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#64748B;white-space:nowrap}
+.preview-slides .ps-meta b{color:var(--accent);font-weight:600}
+.preview-slides .ps-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.preview-slides .ps-tile{position:relative;border-radius:12px;overflow:hidden;background:#111113;border:1px solid #E2E8F0;margin:0;transition:transform .3s ease, box-shadow .3s ease}
+.preview-slides .ps-tile:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,0,0,.14)}
+.preview-slides .ps-tile img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;display:block;background:#f1efe8}
+.preview-slides .ps-tile figcaption{
+  position:absolute;left:12px;bottom:10px;
+  font:600 10px 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#fff;
+  background:rgba(14,13,11,.78);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  padding:5px 10px;border-radius:999px;
+}
+.preview-slides .ps-math figcaption{background:rgba(214,255,62,.92);color:#0A0A0B}
+@media(max-width:760px){
+  .preview-slides{padding:22px 20px}
+  .preview-slides .ps-grid{grid-template-columns:1fr;gap:10px}
+}
 .preview-body-inner h2{font-family:'Space Grotesk';font-size:22px;margin-bottom:12px}
 .preview-body-inner p{color:#475569;font-size:15px;line-height:1.6;margin-bottom:16px}
 .specs{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:16px;padding:24px;height:fit-content}
@@ -1588,10 +1614,68 @@ function renderFrame(c){
           <div class="star-rating" id="star-rating"></div>
         </div>
       </div>
+      <section class="preview-slides" id="preview-slides"></section>
       ${body}
     </div>`;
   buildCollage(c);
+  buildSlidesPreview(c);
   loadRating(c.slug);
+}
+
+// Peek-inside slide preview: 2 visuals (interior/ritual/still-life) + 2 math
+// (economics/CAPEX). Probes presentations/<NN-slug>/slide-*.png based on
+// the concept's hero path; shows whichever slides actually exist.
+async function buildSlidesPreview(c){
+  const container = document.getElementById('preview-slides');
+  if (!container) return;
+  const hero = (c && c.hero_image) || '';
+  const m = typeof hero === 'string' && hero.match(/^(presentations\/[^/]+\/)slide-/);
+  if (!m) return; // no presentations-based hero → skip band
+  const base = m[1];
+
+  const probe = (url) => new Promise(res => {
+    const img = new Image();
+    let done = false;
+    const finish = ok => { if (!done) { done = true; res(ok ? url : null); } };
+    img.onload = () => finish(img.naturalWidth > 0);
+    img.onerror = () => finish(false);
+    setTimeout(() => finish(false), 7000);
+    img.src = url;
+  });
+
+  const candidates = [
+    { file:'slide-06-interior.png',   label:'Interior',   kind:'visual' },
+    { file:'slide-08-ritual.png',     label:'The ritual', kind:'visual' },
+    { file:'slide-09-still-life.png', label:'Still life', kind:'visual' },
+    { file:'slide-15-economics.png',  label:'Economics',  kind:'math'   },
+    { file:'slide-16-capex.png',      label:'CAPEX',      kind:'math'   },
+  ];
+  const resolved = (await Promise.all(
+    candidates.map(async x => ({ ...x, url: await probe(base + x.file) }))
+  )).filter(x => x.url);
+
+  const visuals = resolved.filter(x => x.kind === 'visual').slice(0, 2);
+  const maths   = resolved.filter(x => x.kind === 'math').slice(0, 2);
+  const tiles   = [...visuals, ...maths];
+  if (!tiles.length) return;
+
+  container.innerHTML = `
+    <div class="ps-head">
+      <div>
+        <div class="ps-eyebrow">Peek inside · ${tiles.length} of 25 pages</div>
+        <div class="ps-title">What you get before you buy</div>
+        <div class="ps-sub">Two visuals from the interior world, two pages of economics — the rest of the brandbook unlocks below.</div>
+      </div>
+      <div class="ps-meta"><b>${tiles.length}</b> / 25 pages shown</div>
+    </div>
+    <div class="ps-grid">
+      ${tiles.map(t => `
+        <figure class="ps-tile ps-${t.kind}">
+          <img src="${t.url}" alt="${t.label}" loading="lazy">
+          <figcaption>${t.label}</figcaption>
+        </figure>`).join('')}
+    </div>`;
+  container.classList.add('on');
 }
 
 async function buildCollage(c){
