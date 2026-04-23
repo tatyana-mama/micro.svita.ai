@@ -244,7 +244,7 @@
       <source src="/data/hero/home-hero.mp4" type="video/mp4">
     </video>
     <img class="fallback" src="/data/hero/home-hero-v1.png" alt="" aria-hidden="true" style="z-index:0">
-    <div class="badge"><span class="dot"></span>242 lit windows · dawn</div>
+    <div class="badge"><span class="dot"></span>242 окна на рассвете</div>
     <div class="mark">
       <span class="brand-dot"></span>
       micro.svita
@@ -262,30 +262,30 @@
         <small>atlas</small>
       </a>
       <div class="nav-right">
-        <a href="/shop.html">Atlas</a>
-        <a href="/account.html">Sign in</a>
+        <a href="/shop.html">Атлас</a>
+        <a href="/account.html">Войти</a>
       </div>
     </nav>
 
     <div class="main">
-      <div class="eyebrow fade d2">An atlas of 242 businesses yet to open</div>
-      <h1 class="display fade d3">Before it exists,<br><span class="accent">we photograph it.</span></h1>
+      <div class="eyebrow fade d2">242 концепции · визуальный атлас</div>
+      <h1 class="display fade d3">Магазин визуального <span class="accent">воображения</span> вашего будущего бизнеса</h1>
       <p class="sub fade d4">
-        Micro-businesses across Europe — imagined, styled, costed in ceramic detail.
-        Each a 25-page brandbook, a world ready to step into.
+        Мы продаём сотни готовых концепций — палитра, интерьер, упаковка, экономика —
+        чтобы вы запустили свой микро-бизнес лучше, чем 80&nbsp;% рынка.
       </p>
       <div class="ctas fade d5">
         <a href="/shop.html" class="btn btn-primary">
-          Open the atlas
+          Открыть атлас
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
-        <a href="/account.html" class="btn btn-ghost">Sign in</a>
+        <a href="/account.html" class="btn btn-ghost">Войти</a>
       </div>
     </div>
 
     <div class="slider fade d6">
       <div class="slider-head">
-        <h2>Signature <b>08 · 242</b></h2>
+        <h2>Готовые концепции <b id="sig-count">— · —</b></h2>
         <div class="arrows">
           <button class="arrow" id="prev" aria-label="previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button>
           <button class="arrow" id="next" aria-label="next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -296,14 +296,14 @@
 
     <div class="foot fade d6">
       <div class="foot-nums">
-        <span><b>242</b> concepts</span>
-        <span><b>25</b> slides</span>
-        <span><b>€49</b> from</span>
+        <span><b>242</b> концепции</span>
+        <span><b>25</b> слайдов</span>
+        <span><b>€49</b> от</span>
       </div>
       <div class="foot-right">
-        <a href="/offer.html">Offer</a>
-        <a href="/legal.html">Legal</a>
-        <a href="mailto:hello@micro.svita.ai">Contact</a>
+        <a href="/offer.html">Оферта</a>
+        <a href="/legal.html">Правовая</a>
+        <a href="mailto:hello@micro.svita.ai">Контакт</a>
       </div>
     </div>
 
@@ -311,43 +311,115 @@
 </main>
 
 <script>
+// graceful video fallback
 const v = document.querySelector('.media video');
 if (v) v.addEventListener('error', () => v.style.display='none', { once:true });
 
-const SIGNATURE = [
-  { slug:'paris-candle-atelier',  name:'42 · CIRE 11',   meta:'Craft · Paris',     img:'presentations/42-paris-candle-atelier/slide-01-cover.png' },
-  { slug:'tel-aviv-hummus',       name:'43 · HUMUS 14',  meta:'Food · Tel Aviv',   img:'presentations/43-tel-aviv-hummus/slide-01-cover.png' },
-  { slug:'basel-watch-repair',    name:'96 · UHR 3',     meta:'Service · Basel',   img:'presentations/96-basel-watch-repair%20%5Bgood%5D/slide-01-cover.png' },
-  { slug:'sofia-mountain-forage', name:'26 · GORA 8',    meta:'Food · Sofia',      img:'presentations/26-sofia-mountain-forage/slide-01-cover.png' },
-  { slug:'amsterdam-juice-lab',   name:'36 · JUICE LAB', meta:'Food · Amsterdam',  img:'presentations/36-amsterdam-juice-lab%20%5Bgood%5D/slide-01-cover.png' },
-  { slug:'berlin-bagel-co',       name:'37 · BAGEL 9',   meta:'Food · Berlin',     img:'presentations/37-berlin-bagel-co/slide-01-cover.png' },
-  { slug:'warsaw-waffle-works',   name:'33 · GOFRY 7',   meta:'Food · Warsaw',     img:'presentations/33-warsaw-waffle-works%20%5Bgood%5D/slide-01-cover.png' },
-  { slug:'paris-chemex-only',     name:'216 · CHEMEX 1', meta:'Food · Paris',      img:'presentations/216-paris-chemex-only%20%5Bgood%5D/slide-01-cover.png' },
-];
+// ─── slider: load from catalog.json, show only concepts with BOTH brandbook PDF and preview hero
+const CITY = {
+  FR:'Paris', IL:'Tel Aviv', CH:'Basel', NL:'Amsterdam', DE:'Berlin', PL:'Warsaw',
+  PT:'Lisbon', IT:'Rome', BG:'Sofia', LB:'Beirut', GB:'Edinburgh', ES:'Madrid',
+  BE:'Brussels', DK:'Copenhagen', GR:'Athens', SI:'Ljubljana', AT:'Vienna', IE:'Dublin',
+  FI:'Helsinki', SE:'Stockholm', HU:'Budapest', EE:'Tallinn', SK:'Bratislava',
+  CZ:'Prague', RO:'Bucharest', IN:'Mumbai', MX:'Oaxaca', TH:'Bangkok', EG:'Cairo',
+  IS:'Reykjavik', NO:'Oslo', NO_: 'Oslo'
+};
+const CITY_BY_SLUG = { // override for city not in COUNTRY one-to-one
+  'paris-candle-atelier':'Paris','tel-aviv-hummus':'Tel Aviv','basel-watch-repair':'Basel',
+  'sofia-mountain-forage':'Sofia','delft-blue-tile-studio':'Delft','porto-tile-studio':'Porto',
+  'milano-gelato-cube':'Milano','milano-design-store':'Milano','sardinia-pasta-lab':'Sardinia',
+  'rome-camera-repair':'Rome','rome-italian-school':'Rome','rome-posture-clinic':'Rome','rome-thermal-bath':'Rome',
+  'lisbon-pilates':'Lisbon','lisbon-barber-co':'Lisbon','lisbon-osteo-clinic':'Lisbon','lisbon-plant-store':'Lisbon',
+  'seville-tapas-nook':'Seville','bordeaux-wine-cave':'Bordeaux','marseille-savon-atelier':'Marseille',
+  'poznan-rogale-co':'Poznań','krakow-obwarzanek-cart':'Kraków','krakow-wodka-buffet':'Kraków','gdansk-amber-atelier':'Gdańsk',
+  'tallinn-rye-bakery':'Tallinn','edinburgh-whisky-flights':'Edinburgh','bruges-beauty-bar':'Bruges',
+  'oaxaca-taco-joint':'Oaxaca','mumbai-curry-house':'Mumbai','bangkok-pad-thai':'Bangkok','beirut-mezze-den':'Beirut',
+  'cairo-shawarma':'Cairo','cluj-hair-salon':'Cluj','bratislava-tv-fix':'Bratislava',
+  'bucharest-eggcraft':'Bucharest','bucharest-car-detail':'Bucharest',
+  'budapest-dance-studio':'Budapest','budapest-bath-mini':'Budapest','budapest-piano-tune':'Budapest','budapest-toy-store':'Budapest',
+  'copenhagen-makers':'Copenhagen','copenhagen-print-bar':'Copenhagen','copenhagen-stationery':'Copenhagen','copenhagen-zen-den':'Copenhagen',
+  'helsinki-sauna-club':'Helsinki','helsinki-wood-studio':'Helsinki','helsinki-design-lab':'Helsinki',
+  'reykjavik-wool-room':'Reykjavík','oslo-waffle-cart':'Oslo','zurich-fondue-cellar':'Zürich',
+  'prague-crystal-spa':'Prague','prague-puppet-atelier':'Prague',
+  'ljubljana-sleep-lab':'Ljubljana','ljubljana-yoga-teach':'Ljubljana','ljubljana-bag-fix':'Ljubljana',
+  'berlin-bagel-co':'Berlin','berlin-vintage-shop':'Berlin','berlin-yoga-loft':'Berlin','berlin-code-camp':'Berlin',
+  'berlin-dental-hygiene':'Berlin','berlin-phone-fix':'Berlin','berlin-screen-print':'Berlin','berlin-skin-clinic':'Berlin',
+  'warsaw-zapiekanka-okno':'Warsaw','warsaw-waffle-works':'Warsaw','warsaw-movement':'Warsaw',
+  'warsaw-art-studio':'Warsaw','warsaw-hygiene-hub':'Warsaw',
+  'amsterdam-juice-lab':'Amsterdam','amsterdam-letterpress':'Amsterdam','amsterdam-massage':'Amsterdam',
+  'amsterdam-kids-studio':'Amsterdam','amsterdam-physio':'Amsterdam',
+  'brussels-chiro-care':'Brussels','brussels-yoga-shala':'Brussels','brussels-bike-cafe':'Brussels','brussels-frites-box':'Brussels',
+  'madrid-yoga-barre':'Madrid','madrid-music-lessons':'Madrid','vienna-dental-spa':'Vienna',
+  'dublin-english-hub':'Dublin','stockholm-car-wash':'Stockholm','stockholm-cryo-bar':'Stockholm',
+  'stockholm-glass-blow':'Stockholm','stockholm-wellness':'Stockholm','athens-olive-spa':'Athens',
+  'paris-optometry':'Paris','paris-chemex-only':'Paris','paris-meditation':'Paris',
+};
 
 const rail = document.getElementById('rail');
-rail.innerHTML = SIGNATURE.map(s => `
-  <a class="slide" href="/view.html?c=${encodeURIComponent(s.slug)}">
-    <div class="slide-img"><img src="${s.img}" alt="${s.name}" loading="lazy"></div>
-    <div class="slide-cap">
-      <div class="slide-name">${s.name}</div>
-      <div class="slide-meta">${s.meta}</div>
-    </div>
-  </a>`).join('');
 
-const step = () => (rail.querySelector('.slide')?.offsetWidth || 170) + 14;
-document.getElementById('prev').addEventListener('click', () => rail.scrollBy({ left:-step(), behavior:'smooth' }));
-document.getElementById('next').addEventListener('click', () => rail.scrollBy({ left: step(), behavior:'smooth' }));
+async function hydrateSlider(){
+  try {
+    const r = await fetch('data/catalog.json', { cache: 'no-store' });
+    const data = await r.json();
 
-let paused = false;
-rail.addEventListener('pointerenter', () => paused = true);
-rail.addEventListener('pointerleave', () => paused = false);
-setInterval(() => {
-  if (paused) return;
-  const max = rail.scrollWidth - rail.clientWidth - 4;
-  if (rail.scrollLeft >= max - 2) rail.scrollTo({ left:0, behavior:'smooth' });
-  else rail.scrollBy({ left: step(), behavior:'smooth' });
-}, 4200);
+    // strict filter: must have brandbook PDF AND hero image, both pointing at presentations/
+    const eligible = data.filter(c =>
+      c.has_brandbook === true &&
+      c.brandbook_actualised === true &&
+      typeof c.hero_image === 'string' &&
+      c.hero_image.startsWith('presentations/') &&
+      typeof c.brandbook_pdf_url === 'string' &&
+      c.brandbook_pdf_url.startsWith('presentations/') &&
+      /^\d+ ·/.test(c.name || '')
+    );
+
+    // shuffle, then cap at 24 for smooth auto-rotation
+    for (let i = eligible.length - 1; i > 0; i--) {
+      const j = (Math.random() * (i + 1)) | 0;
+      [eligible[i], eligible[j]] = [eligible[j], eligible[i]];
+    }
+    const picks = eligible.slice(0, 24);
+
+    const total = data.filter(c => c.has_brandbook && c.brandbook_actualised).length;
+    const countLabel = document.getElementById('sig-count');
+    if (countLabel) countLabel.textContent = `${String(picks.length).padStart(2,'0')} · ${eligible.length}`;
+
+    rail.innerHTML = picks.map(c => {
+      const city = CITY_BY_SLUG[c.slug] || CITY[c.country] || c.country || '';
+      const cat = (c.category || '').replace(/^\w/, m => m.toUpperCase());
+      const meta = [cat, city].filter(Boolean).join(' · ');
+      const name = (c.name || '').replace(/</g,'&lt;');
+      return `
+        <a class="slide" href="/view.html?c=${encodeURIComponent(c.slug)}">
+          <div class="slide-img"><img src="${c.hero_image}" alt="${name}" loading="lazy"></div>
+          <div class="slide-cap">
+            <div class="slide-name">${name}</div>
+            <div class="slide-meta">${meta}</div>
+          </div>
+        </a>`;
+    }).join('');
+  } catch (e) {
+    rail.innerHTML = `<div style="padding:20px;color:var(--text-3);font-size:12px">atlas loading…</div>`;
+  }
+}
+
+hydrateSlider().then(wireSlider);
+
+function wireSlider(){
+  const step = () => (rail.querySelector('.slide')?.offsetWidth || 170) + 14;
+  document.getElementById('prev').addEventListener('click', () => rail.scrollBy({ left:-step(), behavior:'smooth' }));
+  document.getElementById('next').addEventListener('click', () => rail.scrollBy({ left: step(), behavior:'smooth' }));
+
+  let paused = false;
+  rail.addEventListener('pointerenter', () => paused = true);
+  rail.addEventListener('pointerleave', () => paused = false);
+  setInterval(() => {
+    if (paused) return;
+    const max = rail.scrollWidth - rail.clientWidth - 4;
+    if (rail.scrollLeft >= max - 2) rail.scrollTo({ left:0, behavior:'smooth' });
+    else rail.scrollBy({ left: step(), behavior:'smooth' });
+  }, 4200);
+}
 </script>
 </body>
 </html>
