@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0E0D0B">
+<meta name="theme-color" content="#F3EAD9">
 <title>micro.svita — an atlas of businesses yet to open</title>
-<meta name="description" content="An editorial atlas of micro-businesses across Europe — imagined, photographed, costed. Claim one as yours.">
+<meta name="description" content="An editorial atlas of 242 micro-businesses across Europe — imagined, photographed, costed. Claim one as yours.">
 <meta property="og:title" content="micro.svita · atlas of businesses yet to open">
-<meta property="og:description" content="An editorial atlas of micro-businesses across Europe — imagined before they exist.">
+<meta property="og:description" content="An editorial atlas of 242 micro-businesses across Europe — imagined before they exist.">
 <meta property="og:image" content="https://micro.svita.ai/data/hero/home-hero-v1.png">
 <link rel="canonical" href="https://micro.svita.ai/">
 <link rel="icon" href="/apple-touch-icon.png" type="image/png">
@@ -15,452 +15,286 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
   :root{
-    --ink:#F3EAD9;
-    --ink-dim:rgba(243,234,217,.62);
-    --ink-faint:rgba(243,234,217,.38);
-    --amber:#D4A679;
-    --bg:#0E0D0B;
-    --bg-2:#15130F;
-    --card:#1A1815;
-    --line:rgba(243,234,217,.14);
-    --hero:url('/data/hero/home-hero-v1.png');
+    --cream:#F3EAD9;
+    --ivory:#FFF7E8;
+    --amber:#B77A3E;
+    --amber-soft:#D4A679;
+    --ink:#1B1612;
+    --ink-dim:rgba(27,22,18,.72);
+    --ink-faint:rgba(27,22,18,.48);
+    --line:rgba(27,22,18,.14);
+    --panel:#FBF1DC;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;letter-spacing:.01em;overflow-x:hidden}
+  html,body{height:100%}
+  body{
+    background:var(--cream);color:var(--ink);
+    font:300 15px/1.6 'Inter',sans-serif;letter-spacing:.01em;
+    overflow:hidden;
+  }
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
+  button{font:inherit;background:none;border:0;color:inherit;cursor:pointer}
 
-  /* ─── NAV ────────────────────────────────────────────── */
-  .nav{
-    position:sticky;top:0;z-index:10;
-    display:flex;justify-content:space-between;align-items:center;
-    padding:22px 48px;background:rgba(14,13,11,.82);backdrop-filter:blur(12px);
-    border-bottom:1px solid transparent;transition:border-color .3s;
+  /* ─── SPLIT LAYOUT ──────────────────────────────────── */
+  .stage{
+    display:grid;grid-template-columns:55% 45%;
+    width:100vw;height:100vh;
   }
-  .nav.scrolled{border-bottom-color:var(--line)}
-  .brand{font:400 20px 'Cormorant Garamond',serif;letter-spacing:.14em;text-transform:lowercase;color:var(--ink)}
-  .brand em{font-style:italic;font-weight:300;color:var(--amber)}
-  .nav-links{display:flex;gap:28px;align-items:center;font:400 12px Inter;letter-spacing:.18em;text-transform:uppercase}
+  @media(max-width:900px){
+    body{overflow-y:auto}
+    .stage{grid-template-columns:1fr;height:auto;min-height:100vh}
+  }
+
+  /* ─── LEFT · VIDEO ──────────────────────────────────── */
+  .media{
+    position:relative;overflow:hidden;background:#1B1612;
+  }
+  @media(max-width:900px){.media{aspect-ratio:4/3}}
+  .media video, .media .fallback{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;
+  }
+  .media .veil{
+    position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(90deg, transparent 60%, rgba(251,241,220,.14) 100%);
+  }
+  .media-badge{
+    position:absolute;left:24px;top:24px;z-index:2;
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 16px;border-radius:100px;
+    background:rgba(255,247,232,.88);backdrop-filter:blur(6px);
+    font:500 10px 'JetBrains Mono',monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);
+  }
+  .media-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 0 rgba(183,122,62,.6);animation:pulse 2s ease-out infinite}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(183,122,62,.5)}
+    70%{box-shadow:0 0 0 10px rgba(183,122,62,0)}
+    100%{box-shadow:0 0 0 0 rgba(183,122,62,0)}
+  }
+
+  /* ─── RIGHT · PANEL ─────────────────────────────────── */
+  .panel{
+    position:relative;
+    display:flex;flex-direction:column;
+    padding:32px 48px;background:var(--panel);
+    min-width:0;
+  }
+  @media(max-width:1100px){.panel{padding:28px 36px}}
+  @media(max-width:900px){.panel{padding:28px 24px}}
+
+  .nav{
+    display:flex;justify-content:space-between;align-items:center;
+    font:400 12px Inter;letter-spacing:.2em;text-transform:uppercase;
+  }
+  .brand{font:400 22px 'Cormorant Garamond',serif;letter-spacing:.14em;text-transform:lowercase;color:var(--ink)}
+  .brand em{font-style:italic;color:var(--amber)}
+  .nav-links{display:flex;gap:22px;align-items:center}
   .nav-links a{color:var(--ink-dim);transition:color .25s}
   .nav-links a:hover{color:var(--ink)}
-  @media(max-width:720px){
-    .nav{padding:18px 22px}
-    .nav-links{gap:16px}
-    .nav-links a{font-size:10px;letter-spacing:.14em}
+  @media(max-width:600px){
+    .nav-links{gap:14px}
+    .nav-links a{font-size:10.5px;letter-spacing:.14em}
   }
 
-  /* ─── HERO ──────────────────────────────────────────── */
-  .hero{
-    position:relative;width:100%;min-height:92vh;
-    display:flex;flex-direction:column;justify-content:space-between;
-    background-image:
-      linear-gradient(180deg, rgba(14,13,11,.58) 0%, rgba(14,13,11,.12) 30%, rgba(14,13,11,.22) 65%, rgba(14,13,11,.94) 100%),
-      var(--hero);
-    background-size:cover;background-position:center;
-    padding:56px 48px 48px;
-  }
-  .hero::before{
-    content:'';position:absolute;inset:0;pointer-events:none;
-    background:radial-gradient(ellipse at center, transparent 40%, rgba(14,13,11,.42) 100%);
-  }
-  .hero > *{position:relative;z-index:1}
-  @media(max-width:720px){.hero{padding:40px 22px 40px;min-height:88vh}}
-
-  .stage{
-    max-width:920px;margin:auto;padding:0 12px;
-    text-align:center;display:flex;flex-direction:column;align-items:center;gap:28px;
+  .main{
+    flex:1;display:flex;flex-direction:column;justify-content:center;gap:24px;
+    padding:36px 0 20px;min-height:0;
   }
   .eyebrow{
-    font:500 10px Inter;letter-spacing:.32em;text-transform:uppercase;color:var(--amber);opacity:.9;
+    font:500 10.5px Inter;letter-spacing:.34em;text-transform:uppercase;color:var(--amber);
   }
-  .headline{
-    font:300 italic clamp(40px,6.6vw,88px)/1.04 'Cormorant Garamond',serif;
+  h1{
+    font:300 italic clamp(40px,5.4vw,76px)/1.02 'Cormorant Garamond',serif;
     letter-spacing:-.012em;color:var(--ink);
   }
-  .headline .k{font-style:normal;color:var(--amber)}
+  h1 .k{font-style:normal;color:var(--amber)}
   .sub{
-    max-width:580px;font-size:15px;line-height:1.7;color:var(--ink-dim);font-weight:300;
+    max-width:520px;font-size:15px;line-height:1.7;color:var(--ink-dim);font-weight:400;
   }
-  @media(max-width:720px){.sub{font-size:13.5px}}
+  @media(max-width:720px){.sub{font-size:14px}}
 
-  .ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+  .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
   .btn{
     display:inline-flex;align-items:center;gap:10px;
-    padding:14px 28px;border:1px solid;border-radius:100px;
-    font:500 12px Inter;letter-spacing:.18em;text-transform:uppercase;
+    padding:14px 28px;border:1.4px solid;border-radius:100px;
+    font:500 12px Inter;letter-spacing:.2em;text-transform:uppercase;
     transition:all .25s;cursor:pointer;
   }
-  .btn.primary{border-color:var(--amber);background:var(--amber);color:#1B1814}
-  .btn.primary:hover{background:transparent;color:var(--amber);transform:translateY(-1px)}
-  .btn.ghost{border-color:rgba(243,234,217,.28);color:var(--ink)}
-  .btn.ghost:hover{border-color:var(--ink);background:rgba(243,234,217,.06)}
+  .btn.primary{border-color:var(--amber);background:var(--amber);color:var(--ivory);box-shadow:0 10px 24px rgba(183,122,62,.28)}
+  .btn.primary:hover{transform:translateY(-1px);box-shadow:0 16px 34px rgba(183,122,62,.36)}
+  .btn.ghost{border-color:var(--ink);color:var(--ink);background:transparent}
+  .btn.ghost:hover{background:rgba(27,22,18,.06)}
   .btn svg{width:14px;height:14px}
 
-  .numbers{
-    display:flex;justify-content:center;gap:clamp(18px,5vw,64px);
-    margin-top:auto;padding-top:40px;flex-wrap:wrap;
-    font:400 32px 'Cormorant Garamond',serif;
+  /* ─── SLIDER ────────────────────────────────────────── */
+  .slider{
+    border-top:1px solid var(--line);padding-top:22px;margin-top:auto;
   }
-  .num-item{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:60px}
-  .num-val{font-size:clamp(22px,3vw,34px);color:var(--ink)}
-  .num-lbl{font:400 9.5px Inter;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-faint)}
-  @media(max-width:600px){.numbers{gap:20px 28px}}
+  .slider-head{
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:14px;
+  }
+  .slider-head h2{
+    font:500 10.5px Inter;letter-spacing:.3em;text-transform:uppercase;color:var(--amber);
+  }
+  .slider-head .arrows{display:flex;gap:4px}
+  .arrow{
+    width:30px;height:30px;border:1px solid var(--line);border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;color:var(--ink-dim);
+    transition:all .25s;
+  }
+  .arrow:hover{border-color:var(--ink);color:var(--ink)}
+  .arrow svg{width:12px;height:12px}
+  .rail{
+    display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+    scrollbar-width:none;-ms-overflow-style:none;padding-bottom:4px;
+  }
+  .rail::-webkit-scrollbar{display:none}
+  .slide{
+    flex:0 0 clamp(180px, 30%, 230px);scroll-snap-align:start;
+    position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:4px;
+    border:1px solid var(--line);transition:border-color .3s,transform .4s ease;
+    background:var(--cream);
+  }
+  .slide:hover{border-color:var(--amber);transform:translateY(-3px)}
+  .slide img{width:100%;height:100%;object-fit:cover;transition:transform 1s}
+  .slide:hover img{transform:scale(1.04)}
+  .slide::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg, transparent 55%, rgba(27,22,18,.88) 100%)}
+  .slide-tag{
+    position:absolute;left:12px;right:12px;bottom:10px;z-index:2;color:var(--ivory);
+  }
+  .slide-name{font:400 15px 'Cormorant Garamond',serif;letter-spacing:.02em}
+  .slide-meta{font:400 9px 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--amber-soft);margin-top:2px}
 
-  /* ─── SECTION WRAP ──────────────────────────────────── */
-  section.bl{padding:120px 48px}
-  @media(max-width:720px){section.bl{padding:80px 22px}}
-  .wrap{max-width:1240px;margin:auto}
-  .eyebrow2{
-    display:block;font:500 10px Inter;letter-spacing:.32em;text-transform:uppercase;color:var(--amber);
-    margin-bottom:18px;
+  /* ─── FOOT ──────────────────────────────────────────── */
+  .foot{
+    display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+    padding-top:20px;margin-top:20px;border-top:1px solid var(--line);
+    font:400 9.5px Inter;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);
   }
-  .h2{
-    font:300 clamp(32px,4.4vw,56px)/1.08 'Cormorant Garamond',serif;
-    letter-spacing:-.01em;color:var(--ink);max-width:720px;
-  }
-  .h2 em{font-style:italic;color:var(--amber)}
-  .lede{
-    margin-top:22px;max-width:620px;font-size:15px;line-height:1.7;color:var(--ink-dim);
-  }
+  .foot a{color:inherit;margin-left:18px;transition:color .25s}
+  .foot a:first-child{margin-left:0}
+  .foot a:hover{color:var(--ink)}
+  .foot-right{display:flex}
 
-  /* ─── ATLAS GALLERY ─────────────────────────────────── */
-  .atlas-head{display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:24px;margin-bottom:56px}
-  .atlas-cta{font:400 12px Inter;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);white-space:nowrap}
-  .atlas-cta:hover{text-decoration:underline;text-underline-offset:4px}
-  .grid{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
-  }
-  @media(max-width:1024px){.grid{grid-template-columns:repeat(3,1fr)}}
-  @media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr);gap:12px}}
-  .card{
-    position:relative;aspect-ratio:16/10;overflow:hidden;border-radius:3px;background:var(--card);
-    border:1px solid var(--line);transition:transform .4s ease, border-color .3s;
-  }
-  .card:hover{transform:translateY(-4px);border-color:rgba(212,166,121,.5)}
-  .card img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s ease;opacity:.92}
-  .card:hover img{transform:scale(1.04);opacity:1}
-  .card::after{
-    content:'';position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(180deg, rgba(14,13,11,0) 55%, rgba(14,13,11,.92) 100%);
-  }
-  .tag{
-    position:absolute;left:14px;right:14px;bottom:12px;z-index:2;
-    display:flex;justify-content:space-between;align-items:end;gap:10px;
-  }
-  .tag-name{font:400 14px 'Cormorant Garamond',serif;letter-spacing:.02em;color:var(--ink)}
-  .tag-meta{font:400 9.5px 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);opacity:.85}
-  @media(max-width:700px){
-    .tag-name{font-size:12px}
-    .tag-meta{font-size:8.5px}
-  }
-
-  /* ─── TIERS ─────────────────────────────────────────── */
-  .tiers{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-  .tier-row{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:56px}
-  @media(max-width:760px){.tier-row{grid-template-columns:1fr}}
-  .tier{
-    padding:40px 36px;background:var(--card);border:1px solid var(--line);border-radius:4px;
-    display:flex;flex-direction:column;gap:18px;transition:border-color .3s;
-  }
-  .tier:hover{border-color:rgba(212,166,121,.5)}
-  .tier-name{font:400 13px 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--amber)}
-  .tier-price{font:300 clamp(44px,5vw,64px) 'Cormorant Garamond',serif;line-height:1;color:var(--ink)}
-  .tier-lede{font-size:14px;line-height:1.65;color:var(--ink-dim)}
-  .tier ul{list-style:none;display:flex;flex-direction:column;gap:10px;padding-top:8px;border-top:1px solid var(--line)}
-  .tier li{font-size:13px;line-height:1.55;color:var(--ink-dim);padding-left:20px;position:relative}
-  .tier li::before{content:'·';position:absolute;left:8px;color:var(--amber);font-weight:700}
-  .tier.exclusive{background:linear-gradient(180deg,#1C1A17 0%, #181612 100%);border-color:rgba(212,166,121,.3)}
-
-  /* ─── HOW IT WORKS ──────────────────────────────────── */
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:56px;counter-reset:step}
-  @media(max-width:760px){.steps{grid-template-columns:1fr;gap:24px}}
-  .step{counter-increment:step;padding:24px 0;border-top:1px solid var(--line);position:relative}
-  .step::before{
-    content:counter(step,decimal-leading-zero);
-    display:block;font:400 10px 'JetBrains Mono',monospace;letter-spacing:.24em;color:var(--amber);
-    margin-bottom:14px;
-  }
-  .step h3{font:400 italic 24px 'Cormorant Garamond',serif;color:var(--ink);margin-bottom:10px;letter-spacing:-.005em}
-  .step p{font-size:14px;line-height:1.65;color:var(--ink-dim)}
-
-  /* ─── SIGNATURE ─────────────────────────────────────── */
-  .signature{background:var(--bg-2);border-top:1px solid var(--line)}
-  .sig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:56px}
-  @media(max-width:760px){.sig-grid{grid-template-columns:1fr}}
-  .sig{display:block;position:relative}
-  .sig-img{aspect-ratio:16/10;overflow:hidden;border-radius:3px;border:1px solid var(--line);transition:border-color .3s}
-  .sig:hover .sig-img{border-color:rgba(212,166,121,.45)}
-  .sig-img img{width:100%;height:100%;object-fit:cover;opacity:.92;transition:all 1s}
-  .sig:hover .sig-img img{transform:scale(1.03);opacity:1}
-  .sig-meta{display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;gap:14px;flex-wrap:wrap}
-  .sig-name{font:400 22px 'Cormorant Garamond',serif;color:var(--ink)}
-  .sig-cat{font:400 9.5px 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--amber)}
-  .sig-tag{margin-top:8px;font-size:13.5px;line-height:1.6;color:var(--ink-dim)}
-
-  /* ─── CODA ─────────────────────────────────────────── */
-  .coda{text-align:center;padding-bottom:140px}
-  .coda .h2{margin:0 auto}
-  .coda .ctas{margin-top:42px}
-
-  /* ─── FOOTER ────────────────────────────────────────── */
-  footer{border-top:1px solid var(--line);padding:32px 48px;font:400 10px Inter;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint)}
-  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
-  footer a{color:inherit;transition:color .25s;margin-left:22px}
-  footer a:first-child{margin-left:0}
-  footer a:hover{color:var(--ink)}
-  @media(max-width:720px){footer{padding:24px 22px}}
-
-  /* animation */
   @media (prefers-reduced-motion: no-preference){
     .fade{opacity:0;transform:translateY(14px);animation:up .9s ease-out forwards}
     .d1{animation-delay:.08s}.d2{animation-delay:.22s}.d3{animation-delay:.38s}
     .d4{animation-delay:.54s}.d5{animation-delay:.72s}.d6{animation-delay:.9s}
     @keyframes up{to{opacity:1;transform:translateY(0)}}
-    .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease, transform .9s ease}
-    .reveal.in{opacity:1;transform:none}
   }
 </style>
 </head>
 <body>
 
-<nav class="nav" id="nav">
-  <div class="brand">micro<em>.</em>svita</div>
-  <div class="nav-links">
-    <a href="/shop.html">atlas</a>
-    <a href="#tiers">pricing</a>
-    <a href="/account.html">sign in</a>
-  </div>
-</nav>
+<main class="stage">
 
-<section class="hero">
-  <div></div>
-  <div class="stage">
-    <div class="eyebrow fade d1">An atlas of businesses yet to open</div>
-
-    <h1 class="headline fade d2">
-      Before it exists,<br><span class="k">we photograph it.</span>
-    </h1>
-
-    <p class="sub fade d3">
-      An editorial atlas of micro-businesses across Europe —
-      imagined, styled, costed in ceramic detail.
-      Each a 25-page brandbook, a world ready to step into.
-      One lit window at dawn. Yours could be next.
-    </p>
-
-    <div class="ctas fade d4">
-      <a href="/shop.html" class="btn primary">
-        Browse the atlas
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </a>
-      <a href="#how" class="btn ghost">How it works</a>
-    </div>
+  <!-- ───── LEFT · VIDEO ───── -->
+  <div class="media">
+    <video autoplay muted loop playsinline preload="metadata" poster="/data/hero/home-hero-v1.png">
+      <source src="/data/hero/home-hero.mp4" type="video/mp4">
+    </video>
+    <img class="fallback" src="/data/hero/home-hero-v1.png" alt="" aria-hidden="true" style="z-index:0">
+    <div class="veil"></div>
+    <div class="media-badge"><span class="dot"></span>242 lit windows, dawn</div>
   </div>
 
-  <div class="numbers fade d5">
-    <div class="num-item"><div class="num-val">242</div><div class="num-lbl">concepts</div></div>
-    <div class="num-item"><div class="num-val">25</div><div class="num-lbl">slides each</div></div>
-    <div class="num-item"><div class="num-val">€49</div><div class="num-lbl">from</div></div>
-    <div class="num-item"><div class="num-val">34</div><div class="num-lbl">EU cities</div></div>
-    <div class="num-item"><div class="num-val">13</div><div class="num-lbl">categories</div></div>
-  </div>
-</section>
+  <!-- ───── RIGHT · PANEL ───── -->
+  <div class="panel">
 
-<!-- ─── ATLAS GALLERY ─────────────────────────────────── -->
-<section class="bl">
-  <div class="wrap">
-    <div class="atlas-head reveal">
-      <div>
-        <span class="eyebrow2">The atlas · visual index</span>
-        <h2 class="h2">Every shop <em>already has its window light.</em></h2>
-        <p class="lede">
-          Each concept is photographed before a lease is signed —
-          façade, counter, ritual, team, the first five customers.
-          Pick one, and you step into a world that was already waiting.
-        </p>
+    <nav class="nav fade d1">
+      <a class="brand" href="/">micro<em>.</em>svita</a>
+      <div class="nav-links">
+        <a href="/shop.html">atlas</a>
+        <a href="/account.html">sign in</a>
       </div>
-      <a class="atlas-cta" href="/shop.html">See all 242 →</a>
-    </div>
+    </nav>
 
-    <div class="grid reveal" id="grid"></div>
-  </div>
-</section>
-
-<!-- ─── TIERS ─────────────────────────────────────────── -->
-<section class="bl tiers" id="tiers">
-  <div class="wrap">
-    <div class="reveal">
-      <span class="eyebrow2">Two tiers · one deliverable</span>
-      <h2 class="h2">Pick a concept. <em>Or keep it for yourself.</em></h2>
-      <p class="lede">
-        Every concept ships with the same 25-page editorial brandbook
-        and a 30-day conversation with SVITA AI, our concept consultant.
-        The difference: whether the door stays open for others.
+    <div class="main">
+      <div class="eyebrow fade d2">An atlas of 242 businesses yet to open</div>
+      <h1 class="fade d3">Before it exists,<br><span class="k">we photograph it.</span></h1>
+      <p class="sub fade d4">
+        Micro-businesses across Europe — imagined, styled, costed.
+        Each a 25-page brandbook. One lit window at dawn — yours could be next.
       </p>
-    </div>
-
-    <div class="tier-row reveal">
-      <div class="tier">
-        <div class="tier-name">Concept · shared</div>
-        <div class="tier-price">€49</div>
-        <div class="tier-lede">The full brandbook, yours to study, adapt, or open. The concept stays in the atlas — others may also claim it.</div>
-        <ul>
-          <li>25-page editorial PDF (watermarked)</li>
-          <li>Palette, typography, monogram, signage</li>
-          <li>CAPEX, P&amp;L, timeline, team, personas</li>
-          <li>SVITA AI consultant — 30 days</li>
-        </ul>
-      </div>
-
-      <div class="tier exclusive">
-        <div class="tier-name">Exclusive · retired</div>
-        <div class="tier-price">€149</div>
-        <div class="tier-lede">Everything in Concept — plus we pull the concept from the atlas. Your city, your window, no one else.</div>
-        <ul>
-          <li>Everything in Concept</li>
-          <li>Concept retired from catalogue</li>
-          <li>Listed under your name on the shop card</li>
-          <li>Lifetime access to the editorial files</li>
-        </ul>
+      <div class="ctas fade d5">
+        <a href="/shop.html" class="btn primary">
+          Open the atlas
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="/account.html" class="btn ghost">Sign in</a>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ─── HOW IT WORKS ──────────────────────────────────── -->
-<section class="bl" id="how">
-  <div class="wrap">
-    <div class="reveal">
-      <span class="eyebrow2">How it works</span>
-      <h2 class="h2">Three quiet steps — <em>the door is already open.</em></h2>
+    <div class="slider fade d6">
+      <div class="slider-head">
+        <h2>Signature · 8 of 242</h2>
+        <div class="arrows">
+          <button class="arrow" id="prev" aria-label="previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button class="arrow" id="next" aria-label="next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+      <div class="rail" id="rail"></div>
     </div>
 
-    <div class="steps reveal">
-      <div class="step">
-        <h3>Browse the atlas</h3>
-        <p>242 concepts across 34 cities — food, craft, wellness, service, repair. Filter by city, category, or budget. Each card opens onto its own 25-slide deck.</p>
-      </div>
-      <div class="step">
-        <h3>Claim a concept</h3>
-        <p>€49 for the brandbook, €149 if you want the concept retired from the catalogue. Watermarked, editable spreadsheet, SVITA AI consultant for 30 days.</p>
-      </div>
-      <div class="step">
-        <h3>Open the window</h3>
-        <p>The brandbook is your blueprint — palette, CAPEX, timeline, team. Most concepts fit 8–28 m² and €6–32k. Some owners open in six weeks.</p>
+    <div class="foot fade d6">
+      <div>micro.svita · 2026</div>
+      <div class="foot-right">
+        <a href="/shop.html">atlas</a>
+        <a href="/offer.html">offer</a>
+        <a href="/legal.html">legal</a>
+        <a href="mailto:hello@micro.svita.ai">contact</a>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ─── SIGNATURE ─────────────────────────────────────── -->
-<section class="bl signature">
-  <div class="wrap">
-    <div class="reveal">
-      <span class="eyebrow2">Signature · gold standard</span>
-      <h2 class="h2">Three concepts <em>we built the atlas around.</em></h2>
-      <p class="lede">Reference points for every new brandbook we photograph: the tone, the density, the editorial discipline.</p>
-    </div>
-
-    <div class="sig-grid reveal">
-      <a class="sig" href="/view.html?c=paris-candle-atelier">
-        <div class="sig-img"><img src="presentations/42-paris-candle-atelier/slide-01-cover.png" alt="CIRE 11 · Paris"></div>
-        <div class="sig-meta"><div class="sig-name">42 · CIRE 11</div><div class="sig-cat">Craft · Paris</div></div>
-        <div class="sig-tag">Hand-poured soy candles with perfumer fragrances.</div>
-      </a>
-      <a class="sig" href="/view.html?c=tel-aviv-hummus">
-        <div class="sig-img"><img src="presentations/43-tel-aviv-hummus/slide-01-cover.png" alt="HUMUS 14 · Tel Aviv"></div>
-        <div class="sig-meta"><div class="sig-name">43 · HUMUS 14</div><div class="sig-cat">Food · Tel Aviv</div></div>
-        <div class="sig-tag">Silky hummus bowls with warm pita and zhug.</div>
-      </a>
-      <a class="sig" href="/view.html?c=basel-watch-repair">
-        <div class="sig-img"><img src="presentations/96-basel-watch-repair%20%5Bgood%5D/slide-01-cover.png" alt="UHR 3 · Basel"></div>
-        <div class="sig-meta"><div class="sig-name">96 · UHR 3</div><div class="sig-cat">Service · Basel</div></div>
-        <div class="sig-tag">Three-day watch revival, Basel bench precision.</div>
-      </a>
-    </div>
   </div>
-</section>
-
-<!-- ─── CODA ──────────────────────────────────────────── -->
-<section class="bl coda">
-  <div class="wrap reveal" style="max-width:720px;margin:auto">
-    <span class="eyebrow2">Your window next</span>
-    <h2 class="h2" style="margin:auto">An empty counter. <em>A lit interior. Your name on the door.</em></h2>
-    <div class="ctas">
-      <a href="/shop.html" class="btn primary">
-        Open the atlas
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </a>
-      <a href="/account.html" class="btn ghost">Sign in</a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div>micro.svita · Warsaw · 2026</div>
-    <div>
-      <a href="/shop.html">atlas</a>
-      <a href="/account.html">account</a>
-      <a href="/offer.html">offer</a>
-      <a href="/legal.html">legal</a>
-      <a href="mailto:hello@micro.svita.ai">contact</a>
-    </div>
-  </div>
-</footer>
+</main>
 
 <script>
-// sticky nav hairline
-const nav = document.getElementById('nav');
-addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 12), { passive: true });
+// graceful video fallback
+const v = document.querySelector('.media video');
+if (v) v.addEventListener('error', () => v.style.display='none', { once:true });
 
-// reveal on scroll
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-}, { rootMargin: '0px 0px -80px 0px' });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+// signature slider — top 8 concepts
+const SIGNATURE = [
+  { slug:'paris-candle-atelier',       name:'42 · CIRE 11',       meta:'Craft · Paris',     img:'presentations/42-paris-candle-atelier/slide-01-cover.png' },
+  { slug:'tel-aviv-hummus',            name:'43 · HUMUS 14',      meta:'Food · Tel Aviv',   img:'presentations/43-tel-aviv-hummus/slide-01-cover.png' },
+  { slug:'basel-watch-repair',         name:'96 · UHR 3',         meta:'Service · Basel',   img:'presentations/96-basel-watch-repair%20%5Bgood%5D/slide-01-cover.png' },
+  { slug:'sofia-mountain-forage',      name:'26 · GORA 8',        meta:'Food · Sofia',      img:'presentations/26-sofia-mountain-forage/slide-01-cover.png' },
+  { slug:'amsterdam-juice-lab',        name:'36 · JUICE LAB',     meta:'Food · Amsterdam',  img:'presentations/36-amsterdam-juice-lab%20%5Bgood%5D/slide-01-cover.png' },
+  { slug:'berlin-bagel-co',            name:'37 · BAGEL 9',       meta:'Food · Berlin',     img:'presentations/37-berlin-bagel-co/slide-01-cover.png' },
+  { slug:'warsaw-waffle-works',        name:'33 · GOFRY 7',       meta:'Food · Warsaw',     img:'presentations/33-warsaw-waffle-works%20%5Bgood%5D/slide-01-cover.png' },
+  { slug:'paris-chemex-only',          name:'216 · CHEMEX 1',     meta:'Food · Paris',      img:'presentations/216-paris-chemex-only%20%5Bgood%5D/slide-01-cover.png' },
+];
 
-// atlas gallery from catalog
-(async () => {
-  const grid = document.getElementById('grid');
-  if (!grid) return;
-  try {
-    const r = await fetch('data/catalog.json', { cache: 'no-store' });
-    const data = await r.json();
-    // Keep only actualised brandbook concepts with NN · BRAND names and real hero
-    const actualised = data.filter(c =>
-      c.has_brandbook && c.brandbook_actualised &&
-      /^\d+ ·/.test(c.name || '') &&
-      (c.hero_image || '').startsWith('presentations/')
-    );
-    // Shuffle, then pick 12
-    for (let i = actualised.length - 1; i > 0; i--) {
-      const j = (Math.random() * (i + 1)) | 0;
-      [actualised[i], actualised[j]] = [actualised[j], actualised[i]];
-    }
-    const picks = actualised.slice(0, 12);
-    const countries = { FR:'Paris', IL:'Tel Aviv', CH:'Basel', NL:'Amsterdam', DE:'Berlin', PL:'Warsaw',
-      PT:'Lisbon', IT:'Milano', BG:'Sofia', LB:'Beirut', GB:'Edinburgh', ES:'Madrid', BE:'Brussels',
-      DK:'Copenhagen', GR:'Athens', SI:'Ljubljana', AT:'Vienna', IE:'Dublin', FI:'Helsinki',
-      SE:'Stockholm', HU:'Budapest', EE:'Tallinn', SK:'Bratislava', CZ:'Prague', RO:'Bucharest',
-      IN:'Mumbai', MX:'Oaxaca', TH:'Bangkok', EG:'Cairo', CH:'Basel', IS:'Reykjavik', NO:'Oslo' };
-    grid.innerHTML = picks.map(c => `
-      <a class="card" href="/view.html?c=${encodeURIComponent(c.slug)}">
-        <img src="${c.hero_image}" alt="${c.name.replace(/</g,'&lt;')}" loading="lazy">
-        <div class="tag">
-          <div class="tag-name">${c.name.replace(/</g,'&lt;')}</div>
-          <div class="tag-meta">${c.category || ''} · ${countries[c.country] || c.country || ''}</div>
-        </div>
-      </a>`).join('');
-  } catch (e) {
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--ink-faint);font-size:13px;padding:40px">atlas loading…</div>';
-  }
-})();
+const rail = document.getElementById('rail');
+rail.innerHTML = SIGNATURE.map(s => `
+  <a class="slide" href="/view.html?c=${encodeURIComponent(s.slug)}">
+    <img src="${s.img}" alt="${s.name}" loading="lazy">
+    <div class="slide-tag">
+      <div class="slide-name">${s.name}</div>
+      <div class="slide-meta">${s.meta}</div>
+    </div>
+  </a>`).join('');
+
+const step = () => (rail.querySelector('.slide')?.offsetWidth || 200) + 12;
+document.getElementById('prev').addEventListener('click', () => rail.scrollBy({ left:-step(), behavior:'smooth' }));
+document.getElementById('next').addEventListener('click', () => rail.scrollBy({ left: step(), behavior:'smooth' }));
+
+// auto-rotate every 4s (pauses on hover)
+let paused = false;
+rail.addEventListener('pointerenter', () => paused = true);
+rail.addEventListener('pointerleave', () => paused = false);
+setInterval(() => {
+  if (paused) return;
+  const max = rail.scrollWidth - rail.clientWidth - 4;
+  if (rail.scrollLeft >= max) rail.scrollTo({ left:0, behavior:'smooth' });
+  else rail.scrollBy({ left: step(), behavior:'smooth' });
+}, 4000);
 </script>
-
 </body>
 </html>
