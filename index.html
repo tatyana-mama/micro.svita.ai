@@ -320,10 +320,36 @@ const CITY_BY_SLUG = {
 const rail = document.getElementById('rail');
 const count = document.getElementById('sig-count');
 
+// verify an image URL actually loads — rejects 404 / CORS issues / empty paths
+function verifyImage(url){
+  return new Promise(resolve => {
+    if (!url) return resolve(false);
+    const img = new Image();
+    let done = false;
+    const finish = ok => { if (!done) { done = true; resolve(ok); } };
+    img.onload  = () => finish(img.naturalWidth > 0);
+    img.onerror = () => finish(false);
+    // safety: fail if it hangs longer than 8s
+    setTimeout(() => finish(false), 8000);
+    img.src = url;
+  });
+}
+
+// verify a PDF URL responds 200 (HEAD is cheap); returns false on any non-2xx or network fail
+async function verifyPdf(url){
+  if (!url) return false;
+  try {
+    const r = await fetch(url, { method: 'HEAD', cache: 'no-store' });
+    return r.ok;
+  } catch { return false; }
+}
+
 async function hydrate(){
   try{
     const r = await fetch('data/catalog.json', { cache: 'no-store' });
     const data = await r.json();
+
+    // step 1 — surface-level eligibility from catalog fields
     const eligible = data.filter(c =>
       c.has_brandbook === true &&
       c.brandbook_actualised === true &&
@@ -331,12 +357,38 @@ async function hydrate(){
       typeof c.brandbook_pdf_url === 'string' && c.brandbook_pdf_url.startsWith('presentations/') &&
       /^\d+ ·/.test(c.name || '')
     );
+
+    // shuffle (Fisher–Yates) so each visit picks a fresh set
     for (let i = eligible.length - 1; i > 0; i--) {
       const j = (Math.random() * (i + 1)) | 0;
       [eligible[i], eligible[j]] = [eligible[j], eligible[i]];
     }
-    const picks = eligible.slice(0, 24);
-    if (count) count.textContent = `${String(picks.length).padStart(2,'0')} · ${eligible.length}`;
+
+    // step 2 — actually verify each candidate has BOTH a live hero and a live PDF.
+    // Stop once we have 24 verified. Checks run concurrently in small batches
+    // so the first cards paint quickly even if a few URLs 404.
+    const picks = [];
+    const BATCH = 8;
+    const TARGET = 24;
+    for (let i = 0; i < eligible.length && picks.length < TARGET; i += BATCH){
+      const slice = eligible.slice(i, i + BATCH);
+      const results = await Promise.all(slice.map(async c => {
+        const [hero, pdf] = await Promise.all([
+          verifyImage(c.hero_image),
+          verifyPdf(c.brandbook_pdf_url),
+        ]);
+        return (hero && pdf) ? c : null;
+      }));
+      for (const r of results){ if (r && picks.length < TARGET) picks.push(r); }
+    }
+
+    if (count) count.textContent = `${String(picks.length).padStart(2,'0')} · ${picks.length}`;
+
+    if (!picks.length){
+      rail.innerHTML = '<div style="padding:20px;color:var(--text-3);font-size:12px">no concepts available</div>';
+      return;
+    }
+
     rail.innerHTML = picks.map(c => {
       const city = CITY_BY_SLUG[c.slug] || CITY[c.country] || c.country || '';
       const cat = (c.category || '').replace(/^\w/, m => m.toUpperCase());
