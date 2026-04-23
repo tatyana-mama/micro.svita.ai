@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#F3EAD9">
-<title>micro.svita — an atlas of businesses yet to open</title>
+<meta name="theme-color" content="#0A0A0B">
+<title>micro.svita — an atlas of 242 businesses yet to open</title>
 <meta name="description" content="An editorial atlas of 242 micro-businesses across Europe — imagined, photographed, costed. Claim one as yours.">
 <meta property="og:title" content="micro.svita · atlas of businesses yet to open">
-<meta property="og:description" content="An editorial atlas of 242 micro-businesses across Europe — imagined before they exist.">
+<meta property="og:description" content="242 micro-businesses across Europe — imagined before they exist.">
 <meta property="og:image" content="https://micro.svita.ai/data/hero/home-hero-v1.png">
 <link rel="canonical" href="https://micro.svita.ai/">
 <link rel="icon" href="/apple-touch-icon.png" type="image/png">
@@ -15,176 +15,221 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
+  /* ─── TOKENS (identical to account.html) ─────────── */
   :root{
-    --cream:#F3EAD9;
-    --ivory:#FFF7E8;
-    --amber:#B77A3E;
-    --amber-soft:#D4A679;
-    --ink:#1B1612;
-    --ink-dim:rgba(27,22,18,.72);
-    --ink-faint:rgba(27,22,18,.48);
-    --line:rgba(27,22,18,.14);
-    --panel:#FBF1DC;
+    --bg:#0A0A0B;
+    --bg-1:#111113;
+    --bg-2:#18181B;
+    --line:#232327;
+    --line-2:#2F2F34;
+    --text:#FAFAFA;
+    --text-2:#A1A1AA;
+    --text-3:#6E6E78;
+    --accent:#D6FF3E;
+    --accent-dim:#9FC22F;
+    --radius:18px;
+    --radius-sm:10px;
+    --radius-lg:28px;
+    --ease:cubic-bezier(.22,1,.36,1);
   }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    background:var(--cream);color:var(--ink);
-    font:300 15px/1.6 'Inter',sans-serif;letter-spacing:.01em;
-    overflow:hidden;
-  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-weight:400;font-feature-settings:"ss01","cv11";line-height:1.5}
+  body{overflow-x:hidden}
   a{color:inherit;text-decoration:none}
-  img{max-width:100%;display:block}
-  button{font:inherit;background:none;border:0;color:inherit;cursor:pointer}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  img,svg{display:block;max-width:100%}
+  ::selection{background:var(--accent);color:#0A0A0B}
 
-  /* ─── SPLIT LAYOUT ──────────────────────────────────── */
+  .display{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-0.035em;line-height:0.92}
+  .mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+  .eyebrow{
+    font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--text-3);
+    font-weight:500;display:inline-flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:'';width:24px;height:1px;background:var(--text-3)}
+
+  /* ─── SPLIT LAYOUT ──────────────────────────────── */
   .stage{
-    display:grid;grid-template-columns:55% 45%;
+    display:grid;grid-template-columns:56% 44%;
     width:100vw;height:100vh;
   }
-  @media(max-width:900px){
-    body{overflow-y:auto}
+  @media(max-width:1100px){.stage{grid-template-columns:52% 48%}}
+  @media(max-width:880px){
+    body{overflow-y:auto;height:auto}
     .stage{grid-template-columns:1fr;height:auto;min-height:100vh}
   }
 
-  /* ─── LEFT · VIDEO ──────────────────────────────────── */
+  /* ─── LEFT · VIDEO ──────────────────────────────── */
   .media{
-    position:relative;overflow:hidden;background:#1B1612;
+    position:relative;overflow:hidden;background:var(--bg-1);
   }
-  @media(max-width:900px){.media{aspect-ratio:4/3}}
+  @media(max-width:880px){.media{aspect-ratio:16/10}}
   .media video, .media .fallback{
-    position:absolute;inset:0;width:100%;height:100%;
-    object-fit:cover;
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   }
-  .media .veil{
-    position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(90deg, transparent 60%, rgba(251,241,220,.14) 100%);
+  .media::after{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:
+      linear-gradient(90deg, transparent 62%, rgba(10,10,11,.4) 100%),
+      linear-gradient(180deg, rgba(10,10,11,.3) 0%, transparent 25%, transparent 72%, rgba(10,10,11,.5) 100%);
   }
-  .media-badge{
-    position:absolute;left:24px;top:24px;z-index:2;
-    display:inline-flex;align-items:center;gap:8px;
-    padding:8px 16px;border-radius:100px;
-    background:rgba(255,247,232,.88);backdrop-filter:blur(6px);
-    font:500 10px 'JetBrains Mono',monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);
+  /* accent glow */
+  .media::before{
+    content:'';position:absolute;top:-120px;left:-120px;width:400px;height:400px;
+    background:radial-gradient(circle, rgba(214,255,62,.18) 0%, transparent 60%);
+    pointer-events:none;z-index:1;mix-blend-mode:screen;
   }
-  .media-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 0 rgba(183,122,62,.6);animation:pulse 2s ease-out infinite}
+  .badge{
+    position:absolute;left:28px;top:28px;z-index:2;
+    display:inline-flex;align-items:center;gap:10px;
+    padding:9px 16px 9px 14px;border-radius:100px;
+    background:rgba(24,24,27,.78);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);
+    border:1px solid var(--line);
+    font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--text);
+  }
+  .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent), 0 0 0 0 rgba(214,255,62,.45);animation:pulse 2.2s ease-out infinite}
   @keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(183,122,62,.5)}
-    70%{box-shadow:0 0 0 10px rgba(183,122,62,0)}
-    100%{box-shadow:0 0 0 0 rgba(183,122,62,0)}
+    0%{box-shadow:0 0 12px var(--accent), 0 0 0 0 rgba(214,255,62,.5)}
+    70%{box-shadow:0 0 12px var(--accent), 0 0 0 12px rgba(214,255,62,0)}
+    100%{box-shadow:0 0 12px var(--accent), 0 0 0 0 rgba(214,255,62,0)}
   }
+  .mark{
+    position:absolute;left:28px;bottom:26px;z-index:2;
+    display:flex;align-items:baseline;gap:10px;
+    font-family:'Space Grotesk';font-weight:700;font-size:18px;letter-spacing:-.02em;
+    color:var(--text);
+  }
+  .mark .brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);align-self:center;box-shadow:0 0 16px var(--accent)}
+  .mark small{font-family:'Inter';font-weight:400;font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.15em}
 
-  /* ─── RIGHT · PANEL ─────────────────────────────────── */
+  /* ─── RIGHT · PANEL ─────────────────────────────── */
   .panel{
-    position:relative;
-    display:flex;flex-direction:column;
-    padding:32px 48px;background:var(--panel);
-    min-width:0;
+    position:relative;min-width:0;
+    display:grid;grid-template-rows:auto 1fr auto auto;
+    padding:28px 48px 22px;background:var(--bg);
   }
-  @media(max-width:1100px){.panel{padding:28px 36px}}
-  @media(max-width:900px){.panel{padding:28px 24px}}
+  .panel::before{
+    content:'';position:absolute;top:-140px;right:-140px;width:520px;height:520px;
+    background:radial-gradient(circle, rgba(214,255,62,.05) 0%, transparent 60%);
+    pointer-events:none;
+  }
+  .panel > *{position:relative;z-index:1}
+  @media(max-width:1280px){.panel{padding:26px 40px 22px}}
+  @media(max-width:1024px){.panel{padding:24px 32px 22px}}
+  @media(max-width:880px){.panel{padding:26px 22px 24px}}
 
+  /* ─ nav ─ */
   .nav{
     display:flex;justify-content:space-between;align-items:center;
-    font:400 12px Inter;letter-spacing:.2em;text-transform:uppercase;
+    padding-bottom:16px;border-bottom:1px solid var(--line);
   }
-  .brand{font:400 22px 'Cormorant Garamond',serif;letter-spacing:.14em;text-transform:lowercase;color:var(--ink)}
-  .brand em{font-style:italic;color:var(--amber)}
-  .nav-links{display:flex;gap:22px;align-items:center}
-  .nav-links a{color:var(--ink-dim);transition:color .25s}
-  .nav-links a:hover{color:var(--ink)}
+  .brand{display:flex;align-items:baseline;gap:10px;font-family:'Space Grotesk';font-weight:700;font-size:18px;letter-spacing:-.02em;color:var(--text)}
+  .brand .brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);align-self:center;box-shadow:0 0 16px var(--accent)}
+  .brand small{font-family:'Inter';font-weight:400;font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.15em}
+  .nav-right{display:flex;align-items:center;gap:22px}
+  .nav-right a{font-size:13px;color:var(--text-2);transition:color 200ms var(--ease)}
+  .nav-right a:hover{color:var(--accent)}
   @media(max-width:600px){
-    .nav-links{gap:14px}
-    .nav-links a{font-size:10.5px;letter-spacing:.14em}
+    .brand{font-size:16px}
+    .brand small{display:none}
+    .nav-right{gap:16px}
+    .nav-right a{font-size:12px}
   }
 
+  /* ─ hero copy ─ */
   .main{
-    flex:1;display:flex;flex-direction:column;justify-content:center;gap:24px;
-    padding:36px 0 20px;min-height:0;
+    display:flex;flex-direction:column;justify-content:center;gap:22px;
+    padding:32px 0 24px;min-height:0;
   }
-  .eyebrow{
-    font:500 10.5px Inter;letter-spacing:.34em;text-transform:uppercase;color:var(--amber);
+  h1.display{
+    font-family:'Space Grotesk';font-weight:700;
+    font-size:clamp(40px, 5.2vw, 72px);
+    letter-spacing:-.035em;line-height:.94;color:var(--text);
   }
-  h1{
-    font:300 italic clamp(40px,5.4vw,76px)/1.02 'Cormorant Garamond',serif;
-    letter-spacing:-.012em;color:var(--ink);
-  }
-  h1 .k{font-style:normal;color:var(--amber)}
+  h1 .accent{color:var(--accent);font-style:italic;font-weight:500}
   .sub{
-    max-width:520px;font-size:15px;line-height:1.7;color:var(--ink-dim);font-weight:400;
+    max-width:500px;font-size:15px;line-height:1.6;color:var(--text-2);
   }
-  @media(max-width:720px){.sub{font-size:14px}}
 
-  .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+  .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px;align-items:center}
   .btn{
     display:inline-flex;align-items:center;gap:10px;
-    padding:14px 28px;border:1.4px solid;border-radius:100px;
-    font:500 12px Inter;letter-spacing:.2em;text-transform:uppercase;
-    transition:all .25s;cursor:pointer;
+    padding:15px 28px;font-size:13.5px;font-weight:500;
+    border-radius:100px;transition:all 250ms var(--ease);
+    white-space:nowrap;border:0;cursor:pointer;font-family:inherit;
   }
-  .btn.primary{border-color:var(--amber);background:var(--amber);color:var(--ivory);box-shadow:0 10px 24px rgba(183,122,62,.28)}
-  .btn.primary:hover{transform:translateY(-1px);box-shadow:0 16px 34px rgba(183,122,62,.36)}
-  .btn.ghost{border-color:var(--ink);color:var(--ink);background:transparent}
-  .btn.ghost:hover{background:rgba(27,22,18,.06)}
+  .btn-primary{background:var(--accent);color:#0A0A0B;font-weight:600}
+  .btn-primary:hover{background:#fff;transform:translateY(-2px);box-shadow:0 16px 40px rgba(214,255,62,.28)}
+  .btn-primary svg{transition:transform 250ms var(--ease)}
+  .btn-primary:hover svg{transform:translateX(4px)}
+  .btn-ghost{color:var(--text);border:1px solid var(--line-2);background:transparent}
+  .btn-ghost:hover{border-color:var(--text);background:var(--bg-1)}
   .btn svg{width:14px;height:14px}
 
-  /* ─── SLIDER ────────────────────────────────────────── */
+  /* ─ slider ─ */
   .slider{
-    border-top:1px solid var(--line);padding-top:22px;margin-top:auto;
+    padding-top:20px;border-top:1px solid var(--line);
   }
   .slider-head{
-    display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:14px;
+    display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;
   }
   .slider-head h2{
-    font:500 10.5px Inter;letter-spacing:.3em;text-transform:uppercase;color:var(--amber);
+    font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:var(--text-3);
+    font-weight:500;display:inline-flex;align-items:baseline;gap:12px;
   }
-  .slider-head .arrows{display:flex;gap:4px}
+  .slider-head h2 b{font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600;font-size:11px;letter-spacing:.14em}
+  .arrows{display:flex;gap:6px}
   .arrow{
-    width:30px;height:30px;border:1px solid var(--line);border-radius:50%;
-    display:inline-flex;align-items:center;justify-content:center;color:var(--ink-dim);
-    transition:all .25s;
+    width:34px;height:34px;border:1px solid var(--line-2);border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;color:var(--text-2);
+    transition:all 200ms var(--ease);
   }
-  .arrow:hover{border-color:var(--ink);color:var(--ink)}
-  .arrow svg{width:12px;height:12px}
+  .arrow:hover{border-color:var(--accent);color:var(--accent);background:rgba(214,255,62,.06)}
+  .arrow svg{width:13px;height:13px}
   .rail{
-    display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
-    scrollbar-width:none;-ms-overflow-style:none;padding-bottom:4px;
+    display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+    scrollbar-width:none;-ms-overflow-style:none;padding:2px 0 4px;
+    mask-image:linear-gradient(90deg, transparent 0, #000 2%, #000 95%, transparent 100%);
   }
   .rail::-webkit-scrollbar{display:none}
   .slide{
-    flex:0 0 clamp(180px, 30%, 230px);scroll-snap-align:start;
-    position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:4px;
-    border:1px solid var(--line);transition:border-color .3s,transform .4s ease;
-    background:var(--cream);
+    flex:0 0 clamp(140px, 22%, 186px);scroll-snap-align:start;
+    display:flex;flex-direction:column;gap:10px;
+    transition:transform 400ms var(--ease);
   }
-  .slide:hover{border-color:var(--amber);transform:translateY(-3px)}
-  .slide img{width:100%;height:100%;object-fit:cover;transition:transform 1s}
-  .slide:hover img{transform:scale(1.04)}
-  .slide::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg, transparent 55%, rgba(27,22,18,.88) 100%)}
-  .slide-tag{
-    position:absolute;left:12px;right:12px;bottom:10px;z-index:2;color:var(--ivory);
+  .slide:hover{transform:translateY(-4px)}
+  .slide-img{
+    aspect-ratio:3/4;overflow:hidden;border-radius:var(--radius-sm);background:var(--bg-2);
+    border:1px solid var(--line);transition:border-color 300ms var(--ease), box-shadow 300ms var(--ease);
   }
-  .slide-name{font:400 15px 'Cormorant Garamond',serif;letter-spacing:.02em}
-  .slide-meta{font:400 9px 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--amber-soft);margin-top:2px}
+  .slide:hover .slide-img{border-color:rgba(214,255,62,.5);box-shadow:0 20px 48px rgba(0,0,0,.5), 0 0 0 1px rgba(214,255,62,.15)}
+  .slide-img img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease);opacity:.92}
+  .slide:hover .slide-img img{transform:scale(1.05);opacity:1}
+  .slide-cap{display:flex;flex-direction:column;gap:3px;padding:0 2px}
+  .slide-name{font-family:'Space Grotesk';font-weight:500;font-size:13px;letter-spacing:-.01em;color:var(--text)}
+  .slide-meta{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)}
 
-  /* ─── FOOT ──────────────────────────────────────────── */
+  /* ─ foot ─ */
   .foot{
-    display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
-    padding-top:20px;margin-top:20px;border-top:1px solid var(--line);
-    font:400 9.5px Inter;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);
+    display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+    padding-top:16px;margin-top:16px;border-top:1px solid var(--line);
+    font-size:11px;color:var(--text-3);
   }
-  .foot a{color:inherit;margin-left:18px;transition:color .25s}
-  .foot a:first-child{margin-left:0}
-  .foot a:hover{color:var(--ink)}
+  .foot-nums{display:flex;gap:22px;align-items:baseline;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+  .foot-nums span{display:inline-flex;align-items:baseline;gap:5px}
+  .foot-nums b{font-family:'Space Grotesk';font-weight:700;font-size:14px;color:var(--text);letter-spacing:-.01em}
   .foot-right{display:flex}
+  .foot-right a{color:var(--text-3);margin-left:22px;transition:color 200ms var(--ease);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+  .foot-right a:hover{color:var(--accent)}
+  @media(max-width:600px){.foot-nums{gap:14px}.foot-right a{margin-left:12px;font-size:10px}}
 
   @media (prefers-reduced-motion: no-preference){
-    .fade{opacity:0;transform:translateY(14px);animation:up .9s ease-out forwards}
+    .fade{opacity:0;transform:translateY(12px);animation:up .9s var(--ease) forwards}
     .d1{animation-delay:.08s}.d2{animation-delay:.22s}.d3{animation-delay:.38s}
-    .d4{animation-delay:.54s}.d5{animation-delay:.72s}.d6{animation-delay:.9s}
+    .d4{animation-delay:.54s}.d5{animation-delay:.72s}.d6{animation-delay:.88s}
     @keyframes up{to{opacity:1;transform:translateY(0)}}
   }
 </style>
@@ -193,46 +238,54 @@
 
 <main class="stage">
 
-  <!-- ───── LEFT · VIDEO ───── -->
+  <!-- ─── LEFT · VIDEO ─── -->
   <div class="media">
     <video autoplay muted loop playsinline preload="metadata" poster="/data/hero/home-hero-v1.png">
       <source src="/data/hero/home-hero.mp4" type="video/mp4">
     </video>
     <img class="fallback" src="/data/hero/home-hero-v1.png" alt="" aria-hidden="true" style="z-index:0">
-    <div class="veil"></div>
-    <div class="media-badge"><span class="dot"></span>242 lit windows, dawn</div>
+    <div class="badge"><span class="dot"></span>242 lit windows · dawn</div>
+    <div class="mark">
+      <span class="brand-dot"></span>
+      micro.svita
+      <small>atlas</small>
+    </div>
   </div>
 
-  <!-- ───── RIGHT · PANEL ───── -->
-  <div class="panel">
+  <!-- ─── RIGHT · PANEL ─── -->
+  <section class="panel">
 
     <nav class="nav fade d1">
-      <a class="brand" href="/">micro<em>.</em>svita</a>
-      <div class="nav-links">
-        <a href="/shop.html">atlas</a>
-        <a href="/account.html">sign in</a>
+      <a class="brand" href="/">
+        <span class="brand-dot"></span>
+        micro.svita
+        <small>atlas</small>
+      </a>
+      <div class="nav-right">
+        <a href="/shop.html">Atlas</a>
+        <a href="/account.html">Sign in</a>
       </div>
     </nav>
 
     <div class="main">
       <div class="eyebrow fade d2">An atlas of 242 businesses yet to open</div>
-      <h1 class="fade d3">Before it exists,<br><span class="k">we photograph it.</span></h1>
+      <h1 class="display fade d3">Before it exists,<br><span class="accent">we photograph it.</span></h1>
       <p class="sub fade d4">
-        Micro-businesses across Europe — imagined, styled, costed.
-        Each a 25-page brandbook. One lit window at dawn — yours could be next.
+        Micro-businesses across Europe — imagined, styled, costed in ceramic detail.
+        Each a 25-page brandbook, a world ready to step into.
       </p>
       <div class="ctas fade d5">
-        <a href="/shop.html" class="btn primary">
+        <a href="/shop.html" class="btn btn-primary">
           Open the atlas
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
-        <a href="/account.html" class="btn ghost">Sign in</a>
+        <a href="/account.html" class="btn btn-ghost">Sign in</a>
       </div>
     </div>
 
     <div class="slider fade d6">
       <div class="slider-head">
-        <h2>Signature · 8 of 242</h2>
+        <h2>Signature <b>08 · 242</b></h2>
         <div class="arrows">
           <button class="arrow" id="prev" aria-label="previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button>
           <button class="arrow" id="next" aria-label="next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -242,59 +295,59 @@
     </div>
 
     <div class="foot fade d6">
-      <div>micro.svita · 2026</div>
+      <div class="foot-nums">
+        <span><b>242</b> concepts</span>
+        <span><b>25</b> slides</span>
+        <span><b>€49</b> from</span>
+      </div>
       <div class="foot-right">
-        <a href="/shop.html">atlas</a>
-        <a href="/offer.html">offer</a>
-        <a href="/legal.html">legal</a>
-        <a href="mailto:hello@micro.svita.ai">contact</a>
+        <a href="/offer.html">Offer</a>
+        <a href="/legal.html">Legal</a>
+        <a href="mailto:hello@micro.svita.ai">Contact</a>
       </div>
     </div>
 
-  </div>
+  </section>
 </main>
 
 <script>
-// graceful video fallback
 const v = document.querySelector('.media video');
 if (v) v.addEventListener('error', () => v.style.display='none', { once:true });
 
-// signature slider — top 8 concepts
 const SIGNATURE = [
-  { slug:'paris-candle-atelier',       name:'42 · CIRE 11',       meta:'Craft · Paris',     img:'presentations/42-paris-candle-atelier/slide-01-cover.png' },
-  { slug:'tel-aviv-hummus',            name:'43 · HUMUS 14',      meta:'Food · Tel Aviv',   img:'presentations/43-tel-aviv-hummus/slide-01-cover.png' },
-  { slug:'basel-watch-repair',         name:'96 · UHR 3',         meta:'Service · Basel',   img:'presentations/96-basel-watch-repair%20%5Bgood%5D/slide-01-cover.png' },
-  { slug:'sofia-mountain-forage',      name:'26 · GORA 8',        meta:'Food · Sofia',      img:'presentations/26-sofia-mountain-forage/slide-01-cover.png' },
-  { slug:'amsterdam-juice-lab',        name:'36 · JUICE LAB',     meta:'Food · Amsterdam',  img:'presentations/36-amsterdam-juice-lab%20%5Bgood%5D/slide-01-cover.png' },
-  { slug:'berlin-bagel-co',            name:'37 · BAGEL 9',       meta:'Food · Berlin',     img:'presentations/37-berlin-bagel-co/slide-01-cover.png' },
-  { slug:'warsaw-waffle-works',        name:'33 · GOFRY 7',       meta:'Food · Warsaw',     img:'presentations/33-warsaw-waffle-works%20%5Bgood%5D/slide-01-cover.png' },
-  { slug:'paris-chemex-only',          name:'216 · CHEMEX 1',     meta:'Food · Paris',      img:'presentations/216-paris-chemex-only%20%5Bgood%5D/slide-01-cover.png' },
+  { slug:'paris-candle-atelier',  name:'42 · CIRE 11',   meta:'Craft · Paris',     img:'presentations/42-paris-candle-atelier/slide-01-cover.png' },
+  { slug:'tel-aviv-hummus',       name:'43 · HUMUS 14',  meta:'Food · Tel Aviv',   img:'presentations/43-tel-aviv-hummus/slide-01-cover.png' },
+  { slug:'basel-watch-repair',    name:'96 · UHR 3',     meta:'Service · Basel',   img:'presentations/96-basel-watch-repair%20%5Bgood%5D/slide-01-cover.png' },
+  { slug:'sofia-mountain-forage', name:'26 · GORA 8',    meta:'Food · Sofia',      img:'presentations/26-sofia-mountain-forage/slide-01-cover.png' },
+  { slug:'amsterdam-juice-lab',   name:'36 · JUICE LAB', meta:'Food · Amsterdam',  img:'presentations/36-amsterdam-juice-lab%20%5Bgood%5D/slide-01-cover.png' },
+  { slug:'berlin-bagel-co',       name:'37 · BAGEL 9',   meta:'Food · Berlin',     img:'presentations/37-berlin-bagel-co/slide-01-cover.png' },
+  { slug:'warsaw-waffle-works',   name:'33 · GOFRY 7',   meta:'Food · Warsaw',     img:'presentations/33-warsaw-waffle-works%20%5Bgood%5D/slide-01-cover.png' },
+  { slug:'paris-chemex-only',     name:'216 · CHEMEX 1', meta:'Food · Paris',      img:'presentations/216-paris-chemex-only%20%5Bgood%5D/slide-01-cover.png' },
 ];
 
 const rail = document.getElementById('rail');
 rail.innerHTML = SIGNATURE.map(s => `
   <a class="slide" href="/view.html?c=${encodeURIComponent(s.slug)}">
-    <img src="${s.img}" alt="${s.name}" loading="lazy">
-    <div class="slide-tag">
+    <div class="slide-img"><img src="${s.img}" alt="${s.name}" loading="lazy"></div>
+    <div class="slide-cap">
       <div class="slide-name">${s.name}</div>
       <div class="slide-meta">${s.meta}</div>
     </div>
   </a>`).join('');
 
-const step = () => (rail.querySelector('.slide')?.offsetWidth || 200) + 12;
+const step = () => (rail.querySelector('.slide')?.offsetWidth || 170) + 14;
 document.getElementById('prev').addEventListener('click', () => rail.scrollBy({ left:-step(), behavior:'smooth' }));
 document.getElementById('next').addEventListener('click', () => rail.scrollBy({ left: step(), behavior:'smooth' }));
 
-// auto-rotate every 4s (pauses on hover)
 let paused = false;
 rail.addEventListener('pointerenter', () => paused = true);
 rail.addEventListener('pointerleave', () => paused = false);
 setInterval(() => {
   if (paused) return;
   const max = rail.scrollWidth - rail.clientWidth - 4;
-  if (rail.scrollLeft >= max) rail.scrollTo({ left:0, behavior:'smooth' });
+  if (rail.scrollLeft >= max - 2) rail.scrollTo({ left:0, behavior:'smooth' });
   else rail.scrollBy({ left: step(), behavior:'smooth' });
-}, 4000);
+}, 4200);
 </script>
 </body>
 </html>
