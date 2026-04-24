@@ -241,6 +241,7 @@ body::after{
 .preview-slides .ps-meta{font:500 11px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#64748B;white-space:nowrap}
 .preview-slides .ps-meta b{color:var(--accent);font-weight:600}
 .preview-slides .ps-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.preview-slides .ps-grid > :nth-child(5){grid-column:1 / -1}
 .preview-slides .ps-tile{position:relative;border-radius:12px;overflow:hidden;background:#111113;border:1px solid #E2E8F0;margin:0;transition:transform .3s ease, box-shadow .3s ease}
 .preview-slides .ps-tile:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,0,0,.14)}
 .preview-slides .ps-tile img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;display:block;background:#f1efe8}
@@ -1644,6 +1645,7 @@ async function buildSlidesPreview(c){
   });
 
   const candidates = [
+    { file:'slide-04-facade.png',     label:'Facade',     kind:'visual' },
     { file:'slide-06-interior.png',   label:'Interior',   kind:'visual' },
     { file:'slide-08-ritual.png',     label:'The ritual', kind:'visual' },
     { file:'slide-09-still-life.png', label:'Still life', kind:'visual' },
@@ -1654,9 +1656,9 @@ async function buildSlidesPreview(c){
     candidates.map(async x => ({ ...x, url: await probe(base + x.file) }))
   )).filter(x => x.url);
 
-  const visuals = resolved.filter(x => x.kind === 'visual').slice(0, 2);
+  const visuals = resolved.filter(x => x.kind === 'visual').slice(0, 3);
   const maths   = resolved.filter(x => x.kind === 'math').slice(0, 2);
-  const tiles   = [...visuals, ...maths];
+  const tiles   = [...visuals, ...maths].slice(0, 5);
   if (!tiles.length) return;
 
   container.innerHTML = `
@@ -1664,7 +1666,7 @@ async function buildSlidesPreview(c){
       <div>
         <div class="ps-eyebrow">Peek inside · ${tiles.length} of 25 pages</div>
         <div class="ps-title">What you get before you buy</div>
-        <div class="ps-sub">Two visuals from the interior world, two pages of economics — the rest of the brandbook unlocks below.</div>
+        <div class="ps-sub">Three visuals from the interior and facade world, two pages of economics — the rest of the brandbook unlocks below.</div>
       </div>
       <div class="ps-meta"><b>${tiles.length}</b> / 25 pages shown</div>
     </div>
