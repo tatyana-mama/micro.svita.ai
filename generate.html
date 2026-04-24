@@ -115,9 +115,36 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
 .result-panel.on{opacity:1;max-height:8000px}
 .result-panel.err .err-box{display:block}
 .err-box{
-  display:none;padding:20px;background:rgba(240,70,70,.08);border:1px solid rgba(240,70,70,.24);
-  border-radius:12px;color:#ff9ea0;font-size:13px;line-height:1.55;white-space:pre-wrap;font-family:'JetBrains Mono',monospace;
+  display:none;padding:26px 30px;
+  background:linear-gradient(180deg,rgba(240,180,70,.06),rgba(240,180,70,.02));
+  border:1px solid rgba(240,180,70,.22);
+  border-radius:16px;line-height:1.55;
 }
+.err-box.on{display:block}
+.err-box .err-icon{
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(240,180,70,.1);border:1px solid rgba(240,180,70,.3);
+  display:inline-flex;align-items:center;justify-content:center;
+  color:#f5b041;font-size:18px;font-family:'Space Grotesk';font-weight:600;
+  margin-bottom:16px;
+}
+.err-box .err-title{font-family:'Space Grotesk';font-weight:600;font-size:18px;color:var(--text);margin-bottom:8px;letter-spacing:-.01em}
+.err-box .err-msg{color:var(--text-2);font-size:14px;max-width:520px}
+.err-box .err-cta{display:inline-flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.err-box .err-cta button{
+  padding:10px 18px;border-radius:100px;font-size:12px;font-weight:500;
+  border:1px solid var(--line-2);color:var(--text);background:transparent;
+  cursor:pointer;transition:all 200ms var(--ease);
+}
+.err-box .err-cta button:hover{border-color:var(--text);background:var(--bg-1)}
+.err-box .err-cta button.primary{background:var(--accent);color:#0A0A0B;border-color:var(--accent);font-weight:600}
+.err-box .err-cta button.primary:hover{background:#E8FF5C;transform:translateY(-1px)}
+.err-box details{margin-top:16px}
+.err-box details summary{cursor:pointer;font:500 11px 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);list-style:none;padding:6px 0}
+.err-box details summary::-webkit-details-marker{display:none}
+.err-box details summary::before{content:'+ ';color:var(--text-3)}
+.err-box details[open] summary::before{content:'– '}
+.err-box details pre{margin-top:10px;padding:14px;background:var(--bg);border:1px solid var(--line);border-radius:10px;font:400 11px 'JetBrains Mono',monospace;color:var(--text-3);overflow-x:auto;line-height:1.5}
 
 .c-hero{
   background:linear-gradient(180deg,#0E0E10 0%,#070708 100%);
@@ -425,9 +452,62 @@ function renderConcept(c){
   res.classList.add('on');
 }
 
-function showError(msg){
-  errB.textContent = msg;
+// Map technical backend errors to calm, user-facing messages. We keep the
+// raw detail available in a collapsed <details> so operators can still debug,
+// but the visitor sees a human sentence.
+function friendlyError(j, httpStatus){
+  const rawBlob = (()=>{
+    if (j.errors) return j.errors.map(e => `[${e.provider}] ${e.error}`).join('\n');
+    if (j.detail) return j.detail;
+    if (j.hint)   return j.hint;
+    return j.error || ('http_'+httpStatus);
+  })();
+  const low = rawBlob.toLowerCase();
+
+  let title = 'Concept generator is catching a breath.';
+  let msg   = 'We couldn\u2019t finish this one. Please try again in a moment \u2014 often a second attempt works straight away.';
+
+  if (/credit|balance|quota|billing/.test(low)) {
+    title = 'Our studio is booked up at the moment.';
+    msg   = 'Svita\u2019s AI is running close to its hourly limit. Give it 60 seconds and try again \u2014 capacity refills automatically.';
+  } else if (/no_provider_configured/.test(low)) {
+    title = 'The generator is warming up.';
+    msg   = 'We\u2019re finishing a small setup on our side. Check back in a few minutes \u2014 or browse the ready concepts in the shop meanwhile.';
+  } else if (/429|rate|too.many/.test(low)) {
+    title = 'Too many ideas at once.';
+    msg   = 'A lot of people are generating right now. Wait about a minute, then try again.';
+  } else if (/timeout|network|fetch/.test(low)) {
+    title = 'Connection blinked.';
+    msg   = 'Your browser couldn\u2019t reach our studio. Check your connection and retry.';
+  } else if (/no_json|invalid_json|content filter|safety/.test(low)) {
+    title = 'That combination confused the model.';
+    msg   = 'The AI didn\u2019t return a clean answer this time. Try a slightly different style or budget and it will settle.';
+  } else if (/403|forbidden|unauthorized|401/.test(low)) {
+    title = 'Access to our studio is temporarily restricted.';
+    msg   = 'Our team has been notified and will unlock it shortly. Please try again a bit later.';
+  } else if (/500|502|503|504|internal/.test(low)) {
+    title = 'Our studio hiccuped.';
+    msg   = 'Something went briefly wrong on our side. Try again \u2014 nine times out of ten the next attempt succeeds.';
+  }
+
+  return { title, msg, raw: rawBlob };
+}
+
+function showError(payload, httpStatus){
+  const { title, msg, raw } = friendlyError(payload || {}, httpStatus);
+  const esc = (s)=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  errB.innerHTML = `
+    <div class="err-icon">!</div>
+    <div class="err-title">${esc(title)}</div>
+    <div class="err-msg">${esc(msg)}</div>
+    <div class="err-cta">
+      <button type="button" class="primary" onclick="document.getElementById('go').click()">Try again</button>
+      <button type="button" onclick="location.href='shop.html'">Browse shop</button>
+    </div>
+    ${raw ? `<details><summary>Technical details</summary><pre>${esc(raw).slice(0,1200)}</pre></details>` : ''}
+  `;
   body.innerHTML = '';
+  errB.classList.add('on');
   res.classList.add('on','err');
 }
 
@@ -454,18 +534,14 @@ form.addEventListener('submit', async (e)=>{
     });
     const j = await r.json().catch(()=>({error:'bad_json'}));
     if (!r.ok || !j.ok){
-      const detail = j.detail ? ' — '+j.detail.slice(0,240)
-        : j.errors ? '\n'+j.errors.map(e=>`• ${e.provider}: ${(e.error||'').slice(0,180)}`).join('\n')
-        : j.hint ? ' — '+j.hint
-        : '';
-      showError('Generator error: '+(j.error||'http_'+r.status)+detail);
+      showError(j, r.status);
     } else {
       window.__lastConcept = j.concept;
       renderConcept(j.concept);
       res.scrollIntoView({behavior:'smooth',block:'start'});
     }
   } catch (e) {
-    showError('Network error: '+e.message);
+    showError({error:'network',detail:e.message}, 0);
   } finally {
     go.disabled = false;
     go.classList.remove('loading');
