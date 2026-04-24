@@ -8,7 +8,7 @@
   const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
 
   const LABELS = {
-    EN:{shop:'Shop',how:'How it works',signin:'Log in',signup:'Sign up',cabinet:'My cabinet',favs:'Favorites',mine:'My concepts',cart:'Cart',settings:'Settings',signout:'Sign out',admin:'Admin'}
+    EN:{shop:'Shop',generate:'Generate',how:'How it works',signin:'Log in',signup:'Sign up',cabinet:'My cabinet',favs:'Favorites',mine:'My concepts',cart:'Cart',settings:'Settings',signout:'Sign out',admin:'Admin'}
   };
 
   /* Site is English-only — always return EN regardless of localStorage. */
@@ -41,6 +41,7 @@
   function currentPage(){
     const p = location.pathname.toLowerCase();
     if(p.endsWith('shop.html')) return 'shop';
+    if(p.endsWith('generate.html')) return 'generate';
     if(p.endsWith('account.html')) return 'account';
     if(p.endsWith('view.html')) return 'view';
     if(p.endsWith('admin.html')) return 'admin';
@@ -99,6 +100,7 @@
     const cartN = getCartCount();
 
     const shopActive = page === 'shop' ? ' class="active"' : '';
+    const genClass   = 'nav-generate' + (page === 'generate' ? ' active' : '');
     const navClass = page === 'admin' || page === 'edit' ? ' admin-mode' : '';
     nav.className = navClass.trim();
 
@@ -155,6 +157,7 @@
       </a>
       <div class="nav-right">
         <a href="shop.html"${shopActive}>${t.shop}</a>
+        <a href="generate.html" class="${genClass}">${t.generate}</a>
         <a href="index.html#how">${t.how}</a>
         ${authArea}
       </div>

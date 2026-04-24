@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0A0A0B">
+<title>SVITA Micro — Generate your concept</title>
+<meta name="description" content="Tell SVITA what business you want to open. Get a full editorial concept — palette, interior, equipment, economics — generated in under a minute.">
+<link rel="canonical" href="https://micro.svita.ai/generate.html">
+<link rel="icon" href="/apple-touch-icon.png" type="image/png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="js/svita-ui.css">
+<link rel="stylesheet" href="js/svita-app.css">
+
+<style>
+:root{
+  --bg:#0A0A0B; --bg-1:#111113; --bg-2:#18181B;
+  --line:#232327; --line-2:#2F2F34;
+  --text:#FAFAFA; --text-2:#A1A1AA; --text-3:#6E6E78;
+  --accent:#D6FF3E; --accent-dim:#9FC22F;
+  --radius:18px; --radius-sm:10px;
+  --ease:cubic-bezier(.22,1,.36,1); --max:1200px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html,body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;min-height:100vh;line-height:1.5}
+body{overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--accent);color:#0A0A0B}
+
+.display{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-.035em;line-height:1.02}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
+@media(max-width:640px){.wrap{padding:0 20px}}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 32px;display:flex;align-items:center;justify-content:space-between;transition:all 300ms var(--ease)}
+nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--line);padding:16px 32px}
+.brand{display:flex;align-items:baseline;gap:10px;font-family:'Space Grotesk';font-weight:700;font-size:18px;letter-spacing:-0.02em}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);align-self:center;box-shadow:0 0 16px var(--accent)}
+.brand small{font-family:'Inter';font-weight:400;font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.15em}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-right a{font-size:13px;color:var(--text-2);transition:color 200ms var(--ease)}
+.nav-right a:hover,.nav-right a.active{color:var(--accent)}
+.nav-cta{font-size:13px;font-weight:500;padding:11px 20px;background:var(--text);color:var(--bg);border-radius:100px;transition:all 200ms var(--ease)}
+.nav-cta:hover{background:var(--accent);transform:translateY(-1px)}
+
+/* PAGE */
+.page{padding:120px 0 80px;position:relative;overflow:hidden}
+.page::before{content:'';position:absolute;top:-200px;right:-200px;width:720px;height:720px;background:radial-gradient(circle,rgba(214,255,62,0.07) 0%,transparent 60%);pointer-events:none}
+.eyebrow{font:500 11px 'Inter';text-transform:uppercase;letter-spacing:.22em;color:var(--text-3);display:inline-flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--text-3)}
+
+.page-head{max-width:720px;margin-bottom:48px;position:relative;z-index:1}
+.page-head .eyebrow{margin-bottom:18px}
+.page-head h1{font-size:clamp(36px,5vw,58px);color:var(--text);margin-bottom:16px}
+.page-head h1 .accent{color:var(--accent);font-style:italic;font-weight:500}
+.page-head p{font-size:15px;color:var(--text-2);max-width:560px;line-height:1.6}
+
+/* FORM */
+.form-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:880px;
+  background:linear-gradient(180deg,#111113 0%,#0C0C0E 100%);
+  border:1px solid var(--line);border-radius:var(--radius);
+  padding:32px;position:relative;z-index:1;
+}
+@media(max-width:720px){.form-grid{grid-template-columns:1fr;padding:22px;gap:14px}}
+.field{display:flex;flex-direction:column;gap:8px}
+.field label{
+  font:500 11px 'JetBrains Mono',monospace;text-transform:uppercase;
+  letter-spacing:.16em;color:var(--text-3);display:flex;align-items:center;gap:8px;
+}
+.field label b{color:var(--accent);font-weight:600}
+.field select, .field input[type=text]{
+  appearance:none;-webkit-appearance:none;
+  padding:13px 38px 13px 16px;border-radius:10px;
+  border:1px solid var(--line);
+  background:var(--bg-2) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none' stroke='%23A1A1AA' stroke-width='1.5'><path d='M1 1l4 4 4-4'/></svg>") no-repeat right 14px center;
+  color:var(--text);font-family:'Inter';font-size:14px;font-weight:500;
+  cursor:pointer;transition:all 180ms var(--ease);
+}
+.field input[type=text]{background-image:none;padding-right:16px;cursor:text}
+.field select:focus,.field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(214,255,62,.08)}
+.field select:hover{border-color:var(--line-2)}
+.field.full{grid-column:1 / -1}
+
+.form-cta{
+  grid-column:1 / -1;display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding-top:8px;flex-wrap:wrap;
+}
+.form-cta .hint{font:400 12px 'Inter';color:var(--text-3);max-width:400px;line-height:1.55}
+.btn-go{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 32px;font-size:14px;font-weight:600;
+  background:var(--accent);color:#0A0A0B;border-radius:100px;
+  cursor:pointer;border:0;
+  transition:all 250ms var(--ease);
+  box-shadow:0 20px 40px -16px rgba(214,255,62,0.4);
+}
+.btn-go:hover{background:#E8FF5C;transform:translateY(-2px);box-shadow:0 28px 56px -16px rgba(214,255,62,0.55)}
+.btn-go:active{transform:translateY(0)}
+.btn-go:disabled{opacity:.5;cursor:wait;transform:none}
+.btn-go svg{width:14px;height:14px}
+.btn-go.loading svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* RESULT */
+.result-panel{
+  max-width:880px;margin-top:32px;padding:0;
+  opacity:0;max-height:0;overflow:hidden;transition:all 600ms var(--ease);
+  position:relative;z-index:1;
+}
+.result-panel.on{opacity:1;max-height:8000px}
+.result-panel.err .err-box{display:block}
+.err-box{
+  display:none;padding:20px;background:rgba(240,70,70,.08);border:1px solid rgba(240,70,70,.24);
+  border-radius:12px;color:#ff9ea0;font-size:13px;line-height:1.55;
+}
+
+.c-hero{
+  background:linear-gradient(180deg,#0E0E10 0%,#070708 100%);
+  border:1px solid var(--line);border-radius:18px;padding:42px 36px 36px;margin-bottom:18px;
+  position:relative;overflow:hidden;
+}
+.c-hero::before{
+  content:'';position:absolute;inset:0;opacity:.15;
+  background:radial-gradient(circle at 70% 30%, var(--c-accent,#D6FF3E) 0%, transparent 60%);
+  pointer-events:none;
+}
+.c-eyebrow{font:500 10px 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.22em;color:var(--c-accent,var(--accent));margin-bottom:14px;display:inline-flex;gap:10px;align-items:center}
+.c-eyebrow::before{content:'';width:22px;height:1px;background:currentColor}
+.c-brand{font-family:'Space Grotesk';font-weight:700;font-size:clamp(34px,5vw,56px);letter-spacing:-.02em;line-height:1;margin-bottom:10px}
+.c-tag{font-family:'Inter';font-weight:400;font-size:16px;color:var(--text-2);margin-bottom:28px;font-style:italic}
+.c-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding-top:24px;border-top:1px solid var(--line)}
+@media(max-width:640px){.c-stats{grid-template-columns:repeat(2,1fr)}}
+.c-stat{display:flex;flex-direction:column;gap:4px}
+.c-stat .v{font-family:'Space Grotesk';font-weight:600;font-size:22px;color:var(--text);letter-spacing:-.01em}
+.c-stat .l{font:500 9.5px 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.2em;color:var(--text-3)}
+
+.c-palette{display:flex;gap:8px;margin:18px 0 0;flex-wrap:wrap}
+.swatch{width:46px;height:46px;border-radius:10px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px}
+.swatch span{font:500 8.5px 'JetBrains Mono',monospace;background:rgba(0,0,0,.55);padding:2px 5px;border-radius:4px;color:#fff}
+
+.c-row{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:18px}
+@media(max-width:720px){.c-row{grid-template-columns:1fr}}
+.c-card{
+  background:var(--bg-1);border:1px solid var(--line);border-radius:14px;padding:22px 24px;
+}
+.c-card h3{font-family:'Space Grotesk';font-weight:600;font-size:17px;margin-bottom:14px;letter-spacing:-.01em;display:flex;justify-content:space-between;align-items:baseline}
+.c-card h3 small{font:500 10px 'JetBrains Mono',monospace;color:var(--text-3);letter-spacing:.16em;text-transform:uppercase;font-weight:500}
+.c-list{display:flex;flex-direction:column;gap:9px}
+.c-list li{display:flex;justify-content:space-between;align-items:baseline;gap:14px;font-size:13.5px;color:var(--text-2);padding-bottom:9px;border-bottom:1px dashed var(--line)}
+.c-list li:last-child{border:0;padding-bottom:0}
+.c-list li b{color:var(--text);font-weight:500}
+.c-list li .p{font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:500;font-size:12px;white-space:nowrap}
+
+.c-text{font-size:14px;color:var(--text-2);line-height:1.7}
+.c-text em{color:var(--text);font-style:normal;font-weight:500}
+
+.c-prompts details{background:var(--bg-1);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin-bottom:10px}
+.c-prompts summary{cursor:pointer;font:600 13px 'Space Grotesk';display:flex;justify-content:space-between;align-items:baseline;list-style:none}
+.c-prompts summary::-webkit-details-marker{display:none}
+.c-prompts summary small{font:500 10px 'JetBrains Mono',monospace;color:var(--text-3);letter-spacing:.16em;text-transform:uppercase}
+.c-prompts details[open]{border-color:rgba(214,255,62,.3)}
+.c-prompts .c-prompt-body{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font:400 13px 'JetBrains Mono',monospace;color:var(--text-2);line-height:1.6;white-space:pre-wrap}
+
+.c-risks li{position:relative;padding-left:22px;font-size:13px;color:var(--text-2);margin-bottom:10px;line-height:1.5}
+.c-risks li::before{content:'!';position:absolute;left:0;top:0;width:16px;height:16px;border-radius:50%;background:rgba(245,176,65,.15);color:#f5b041;font:600 10px 'JetBrains Mono',monospace;display:flex;align-items:center;justify-content:center;line-height:1}
+
+.loader{display:none;justify-content:center;align-items:center;gap:14px;padding:44px;color:var(--text-3);font-size:13px}
+.loader.on{display:flex}
+.loader .dots{display:inline-flex;gap:6px}
+.loader .dots span{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:bounce 1.1s infinite ease-in-out}
+.loader .dots span:nth-child(2){animation-delay:.12s}
+.loader .dots span:nth-child(3){animation-delay:.24s}
+@keyframes bounce{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1.15)}}
+</style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<nav id="nav"></nav>
+<script src="js/svita-nav.js"></script>
+<script src="js/svita-footer.js"></script>
+
+<section class="page">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow">AI concept generator</div>
+      <h1 class="display">Tell us what to <span class="accent">imagine</span>.</h1>
+      <p>Pick the shape of your future business. In about a minute Svita will return a full concept — brand name, tagline, palette, interior, equipment list, and four nano-banana prompts ready for a 25-page brandbook.</p>
+    </div>
+
+    <form id="gen-form" class="form-grid" autocomplete="off">
+      <div class="field">
+        <label><b>01</b> Business direction</label>
+        <select name="category" required>
+          <option value="food">Food &amp; drink</option>
+          <option value="craft">Craft &amp; making</option>
+          <option value="wellness">Wellness &amp; beauty</option>
+          <option value="service">Service &amp; repair</option>
+          <option value="education">Education &amp; learning</option>
+          <option value="retail">Retail boutique</option>
+          <option value="studio">Studio &amp; practice</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label><b>02</b> Budget tier</label>
+        <select name="budget" required>
+          <option value="€15k–30k">€15k–30k — micro cart / kiosk</option>
+          <option value="€30k–60k" selected>€30k–60k — small studio</option>
+          <option value="€60k–120k">€60k–120k — full shop</option>
+          <option value="€120k–250k">€120k–250k — flagship</option>
+          <option value="€250k+">€250k+ — multi-room premium</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label><b>03</b> Style &amp; mood</label>
+        <select name="style" required>
+          <option value="editorial minimal" selected>Editorial minimal (Kinfolk)</option>
+          <option value="warm rustic">Warm rustic (Apartamento)</option>
+          <option value="japandi">Japandi — quiet wood &amp; paper</option>
+          <option value="brutalist concrete">Brutalist concrete</option>
+          <option value="retrofuture">Retro-future — 70s diner</option>
+          <option value="tihi-luxury brass">Tihi-luxury — brass &amp; velvet</option>
+          <option value="bauhaus primary">Bauhaus primary colours</option>
+          <option value="mediterranean sun">Mediterranean — terracotta &amp; olive</option>
+          <option value="nordic minimal">Nordic minimal — linen &amp; oak</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label><b>04</b> Country</label>
+        <select name="country" required>
+          <option value="PL">Poland</option>
+          <option value="DE">Germany</option>
+          <option value="FR" selected>France</option>
+          <option value="IT">Italy</option>
+          <option value="ES">Spain</option>
+          <option value="PT">Portugal</option>
+          <option value="NL">Netherlands</option>
+          <option value="BE">Belgium</option>
+          <option value="DK">Denmark</option>
+          <option value="SE">Sweden</option>
+          <option value="NO">Norway</option>
+          <option value="FI">Finland</option>
+          <option value="IS">Iceland</option>
+          <option value="IE">Ireland</option>
+          <option value="GB">United Kingdom</option>
+          <option value="AT">Austria</option>
+          <option value="CH">Switzerland</option>
+          <option value="CZ">Czech Rep.</option>
+          <option value="SK">Slovakia</option>
+          <option value="HU">Hungary</option>
+          <option value="RO">Romania</option>
+          <option value="BG">Bulgaria</option>
+          <option value="GR">Greece</option>
+          <option value="HR">Croatia</option>
+          <option value="SI">Slovenia</option>
+          <option value="EE">Estonia</option>
+          <option value="LV">Latvia</option>
+          <option value="LT">Lithuania</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label><b>05</b> City</label>
+        <input type="text" name="city" placeholder="Paris" value="Paris" required>
+      </div>
+
+      <div class="field">
+        <label><b>06</b> Footprint</label>
+        <select name="size_m2" required>
+          <option value="12">12 m² — kiosk corner</option>
+          <option value="24" selected>24 m² — intimate</option>
+          <option value="40">40 m² — standard small</option>
+          <option value="70">70 m² — mid-sized</option>
+          <option value="120">120 m² — flagship</option>
+          <option value="220">220 m² — large floor</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label><b>07</b> Primary audience</label>
+        <select name="audience" required>
+          <option value="locals + creatives" selected>Locals + creatives</option>
+          <option value="young professionals">Young professionals</option>
+          <option value="tourists + travellers">Tourists &amp; travellers</option>
+          <option value="wealthy regulars">Wealthy regulars</option>
+          <option value="students + grad">Students + grad-school</option>
+          <option value="families with kids">Families with kids</option>
+          <option value="late-night crowd">Late-night crowd</option>
+          <option value="health-conscious">Health-conscious</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label><b>08</b> Uniqueness level</label>
+        <select name="uniqueness" required>
+          <option value="conservative">Conservative — familiar format done beautifully</option>
+          <option value="bold" selected>Bold — twist on a known idea</option>
+          <option value="avantgarde">Avant-garde — unseen format</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label><b>09</b> Season focus</label>
+        <select name="season">
+          <option value="all-year" selected>All-year</option>
+          <option value="summer">Summer heavy</option>
+          <option value="winter">Winter heavy</option>
+          <option value="holiday">Holiday / seasonal pop-up</option>
+        </select>
+      </div>
+
+      <div class="field full">
+        <label>Brand name hint <i style="color:var(--text-3);font-weight:400;font-style:normal;font-size:10px">(optional — leave blank to let AI invent)</i></label>
+        <input type="text" name="brand_name_hint" placeholder="e.g. something with 'numbers', or Latin word, or leave empty">
+      </div>
+
+      <div class="form-cta">
+        <div class="hint">One generation ≈ 30–60 seconds. The concept is saved to your cabinet as a draft — you can claim it as exclusive afterwards.</div>
+        <button type="submit" id="go" class="btn-go">
+          <span class="btn-label">Generate concept</span>
+          <svg id="go-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </form>
+
+    <div class="loader" id="loader"><div class="dots"><span></span><span></span><span></span></div> Generating your concept…</div>
+
+    <div class="result-panel" id="result">
+      <div class="err-box" id="err-box"></div>
+      <div id="result-body"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+const ENDPOINT = 'https://ctdleobjnzniqkqomlrq.supabase.co/functions/v1/generate-concept';
+const SB_ANON  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+
+const form = document.getElementById('gen-form');
+const go   = document.getElementById('go');
+const load = document.getElementById('loader');
+const res  = document.getElementById('result');
+const body = document.getElementById('result-body');
+const errB = document.getElementById('err-box');
+
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function eur(n){if(n==null||isNaN(n))return '—';return '€'+Number(n).toLocaleString('en-US')}
+
+function renderConcept(c){
+  const accent = (c.palette && c.palette[2]) || '#D6FF3E';
+  const swatches = (c.palette || []).map(h=>`<div class="swatch" style="background:${esc(h)}"><span>${esc(h)}</span></div>`).join('');
+  const equip = (c.equipment || []).map(e=>`<li><b>${esc(e.name)}</b><span class="p">${eur(e.price_eur)}</span></li>`).join('');
+  const menu  = (c.menu_or_services || []).map(m=>`<li><b>${esc(m.name)}</b><span class="p">${eur(m.price_eur)}</span></li>`).join('');
+  const pers  = (c.audience_personas || []).map(p=>`<li><b>${esc(p.name)}</b><span style="font-size:11px;color:var(--text-3)">${esc(p.city)}</span></li><li style="border:0;padding:0;margin:-2px 0 8px">${esc(p.why)}</li>`).join('');
+  const risks = (c.risks || []).map(r=>`<li>${esc(r)}</li>`).join('');
+  const np = c.nanobanana_prompts || {};
+
+  body.innerHTML = `
+    <div class="c-hero" style="--c-accent:${esc(accent)}">
+      <div class="c-eyebrow">${esc(c.category || '')} · ${esc(c.city || '')} · ${esc(c.country || '')}</div>
+      <div class="c-brand">${esc(c.brand || 'UNNAMED')}</div>
+      <div class="c-tag">${esc(c.tagline || '')}</div>
+      <div class="c-palette">${swatches}</div>
+      <div class="c-stats">
+        <div class="c-stat"><div class="v">${eur(c.capex_eur)}</div><div class="l">CAPEX</div></div>
+        <div class="c-stat"><div class="v">${eur(c.monthly_rev_eur)}</div><div class="l">Monthly revenue</div></div>
+        <div class="c-stat"><div class="v">${c.margin_pct||'—'}%</div><div class="l">Margin</div></div>
+        <div class="c-stat"><div class="v">${c.weeks_to_open||'—'} wk</div><div class="l">Time to open</div></div>
+      </div>
+    </div>
+
+    <div class="c-row">
+      <div class="c-card">
+        <h3>Signature ritual <small>one move</small></h3>
+        <p class="c-text"><em>${esc(c.signature_ritual || '')}</em></p>
+      </div>
+      <div class="c-card">
+        <h3>Why this is unusual <small>uniqueness</small></h3>
+        <p class="c-text">${esc(c.uniqueness || '')}</p>
+      </div>
+    </div>
+
+    <div class="c-row">
+      <div class="c-card">
+        <h3>Equipment <small>5 items</small></h3>
+        <ul class="c-list">${equip}</ul>
+      </div>
+      <div class="c-card">
+        <h3>Menu / services <small>opening</small></h3>
+        <ul class="c-list">${menu || '<li style="border:0;padding:0;color:var(--text-3)">—</li>'}</ul>
+      </div>
+    </div>
+
+    <div class="c-card" style="margin-bottom:18px">
+      <h3>Audience personas <small>three people</small></h3>
+      <ul class="c-list">${pers}</ul>
+    </div>
+
+    <div class="c-card c-risks" style="margin-bottom:18px">
+      <h3>Risks &amp; mitigations <small>three</small></h3>
+      <ul>${risks}</ul>
+    </div>
+
+    <div class="c-prompts">
+      <div style="font:500 11px 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.2em;color:var(--text-3);margin:24px 0 14px">Nano-banana prompts — ready for brandbook</div>
+      ${['cover','facade','interior','still_life'].map(k=>`
+        <details>
+          <summary>${esc(k.replace('_',' '))} <small>16:9 · editorial</small></summary>
+          <div class="c-prompt-body">${esc(np[k]||'')}</div>
+        </details>`).join('')}
+    </div>
+
+    <div style="display:flex;gap:12px;justify-content:center;margin-top:26px;flex-wrap:wrap">
+      <button class="btn-go" onclick="scrollTo({top:0,behavior:'smooth'})" type="button">Generate another</button>
+      <button class="btn-go" style="background:transparent;color:var(--text);border:1px solid var(--line-2);box-shadow:none" onclick="navigator.clipboard.writeText(JSON.stringify(window.__lastConcept,null,2))" type="button">Copy JSON</button>
+    </div>
+  `;
+  res.classList.remove('err');
+  res.classList.add('on');
+}
+
+function showError(msg){
+  errB.textContent = msg;
+  body.innerHTML = '';
+  res.classList.add('on','err');
+}
+
+form.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const fd = new FormData(form);
+  const payload = {};
+  for (const [k,v] of fd.entries()) payload[k] = v;
+
+  go.disabled = true;
+  go.classList.add('loading');
+  load.classList.add('on');
+  res.classList.remove('on');
+
+  try {
+    const r = await fetch(ENDPOINT, {
+      method:'POST',
+      headers:{
+        'content-type':'application/json',
+        'authorization':'Bearer '+SB_ANON,
+        'apikey':SB_ANON
+      },
+      body: JSON.stringify(payload)
+    });
+    const j = await r.json().catch(()=>({error:'bad_json'}));
+    if (!r.ok || !j.ok){
+      showError('Generator error: '+(j.error||'http_'+r.status)+(j.detail?' — '+j.detail.slice(0,200):''));
+    } else {
+      window.__lastConcept = j.concept;
+      renderConcept(j.concept);
+      res.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  } catch (e) {
+    showError('Network error: '+e.message);
+  } finally {
+    go.disabled = false;
+    go.classList.remove('loading');
+    load.classList.remove('on');
+  }
+});
+</script>
+
+</body>
+</html>
