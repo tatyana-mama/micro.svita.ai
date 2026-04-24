@@ -111,12 +111,14 @@
     if(user){
       const email = user.email || 'Account';
       const ini = initials(email);
+      const handle = email.split('@')[0] || 'you';
       const roleBadge = role === 'superadmin' ? `<span class="role-tag">${t.admin}</span>` : '';
       const adminLink = role === 'superadmin' ? `<a href="admin.html" role="menuitem"><span class="ic">⚙</span>${t.admin}</a><div class="user-sep"></div>` : '';
       authArea = `
         <div class="user-menu" id="user-menu">
           <button class="user-btn" id="user-btn" aria-haspopup="menu" aria-expanded="false" title="${escape(email)}">
-            <span class="user-avatar">${escape(ini)}</span>
+            <span class="user-avatar"><span class="live-dot" aria-hidden="true"></span>${escape(ini)}</span>
+            <span class="user-handle">${escape(handle)}</span>
             ${roleBadge}
             <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
           </button>
