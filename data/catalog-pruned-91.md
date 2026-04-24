@@ -1,0 +1,164 @@
+# Catalog pruned to 90 concepts · 2026-04-24
+
+## Kept (90)
+
+- 01 · SEN LAB  `ljubljana-sleep-lab`
+- 02 · ALKA-VASK  `stockholm-car-wash`
+- 03 · CRYO 3  `stockholm-cryo-bar`
+- 04 · BLAS-STUDIO  `stockholm-glass-blow`
+- 05 · LAGOM-LAB  `stockholm-wellness`
+- 06 · ZAHN-SPA  `vienna-dental-spa`
+- 07 · MAKER 10  `copenhagen-makers`
+- 08 · ENGLISH-HUB  `dublin-english-hub`
+- 09 · TEACH-YOGA  `ljubljana-yoga-teach`
+- 10 · BARRE 10  `madrid-yoga-barre`
+- 11 · PAUSE  `paris-meditation`
+- 12 · OGGETTO  `milano-design-store`
+- 13 · REFORMER 3  `lisbon-pilates`
+- 14 · KOVA-WOOD  `helsinki-wood-studio`
+- 15 · LOYLY-MINI  `helsinki-sauna-club`
+- 16 · RUST  `amsterdam-massage`
+- 17 · LETTERPRESS  `amsterdam-letterpress`
+- 18 · ELIA  `athens-olive-spa`
+- 19 · CODE 6  `berlin-code-camp`
+- 20 · CHIRO 1  `brussels-chiro-care`
+- 21 · LUNETTE 6  `paris-optometry`
+- 22 · OTTICA-MECCANICA  `rome-camera-repair`
+- 23 · PARLA  `rome-italian-school`
+- 24 · POSTURA  `rome-posture-clinic`
+- 25 · PICCOLA-TERMA  `rome-thermal-bath`
+- 26 · GORA 8  `sofia-mountain-forage`
+- 27 · OSTEO 1  `lisbon-osteo-clinic`
+- 28 · PHYSIO 1  `amsterdam-physio`
+- 29 · SHALA 8  `brussels-yoga-shala`
+- 30 · THERMAL 4  `budapest-bath-mini`
+- 31 · KIDS-MAKE  `amsterdam-kids-studio`
+- 32 · ZAPIEX  `warsaw-zapiekanka-okno`
+- 33 · GOFRY 7  `warsaw-waffle-works`
+- 35 · POPPY-MATCHA  `poppy-matcha`
+- 36 · JUICE LAB  `amsterdam-juice-lab`
+- 37 · BAGEL 9  `berlin-bagel-co`
+- 38 · ARCHIV 90  `berlin-vintage-shop`
+- 39 · BERLIN YOGA LOFT  `berlin-yoga-loft`
+- 40 · BARBA AZUL  `lisbon-barber-co`
+- 41 · CUBO  `milano-gelato-cube`
+- 42 · CIRE 11  `paris-candle-atelier`
+- 43 · HUMUS 14  `tel-aviv-hummus`
+- 44 · HYGIENE-LAB  `berlin-dental-hygiene`
+- 45 · LIEFDE  `bruges-beauty-bar`
+- 48 · ÎNCONDEI  `bucharest-eggcraft`
+- 50 · TANC 10  `budapest-dance-studio`
+- 52 · DESIGN 8  `helsinki-design-lab`
+- 55 · TIFFIN 10  `mumbai-curry-house`
+- 58 · MASA 3  `oaxaca-taco-joint`
+- 63 · AZULEJO 4  `porto-tile-studio`
+- 68 · CRYSTAL 1  `prague-crystal-spa`
+- 70 · LOUTKA  `prague-puppet-atelier`
+- 73 · MALLOREDDUS  `sardinia-pasta-lab`
+- 74 · LA-NIETA  `seville-tapas-nook`
+- 75 · KRUA 6  `bangkok-pad-thai`
+- 76 · MEZZE 12  `beirut-mezze-den`
+- 77 · VERDE 22  `lisbon-plant-store`
+- 78 · CUIR 9  `ljubljana-bag-fix`
+- 79 · ACORDE 3  `madrid-music-lessons`
+- 80 · ATELIER 6  `warsaw-art-studio`
+- 81 · HIG-HUB  `warsaw-hygiene-hub`
+- 82 · RUCH  `warsaw-movement`
+- 83 · BURSZTYN 6  `gdansk-amber-atelier`
+- 84 · OBWARZANEK 6  `krakow-obwarzanek-cart`
+- 85 · LOPI  `reykjavik-wool-room`
+- 86 · CHAESTLI  `zurich-fondue-cellar`
+- 87 · VAFFEL 5  `oslo-waffle-cart`
+- 88 · ROGALE PR5  `poznan-rogale-co`
+- 91 · MUST-LEIB  `tallinn-rye-bakery`
+- 92 · DRAM SIX  `edinburgh-whisky-flights`
+- 93 · SAVON 7  `marseille-savon-atelier`
+- 94 · BLAAUW 9  `delft-blue-tile-studio`
+- 95 · CAVE 9  `bordeaux-wine-cave`
+- 96 · UHR 3  `basel-watch-repair`
+- 97 · FON.FIX  `berlin-phone-fix`
+- 98 · PRESS 28  `berlin-screen-print`
+- 99 · SKIN ATELIER 12  `berlin-skin-clinic`
+- 100 · TELE 16  `bratislava-tv-fix`
+- 101 · VELO CAFE  `brussels-bike-cafe`
+- 102 · FRITES 2  `brussels-frites-box`
+- 103 · DETAIL BOX  `bucharest-car-detail`
+- 107 · HANGOLÁS 22  `budapest-piano-tune`
+- 108 · JÁTÉK 26  `budapest-toy-store`
+- 109 · SHAM 28  `cairo-shawarma`
+- 110 · SALON 30  `cluj-hair-salon`
+- 111 · TRYK 22  `copenhagen-print-bar`
+- 112 · BLÆK 4  `copenhagen-stationery`
+- 113 · RO 32  `copenhagen-zen-den`
+- 209 · WÓDKA  `krakow-wodka-buffet`
+- 216 · CHEMEX 1  `paris-chemex-only`
+
+## Dropped from catalog (65)
+
+These are removed from the public shop. Files on disk untouched.
+
+- amsterdam-bike-fix
+- amsterdam-records
+- amsterdam-tattoo-atelier
+- amsterdam-vinyl-fix
+- athens-gyro-box
+- athens-waxing-co
+- barcelona-tapas-nook
+- berlin-dog-grooming
+- brussels-chocolatier
+- brussels-kids-code
+- bucharest-english-kids
+- copenhagen-physio
+- copenhagen-smorre
+- dublin-dog-daycare
+- dublin-pet-grooming
+- dublin-lash-lounge
+- hanoi-pho-spot
+- helsinki-salmiakki
+- helsinki-sauna-rent
+- istanbul-kebap-ev
+- krakow-nail-art
+- lima-ceviche-bar
+- lisbon-bifana
+- luxembourg-brow
+- lyon-boulangerie
+- madonna-pop-salon
+- madrid-churro-cart
+- marseille-soap-house
+- milano-key-cutting
+- milano-nail-studio
+- munich-wurst-haus
+- napoli-pizza-forno
+- nicosia-glow-studio
+- nicosia-weavers
+- nonnas-trattoria
+- osaka-takoyaki
+- paris-bistro-petit
+- paris-bookstore
+- paris-brow-bar
+- paris-language-cafe
+- paris-laptop-medic
+- paris-laundry-spot
+- porto-pastel-bar
+- prague-acupuncture
+- prague-book-nook
+- prague-chess-club
+- prague-clock-shop
+- prague-pet-wash
+- prague-pet-grooming
+- riga-amber-bar
+- riga-cold-plunge
+- riga-rye-bakery
+- scandi-coffee
+- seoul-kbbq-table
+- sofia-banitsa-bar
+- sofia-barber-shop
+- stockholm-blow-dry
+- tallinn-spa-nook
+- tokyo-ramen-bar
+- vibrant-coffee
+- vienna-float-tank
+- vienna-makeup-salon
+- wien-kaffee-tram
+- zagreb-bubble-tea
+- zagreb-kids-dental

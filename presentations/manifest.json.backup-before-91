@@ -59,10 +59,6 @@
     "name": "15 · LOYLY-MINI",
     "pdf": "presentations/15-helsinki-sauna-club%20%5Bgood%5D/LOYLY-MINI_deck.pdf"
   },
-  "amsterdam-massage": {
-    "name": "16 · RUST",
-    "pdf": "presentations/16-amsterdam-massage/RUST_deck.pdf"
-  },
   "amsterdam-letterpress": {
     "name": "17 · LETTERPRESS",
     "pdf": "presentations/17-amsterdam-letterpress/LETTERPRESS_deck.pdf"
@@ -99,18 +95,6 @@
     "name": "25 · PICCOLA-TERMA",
     "pdf": "presentations/25-rome-thermal-bath/PICCOLA-TERMA_deck.pdf"
   },
-  "sofia-mountain-forage": {
-    "name": "26 · GORA 8",
-    "pdf": "presentations/26-sofia-mountain-forage/GORA-8_deck.pdf"
-  },
-  "lisbon-osteo-clinic": {
-    "name": "27 · OSTEO 1",
-    "pdf": "presentations/27-lisbon-osteo-clinic/OSTEO-1_deck.pdf"
-  },
-  "amsterdam-physio": {
-    "name": "28 · PHYSIO 1",
-    "pdf": "presentations/28-amsterdam-physio/PHYSIO_1_deck.pdf"
-  },
   "brussels-yoga-shala": {
     "name": "29 · SHALA 8",
     "pdf": "presentations/29-brussels-yoga-shala/SHALA-8_deck.pdf"
@@ -127,57 +111,13 @@
     "name": "32 · ZAPIEX",
     "pdf": "presentations/32-warsaw-zapiekanka-okno%20%5Bgood%5D/ZAPIEX_deck.pdf"
   },
-  "warsaw-waffle-works": {
-    "name": "33 · GOFRY 7",
-    "pdf": "presentations/33-warsaw-waffle-works/GOFRY-7_deck.pdf"
-  },
   "poppy-matcha": {
     "name": "35 · POPPY-MATCHA",
     "pdf": "presentations/35-poppy-matcha/POPPY-MATCHA_deck.pdf"
   },
-  "amsterdam-juice-lab": {
-    "name": "36 · JUICE LAB",
-    "pdf": "presentations/36-amsterdam-juice-lab/JUICE-LAB_deck.pdf"
-  },
-  "berlin-bagel-co": {
-    "name": "37 · BAGEL 9",
-    "pdf": "presentations/37-berlin-bagel-co/BAGEL-9_deck.pdf"
-  },
-  "berlin-vintage-shop": {
-    "name": "38 · ARCHIV 90",
-    "pdf": "presentations/38-berlin-vintage-shop/ARCHIV-90_deck.pdf"
-  },
-  "berlin-yoga-loft": {
-    "name": "39 · BERLIN YOGA LOFT",
-    "pdf": "presentations/39-berlin-yoga-loft/BERLIN_YOGA_LOFT_deck.pdf"
-  },
-  "lisbon-barber-co": {
-    "name": "40 · BARBA AZUL",
-    "pdf": "presentations/40-lisbon-barber-co/BARBA_AZUL_deck.pdf"
-  },
-  "milano-gelato-cube": {
-    "name": "41 · CUBO",
-    "pdf": "presentations/41-milano-gelato-cube/CUBO_deck.pdf"
-  },
-  "paris-candle-atelier": {
-    "name": "42 · CIRE 11",
-    "pdf": "presentations/42-paris-candle-atelier/CIRE_11_deck.pdf"
-  },
-  "tel-aviv-hummus": {
-    "name": "43 · HUMUS 14",
-    "pdf": "presentations/43-tel-aviv-hummus/HUMUS_14_deck.pdf"
-  },
   "berlin-dental-hygiene": {
     "name": "44 · HYGIENE-LAB",
     "pdf": "presentations/44-berlin-dental-hygiene/HYGIENE-LAB_deck.pdf"
-  },
-  "bruges-beauty-bar": {
-    "name": "45 · LIEFDE",
-    "pdf": "presentations/45-bruges-beauty-bar/LIEFDE_deck.pdf"
-  },
-  "bucharest-eggcraft": {
-    "name": "48 · ÎNCONDEI",
-    "pdf": "presentations/48-bucharest-eggcraft/INCONDEI_deck.pdf"
   },
   "budapest-dance-studio": {
     "name": "50 · TANC 10",
@@ -186,10 +126,6 @@
   "helsinki-design-lab": {
     "name": "52 · DESIGN 8",
     "pdf": "presentations/52-helsinki-design-lab/DESIGN-8_deck.pdf"
-  },
-  "mumbai-curry-house": {
-    "name": "55 · TIFFIN 10",
-    "pdf": "presentations/55-mumbai-curry-house/TIFFIN-10_deck.pdf"
   },
   "oaxaca-taco-joint": {
     "name": "58 · MASA 3",
@@ -202,10 +138,6 @@
   "prague-crystal-spa": {
     "name": "68 · CRYSTAL 1",
     "pdf": "presentations/68-prague-crystal-spa/CRYSTAL-1_deck.pdf"
-  },
-  "prague-puppet-atelier": {
-    "name": "70 · LOUTKA",
-    "pdf": "presentations/70-prague-puppet-atelier/LOUTKA_deck.pdf"
   },
   "sardinia-pasta-lab": {
     "name": "73 · MALLOREDDUS",
@@ -247,9 +179,13 @@
     "name": "82 · RUCH",
     "pdf": "presentations/82-warsaw-movement%20%5Bgood%5D/RUCH_deck.pdf"
   },
-  "gdansk-amber-atelier": {
-    "name": "83 · BURSZTYN 6",
-    "pdf": "presentations/83-gdansk-amber-atelier/BURSZTYN-6_deck.pdf"
+  "prague-puppet-atelier": {
+    "name": "70 · LOUTKA",
+    "pdf": "presentations/70-prague-puppet-atelier/LOUTKA_deck.pdf"
+  },
+  "lisbon-osteo-clinic": {
+    "name": "27 · OSTEO 1",
+    "pdf": "presentations/27-lisbon-osteo-clinic/OSTEO-1_deck.pdf"
   },
   "krakow-obwarzanek-cart": {
     "name": "84 · OBWARZANEK 6",
@@ -271,9 +207,61 @@
     "name": "88 · ROGALE PR5",
     "pdf": "presentations/88-poznan-rogale-co/ROGALE-PR5_deck.pdf"
   },
+  "paris-candle-atelier": {
+    "name": "42 · CIRE 11",
+    "pdf": "presentations/42-paris-candle-atelier/CIRE_11_deck.pdf"
+  },
+  "gdansk-amber-atelier": {
+    "name": "83 · BURSZTYN 6",
+    "pdf": "presentations/83-gdansk-amber-atelier/BURSZTYN-6_deck.pdf"
+  },
   "tallinn-rye-bakery": {
     "name": "91 · MUST-LEIB",
     "pdf": "presentations/91-tallinn-rye-bakery/MUST-LEIB_deck.pdf"
+  },
+  "tel-aviv-hummus": {
+    "name": "43 · HUMUS 14",
+    "pdf": "presentations/43-tel-aviv-hummus/HUMUS_14_deck.pdf"
+  },
+  "amsterdam-massage": {
+    "name": "16 · RUST",
+    "pdf": "presentations/16-amsterdam-massage/RUST_deck.pdf"
+  },
+  "warsaw-waffle-works": {
+    "name": "33 · GOFRY 7",
+    "pdf": "presentations/33-warsaw-waffle-works/GOFRY-7_deck.pdf"
+  },
+  "copenhagen-smorre": {
+    "name": "34 · SMORREBROD 10",
+    "pdf": "presentations/34-copenhagen-smorre/SMORREBROD-10_deck.pdf"
+  },
+  "amsterdam-juice-lab": {
+    "name": "36 · JUICE LAB",
+    "pdf": "presentations/36-amsterdam-juice-lab/JUICE-LAB_deck.pdf"
+  },
+  "berlin-bagel-co": {
+    "name": "37 · BAGEL 9",
+    "pdf": "presentations/37-berlin-bagel-co/BAGEL-9_deck.pdf"
+  },
+  "berlin-vintage-shop": {
+    "name": "38 · ARCHIV 90",
+    "pdf": "presentations/38-berlin-vintage-shop/ARCHIV-90_deck.pdf"
+  },
+  "berlin-yoga-loft": {
+    "name": "39 · BERLIN YOGA LOFT",
+    "pdf": "presentations/39-berlin-yoga-loft/BERLIN_YOGA_LOFT_deck.pdf"
+  },
+  "lisbon-barber-co": {
+    "name": "40 · BARBA AZUL",
+    "pdf": "presentations/40-lisbon-barber-co/BARBA_AZUL_deck.pdf"
+  },
+  "milano-gelato-cube": {
+    "name": "41 · CUBO",
+    "pdf": "presentations/41-milano-gelato-cube/CUBO_deck.pdf"
+  },
+  "bruges-beauty-bar": {
+    "name": "45 · LIEFDE",
+    "pdf": "presentations/45-bruges-beauty-bar/LIEFDE_deck.pdf"
   },
   "edinburgh-whisky-flights": {
     "name": "92 · DRAM SIX",
@@ -283,6 +271,14 @@
     "name": "93 · SAVON 7",
     "pdf": "presentations/93-marseille-savon-atelier/SAVON-7_deck.pdf"
   },
+  "basel-watch-repair": {
+    "name": "96 · UHR 3",
+    "pdf": "presentations/96-basel-watch-repair/UHR-3_deck.pdf"
+  },
+  "amsterdam-physio": {
+    "name": "28 · PHYSIO 1",
+    "pdf": "presentations/28-amsterdam-physio/PHYSIO_1_deck.pdf"
+  },
   "delft-blue-tile-studio": {
     "name": "94 · BLAAUW 9",
     "pdf": "presentations/94-delft-blue-tile-studio/BLAAUW-9_deck.pdf"
@@ -291,9 +287,17 @@
     "name": "95 · CAVE 9",
     "pdf": "presentations/95-bordeaux-wine-cave/CAVE-9_deck.pdf"
   },
-  "basel-watch-repair": {
-    "name": "96 · UHR 3",
-    "pdf": "presentations/96-basel-watch-repair/UHR-3_deck.pdf"
+  "paris-chemex-only": {
+    "name": "216 · CHEMEX 1",
+    "pdf": "presentations/216-paris-chemex-only/CHEMEX-1_deck.pdf"
+  },
+  "brussels-bike-cafe": {
+    "name": "101 · VELO CAFE",
+    "pdf": "presentations/101-brussels-bike-cafe/VELO-CAFE_deck.pdf"
+  },
+  "brussels-frites-box": {
+    "name": "102 · FRITES 2",
+    "pdf": "presentations/102-brussels-frites-box/FRITES-2_deck.pdf"
   },
   "berlin-phone-fix": {
     "name": "97 · FON.FIX",
@@ -311,17 +315,25 @@
     "name": "100 · TELE 16",
     "pdf": "presentations/100-bratislava-tv-fix/TELE-16_deck.pdf"
   },
-  "brussels-bike-cafe": {
-    "name": "101 · VELO CAFE",
-    "pdf": "presentations/101-brussels-bike-cafe/VELO-CAFE_deck.pdf"
-  },
-  "brussels-frites-box": {
-    "name": "102 · FRITES 2",
-    "pdf": "presentations/102-brussels-frites-box/FRITES-2_deck.pdf"
-  },
   "bucharest-car-detail": {
     "name": "103 · DETAIL BOX",
     "pdf": "presentations/103-bucharest-car-detail/DETAIL-BOX_deck.pdf"
+  },
+  "krakow-wodka-buffet": {
+    "name": "209 · WÓDKA",
+    "pdf": "presentations/209-krakow-wodka-buffet/WODKA_deck.pdf"
+  },
+  "copenhagen-print-bar": {
+    "name": "111 · TRYK 22",
+    "pdf": "presentations/111-copenhagen-print-bar/TRYK-22_deck.pdf"
+  },
+  "bucharest-eggcraft": {
+    "name": "48 · ÎNCONDEI",
+    "pdf": "presentations/48-bucharest-eggcraft/INCONDEI_deck.pdf"
+  },
+  "copenhagen-stationery": {
+    "name": "112 · BLÆK 4",
+    "pdf": "presentations/112-copenhagen-stationery/BLAEK-4_deck.pdf"
   },
   "budapest-piano-tune": {
     "name": "107 · HANGOLÁS 22",
@@ -339,24 +351,20 @@
     "name": "110 · SALON 30",
     "pdf": "presentations/110-cluj-hair-salon/SALON-30_deck.pdf"
   },
-  "copenhagen-print-bar": {
-    "name": "111 · TRYK 22",
-    "pdf": "presentations/111-copenhagen-print-bar/TRYK-22_deck.pdf"
-  },
-  "copenhagen-stationery": {
-    "name": "112 · BLÆK 4",
-    "pdf": "presentations/112-copenhagen-stationery/BLAEK-4_deck.pdf"
+  "mumbai-curry-house": {
+    "name": "55 · TIFFIN 10",
+    "pdf": "presentations/55-mumbai-curry-house/TIFFIN-10_deck.pdf"
   },
   "copenhagen-zen-den": {
     "name": "113 · RO 32",
     "pdf": "presentations/113-copenhagen-zen-den/RO-32_deck.pdf"
   },
-  "krakow-wodka-buffet": {
-    "name": "209 · WÓDKA",
-    "pdf": "presentations/209-krakow-wodka-buffet/WODKA_deck.pdf"
+  "sofia-mountain-forage": {
+    "name": "26 · GORA 8",
+    "pdf": "presentations/26-sofia-mountain-forage/GORA-8_deck.pdf"
   },
-  "paris-chemex-only": {
-    "name": "216 · CHEMEX 1",
-    "pdf": "presentations/216-paris-chemex-only/CHEMEX-1_deck.pdf"
+  "svyatlitsa-dental": {
+    "name": "250 · SVYATLITSA",
+    "pdf": "presentations/250-svyatlitsa-dental/SVYATLITSA_deck.pdf"
   }
 }

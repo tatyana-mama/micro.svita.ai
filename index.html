@@ -1,21 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
+<!-- Consent Mode v2 default (set BEFORE GTM) -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent','default',{
+    ad_storage:'denied',
+    ad_user_data:'denied',
+    ad_personalization:'denied',
+    analytics_storage:'granted',
+    functionality_storage:'granted',
+    personalization_storage:'granted',
+    security_storage:'granted',
+    wait_for_update: 500
+  });
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-T2974BPD');</script>
+<!-- End Google Tag Manager -->
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0A0A0B">
-<title>micro.svita — a shop of visual imagination for your next business</title>
-<meta name="description" content="Hundreds of editorial brandbooks for micro-businesses across Europe — palette, interior, packaging, economics. Outperform 80% of the market on day one.">
-<meta property="og:title" content="micro.svita · visual imagination for your next business">
-<meta property="og:description" content="Hundreds of ready concepts — palette, interior, packaging, economics.">
-<meta property="og:image" content="https://micro.svita.ai/data/hero/home-hero-v1.png">
+<title>SVITA Micro — a shop of visual imagination for your next business</title>
+<meta name="description" content="Hundreds of editorial brandbooks for micro-businesses across Europe — palette, interior, packaging, economics. Launch in the top 20% of the market on day one.">
 <link rel="canonical" href="https://micro.svita.ai/">
 <link rel="icon" href="/apple-touch-icon.png" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:site_name" content="SVITA Micro">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://micro.svita.ai/">
+<meta property="og:title" content="SVITA Micro — visual imagination for your next business">
+<meta property="og:description" content="Hundreds of ready concepts — palette, interior, packaging, economics.">
+<meta property="og:image" content="https://micro.svita.ai/data/hero/home-hero-v1.png">
+<meta name="twitter:card" content="summary_large_image">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
   :root{
@@ -37,6 +64,7 @@
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
   html,body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-weight:400;font-feature-settings:"ss01","cv11";line-height:1.5;min-height:100vh}
+  html{scroll-behavior:smooth}
   body{overflow-x:hidden}
   a{color:inherit;text-decoration:none}
   button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
@@ -48,65 +76,24 @@
   .wrap{max-width:var(--max);margin:0 auto;padding:0 40px}
   @media(max-width:640px){.wrap{padding:0 22px}}
 
-  /* ─── ambient accents ─────────────────────────────── */
-  .glow-a, .glow-b{
-    position:fixed;pointer-events:none;z-index:0;
-    background:radial-gradient(circle, rgba(214,255,62,.10) 0%, transparent 62%);
-    filter:blur(8px);
-  }
-  .glow-a{top:-240px;right:-200px;width:780px;height:780px}
-  .glow-b{bottom:-280px;left:-200px;width:660px;height:660px;background:radial-gradient(circle, rgba(214,255,62,.06) 0%, transparent 65%)}
-
-  /* ─── NAV ─────────────────────────────────────────── */
-  nav{
-    position:fixed;top:0;left:0;right:0;z-index:100;
-    padding:18px 40px;display:flex;align-items:center;justify-content:space-between;
-    transition:all 300ms var(--ease);
-  }
-  nav.scrolled{
-    background:rgba(10,10,11,.72);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);
-    border-bottom:1px solid var(--line);
-  }
-  .brand{display:flex;align-items:baseline;gap:10px;font-family:'Space Grotesk';font-weight:700;font-size:18px;letter-spacing:-.02em}
-  .brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);align-self:center;box-shadow:0 0 16px var(--accent)}
-  .brand small{font-family:'Inter';font-weight:400;font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.15em}
-  .nav-right{display:flex;align-items:center;gap:22px;font-size:13px}
-  .nav-right a{color:var(--text-2);transition:color 200ms var(--ease)}
-  .nav-right a:hover{color:var(--accent)}
-  .nav-cta{
-    font-size:13px;font-weight:500;padding:10px 20px;
-    background:var(--text);color:var(--bg);border-radius:100px;
-    transition:all 200ms var(--ease);
-  }
-  .nav-cta:hover{background:var(--accent);transform:translateY(-1px)}
-  @media(max-width:640px){
-    nav{padding:16px 22px}
-    .nav-right{gap:14px}
-    .brand small{display:none}
-    .brand{font-size:16px}
-  }
-
-  /* ─── HERO ────────────────────────────────────────── */
-  .hero{
-    position:relative;z-index:1;
-    padding:160px 0 80px;
-  }
-  .hero-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px}
   .eyebrow{
     font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.22em;color:var(--text-3);
     display:inline-flex;align-items:center;gap:12px;
   }
   .eyebrow::before{content:'';width:28px;height:1px;background:var(--text-3)}
-  .eyebrow::after{content:'';width:28px;height:1px;background:var(--text-3)}
-  h1.display{
-    font-size:clamp(42px, 6.2vw, 86px);color:var(--text);
-    max-width:15ch;
-  }
+
+  /* ─── ambient glow ─────────────────────────────────── */
+  .glow-a, .glow-b{position:fixed;pointer-events:none;z-index:0;filter:blur(8px)}
+  .glow-a{top:-240px;right:-200px;width:780px;height:780px;background:radial-gradient(circle, rgba(214,255,62,.10) 0%, transparent 62%)}
+  .glow-b{bottom:-280px;left:-200px;width:660px;height:660px;background:radial-gradient(circle, rgba(214,255,62,.06) 0%, transparent 65%)}
+
+  /* ─── HERO ────────────────────────────────────────── */
+  .hero{position:relative;z-index:1;padding:160px 0 60px}
+  .hero-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px}
+  h1.display{font-size:clamp(42px, 6.2vw, 92px);color:var(--text);max-width:16ch}
   h1 .accent{color:var(--accent);font-style:italic;font-weight:500}
-  .sub{
-    max-width:620px;font-size:clamp(15px, 1.3vw, 17px);line-height:1.6;color:var(--text-2);
-  }
-  .ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+  .sub{max-width:620px;font-size:clamp(15px, 1.3vw, 17px);line-height:1.6;color:var(--text-2)}
+  .ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
   .btn{
     display:inline-flex;align-items:center;gap:10px;
     padding:16px 30px;font-size:14px;font-weight:500;
@@ -121,6 +108,21 @@
   .btn-ghost:hover{border-color:var(--text);background:var(--bg-1)}
   .btn svg{width:14px;height:14px}
 
+  /* ─── MARQUEE ────────────────────────────────────── */
+  .marquee{
+    position:relative;z-index:1;margin-top:56px;
+    overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:18px 0;
+    mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-track{
+    display:flex;gap:56px;animation:mar 70s linear infinite;white-space:nowrap;width:max-content;
+  }
+  .marquee-track:hover{animation-play-state:paused}
+  .marquee span{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-3);letter-spacing:.18em;text-transform:uppercase}
+  .marquee span em{color:var(--accent);font-style:normal}
+  @keyframes mar{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
   /* ─── KPI BAND ────────────────────────────────────── */
   .kpi{
     position:relative;z-index:1;margin-top:72px;
@@ -133,19 +135,10 @@
   .kpi .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.2em;color:var(--text-3)}
 
   /* ─── SLIDER ──────────────────────────────────────── */
-  .slider-section{
-    position:relative;z-index:1;padding:80px 0 80px;
-  }
-  .slider-head{
-    display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px;gap:18px;flex-wrap:wrap;
-  }
-  .slider-head h2{
-    font-family:'Space Grotesk';font-weight:500;font-size:clamp(22px,2.4vw,32px);letter-spacing:-.02em;color:var(--text);
-  }
-  .slider-head .meta{
-    display:inline-flex;align-items:baseline;gap:14px;
-    font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--text-3);font-weight:500;
-  }
+  .slider-section{position:relative;z-index:1;padding:80px 0}
+  .slider-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px;gap:18px;flex-wrap:wrap}
+  .slider-head h2{font-family:'Space Grotesk';font-weight:500;font-size:clamp(22px,2.4vw,32px);letter-spacing:-.02em;color:var(--text)}
+  .slider-head .meta{display:inline-flex;align-items:baseline;gap:14px;font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--text-3);font-weight:500}
   .slider-head .meta b{font-family:'JetBrains Mono',monospace;font-weight:600;letter-spacing:.14em;color:var(--accent);font-size:11.5px}
   .arrows{display:flex;gap:8px}
   .arrow{
@@ -179,58 +172,129 @@
   .slide-name{font-family:'Space Grotesk';font-weight:500;font-size:15px;letter-spacing:-.01em;color:var(--text)}
   .slide-meta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
 
-  .slider-foot{
-    display:flex;justify-content:center;margin-top:44px;
-  }
+  .slider-foot{display:flex;justify-content:center;margin-top:44px}
 
-  /* ─── FOOTER ──────────────────────────────────────── */
-  footer{
-    position:relative;z-index:1;
-    padding:32px 40px;border-top:1px solid var(--line);
-    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-    font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.18em;
+  /* ─── HOW IT WORKS ────────────────────────────────── */
+  .how{position:relative;z-index:1;padding:100px 0;border-top:1px solid var(--line)}
+  .how-head{text-align:center;margin-bottom:64px;display:flex;flex-direction:column;align-items:center;gap:20px}
+  .how-head h2{font-family:'Space Grotesk';font-weight:500;font-size:clamp(28px,3.6vw,46px);letter-spacing:-.02em;max-width:18ch}
+  .how-head h2 .accent{color:var(--accent);font-style:italic;font-weight:500}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  @media(max-width:900px){.steps{grid-template-columns:1fr}}
+  .step{
+    background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius);
+    padding:36px 30px 32px;transition:all 300ms var(--ease);position:relative;overflow:hidden;
   }
-  footer a{color:var(--text-3);margin-left:22px;transition:color 200ms var(--ease)}
-  footer a:first-child{margin-left:0}
-  footer a:hover{color:var(--accent)}
-  footer .links{display:flex;flex-wrap:wrap}
-  @media(max-width:640px){
-    footer{padding:24px 22px;font-size:10px}
-    footer a{margin-left:14px}
+  .step:hover{border-color:var(--line-2);transform:translateY(-4px)}
+  .step .num{
+    font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px;color:var(--accent);
+    letter-spacing:.2em;margin-bottom:28px;display:block;
   }
+  .step h3{font-family:'Space Grotesk';font-weight:500;font-size:22px;letter-spacing:-.01em;margin-bottom:14px}
+  .step p{color:var(--text-2);font-size:14px;line-height:1.6}
+  .step-list{list-style:none;margin-top:18px;padding-top:18px;border-top:1px dashed var(--line)}
+  .step-list li{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;
+    color:var(--text-3);padding:6px 0;display:flex;align-items:center;gap:10px;
+  }
+  .step-list li::before{content:'→';color:var(--accent)}
 
+  /* ─── TIERS ───────────────────────────────────────── */
+  .tiers{position:relative;z-index:1;padding:100px 0;border-top:1px solid var(--line)}
+  .tiers-head{text-align:center;margin-bottom:56px;display:flex;flex-direction:column;align-items:center;gap:18px}
+  .tiers-head h2{font-family:'Space Grotesk';font-weight:500;font-size:clamp(28px,3.6vw,44px);letter-spacing:-.02em;max-width:20ch}
+  .tiers-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:1000px;margin:0 auto}
+  @media(max-width:760px){.tiers-grid{grid-template-columns:1fr}}
+  .tier{
+    background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius-lg);
+    padding:42px 36px 36px;position:relative;transition:all 300ms var(--ease);
+  }
+  .tier.pro{border-color:rgba(214,255,62,.4);background:linear-gradient(180deg,#14140c 0%,var(--bg-1) 60%)}
+  .tier:hover{transform:translateY(-4px);border-color:var(--accent)}
+  .tier-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .tier-name{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-3);font-weight:500}
+  .tier.pro .tier-name{color:var(--accent)}
+  .tier-price{font-family:'Space Grotesk';font-weight:700;font-size:54px;letter-spacing:-.03em;line-height:1;margin-top:4px}
+  .tier-price em{color:var(--text-3);font-style:normal;font-size:16px;font-weight:400;margin-left:4px;letter-spacing:0}
+  .tier-sub{font-size:13px;color:var(--text-2);margin-top:14px;margin-bottom:28px;line-height:1.55;min-height:44px}
+  .tier-list{list-style:none}
+  .tier-list li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--text-2);padding:9px 0;line-height:1.5}
+  .tier-list li::before{content:'';flex-shrink:0;margin-top:6px;width:5px;height:5px;border-radius:50%;background:var(--text-3)}
+  .tier.pro .tier-list li::before{background:var(--accent)}
+  .tier-list li b{color:var(--text);font-weight:500}
+  .tier-cta{margin-top:32px;width:100%;justify-content:center}
+
+  /* ─── FAQ ─────────────────────────────────────────── */
+  .faq{position:relative;z-index:1;padding:100px 0;border-top:1px solid var(--line)}
+  .faq-wrap{max-width:880px;margin:0 auto}
+  .faq-head{text-align:center;margin-bottom:48px;display:flex;flex-direction:column;align-items:center;gap:18px}
+  .faq-head h2{font-family:'Space Grotesk';font-weight:500;font-size:clamp(28px,3.2vw,40px);letter-spacing:-.02em}
+  .q{
+    border-top:1px solid var(--line);padding:22px 0;cursor:pointer;user-select:none;
+    transition:all 200ms var(--ease);
+  }
+  .q:last-child{border-bottom:1px solid var(--line)}
+  .q summary{
+    display:flex;justify-content:space-between;align-items:center;gap:20px;
+    list-style:none;font-family:'Space Grotesk';font-weight:500;font-size:17px;letter-spacing:-.01em;
+  }
+  .q summary::-webkit-details-marker{display:none}
+  .q .plus{
+    width:26px;height:26px;flex-shrink:0;border:1px solid var(--line-2);border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;color:var(--text-2);
+    transition:all 200ms var(--ease);font-size:16px;line-height:1;
+  }
+  .q[open] .plus{background:var(--accent);color:#0A0A0B;border-color:var(--accent);transform:rotate(45deg)}
+  .q-body{margin-top:14px;color:var(--text-2);font-size:14.5px;line-height:1.65;max-width:660px}
+
+  /* ─── FINAL CTA ───────────────────────────────────── */
+  .final{position:relative;z-index:1;padding:120px 0 100px;text-align:center;border-top:1px solid var(--line)}
+  .final h2{font-family:'Space Grotesk';font-weight:500;font-size:clamp(36px,5.5vw,72px);letter-spacing:-.03em;line-height:1;max-width:18ch;margin:0 auto 22px}
+  .final h2 .accent{color:var(--accent);font-style:italic;font-weight:500}
+  .final p{color:var(--text-2);font-size:15px;max-width:520px;margin:0 auto 32px;line-height:1.6}
+
+  /* ─── ANIMATIONS ──────────────────────────────────── */
   @media (prefers-reduced-motion: no-preference){
     .fade{opacity:0;transform:translateY(14px);animation:up .9s var(--ease) forwards}
     .d1{animation-delay:.08s}.d2{animation-delay:.22s}.d3{animation-delay:.38s}
     .d4{animation-delay:.54s}.d5{animation-delay:.72s}.d6{animation-delay:.9s}
     @keyframes up{to{opacity:1;transform:translateY(0)}}
+    .reveal{opacity:0;transform:translateY(24px);transition:all 800ms var(--ease)}
+    .reveal.in{opacity:1;transform:translateY(0)}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal,.fade{opacity:1!important;transform:none!important}
+    .marquee-track{animation:none}
+  }
+
+  /* ─── MOBILE ADJUSTMENTS ──────────────────────────── */
+  @media(max-width:640px){
+    .hero{padding:120px 0 40px}
+    .how,.tiers,.faq{padding:72px 0}
+    .final{padding:90px 0 72px}
+    .tier{padding:32px 26px 28px}
+    .tier-price{font-size:44px}
   }
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T2974BPD"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <div class="glow-a"></div>
 <div class="glow-b"></div>
 
-<nav id="nav">
-  <a class="brand" href="/">
-    <span class="brand-dot"></span>
-    micro.svita
-    <small>atlas</small>
-  </a>
-  <div class="nav-right">
-    <a href="/shop.html">Atlas</a>
-    <a href="/offer.html">Offer</a>
-    <a href="/account.html" class="nav-cta">Sign in</a>
-  </div>
-</nav>
+<!-- shared nav (Shop, How it works, account/cart) — rendered by svita-nav.js -->
+<nav id="nav"></nav>
 
 <main>
 
   <!-- ─── HERO ───── -->
   <section class="hero">
     <div class="wrap hero-wrap">
-      <div class="eyebrow fade d1">242 visual concepts · one atlas</div>
+      <div class="eyebrow fade d1" style="justify-content:center"><span>90 visual concepts · one atlas</span></div>
       <h1 class="display fade d2">A shop of visual imagination <span class="accent">for your next business.</span></h1>
       <p class="sub fade d3">
         Hundreds of editorial concepts — palette, interior, packaging,
@@ -241,13 +305,18 @@
           Open the atlas
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
-        <a href="#signature" class="btn btn-ghost">See signatures</a>
+        <a href="#how" class="btn btn-ghost">See how it works</a>
       </div>
     </div>
 
+    <!-- marquee of concept names -->
+    <div class="marquee fade d5" aria-hidden="true">
+      <div class="marquee-track" id="mar"></div>
+    </div>
+
     <div class="wrap">
-      <div class="kpi fade d5">
-        <div class="item"><div class="v">242</div><div class="l">concepts</div></div>
+      <div class="kpi fade d6">
+        <div class="item"><div class="v">90</div><div class="l">concepts</div></div>
         <div class="item"><div class="v">25</div><div class="l">pages each</div></div>
         <div class="item"><div class="v"><em>€49</em></div><div class="l">from</div></div>
         <div class="item"><div class="v">34</div><div class="l">cities</div></div>
@@ -259,22 +328,159 @@
   <!-- ─── SIGNATURE SLIDER ───── -->
   <section class="slider-section" id="signature">
     <div class="wrap">
-      <div class="slider-head fade d6">
+      <div class="slider-head reveal">
         <div>
           <h2>Signature concepts</h2>
           <div class="meta">Every card includes a 25-page brandbook · <b id="sig-count">— · —</b></div>
         </div>
         <div class="arrows">
-          <button class="arrow" id="prev" aria-label="previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button>
-          <button class="arrow" id="next" aria-label="next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button>
+          <button class="arrow" id="prev" aria-label="previous concept"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button class="arrow" id="next" aria-label="next concept"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button>
         </div>
       </div>
 
       <div class="rail" id="rail"></div>
 
-      <div class="slider-foot">
-        <a href="/shop.html" class="btn btn-ghost">
-          Browse all 242
+      <div class="slider-foot reveal">
+        <a href="/shop.html" class="btn btn-primary">
+          Browse all 90 in the shop
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── HOW IT WORKS ───── -->
+  <section class="how" id="how">
+    <div class="wrap">
+      <div class="how-head reveal">
+        <div class="eyebrow"><span>Method</span></div>
+        <h2>From a browse tab <span class="accent">to opening day</span> — in three moves.</h2>
+      </div>
+      <div class="steps">
+        <article class="step reveal">
+          <span class="num">01 / Browse</span>
+          <h3>Pick a concept</h3>
+          <p>Scroll through 90 curated micro-businesses across 13 categories and 34 European cities. Each one is shot like a magazine editorial — not stock.</p>
+          <ul class="step-list">
+            <li>90 concepts</li>
+            <li>13 categories</li>
+            <li>real interiors &amp; packaging</li>
+          </ul>
+        </article>
+        <article class="step reveal">
+          <span class="num">02 / Buy</span>
+          <h3>Claim the brandbook</h3>
+          <p>One concept, one checkout. From €49 you receive the full 25-page brandbook — palette, interior, signage, menu, CAPEX, 4-week opening plan.</p>
+          <ul class="step-list">
+            <li>25-page PDF</li>
+            <li>palette · interior · menu</li>
+            <li>4-week opening timeline</li>
+          </ul>
+        </article>
+        <article class="step reveal">
+          <span class="num">03 / Launch</span>
+          <h3>Open in four weeks</h3>
+          <p>Take the book to your contractor, printer, and chef. Everything is briefed, costed, and sourced. You skip the six-month design phase entirely.</p>
+          <ul class="step-list">
+            <li>contractor-ready</li>
+            <li>CAPEX verified (€)</li>
+            <li>top 20% on day one</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TIERS ───── -->
+  <section class="tiers" id="tiers">
+    <div class="wrap">
+      <div class="tiers-head reveal">
+        <div class="eyebrow"><span>Two ways to own it</span></div>
+        <h2>A library card, <span style="color:var(--accent);font-style:italic;font-weight:500">or a deed.</span></h2>
+      </div>
+      <div class="tiers-grid">
+        <article class="tier reveal">
+          <div class="tier-head">
+            <span class="tier-name">Concept</span>
+          </div>
+          <div class="tier-price">€49<em>/ one-off</em></div>
+          <p class="tier-sub">The full brandbook. Shared with other builders who loved the same concept.</p>
+          <ul class="tier-list">
+            <li><b>25-page editorial PDF</b> — palette, interior, menu, signage</li>
+            <li><b>Opening plan</b> — 4 weeks, task by task</li>
+            <li><b>CAPEX &amp; unit economics</b> — verified in EUR</li>
+            <li><b>Print-ready identity</b> — logo, type, packaging</li>
+            <li>Non-exclusive license</li>
+          </ul>
+          <a href="/shop.html" class="btn btn-ghost tier-cta">Browse concepts →</a>
+        </article>
+
+        <article class="tier pro reveal">
+          <div class="tier-head">
+            <span class="tier-name">Exclusive</span>
+          </div>
+          <div class="tier-price">€149<em>/ one-off</em></div>
+          <p class="tier-sub">The concept retires to one owner. Withdrawn from the catalogue forever.</p>
+          <ul class="tier-list">
+            <li><b>Everything in Concept</b></li>
+            <li><b>Concept removed from catalogue</b> — yours alone</li>
+            <li><b>Editable source files</b> — InDesign, Figma, raw PNG</li>
+            <li><b>Transfer of rights</b> — full commercial use</li>
+            <li><b>Name &amp; trademark path</b> — filing notes included</li>
+          </ul>
+          <a href="/shop.html" class="btn btn-primary tier-cta">
+            Claim an exclusive
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FAQ ───── -->
+  <section class="faq" id="faq">
+    <div class="faq-wrap wrap">
+      <div class="faq-head reveal">
+        <div class="eyebrow"><span>FAQ</span></div>
+        <h2>Short answers.</h2>
+      </div>
+
+      <details class="q reveal">
+        <summary>What exactly do I get for €49?<span class="plus">+</span></summary>
+        <div class="q-body">A 25-page editorial PDF and a print-ready identity pack. It includes the palette, materials, interior axonometry, packaging mockups, signage, menu or service grid, 4-week opening timeline, and verified CAPEX in EUR. No generic templates — the concept is shot and costed as a specific business in a specific city.</div>
+      </details>
+
+      <details class="q reveal">
+        <summary>Do I really own it?<span class="plus">+</span></summary>
+        <div class="q-body">Concept (€49) gives you a non-exclusive license — multiple builders can open the same concept in different cities. Exclusive (€149) removes the concept from the catalogue forever and transfers full commercial rights, including editable source files.</div>
+      </details>
+
+      <details class="q reveal">
+        <summary>Can I use it in any country?<span class="plus">+</span></summary>
+        <div class="q-body">Yes. Concepts are designed EU-wide and can be adapted to any city. Prices, suppliers, and regulatory notes lean on the original reference city, but the visual system, economics, and opening plan translate cleanly.</div>
+      </details>
+
+      <details class="q reveal">
+        <summary>Refunds?<span class="plus">+</span></summary>
+        <div class="q-body">14-day money-back guarantee on every brandbook. If it isn&rsquo;t what we described, you get a full refund and keep nothing. No questions, no tickets.</div>
+      </details>
+
+      <details class="q reveal">
+        <summary>Is this a franchise?<span class="plus">+</span></summary>
+        <div class="q-body">No. You own the business, we never take equity or royalties. SVITA Micro is a shop of visual concepts — you pay once, open the business, keep 100%.</div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ─── FINAL CTA ───── -->
+  <section class="final">
+    <div class="wrap">
+      <h2 class="reveal">Your next business is <span class="accent">already photographed.</span></h2>
+      <p class="reveal">90 concepts waiting. One is probably the one.</p>
+      <div class="reveal">
+        <a href="/shop.html" class="btn btn-primary">
+          Open the shop
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
       </div>
@@ -283,20 +489,21 @@
 
 </main>
 
-<footer>
-  <div>micro.svita · 2026</div>
-  <div class="links">
-    <a href="/shop.html">Atlas</a>
-    <a href="/offer.html">Offer</a>
-    <a href="/legal.html">Legal</a>
-    <a href="mailto:hello@micro.svita.ai">Contact</a>
-  </div>
-</footer>
+<!-- shared: supabase + nav + analytics + favs + footer -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/svita-nav.js"></script>
+<script src="js/svita-metrics-config.js"></script>
+<script src="js/svita-3p-analytics.js"></script>
+<script src="js/svita-analytics.js"></script>
+<script src="js/svita-favs.js"></script>
+<script src="js/svita-footer.js"></script>
 
 <script>
-// scrolled nav
-const n = document.getElementById('nav');
-addEventListener('scroll', () => n.classList.toggle('scrolled', scrollY > 12), { passive: true });
+// ─── reveal-on-scroll ───
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
 // ─── city dictionary ───
 const CITY = {
@@ -316,11 +523,11 @@ const CITY_BY_SLUG = {
   'sofia-mountain-forage':'Sofia','zurich-fondue-cellar':'Zürich','reykjavik-wool-room':'Reykjavík',
 };
 
-// ─── hydrate slider ───
-const rail = document.getElementById('rail');
+// ─── hydrate: signature slider + marquee ───
+const rail  = document.getElementById('rail');
 const count = document.getElementById('sig-count');
+const mar   = document.getElementById('mar');
 
-// verify an image URL actually loads — rejects 404 / CORS issues / empty paths
 function verifyImage(url){
   return new Promise(resolve => {
     if (!url) return resolve(false);
@@ -329,13 +536,11 @@ function verifyImage(url){
     const finish = ok => { if (!done) { done = true; resolve(ok); } };
     img.onload  = () => finish(img.naturalWidth > 0);
     img.onerror = () => finish(false);
-    // safety: fail if it hangs longer than 8s
     setTimeout(() => finish(false), 8000);
     img.src = url;
   });
 }
 
-// verify a PDF URL responds 200 (HEAD is cheap); returns false on any non-2xx or network fail
 async function verifyPdf(url){
   if (!url) return false;
   try {
@@ -349,7 +554,6 @@ async function hydrate(){
     const r = await fetch('data/catalog.json', { cache: 'no-store' });
     const data = await r.json();
 
-    // step 1 — surface-level eligibility from catalog fields
     const eligible = data.filter(c =>
       c.has_brandbook === true &&
       c.brandbook_actualised === true &&
@@ -358,15 +562,20 @@ async function hydrate(){
       /^\d+ ·/.test(c.name || '')
     );
 
-    // shuffle (Fisher–Yates) so each visit picks a fresh set
+    // shuffle so each visit is fresh
     for (let i = eligible.length - 1; i > 0; i--) {
       const j = (Math.random() * (i + 1)) | 0;
       [eligible[i], eligible[j]] = [eligible[j], eligible[i]];
     }
 
-    // step 2 — actually verify each candidate has BOTH a live hero and a live PDF.
-    // Stop once we have 24 verified. Checks run concurrently in small batches
-    // so the first cards paint quickly even if a few URLs 404.
+    // marquee: all concept short names (deduplicated, pre-verified only)
+    if (mar){
+      const names = eligible.map(c => (c.name || '').replace(/^\d+\s*·\s*/, '').trim()).filter(Boolean);
+      const row = names.map(n => `<span>${n.replace(/</g,'&lt;')} <em>·</em></span>`).join('');
+      mar.innerHTML = row + row; // duplicate for seamless loop
+    }
+
+    // signature rail: 24 verified cards
     const picks = [];
     const BATCH = 8;
     const TARGET = 24;
