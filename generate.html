@@ -367,7 +367,17 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
 
 <script>
 const ENDPOINT = 'https://ctdleobjnzniqkqomlrq.supabase.co/functions/v1/generate-concept';
+const SB_URL   = 'https://ctdleobjnzniqkqomlrq.supabase.co';
 const SB_ANON  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+const JOB_KEY  = 'svita_micro_gen_job';
+
+// Stable anonymous id — lets the edge function attach the job to this browser
+// even when the visitor isn't logged in, so the result survives a reload.
+function anonId(){
+  let k = localStorage.getItem('svita_micro_anon');
+  if(!k){ k = 'a_' + Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('svita_micro_anon', k); }
+  return k;
+}
 
 const form = document.getElementById('gen-form');
 const go   = document.getElementById('go');
@@ -511,43 +521,132 @@ function showError(payload, httpStatus){
   res.classList.add('on','err');
 }
 
+let pollTimer = null;
+let pollStart = 0;
+const POLL_INTERVAL_MS = 2500;
+const POLL_MAX_MS      = 5 * 60 * 1000; // 5 minutes
+
+function setBusy(on){
+  go.disabled = on;
+  go.classList.toggle('loading', on);
+  load.classList.toggle('on', on);
+}
+
+async function apiCall(payload){
+  // If user is logged in, carry their session JWT so the job attaches to them.
+  let authHeader = 'Bearer ' + SB_ANON;
+  try {
+    const raw = localStorage.getItem('svita-micro-auth');
+    if (raw){
+      const parsed = JSON.parse(raw);
+      const tok = parsed?.access_token || parsed?.currentSession?.access_token;
+      if (tok) authHeader = 'Bearer ' + tok;
+    }
+  } catch {}
+
+  const r = await fetch(ENDPOINT, {
+    method:'POST',
+    headers: {
+      'content-type':'application/json',
+      'authorization': authHeader,
+      'apikey': SB_ANON,
+    },
+    body: JSON.stringify(payload),
+  });
+  const j = await r.json().catch(()=>({error:'bad_json'}));
+  return { ok: r.ok, status: r.status, json: j };
+}
+
+async function pollOnce(jobId){
+  const { ok, status, json } = await apiCall({ job_id: jobId });
+  if (!ok || !json.ok){
+    // 404 = we lost the job (cleared from DB) — fall back to idle form
+    if (status === 404){
+      clearJob();
+      showError({error:'job_not_found',hint:'The previous generation is no longer available. Start a new one.'}, 404);
+      return true;
+    }
+    return false;
+  }
+  const st = json.job.status;
+  if (st === 'done'){
+    clearJob();
+    window.__lastConcept = json.job.concept;
+    renderConcept(json.job.concept);
+    res.scrollIntoView({behavior:'smooth',block:'start'});
+    setBusy(false);
+    return true;
+  }
+  if (st === 'error'){
+    clearJob();
+    showError({error:'generator_failed', detail: json.job.error || ''}, 502);
+    setBusy(false);
+    return true;
+  }
+  // still running — keep polling
+  return false;
+}
+
+function startPolling(jobId){
+  setBusy(true);
+  pollStart = Date.now();
+  const tick = async ()=>{
+    if (Date.now() - pollStart > POLL_MAX_MS){
+      showError({error:'timeout',hint:'The studio is taking longer than usual. Try again.'}, 0);
+      clearJob(); setBusy(false); return;
+    }
+    try {
+      const done = await pollOnce(jobId);
+      if (done) return;
+    } catch {}
+    pollTimer = setTimeout(tick, POLL_INTERVAL_MS);
+  };
+  // kick off immediately so reloaded page doesn't wait 2.5s to show state
+  tick();
+}
+
+function saveJob(jobId){ localStorage.setItem(JOB_KEY, jobId); }
+function clearJob(){ localStorage.removeItem(JOB_KEY); if (pollTimer){ clearTimeout(pollTimer); pollTimer = null; } }
+
 form.addEventListener('submit', async (e)=>{
   e.preventDefault();
+  clearJob();
   const fd = new FormData(form);
   const payload = {};
   for (const [k,v] of fd.entries()) payload[k] = v;
+  payload.anon_key = anonId();
 
-  go.disabled = true;
-  go.classList.add('loading');
-  load.classList.add('on');
+  setBusy(true);
   res.classList.remove('on');
-
   try {
-    const r = await fetch(ENDPOINT, {
-      method:'POST',
-      headers:{
-        'content-type':'application/json',
-        'authorization':'Bearer '+SB_ANON,
-        'apikey':SB_ANON
-      },
-      body: JSON.stringify(payload)
-    });
-    const j = await r.json().catch(()=>({error:'bad_json'}));
-    if (!r.ok || !j.ok){
-      showError(j, r.status);
-    } else {
-      window.__lastConcept = j.concept;
-      renderConcept(j.concept);
-      res.scrollIntoView({behavior:'smooth',block:'start'});
-    }
-  } catch (e) {
-    showError({error:'network',detail:e.message}, 0);
-  } finally {
-    go.disabled = false;
-    go.classList.remove('loading');
-    load.classList.remove('on');
+    const { ok, status, json } = await apiCall(payload);
+    if (!ok || !json.ok){ showError(json, status); setBusy(false); return; }
+    if (!json.job_id){   showError({error:'no_job'}, 500); setBusy(false); return; }
+    saveJob(json.job_id);
+    startPolling(json.job_id);
+  } catch (err){
+    showError({error:'network',detail:err.message}, 0);
+    setBusy(false);
   }
 });
+
+// Resume on reload / deep link:
+//  1. ?job=<id> in URL  → fetch & display that specific job (from cabinet)
+//  2. localStorage job   → still-running generation, keep polling
+(function resumePendingJob(){
+  const params = new URLSearchParams(location.search);
+  const urlJob = params.get('job');
+  if (urlJob){
+    setBusy(true);
+    startPolling(urlJob);
+    // don't pollute localStorage with someone else's finished job
+    return;
+  }
+  const jobId = localStorage.getItem(JOB_KEY);
+  if (!jobId) return;
+  setBusy(true);
+  startPolling(jobId);
+})();
 </script>
 
 <script src="js/svita-footer.js"></script>
