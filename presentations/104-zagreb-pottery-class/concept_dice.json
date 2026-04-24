@@ -1,0 +1,24 @@
+{
+  "slug": "zagreb-pottery-class",
+  "category": "education",
+  "country": "HR",
+  "variant": 0,
+  "region": "Mediterranean",
+  "archetype": "Design Purist",
+  "hero_hue": "#7A8B4F",
+  "palette": [
+    "#7A8B4F",
+    "#5C3A2E",
+    "#A89560",
+    "#3A4F3A",
+    "#C7755B"
+  ],
+  "mood": "neutral-moody",
+  "light": "blue-hour",
+  "composition": "rule-of-thirds",
+  "texture": "metal",
+  "human": "portrait",
+  "season": "spring",
+  "time_of_day": "noon",
+  "collision_score": 0
+}

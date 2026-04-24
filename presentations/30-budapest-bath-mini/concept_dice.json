@@ -1,0 +1,24 @@
+{
+  "slug": "budapest-bath-mini",
+  "category": "wellness",
+  "country": "HU",
+  "variant": 5,
+  "region": "Alpine",
+  "archetype": "Digital Monk",
+  "hero_hue": "#D4C4A8",
+  "palette": [
+    "#D4C4A8",
+    "#8B7E6B",
+    "#2F4F3A",
+    "#F3EEE0",
+    "#BBA988"
+  ],
+  "mood": "neutral-moody",
+  "light": "sidelit",
+  "composition": "rule-of-thirds",
+  "texture": "ceramic",
+  "human": "empty-scene",
+  "season": "winter",
+  "time_of_day": "night",
+  "collision_score": 1
+}

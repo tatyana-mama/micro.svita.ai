@@ -34,3 +34,4 @@
 | 2026-04-22 | 55 | mumbai-curry-house | Mediterranean | Urban Rebel | `#D4A679` | deep-warm | sidelit | diagonal | metal | empty-scene |
 | 2026-04-22 | 26 | sofia-eco-store | Mediterranean | Heritage Keeper | `#A89560` | night-lit | sidelit | symmetric | ceramic | macro-hand |
 | 2026-04-22 | 22 | rome-camera-repair | Mediterranean | Quiet Master | `#1F2E28` | sun-faded | candlelit | rule-of-thirds | stone | macro-hand |
+| 2026-04-22 | 26 | sofia-eco-store | Mediterranean | Village Elder | `#E8C79F` | cool-crisp | backlit | centered-void | ceramic | full-body |

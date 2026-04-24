@@ -323,6 +323,14 @@
     "name": "103 · DETAIL BOX",
     "pdf": "presentations/103-bucharest-car-detail/DETAIL-BOX_deck.pdf"
   },
+  "krakow-wodka-buffet": {
+    "name": "105 · WÓDKA",
+    "pdf": "presentations/105-krakow-wodka-buffet/WODKA_deck.pdf"
+  },
+  "paris-chemex-only": {
+    "name": "106 · CHEMEX 1",
+    "pdf": "presentations/106-paris-chemex-only/CHEMEX-1_deck.pdf"
+  },
   "budapest-piano-tune": {
     "name": "107 · HANGOLÁS 22",
     "pdf": "presentations/107-budapest-piano-tune/PIANO-22_deck.pdf"
@@ -350,13 +358,5 @@
   "copenhagen-zen-den": {
     "name": "113 · RO 32",
     "pdf": "presentations/113-copenhagen-zen-den/RO-32_deck.pdf"
-  },
-  "krakow-wodka-buffet": {
-    "name": "209 · WÓDKA",
-    "pdf": "presentations/209-krakow-wodka-buffet/WODKA_deck.pdf"
-  },
-  "paris-chemex-only": {
-    "name": "216 · CHEMEX 1",
-    "pdf": "presentations/216-paris-chemex-only/CHEMEX-1_deck.pdf"
   }
 }

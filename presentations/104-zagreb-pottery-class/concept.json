@@ -1,0 +1,53 @@
+{
+  "slug": "zagreb-pottery-class",
+  "name": "GLINA 32",
+  "category": "education · craft · ceramics",
+  "country": "HR",
+  "city": "Zagreb",
+  "district": "Donji Grad, Preradovićeva 32",
+  "size_m2": 32,
+  "weeks": 8,
+  "palette": ["olive-moss", "walnut-brown", "brass-sand", "pine-green", "terracotta-warm", "limestone-cream", "adriatic-steel"],
+  "tagline": "eight hands on the wheel, one morning, one clay, one fire.",
+  "equipment": [
+    "four Shimpo VL-Whisper electric pottery wheels (one per student)",
+    "wedging oak table, 260 × 90 cm, canvas-topped",
+    "top-loading electric kiln 1260°C (80 L) — cone 6",
+    "glaze lab: 12 dip-buckets, 3 brush jars, 1 wax-resist table",
+    "drying shelf — 3 tiers, 24 boards, slow-vent cover",
+    "apron rack — 8 linen aprons, olive-moss dye",
+    "central chalkboard with the morning's clay body, firing schedule, and one word",
+    "long pine bench for 8 with brass hooks under edge"
+  ],
+  "audience": [
+    "Zagreb locals who want one evening off screens",
+    "tourists from Vienna + Ljubljana on weekend trips",
+    "architects and designers wanting material intuition",
+    "small-company off-sites (up to 6) — team booking"
+  ],
+  "rituals": "guest arrives 09:45 → ties on linen apron with initials → host writes 'the word of the day' on chalkboard → 10:00 wedging clay by hand on oak table → 10:30 each pair at a wheel, 50-min throw → noon break, burek + kava → 13:00 trim + sign underside → 14:30 fire in kiln → return after 4 days for glazed piece",
+  "signature_session": "MORNING 8 — eight students, one 2kg ball each, three forms to choose (cup · bowl · vase), three glazes (olive · bone · adriatic), one signature on underside, one shared photo at the oak table before firing",
+  "unique": "the only pottery class in Zagreb where students write their own word on the morning chalkboard, throw on Shimpo Whisper wheels in pin-drop silence, and leave with a signed, photographed, fired piece — glazed in one of three house colours only",
+  "price_range": "€42 — €260",
+  "prices": {
+    "single_morning_class": "€68",
+    "four_week_course": "€240",
+    "private_couple_session": "€180",
+    "six_person_offsite": "€420",
+    "re_fire_only": "€42",
+    "house_clay_2kg": "€14",
+    "glaze_upgrade_signature": "€18"
+  },
+  "economics": {
+    "rent_month_eur": 1150,
+    "revenue_month_eur": 14800,
+    "cogs_percent": 24,
+    "margin_percent": 47,
+    "break_even_month": 6,
+    "capex_eur": 28000
+  },
+  "materials": "waxed oak wedging table · brass hooks · canvas · linen aprons (olive-moss) · pine floorboards · lime-washed walls · terracotta bisque shelves · adriatic-steel kiln · hand-thrown chalk cup on the board rail",
+  "font_pair": "GT Sectra (display) · ABC Diatype (body)",
+  "brandmark": "numeral 32 in deep olive-moss inside a hand-drawn thrown circle · 'GLINA 32 · Zagreb' set in GT Sectra small caps under it · stamped on kraft clay-tags tied with twine to each fired piece",
+  "reference": "42 · 43 · 94"
+}
