@@ -390,6 +390,10 @@ function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 function eur(n){if(n==null||isNaN(n))return '—';return '€'+Number(n).toLocaleString('en-US')}
 
 function renderConcept(c){
+  if (!c || typeof c !== 'object'){
+    showError({error:'empty_concept',hint:'The studio finished but returned nothing. Try again.'}, 0);
+    return;
+  }
   const accent = (c.palette && c.palette[2]) || '#D6FF3E';
   const swatches = (c.palette || []).map(h=>`<div class="swatch" style="background:${esc(h)}"><span>${esc(h)}</span></div>`).join('');
   const equip = (c.equipment || []).map(e=>`<li><b>${esc(e.name)}</b><span class="p">${eur(e.price_eur)}</span></li>`).join('');
