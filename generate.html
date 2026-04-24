@@ -116,7 +116,7 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
 .result-panel.err .err-box{display:block}
 .err-box{
   display:none;padding:20px;background:rgba(240,70,70,.08);border:1px solid rgba(240,70,70,.24);
-  border-radius:12px;color:#ff9ea0;font-size:13px;line-height:1.55;
+  border-radius:12px;color:#ff9ea0;font-size:13px;line-height:1.55;white-space:pre-wrap;font-family:'JetBrains Mono',monospace;
 }
 
 .c-hero{
@@ -182,7 +182,6 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <nav id="nav"></nav>
 <script src="js/svita-nav.js"></script>
-<script src="js/svita-footer.js"></script>
 
 <section class="page">
   <div class="wrap">
@@ -455,7 +454,11 @@ form.addEventListener('submit', async (e)=>{
     });
     const j = await r.json().catch(()=>({error:'bad_json'}));
     if (!r.ok || !j.ok){
-      showError('Generator error: '+(j.error||'http_'+r.status)+(j.detail?' — '+j.detail.slice(0,200):''));
+      const detail = j.detail ? ' — '+j.detail.slice(0,240)
+        : j.errors ? '\n'+j.errors.map(e=>`• ${e.provider}: ${(e.error||'').slice(0,180)}`).join('\n')
+        : j.hint ? ' — '+j.hint
+        : '';
+      showError('Generator error: '+(j.error||'http_'+r.status)+detail);
     } else {
       window.__lastConcept = j.concept;
       renderConcept(j.concept);
@@ -471,5 +474,6 @@ form.addEventListener('submit', async (e)=>{
 });
 </script>
 
+<script src="js/svita-footer.js"></script>
 </body>
 </html>
