@@ -157,7 +157,6 @@
       </a>
       <div class="nav-right">
         <a href="shop.html"${shopActive}>${t.shop}</a>
-        <a href="generate.html" class="${genClass}">${t.generate}</a>
         <a href="index.html#how">${t.how}</a>
         ${authArea}
       </div>

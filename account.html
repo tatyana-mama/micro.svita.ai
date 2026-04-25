@@ -777,7 +777,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="acc-tabs reveal" role="tablist">
       <button type="button" class="acc-tab" data-tab="owned" role="tab">My concepts <span class="acc-tab-count" id="tab-count-owned"></span></button>
-      <button type="button" class="acc-tab" data-tab="generated" role="tab">Generated <span class="acc-tab-count" id="tab-count-generated"></span></button>
       <button type="button" class="acc-tab" data-tab="favorites" role="tab">Favorites <span class="acc-tab-count" id="tab-count-favs"></span></button>
       <button type="button" class="acc-tab" data-tab="settings" role="tab">Settings</button>
     </div>
@@ -1309,7 +1308,7 @@ async function loadFavorites(){
 window.addEventListener('svita:favs', ()=> loadFavorites());
 
 // ═══════════════ TABS ═══════════════
-const ACC_TABS = ['owned','generated','favorites','settings'];
+const ACC_TABS = ['owned','favorites','settings'];
 function activateTab(name){
   if(!ACC_TABS.includes(name)) name = 'owned';
   document.querySelectorAll('.acc-tab').forEach(b=>b.classList.toggle('on', b.dataset.tab===name));
