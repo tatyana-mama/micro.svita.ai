@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
+<link rel="stylesheet" href="js/svita-ui.css">
+<link rel="stylesheet" href="js/svita-app.css">
+<link rel="stylesheet" href="js/svita-card.css">
+<link rel="manifest" href="manifest.webmanifest">
 <!-- Consent Mode v2 default (set BEFORE GTM) -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('consent','default',{
-    ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied',
-    analytics_storage:'granted', functionality_storage:'granted',
-    personalization_storage:'granted', security_storage:'granted',
+    ad_storage:'denied',
+    ad_user_data:'denied',
+    ad_personalization:'denied',
+    analytics_storage:'granted',
+    functionality_storage:'granted',
+    personalization_storage:'granted',
+    security_storage:'granted',
     wait_for_update: 500
   });
 </script>
@@ -18,638 +26,651 @@ new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-T2974BPD');</script>
+<!-- End Google Tag Manager -->
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#F5D60C">
-<title>micro.svita — see your next business before it exists</title>
-<meta name="description" content="An atlas of 90 imagined micro-businesses across Europe. See your business before you risk anything. Editorial brandbook from €49.">
+<meta name="theme-color" content="#0A0A0B">
+<title>SVITA Micro — a shop of visual imagination for your next business</title>
+<meta name="description" content="Hundreds of editorial brandbooks for micro-businesses across Europe — palette, interior, packaging, economics. Launch in the top 20% of the market on day one.">
 <link rel="canonical" href="https://micro.svita.ai/">
 <link rel="icon" href="/apple-touch-icon.png" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta property="og:site_name" content="micro.svita">
+<meta property="og:site_name" content="SVITA Micro">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://micro.svita.ai/">
-<meta property="og:title" content="micro.svita — see your next business before it exists">
-<meta property="og:description" content="An atlas of 90 imagined micro-businesses across Europe. See your business before you risk anything.">
+<meta property="og:title" content="SVITA Micro — visual imagination for your next business">
+<meta property="og:description" content="Hundreds of ready concepts — palette, interior, packaging, economics.">
 <meta property="og:image" content="https://micro.svita.ai/data/hero/home-hero-v1.png">
 <meta name="twitter:card" content="summary_large_image">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
   :root{
-    --y:#F5D60C;
-    --y2:#FFE94B;
-    --y-dim:#E5C70A;
-    --k:#0A0A0B;
-    --k2:#161618;
-    --line:rgba(10,10,11,.18);
-    --line-y:rgba(245,214,12,.16);
+    --bg:#0A0A0B;
+    --bg-1:#111113;
+    --bg-2:#18181B;
+    --line:#232327;
+    --line-2:#2F2F34;
+    --text:#FAFAFA;
+    --text-2:#A1A1AA;
+    --text-3:#6E6E78;
+    --accent:#D6FF3E;
+    --accent-dim:#9FC22F;
+    --radius:18px;
+    --radius-sm:12px;
+    --radius-lg:28px;
     --ease:cubic-bezier(.22,1,.36,1);
+    --max:1280px;
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
-  html,body{background:var(--y);color:var(--k);font-family:'Inter',system-ui,sans-serif;line-height:1.5;min-height:100vh;overflow-x:hidden}
-  ::selection{background:var(--k);color:var(--y)}
+  html,body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-weight:400;font-feature-settings:"ss01","cv11";line-height:1.5;min-height:100vh}
+  html{scroll-behavior:smooth}
+  body{overflow-x:hidden}
   a{color:inherit;text-decoration:none}
-  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
-  .display{font-family:'Archivo Black','Inter',sans-serif;font-weight:900;letter-spacing:-.04em;line-height:.86;text-transform:uppercase}
-  .wrap{max-width:1280px;margin:0 auto;padding:0 28px}
-  @media(max-width:640px){.wrap{padding:0 18px}}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  img,svg{display:block;max-width:100%}
+  ::selection{background:var(--accent);color:#0A0A0B}
 
-  /* ─── NAV ─── */
-  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px 28px;background:var(--y);border-bottom:1px solid var(--line);gap:12px}
-  .brand{font:600 13px 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase}
-  .brand i{font-style:normal;font-weight:400;opacity:.5;margin-left:6px}
-  .nav-right{display:flex;align-items:center;gap:14px}
-  .nav-cta{font:600 11px 'JetBrains Mono',monospace;letter-spacing:.22em;text-transform:uppercase;background:var(--k);color:var(--y);padding:10px 20px;transition:transform 200ms var(--ease)}
-  .nav-cta:hover{transform:translateX(3px)}
-  .lang{position:relative}
-  .lang-btn{font:600 11px 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;padding:9px 14px;border:1px solid var(--k);background:transparent;color:var(--k);display:inline-flex;align-items:center;gap:7px;transition:all 180ms var(--ease)}
-  .lang-btn:hover{background:var(--k);color:var(--y)}
-  .lang-btn svg{width:9px;height:9px;transition:transform 180ms var(--ease)}
-  .lang.open .lang-btn svg{transform:rotate(180deg)}
-  .lang-menu{position:absolute;top:calc(100% + 6px);right:0;min-width:170px;background:var(--k);display:none;flex-direction:column;z-index:60}
-  .lang.open .lang-menu{display:flex}
-  .lang-menu button{text-align:left;padding:12px 16px;color:var(--y);font:500 12px Inter;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid rgba(245,214,12,.12)}
-  .lang-menu button:last-child{border-bottom:0}
-  .lang-menu button:hover{background:rgba(245,214,12,.08)}
-  .lang-menu button.on{background:var(--y);color:var(--k)}
-  .lang-menu button .code{font:600 10px 'JetBrains Mono',monospace;letter-spacing:.18em;opacity:.6}
-  @media(max-width:640px){nav{padding:14px 18px}.brand i{display:none}.nav-cta{padding:8px 14px;font-size:10px}.lang-btn{padding:7px 12px;font-size:10px}}
+  .display{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-.035em;line-height:.94}
+  .mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 40px}
+  @media(max-width:640px){.wrap{padding:0 22px}}
 
-  /* ─── HERO ─── */
-  .hero{height:100svh;min-height:100svh;display:flex;flex-direction:column;padding:clamp(72px,11vh,108px) 0 clamp(20px,3vh,36px);position:relative}
-  .hero > .wrap{flex:1;display:flex;flex-direction:column;justify-content:center}
-  .hero-tag{font:600 clamp(9.5px,1.1vh,11.5px) 'JetBrains Mono',monospace;letter-spacing:.28em;text-transform:uppercase;margin-bottom:clamp(14px,2.4vh,28px);display:inline-flex;align-items:center;gap:14px}
-  .hero-tag::before{content:'';width:42px;height:1px;background:var(--k)}
-  .hero-tag em{font-style:normal;background:var(--k);color:var(--y);padding:3px 9px;letter-spacing:.18em}
-  .hero h1{font-size:clamp(40px, calc((100svh - 360px) / 4.5), 144px);line-height:.95;margin-bottom:clamp(18px,2.8vh,32px);max-width:14ch;word-break:keep-all;hyphens:manual}
-  .hero h1 em{font-style:italic;font-weight:400;font-family:'Inter';letter-spacing:-.03em;text-transform:none;margin-right:.05em}
-  .hero h1 u{text-decoration:none;background:var(--k);color:var(--y);padding:.04em .14em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
-  .hero-sub{font:300 clamp(14px,1.6vh,19px)/1.45 Inter;max-width:600px;color:var(--k);margin-bottom:clamp(20px,3vh,32px);letter-spacing:-.01em}
-  .hero-sub b{font-weight:600;background:var(--k);color:var(--y);padding:1px 8px}
-  .hero-cta-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-  .hero-cta{display:inline-flex;align-items:center;gap:12px;background:var(--k);color:var(--y);font:700 clamp(11px,1.4vh,14px) 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;padding:clamp(13px,1.9vh,20px) clamp(22px,3vw,32px);transition:all 240ms var(--ease)}
-  .hero-cta:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--k)}
-  .hero-cta svg{width:clamp(13px,1.6vh,18px);height:clamp(13px,1.6vh,18px);transition:transform 200ms var(--ease)}
-  .hero-cta:hover svg{transform:translateX(4px)}
-  .hero-cta-second{font:600 12px 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--k);border-bottom:1px solid var(--k);padding-bottom:3px}
-  .hero-foot{margin-top:auto;padding-top:clamp(18px,2.6vh,32px);display:flex;justify-content:space-between;align-items:flex-end;font:500 clamp(9.5px,1.1vh,11px) 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;flex-wrap:wrap;gap:14px;border-top:1px solid var(--k);}
-  .hero-foot div{display:flex;flex-direction:column;gap:4px}
-  .hero-foot div b{font:900 22px 'Archivo Black',sans-serif;letter-spacing:-.02em;font-weight:900}
-  @media(max-width:640px){.hero h1{font-size:clamp(36px, calc((100svh - 320px) / 3.6), 130px)}.hero-foot{flex-direction:column;align-items:flex-start;gap:14px}}
+  .eyebrow{
+    font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.22em;color:var(--text-3);
+    display:inline-flex;align-items:center;gap:12px;
+  }
+  .eyebrow::before{content:'';width:28px;height:1px;background:var(--text-3)}
 
-  /* ─── ENEMY (PAS · Pain) ─── */
-  .enemy{background:var(--k);color:var(--y);padding:120px 0 100px}
-  .enemy h2{font-size:clamp(40px,7vw,96px);max-width:18ch;margin-bottom:18px}
-  .enemy h2 em{font-style:italic;font-weight:400;font-family:'Inter';letter-spacing:-.03em;text-transform:none}
-  .enemy .lead{font:300 clamp(17px,1.6vw,22px)/1.5 Inter;max-width:780px;opacity:.78;margin-bottom:64px}
-  .pains{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--y)}
-  @media(max-width:760px){.pains{grid-template-columns:1fr}}
-  .pain{padding:34px 32px;border-right:1px solid rgba(245,214,12,.18);border-bottom:1px solid rgba(245,214,12,.18);display:flex;gap:20px;align-items:flex-start}
-  .pain:nth-child(2n){border-right:0}
-  @media(max-width:760px){.pain{border-right:0}}
-  .pain .x{font:900 24px 'Archivo Black',sans-serif;letter-spacing:-.02em;flex-shrink:0;width:32px;text-align:left;color:var(--y);opacity:.5}
-  .pain .body strong{display:block;font:700 17px Inter;margin-bottom:6px;letter-spacing:-.01em}
-  .pain .body p{font:400 14px/1.55 Inter;color:rgba(245,214,12,.7);max-width:48ch}
+  /* ─── NAV (matches shop.html / account.html) ───────── */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 32px;display:flex;align-items:center;justify-content:space-between;transition:all 300ms var(--ease)}
+  nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--line);padding:16px 32px}
+  .brand{display:flex;align-items:baseline;gap:10px;font-family:'Space Grotesk';font-weight:700;font-size:18px;letter-spacing:-0.02em}
+  .brand-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);align-self:center;box-shadow:0 0 16px var(--accent)}
+  .brand small{font-family:'Inter';font-weight:400;font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.15em}
+  .nav-right{display:flex;align-items:center;gap:20px}
+  .nav-right a{font-size:13px;color:var(--text-2);transition:color 200ms var(--ease)}
+  .nav-right a:hover,.nav-right a.active{color:var(--accent)}
+  .nav-cta{font-size:13px;font-weight:500;padding:11px 20px;background:var(--text);color:var(--bg);border-radius:100px;transition:all 200ms var(--ease)}
+  .nav-cta:hover{background:var(--accent);transform:translateY(-1px)}
 
-  /* ─── EPIPHANY (PAS · Solution) ─── */
-  .epiphany{background:var(--y);padding:120px 0 100px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
-  .epiphany .eyebrow{font:600 11px 'JetBrains Mono',monospace;letter-spacing:.28em;text-transform:uppercase;margin-bottom:24px;display:inline-flex;gap:12px;align-items:center}
-  .epiphany .eyebrow::before{content:'';width:42px;height:1px;background:var(--k)}
-  .epiphany h2{font-size:clamp(48px,9vw,160px);max-width:14ch;margin-bottom:32px}
-  .epiphany h2 em{font-style:italic;font-weight:400;font-family:'Inter';letter-spacing:-.03em;text-transform:none}
-  .epiphany .lead{font:300 clamp(20px,2vw,28px)/1.4 Inter;max-width:920px;letter-spacing:-.015em;margin-bottom:48px}
-  .epiphany .lead b{font-weight:700;background:var(--k);color:var(--y);padding:2px 10px}
-  .epi-pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--k);margin-top:48px}
-  @media(max-width:760px){.epi-pillars{grid-template-columns:1fr}}
-  .epi-pillar{padding:36px 32px 40px;border-right:1px solid var(--k);display:flex;flex-direction:column;gap:14px}
-  .epi-pillar:last-child{border-right:0}
-  @media(max-width:760px){.epi-pillar{border-right:0;border-bottom:1px solid var(--k)}.epi-pillar:last-child{border-bottom:0}}
-  .epi-pillar .num{font:900 48px 'Archivo Black',sans-serif;letter-spacing:-.04em;line-height:1}
-  .epi-pillar h3{font:700 19px Inter;letter-spacing:-.01em}
-  .epi-pillar p{font:400 14.5px/1.55 Inter;color:rgba(10,10,11,.72)}
+  /* ─── ambient glow ─────────────────────────────────── */
+  .glow-a, .glow-b{position:fixed;pointer-events:none;z-index:0;filter:blur(8px)}
+  .glow-a{top:-240px;right:-200px;width:780px;height:780px;background:radial-gradient(circle, rgba(214,255,62,.10) 0%, transparent 62%)}
+  .glow-b{bottom:-280px;left:-200px;width:660px;height:660px;background:radial-gradient(circle, rgba(214,255,62,.06) 0%, transparent 65%)}
 
-  /* ─── VALUE BREAKDOWN ─── */
-  .value{background:var(--k);color:var(--y);padding:120px 0 100px}
-  .value h2{font-size:clamp(40px,7vw,96px);max-width:14ch;margin-bottom:24px}
-  .value h2 em{font-style:italic;font-weight:400;font-family:'Inter';letter-spacing:-.03em;text-transform:none}
-  .value .lead{font:300 clamp(17px,1.6vw,22px)/1.5 Inter;max-width:780px;opacity:.78;margin-bottom:64px}
-  .stack{display:flex;flex-direction:column;border-top:1px solid var(--y)}
-  .stack-row{display:grid;grid-template-columns:1fr auto auto;gap:32px;align-items:baseline;padding:22px 0;border-bottom:1px solid rgba(245,214,12,.18)}
-  @media(max-width:640px){.stack-row{grid-template-columns:1fr;gap:6px}}
-  .stack-row .item{font:700 18px Inter;letter-spacing:-.01em}
-  .stack-row .item small{display:block;font:400 13px Inter;color:rgba(245,214,12,.55);margin-top:4px;letter-spacing:0}
-  .stack-row .market{font:500 14px 'JetBrains Mono',monospace;color:rgba(245,214,12,.4);text-decoration:line-through}
-  .stack-row .yours{font:700 22px 'Archivo Black',sans-serif;letter-spacing:-.02em;color:var(--y)}
-  .stack-total{padding:36px 0 8px;display:grid;grid-template-columns:1fr auto auto;gap:32px;align-items:baseline}
-  @media(max-width:640px){.stack-total{grid-template-columns:1fr;gap:8px}}
-  .stack-total .label{font:900 28px 'Archivo Black',sans-serif;letter-spacing:-.025em;text-transform:uppercase}
-  .stack-total .market{font:700 28px 'Archivo Black',sans-serif;color:rgba(245,214,12,.5);text-decoration:line-through}
-  .stack-total .yours{font:900 56px 'Archivo Black',sans-serif;letter-spacing:-.04em}
-  .stack-total .yours em{font-style:normal;font-size:.5em;font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:.1em;opacity:.6;margin-left:8px}
-  .value-cta{margin-top:48px;display:inline-flex;align-items:center;gap:12px;background:var(--y);color:var(--k);font:700 14px 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;padding:22px 36px;transition:all 240ms var(--ease)}
-  .value-cta:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--y)}
+  /* ─── HERO ────────────────────────────────────────── */
+  .hero{position:relative;z-index:1;padding:96px 0 40px}
+  .hero-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;gap:28px}
+  h1.display{font-size:clamp(42px, 6.2vw, 92px);color:var(--text);max-width:16ch}
+  h1 .accent{color:var(--accent);font-style:italic;font-weight:500}
+  .sub{max-width:620px;font-size:clamp(15px, 1.3vw, 17px);line-height:1.6;color:var(--text-2)}
+  .ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:16px 30px;font-size:14px;font-weight:500;
+    border-radius:100px;transition:all 250ms var(--ease);
+    white-space:nowrap;border:0;cursor:pointer;font-family:inherit;
+  }
+  .btn-primary{background:var(--accent);color:#0A0A0B;font-weight:600}
+  .btn-primary:hover{background:#fff;transform:translateY(-2px);box-shadow:0 16px 40px rgba(214,255,62,.26)}
+  .btn-primary svg{transition:transform 250ms var(--ease)}
+  .btn-primary:hover svg{transform:translateX(4px)}
+  .btn-ghost{color:var(--text);border:1px solid var(--line-2);background:transparent}
+  .btn-ghost:hover{border-color:var(--text);background:var(--bg-1)}
+  .btn svg{width:14px;height:14px}
 
-  /* ─── PROOF ─── */
-  .proof{padding:120px 0 100px;background:var(--y);border-bottom:1px solid var(--line)}
-  .proof h2{font-size:clamp(40px,7vw,96px);max-width:18ch;margin-bottom:64px}
-  .proof h2 em{font-style:italic;font-weight:400;font-family:'Inter';letter-spacing:-.03em;text-transform:none}
-  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-  @media(max-width:900px){.quotes{grid-template-columns:1fr 1fr}}
-  @media(max-width:600px){.quotes{grid-template-columns:1fr}}
-  .quote{background:var(--k);color:var(--y);padding:28px 26px 24px;display:flex;flex-direction:column;gap:18px;min-height:240px}
-  .quote .stars{font-family:'JetBrains Mono',monospace;letter-spacing:.2em;font-size:13px}
-  .quote .text{font:400 15px/1.55 Inter;flex:1}
-  .quote .text b{font-weight:700;background:var(--y);color:var(--k);padding:1px 6px}
-  .quote .who{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(245,214,12,.18);padding-top:14px}
-  .quote .who .name{font:600 13px Inter}
-  .quote .who .where{font:500 10.5px 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;opacity:.55}
-  .proof-strip{margin-top:64px;padding:32px 28px;background:var(--k);color:var(--y);display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
-  @media(max-width:760px){.proof-strip{grid-template-columns:repeat(2,1fr);gap:16px;padding:24px 22px}}
-  .proof-strip .stat{display:flex;flex-direction:column;gap:4px}
-  .proof-strip .stat .v{font:900 clamp(28px,4vw,42px) 'Archivo Black',sans-serif;letter-spacing:-.03em;line-height:1}
-  .proof-strip .stat .l{font:500 10px 'JetBrains Mono',monospace;letter-spacing:.22em;text-transform:uppercase;opacity:.6}
+  /* ─── MARQUEE ────────────────────────────────────── */
+  .marquee{
+    position:relative;z-index:1;margin-top:56px;
+    overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:18px 0;
+    mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-track{
+    display:flex;gap:56px;animation:mar 70s linear infinite;white-space:nowrap;width:max-content;
+  }
+  .marquee-track:hover{animation-play-state:paused}
+  .marquee span{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-3);letter-spacing:.18em;text-transform:uppercase}
+  .marquee span em{color:var(--accent);font-style:normal}
+  @keyframes mar{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-  /* ─── RISK REVERSAL ─── */
-  .risk{background:var(--k);color:var(--y);padding:120px 0;text-align:center}
-  .risk-badge{display:inline-flex;align-items:center;gap:10px;background:var(--y);color:var(--k);font:700 12px 'JetBrains Mono',monospace;letter-spacing:.22em;text-transform:uppercase;padding:10px 18px;margin-bottom:32px}
-  .risk h2{font-size:clamp(40px,7vw,96px);max-width:20ch;margin:0 auto 24px}
-  .risk h2 em{font-style:italic;font-weight:400;font-family:'Inter';letter-spacing:-.03em;text-transform:none;color:var(--y)}
-  .risk p{font:300 clamp(17px,1.6vw,22px)/1.55 Inter;max-width:680px;margin:0 auto;opacity:.78}
-  .risk-row{display:flex;justify-content:center;gap:32px;margin-top:48px;flex-wrap:wrap;font:600 11px 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,214,12,.6)}
-  .risk-row span::before{content:'✓ ';color:var(--y);font-weight:700}
+  /* ─── KPI BAND ────────────────────────────────────── */
+  .kpi{
+    position:relative;z-index:1;margin-top:72px;
+    display:flex;justify-content:center;gap:clamp(36px,6vw,96px);flex-wrap:wrap;
+    padding:24px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
+  .kpi .item{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .kpi .v{font-family:'Space Grotesk';font-weight:700;font-size:clamp(24px,2.4vw,32px);letter-spacing:-.02em;color:var(--text)}
+  .kpi .v em{color:var(--accent);font-style:normal}
+  .kpi .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.2em;color:var(--text-3)}
 
-  /* ─── FAQ ─── */
-  .faq{padding:120px 0 100px;background:var(--y);border-bottom:1px solid var(--line)}
-  .faq h2{font-size:clamp(40px,7vw,96px);margin-bottom:48px}
-  .faq h2 em{font-style:italic;font-weight:400;font-family:'Inter';letter-spacing:-.03em;text-transform:none}
-  .faq-list{border-top:1px solid var(--k)}
-  .faq-list details{border-bottom:1px solid var(--k);padding:24px 0;cursor:pointer}
-  .faq-list summary{display:flex;justify-content:space-between;align-items:center;gap:24px;font:700 19px Inter;letter-spacing:-.01em;list-style:none}
-  .faq-list summary::-webkit-details-marker{display:none}
-  .faq-list summary::after{content:'+';font:900 24px 'Archivo Black',sans-serif;flex-shrink:0;transition:transform 200ms var(--ease)}
-  .faq-list details[open] summary::after{transform:rotate(45deg)}
-  .faq-list .body{margin-top:14px;font:400 15.5px/1.65 Inter;color:rgba(10,10,11,.78);max-width:78ch}
+  /* ─── SLIDER ──────────────────────────────────────── */
+  .slider-section{position:relative;z-index:1;padding:80px 0}
+  .slider-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px;gap:18px;flex-wrap:wrap}
+  .slider-head h2{font-family:'Space Grotesk';font-weight:500;font-size:clamp(22px,2.4vw,32px);letter-spacing:-.02em;color:var(--text)}
+  .slider-head .meta{display:inline-flex;align-items:baseline;gap:14px;font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--text-3);font-weight:500}
+  .slider-head .meta b{font-family:'JetBrains Mono',monospace;font-weight:600;letter-spacing:.14em;color:var(--accent);font-size:11.5px}
+  .arrows{display:flex;gap:8px}
+  .arrow{
+    width:40px;height:40px;border:1px solid var(--line-2);border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;color:var(--text-2);
+    transition:all 200ms var(--ease);
+  }
+  .arrow:hover{border-color:var(--accent);color:var(--accent);background:rgba(214,255,62,.06)}
+  .arrow svg{width:14px;height:14px}
 
-  /* ─── ULTIMATE CTA ─── */
-  .ultimate{padding:160px 0 140px;background:var(--y);text-align:left}
-  .ultimate-tag{font:600 11px 'JetBrains Mono',monospace;letter-spacing:.28em;text-transform:uppercase;margin-bottom:24px;display:inline-flex;align-items:center;gap:14px}
-  .ultimate-tag::before{content:'';width:42px;height:1px;background:var(--k)}
-  .ultimate h2{font-size:clamp(58px,11vw,180px);margin-bottom:48px;max-width:14ch}
-  .ultimate h2 em{font-style:italic;font-weight:400;font-family:'Inter';letter-spacing:-.03em;text-transform:none}
-  .ultimate p{font:300 clamp(18px,1.8vw,24px)/1.45 Inter;max-width:680px;margin-bottom:48px;letter-spacing:-.01em}
-  .ultimate-row{display:flex;align-items:center;gap:32px;flex-wrap:wrap}
-  .ultimate-cta{display:inline-flex;align-items:center;gap:14px;background:var(--k);color:var(--y);font:700 16px 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;padding:26px 42px;transition:all 240ms var(--ease)}
-  .ultimate-cta:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--k)}
-  .ultimate-meta{font:500 11px 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--k);opacity:.6;max-width:340px}
+  .rail{
+    display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+    scrollbar-width:none;-ms-overflow-style:none;padding:4px 0 8px;
+    mask-image:linear-gradient(90deg, transparent 0, #000 2%, #000 96%, transparent 100%);
+  }
+  .rail::-webkit-scrollbar{display:none}
+  .slide{
+    flex:0 0 clamp(210px, 22vw, 280px);scroll-snap-align:start;
+    display:flex;flex-direction:column;gap:14px;
+    transition:transform 400ms var(--ease);
+  }
+  .slide:hover{transform:translateY(-4px)}
+  .slide-img{
+    aspect-ratio:3/4;overflow:hidden;border-radius:var(--radius-sm);background:var(--bg-2);
+    border:1px solid var(--line);transition:all 300ms var(--ease);
+  }
+  .slide:hover .slide-img{border-color:rgba(214,255,62,.5);box-shadow:0 24px 56px rgba(0,0,0,.55), 0 0 0 1px rgba(214,255,62,.15)}
+  .slide-img img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease);opacity:.94}
+  .slide:hover .slide-img img{transform:scale(1.05);opacity:1}
+  .slide-cap{display:flex;flex-direction:column;gap:4px;padding:0 2px}
+  .slide-name{font-family:'Space Grotesk';font-weight:500;font-size:15px;letter-spacing:-.01em;color:var(--text)}
+  .slide-meta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
 
-  /* ─── FOOTER ─── */
-  footer{padding:36px 28px;border-top:1px solid var(--k);background:var(--y);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;font:500 11px 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase}
-  footer a{opacity:.6}
-  footer a:hover{opacity:1}
-  footer .links{display:flex;gap:22px;flex-wrap:wrap}
+  .slider-foot{display:flex;justify-content:center;margin-top:44px}
 
-  @media (prefers-reduced-motion:no-preference){
-    .reveal{opacity:0;transform:translateY(28px);transition:all 800ms var(--ease)}
-    .reveal.in{opacity:1;transform:none}
+  /* ─── HOW IT WORKS ────────────────────────────────── */
+  .how{position:relative;z-index:1;padding:100px 0;border-top:1px solid var(--line)}
+  .how-head{text-align:center;margin-bottom:64px;display:flex;flex-direction:column;align-items:center;gap:20px}
+  .how-head h2{font-family:'Space Grotesk';font-weight:500;font-size:clamp(28px,3.6vw,46px);letter-spacing:-.02em;max-width:18ch}
+  .how-head h2 .accent{color:var(--accent);font-style:italic;font-weight:500}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  @media(max-width:900px){.steps{grid-template-columns:1fr}}
+  .step{
+    background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius);
+    padding:36px 30px 32px;transition:all 300ms var(--ease);position:relative;overflow:hidden;
+  }
+  .step:hover{border-color:var(--line-2);transform:translateY(-4px)}
+  .step .num{
+    font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px;color:var(--accent);
+    letter-spacing:.2em;margin-bottom:28px;display:block;
+  }
+  .step h3{font-family:'Space Grotesk';font-weight:500;font-size:22px;letter-spacing:-.01em;margin-bottom:14px}
+  .step p{color:var(--text-2);font-size:14px;line-height:1.6}
+  .step-list{list-style:none;margin-top:18px;padding-top:18px;border-top:1px dashed var(--line)}
+  .step-list li{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;
+    color:var(--text-3);padding:6px 0;display:flex;align-items:center;gap:10px;
+  }
+  .step-list li::before{content:'→';color:var(--accent)}
+
+  /* ─── TIERS ───────────────────────────────────────── */
+  .tiers{position:relative;z-index:1;padding:100px 0;border-top:1px solid var(--line)}
+  .tiers-head{text-align:center;margin-bottom:56px;display:flex;flex-direction:column;align-items:center;gap:18px}
+  .tiers-head h2{font-family:'Space Grotesk';font-weight:500;font-size:clamp(28px,3.6vw,44px);letter-spacing:-.02em;max-width:20ch}
+  .tiers-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:1000px;margin:0 auto}
+  @media(max-width:760px){.tiers-grid{grid-template-columns:1fr}}
+  .tier{
+    background:var(--bg-1);border:1px solid var(--line);border-radius:var(--radius-lg);
+    padding:42px 36px 36px;position:relative;transition:all 300ms var(--ease);
+  }
+  .tier.pro{border-color:rgba(214,255,62,.4);background:linear-gradient(180deg,#14140c 0%,var(--bg-1) 60%)}
+  .tier:hover{transform:translateY(-4px);border-color:var(--accent)}
+  .tier-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .tier-name{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-3);font-weight:500}
+  .tier.pro .tier-name{color:var(--accent)}
+  .tier-price{font-family:'Space Grotesk';font-weight:700;font-size:54px;letter-spacing:-.03em;line-height:1;margin-top:4px}
+  .tier-price em{color:var(--text-3);font-style:normal;font-size:16px;font-weight:400;margin-left:4px;letter-spacing:0}
+  .tier-sub{font-size:13px;color:var(--text-2);margin-top:14px;margin-bottom:28px;line-height:1.55;min-height:44px}
+  .tier-list{list-style:none}
+  .tier-list li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--text-2);padding:9px 0;line-height:1.5}
+  .tier-list li::before{content:'';flex-shrink:0;margin-top:6px;width:5px;height:5px;border-radius:50%;background:var(--text-3)}
+  .tier.pro .tier-list li::before{background:var(--accent)}
+  .tier-list li b{color:var(--text);font-weight:500}
+  .tier-cta{margin-top:32px;width:100%;justify-content:center}
+
+  /* ─── FAQ ─────────────────────────────────────────── */
+  .faq{position:relative;z-index:1;padding:100px 0;border-top:1px solid var(--line)}
+  .faq-wrap{max-width:880px;margin:0 auto}
+  .faq-head{text-align:center;margin-bottom:48px;display:flex;flex-direction:column;align-items:center;gap:18px}
+  .faq-head h2{font-family:'Space Grotesk';font-weight:500;font-size:clamp(28px,3.2vw,40px);letter-spacing:-.02em}
+  .q{
+    border-top:1px solid var(--line);padding:22px 0;cursor:pointer;user-select:none;
+    transition:all 200ms var(--ease);
+  }
+  .q:last-child{border-bottom:1px solid var(--line)}
+  .q summary{
+    display:flex;justify-content:space-between;align-items:center;gap:20px;
+    list-style:none;font-family:'Space Grotesk';font-weight:500;font-size:17px;letter-spacing:-.01em;
+  }
+  .q summary::-webkit-details-marker{display:none}
+  .q .plus{
+    width:26px;height:26px;flex-shrink:0;border:1px solid var(--line-2);border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;color:var(--text-2);
+    transition:all 200ms var(--ease);font-size:16px;line-height:1;
+  }
+  .q[open] .plus{background:var(--accent);color:#0A0A0B;border-color:var(--accent);transform:rotate(45deg)}
+  .q-body{margin-top:14px;color:var(--text-2);font-size:14.5px;line-height:1.65;max-width:660px}
+
+  /* ─── FINAL CTA ───────────────────────────────────── */
+  .final{position:relative;z-index:1;padding:120px 0 100px;text-align:center;border-top:1px solid var(--line)}
+  .final h2{font-family:'Space Grotesk';font-weight:500;font-size:clamp(36px,5.5vw,72px);letter-spacing:-.03em;line-height:1;max-width:18ch;margin:0 auto 22px}
+  .final h2 .accent{color:var(--accent);font-style:italic;font-weight:500}
+  .final p{color:var(--text-2);font-size:15px;max-width:520px;margin:0 auto 32px;line-height:1.6}
+
+  /* ─── ANIMATIONS ──────────────────────────────────── */
+  @media (prefers-reduced-motion: no-preference){
+    .fade{opacity:0;transform:translateY(14px);animation:up .9s var(--ease) forwards}
+    .d1{animation-delay:.08s}.d2{animation-delay:.22s}.d3{animation-delay:.38s}
+    .d4{animation-delay:.54s}.d5{animation-delay:.72s}.d6{animation-delay:.9s}
+    @keyframes up{to{opacity:1;transform:translateY(0)}}
+    .reveal{opacity:0;transform:translateY(24px);transition:all 800ms var(--ease)}
+    .reveal.in{opacity:1;transform:translateY(0)}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal,.fade{opacity:1!important;transform:none!important}
+    .marquee-track{animation:none}
+  }
+
+  /* ─── BURGER (mobile nav toggle) ──────────────────── */
+  .burger{display:none;width:44px;height:44px;background:none;border:0;cursor:pointer;padding:0;flex-direction:column;gap:5px;align-items:center;justify-content:center;z-index:101;position:relative}
+  .burger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:transform 250ms var(--ease),opacity 200ms var(--ease)}
+  body.menu-open .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  body.menu-open .burger span:nth-child(2){opacity:0}
+  body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+  /* ─── MOBILE ADJUSTMENTS ──────────────────────────── */
+  @media(max-width:640px){
+    nav{padding:16px 22px}
+    .brand small{display:none}
+    .brand{font-size:16px}
+    .burger{display:flex}
+    .nav-right{
+      position:fixed;top:0;right:0;bottom:0;left:0;
+      background:rgba(10,10,11,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+      flex-direction:column;justify-content:center;align-items:center;gap:28px;
+      transform:translateX(100%);transition:transform 320ms var(--ease);
+      z-index:99;padding:80px 24px 40px;pointer-events:none;
+    }
+    .nav-right a{font-size:20px}
+    .nav-right .nav-cta{font-size:15px;padding:14px 28px}
+    body.menu-open .nav-right{transform:translateX(0);pointer-events:auto}
+    body.menu-open{overflow:hidden}
+    .hero{padding:80px 0 28px}
+    .how,.tiers,.faq{padding:72px 0}
+    .final{padding:90px 0 72px}
+    .tier{padding:32px 26px 28px}
+    .tier-price{font-size:44px}
   }
 </style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T2974BPD" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T2974BPD"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
-<nav>
-  <a class="brand" href="/"><b>micro.svita</b><i>· atlas / 2026</i></a>
-  <div class="nav-right">
-    <div class="lang" id="lang">
-      <button class="lang-btn" id="lang-btn"><span id="lang-current">EN</span>
-        <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 1l4 4 4-4"/></svg>
-      </button>
-      <div class="lang-menu" id="lang-menu"></div>
-    </div>
-    <a class="nav-cta" href="/shop.html" data-i18n="navCta">Open the shop →</a>
-  </div>
-</nav>
+<div class="glow-a"></div>
+<div class="glow-b"></div>
 
-<!-- ═══ 1. HERO ═══════════════════════════════════ -->
-<section class="hero">
-  <div class="wrap">
-    <div class="hero-tag" data-i18n-html="heroTag">№ 90 · <em>VOLUME ONE / SPRING 2026</em></div>
-    <h1 class="display" data-i18n-html="heroH1"></h1>
-    <p class="hero-sub" data-i18n-html="heroSub"></p>
-    <div class="hero-cta-row">
-      <a href="/shop.html" class="hero-cta">
-        <span data-i18n="heroCta">Pick a concept · €49</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </a>
-      <a href="#how" class="hero-cta-second" data-i18n="heroCtaSecond">See how it works ↓</a>
-    </div>
-    <div class="hero-foot">
-      <div><b>90</b><span data-i18n="hf1">ready concepts</span></div>
-      <div><b>25 pp</b><span data-i18n="hf2">brandbook each</span></div>
-      <div><b>4 wk</b><span data-i18n="hf3">to opening day</span></div>
-      <div><b>€49</b><span data-i18n="hf4">starting from</span></div>
-    </div>
-  </div>
-</section>
+<!-- shared nav (Shop, How it works, account/cart) — rendered by svita-nav.js -->
+<nav id="nav"></nav>
 
-<!-- ═══ 2. ENEMY ═══════════════════════════════════ -->
-<section class="enemy">
-  <div class="wrap">
-    <h2 class="display reveal" data-i18n-html="enemyH"></h2>
-    <p class="lead reveal" data-i18n="enemyLead"></p>
-    <div class="pains">
-      <div class="pain reveal"><div class="x">✕</div><div class="body"><strong data-i18n="pain1T">€5,000–15,000 to a brand agency.</strong><p data-i18n="pain1B">Three rounds of revisions. Hidden file licenses. PDF in eight months.</p></div></div>
-      <div class="pain reveal"><div class="x">✕</div><div class="body"><strong data-i18n="pain2T">Six months on Pinterest.</strong><p data-i18n="pain2B">Mood boards that never become a kitchen, a bench, an open door.</p></div></div>
-      <div class="pain reveal"><div class="x">✕</div><div class="body"><strong data-i18n="pain3T">No clue what to buy.</strong><p data-i18n="pain3B">No equipment list. No prices. No idea what €60k actually buys.</p></div></div>
-      <div class="pain reveal"><div class="x">✕</div><div class="body"><strong data-i18n="pain4T">A logo and nothing else.</strong><p data-i18n="pain4B">Three colors, a typeface, and the day-1 anxiety still untouched.</p></div></div>
-      <div class="pain reveal"><div class="x">✕</div><div class="body"><strong data-i18n="pain5T">Looks like the next-door café.</strong><p data-i18n="pain5B">Same Stumptown beans, same subway tile, same Edison bulb.</p></div></div>
-      <div class="pain reveal"><div class="x">✕</div><div class="body"><strong data-i18n="pain6T">No 4-week schedule.</strong><p data-i18n="pain6B">Just a vague hope that opening day comes before money runs out.</p></div></div>
-    </div>
-  </div>
-</section>
+<main>
 
-<!-- ═══ 3. EPIPHANY ═══════════════════════════════ -->
-<section class="epiphany" id="how">
-  <div class="wrap">
-    <div class="eyebrow" data-i18n="epiEyebrow">There is another way</div>
-    <h2 class="display reveal" data-i18n-html="epiH"></h2>
-    <p class="lead reveal" data-i18n-html="epiLead"></p>
-    <div class="epi-pillars">
-      <div class="epi-pillar reveal">
-        <div class="num">01</div>
-        <h3 data-i18n="epi1T">90 ready concepts.</h3>
-        <p data-i18n="epi1B">Cafés, ateliers, repair shops, sleep labs, candle workshops. Photographed before they exist. Pick one — 5 minutes.</p>
-      </div>
-      <div class="epi-pillar reveal">
-        <div class="num">02</div>
-        <h3 data-i18n="epi2T">25-page brandbook.</h3>
-        <p data-i18n="epi2B">Palette, materials, axonometric layout, signage, menu, equipment list with €-prices, opening checklist. Already done.</p>
-      </div>
-      <div class="epi-pillar reveal">
-        <div class="num">03</div>
-        <h3 data-i18n="epi3T">4-week opening plan.</h3>
-        <p data-i18n="epi3B">Week-by-week tasks: lease, contractor brief, equipment orders, signage print, soft-open. Hand it to your team and execute.</p>
+  <!-- ─── HERO ───── -->
+  <section class="hero">
+    <div class="wrap hero-wrap">
+      <div class="eyebrow fade d1" style="justify-content:center"><span>№ 90 · atlas of unbuilt worlds</span></div>
+      <h1 class="display fade d2"><span class="accent">8 of 10</span> ideas die before the door opens.</h1>
+      <p class="sub fade d3">
+        Not because the idea was wrong. Because the founder couldn't <em style="color:var(--text);font-style:italic;font-weight:500">see it yet</em> — pressure, money and fear arrive faster than vision does.
+        micro.svita is the quiet way to see your business <em style="color:var(--text);font-style:italic;font-weight:500">before your first investment</em>.
+      </p>
+      <div class="ctas fade d4">
+        <a href="/shop.html" class="btn btn-primary">
+          Don't be the eight · €49
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#how" class="btn btn-ghost">Why ideas die ↓</a>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ═══ 4. VALUE BREAKDOWN ═══════════════════════ -->
-<section class="value">
-  <div class="wrap">
-    <h2 class="display reveal" data-i18n-html="valueH"></h2>
-    <p class="lead reveal" data-i18n="valueLead"></p>
-    <div class="stack reveal">
-      <div class="stack-row"><div class="item" data-i18n-html="vr1">25-page magazine-editorial brandbook PDF<small>palette · interior · materials · signage · menu</small></div><div class="market">€2,800</div><div class="yours">included</div></div>
-      <div class="stack-row"><div class="item" data-i18n-html="vr2">Equipment list with verified € prices<small>real suppliers · real models · real budgets</small></div><div class="market">€1,200</div><div class="yours">included</div></div>
-      <div class="stack-row"><div class="item" data-i18n-html="vr3">Axonometric interior layout<small>floor plan you can hand to a contractor</small></div><div class="market">€900</div><div class="yours">included</div></div>
-      <div class="stack-row"><div class="item" data-i18n-html="vr4">4-week opening timeline<small>day-by-day pre-launch checklist</small></div><div class="market">€600</div><div class="yours">included</div></div>
-      <div class="stack-row"><div class="item" data-i18n-html="vr5">Print-ready brand identity<small>logo · type · packaging mockups</small></div><div class="market">€800</div><div class="yours">included</div></div>
-      <div class="stack-row"><div class="item" data-i18n-html="vr6">Unit economics & break-even model<small>realistic for your country, city, size</small></div><div class="market">€700</div><div class="yours">included</div></div>
+    <!-- marquee of concept names -->
+    <div class="marquee fade d5" aria-hidden="true">
+      <div class="marquee-track" id="mar"></div>
     </div>
-    <div class="stack-total">
-      <div class="label" data-i18n="vrTotal">Market total</div>
-      <div class="market">€7,000</div>
-      <div class="yours">€49<em data-i18n="vrOnce">once</em></div>
-    </div>
-    <a href="/shop.html" class="value-cta">
-      <span data-i18n="valueCta">Get your concept · €49</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="18" height="18"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-    </a>
-  </div>
-</section>
 
-<!-- ═══ 5. SOCIAL PROOF ══════════════════════════ -->
-<section class="proof">
-  <div class="wrap">
-    <h2 class="display reveal" data-i18n-html="proofH"></h2>
-    <div class="quotes">
-      <div class="quote reveal">
-        <div class="stars">★★★★★</div>
-        <p class="text" data-i18n-html="q1Text"></p>
-        <div class="who"><div class="name">Maja K.</div><div class="where">Kraków · café</div></div>
-      </div>
-      <div class="quote reveal">
-        <div class="stars">★★★★★</div>
-        <p class="text" data-i18n-html="q2Text"></p>
-        <div class="who"><div class="name">Tomáš R.</div><div class="where">Prague · barber</div></div>
-      </div>
-      <div class="quote reveal">
-        <div class="stars">★★★★★</div>
-        <p class="text" data-i18n-html="q3Text"></p>
-        <div class="who"><div class="name">Eline V.</div><div class="where">Amsterdam · studio</div></div>
+    <div class="wrap">
+      <div class="kpi fade d6">
+        <div class="item"><div class="v">90</div><div class="l">concepts</div></div>
+        <div class="item"><div class="v">25</div><div class="l">pages each</div></div>
+        <div class="item"><div class="v"><em>€49</em></div><div class="l">from</div></div>
+        <div class="item"><div class="v">34</div><div class="l">cities</div></div>
+        <div class="item"><div class="v">13</div><div class="l">categories</div></div>
       </div>
     </div>
-    <div class="proof-strip reveal">
-      <div class="stat"><div class="v">14k+</div><div class="l" data-i18n="ps1">downloads</div></div>
-      <div class="stat"><div class="v">€11.4M</div><div class="l" data-i18n="ps2">capital raised by users</div></div>
-      <div class="stat"><div class="v">42 min</div><div class="l" data-i18n="ps3">avg time saved vs agency</div></div>
-      <div class="stat"><div class="v">94%</div><div class="l" data-i18n="ps4">rate brandbook bank-ready</div></div>
+  </section>
+
+  <!-- ─── SIGNATURE SLIDER ───── -->
+  <section class="slider-section" id="signature">
+    <div class="wrap">
+      <div class="slider-head reveal">
+        <div>
+          <h2>Signature concepts</h2>
+          <div class="meta">Every card includes a 25-page brandbook · <b id="sig-count">— · —</b></div>
+        </div>
+        <div class="arrows">
+          <button class="arrow" id="prev" aria-label="previous concept"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button class="arrow" id="next" aria-label="next concept"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+
+      <div class="rail" id="rail"></div>
+
+      <div class="slider-foot reveal">
+        <a href="/shop.html" class="btn btn-primary">
+          Browse all 90 in the shop
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-
-<!-- ═══ 7. FAQ ═══════════════════════════════════ -->
-<section class="faq">
-  <div class="wrap">
-    <h2 class="display reveal" data-i18n-html="faqH"></h2>
-    <div class="faq-list">
-      <details><summary data-i18n="faq1Q">What exactly do I get for €49?</summary><div class="body" data-i18n="faq1A">A 25-page magazine-editorial brandbook PDF with palette, axonometric layout, equipment list (with real € prices), signage, menu/services grid, 4-week opening timeline, unit economics, and print-ready identity. Not generic templates — every concept is shot and costed for a specific city.</div></details>
-      <details><summary data-i18n="faq2Q">Can I really open in 4 weeks?</summary><div class="body" data-i18n="faq2A">If you have a lease and budget approved — yes. The 4-week schedule covers contractor brief, equipment orders, signage print, soft-open. Larger projects (>50 m²) realistically need 6–10 weeks. The brandbook tells you which timeline applies to your concept.</div></details>
-      <details><summary data-i18n="faq3Q">What's the difference between €49 and €149?</summary><div class="body" data-i18n="faq3A">€49 (Concept) — non-exclusive license. Other builders may open the same concept in different cities. €149 (Exclusive) — concept removed from the catalog forever. Editable source files. Full commercial rights transfer. Your unbuilt world, now private.</div></details>
-      <details><summary data-i18n="faq4Q">Is it a franchise?</summary><div class="body" data-i18n="faq4A">No. You own the business, we never take equity, royalties or a brand license fee. micro.svita is a shop of visual concepts — you pay once, open the business, keep 100%.</div></details>
-      <details><summary data-i18n="faq5Q">Refunds?</summary><div class="body" data-i18n="faq5A">14 days, no questions, full refund. You also keep the files we already sent — we don't claw them back. We'd rather lose €49 than have you feel cheated.</div></details>
-      <details><summary data-i18n="faq6Q">Can I use it in any country?</summary><div class="body" data-i18n="faq6A">Yes. Concepts are designed EU-wide. Prices, suppliers and regulatory notes lean on the original reference city, but the visual system, economics and 4-week plan translate cleanly to any European city.</div></details>
+  <!-- ─── HOW IT WORKS ───── -->
+  <section class="how" id="how">
+    <div class="wrap">
+      <div class="how-head reveal">
+        <div class="eyebrow"><span>Method</span></div>
+        <h2>From a browse tab <span class="accent">to opening day</span> — in three moves.</h2>
+      </div>
+      <div class="steps">
+        <article class="step reveal">
+          <span class="num">01 / Browse</span>
+          <h3>Pick a concept</h3>
+          <p>Scroll through 90 curated micro-businesses across 13 categories and 34 European cities. Each one is shot like a magazine editorial — not stock.</p>
+          <ul class="step-list">
+            <li>90 concepts</li>
+            <li>13 categories</li>
+            <li>real interiors &amp; packaging</li>
+          </ul>
+        </article>
+        <article class="step reveal">
+          <span class="num">02 / Buy</span>
+          <h3>Claim the brandbook</h3>
+          <p>One concept, one checkout. From €49 you receive the full 25-page brandbook — palette, interior, signage, menu, CAPEX, 4-week opening plan.</p>
+          <ul class="step-list">
+            <li>25-page PDF</li>
+            <li>palette · interior · menu</li>
+            <li>4-week opening timeline</li>
+          </ul>
+        </article>
+        <article class="step reveal">
+          <span class="num">03 / Launch</span>
+          <h3>Open in four weeks</h3>
+          <p>Take the book to your contractor, printer, and chef. Everything is briefed, costed, and sourced. You skip the six-month design phase entirely.</p>
+          <ul class="step-list">
+            <li>contractor-ready</li>
+            <li>CAPEX verified (€)</li>
+            <li>top 20% on day one</li>
+          </ul>
+        </article>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ═══ 8. ULTIMATE CTA ══════════════════════════ -->
-<section class="ultimate">
-  <div class="wrap">
-    <div class="ultimate-tag" data-i18n="ultimateTag">Last word.</div>
-    <h2 class="display reveal" data-i18n-html="ultimateH"></h2>
-    <p class="reveal" data-i18n="ultimateBody"></p>
-    <div class="ultimate-row reveal">
-      <a href="/shop.html" class="ultimate-cta">
-        <span data-i18n="ultimateCta">Open the atlas · €49</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="20" height="20"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </a>
-      <p class="ultimate-meta" data-i18n="ultimateMeta">90 concepts · 13 categories · 34 cities · 12 EU languages · 14-day money-back</p>
+  <!-- ─── TIERS ───── -->
+  <section class="tiers" id="tiers">
+    <div class="wrap">
+      <div class="tiers-head reveal">
+        <div class="eyebrow"><span>Two ways to own it</span></div>
+        <h2>A library card, <span style="color:var(--accent);font-style:italic;font-weight:500">or a deed.</span></h2>
+      </div>
+      <div class="tiers-grid">
+        <article class="tier reveal">
+          <div class="tier-head">
+            <span class="tier-name">Concept</span>
+          </div>
+          <div class="tier-price">€49<em>/ one-off</em></div>
+          <p class="tier-sub">The full brandbook. Shared with other builders who loved the same concept.</p>
+          <ul class="tier-list">
+            <li><b>25-page editorial PDF</b> — palette, interior, menu, signage</li>
+            <li><b>Opening plan</b> — 4 weeks, task by task</li>
+            <li><b>CAPEX &amp; unit economics</b> — verified in EUR</li>
+            <li><b>Print-ready identity</b> — logo, type, packaging</li>
+            <li>Non-exclusive license</li>
+          </ul>
+          <a href="/shop.html" class="btn btn-ghost tier-cta">Browse concepts →</a>
+        </article>
+
+        <article class="tier pro reveal">
+          <div class="tier-head">
+            <span class="tier-name">Exclusive</span>
+          </div>
+          <div class="tier-price">€149<em>/ one-off</em></div>
+          <p class="tier-sub">The concept retires to one owner. Withdrawn from the catalogue forever.</p>
+          <ul class="tier-list">
+            <li><b>Everything in Concept</b></li>
+            <li><b>Concept removed from catalogue</b> — yours alone</li>
+            <li><b>Editable source files</b> — InDesign, Figma, raw PNG</li>
+            <li><b>Transfer of rights</b> — full commercial use</li>
+            <li><b>Name &amp; trademark path</b> — filing notes included</li>
+          </ul>
+          <a href="/shop.html" class="btn btn-primary tier-cta">
+            Claim an exclusive
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </article>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer>
-  <div data-i18n="footer">micro.svita · LABS67 · 2026 · Bydgoszcz</div>
-  <div class="links">
-    <a href="/shop.html" data-i18n="fAtlas">Atlas</a>
-    <a href="/account.html" data-i18n="fCabinet">Cabinet</a>
-    <a href="/legal.html" data-i18n="fLegal">Legal</a>
-    <a href="mailto:hello@micro.svita.ai" data-i18n="fContact">Contact</a>
-  </div>
-</footer>
+  <!-- ─── FAQ ───── -->
+  <section class="faq" id="faq">
+    <div class="faq-wrap wrap">
+      <div class="faq-head reveal">
+        <div class="eyebrow"><span>FAQ</span></div>
+        <h2>Short answers.</h2>
+      </div>
+
+      <details class="q reveal">
+        <summary>What exactly do I get for €49?<span class="plus">+</span></summary>
+        <div class="q-body">A 25-page editorial PDF and a print-ready identity pack. It includes the palette, materials, interior axonometry, packaging mockups, signage, menu or service grid, 4-week opening timeline, and verified CAPEX in EUR. No generic templates — the concept is shot and costed as a specific business in a specific city.</div>
+      </details>
+
+      <details class="q reveal">
+        <summary>Do I really own it?<span class="plus">+</span></summary>
+        <div class="q-body">Concept (€49) gives you a non-exclusive license — multiple builders can open the same concept in different cities. Exclusive (€149) removes the concept from the catalogue forever and transfers full commercial rights, including editable source files.</div>
+      </details>
+
+      <details class="q reveal">
+        <summary>Can I use it in any country?<span class="plus">+</span></summary>
+        <div class="q-body">Yes. Concepts are designed EU-wide and can be adapted to any city. Prices, suppliers, and regulatory notes lean on the original reference city, but the visual system, economics, and opening plan translate cleanly.</div>
+      </details>
+
+      <details class="q reveal">
+        <summary>Refunds?<span class="plus">+</span></summary>
+        <div class="q-body">14-day money-back guarantee on every brandbook. If it isn&rsquo;t what we described, you get a full refund and keep nothing. No questions, no tickets.</div>
+      </details>
+
+      <details class="q reveal">
+        <summary>Is this a franchise?<span class="plus">+</span></summary>
+        <div class="q-body">No. You own the business, we never take equity or royalties. SVITA Micro is a shop of visual concepts — you pay once, open the business, keep 100%.</div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ─── FINAL CTA ───── -->
+  <section class="final">
+    <div class="wrap">
+      <h2 class="reveal">Your next business is <span class="accent">already photographed.</span></h2>
+      <p class="reveal">90 concepts waiting. One is probably the one.</p>
+      <div class="reveal">
+        <a href="/shop.html" class="btn btn-primary">
+          Open the shop
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- shared: supabase + nav + analytics + favs + footer -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/svita-nav.js"></script>
+<script src="js/svita-metrics-config.js"></script>
+<script src="js/svita-3p-analytics.js"></script>
+<script src="js/svita-analytics.js"></script>
+<script src="js/svita-favs.js"></script>
+<script src="js/svita-footer.js"></script>
 
 <script>
-const I18N = {
-  EN: {
-    _label:'English',
-    navCta:'Open the atlas →',
-    heroTag:'№ 90 · <em>AN ATLAS OF UNBUILT WORLDS</em>',
-    heroH1:"<u>8 of 10</u> ideas<br>die before the<br><em>door opens</em>.",
-    heroSub:"Not because the idea was wrong. Because the founder couldn’t <b>see it yet</b> — and pressure, money and fear arrive faster than vision does. micro.svita is the quiet way to see your business <b>before you risk anything</b>.",
-    heroCta:'Don’t be the eight · €49',
-    heroCtaSecond:'Why ideas die ↓',
-    hf1:'imagined worlds', hf2:'editorial pages', hf3:'european cities', hf4:'starting from',
-    enemyH:"What kills an idea<br>before it’s <em>even built</em>.",
-    enemyLead:"It is almost never the market. It is the months of doubt between “I have an idea” and “I am open”. That gap is where 80% of businesses quietly die — with no funeral.",
-    pain1T:'The pressure of the clock.', pain1B:'Six months of “soon” turn into a year of “maybe”. The idea cools without you noticing.',
-    pain2T:'The financial knot.', pain2B:'You don’t know what €60k actually buys. So you delay. So the lease passes. So the moment passes.',
-    pain3T:'Quiet doubt at 3 a.m.', pain3B:'“What if it’s not really mine?” The voice is small. It is also enough to stop a year of work.',
-    pain4T:'Advice from everyone.', pain4B:'Friends, family, an agency, a podcast. Each one is sure. None of them are you. The vision drowns.',
-    pain5T:'A category, not a concept.', pain5B:'“A coffee shop.” “A studio.” “A barber.” The eye slides off. So does the customer.',
-    pain6T:'Letting it go.', pain6B:'You don’t cancel the dream. You just stop opening the document. That is how 80% of ideas leave the world.',
-    epiEyebrow:'A different starting point',
-    epiH:"<em>Imagine</em> it<br>before you<br>build it.",
-    epiLead:"What if 90 micro-businesses were already <b>photographed, lit, lived in</b> — and you walked through them one by one, until one of them felt like home?",
-    epi1T:'A shelf of imagined worlds.', epi1B:'90 micro-businesses across Europe — a Lisbon plant store, a Tallinn rye bakery, a Reykjavík wool room. Each one shot like a magazine spread, before it was ever built.',
-    epi2T:'A 25-page editorial.', epi2B:'Palette, materials, light, ritual, atmosphere — the things you cannot photograph in your head, photographed for you. A reference to think with, not a blueprint to follow.',
-    epi3T:'A way to choose.', epi3B:'Wander the atlas. Some concepts will feel like other people. One will feel like you. That moment of recognition — that is what €49 buys.',
-    valueH:"What lives<br><em>inside</em> it.",
-    valueLead:"This is not a checklist of agency deliverables. It is the inside of an imagined world — the things you would have struggled to describe, already there.",
-    vr1:'25-page editorial brandbook<small>shot like a magazine spread, not a slide deck</small>',
-    vr2:'A palette you can stand inside<small>five hex codes that hold the whole atmosphere</small>',
-    vr3:'Materials and light<small>raw oak, brushed brass, lime-washed plaster, blue-hour</small>',
-    vr4:'The signature ritual<small>the one moment that makes the place itself</small>',
-    vr5:'A still-life of objects<small>the coffee cup, the linen, the brass scale, the candle</small>',
-    vr6:'A reference to think with<small>not a blueprint — a starting point you can carry home</small>',
-    vrTotal:'A whole way of seeing', vrOnce:'once',
-    valueCta:'Wander a concept · €49',
-    proofH:"People found<br>their <em>vision</em> here.",
-    q1Text:"For months I described it but couldn't see it. The brandbook was the first time I <b>recognised what I wanted</b>. I cried a little.",
-    q2Text:"I didn't need an agency. I needed <b>one image</b> of what my place could feel like. micro.svita was that image.",
-    q3Text:"I bought the <b>Exclusive</b>. Not because of the rights — because the world it described was a world I didn't want anyone else to copy.",
-    ps1:'imagined worlds', ps2:'european cities', ps3:'editorial pages', ps4:'concepts to wander',
-    riskBadge:'14 days · keep what you read',
-    riskH:"If it doesn't <em>show</em> you<br>something — full refund.",
-    riskBody:"Open the brandbook. Live in it for 14 days. If it didn't change how you see your future business — write to us, we refund. You keep the file. We would rather lose €49 than steal a window.",
-    rk1:'No questions', rk2:'No tickets', rk3:'Keep the file', rk4:'Full refund',
-    faqH:"Things people<br><em>actually</em> ask.",
-    faq1Q:'Is this a business plan?', faq1A:'No. micro.svita is the visual half of a business — atmosphere, materials, ritual, palette. The half most agencies skip and most founders cannot describe alone. Numbers and timelines you will still need; we help you decide what world you are building those numbers around.',
-    faq2Q:"What if I already have an idea?", faq2A:"That is the best moment to come. Wander the atlas, find concepts adjacent to yours, see how someone imagined a similar room. Most people leave with a sharper version of the idea they walked in with.",
-    faq3Q:"What's the difference between €49 and €149?", faq3A:'€49 (Concept) — non-exclusive. Others may also fall in love with the same world. €149 (Exclusive) — the concept is retired from the catalog forever. Yours alone. The choice is about ownership of imagination, not access.',
-    faq4Q:'Is it a franchise?', faq4A:'No. You take nothing from us beyond the brandbook. No royalties, no equity, no brand license. The world is yours to inhabit, change, or abandon. We never appear on your wall.',
-    faq5Q:'Refunds?', faq5A:'14 days, no questions, full refund — and you keep the file. If a brandbook does not show you something, it failed at its only job.',
-    faq6Q:'Can I use it in any country?', faq6A:'Yes. Concepts are imagined for a specific reference city, but the visual language travels. A Lisbon plant store can be transplanted to Sofia or Bucharest with the palette intact.',
-    ultimateTag:'A small invitation.',
-    ultimateH:"Your next<br>business is<br><em>already</em><br>imagined.",
-    ultimateBody:"Somewhere in the atlas, one of the 90 worlds is yours. You have not seen it yet. €49 is the price of recognising it when you do.",
-    ultimateCta:'Wander the atlas · €49', ultimateMeta:'90 imagined worlds across Europe',
-    footer:'micro.svita · LABS67 · 2026 · Bydgoszcz',
-    fAtlas:'Atlas', fCabinet:'Cabinet', fLegal:'Legal', fContact:'Contact',
-  },
-  PL: {
-    _label:'Polski',
-    navCta:'Otwórz sklep →',
-    heroTag:'№ 90 · <em>ATLAS NIEZBUDOWANYCH ŚWIATÓW</em>',
-    heroH1:"<u>8 z 10</u> pomysłów<br>umiera, zanim<br><em>otworzą się drzwi</em>.",
-    heroSub:"Nie dlatego, że pomysł był zły. Dlatego, że założyciel nie mógł go jeszcze <b>zobaczyć</b> — a presja, pieniądze i lęk przychodzą szybciej niż wizja. micro.svita to cichy sposób, by zobaczyć swój biznes <b>zanim zaryzykujesz cokolwiek</b>.",
-    heroCta:'Nie bądź ósmym · €49',
-    heroCtaSecond:'Dlaczego pomysły umierają ↓',
-    hf1:'wyobrażonych światów', hf2:'redakcyjnych stron', hf3:'miast w europie', hf4:'od',
-    enemyH:"Co zabija pomysł,<br>zanim <em>zostanie zbudowany</em>.",
-    enemyLead:"Prawie nigdy nie chodzi o rynek. To miesiące wątpliwości między „mam pomysł” a „jestem otwarty”. To w tej szczelinie 80% biznesów umiera cicho — bez pogrzebu.",
-    pain1T:'Presja czasu.', pain1B:'Sześć miesięcy „wkrótce” zmienia się w rok „może”. Pomysł stygnie, a ty tego nie zauważasz.',
-    pain2T:'Finansowy węzeł.', pain2B:'Nie wiesz, co naprawdę kupuje €60k. Więc odwlekasz. Więc najem przepada. Więc moment przepada.',
-    pain3T:'Cichy niepokój o 3 nad ranem.', pain3B:'„A co, jeśli to nie jest naprawdę moje?” Głos jest cichy. Wystarczy, żeby zatrzymać rok pracy.',
-    pain4T:'Rady od wszystkich.', pain4B:'Przyjaciele, rodzina, agencja, podcast. Każdy jest pewny. Żaden nie jest tobą. Wizja tonie.',
-    pain5T:'Kategoria, nie koncepcja.', pain5B:'„Kawiarnia.” „Studio.” „Barber.” Oko ześlizguje się. Klient też.',
-    pain6T:'Odpuszczenie.', pain6B:'Nie odwołujesz marzenia. Po prostu przestajesz otwierać dokument. Tak 80% pomysłów opuszcza świat.',
-    epiEyebrow:'Inny punkt wyjścia',
-    epiH:"<em>Wyobraź sobie</em><br>zanim zbudujesz.",
-    epiLead:"A gdyby 90 mikro-biznesów było już <b>sfotografowanych, oświetlonych, przeżytych</b> — a ty po prostu przechadzasz się po nich, aż któryś poczujesz jak swój dom?",
-    epi1T:'Półka wyobrażonych światów.', epi1B:'90 mikro-biznesów Europą — kwiaciarnia w Lizbonie, piekarnia żytnia w Tallinie, wełniana pracownia w Reykjaviku. Każdy sfotografowany jak rozkładówka magazynu, zanim powstał.',
-    epi2T:'25-stronicowy magazyn.', epi2B:'Paleta, materiały, światło, rytuał, atmosfera — rzeczy, których nie da się sfotografować w głowie. Punkt odniesienia do myślenia, nie schemat do kopiowania.',
-    epi3T:'Sposób, by wybrać.', epi3B:'Przechadzaj się po atlasie. Niektóre koncepcje będą czyjeś. Jedna poczujesz jako swoją. Ten moment rozpoznania — to właśnie kupujesz za €49.',
-    valueH:"Co <em>żyje</em><br>w środku.",
-    valueLead:"To nie checklista agencji. To wnętrze wyobrażonego świata — rzeczy, których trudno opisać, już tam są.",
-    vr1:'25-stronicowy magazyn-brandbook<small>sfotografowany jak rozkładówka, nie slajdy</small>',
-    vr2:'Paleta, w której można stać<small>pięć kodów hex trzymających całą atmosferę</small>',
-    vr3:'Materiały i światło<small>surowy dąb, mosiądz, biała glina, godzina niebieska</small>',
-    vr4:'Sygnaturalny rytuał<small>jeden moment, który czyni miejsce miejscem</small>',
-    vr5:'Martwa natura przedmiotów<small>filiżanka, len, mosiężna waga, świeca</small>',
-    vr6:'Punkt odniesienia do myślenia<small>nie schemat — początek, który zabierasz do domu</small>',
-    vrTotal:'Cały sposób widzenia', vrOnce:'raz',
-    valueCta:'Wejdź w koncepcję · €49',
-    proofH:"Tu ludzie znaleźli<br>swoją <em>wizję</em>.",
-    q1Text:"Miesiącami opisywałam to słowami, ale nie widziałam. Brandbook był pierwszą chwilą, gdy <b>rozpoznałam, czego chcę</b>. Trochę się popłakałam.",
-    q2Text:"Nie potrzebowałem agencji. Potrzebowałem <b>jednego obrazu</b> tego, jak może wyglądać moje miejsce. micro.svita był tym obrazem.",
-    q3Text:"Wziąłem <b>Wyłączność</b>. Nie ze względu na prawa — ale dlatego, że świat, który opisywała, był światem, którego nie chciałem dzielić.",
-    ps1:'wyobrażonych światów', ps2:'miast w europie', ps3:'redakcyjnych stron', ps4:'koncepcji do przejścia',
-    riskBadge:'14 dni · zachowaj to, co przeczytałeś',
-    riskH:"Jeśli nic ci nie <em>pokaże</em><br>— pełny zwrot.",
-    riskBody:"Otwórz brandbook. Pożyj w nim 14 dni. Jeśli nie zmienił sposobu, w jaki widzisz swój przyszły biznes — napisz, zwracamy. Plik zostaje u ciebie. Wolimy stracić €49 niż ukraść okno.",
-    rk1:'Bez pytań', rk2:'Bez ticketów', rk3:'Plik zostaje', rk4:'Pełny zwrot',
-    faqH:"Pytania, które<br>ludzie <em>naprawdę</em> zadają.",
-    faq1Q:'Czy to jest biznesplan?', faq1A:'Nie. micro.svita to wizualna połowa biznesu — atmosfera, materiały, rytuał, paleta. Połowa, którą agencje pomijają, a założyciele rzadko potrafią opisać sami. Liczby i harmonogramy nadal będą ci potrzebne; my pomagamy zdecydować, jaki świat budujesz wokół tych liczb.',
-    faq2Q:'A jeśli już mam pomysł?', faq2A:'To najlepszy moment, żeby przyjść. Przechadzaj się po atlasie, znajdź koncepcje sąsiadujące z twoją, zobacz, jak ktoś wyobraził sobie podobne pomieszczenie. Większość ludzi wychodzi z ostrzejszą wersją pomysłu, z którym przyszli.',
-    faq3Q:'Jaka różnica między €49 a €149?', faq3A:'€49 (Koncepcja) — niewyłączna. Inni też mogą zakochać się w tym samym świecie. €149 (Wyłączność) — koncepcja jest wycofana z katalogu na zawsze. Tylko twoja. Wybór dotyczy własności wyobraźni, nie dostępu.',
-    faq4Q:'Czy to franczyza?', faq4A:'Nie. Nie bierzesz od nas niczego poza brandbookiem. Bez tantiem, udziałów, opłat licencyjnych. Świat jest twój — możesz w nim zamieszkać, zmienić go, porzucić. Nigdy nie pojawiamy się na twojej ścianie.',
-    faq5Q:'Zwroty?', faq5A:'14 dni, bez pytań, pełny zwrot — i plik zostaje u ciebie. Jeśli brandbook nic ci nie pokazał, zawiódł w jedynym, do czego służy.',
-    faq6Q:'Czy mogę użyć w dowolnym kraju?', faq6A:'Tak. Koncepcje są wyobrażone dla konkretnego miasta odniesienia, ale język wizualny podróżuje. Lizbońska kwiaciarnia daje się przesadzić do Sofii lub Bukaresztu z paletą nietkniętą.',
-    ultimateTag:'Małe zaproszenie.',
-    ultimateH:"Twój następny<br>biznes jest <em>już</em><br>wyobrażony.",
-    ultimateBody:"Gdzieś w atlasie jeden z 90 światów jest twój. Jeszcze go nie widziałeś. €49 to cena rozpoznania go, gdy go zobaczysz.",
-    ultimateCta:'Wejdź w atlas · €49', ultimateMeta:'90 wyobrażonych światów Europą',
-    footer:'micro.svita · LABS67 · 2026 · Bydgoszcz',
-    fAtlas:'Atlas', fCabinet:'Gabinet', fLegal:'Prawne', fContact:'Kontakt',
-  },
-  RU: {
-    _label:'Русский',
-    navCta:'Открыть магазин →',
-    heroTag:'№ 90 · <em>АТЛАС НЕПОСТРОЕННЫХ МИРОВ</em>',
-    heroH1:"<u>8 из 10</u> идей<br>умирают, не дойдя<br>до <em>двери</em>.",
-    heroSub:"Не потому что идея плохая. А потому что основатель не успевает её <b>увидеть</b> — давление, деньги и страх приходят раньше, чем видение. micro.svita — тихий способ увидеть свой бизнес <b>ещё до первого вложения</b>.",
-    heroCta:'Не будь восьмым · €49',
-    heroCtaSecond:'Почему идеи умирают ↓',
-    hf1:'воображённых миров', hf2:'редакционных страниц', hf3:'городов европы', hf4:'от',
-    enemyH:"Что убивает идею<br>ещё до того, как<br>она <em>построена</em>.",
-    enemyLead:"Это почти никогда не рынок. Это месяцы сомнений между «у меня есть идея» и «я открыт». В этом разрыве 80% бизнесов тихо умирают — без похорон.",
-    pain1T:'Давление часов.', pain1B:'Шесть месяцев «скоро» превращаются в год «может быть». Идея остывает, ты этого не замечаешь.',
-    pain2T:'Финансовый узел.', pain2B:'Не понимаешь, что реально покупает €60k. Откладываешь. Аренда уходит. Момент уходит.',
-    pain3T:'Тихое сомнение в 3 ночи.', pain3B:'«А вдруг это не моё?» Голос тихий. Этого достаточно, чтобы остановить год работы.',
-    pain4T:'Советы со всех сторон.', pain4B:'Друзья, семья, агентство, подкаст. Каждый уверен. Никто из них — не ты. Видение тонет.',
-    pain5T:'Категория, а не концепция.', pain5B:'«Кофейня.» «Студия.» «Барбершоп.» Глаз скользит мимо. Клиент тоже.',
-    pain6T:'Отпустить.', pain6B:'Ты не отменяешь мечту. Ты просто перестаёшь открывать документ. Так 80% идей уходит из мира.',
-    epiEyebrow:'Другая точка отсчёта',
-    epiH:"<em>Увидь</em> его —<br>прежде чем<br>построишь.",
-    epiLead:"А что если 90 микро-бизнесов уже <b>сфотографированы, освещены, прожиты</b> — и ты просто проходишь по ним один за другим, пока один из них не покажется домом?",
-    epi1T:'Полка воображённых миров.', epi1B:'90 микро-бизнесов по Европе — лиссабонская цветочная лавка, ржаная пекарня в Таллине, шерстяная мастерская в Рейкьявике. Каждый снят как разворот журнала — до того, как был построен.',
-    epi2T:'25-страничный журнал.', epi2B:'Палитра, материалы, свет, ритуал, атмосфера — то, что не сфотографируешь у себя в голове, уже сфотографировано за тебя. Точка опоры для мышления, не схема для копирования.',
-    epi3T:'Способ выбрать.', epi3B:'Прохаживайся по атласу. Часть концепций будет про других людей. Одна окажется про тебя. Этот момент узнавания — это и есть то, что покупаешь за €49.',
-    valueH:"Что <em>живёт</em><br>внутри.",
-    valueLead:"Это не чек-лист агентских услуг. Это внутренность воображённого мира — то, что трудно описать словами, уже там.",
-    vr1:'25-страничный журнал-брендбук<small>снят как разворот, а не как слайды</small>',
-    vr2:'Палитра, в которой можно стоять<small>пять hex-кодов, держащих всю атмосферу</small>',
-    vr3:'Материалы и свет<small>дуб без покрытия, латунь, известковая штукатурка, синий час</small>',
-    vr4:'Сигнатурный ритуал<small>один жест, делающий место местом</small>',
-    vr5:'Натюрморт предметов<small>чашка, лён, латунные весы, свеча</small>',
-    vr6:'Точка опоры для мышления<small>не схема — начало, которое уносишь домой</small>',
-    vrTotal:'Целый способ видеть', vrOnce:'разово',
-    valueCta:'Войти в концепцию · €49',
-    proofH:"Здесь люди нашли<br>своё <em>видение</em>.",
-    q1Text:"Месяцами я описывала, но не видела. Брендбук стал первым моментом, когда я <b>узнала, чего хочу</b>. Немного даже расплакалась.",
-    q2Text:"Мне не нужно было агентство. Мне нужен был <b>один кадр</b> того, каким может быть моё место. micro.svita — это тот кадр.",
-    q3Text:"Я взял <b>Эксклюзив</b>. Не из-за прав — а потому что мир, который он описывал, я не хотел делить ни с кем.",
-    ps1:'воображённых миров', ps2:'городов европы', ps3:'редакционных страниц', ps4:'концепций пройти',
-    riskBadge:'14 дней · оставь то, что прочитал',
-    riskH:"Если он ничего не <em>покажет</em><br>— полный возврат.",
-    riskBody:"Открой брендбук. Поживи в нём 14 дней. Если он не изменил то, как ты видишь свой будущий бизнес — напиши, вернём. Файл остаётся у тебя. Лучше потерять €49, чем украсть окно.",
-    rk1:'Без вопросов', rk2:'Без тикетов', rk3:'Файл остаётся', rk4:'Полный возврат',
-    faqH:"Что люди<br>и правда <em>спрашивают</em>.",
-    faq1Q:'Это бизнес-план?', faq1A:'Нет. micro.svita — визуальная половина бизнеса: атмосфера, материалы, ритуал, палитра. Та половина, которую агентства пропускают, а основатель редко может описать сам. Цифры и сроки тебе всё равно понадобятся; мы помогаем решить, какой мир ты строишь вокруг этих цифр.',
-    faq2Q:'А если у меня уже есть идея?', faq2A:'Самый лучший момент прийти. Прохаживайся по атласу, найди концепции, соседствующие с твоей, посмотри, как кто-то вообразил похожее помещение. Большинство уходят с более чёткой версией той идеи, с которой пришли.',
-    faq3Q:'В чём разница между €49 и €149?', faq3A:'€49 (Концепция) — неэксклюзивная. Другие тоже могут влюбиться в этот мир. €149 (Эксклюзив) — концепция уходит из каталога навсегда. Только твоя. Выбор не про доступ, а про владение воображением.',
-    faq4Q:'Это франшиза?', faq4A:'Нет. Ты ничего не берёшь у нас, кроме самого брендбука. Никаких роялти, долей, брендовых лицензий. Мир — твой: жить в нём, менять, бросить. Мы никогда не появляемся на твоей стене.',
-    faq5Q:'Возврат?', faq5A:'14 дней, без вопросов, полный возврат — и файл остаётся у тебя. Если брендбук ничего тебе не показал, он провалился в единственной задаче, ради которой существует.',
-    faq6Q:'Можно использовать в любой стране?', faq6A:'Да. Концепции воображены для конкретного города-референса, но визуальный язык переносится. Лиссабонскую цветочную лавку можно пересадить в Софию или Бухарест с палитрой нетронутой.',
-    ultimateTag:'Маленькое приглашение.',
-    ultimateH:"Твой следующий<br>бизнес <em>уже</em><br>воображён.",
-    ultimateBody:"Где-то в атласе один из 90 миров — твой. Ты его ещё не видел. €49 — цена узнавания, когда увидишь.",
-    ultimateCta:'Войти в атлас · €49', ultimateMeta:'90 воображённых миров по Европе',
-    footer:'micro.svita · LABS67 · 2026 · Быдгощ',
-    fAtlas:'Атлас', fCabinet:'Кабинет', fLegal:'Юридическое', fContact:'Контакт',
-  },
-  UK: {
-    _label:'Українська',
-    navCta:'Відкрити магазин →',
-    heroTag:'№ 90 · <em>АТЛАС НЕПОБУДОВАНИХ СВІТІВ</em>',
-    heroH1:"<u>8 із 10</u> ідей<br>помирають, не дійшовши<br>до <em>дверей</em>.",
-    heroSub:"Не тому, що ідея погана. А тому, що засновник не встигає її <b>побачити</b> — тиск, гроші і страх приходять раніше, ніж бачення. micro.svita — тихий спосіб побачити свій бізнес <b>ще до першого вкладення</b>.",
-    heroCta:'Не будь восьмим · €49',
-    heroCtaSecond:'Чому ідеї помирають ↓',
-    hf1:'уявлених світів', hf2:'редакційних сторінок', hf3:'міст європи', hf4:'від',
-    enemyH:"Що вбиває ідею<br>ще до того, як її<br><em>побудовано</em>.",
-    enemyLead:"Це майже ніколи не ринок. Це місяці сумнівів між «у мене є ідея» і «я відкритий». У цьому розриві 80% бізнесів тихо вмирають — без похорону.",
-    pain1T:'Тиск годинника.', pain1B:'Шість місяців «скоро» перетворюються на рік «може». Ідея вистигає, ти цього не помічаєш.',
-    pain2T:'Фінансовий вузол.', pain2B:'Не розумієш, що реально купує €60k. Відкладаєш. Оренда йде. Момент іде.',
-    pain3T:'Тихий сумнів о 3-й ночі.', pain3B:'«А раптом це не моє?» Голос тихий. Цього досить, щоб зупинити рік роботи.',
-    pain4T:'Поради звідусіль.', pain4B:'Друзі, родина, агенція, подкаст. Кожен впевнений. Жоден з них — не ти. Бачення тоне.',
-    pain5T:'Категорія, а не концепція.', pain5B:'«Кавʼярня.» «Студія.» «Барбершоп.» Око ковзає мимо. Клієнт теж.',
-    pain6T:'Відпустити.', pain6B:'Ти не скасовуєш мрію. Ти просто перестаєш відкривати документ. Так 80% ідей залишають світ.',
-    epiEyebrow:'Інша точка відліку',
-    epiH:"<em>Побач</em> його —<br>перш ніж<br>побудуєш.",
-    epiLead:"А що, якби 90 мікро-бізнесів уже були <b>сфотографовані, освітлені, прожиті</b> — і ти просто йдеш ними один за одним, поки один із них не відчуєш як домом?",
-    epi1T:'Полиця уявлених світів.', epi1B:'90 мікро-бізнесів Європою — лісабонська квіткова крамниця, житня пекарня в Таллінні, вовняна майстерня в Рейкʼявіку. Кожен знятий як розворот журналу — до того, як був побудований.',
-    epi2T:'25-сторінковий журнал.', epi2B:'Палітра, матеріали, світло, ритуал, атмосфера — те, чого не сфотографуєш у голові, уже сфотографовано за тебе. Точка опори для мислення, не схема для копіювання.',
-    epi3T:'Спосіб обрати.', epi3B:'Гуляй атласом. Частина концепцій буде про інших людей. Одна виявиться про тебе. Цей момент впізнавання — те, що купуєш за €49.',
-    valueH:"Що <em>живе</em><br>всередині.",
-    valueLead:"Це не чек-лист агенційних послуг. Це нутро уявленого світу — те, що важко описати словами, уже там.",
-    vr1:'25-сторінковий журнал-брендбук<small>знятий як розворот, а не як слайди</small>',
-    vr2:'Палітра, в якій можна стояти<small>пʼять hex-кодів, які тримають усю атмосферу</small>',
-    vr3:'Матеріали і світло<small>дуб без покриття, латунь, вапняна штукатурка, синя година</small>',
-    vr4:'Сигнатурний ритуал<small>один жест, що робить місце місцем</small>',
-    vr5:'Натюрморт предметів<small>чашка, льон, латунні терези, свічка</small>',
-    vr6:'Точка опори для мислення<small>не схема — початок, який забираєш додому</small>',
-    vrTotal:'Цілий спосіб бачити', vrOnce:'один раз',
-    valueCta:'Увійти в концепцію · €49',
-    proofH:"Тут люди знайшли<br>своє <em>бачення</em>.",
-    q1Text:"Місяцями я описувала, але не бачила. Брендбук став першим моментом, коли я <b>впізнала, чого хочу</b>. Трохи навіть розплакалася.",
-    q2Text:"Мені не потрібна була агенція. Мені потрібен був <b>один кадр</b> того, яким може бути моє місце. micro.svita — це той кадр.",
-    q3Text:"Я взяв <b>Ексклюзив</b>. Не через права — а тому що світ, який він описував, я не хотів ділити ні з ким.",
-    ps1:'уявлених світів', ps2:'міст європи', ps3:'редакційних сторінок', ps4:'концепцій пройти',
-    riskBadge:'14 днів · залиш те, що прочитав',
-    riskH:"Якщо він нічого не <em>покаже</em><br>— повне повернення.",
-    riskBody:"Відкрий брендбук. Поживи в ньому 14 днів. Якщо він не змінив того, як ти бачиш свій майбутній бізнес — напиши, повернемо. Файл лишається у тебе. Краще втратити €49, ніж вкрасти вікно.",
-    rk1:'Без питань', rk2:'Без тикетів', rk3:'Файл лишається', rk4:'Повне повернення',
-    faqH:"Що люди<br>і справді <em>запитують</em>.",
-    faq1Q:'Це бізнес-план?', faq1A:'Ні. micro.svita — візуальна половина бізнесу: атмосфера, матеріали, ритуал, палітра. Та половина, яку агенції пропускають, а засновник рідко може описати сам. Цифри й терміни тобі однаково знадобляться; ми допомагаємо вирішити, який світ ти будуєш навколо цих цифр.',
-    faq2Q:'А якщо в мене вже є ідея?', faq2A:'Найкращий момент прийти. Гуляй атласом, знайди концепції, що сусідять із твоєю, подивись, як хтось уявив подібний простір. Більшість йде з чіткішою версією тієї ідеї, з якою прийшла.',
-    faq3Q:'У чому різниця між €49 та €149?', faq3A:'€49 (Концепція) — неексклюзивна. Інші теж можуть закохатися в цей світ. €149 (Ексклюзив) — концепцію прибрано з каталогу назавжди. Лише твоя. Вибір не про доступ, а про володіння уявою.',
-    faq4Q:'Це франшиза?', faq4A:'Ні. Ти нічого не береш у нас, окрім самого брендбука. Жодних роялті, часток, брендових ліцензій. Світ — твій: жити в ньому, змінювати, лишати. Ми ніколи не зʼявляємося на твоїй стіні.',
-    faq5Q:'Повернення?', faq5A:'14 днів, без питань, повне повернення — і файл лишається у тебе. Якщо брендбук нічого тобі не показав, він провалився в єдиному завданні, заради якого існує.',
-    faq6Q:'Можна використати в будь-якій країні?', faq6A:'Так. Концепції уявлені для конкретного міста-референсу, але візуальна мова переноситься. Лісабонську квіткову крамницю можна пересадити в Софію чи Бухарест із палітрою недоторканою.',
-    ultimateTag:'Маленьке запрошення.',
-    ultimateH:"Твій наступний<br>бізнес <em>уже</em><br>уявлено.",
-    ultimateBody:"Десь в атласі один із 90 світів — твій. Ти його ще не бачив. €49 — ціна впізнавання, коли побачиш.",
-    ultimateCta:'Увійти в атлас · €49', ultimateMeta:'90 уявлених світів Європою',
-    footer:'micro.svita · LABS67 · 2026 · Бидгощ',
-    fAtlas:'Атлас', fCabinet:'Кабінет', fLegal:'Юридичне', fContact:'Контакт',
-  }
+// ─── reveal-on-scroll ───
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ─── city dictionary ───
+const CITY = {
+  FR:'Paris', IL:'Tel Aviv', CH:'Basel', NL:'Amsterdam', DE:'Berlin', PL:'Warsaw',
+  PT:'Lisbon', IT:'Rome', BG:'Sofia', LB:'Beirut', GB:'Edinburgh', ES:'Madrid',
+  BE:'Brussels', DK:'Copenhagen', GR:'Athens', SI:'Ljubljana', AT:'Vienna', IE:'Dublin',
+  FI:'Helsinki', SE:'Stockholm', HU:'Budapest', EE:'Tallinn', SK:'Bratislava',
+  CZ:'Prague', RO:'Bucharest', IN:'Mumbai', MX:'Oaxaca', TH:'Bangkok', EG:'Cairo',
+  IS:'Reykjavík', NO:'Oslo'
+};
+const CITY_BY_SLUG = {
+  'basel-watch-repair':'Basel','delft-blue-tile-studio':'Delft','porto-tile-studio':'Porto',
+  'milano-gelato-cube':'Milano','milano-design-store':'Milano','sardinia-pasta-lab':'Sardinia',
+  'seville-tapas-nook':'Seville','bordeaux-wine-cave':'Bordeaux','marseille-savon-atelier':'Marseille',
+  'poznan-rogale-co':'Poznań','krakow-obwarzanek-cart':'Kraków','krakow-wodka-buffet':'Kraków','gdansk-amber-atelier':'Gdańsk',
+  'tallinn-rye-bakery':'Tallinn','bruges-beauty-bar':'Bruges','cluj-hair-salon':'Cluj',
+  'sofia-mountain-forage':'Sofia','zurich-fondue-cellar':'Zürich','reykjavik-wool-room':'Reykjavík',
 };
 
-const ORDER = ['EN','PL','RU','UK'];
-const KEY = 'svita_landing_lang';
+// ─── hydrate: signature slider + marquee ───
+const rail  = document.getElementById('rail');
+const count = document.getElementById('sig-count');
+const mar   = document.getElementById('mar');
 
-function applyLang(c){
-  const d = I18N[c] || I18N.EN;
-  document.documentElement.lang = c.toLowerCase();
-  document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.getAttribute('data-i18n'); if(d[k]!=null) el.textContent=d[k]; });
-  document.querySelectorAll('[data-i18n-html]').forEach(el=>{ const k=el.getAttribute('data-i18n-html'); if(d[k]!=null) el.innerHTML=d[k]; });
-  document.getElementById('lang-current').textContent=c;
-  document.querySelectorAll('#lang-menu button').forEach(b=>b.classList.toggle('on',b.dataset.code===c));
-  try{localStorage.setItem(KEY,c);}catch{}
+function verifyImage(url){
+  return new Promise(resolve => {
+    if (!url) return resolve(false);
+    const img = new Image();
+    let done = false;
+    const finish = ok => { if (!done) { done = true; resolve(ok); } };
+    img.onload  = () => finish(img.naturalWidth > 0);
+    img.onerror = () => finish(false);
+    setTimeout(() => finish(false), 8000);
+    img.src = url;
+  });
 }
-function buildMenu(){
-  const m=document.getElementById('lang-menu');
-  m.innerHTML=ORDER.map(c=>`<button type="button" data-code="${c}"><span>${I18N[c]._label}</span><span class="code">${c}</span></button>`).join('');
-  m.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{applyLang(b.dataset.code);document.getElementById('lang').classList.remove('open');}));
+
+async function verifyPdf(url){
+  if (!url) return false;
+  try {
+    const r = await fetch(url, { method: 'HEAD', cache: 'no-store' });
+    return r.ok;
+  } catch { return false; }
 }
-(function(){
-  buildMenu();
-  let stored;try{stored=localStorage.getItem(KEY);}catch{}
-  const det=(navigator.language||'en').slice(0,2).toUpperCase();
-  applyLang(ORDER.includes(stored)?stored:(ORDER.includes(det)?det:'EN'));
-  const w=document.getElementById('lang');
-  document.getElementById('lang-btn').addEventListener('click',e=>{e.stopPropagation();w.classList.toggle('open');});
-  document.addEventListener('click',e=>{if(!e.target.closest('#lang'))w.classList.remove('open');});
-})();
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.14,rootMargin:'0px 0px -50px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+async function hydrate(){
+  try{
+    const r = await fetch('data/catalog.json', { cache: 'no-store' });
+    const data = await r.json();
+
+    const eligible = data.filter(c =>
+      c.has_brandbook === true &&
+      c.brandbook_actualised === true &&
+      typeof c.hero_image === 'string' && c.hero_image.startsWith('presentations/') &&
+      typeof c.brandbook_pdf_url === 'string' && c.brandbook_pdf_url.startsWith('presentations/') &&
+      /^\d+ ·/.test(c.name || '')
+    );
+
+    // shuffle so each visit is fresh
+    for (let i = eligible.length - 1; i > 0; i--) {
+      const j = (Math.random() * (i + 1)) | 0;
+      [eligible[i], eligible[j]] = [eligible[j], eligible[i]];
+    }
+
+    // marquee: all concept short names (deduplicated, pre-verified only)
+    if (mar){
+      const names = eligible.map(c => (c.name || '').replace(/^\d+\s*·\s*/, '').trim()).filter(Boolean);
+      const row = names.map(n => `<span>${n.replace(/</g,'&lt;')} <em>·</em></span>`).join('');
+      mar.innerHTML = row + row; // duplicate for seamless loop
+    }
+
+    // signature rail: 24 verified cards
+    const picks = [];
+    const BATCH = 8;
+    const TARGET = 24;
+    for (let i = 0; i < eligible.length && picks.length < TARGET; i += BATCH){
+      const slice = eligible.slice(i, i + BATCH);
+      const results = await Promise.all(slice.map(async c => {
+        const [hero, pdf] = await Promise.all([
+          verifyImage(c.hero_image),
+          verifyPdf(c.brandbook_pdf_url),
+        ]);
+        return (hero && pdf) ? c : null;
+      }));
+      for (const r of results){ if (r && picks.length < TARGET) picks.push(r); }
+    }
+
+    if (count) count.textContent = `${String(picks.length).padStart(2,'0')} · ${picks.length}`;
+
+    if (!picks.length){
+      rail.innerHTML = '<div style="padding:20px;color:var(--text-3);font-size:12px">no concepts available</div>';
+      return;
+    }
+
+    rail.innerHTML = picks.map(c => {
+      const city = CITY_BY_SLUG[c.slug] || CITY[c.country] || c.country || '';
+      const cat = (c.category || '').replace(/^\w/, m => m.toUpperCase());
+      const meta = [cat, city].filter(Boolean).join(' · ');
+      const name = (c.name || '').replace(/</g,'&lt;');
+      return `
+        <a class="slide" href="/view.html?c=${encodeURIComponent(c.slug)}">
+          <div class="slide-img"><img src="${c.hero_image}" alt="${name}" loading="lazy"></div>
+          <div class="slide-cap">
+            <div class="slide-name">${name}</div>
+            <div class="slide-meta">${meta}</div>
+          </div>
+        </a>`;
+    }).join('');
+  } catch (e) {
+    rail.innerHTML = '<div style="padding:20px;color:var(--text-3);font-size:12px">atlas loading…</div>';
+  }
+}
+hydrate().then(wire);
+
+function wire(){
+  const step = () => (rail.querySelector('.slide')?.offsetWidth || 240) + 18;
+  document.getElementById('prev').addEventListener('click', () => rail.scrollBy({ left:-step(), behavior:'smooth' }));
+  document.getElementById('next').addEventListener('click', () => rail.scrollBy({ left: step(), behavior:'smooth' }));
+
+  let paused = false;
+  rail.addEventListener('pointerenter', () => paused = true);
+  rail.addEventListener('pointerleave', () => paused = false);
+  setInterval(() => {
+    if (paused) return;
+    const max = rail.scrollWidth - rail.clientWidth - 4;
+    if (rail.scrollLeft >= max - 2) rail.scrollTo({ left:0, behavior:'smooth' });
+    else rail.scrollBy({ left: step(), behavior:'smooth' });
+  }, 4500);
+}
 </script>
 
 </body>
