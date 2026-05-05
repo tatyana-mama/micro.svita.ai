@@ -1863,6 +1863,52 @@
     ]
   },
   {
+    "slug": "krakow-wodka-buffet",
+    "name": "105 · WÓDKA",
+    "category": "food",
+    "country": "PL",
+    "size_m2": 16,
+    "price_eur": 49,
+    "budget_eur": 14000,
+    "weeks": 7,
+    "hero_image": "presentations/105-krakow-wodka-buffet/slide-01-cover.png",
+    "tagline": "",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "presentations/105-krakow-wodka-buffet/WODKA_deck.pdf",
+    "catalog_number": 105,
+    "palette": [
+      "#0A0F12",
+      "#38210E",
+      "#62391B",
+      "#E6D2A9",
+      "#8D5B35"
+    ]
+  },
+  {
+    "slug": "paris-chemex-only",
+    "name": "106 · CHEMEX 1",
+    "category": "food",
+    "country": "FR",
+    "size_m2": 8,
+    "price_eur": 49,
+    "budget_eur": 9400,
+    "weeks": 6,
+    "hero_image": "presentations/106-paris-chemex-only%20%5Bgood%5D/slide-01-cover.png",
+    "tagline": "Only Chemex. Only mornings. Four single-origins on rotation.",
+    "has_brandbook": true,
+    "brandbook_actualised": true,
+    "brandbook_pdf_url": "presentations/106-paris-chemex-only%20%5Bgood%5D/CHEMEX-1_deck.pdf",
+    "catalog_number": 106,
+    "palette": [
+      "#BAA483",
+      "#62492D",
+      "#E1D4C1",
+      "#A78C67",
+      "#CEBDA5"
+    ]
+  },
+  {
     "slug": "budapest-piano-tune",
     "name": "107 · HANGOLÁS 22",
     "category": "food",
@@ -2024,49 +2070,26 @@
     ]
   },
   {
-    "slug": "krakow-wodka-buffet",
-    "name": "105 · WÓDKA",
-    "category": "food",
+    "slug": "svyatlitsa-dental",
+    "name": "114 · SVYATLITSA",
+    "category": "service",
     "country": "PL",
-    "size_m2": 16,
+    "size_m2": 220,
     "price_eur": 49,
-    "budget_eur": 14000,
-    "weeks": 7,
-    "hero_image": "presentations/105-krakow-wodka-buffet/slide-01-cover.png",
-    "tagline": "",
+    "budget_eur": 350000,
+    "weeks": 20,
+    "hero_image": "presentations/114-svyatlitsa-dental/slide-01-cover.png",
+    "tagline": "the dentistry you forget you visited.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/105-krakow-wodka-buffet/WODKA_deck.pdf",
-    "catalog_number": 105,
+    "brandbook_pdf_url": "presentations/114-svyatlitsa-dental/SVYATLITSA_deck.pdf",
+    "catalog_number": 114,
     "palette": [
-      "#0A0F12",
-      "#38210E",
-      "#62391B",
-      "#E6D2A9",
-      "#8D5B35"
-    ]
-  },
-  {
-    "slug": "paris-chemex-only",
-    "name": "106 · CHEMEX 1",
-    "category": "food",
-    "country": "FR",
-    "size_m2": 8,
-    "price_eur": 49,
-    "budget_eur": 9400,
-    "weeks": 6,
-    "hero_image": "presentations/106-paris-chemex-only%20%5Bgood%5D/slide-01-cover.png",
-    "tagline": "Only Chemex. Only mornings. Four single-origins on rotation.",
-    "has_brandbook": true,
-    "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/106-paris-chemex-only%20%5Bgood%5D/CHEMEX-1_deck.pdf",
-    "catalog_number": 106,
-    "palette": [
-      "#BAA483",
-      "#62492D",
-      "#E1D4C1",
-      "#A78C67",
-      "#CEBDA5"
+      "#F5EFE6",
+      "#B8C9A7",
+      "#C8A26B",
+      "#6F5B3E",
+      "#2A2A28"
     ]
   }
 ]
