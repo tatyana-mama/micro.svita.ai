@@ -24,7 +24,7 @@ window.SvitaCard = (function(){
     if(isPh(c.hero_image)){
       return '<div class="sc-ph" style="--ph-a:'+pal[0]+';--ph-b:'+pal[1]+'">'+pal[2]+'</div>';
     }
-    return '<div class="sc-img" style="background-image:url(\''+esc(c.hero_image)+'\')"></div>';
+    return '<div class="sc-img"><img src="'+esc(c.hero_image)+'" alt="'+esc(c.name||c.slug||'')+'" loading="lazy" decoding="async"></div>';
   }
 
   function catLabel(cat){ return CAT_LABELS[cat] || cat || '—'; }

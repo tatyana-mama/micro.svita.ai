@@ -36,6 +36,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="theme-color" content="#0A0A0B">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://ctdleobjnzniqkqomlrq.supabase.co" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="js/svita-ui.css">
 <link rel="stylesheet" href="js/svita-app.css">
@@ -1129,16 +1131,25 @@ $('form-signin').addEventListener('submit', async e=>{
 // ═══════════════ OAUTH ═══════════════
 document.querySelectorAll('.oauth-btn').forEach(b=>{
   b.addEventListener('click', async ()=>{
+    if(b.disabled) return;
     const provider = b.dataset.provider;
     const redirectTo = location.origin + '/account.html' + (BUY_INTENT ? '?buy='+BUY_INTENT : '');
     // Mark origin with a cross-subdomain cookie so dashboard.svita.ai can bounce
     // us back if Supabase Site URL fallback kicks in.
     document.cookie = 'oauth_from=micro; domain=.svita.ai; path=/; max-age=600; SameSite=Lax';
+    // Disable all OAuth buttons while one redirect is in flight
+    document.querySelectorAll('.oauth-btn').forEach(x => x.disabled = true);
+    b.dataset.origLabel = b.innerHTML;
+    b.innerHTML = '<span class="spin" style="width:16px;height:16px;border-width:2px"></span> Redirecting…';
     const {error} = await sb.auth.signInWithOAuth({
       provider,
       options: { redirectTo }
     });
-    if(error) msgBox($('si-msg'), error.message, 'err');
+    if(error){
+      msgBox($('si-msg'), error.message, 'err');
+      document.querySelectorAll('.oauth-btn').forEach(x => x.disabled = false);
+      b.innerHTML = b.dataset.origLabel;
+    }
   });
 });
 

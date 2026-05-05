@@ -163,10 +163,40 @@
       <div class="nav-mini">
         ${cartBtn}
       </div>
-      <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
     `;
 
+    injectBurgerOverlay();
     wireEvents();
+  }
+
+  /* Backdrop overlay for mobile drawer — click to close, fade in/out. */
+  function injectBurgerOverlay(){
+    if(document.getElementById('nav-overlay')) return;
+    const o = document.createElement('div');
+    o.id = 'nav-overlay';
+    o.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(o);
+    if(document.getElementById('nav-overlay-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'nav-overlay-styles';
+    style.textContent = `
+      #nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);opacity:0;pointer-events:none;transition:opacity 240ms cubic-bezier(.22,1,.36,1);z-index:98;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+      body.menu-open #nav-overlay{opacity:1;pointer-events:auto}
+      @media(min-width:641px){#nav-overlay{display:none}}
+    `;
+    document.head.appendChild(style);
+  }
+
+  function closeBurger(){
+    document.body.classList.remove('menu-open');
+    const b = document.getElementById('burger');
+    if(b) b.setAttribute('aria-expanded', 'false');
+  }
+  function openBurger(){
+    document.body.classList.add('menu-open');
+    const b = document.getElementById('burger');
+    if(b) b.setAttribute('aria-expanded', 'true');
   }
 
   /* ---------- events ---------- */
@@ -175,8 +205,28 @@
 
     const burger = document.getElementById('burger');
     if(burger){
-      burger.addEventListener('click', ()=> document.body.classList.toggle('menu-open'));
-      nav.querySelectorAll('.nav-right a').forEach(a=>a.addEventListener('click', ()=> document.body.classList.remove('menu-open')));
+      burger.addEventListener('click', ()=>{
+        if(document.body.classList.contains('menu-open')) closeBurger();
+        else openBurger();
+      });
+      nav.querySelectorAll('.nav-right a').forEach(a=>a.addEventListener('click', closeBurger));
+    }
+
+    const overlay = document.getElementById('nav-overlay');
+    if(overlay && !overlay.__wired){
+      overlay.__wired = true;
+      overlay.addEventListener('click', closeBurger);
+    }
+
+    if(!document.__navEscWired){
+      document.__navEscWired = true;
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape'){
+          if(document.body.classList.contains('menu-open')) closeBurger();
+          const um = document.getElementById('user-menu');
+          if(um) um.classList.remove('open');
+        }
+      });
     }
 
     // Language picker removed — site is English-only.
@@ -199,14 +249,22 @@
       });
     }
 
-    document.addEventListener('click', (e)=>{
-      const um = document.getElementById('user-menu');
-      if(um && !e.target.closest('#user-menu')) um.classList.remove('open');
-    }, { once:false });
+    if(!document.__navOutsideWired){
+      document.__navOutsideWired = true;
+      document.addEventListener('click', (e)=>{
+        const um = document.getElementById('user-menu');
+        if(um && !e.target.closest('#user-menu')) um.classList.remove('open');
+      });
+    }
 
     if(!nav.__scrollWired){
       nav.__scrollWired = true;
-      window.addEventListener('scroll', ()=> nav.classList.toggle('scrolled', window.scrollY > 20), { passive:true });
+      let lastScroll = 0;
+      window.addEventListener('scroll', ()=>{
+        const y = window.scrollY;
+        nav.classList.toggle('scrolled', y > 20);
+        lastScroll = y;
+      }, { passive:true });
     }
   }
 

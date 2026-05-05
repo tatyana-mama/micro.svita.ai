@@ -14,7 +14,8 @@
 
 /* media */
 .sc-media{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--bg-2)}
-.sc-img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 1200ms var(--ease)}
+.sc-img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 1200ms var(--ease);overflow:hidden}
+.sc-img > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:opacity 400ms var(--ease)}
 .sc-card:hover .sc-img{transform:scale(1.06)}
 .sc-ph{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;

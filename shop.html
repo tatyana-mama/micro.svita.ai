@@ -46,6 +46,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:image" content="https://micro.svita.ai/assets/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://ctdleobjnzniqkqomlrq.supabase.co" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="js/svita-ui.css">
 <link rel="stylesheet" href="js/svita-app.css">
@@ -98,11 +100,14 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
 .page > .wrap{position:relative;z-index:1}
 .page-head{margin-bottom:32px;max-width:760px}
 .page-head .eyebrow{margin-bottom:24px}
-/* Compact header — matches account.html scale; no giant display type. */
 .page-head h1,
-.page-head h1.display{font-size:20px;font-weight:600;line-height:1.3;letter-spacing:-0.01em;margin-bottom:6px}
+.page-head h1.display{font-family:'Space Grotesk',sans-serif;font-size:clamp(34px,5vw,52px);font-weight:700;line-height:1.02;letter-spacing:-0.035em;margin:8px 0 18px}
 .page-head h1 .accent{color:var(--accent);font-style:italic;font-weight:500}
-.page-head p{font-size:13px;color:var(--text-2);max-width:560px;line-height:1.55;margin:0}
+.page-head p{font-size:15px;color:var(--text-2);max-width:560px;line-height:1.55;margin:0}
+@media(max-width:640px){
+  .page-head h1,.page-head h1.display{font-size:clamp(28px,8vw,40px);margin:6px 0 12px}
+  .page-head p{font-size:13.5px;line-height:1.5}
+}
 
 /* TOOLBAR */
 .toolbar{
@@ -254,10 +259,13 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
   .brand{font-size:14px}
   .brand small{display:none}
   .nav-cta{padding:8px 12px;font-size:11px}
-  .toolbar{top:56px;padding:10px 0;margin-bottom:22px}
+  .toolbar{top:56px;padding:12px 0;margin-bottom:22px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(to right,#000 90%,transparent 100%);-webkit-mask-image:linear-gradient(to right,#000 90%,transparent 100%)}
+  .toolbar::-webkit-scrollbar{display:none}
+  .toolbar-group{flex-wrap:nowrap}
+  .search{min-width:200px;flex-shrink:0}
   .search input{font-size:12px}
-  .chip{padding:7px 12px;font-size:11px}
-  .sel{padding:8px 32px 8px 14px;font-size:11px}
+  .chip{padding:7px 12px;font-size:11px;flex-shrink:0}
+  .sel{padding:8px 32px 8px 14px;font-size:11px;flex-shrink:0}
   .spacer{display:none}
   .cols{display:none}
   .page{padding:80px 0 40px}
@@ -328,6 +336,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="page-head reveal">
       <div class="eyebrow">Concept shop</div>
+      <h1 class="display">Ready-to-launch <span class="accent">concepts</span>.</h1>
+      <p>Each concept ships with a 25-slide brandbook, verified budget, and a 7-week launch plan. Pick one, go from idea to first customer without re-inventing anything.</p>
     </div>
 
     <!-- TOOLBAR -->
@@ -369,36 +379,66 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ================================================= -->
 <!-- Coming Soon — upcoming concepts, waitlist capture -->
 <!-- ================================================= -->
-<section id="coming-soon" style="max-width:1280px;margin:64px auto 40px;padding:0 24px">
-  <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:16px;margin-bottom:28px">
-    <div>
-      <div style="font:600 10px/1.2 Inter,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--text-3,#94a3b8);margin-bottom:8px">· COMING SOON ·</div>
-      <h2 style="font:800 36px/1.05 'Fraunces',serif;letter-spacing:-0.02em;color:var(--text,#0f172a);margin:0">
-        <span id="cs-count">188</span> more concepts in the works.
-      </h2>
-      <p style="font:400 14px/1.55 Inter,sans-serif;color:var(--text-2,#475569);max-width:520px;margin:12px 0 0">
-        We release them as each brandbook ships. Tell us which one excites you — we'll notify you the moment it's live, with a founder-only discount.
-      </p>
+<section id="coming-soon">
+  <div class="wrap">
+    <div class="cs-head">
+      <div class="eyebrow">Coming soon</div>
+      <h2 class="display"><span id="cs-count">188</span> more concepts <span class="accent">in the works</span>.</h2>
+      <p>We release them as each brandbook ships. Tell us which one excites you — we'll notify you the moment it's live, with a founder-only discount.</p>
     </div>
+    <div id="cs-grid" class="cs-grid"></div>
+    <div id="cs-loading" class="cs-loading"><span class="spin"></span></div>
   </div>
-  <div id="cs-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px"></div>
-  <div id="cs-loading" style="padding:40px;text-align:center;color:#64748b;font:400 13px Inter">Loading upcoming concepts…</div>
 </section>
 
 <!-- Waitlist modal -->
-<div id="cs-modal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.72);z-index:9999;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#fff;border-radius:16px;max-width:440px;width:100%;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
-    <button id="cs-close" style="float:right;background:none;border:none;font-size:24px;color:#94a3b8;cursor:pointer;padding:0;line-height:1">×</button>
-    <div id="cs-modal-slug" style="font:600 10px/1 Inter;letter-spacing:.2em;text-transform:uppercase;color:#94a3b8;margin-bottom:8px">—</div>
-    <h3 id="cs-modal-name" style="font:800 24px/1.1 Fraunces,serif;letter-spacing:-0.015em;color:#0f172a;margin:0 0 12px">—</h3>
-    <p style="font:400 14px/1.55 Inter;color:#475569;margin:0 0 20px">Leave your email — we'll tell you the moment this concept's brandbook is live, with a founder-only discount.</p>
-    <form id="cs-form" style="display:flex;flex-direction:column;gap:10px">
-      <input type="email" id="cs-email" placeholder="you@example.com" required style="padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font:400 14px Inter;outline:none">
-      <button type="submit" style="padding:12px;background:#0f172a;color:#fff;border:none;border-radius:10px;font:600 14px Inter;cursor:pointer">Notify me</button>
-      <div id="cs-msg" style="font:400 12px Inter;color:#64748b;min-height:16px"></div>
+<div id="cs-modal" class="cs-modal" role="dialog" aria-modal="true" aria-labelledby="cs-modal-name">
+  <div class="cs-modal-card">
+    <button id="cs-close" aria-label="Close" class="cs-modal-close">×</button>
+    <div id="cs-modal-slug" class="cs-modal-slug">—</div>
+    <h3 id="cs-modal-name" class="cs-modal-name">—</h3>
+    <p class="cs-modal-lead">Leave your email — we'll tell you the moment this concept's brandbook is live, with a founder-only discount.</p>
+    <form id="cs-form" class="cs-modal-form">
+      <input type="email" id="cs-email" placeholder="you@example.com" required>
+      <button type="submit" class="btn btn-primary">Notify me</button>
+      <div id="cs-msg" class="cs-modal-msg"></div>
     </form>
   </div>
 </div>
+
+<style>
+#coming-soon{padding:80px 0 60px;border-top:1px solid var(--line);background:linear-gradient(180deg,var(--bg) 0%,var(--bg-1) 100%)}
+#coming-soon .cs-head{max-width:760px;margin-bottom:36px}
+#coming-soon .cs-head .eyebrow{margin-bottom:18px}
+#coming-soon .cs-head h2,#coming-soon .cs-head h2.display{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,4.4vw,44px);font-weight:700;line-height:1.04;letter-spacing:-0.035em;margin:0 0 14px;color:var(--text)}
+#coming-soon .cs-head h2 .accent{color:var(--accent);font-style:italic;font-weight:500}
+#coming-soon .cs-head p{font-size:14.5px;color:var(--text-2);line-height:1.55;max-width:560px;margin:0}
+.cs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.cs-loading{padding:40px;text-align:center;color:var(--text-3);font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.1em;text-transform:uppercase}
+.cs-modal{display:none;position:fixed;inset:0;background:rgba(10,10,11,0.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:9999;align-items:center;justify-content:center;padding:20px}
+.cs-modal.show{display:flex;animation:csIn 200ms var(--ease)}
+@keyframes csIn{from{opacity:0}to{opacity:1}}
+.cs-modal-card{background:var(--bg-1);border:1px solid var(--line);border-radius:18px;max-width:460px;width:100%;padding:32px;box-shadow:0 24px 72px rgba(0,0,0,0.5);position:relative}
+.cs-modal-close{position:absolute;top:14px;right:14px;background:none;border:none;font-size:26px;color:var(--text-3);cursor:pointer;padding:0;line-height:1;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all 200ms var(--ease)}
+.cs-modal-close:hover{background:var(--bg-2);color:var(--text)}
+.cs-modal-slug{font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;font-weight:600}
+.cs-modal-name{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1.1;color:var(--text);margin:0 0 12px}
+.cs-modal-lead{font-size:14px;color:var(--text-2);line-height:1.55;margin:0 0 20px}
+.cs-modal-form{display:flex;flex-direction:column;gap:10px}
+.cs-modal-form input{padding:14px 16px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:12px;color:var(--text);font-family:inherit;font-size:14px;outline:none;transition:all 200ms var(--ease)}
+.cs-modal-form input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(214,255,62,0.1)}
+.cs-modal-form input::placeholder{color:var(--text-3)}
+.cs-modal-form button{padding:14px;background:var(--accent);color:#0A0A0B;border:none;border-radius:12px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer;transition:all 200ms var(--ease)}
+.cs-modal-form button:hover{background:var(--text);transform:translateY(-1px)}
+.cs-modal-msg{font-family:'JetBrains Mono';font-size:11px;color:var(--text-3);min-height:16px;letter-spacing:0.05em}
+.cs-modal-msg.error{color:#ff6b6b}
+.cs-modal-msg.success{color:var(--accent)}
+@media(max-width:640px){
+  #coming-soon{padding:48px 0 40px}
+  .cs-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+  .cs-modal-card{padding:24px 22px}
+}
+</style>
 
 <script>
 const CAT_PAL = SvitaCard.CAT_PAL;
@@ -545,9 +585,7 @@ if(savedCols){
   document.getElementById('grid').style.setProperty('--cols', savedCols);
 }
 
-/* nav scroll */
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', ()=> nav.classList.toggle('scrolled', window.scrollY > 20), {passive:true});
+/* nav scroll wired centrally by svita-nav.js — no need to duplicate here. */
 
 /* reveal */
 const io = new IntersectionObserver((entries)=>{
@@ -573,17 +611,15 @@ loadCatalog();
   let currentSlug = null;
 
   function cardHTML(c){
-    // Dark-theme card matching .sc-card aesthetic; hero via SvitaCard.visual()
-    // (honors placeholder:* contract). Clickable → waitlist modal (not view.html).
     const vis = SvitaCard.visual(c);
     const meta = [c.category, c.size_m2 ? `${c.size_m2}m²` : ''].filter(Boolean).join(' · ');
-    return `<article class="sc-card" data-slug="${c.slug}" data-name="${(c.name||c.slug).replace(/"/g,'&quot;')}" style="cursor:pointer">
-      <div class="sc-media" style="aspect-ratio:auto;height:160px">${vis}<div class="sc-shade"></div>
-        <div style="position:absolute;top:10px;right:10px;background:rgba(10,10,11,0.72);backdrop-filter:blur(6px);color:var(--text);font:600 9px/1 Inter;letter-spacing:.16em;padding:6px 9px;border-radius:100px;z-index:2;text-transform:uppercase">Coming soon</div>
+    return `<article class="sc-card cs-card" data-slug="${c.slug}" data-name="${(c.name||c.slug).replace(/"/g,'&quot;')}">
+      <div class="sc-media cs-media">${vis}<div class="sc-shade"></div>
+        <div class="cs-badge">Coming soon</div>
       </div>
-      <div style="padding:14px 16px 16px">
-        <div style="font:400 10px/1 Inter;color:var(--text-3);text-transform:uppercase;letter-spacing:.14em;margin-bottom:8px">${meta}</div>
-        <div style="font:600 16px/1.25 Fraunces,serif;color:var(--text);letter-spacing:-0.01em">${c.name || c.slug}</div>
+      <div class="cs-card-body">
+        <div class="cs-card-meta">${meta}</div>
+        <div class="cs-card-name">${c.name || c.slug}</div>
       </div>
     </article>`;
   }
@@ -593,29 +629,33 @@ loadCatalog();
     modalSlug.textContent = slug;
     modalName.textContent = name || slug;
     msgEl.textContent = '';
-    document.getElementById('cs-email').value = '';
-    modal.style.display = 'flex';
+    msgEl.className = 'cs-modal-msg';
+    const ei = document.getElementById('cs-email');
+    ei.value = '';
+    modal.classList.add('show');
+    setTimeout(()=>ei.focus(), 50);
   }
-  function closeModal(){ modal.style.display = 'none'; currentSlug = null; }
+  function closeModal(){ modal.classList.remove('show'); currentSlug = null; }
   document.getElementById('cs-close').addEventListener('click', closeModal);
   modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' && modal.classList.contains('show')) closeModal(); });
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
     if(!currentSlug) return;
     const email = document.getElementById('cs-email').value.trim().toLowerCase();
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ msgEl.textContent = 'Enter a valid email.'; msgEl.style.color='#dc2626'; return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ msgEl.textContent = 'Enter a valid email.'; msgEl.className='cs-modal-msg error'; return; }
     msgEl.textContent = 'Saving…';
-    msgEl.style.color = '#64748b';
+    msgEl.className = 'cs-modal-msg';
     const {error} = await SB.from('waitlist_interest').insert({email, concept_slug: currentSlug});
     if(error && !String(error.message).includes('duplicate')){
       msgEl.textContent = 'Could not save. Try again.';
-      msgEl.style.color = '#dc2626';
+      msgEl.className = 'cs-modal-msg error';
       return;
     }
     try { window.svitaTrack && window.svitaTrack('waitlist_joined', { slug: currentSlug }); } catch(_){}
     msgEl.textContent = '\u2713 Added. We\'ll notify you.';
-    msgEl.style.color = '#059669';
+    msgEl.className = 'cs-modal-msg success';
     setTimeout(closeModal, 1400);
   });
 
