@@ -1865,16 +1865,23 @@ function renderConceptModal(c, accessRows, i18n, brand){
 
       <div class="umodal-section">
         <h3>Brandbook <span style="font-size:10px;color:var(--text-3);font-weight:400;margin-left:8px">protected · RLS by access</span></h3>
-        ${brand && brand.html_content
+        ${c.brandbook_pdf_url
+          ? `<div style="border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--bg-2)">
+              <iframe id="cbrand-frame"
+                src="${escape(c.brandbook_pdf_url.startsWith('http') ? c.brandbook_pdf_url : (location.origin + '/' + c.brandbook_pdf_url))}#toolbar=0&navpanes=0"
+                style="display:block;width:100%;height:560px;border:0;background:#1a1a1f"></iframe>
+            </div>
+            <div style="font-size:10px;color:var(--text-3);margin-top:6px">PDF deck · <a href="${escape(c.brandbook_pdf_url.startsWith('http') ? c.brandbook_pdf_url : (location.origin + '/' + c.brandbook_pdf_url))}" target="_blank" style="color:var(--accent)">open in new tab</a></div>`
+          : (brand && brand.html_content
           ? `<div style="border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--bg-2)">
               <iframe id="cbrand-frame" sandbox="allow-same-origin"
                 style="display:block;width:100%;height:560px;border:0;background:#fff"></iframe>
             </div>
-            <div style="font-size:10px;color:var(--text-3);margin-top:6px">updated ${fmt(brand.updated_at)} · ${(brand.html_content.length/1024).toFixed(0)} KB</div>`
+            <div style="font-size:10px;color:var(--text-3);margin-top:6px">legacy HTML · updated ${fmt(brand.updated_at)} · ${(brand.html_content.length/1024).toFixed(0)} KB</div>`
           : `<div style="padding:32px;text-align:center;color:var(--text-3);font-size:13px;border:1px dashed var(--line);border-radius:var(--radius);background:var(--bg-2)">
               📖 Brandbook пока нет
               <div style="font-size:11px;margin-top:6px;color:var(--text-3);opacity:0.7">Not yet uploaded for this concept</div>
-            </div>`
+            </div>`)
         }
         ${MY_ROLE==='superadmin'?`
         <div style="margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
