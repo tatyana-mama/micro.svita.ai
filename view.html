@@ -1460,11 +1460,18 @@ function mountMobileSlideReader(c, frame){
 }
 
 // Cached promise for presentations/manifest.json so we fetch once per page load.
+// Note: keys starting with `_` (e.g. `_meta`) are reserved metadata — strip on load
+// so any future slug-iterator never trips on them.
 let __manifestPromise = null;
 function loadPresentationManifest(){
   if (__manifestPromise) return __manifestPromise;
   __manifestPromise = fetch('presentations/manifest.json', { cache: 'no-cache' })
     .then(r => r.ok ? r.json() : {})
+    .then(obj => {
+      const out = {};
+      for (const k in obj) if (!k.startsWith('_')) out[k] = obj[k];
+      return out;
+    })
     .catch(() => ({}));
   return __manifestPromise;
 }

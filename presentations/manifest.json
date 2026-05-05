@@ -1,4 +1,15 @@
 {
+  "_meta": {
+    "format": "16:9",
+    "aspect_ratio": "16:9",
+    "orientation": "landscape",
+    "slides": 25,
+    "page_mark": "NN / 25 top-right",
+    "render_engine": "nano-banana PRO",
+    "deliverable": "PDF + 25 PNG slides",
+    "rule": "ALL presentations MUST be 16:9 landscape. No exceptions. Set via mcp__nano-banana__set_aspect_ratio(aspect_ratio=\"16:9\") before any image generation. Verify before PDF assembly. Source: presentations/_SOP.md.",
+    "consumers_note": "Keys prefixed with underscore (e.g. `_meta`) are reserved for manifest metadata. Slug→PDF iterators must filter `key.startsWith('_')`."
+  },
   "ljubljana-sleep-lab": {
     "name": "01 · SEN LAB",
     "pdf": "presentations/01-ljubljana-sleep-lab/SEN-LAB_deck.pdf"

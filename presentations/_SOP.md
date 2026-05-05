@@ -5,8 +5,28 @@
 **Источники правды:**
 - `presentations/_HOW_TO_ORDER.md` — триггеры и форматы ввода
 - `presentations/_MASTER_PROMPT.md` — 25 слайдов × спека
-- `presentations/manifest.json` — slug → путь к PDF
+- `presentations/manifest.json` — slug → путь к PDF (поле `_meta` — глобальные правила формата)
 - `presentations/_SOP.md` — **этот файл**
+
+---
+
+## 🔒 НЕРУШИМЫЙ ИНВАРИАНТ — ФОРМАТ
+
+**ВСЕ презентации = 16:9 landscape. БЕЗ ИСКЛЮЧЕНИЙ.**
+
+- Aspect ratio: `16:9` (1.778:1)
+- Orientation: landscape
+- Source resolution: 1920×1080 (или прямо пропорциональное)
+- Слайдов: 25 ровно
+- Page-mark: `NN / 25` top-right на каждом слайде
+- Render: `mcp__nano-banana__set_aspect_ratio(aspect_ratio="16:9", conversation_id="<slug>")` **до** первого `gemini_generate_image`
+- PDF собирается из 25 PNG в этом же соотношении — никакого ресайза, никакого 4:3, никакого square
+
+Если хоть один слайд вышел не 16:9 — пересобрать. Это правило зашито в:
+- `presentations/manifest.json` → `_meta.format: "16:9"`
+- `presentations/_MASTER_PROMPT.md` → секция Aspect ratio
+- `presentations/_SESSION_PROMPT.md` → шапка
+- `~/labs67/micro.svita.ai/CLAUDE.md` → ключевые инварианты
 
 ---
 

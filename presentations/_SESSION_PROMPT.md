@@ -4,6 +4,13 @@
 
 ---
 
+## 🔒 НЕРУШИМОЕ — ФОРМАТ ВСЕХ ПРЕЗЕНТАЦИЙ
+
+**16:9 landscape. 25 слайдов. Page-mark `NN / 25` top-right.**
+Перед первой генерацией: `mcp__nano-banana__set_aspect_ratio(aspect_ratio="16:9", conversation_id="<slug>")`. Это правило зафиксировано в `presentations/manifest.json` → `_meta` и `_SOP.md` → § Нерушимый инвариант.
+
+---
+
 ## 🚀 БЫСТРЫЙ СТАРТ НОВОЙ СЕССИИ
 
 Вариант 1 — **короткая команда** (достаточно, если сессия открыта в `~/labs67/micro.svita.ai/`):

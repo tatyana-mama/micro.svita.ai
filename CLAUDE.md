@@ -32,6 +32,7 @@ python3 scripts/concept_dice.py <slug> --category <cat> --country <ISO> --nn <NN
 
 - **КАТАЛОГ = ИСТОЧНИК ПРАВДЫ:** Slug'и только из `presentations/_CATALOG.md` (242 концепции). Если в запросе slug, которого там нет — запросить у господина подтверждение или полный YAML-бриф. **НЕ ПРИДУМЫВАТЬ концепции самостоятельно.**
 - **NUMBERING RULE:** название концепции **ВСЕГДА** идёт как `NN · <BRAND>` (пример: `01 · SEN LAB`, `07 · ZAPIEX`). Применяется на slide-01 / 02 / 14 / 25, в `manifest.json.name`, в `concepts_catalog.name`, в `shop.html` / `view.html` карточках, в Obsidian логе. Без исключений.
+- **Формат: 16:9 landscape ВСЕГДА.** Без исключений. Никакого 4:3, square, портрета. Aspect устанавливается через `mcp__nano-banana__set_aspect_ratio(aspect_ratio="16:9")` ДО первой генерации. Зафиксировано в `presentations/manifest.json._meta` и `presentations/_SOP.md` § Нерушимый инвариант.
 - **Модель:** nano-banana **PRO** (не flash), 16:9, page-mark `NN / 25` top-right.
 - **Tier:** только 2 — `Concept €49` / `Exclusive €149`. Никаких €490, €2000, AI/Premium.
 - **25 слайдов** ровно — не 13, не 8, не 24.
