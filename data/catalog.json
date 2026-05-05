@@ -1504,17 +1504,17 @@
     "budget_eur": 14000,
     "weeks": 7,
     "hero_image": "presentations/86-zurich-fondue-cellar/slide-01-cover.png",
-    "tagline": "",
+    "tagline": "one caquelon, twelve hands.",
     "has_brandbook": true,
     "brandbook_actualised": true,
     "brandbook_pdf_url": "presentations/86-zurich-fondue-cellar/CHAESTLI_deck.pdf",
     "catalog_number": 86,
     "palette": [
-      "#F3F0E9",
-      "#20140B",
-      "#623315",
-      "#B15B1E",
-      "#856D5B"
+      "#A89E88",
+      "#BBA988",
+      "#D4C4A8",
+      "#2F4F3A",
+      "#3E2A1D"
     ]
   },
   {

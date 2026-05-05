@@ -1,0 +1,24 @@
+{
+  "slug": "zurich-fondue-cellar",
+  "category": "food",
+  "country": "CH",
+  "variant": 2,
+  "region": "Alpine",
+  "archetype": "Village Elder",
+  "hero_hue": "#A89E88",
+  "palette": [
+    "#A89E88",
+    "#BBA988",
+    "#D4C4A8",
+    "#2F4F3A",
+    "#3E2A1D"
+  ],
+  "mood": "night-lit",
+  "light": "candlelit",
+  "composition": "diagonal",
+  "texture": "glass",
+  "human": "full-body",
+  "season": "spring",
+  "time_of_day": "afternoon",
+  "collision_score": 1
+}
