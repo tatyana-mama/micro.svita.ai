@@ -74,6 +74,15 @@
       @media(min-width:641px){
         .nav-mini{margin-left:20px}
       }
+      /* svita-app.css hides nav-right children at <=720px (display:none).
+         When the burger drawer opens we must restore them. */
+      @media(max-width:720px){
+        body.menu-open nav .nav-right > a,
+        body.menu-open nav .nav-right > a.nav-cta,
+        body.menu-open nav .nav-right > .lang-switcher,
+        body.menu-open nav .nav-right > .user-menu,
+        body.menu-open nav .nav-right > .cart-btn{display:block!important}
+      }
       @media(max-width:640px){
         nav{gap:8px}
         .nav-mini{order:2;margin-left:auto;margin-right:6px;z-index:102;position:relative}
