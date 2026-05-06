@@ -1,0 +1,24 @@
+{
+  "slug": "berlin-vintage-shop",
+  "category": "retail",
+  "country": "DE",
+  "variant": 2,
+  "region": "Alpine",
+  "archetype": "Modern Alchemist",
+  "hero_hue": "#D4C4A8",
+  "palette": [
+    "#D4C4A8",
+    "#1F2A22",
+    "#3E2A1D",
+    "#8B7E6B",
+    "#BBA988"
+  ],
+  "mood": "cool-crisp",
+  "light": "overhead",
+  "composition": "rule-of-thirds",
+  "texture": "metal",
+  "human": "portrait",
+  "season": "winter",
+  "time_of_day": "dawn",
+  "collision_score": 1
+}

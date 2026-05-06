@@ -36,3 +36,4 @@
 | 2026-04-22 | 22 | rome-camera-repair | Mediterranean | Quiet Master | `#1F2E28` | sun-faded | candlelit | rule-of-thirds | stone | macro-hand |
 | 2026-04-22 | 26 | sofia-eco-store | Mediterranean | Village Elder | `#E8C79F` | cool-crisp | backlit | centered-void | ceramic | full-body |
 | 2026-05-05 | 86 | zurich-fondue-cellar | Alpine | Village Elder | `#A89E88` | night-lit | candlelit | diagonal | glass | full-body |
+| 2026-05-06 | 38 | berlin-vintage-shop | Alpine | Modern Alchemist | `#D4C4A8` | cool-crisp | overhead | rule-of-thirds | metal | portrait |

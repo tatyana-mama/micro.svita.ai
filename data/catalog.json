@@ -829,25 +829,25 @@
   },
   {
     "slug": "berlin-vintage-shop",
-    "name": "38 · ARCHIV 90",
+    "name": "38 · KAMMER",
     "category": "retail",
     "country": "DE",
     "size_m2": 32,
     "price_eur": 49,
-    "budget_eur": 14800,
+    "budget_eur": 14000,
     "weeks": 8,
     "hero_image": "presentations/38-berlin-vintage-shop/slide-01-cover.png",
-    "tagline": "Curated Y2K vintage with Berlin street energy",
+    "tagline": "preserved, not restored.",
     "has_brandbook": true,
     "brandbook_actualised": true,
-    "brandbook_pdf_url": "presentations/38-berlin-vintage-shop/ARCHIV-90_deck.pdf",
+    "brandbook_pdf_url": "presentations/38-berlin-vintage-shop/KAMMER_deck.pdf",
     "catalog_number": 38,
     "palette": [
-      "#F3F0E9",
-      "#89807B",
-      "#5E524B",
-      "#1C1A1A",
-      "#C3B4A6"
+      "#D4C4A8",
+      "#1F2A22",
+      "#3E2A1D",
+      "#8B7E6B",
+      "#BBA988"
     ]
   },
   {
