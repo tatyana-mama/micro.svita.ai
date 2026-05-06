@@ -1,0 +1,67 @@
+name: Deploy site to Pages (slim)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Stage slim site
+        run: |
+          mkdir -p _site
+          rsync -a \
+            --exclude='_site' \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='node_modules' \
+            --exclude='presentations' \
+            --exclude='data' \
+            --exclude='concepts' \
+            --exclude='brand/logo-r1' \
+            --exclude='_backups' \
+            --exclude='twitter' \
+            --exclude='supabase' \
+            --exclude='bin' \
+            --exclude='docs' \
+            --exclude='fonts' \
+            --exclude='*.md' \
+            --exclude='*.zip' \
+            --exclude='*.tgz' \
+            --exclude='*.log' \
+            --exclude='package*.json' \
+            --exclude='capacitor.config.json' \
+            ./ _site/
+          echo "::group::Slim site listing"
+          ls -la _site
+          echo "::endgroup::"
+          echo "Slim site size:"
+          du -sh _site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
