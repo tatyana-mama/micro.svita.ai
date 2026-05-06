@@ -382,6 +382,51 @@ window.I18N = {
     be: 'Адкрыць краму'
   },
 
+  // ========== SHOP page strings ==========
+  shop_eyebrow: { en:'Concept shop', ru:'Магазин концепций', pl:'Sklep koncepcji', uk:'Магазин концепцій', be:'Крама канцэпцый' },
+  shop_h1_a: { en:'Ready-to-launch ', ru:'Готовые к запуску ', pl:'Gotowe do startu ', uk:'Готові до старту ', be:'Гатовыя да старту ' },
+  shop_h1_b: { en:'concepts.', ru:'концепции.', pl:'koncepcje.', uk:'концепції.', be:'канцэпцыі.' },
+  shop_lead: {
+    en:'Each concept ships with a 25-slide brandbook, verified budget, and a 7-week launch plan. Pick one, go from idea to first customer without re-inventing anything.',
+    ru:'Каждая концепция содержит 25-слайдовый брендбук, проверенный бюджет и 7-недельный план запуска. Выберите одну — от идеи до первого клиента без изобретения велосипеда.',
+    pl:'Każda koncepcja zawiera 25-slajdowy brandbook, zweryfikowany budżet i 7-tygodniowy plan startu. Wybierz jedną — od pomysłu do pierwszego klienta bez wymyślania koła na nowo.',
+    uk:'Кожна концепція містить 25-слайдовий брендбук, перевірений бюджет і 7-тижневий план запуску. Обери одну — від ідеї до першого клієнта без винайдення колеса.',
+    be:'Кожная канцэпцыя ўтрымлівае 25-слайдавы брэндбук, правераны бюджэт і 7-тыднёвы план запуску. Абяры адну — ад ідэі да першага кліента без вынаходжання кола.'
+  },
+  shop_chip_all: { en:'All', ru:'Все', pl:'Wszystkie', uk:'Усі', be:'Усе' },
+  shop_search_ph: { en:'Search concepts…', ru:'Поиск концепций…', pl:'Szukaj koncepcji…', uk:'Пошук концепцій…', be:'Пошук канцэпцый…' },
+  shop_sort_price: { en:'Price', ru:'Цена', pl:'Cena', uk:'Ціна', be:'Цана' },
+  shop_sort_budget: { en:'Budget', ru:'Бюджет', pl:'Budżet', uk:'Бюджет', be:'Бюджэт' },
+  shop_load_more: { en:'Load more', ru:'Показать ещё', pl:'Pokaż więcej', uk:'Показати ще', be:'Паказаць яшчэ' },
+  shop_empty: { en:'No concepts match your filters.', ru:'Нет концепций по выбранным фильтрам.', pl:'Brak koncepcji pasujących do filtrów.', uk:'Немає концепцій за обраними фільтрами.', be:'Няма канцэпцый па абраных фільтрах.' },
+  cs_eyebrow: { en:'Coming soon', ru:'Скоро', pl:'Wkrótce', uk:'Незабаром', be:'Хутка' },
+  cs_h_a: { en:' more concepts ', ru:' ещё концепций ', pl:' więcej koncepcji ', uk:' ще концепцій ', be:' яшчэ канцэпцый ' },
+  cs_h_b: { en:'in the works.', ru:'в работе.', pl:'w przygotowaniu.', uk:'у роботі.', be:'у працы.' },
+  cs_lead: {
+    en:"We release them as each brandbook ships. Tell us which one excites you — we'll notify you the moment it's live, with a founder-only discount.",
+    ru:'Мы выпускаем их по мере готовности брендбуков. Скажи, какая зацепила — пришлём, когда выйдет, со скидкой для основателей.',
+    pl:'Wypuszczamy je w miarę gotowości brandbooków. Powiedz, która Cię zainteresowała — wyślemy alert, gdy wyjdzie, ze zniżką dla founderów.',
+    uk:'Ми випускаємо їх по мірі готовності брендбуків. Скажи, яка зацікавила — пришлемо, коли вийде, зі знижкою для засновників.',
+    be:'Мы выпускаем іх па меры гатоўнасці брэндбукаў. Скажы, якая зацікавіла — прышлем, калі выйдзе, са скідкай для заснавальнікаў.'
+  },
+  cs_modal_lead: {
+    en: "Leave your email — we'll tell you the moment this concept's brandbook is live, with a founder-only discount.",
+    ru: 'Оставь email — сообщим, как только брендбук этой концепции выйдет, со скидкой для основателей.',
+    pl: 'Zostaw e-mail — damy znać, gdy brandbook tej koncepcji będzie gotowy, ze zniżką dla founderów.',
+    uk: 'Залиш email — повідомимо, щойно брендбук цієї концепції вийде, зі знижкою для засновників.',
+    be: 'Пакінь email — паведамім, як толькі брэндбук гэтай канцэпцыі выйдзе, са скідкай для заснавальнікаў.'
+  },
+  cs_email_ph: { en:'you@example.com', ru:'you@example.com', pl:'you@example.com', uk:'you@example.com', be:'you@example.com' },
+  cs_notify: { en:'Notify me', ru:'Сообщить мне', pl:'Powiadom mnie', uk:'Сповістити', be:'Паведаміць' },
+
+  // ========== HERO PRE-FILTER (one-line concierge above grid) ==========
+  pf_label: { en:'Help me find', ru:'Помоги найти', pl:'Pomóż znaleźć', uk:'Допоможи знайти', be:'Дапамажы знайсці' },
+  pf_any_cat: { en:'any category', ru:'любая категория', pl:'dowolna kategoria', uk:'будь-яка категорія', be:'любая катэгорыя' },
+  pf_any_country: { en:'any country', ru:'любая страна', pl:'dowolny kraj', uk:'будь-яка країна', be:'любая краіна' },
+  pf_any_budget: { en:'any budget', ru:'любой бюджет', pl:'dowolny budżet', uk:'будь-який бюджет', be:'любы бюджэт' },
+  pf_show: { en:'Show matches', ru:'Показать', pl:'Pokaż', uk:'Показати', be:'Паказаць' },
+  pf_ai: { en:'Ask AI →', ru:'Спросить AI →', pl:'Zapytaj AI →', uk:'Запитати AI →', be:'Спытаць AI →' },
+
   // ========== AI shop advisor (sidebar + CTA banner) ==========
   advisor_cta_title: {
     en: 'Hard to choose your future business?',

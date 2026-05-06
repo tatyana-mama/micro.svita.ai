@@ -140,6 +140,75 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
 .spacer{flex:1}
 .count{font-family:'JetBrains Mono';font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:0.1em}
 
+/* HERO PRE-FILTER (one-line concierge form above the catalog) */
+.prefilter{
+  margin:0 0 28px;padding:18px 22px;border-radius:18px;
+  background:linear-gradient(135deg,rgba(255,255,255,0.025) 0%, rgba(214,255,62,0.04) 100%);
+  border:1px solid var(--line);
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.prefilter .pf-label{
+  font:500 11px 'JetBrains Mono',monospace;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--text-3);flex:0 0 auto;
+}
+.prefilter select{
+  appearance:none;-webkit-appearance:none;
+  padding:10px 36px 10px 14px;border-radius:10px;
+  background:var(--bg-1) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none' stroke='%23A1A1AA' stroke-width='1.5'><path d='M1 1l4 4 4-4'/></svg>") right 14px center/10px no-repeat;
+  border:1px solid var(--line);color:var(--text);font:500 13px 'Inter',system-ui,sans-serif;
+  cursor:pointer;transition:border-color 200ms var(--ease);min-width:160px;
+}
+.prefilter select:hover{border-color:var(--line-2)}
+.prefilter select:focus{outline:none;border-color:var(--accent)}
+.prefilter .pf-spacer{flex:1}
+.prefilter button{
+  padding:10px 18px;border-radius:100px;font:600 12.5px 'JetBrains Mono',monospace;
+  letter-spacing:0.04em;cursor:pointer;transition:all 200ms var(--ease);white-space:nowrap;
+}
+.prefilter .pf-show{background:var(--accent);color:#0A0A0B;border:0}
+.prefilter .pf-show:hover{transform:translateY(-1px);box-shadow:0 12px 24px rgba(214,255,62,0.25)}
+.prefilter .pf-ai{background:transparent;border:1px solid rgba(214,255,62,0.4);color:var(--accent)}
+.prefilter .pf-ai:hover{background:rgba(214,255,62,0.08)}
+@media(max-width:640px){
+  .prefilter{flex-direction:column;align-items:stretch;padding:16px}
+  .prefilter select,.prefilter button{width:100%}
+}
+
+/* SOLD-OUT ribbon overlay on archived cards (works on top of existing sc-card markup) */
+.sc-card-archived{position:relative}
+.sc-card-archived::after{
+  content:'SOLD · EXCLUSIVE OWNER';position:absolute;top:18px;right:-30px;
+  background:#CF101A;color:#fff;font:700 9.5px 'JetBrains Mono',monospace;
+  letter-spacing:0.18em;padding:5px 36px;transform:rotate(28deg);z-index:3;
+  box-shadow:0 6px 18px rgba(207,16,26,0.35);pointer-events:none;
+}
+
+/* Budget mini-tag inside .sc-meta strip — added by post-render JS */
+.sc-budget-tag{
+  display:inline-flex;align-items:center;gap:4px;
+  font:500 11px 'JetBrains Mono',monospace;letter-spacing:0.04em;
+  color:var(--accent-dim) !important;
+  padding:0 !important;
+  background:none !important;
+}
+.sc-budget-tag::before{content:'≈';opacity:0.7}
+
+/* SKELETON loader cards (replaces the spinner while catalog loads) */
+.skel-grid{display:grid;grid-template-columns:repeat(var(--cols,4),1fr);gap:16px}
+.skel-card{
+  border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--bg-1);
+  display:flex;flex-direction:column;
+}
+.skel-card .sk-media{aspect-ratio:4/3;background:linear-gradient(90deg,#15151a 0%,#1c1c22 50%,#15151a 100%);background-size:200% 100%;animation:skShimmer 1.4s linear infinite}
+.skel-card .sk-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px}
+.skel-card .sk-line{height:11px;border-radius:6px;background:linear-gradient(90deg,#15151a 0%,#1c1c22 50%,#15151a 100%);background-size:200% 100%;animation:skShimmer 1.4s linear infinite}
+.skel-card .sk-line.sk-w70{width:70%}
+.skel-card .sk-line.sk-w55{width:55%}
+.skel-card .sk-line.sk-w40{width:40%;height:14px}
+@keyframes skShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@media(max-width:920px){.skel-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.skel-grid{grid-template-columns:repeat(2,1fr)}}
+
 /* COL SWITCHER */
 .cols{display:inline-flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:100px;background:var(--bg-1)}
 .col-btn{
@@ -345,6 +414,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p data-i18n="shop_lead">Each concept ships with a 25-slide brandbook, verified budget, and a 7-week launch plan. Pick one, go from idea to first customer without re-inventing anything.</p>
     </div>
 
+    <!-- HERO PRE-FILTER — narrows the catalog or routes to AI assistant -->
+    <div class="prefilter reveal">
+      <span class="pf-label" data-i18n="pf_label">Help me find</span>
+      <select id="pf-cat" aria-label="Category">
+        <option value="" data-i18n="pf_any_cat">any category</option>
+      </select>
+      <select id="pf-country" aria-label="Country">
+        <option value="" data-i18n="pf_any_country">any country</option>
+      </select>
+      <select id="pf-budget" aria-label="Open-budget cap">
+        <option value="" data-i18n="pf_any_budget">any budget</option>
+        <option value="20000">≤ €20k</option>
+        <option value="50000">≤ €50k</option>
+        <option value="100000">≤ €100k</option>
+        <option value="250000">≤ €250k</option>
+      </select>
+      <span class="pf-spacer"></span>
+      <button type="button" class="pf-show" id="pf-show" data-i18n="pf_show">Show matches</button>
+      <button type="button" class="pf-ai" id="pf-ai" data-i18n="pf_ai">Ask AI →</button>
+    </div>
+
     <!-- TOOLBAR -->
     <div class="toolbar reveal">
       <div class="toolbar-group" id="cat-chips">
@@ -371,7 +461,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="count" id="count">— concepts</div>
     </div>
 
-    <div id="loading" class="loader"><span class="spin"></span></div>
+    <!-- Skeleton placeholders while the catalog query is in flight. JS removes them. -->
+    <div id="loading" class="skel-grid" style="--cols:4"></div>
     <div id="grid" class="grid hidden" style="--cols:4"></div>
     <div id="empty" class="empty-msg hidden" data-i18n="shop_empty">No concepts match your filters.</div>
     <div class="load-more-wrap hidden" id="more-wrap">
@@ -464,7 +555,41 @@ const CAT_LABELS = SvitaCard.CAT_LABELS;
 let ALL = [];
 let VIEW = [];
 let OWNED = new Set();
-const STATE = {cat:'all', sort:'popular', q:'', page:0, per:24};
+const STATE = {cat:'all', sort:'popular', q:'', country:'', budgetMax:0, page:0, per:24};
+
+/* Read STATE from ?cat=&q=&country=&budget= so the URL is shareable. */
+function readURLState(){
+  const u = new URLSearchParams(location.search);
+  if(u.has('cat')) STATE.cat = u.get('cat') || 'all';
+  if(u.has('q')) STATE.q = u.get('q') || '';
+  if(u.has('country')) STATE.country = u.get('country') || '';
+  if(u.has('budget')) STATE.budgetMax = parseInt(u.get('budget'),10) || 0;
+  if(u.has('sort')) STATE.sort = u.get('sort') || 'popular';
+}
+/* Reflect STATE back into the URL without reloading the page. */
+function writeURLState(){
+  const u = new URLSearchParams();
+  if(STATE.cat && STATE.cat !== 'all') u.set('cat', STATE.cat);
+  if(STATE.q) u.set('q', STATE.q);
+  if(STATE.country) u.set('country', STATE.country);
+  if(STATE.budgetMax) u.set('budget', String(STATE.budgetMax));
+  if(STATE.sort && STATE.sort !== 'popular') u.set('sort', STATE.sort);
+  const qs = u.toString();
+  history.replaceState(null, '', location.pathname + (qs ? '?'+qs : '') + location.hash);
+}
+readURLState();
+
+/* Render 12 skeleton cards while the real data loads. Removed in loadCatalog(). */
+function renderSkeletons(){
+  const skel = document.getElementById('loading');
+  if(!skel) return;
+  skel.innerHTML = Array.from({length:12}, () =>
+    '<div class="skel-card"><div class="sk-media"></div>'
+    +'<div class="sk-body"><div class="sk-line sk-w55"></div>'
+    +'<div class="sk-line sk-w70"></div><div class="sk-line sk-w40"></div></div></div>'
+  ).join('');
+}
+renderSkeletons();
 
 const SB_URL='https://ctdleobjnzniqkqomlrq.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
@@ -503,9 +628,76 @@ async function loadCatalog(){
   }
   await loadOwnedSlugs();
   buildFilters();
+  buildPreFilter();
+  syncToolbarFromState();
   applyAll();
   document.getElementById('loading').classList.add('hidden');
   document.getElementById('grid').classList.remove('hidden');
+}
+
+/* Populate pre-filter selects from the actual catalog so we never offer empty
+   categories or countries. Also wires the Show / Ask AI buttons. */
+function buildPreFilter(){
+  const cats = [...new Set(ALL.map(c => c.category).filter(Boolean))].sort();
+  const countries = [...new Set(ALL.map(c => c.country).filter(Boolean))].sort();
+  const cs = document.getElementById('pf-cat');
+  const cn = document.getElementById('pf-country');
+  cats.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = (CAT_LABELS[c] || c);
+    cs.appendChild(o);
+  });
+  countries.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = c;
+    cn.appendChild(o);
+  });
+  /* Reflect URL state into the pre-filter on first paint. */
+  if(STATE.cat && STATE.cat !== 'all') cs.value = STATE.cat;
+  if(STATE.country) cn.value = STATE.country;
+  if(STATE.budgetMax) document.getElementById('pf-budget').value = String(STATE.budgetMax);
+
+  document.getElementById('pf-show').addEventListener('click', () => {
+    STATE.cat = cs.value || 'all';
+    STATE.country = cn.value || '';
+    STATE.budgetMax = parseInt(document.getElementById('pf-budget').value, 10) || 0;
+    STATE.page = 0;
+    syncToolbarFromState();
+    applyAll();
+    document.getElementById('grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  document.getElementById('pf-ai').addEventListener('click', () => {
+    const cat = cs.value;
+    const country = cn.value;
+    const budget = document.getElementById('pf-budget').value;
+    const parts = [];
+    if(budget) parts.push('budget up to €' + parseInt(budget,10).toLocaleString('en-US'));
+    if(country) parts.push('in ' + country);
+    if(cat) parts.push((CAT_LABELS[cat] || cat).toLowerCase());
+    const prompt = parts.length
+      ? 'Recommend 1–2 concepts: ' + parts.join(', ') + '. Why these?'
+      : 'Help me pick a concept — what should I tell you to narrow it down?';
+    const advisor = document.getElementById('advisor-input');
+    const launch = document.getElementById('advisor-launch');
+    if(advisor && launch){
+      launch.click();
+      setTimeout(() => {
+        advisor.value = prompt;
+        advisor.dispatchEvent(new Event('input'));
+        document.getElementById('advisor-form').requestSubmit();
+      }, 80);
+    }
+  });
+}
+
+/* Reflect STATE.cat into the toolbar chip group (so URL/pre-filter changes show up). */
+function syncToolbarFromState(){
+  document.querySelectorAll('#cat-chips .chip').forEach(chip => {
+    chip.classList.toggle('on', chip.dataset.cat === STATE.cat);
+  });
+  const q = document.getElementById('q');
+  if(q && q.value !== STATE.q) q.value = STATE.q;
 }
 
 function buildFilters(){
@@ -533,6 +725,8 @@ function buildFilters(){
 function applyAll(){
   VIEW = ALL.filter(c=>{
     if(STATE.cat !== 'all' && c.category !== STATE.cat) return false;
+    if(STATE.country && c.country !== STATE.country) return false;
+    if(STATE.budgetMax && (!c.budget_eur || c.budget_eur > STATE.budgetMax)) return false;
     if(STATE.q){
       const q = STATE.q.toLowerCase();
       if(!(c.name.toLowerCase().includes(q) || (c.tagline||'').toLowerCase().includes(q))) return false;
@@ -558,6 +752,25 @@ function render(){
   document.getElementById('count').textContent = VIEW.length ? (VIEW.length+' concepts · showing '+shown.length) : '0 concepts';
   document.getElementById('empty').classList.toggle('hidden', VIEW.length>0);
   document.getElementById('more-wrap').classList.toggle('hidden', shown.length >= VIEW.length);
+  injectBudgetTags(grid, shown);
+  writeURLState();
+}
+
+/* Append a "≈ €Xk open" tag inside each card's .sc-meta strip so visitors see the
+   open-business budget at a glance. Idempotent — re-runs on every render(). */
+function injectBudgetTags(grid, items){
+  Array.from(grid.children).forEach((card, i) => {
+    const c = items[i];
+    if(!c || !c.budget_eur) return;
+    const meta = card.querySelector('.sc-meta');
+    if(!meta || meta.querySelector('.sc-budget-tag')) return;
+    const k = Math.round(c.budget_eur / 1000);
+    const tag = document.createElement('span');
+    tag.className = 'sc-budget-tag';
+    tag.title = 'Approximate open-business budget';
+    tag.textContent = '€' + k + 'k open';
+    meta.appendChild(tag);
+  });
 }
 
 function cardHTML(c){
