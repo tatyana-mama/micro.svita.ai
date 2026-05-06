@@ -211,8 +211,8 @@
     nav.innerHTML = `
       <a href="index.html" class="brand" aria-label="micro.svita home">
         <img class="brand-logo"
-             src="/assets/logo/wordmark-dark-132w.png"
-             srcset="/assets/logo/wordmark-dark-132w.png 1x, /assets/logo/wordmark-dark.png 2x"
+             src="https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/assets/logo/wordmark-dark-132w.png"
+             srcset="https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/assets/logo/wordmark-dark-132w.png 1x, https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/assets/logo/wordmark-dark.png 2x"
              alt="micro.svita"
              width="132" height="56" decoding="async">
       </a>
