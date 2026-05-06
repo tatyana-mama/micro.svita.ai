@@ -1,5 +1,5 @@
 /* SVITA service worker — minimal offline shell + stale-while-revalidate for catalog */
-const VERSION = 'svita-v16-cs-dark-theme';
+const VERSION = 'svita-v17-i18n-5lang';
 const SHELL = [
   '/',
   '/index.html',
@@ -9,6 +9,8 @@ const SHELL = [
   '/js/svita-card.css',
   '/js/svita-nav.js',
   '/js/svita-footer.js',
+  '/js/labs67-i18n.js',
+  '/js/svita-i18n-dict.js',
   '/data/catalog.json'
 ];
 
