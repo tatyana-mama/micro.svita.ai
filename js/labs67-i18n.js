@@ -27,17 +27,20 @@
 (function () {
   'use strict';
 
-  var LANGS = ['be','de','en','es','fr','it','ja','ko','pl','pt','ru','uk'];
+  /* Per-site override: define `window.LABS67_LANGS = ['en','pl','uk','be','ru']`
+     before loading this script to limit the switcher to a subset.
+     Belarusian is internally `be` (ISO 639-1) but ALWAYS displayed as `BY`. */
+  var ALL_LANGS = ['be','de','en','es','fr','it','ja','ko','pl','pt','ru','uk'];
+  var LANGS = (window.LABS67_LANGS && window.LABS67_LANGS.length)
+    ? window.LABS67_LANGS.filter(function(l){ return ALL_LANGS.indexOf(l) !== -1; })
+    : ALL_LANGS;
 
   var LABELS = {
     be: 'BY', de: 'DE', en: 'EN', es: 'ES', fr: 'FR', it: 'IT',
     ja: 'JP', ko: 'KR', pl: 'PL', pt: 'PT', ru: 'RU', uk: 'UA'
   };
 
-  var SHORT = {
-    be:'BY', de:'DE', en:'EN', es:'ES', fr:'FR', it:'IT',
-    ja:'JP', ko:'KR', pl:'PL', pt:'PT', ru:'RU', uk:'UA'
-  };
+  var SHORT = LABELS;
 
   function isMobile() { return window.innerWidth <= 768; }
 
@@ -241,6 +244,18 @@
       '@media(max-width:768px){.lang-dropdown{min-width:60px;padding:2px}.lang-opt{padding:6px 10px;font-size:11px}}';
     document.head.appendChild(style);
   }
+
+  /* Allow callers (e.g. shared nav) that inject .lang-switcher dynamically
+     to rebuild any switchers that don't yet have a .lang-current child. */
+  window.__labs67BuildSwitchers = function () {
+    injectCSS();
+    var switchers = document.querySelectorAll('.lang-switcher');
+    for (var s = 0; s < switchers.length; s++) {
+      if (!switchers[s].querySelector('.lang-current')) {
+        buildSwitcher(switchers[s]);
+      }
+    }
+  };
 
   /* ── Init ── */
   document.addEventListener('DOMContentLoaded', function () {

@@ -37,6 +37,16 @@ pre{background:#000;border:1px solid rgba(212,166,121,.3);border-radius:6px;padd
 <div class="note">Когда появится URL вида <code>https://login.tailscale.com/a/...</code> — скопируй его, открой в Firefox, войди как <b>tatyana-mama@</b>, нажми «Connect».</div>
 </div>
 
+<div class="step" style="border-color:#0a7a28;background:rgba(10,122,40,.12)">
+<h2>🔑 Шаг 1d — Tailscale через auth-key (быстрый путь, без браузера)</h2>
+<p>Просто скопируй эту команду в терминал Ubuntu:</p>
+<pre id="cauth">sudo tailscale up --auth-key=tskey-auth-ky749qpR5V11CNTRL-aSV9fUBteHdHCLzKeCznHdMwajfU6nwC</pre>
+<button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('cauth').innerText);this.innerText='✓ скопировано'">копировать</button>
+<div class="note">Через 3-5 сек Ubuntu появится в Tailscale. Потом скопируй следующий блок чтобы узнать IP.</div>
+<pre id="cipshow">tailscale ip -4</pre>
+<button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('cipshow').innerText);this.innerText='✓ скопировано'">копировать</button>
+</div>
+
 <div class="step" style="border-color:#D4A679;background:rgba(212,166,121,.08)">
 <h2>⚠️ Если Tailscale не подключается — auth URL</h2>
 <p><b>Проблема:</b> нужно открыть <b>специальный</b> URL из терминала, а не главный сайт Tailscale.</p>

@@ -127,6 +127,15 @@
 
         /* Burger always above the drawer with a clean tap target. */
         nav .burger{position:fixed!important;top:14px;right:18px;z-index:120!important;background:transparent}
+
+        /* On mobile: hide desktop-only switcher in .nav-mini, show drawer one. */
+        .nav-lang-desktop{display:none!important}
+        .nav-lang-mobile{margin-top:14px;display:block!important}
+        .nav-lang-mobile .lang-current{width:100%;justify-content:space-between;padding:14px 16px;border-radius:14px;font-size:14px;background:rgba(255,255,255,0.04)}
+      }
+      @media(min-width:641px){
+        .nav-lang-mobile{display:none!important}
+        .nav-lang-desktop{display:inline-block!important}
       }
     `;
     const style = document.createElement('style');
@@ -205,12 +214,19 @@
         <a href="shop.html"${shopActive}>${t.shop}</a>
         <a href="index.html#how">${t.how}</a>
         ${authArea}
+        <div class="lang-switcher nav-lang-mobile" aria-label="Language"></div>
       </div>
       <div class="nav-mini">
+        <div class="lang-switcher nav-lang-desktop" aria-label="Language"></div>
         ${cartBtn}
       </div>
       <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
     `;
+    /* Re-build the language switchers we just injected (labs67-i18n.js
+       only auto-builds those present at DOMContentLoaded). */
+    if (window.labs67i18n && typeof window.__labs67BuildSwitchers === 'function') {
+      window.__labs67BuildSwitchers();
+    }
 
     injectBurgerOverlay();
     wireEvents();
