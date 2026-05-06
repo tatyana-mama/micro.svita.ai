@@ -65,7 +65,10 @@
     if(document.getElementById('nav-mini-styles')) return;
     const css = `
       nav{justify-content:flex-start!important}
-      nav .brand{margin-right:auto}
+      nav .brand{margin-right:auto;display:flex;align-items:center;gap:0;padding:0;text-decoration:none}
+      nav .brand-logo{display:block;height:28px;width:auto;image-rendering:-webkit-optimize-contrast;-webkit-user-drag:none;user-select:none}
+      nav.scrolled .brand-logo{height:24px;transition:height 200ms ease}
+      @media(max-width:640px){nav .brand-logo{height:22px}}
       .nav-mini{display:flex;align-items:center;gap:10px}
       .nav-mini .lang{position:relative}
       @media(min-width:641px){
@@ -206,9 +209,12 @@
     injectNavMiniStyles();
 
     nav.innerHTML = `
-      <a href="index.html" class="brand">
-        <span class="brand-dot"></span>
-        SVITA<small>MICRO</small>
+      <a href="index.html" class="brand" aria-label="micro.svita home">
+        <img class="brand-logo"
+             src="/assets/logo/wordmark-dark-132w.png"
+             srcset="/assets/logo/wordmark-dark-132w.png 1x, /assets/logo/wordmark-dark.png 2x"
+             alt="micro.svita"
+             width="132" height="56" decoding="async">
       </a>
       <div class="nav-right">
         <a href="shop.html"${shopActive}>${t.shop}</a>
