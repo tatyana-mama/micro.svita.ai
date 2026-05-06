@@ -7,11 +7,32 @@
   const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
   const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
 
-  const LABELS = {
-    EN:{shop:'Shop',generate:'Generate',how:'How it works',signin:'Log in',signup:'Sign up',cabinet:'My cabinet',favs:'Favorites',mine:'My concepts',cart:'Cart',settings:'Settings',signout:'Sign out',admin:'Admin'}
-  };
-
-  /* Site is English-only — always return EN regardless of localStorage. */
+  /* Read nav labels from window.I18N (svita-i18n-dict.js).
+     Each call resolves to the active language picked by labs67-i18n.js
+     (en/pl/uk/be/ru) with a hard fallback to English so nav never blanks. */
+  function L(key, fallback){
+    const dict = window.I18N || {};
+    const lang = (window.labs67i18n && window.labs67i18n.getLang && window.labs67i18n.getLang()) || 'en';
+    const entry = dict[key];
+    if(!entry) return fallback;
+    return entry[lang] || entry.en || fallback;
+  }
+  function getLabels(){
+    return {
+      shop:     L('nav_shop',     'Shop'),
+      generate: L('nav_generate', 'Generate'),
+      how:      L('nav_how',      'How it works'),
+      signin:   L('nav_signin',   'Log in'),
+      signup:   L('nav_signup',   'Sign up'),
+      cabinet:  L('nav_cabinet',  'My cabinet'),
+      favs:     L('nav_favs',     'Favorites'),
+      mine:     L('nav_mine',     'My concepts'),
+      cart:     L('nav_cart',     'Cart'),
+      settings: L('nav_settings', 'Settings'),
+      signout:  L('nav_signout',  'Sign out'),
+      admin:    L('nav_admin',    'Admin')
+    };
+  }
   function getLang(){ return 'EN'; }
 
   /* One-shot migration: purge stale lang key from localStorage so no ghost
@@ -163,7 +184,7 @@
     const role = (opts && opts.role) || null; // 'superadmin' | null
     const page = currentPage();
     const lang = getLang();
-    const t = LABELS[lang] || LABELS.EN;
+    const t = getLabels();
     const cartN = getCartCount();
 
     const shopActive = page === 'shop' ? ' class="active"' : '';
@@ -396,6 +417,12 @@
     });
     window.addEventListener('svita:cart', ()=> render(user, { role }));
     window.addEventListener('svita:favs', ()=> render(user, { role }));
+    /* Re-render nav when the user picks a different language so labels update. */
+    const prevOnLangChange = window.onLangChange;
+    window.onLangChange = function(lang, dict){
+      try{ render(user, { role }); }catch(_){}
+      if(typeof prevOnLangChange === 'function') prevOnLangChange(lang, dict);
+    };
 
     render(user, { role });
   }

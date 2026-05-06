@@ -340,23 +340,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="wrap">
 
     <div class="page-head reveal">
-      <div class="eyebrow">Concept shop</div>
-      <h1 class="display">Ready-to-launch <span class="accent">concepts</span>.</h1>
-      <p>Each concept ships with a 25-slide brandbook, verified budget, and a 7-week launch plan. Pick one, go from idea to first customer without re-inventing anything.</p>
+      <div class="eyebrow" data-i18n="shop_eyebrow">Concept shop</div>
+      <h1 class="display"><span data-i18n="shop_h1_a">Ready-to-launch </span><span class="accent" data-i18n="shop_h1_b">concepts.</span></h1>
+      <p data-i18n="shop_lead">Each concept ships with a 25-slide brandbook, verified budget, and a 7-week launch plan. Pick one, go from idea to first customer without re-inventing anything.</p>
     </div>
 
     <!-- TOOLBAR -->
     <div class="toolbar reveal">
       <div class="toolbar-group" id="cat-chips">
-        <button class="chip on" data-cat="all">All</button>
+        <button class="chip on" data-cat="all" data-i18n="shop_chip_all">All</button>
       </div>
       <div class="spacer"></div>
       <div class="search">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <input type="search" id="q" placeholder="Search concepts…">
+        <input type="search" id="q" data-i18n-placeholder="shop_search_ph" placeholder="Search concepts…">
       </div>
-      <button class="chip sort-chip" id="sort-price" data-key="price_eur">Price <span class="arr"></span></button>
-      <button class="chip sort-chip" id="sort-budget" data-key="budget_eur">Budget <span class="arr"></span></button>
+      <button class="chip sort-chip" id="sort-price" data-key="price_eur"><span data-i18n="shop_sort_price">Price</span> <span class="arr"></span></button>
+      <button class="chip sort-chip" id="sort-budget" data-key="budget_eur"><span data-i18n="shop_sort_budget">Budget</span> <span class="arr"></span></button>
       <select class="sel hidden" id="sort">
         <option value="popular">Sort: Popular</option>
       </select>
@@ -373,9 +373,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div id="loading" class="loader"><span class="spin"></span></div>
     <div id="grid" class="grid hidden" style="--cols:4"></div>
-    <div id="empty" class="empty-msg hidden">No concepts match your filters.</div>
+    <div id="empty" class="empty-msg hidden" data-i18n="shop_empty">No concepts match your filters.</div>
     <div class="load-more-wrap hidden" id="more-wrap">
-      <button class="load-more" id="more-btn">Load more <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h12M9 1l4 4-4 4"/></svg></button>
+      <button class="load-more" id="more-btn"><span data-i18n="shop_load_more">Load more</span> <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h12M9 1l4 4-4 4"/></svg></button>
     </div>
 
   </div>
@@ -387,9 +387,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section id="coming-soon">
   <div class="wrap">
     <div class="cs-head">
-      <div class="eyebrow">Coming soon</div>
-      <h2 class="display"><span id="cs-count">188</span> more concepts <span class="accent">in the works</span>.</h2>
-      <p>We release them as each brandbook ships. Tell us which one excites you — we'll notify you the moment it's live, with a founder-only discount.</p>
+      <div class="eyebrow" data-i18n="cs_eyebrow">Coming soon</div>
+      <h2 class="display"><span id="cs-count">188</span><span data-i18n="cs_h_a"> more concepts </span><span class="accent" data-i18n="cs_h_b">in the works.</span></h2>
+      <p data-i18n="cs_lead">We release them as each brandbook ships. Tell us which one excites you — we'll notify you the moment it's live, with a founder-only discount.</p>
     </div>
     <div id="cs-grid" class="cs-grid"></div>
     <div id="cs-loading" class="cs-loading"><span class="spin"></span></div>
@@ -402,10 +402,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <button id="cs-close" aria-label="Close" class="cs-modal-close">×</button>
     <div id="cs-modal-slug" class="cs-modal-slug">—</div>
     <h3 id="cs-modal-name" class="cs-modal-name">—</h3>
-    <p class="cs-modal-lead">Leave your email — we'll tell you the moment this concept's brandbook is live, with a founder-only discount.</p>
+    <p class="cs-modal-lead" data-i18n="cs_modal_lead">Leave your email — we'll tell you the moment this concept's brandbook is live, with a founder-only discount.</p>
     <form id="cs-form" class="cs-modal-form">
-      <input type="email" id="cs-email" placeholder="you@example.com" required>
-      <button type="submit" class="btn btn-primary">Notify me</button>
+      <input type="email" id="cs-email" data-i18n-placeholder="cs_email_ph" placeholder="you@example.com" required>
+      <button type="submit" class="btn btn-primary" data-i18n="cs_notify">Notify me</button>
       <div id="cs-msg" class="cs-modal-msg"></div>
     </form>
   </div>

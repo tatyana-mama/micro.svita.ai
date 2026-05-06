@@ -627,19 +627,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- TABS -->
       <div class="auth-tabs" id="auth-tabs">
-        <div class="auth-tab active" data-tab="signin">Sign in</div>
-        <div class="auth-tab" data-tab="signup">Sign up</div>
+        <div class="auth-tab active" data-tab="signin" data-i18n="acc_signin">Sign in</div>
+        <div class="auth-tab" data-tab="signup" data-i18n="acc_signup">Sign up</div>
       </div>
 
       <!-- SIGN IN -->
       <div class="auth-panel active" id="panel-signin">
         <form id="form-signin">
           <div class="field">
-            <label for="si-email">Email</label>
+            <label for="si-email" data-i18n="acc_email">Email</label>
             <input type="email" id="si-email" placeholder="you@domain.com" required autocomplete="email">
           </div>
           <div class="field last">
-            <label for="si-pass">Password</label>
+            <label for="si-pass" data-i18n="acc_password">Password</label>
             <div class="pass-wrap">
               <input type="password" id="si-pass" placeholder="••••••••" required autocomplete="current-password">
               <span class="eye" data-target="si-pass">
@@ -649,12 +649,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
           <div class="forgot-row"><span class="forgot-link" id="forgot-link">Forgot password?</span></div>
           <button class="btn btn-primary" type="submit" id="si-btn">
-            Sign in
+            <span data-i18n="acc_signin">Sign in</span>
             <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
           </button>
         </form>
         <div id="si-msg"></div>
-        <div class="divider"><div></div><span>or</span><div></div></div>
+        <div class="divider"><div></div><span data-i18n="acc_or">or</span><div></div></div>
         <div class="oauth-stack">
           <button type="button" class="oauth-btn" data-provider="google">
             <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5h-1.9V20H24v8h11.3c-1.6 4.7-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C33.6 6.1 29.1 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.3-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.8 1.2 7.9 3l5.7-5.7C33.6 7.1 29.1 5 24 5 16.3 5 9.7 9 6.3 14.7z"/><path fill="#4CAF50" d="M24 43c5 0 9.6-1.9 13.1-5.1l-6-5.1c-1.9 1.4-4.3 2.2-7.1 2.2-5.3 0-9.7-3.3-11.3-8l-6.6 5.1C9.5 38.9 16.2 43 24 43z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.6l6 5.1C41 35 44 30 44 24c0-1.3-.1-2.3-.4-3.5z"/></svg>
@@ -679,11 +679,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <input type="text" id="su-name" placeholder="How should we call you" required autocomplete="name">
           </div>
           <div class="field">
-            <label for="su-email">Email</label>
+            <label for="su-email" data-i18n="acc_email">Email</label>
             <input type="email" id="su-email" placeholder="you@domain.com" required autocomplete="email">
           </div>
           <div class="field">
-            <label for="su-pass">Password</label>
+            <label for="su-pass" data-i18n="acc_password">Password</label>
             <div class="pass-wrap">
               <input type="password" id="su-pass" placeholder="Minimum 8 characters" required autocomplete="new-password">
               <span class="eye" data-target="su-pass">

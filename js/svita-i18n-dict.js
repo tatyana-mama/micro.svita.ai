@@ -392,5 +392,96 @@ window.I18N = {
   nav_mine: { en: 'My concepts', ru: 'Мои концепции', pl: 'Moje koncepcje', uk: 'Мої концепції', be: 'Мае канцэпцыі' },
   nav_settings: { en: 'Settings', ru: 'Настройки', pl: 'Ustawienia', uk: 'Налаштування', be: 'Налады' },
   nav_signout: { en: 'Sign out', ru: 'Выйти', pl: 'Wyloguj', uk: 'Вийти', be: 'Выйсці' },
-  nav_admin: { en: 'Admin', ru: 'Админ', pl: 'Admin', uk: 'Адмін', be: 'Адмін' }
+  nav_admin: { en: 'Admin', ru: 'Админ', pl: 'Admin', uk: 'Адмін', be: 'Адмін' },
+  nav_generate: { en: 'Generate', ru: 'Создать', pl: 'Generuj', uk: 'Створити', be: 'Стварыць' },
+  nav_cart: { en: 'Cart', ru: 'Корзина', pl: 'Koszyk', uk: 'Кошик', be: 'Кошык' },
+
+  // ========== shop.html ==========
+  shop_eyebrow: { en: 'Concept shop', ru: 'Магазин концепций', pl: 'Sklep konceptów', uk: 'Магазин концепцій', be: 'Крама канцэпцый' },
+  shop_h1_a: { en: 'Ready-to-launch ', ru: 'Готовые к запуску ', pl: 'Gotowe do startu ', uk: 'Готові до запуску ', be: 'Гатовыя да запуску ' },
+  shop_h1_b: { en: 'concepts.', ru: 'концепции.', pl: 'koncepty.', uk: 'концепції.', be: 'канцэпцыі.' },
+  shop_lead: {
+    en: 'Each concept ships with a 25-slide brandbook, verified budget, and a 7-week launch plan. Pick one, go from idea to first customer without re-inventing anything.',
+    ru: 'Каждая концепция — 25-слайдовый брендбук, проверенный бюджет и 7-недельный план запуска. Выбери одну, иди от идеи до первого клиента без изобретения колеса.',
+    pl: 'Każdy koncept zawiera 25-slajdowy brandbook, zweryfikowany budżet i 7-tygodniowy plan startu. Wybierz jeden, przejdź od pomysłu do pierwszego klienta bez wymyślania koła.',
+    uk: 'Кожна концепція — 25-слайдовий брендбук, перевірений бюджет і 7-тижневий план запуску. Обери одну та йди від ідеї до першого клієнта без винайдення велосипеда.',
+    be: 'Кожная канцэпцыя — 25-слайдавы брэндбук, праверены бюджэт і 7-тыднёвы план запуску. Выберы адну і йдзі ад ідэі да першага кліента без выдумкі ровара.'
+  },
+  shop_chip_all: { en: 'All', ru: 'Все', pl: 'Wszystkie', uk: 'Усі', be: 'Усе' },
+  shop_search_ph: { en: 'Search concepts…', ru: 'Поиск концепций…', pl: 'Szukaj konceptów…', uk: 'Пошук концепцій…', be: 'Шукаць канцэпцыі…' },
+  shop_sort_price: { en: 'Price', ru: 'Цена', pl: 'Cena', uk: 'Ціна', be: 'Цана' },
+  shop_sort_budget: { en: 'Budget', ru: 'Бюджет', pl: 'Budżet', uk: 'Бюджет', be: 'Бюджэт' },
+  shop_count_word: { en: 'concepts', ru: 'концепций', pl: 'konceptów', uk: 'концепцій', be: 'канцэпцый' },
+  shop_load_more: { en: 'Load more', ru: 'Загрузить ещё', pl: 'Załaduj więcej', uk: 'Завантажити ще', be: 'Загрузіць яшчэ' },
+  shop_empty: { en: 'No concepts match your filters.', ru: 'Нет концепций под твои фильтры.', pl: 'Brak konceptów pasujących do filtrów.', uk: 'Немає концепцій під твої фільтри.', be: 'Няма канцэпцый пад твае фільтры.' },
+
+  // ========== Coming Soon ==========
+  cs_eyebrow: { en: 'Coming soon', ru: 'Скоро', pl: 'Wkrótce', uk: 'Незабаром', be: 'Хутка' },
+  cs_h_a: { en: ' more concepts ', ru: ' концепций ', pl: ' kolejnych konceptów ', uk: ' нових концепцій ', be: ' новых канцэпцый ' },
+  cs_h_b: { en: 'in the works.', ru: 'в работе.', pl: 'w drodze.', uk: 'у роботі.', be: 'у працы.' },
+  cs_lead: {
+    en: "We release them as each brandbook ships. Tell us which one excites you — we'll notify you the moment it's live, with a founder-only discount.",
+    ru: 'Выпускаем по мере готовности брендбуков. Скажи, какая интересна — уведомим в момент запуска, со скидкой для основателей.',
+    pl: 'Wypuszczamy je w miarę powstawania brandbooków. Powiedz, który Cię interesuje — powiadomimy Cię w chwili publikacji, z rabatem dla founderów.',
+    uk: 'Випускаємо їх по мірі готовності брендбуків. Скажи, яка цікава — повідомимо в момент запуску, зі знижкою для засновників.',
+    be: 'Выпускаем іх па меры гатоўнасці брэндбукаў. Скажы, якая цікавая — паведамім у момант запуску, са зніжкай для заснавальнікаў.'
+  },
+  cs_email_ph: { en: 'you@example.com', ru: 'ты@пример.com', pl: 'ty@przyklad.pl', uk: 'ти@приклад.com', be: 'ты@прыклад.com' },
+  cs_notify: { en: 'Notify me', ru: 'Сообщить мне', pl: 'Powiadom mnie', uk: 'Сповістити', be: 'Паведаміць' },
+  cs_modal_lead: {
+    en: "Leave your email — we'll tell you the moment this concept's brandbook is live, with a founder-only discount.",
+    ru: 'Оставь email — уведомим в момент запуска этой концепции, со скидкой для основателей.',
+    pl: 'Zostaw email — powiadomimy Cię w momencie publikacji tego konceptu, z rabatem dla founderów.',
+    uk: 'Залиш email — повідомимо в момент запуску цієї концепції, зі знижкою для засновників.',
+    be: 'Пакінь email — паведамім у момант запуску гэтай канцэпцыі, са зніжкай для заснавальнікаў.'
+  },
+
+  // ========== account.html ==========
+  acc_welcome: { en: 'Welcome', ru: 'Добро пожаловать', pl: 'Witaj', uk: 'Вітаємо', be: 'Вітаю' },
+  acc_signin: { en: 'Sign in', ru: 'Войти', pl: 'Zaloguj się', uk: 'Увійти', be: 'Увайсці' },
+  acc_signup: { en: 'Sign up', ru: 'Регистрация', pl: 'Zarejestruj się', uk: 'Реєстрація', be: 'Рэгістрацыя' },
+  acc_email: { en: 'Email', ru: 'Email', pl: 'Email', uk: 'Email', be: 'Email' },
+  acc_password: { en: 'Password', ru: 'Пароль', pl: 'Hasło', uk: 'Пароль', be: 'Пароль' },
+  acc_continue: { en: 'Continue', ru: 'Продолжить', pl: 'Dalej', uk: 'Далі', be: 'Далей' },
+  acc_send_link: { en: 'Send magic link', ru: 'Отправить magic link', pl: 'Wyślij magic link', uk: 'Надіслати magic link', be: 'Адправіць magic link' },
+  acc_or: { en: 'or', ru: 'или', pl: 'lub', uk: 'або', be: 'або' },
+  acc_have: { en: 'Have an account?', ru: 'Уже есть аккаунт?', pl: 'Masz konto?', uk: 'Вже маєш акаунт?', be: 'Маеш акаўнт?' },
+  acc_no: { en: 'No account yet?', ru: 'Ещё нет аккаунта?', pl: 'Nie masz konta?', uk: 'Ще немає акаунту?', be: 'Яшчэ няма акаўнта?' },
+  acc_tab_cabinet: { en: 'Cabinet', ru: 'Кабинет', pl: 'Panel', uk: 'Кабінет', be: 'Кабінет' },
+  acc_tab_favs: { en: 'Favorites', ru: 'Избранное', pl: 'Ulubione', uk: 'Обране', be: 'Абранае' },
+  acc_tab_owned: { en: 'My concepts', ru: 'Мои концепции', pl: 'Moje koncepty', uk: 'Мої концепції', be: 'Мае канцэпцыі' },
+  acc_tab_settings: { en: 'Settings', ru: 'Настройки', pl: 'Ustawienia', uk: 'Налаштування', be: 'Налады' },
+  acc_owned_empty: { en: 'You haven’t purchased any concept yet.', ru: 'Ещё не куплено ни одной концепции.', pl: 'Nie kupiłeś jeszcze żadnego konceptu.', uk: 'Ще не придбано жодної концепції.', be: 'Яшчэ не куплена ні адной канцэпцыі.' },
+  acc_favs_empty: { en: 'No favorites yet.', ru: 'Нет избранного.', pl: 'Brak ulubionych.', uk: 'Немає обраного.', be: 'Няма абранага.' },
+  acc_browse_shop: { en: 'Browse shop →', ru: 'В магазин →', pl: 'Przejdź do sklepu →', uk: 'До магазину →', be: 'У краму →' },
+  acc_signout_btn: { en: 'Sign out', ru: 'Выйти', pl: 'Wyloguj', uk: 'Вийти', be: 'Выйсці' },
+
+  // ========== view.html ==========
+  view_loading: { en: 'Loading…', ru: 'Загрузка…', pl: 'Wczytywanie…', uk: 'Завантаження…', be: 'Загрузка…' },
+  view_close: { en: 'Close', ru: 'Закрыть', pl: 'Zamknij', uk: 'Закрити', be: 'Закрыць' },
+  view_buy: { en: 'Buy', ru: 'Купить', pl: 'Kup', uk: 'Купити', be: 'Купіць' },
+  view_locked: { en: 'Preview locked', ru: 'Превью заблокировано', pl: 'Podgląd zablokowany', uk: 'Перегляд заблоковано', be: 'Прагляд заблакаваны' },
+  view_locked_p: {
+    en: 'Buy the concept to unlock the full brandbook PDF, editable source files, and registration plan.',
+    ru: 'Купи концепцию, чтобы открыть полный брендбук PDF, исходники и план регистрации.',
+    pl: 'Kup koncept, by odblokować pełny brandbook PDF, edytowalne źródła i plan rejestracji.',
+    uk: 'Купи концепцію, щоб розблокувати повний брендбук PDF, вихідники та план реєстрації.',
+    be: 'Купі канцэпцыю, каб разблакаваць поўны брэндбук PDF, зыходнікі і план рэгістрацыі.'
+  },
+  view_inside: { en: "What's inside", ru: 'Что внутри', pl: 'Co w środku', uk: 'Що всередині', be: 'Што ўнутры' },
+  view_inside_p: {
+    en: 'Complete launch package — Brandbook (25 pages), equipment list with real models and prices, country-specific registration walkthrough, weekly schedule, P&L forecast, supplier directory.',
+    ru: 'Полный стартовый пакет — Брендбук (25 страниц), список оборудования с реальными моделями и ценами, локальный маршрут регистрации, недельный график, прогноз P&L, каталог поставщиков.',
+    pl: 'Kompletny pakiet startowy — Brandbook (25 stron), lista sprzętu z prawdziwymi modelami i cenami, lokalna ścieżka rejestracji, harmonogram tygodniowy, prognoza P&L, katalog dostawców.',
+    uk: 'Повний стартовий пакет — Брендбук (25 сторінок), список обладнання з реальними моделями і цінами, локальний маршрут реєстрації, тижневий розклад, прогноз P&L, каталог постачальників.',
+    be: 'Поўны стартавы пакет — Брэндбук (25 старонак), спіс абсталявання з рэальнымі мадэлямі і коштамі, лакальны шлях рэгістрацыі, тыднёвы графік, прагноз P&L, каталог пастаўшчыкоў.'
+  },
+  view_once: { en: 'One-time · Lifetime access', ru: 'Разово · Доступ навсегда', pl: 'Jednorazowo · Dostęp na zawsze', uk: 'Разово · Доступ назавжди', be: 'Аднаразова · Доступ назаўсёды' },
+  view_budget: { en: 'Budget', ru: 'Бюджет', pl: 'Budżet', uk: 'Бюджет', be: 'Бюджэт' },
+  view_timeline: { en: 'Timeline', ru: 'График', pl: 'Harmonogram', uk: 'Графік', be: 'Графік' },
+  view_size: { en: 'Size', ru: 'Площадь', pl: 'Powierzchnia', uk: 'Площа', be: 'Плошча' },
+  view_country: { en: 'Country', ru: 'Страна', pl: 'Kraj', uk: 'Країна', be: 'Краіна' },
+  view_category: { en: 'Category', ru: 'Категория', pl: 'Kategoria', uk: 'Категорія', be: 'Катэгорыя' },
+  view_weeks: { en: 'weeks', ru: 'нед.', pl: 'tyg.', uk: 'тиж.', be: 'тыд.' },
+  view_lock_note: { en: 'Full brandbook available after purchase.', ru: 'Полный брендбук доступен после покупки.', pl: 'Pełny brandbook dostępny po zakupie.', uk: 'Повний брендбук доступний після купівлі.', be: 'Поўны брэндбук даступны пасля куплі.' }
 };
