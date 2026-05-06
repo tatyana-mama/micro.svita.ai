@@ -382,6 +382,54 @@ window.I18N = {
     be: 'Адкрыць краму'
   },
 
+  // ========== AI shop advisor (sidebar + CTA banner) ==========
+  advisor_cta_title: {
+    en: 'Hard to choose your future business?',
+    ru: 'Трудно выбрать будущий бизнес?',
+    pl: 'Trudno wybrać przyszły biznes?',
+    uk: 'Важко обрати майбутній бізнес?',
+    be: 'Цяжка абраць будучы бізнес?'
+  },
+  advisor_cta_sub: {
+    en: 'Our AI assistant knows every concept in the catalog. Tell it your budget, city and the vibe — it points you to the 1–2 that fit.',
+    ru: 'AI-ассистент знает каждую концепцию в каталоге. Напиши бюджет, город и вайб — он подскажет 1–2 подходящие.',
+    pl: 'Nasz AI zna każdą koncepcję w katalogu. Powiedz budżet, miasto i klimat — wskaże 1–2 pasujące.',
+    uk: 'Наш AI знає кожну концепцію в каталозі. Скажи бюджет, місто й вайб — підкаже 1–2 підходящі.',
+    be: 'Наш AI ведае кожную канцэпцыю ў каталогу. Скажы бюджэт, горад і вайб — падкажа 1–2 прыдатныя.'
+  },
+  advisor_cta_btn: {
+    en: 'Ask the assistant →',
+    ru: 'Спросить ассистента →',
+    pl: 'Zapytaj asystenta →',
+    uk: 'Запитати асистента →',
+    be: 'Спытаць асістэнта →'
+  },
+  advisor_title: {
+    en: 'Catalog concierge',
+    ru: 'Консьерж каталога',
+    pl: 'Concierge katalogu',
+    uk: 'Консьєрж каталогу',
+    be: 'Кансьерж каталога'
+  },
+  advisor_role: { en: 'AI · Beta', ru: 'AI · Бета', pl: 'AI · Beta', uk: 'AI · Бета', be: 'AI · Бэта' },
+  advisor_placeholder: {
+    en: 'Tell me budget, city, vibe…',
+    ru: 'Бюджет, город, вайб…',
+    pl: 'Budżet, miasto, klimat…',
+    uk: 'Бюджет, місто, вайб…',
+    be: 'Бюджэт, горад, вайб…'
+  },
+  advisor_foot: {
+    en: 'Anonymous · Catalog only · Claude Haiku',
+    ru: 'Анонимно · Только каталог · Claude Haiku',
+    pl: 'Anonimowo · Tylko katalog · Claude Haiku',
+    uk: 'Анонімно · Тільки каталог · Claude Haiku',
+    be: 'Ананімна · Толькі каталог · Claude Haiku'
+  },
+  advisor_chip_budget: { en: '€20k budget · Warsaw', ru: 'бюджет €20k · Варшава', pl: 'budżet 20 tys. € · Warszawa', uk: 'бюджет €20k · Варшава', be: 'бюджэт €20k · Варшава' },
+  advisor_chip_food: { en: 'small food spot', ru: 'небольшой формат еды', pl: 'mały lokal gastronomiczny', uk: 'невеликий гастро-формат', be: 'невялікі гастра-фармат' },
+  advisor_chip_solo: { en: 'solo founder', ru: 'один основатель', pl: 'pojedynczy founder', uk: 'один засновник', be: 'адзін заснавальнік' },
+
   // ========== NAV ==========
   nav_shop: { en: 'Shop', ru: 'Магазин', pl: 'Sklep', uk: 'Магазин', be: 'Крама' },
   nav_how: { en: 'How it works', ru: 'Как это работает', pl: 'Jak to działa', uk: 'Як це працює', be: 'Як гэта працуе' },

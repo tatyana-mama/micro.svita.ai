@@ -381,6 +381,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
+<!-- AI advisor CTA — invites visitors who can't decide to chat with the concierge. -->
+<div class="wrap">
+  <div id="advisor-cta" class="reveal">
+    <div class="ico" aria-hidden="true">∴</div>
+    <div class="body">
+      <p class="title" data-i18n="advisor_cta_title">Hard to choose your future business?</p>
+      <p class="sub" data-i18n="advisor_cta_sub">Our AI assistant knows every concept in the catalog. Tell it your budget, city and the vibe — it points you to the 1–2 that fit.</p>
+    </div>
+    <button type="button" id="advisor-cta-open" data-i18n="advisor_cta_btn">Ask the assistant →</button>
+  </div>
+</div>
+
 <!-- ================================================= -->
 <!-- Coming Soon — upcoming concepts, waitlist capture -->
 <!-- ================================================= -->
@@ -676,6 +688,320 @@ loadCatalog();
       openModal(card.dataset.slug, card.dataset.name);
     });
   })();
+})();
+</script>
+
+<!-- ─── AI shop advisor — public catalog concierge (fixed right side, mobile FAB) ─── -->
+<style id="ai-advisor-css">
+  /* shared button + glass token (dark base #0A0A0B) */
+  :root{ --advisor-bg: rgba(18,18,22,0.92); --advisor-line: rgba(255,255,255,0.08); --advisor-accent: var(--accent, #D6FF3E); }
+
+  /* Inline CTA banner above the Coming Soon block — invites visitors who can't decide. */
+  #advisor-cta{
+    margin: 56px auto 24px; max-width: 840px;
+    display: flex; gap: 18px; align-items: center;
+    padding: 22px 26px;
+    background: linear-gradient(135deg, rgba(214,255,62,0.06), rgba(255,255,255,0.02));
+    border: 1px solid rgba(214,255,62,0.18);
+    border-radius: 20px;
+    color: var(--text, #fafafa);
+  }
+  #advisor-cta .ico{
+    width: 44px; height: 44px; border-radius: 14px; flex: 0 0 44px;
+    background: rgba(214,255,62,0.12); display: grid; place-items: center; color: var(--advisor-accent);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 20px;
+  }
+  #advisor-cta .body{ flex: 1; min-width: 0; }
+  #advisor-cta .title{ font: 600 16px/1.3 'Space Grotesk', system-ui, sans-serif; margin: 0 0 4px; }
+  #advisor-cta .sub{ font-size: 13.5px; line-height: 1.45; color: var(--text-2, #a1a1aa); margin: 0; }
+  #advisor-cta button{
+    flex: 0 0 auto; padding: 12px 20px; border-radius: 100px;
+    background: var(--advisor-accent); color: #0A0A0B; border: 0; cursor: pointer;
+    font: 600 13px 'JetBrains Mono', monospace; letter-spacing: .04em; white-space: nowrap;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  #advisor-cta button:hover{ transform: translateY(-1px); box-shadow: 0 12px 30px rgba(214,255,62,0.25); }
+
+  /* Floating launcher (bottom-right). Acts as the open/close trigger on every screen size. */
+  #advisor-launch{
+    position: fixed; right: 22px; bottom: 22px; z-index: 95;
+    width: 56px; height: 56px; border-radius: 50%; border: 0; cursor: pointer;
+    background: var(--advisor-accent); color: #0A0A0B;
+    display: grid; place-items: center;
+    box-shadow: 0 18px 40px rgba(214,255,62,0.35), 0 0 0 8px rgba(214,255,62,0.06);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  #advisor-launch:hover{ transform: scale(1.05); }
+  #advisor-launch svg{ width: 24px; height: 24px; }
+  body.advisor-open #advisor-launch{ display: none; }
+
+  /* Panel — desktop right rail (380px), mobile bottom sheet (full width). */
+  #advisor-panel{
+    position: fixed; z-index: 96;
+    right: 22px; bottom: 22px; width: 380px; max-width: calc(100vw - 24px);
+    height: min(640px, calc(100dvh - 44px));
+    background: var(--advisor-bg);
+    backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--advisor-line);
+    border-radius: 20px;
+    display: none; flex-direction: column;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+    overflow: hidden; color: var(--text, #fafafa);
+  }
+  body.advisor-open #advisor-panel{ display: flex; }
+  #advisor-panel .head{
+    display: flex; align-items: center; gap: 10px;
+    padding: 16px 20px; border-bottom: 1px solid var(--advisor-line);
+  }
+  #advisor-panel .head .dot{ width: 8px; height: 8px; border-radius: 50%; background: var(--advisor-accent); box-shadow: 0 0 12px var(--advisor-accent); }
+  #advisor-panel .head h3{ margin: 0; font: 600 14px/1.2 'Space Grotesk', system-ui, sans-serif; letter-spacing: -.01em; }
+  #advisor-panel .head .role{ margin-left: auto; font: 500 10px 'JetBrains Mono', monospace; color: var(--text-3, #6e6e78); letter-spacing: .12em; text-transform: uppercase; }
+  #advisor-panel .head .x{ background: none; border: 0; color: var(--text-2, #a1a1aa); cursor: pointer; padding: 4px; border-radius: 8px; transition: background .15s; }
+  #advisor-panel .head .x:hover{ background: rgba(255,255,255,0.06); color: var(--text, #fafafa); }
+
+  #advisor-log{
+    flex: 1 1 auto; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px;
+    scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.12) transparent;
+  }
+  #advisor-log::-webkit-scrollbar{ width: 4px; }
+  #advisor-log::-webkit-scrollbar-thumb{ background: rgba(255,255,255,0.12); border-radius: 4px; }
+
+  .advisor-msg{ max-width: 86%; padding: 10px 14px; border-radius: 14px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
+  .advisor-msg.user{ align-self: flex-end; background: rgba(214,255,62,0.12); border: 1px solid rgba(214,255,62,0.22); color: var(--text, #fafafa); }
+  .advisor-msg.bot{ align-self: flex-start; background: rgba(255,255,255,0.04); border: 1px solid var(--advisor-line); color: var(--text, #fafafa); }
+  .advisor-msg.bot a{ color: var(--advisor-accent); text-decoration: underline; text-underline-offset: 2px; }
+  .advisor-msg.bot code{ background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+  .advisor-msg.bot.thinking{ color: var(--text-3, #6e6e78); font-style: italic; }
+  .advisor-msg.bot .err{ color: #ff8a8a; }
+
+  #advisor-form{
+    border-top: 1px solid var(--advisor-line);
+    padding: 12px 14px;
+    display: flex; gap: 8px; align-items: flex-end;
+  }
+  #advisor-form textarea{
+    flex: 1; resize: none; min-height: 38px; max-height: 120px;
+    padding: 10px 12px; border-radius: 12px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--advisor-line);
+    color: var(--text, #fafafa); font: 400 14px/1.4 'Inter', system-ui, sans-serif;
+    outline: none; transition: border-color .15s;
+  }
+  #advisor-form textarea:focus{ border-color: rgba(214,255,62,0.45); }
+  #advisor-form textarea::placeholder{ color: var(--text-3, #6e6e78); }
+  #advisor-form button{
+    flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%;
+    background: var(--advisor-accent); color: #0A0A0B; border: 0; cursor: pointer;
+    display: grid; place-items: center; transition: transform .15s, opacity .15s;
+  }
+  #advisor-form button:disabled{ opacity: .5; cursor: not-allowed; }
+  #advisor-form button:not(:disabled):hover{ transform: scale(1.05); }
+  #advisor-foot{
+    padding: 0 18px 12px; font: 500 10px 'JetBrains Mono', monospace; color: var(--text-3, #6e6e78);
+    letter-spacing: .08em; text-align: center; line-height: 1.5;
+  }
+
+  /* Suggestion chips above input. Tapping fills the textarea. */
+  #advisor-chips{
+    display: flex; flex-wrap: wrap; gap: 6px; padding: 0 18px 8px;
+  }
+  #advisor-chips button{
+    padding: 6px 11px; border-radius: 100px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--advisor-line); color: var(--text-2, #a1a1aa);
+    font: 500 11.5px 'Inter', system-ui, sans-serif; cursor: pointer; transition: all .15s;
+  }
+  #advisor-chips button:hover{ border-color: rgba(214,255,62,0.4); color: var(--text, #fafafa); }
+
+  /* Mobile: full-width bottom sheet, taller on open. */
+  @media (max-width: 640px){
+    #advisor-panel{ right: 8px; left: 8px; bottom: 8px; width: auto; max-width: none; height: 80dvh; }
+    #advisor-launch{ right: 16px; bottom: 16px; }
+  }
+</style>
+
+<aside id="advisor-panel" aria-hidden="true" role="dialog" aria-labelledby="advisor-title">
+  <div class="head">
+    <span class="dot" aria-hidden="true"></span>
+    <h3 id="advisor-title" data-i18n="advisor_title">Catalog concierge</h3>
+    <span class="role" data-i18n="advisor_role">AI · Beta</span>
+    <button class="x" id="advisor-close" type="button" aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6l-12 12"/></svg>
+    </button>
+  </div>
+  <div id="advisor-log" aria-live="polite"></div>
+  <div id="advisor-chips" aria-label="Suggestions">
+    <button type="button" data-prompt-key="advisor_chip_budget" data-i18n="advisor_chip_budget">€20k budget · Warsaw</button>
+    <button type="button" data-prompt-key="advisor_chip_food" data-i18n="advisor_chip_food">small food spot</button>
+    <button type="button" data-prompt-key="advisor_chip_solo" data-i18n="advisor_chip_solo">solo founder</button>
+  </div>
+  <form id="advisor-form" autocomplete="off">
+    <textarea id="advisor-input" rows="1" maxlength="1500" data-i18n-placeholder="advisor_placeholder" placeholder="Tell me budget, city, vibe…"></textarea>
+    <button type="submit" id="advisor-send" aria-label="Send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </button>
+  </form>
+  <div id="advisor-foot" data-i18n="advisor_foot">Anonymous · Catalog only · Claude Haiku</div>
+</aside>
+
+<button id="advisor-launch" type="button" aria-label="Open catalog concierge" title="Catalog concierge">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 11-3.5-6.6L21 4l-1.4 3.5A8 8 0 0121 12z"/><circle cx="9" cy="12" r="1" fill="currentColor"/><circle cx="13" cy="12" r="1" fill="currentColor"/><circle cx="17" cy="12" r="1" fill="currentColor"/></svg>
+</button>
+
+<script>
+(() => {
+  const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
+  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+  const ENDPOINT = SB_URL + '/functions/v1/shop-advisor';
+
+  const log = document.getElementById('advisor-log');
+  const form = document.getElementById('advisor-form');
+  const input = document.getElementById('advisor-input');
+  const send = document.getElementById('advisor-send');
+  const launch = document.getElementById('advisor-launch');
+  const closeBtn = document.getElementById('advisor-close');
+  const panel = document.getElementById('advisor-panel');
+  const chips = document.getElementById('advisor-chips');
+  const ctaBtn = document.getElementById('advisor-cta-open');
+
+  /* Conversation history sent to the model on each turn. Kept short. */
+  const history = [];
+
+  function open(){
+    document.body.classList.add('advisor-open');
+    panel.setAttribute('aria-hidden', 'false');
+    if (history.length === 0) seed();
+    setTimeout(() => input.focus(), 80);
+  }
+  function close(){
+    document.body.classList.remove('advisor-open');
+    panel.setAttribute('aria-hidden', 'true');
+  }
+
+  function seed(){
+    appendBot(localGreeting());
+  }
+
+  function localGreeting(){
+    const lang = (window.labs67i18n && window.labs67i18n.getLang && window.labs67i18n.getLang()) || 'en';
+    const T = {
+      en: "Hi — I'm the catalog concierge. Tell me your budget to open the business, the city, and the vibe (food / craft / service / boutique) and I'll point you to 1–2 concepts that fit.",
+      ru: "Привет — я консьерж по каталогу. Расскажи бюджет на открытие, город и вайб (еда / крафт / услуги / бутик) — подберу 1–2 концепции, которые подойдут.",
+      pl: "Cześć — jestem concierge'em katalogu. Powiedz mi swój budżet na otwarcie, miasto i klimat (jedzenie / rzemiosło / usługa / butik), a podpowiem 1–2 koncepcje.",
+      uk: "Привіт — я консьєрж каталогу. Скажи бюджет на відкриття, місто і вайб (їжа / ремесло / послуга / бутик) — підкажу 1–2 концепції.",
+      be: "Прывітанне — я кансьерж каталога. Скажы бюджэт на адкрыццё, горад і вайб (ежа / рамяство / паслуга / буцік) — падкажу 1–2 канцэпцыі."
+    };
+    return T[lang] || T.en;
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  /* Markdown-light renderer — links + inline code + line breaks; nothing more. */
+  function format(text){
+    let html = escapeHtml(text);
+    /* Slug links produced by the model: → /shop.html?concept=foo  → clickable */
+    html = html.replace(/(→\s*)?\/shop\.html\?concept=([a-z0-9-]+)/g,
+      (_m, _arrow, slug) => `→ <a href="/shop.html?concept=${slug}" data-slug="${slug}">${slug}</a>`);
+    /* Inline `code` */
+    html = html.replace(/`([^`\n]+)`/g, (_m, code) => `<code>${code}</code>`);
+    /* Newlines → <br> */
+    html = html.replace(/\n/g, '<br>');
+    return html;
+  }
+
+  function appendUser(text){
+    const div = document.createElement('div');
+    div.className = 'advisor-msg user';
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+  function appendBot(text, opts){
+    const div = document.createElement('div');
+    div.className = 'advisor-msg bot' + (opts && opts.thinking ? ' thinking' : '');
+    div.innerHTML = format(text);
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+    return div;
+  }
+
+  let busy = false;
+  async function ask(message){
+    if (busy || !message) return;
+    busy = true; send.disabled = true; input.disabled = true;
+    appendUser(message);
+    history.push({ role: 'user', content: message });
+    const thinking = appendBot('…', { thinking: true });
+    try{
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
+        },
+        body: JSON.stringify({ message, history: history.slice(-12) }),
+      });
+      const data = await res.json().catch(() => ({}));
+      thinking.remove();
+      if (!res.ok || !data.reply){
+        const errMsg = (data && data.error === 'upstream_error' && /credit balance is too low/i.test(data.body || ''))
+          ? 'AI is temporarily out of credit — please try again later or browse the catalog directly.'
+          : (data.error || 'Something went wrong. Try again.');
+        const msg = appendBot('');
+        msg.classList.add('bot');
+        msg.innerHTML = '<span class="err">' + escapeHtml(errMsg) + '</span>';
+        return;
+      }
+      appendBot(data.reply);
+      history.push({ role: 'assistant', content: data.reply });
+    } catch (e){
+      thinking.remove();
+      const msg = appendBot('');
+      msg.innerHTML = '<span class="err">Network error. Try again.</span>';
+    } finally{
+      busy = false; send.disabled = false; input.disabled = false;
+      input.value = ''; input.style.height = 'auto';
+      input.focus();
+    }
+  }
+
+  /* Auto-resize input as the user types. */
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const v = input.value.trim();
+    if (v) ask(v);
+  });
+
+  /* Enter to send, Shift+Enter for newline (standard chat UX). */
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey){
+      e.preventDefault();
+      form.requestSubmit();
+    }
+  });
+
+  launch.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  if (ctaBtn) ctaBtn.addEventListener('click', open);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('advisor-open')) close();
+  });
+
+  /* Suggestion chips: prefill the textarea with a localized example. */
+  chips.addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-prompt-key]');
+    if (!btn) return;
+    /* Use the localized label visible on the chip as the prompt. */
+    input.value = btn.textContent.trim();
+    input.focus();
+    input.dispatchEvent(new Event('input'));
+  });
 })();
 </script>
 
