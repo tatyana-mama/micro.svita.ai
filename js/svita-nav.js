@@ -66,9 +66,9 @@
     const css = `
       nav{justify-content:flex-start!important}
       nav .brand{margin-right:auto;display:flex;align-items:center;gap:0;padding:0;text-decoration:none}
-      nav .brand-logo{display:block;height:28px;width:auto;image-rendering:-webkit-optimize-contrast;-webkit-user-drag:none;user-select:none}
-      nav.scrolled .brand-logo{height:24px;transition:height 200ms ease}
-      @media(max-width:640px){nav .brand-logo{height:22px}}
+      nav .brand-logo{display:block;height:96px;width:auto;image-rendering:-webkit-optimize-contrast;-webkit-user-drag:none;user-select:none;transition:height 200ms ease}
+      nav.scrolled .brand-logo{height:64px}
+      @media(max-width:640px){nav .brand-logo{height:64px} nav.scrolled .brand-logo{height:48px}}
       .nav-mini{display:flex;align-items:center;gap:10px}
       .nav-mini .lang{position:relative}
       @media(min-width:641px){
@@ -182,7 +182,7 @@
       const ini = initials(email);
       const handle = email.split('@')[0] || 'you';
       const roleBadge = role === 'superadmin' ? `<span class="role-tag">${t.admin}</span>` : '';
-      const adminLink = role === 'superadmin' ? `<a href="admin.html" role="menuitem"><span class="ic">⚙</span>${t.admin}</a><div class="user-sep"></div>` : '';
+      const adminLink = role === 'superadmin' ? `<a href="admin.html" role="menuitem"><span class="ic">⚙</span><span data-i18n="nav_admin">${t.admin}</span></a><div class="user-sep"></div>` : '';
       authArea = `
         <div class="user-menu" id="user-menu">
           <button class="user-btn" id="user-btn" aria-haspopup="menu" aria-expanded="false" title="${escape(email)}">
@@ -200,19 +200,19 @@
               </div>
             </div>
             <div class="user-sep"></div>
-            <a href="account.html" role="menuitem"><span class="ic">◱</span>${t.cabinet}</a>
-            <a href="account.html#favorites" role="menuitem"><span class="ic">♡</span>${t.favs}</a>
-            <a href="account.html#owned" role="menuitem"><span class="ic">▣</span>${t.mine}</a>
-            <a href="account.html#settings" role="menuitem"><span class="ic">⚙</span>${t.settings}</a>
+            <a href="account.html" role="menuitem"><span class="ic">◱</span><span data-i18n="nav_cabinet">${t.cabinet}</span></a>
+            <a href="account.html#favorites" role="menuitem"><span class="ic">♡</span><span data-i18n="nav_favs">${t.favs}</span></a>
+            <a href="account.html#owned" role="menuitem"><span class="ic">▣</span><span data-i18n="nav_mine">${t.mine}</span></a>
+            <a href="account.html#settings" role="menuitem"><span class="ic">⚙</span><span data-i18n="nav_settings">${t.settings}</span></a>
             ${adminLink ? `<div class="user-sep"></div>${adminLink}` : ''}
             <div class="user-sep"></div>
-            <button type="button" id="nav-signout" role="menuitem"><span class="ic">⎋</span>${t.signout}</button>
+            <button type="button" id="nav-signout" role="menuitem"><span class="ic">⎋</span><span data-i18n="nav_signout">${t.signout}</span></button>
           </div>
         </div>`;
     } else {
       authArea = `
-        <a href="account.html" class="nav-cta nav-login">${t.signin}</a>
-        <a href="account.html?signup=1" class="nav-cta nav-signup">${t.signup}</a>`;
+        <a href="account.html" class="nav-cta nav-login" data-i18n="nav_signin">${t.signin}</a>
+        <a href="account.html?signup=1" class="nav-cta nav-signup" data-i18n="nav_signup">${t.signup}</a>`;
     }
 
     injectNavMiniStyles();
@@ -220,14 +220,13 @@
     nav.innerHTML = `
       <a href="index.html" class="brand" aria-label="micro.svita home">
         <img class="brand-logo"
-             src="https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/assets/logo/wordmark-dark-132w.png"
-             srcset="https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/assets/logo/wordmark-dark-132w.png 1x, https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/assets/logo/wordmark-dark.png 2x"
+             src="https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/assets/logo/wordmark-dark.png"
              alt="micro.svita"
-             width="132" height="56" decoding="async">
+             width="1584" height="672" decoding="async">
       </a>
       <div class="nav-right">
-        <a href="shop.html"${shopActive}>${t.shop}</a>
-        <a href="index.html#how">${t.how}</a>
+        <a href="shop.html"${shopActive} data-i18n="nav_shop">${t.shop}</a>
+        <a href="index.html#how" data-i18n="nav_how">${t.how}</a>
         ${authArea}
         <div class="lang-switcher nav-lang-mobile" aria-label="Language"></div>
       </div>
@@ -241,6 +240,10 @@
        only auto-builds those present at DOMContentLoaded). */
     if (window.labs67i18n && typeof window.__labs67BuildSwitchers === 'function') {
       window.__labs67BuildSwitchers();
+      /* Re-apply translations to the freshly injected nav DOM so
+         data-i18n attributes inside <a>, dropdown, sign-out etc. pick up
+         the active language on first paint, not just after a switch. */
+      try { window.labs67i18n.setLang(window.labs67i18n.getLang()); } catch (e) {}
     }
 
     injectBurgerOverlay();
