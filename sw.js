@@ -1,16 +1,10 @@
-/* SVITA service worker — minimal offline shell + stale-while-revalidate for catalog */
-const VERSION = 'svita-v17-i18n-5lang';
+/* SVITA service worker — network-first for HTML/JS/JSON, cache-first only for binary assets */
+const VERSION = 'svita-v18-network-first';
 const SHELL = [
   '/',
   '/index.html',
   '/shop.html',
   '/legal.html',
-  '/js/svita-card.js',
-  '/js/svita-card.css',
-  '/js/svita-nav.js',
-  '/js/svita-footer.js',
-  '/js/labs67-i18n.js',
-  '/js/svita-i18n-dict.js',
   '/data/catalog.json'
 ];
 
@@ -32,21 +26,27 @@ self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
-  if (url.origin !== location.origin) return; // third-party -> bypass
+  if (url.origin !== location.origin) return;
 
-  // HTML and JSON: network-first, fall back to cache
-  if (req.headers.get('accept')?.includes('text/html') || url.pathname.endsWith('.json')) {
+  const isHTML = req.headers.get('accept')?.includes('text/html');
+  const ext = url.pathname.split('.').pop().toLowerCase();
+  const codeLike = ['js','css','json','html','svg'].includes(ext);
+
+  // Code-like assets: network-first so deploys propagate without stale cache.
+  if (isHTML || codeLike) {
     event.respondWith(
       fetch(req).then((res) => {
-        const clone = res.clone();
-        caches.open(VERSION).then((c) => c.put(req, clone));
+        if (res.ok) {
+          const clone = res.clone();
+          caches.open(VERSION).then((c) => c.put(req, clone));
+        }
         return res;
       }).catch(() => caches.match(req))
     );
     return;
   }
 
-  // Static assets: cache-first with background refresh
+  // Binary assets (images, fonts, PDFs): cache-first with background refresh.
   event.respondWith(
     caches.match(req).then((cached) => {
       const fetchPromise = fetch(req).then((res) => {
