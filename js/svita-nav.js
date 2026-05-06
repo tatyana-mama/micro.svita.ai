@@ -81,6 +81,52 @@
         .nav-mini .lang-menu button:hover,.nav-mini .lang-menu button.active{background:var(--accent,#D6FF3E);color:#0A0A0B}
         .nav-mini .icon-btn,.nav-mini .cart-icon{width:34px;height:34px;border-radius:50%;border:1px solid var(--line,rgba(255,255,255,0.14));background:rgba(255,255,255,0.04);display:inline-flex;align-items:center;justify-content:center;color:var(--text,#fff);position:relative}
         .nav-mini .cart-count{position:absolute;top:-4px;right:-4px;background:var(--accent,#D6FF3E);color:#0A0A0B;font-size:9px;font-weight:700;border-radius:100px;padding:1px 5px;font-family:'JetBrains Mono',monospace}
+
+        /* Defensive mobile drawer baseline — applies to every page that uses
+           the shared nav. Per-page CSS may further refine. */
+        nav .nav-right{
+          position:fixed!important;inset:0!important;
+          width:100vw!important;height:100vh!important;height:100dvh!important;
+          background:#08080a!important;
+          display:flex!important;flex-direction:column!important;
+          justify-content:flex-start!important;align-items:stretch!important;
+          gap:6px!important;padding:88px 28px 40px!important;
+          transform:translateX(100%);transition:transform 320ms cubic-bezier(.22,1,.36,1);
+          z-index:99;pointer-events:none;overflow-y:auto;
+        }
+        body.menu-open nav .nav-right{transform:translateX(0)!important;pointer-events:auto!important}
+        body.menu-open{overflow:hidden}
+        nav .nav-right > a{
+          font:500 20px/1.3 'Space Grotesk',system-ui,sans-serif!important;
+          color:var(--text,#fff)!important;text-decoration:none!important;
+          padding:18px 4px!important;border-bottom:1px solid rgba(255,255,255,0.08)!important;
+          text-align:left!important;display:block;
+        }
+        nav .nav-right > a.nav-cta{
+          margin-top:14px;background:var(--accent,#D6FF3E);color:#0A0A0B!important;
+          border:0!important;border-radius:100px;font-size:15px!important;
+          padding:16px 24px!important;text-align:center!important;font-weight:600!important;
+        }
+        nav .nav-right > a.nav-login{
+          background:transparent;border:1px solid rgba(255,255,255,0.18)!important;
+          border-radius:100px;font-size:15px!important;padding:16px 24px!important;
+          text-align:center!important;color:var(--text,#fff)!important;
+        }
+        nav .nav-right .user-menu{margin-top:14px;width:100%;position:relative}
+        nav .nav-right .user-btn{
+          width:100%;justify-content:flex-start;padding:14px 16px;
+          border-radius:14px;background:rgba(255,255,255,0.04);
+          border:1px solid rgba(255,255,255,0.12);
+        }
+        nav .nav-right .user-drop{
+          position:static!important;display:none;margin-top:10px;
+          background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);
+          border-radius:14px;padding:8px;width:100%;
+        }
+        nav .nav-right .user-menu.open .user-drop{display:block}
+
+        /* Burger always above the drawer with a clean tap target. */
+        nav .burger{position:fixed!important;top:14px;right:18px;z-index:120!important;background:transparent}
       }
     `;
     const style = document.createElement('style');
