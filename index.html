@@ -586,37 +586,24 @@ const rail  = document.getElementById('rail');
 const count = document.getElementById('sig-count');
 const mar   = document.getElementById('mar');
 
-function verifyImage(url){
-  return new Promise(resolve => {
-    if (!url) return resolve(false);
-    const img = new Image();
-    let done = false;
-    const finish = ok => { if (!done) { done = true; resolve(ok); } };
-    img.onload  = () => finish(img.naturalWidth > 0);
-    img.onerror = () => finish(false);
-    setTimeout(() => finish(false), 8000);
-    img.src = url;
-  });
-}
-
-async function verifyPdf(url){
-  if (!url) return false;
-  try {
-    const r = await fetch(url, { method: 'HEAD', cache: 'no-store' });
-    return r.ok;
-  } catch { return false; }
-}
-
 async function hydrate(){
   try{
-    const r = await fetch('data/catalog.json', { cache: 'no-store' });
+    // Source of truth: Supabase public_verified_catalog view (anon-readable).
+    // hero_image is an absolute jsdelivr URL stored in DB; brandbook gating
+    // uses has_brandbook/brandbook_actualised flags, not URL probes.
+    const SB_URL='https://ctdleobjnzniqkqomlrq.supabase.co';
+    const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+    const r = await fetch(`${SB_URL}/rest/v1/public_verified_catalog?select=slug,name,country,category,hero_image,has_brandbook,brandbook_actualised`, {
+      headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` },
+      cache: 'no-store',
+    });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const data = await r.json();
 
     const eligible = data.filter(c =>
       c.has_brandbook === true &&
       c.brandbook_actualised === true &&
-      typeof c.hero_image === 'string' && c.hero_image.startsWith('presentations/') &&
-      typeof c.brandbook_pdf_url === 'string' && c.brandbook_pdf_url.startsWith('presentations/') &&
+      typeof c.hero_image === 'string' && c.hero_image.length > 0 &&
       /^\d+ ·/.test(c.name || '')
     );
 
@@ -626,28 +613,14 @@ async function hydrate(){
       [eligible[i], eligible[j]] = [eligible[j], eligible[i]];
     }
 
-    // marquee: all concept short names (deduplicated, pre-verified only)
+    // marquee: all concept short names
     if (mar){
       const names = eligible.map(c => (c.name || '').replace(/^\d+\s*·\s*/, '').trim()).filter(Boolean);
       const row = names.map(n => `<span>${n.replace(/</g,'&lt;')} <em>·</em></span>`).join('');
       mar.innerHTML = row + row; // duplicate for seamless loop
     }
 
-    // signature rail: 24 verified cards
-    const picks = [];
-    const BATCH = 8;
-    const TARGET = 24;
-    for (let i = 0; i < eligible.length && picks.length < TARGET; i += BATCH){
-      const slice = eligible.slice(i, i + BATCH);
-      const results = await Promise.all(slice.map(async c => {
-        const [hero, pdf] = await Promise.all([
-          verifyImage(c.hero_image),
-          verifyPdf(c.brandbook_pdf_url),
-        ]);
-        return (hero && pdf) ? c : null;
-      }));
-      for (const r of results){ if (r && picks.length < TARGET) picks.push(r); }
-    }
+    const picks = eligible.slice(0, 24);
 
     if (count) count.textContent = `${String(picks.length).padStart(2,'0')} · ${picks.length}`;
 
