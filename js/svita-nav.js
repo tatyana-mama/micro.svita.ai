@@ -417,10 +417,18 @@
     });
     window.addEventListener('svita:cart', ()=> render(user, { role }));
     window.addEventListener('svita:favs', ()=> render(user, { role }));
-    /* Re-render nav when the user picks a different language so labels update. */
+    /* Re-render nav when the user picks a different language so labels update.
+       Guard against re-entry: render() calls labs67i18n.setLang() to re-apply
+       translations to freshly injected nav DOM, and setLang fires onLangChange,
+       which would otherwise loop back into render() forever. */
     const prevOnLangChange = window.onLangChange;
+    let __navInRender = false;
     window.onLangChange = function(lang, dict){
-      try{ render(user, { role }); }catch(_){}
+      if(!__navInRender){
+        __navInRender = true;
+        try{ render(user, { role }); }catch(_){}
+        finally{ __navInRender = false; }
+      }
       if(typeof prevOnLangChange === 'function') prevOnLangChange(lang, dict);
     };
 
