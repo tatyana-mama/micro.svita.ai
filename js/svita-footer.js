@@ -23,7 +23,7 @@
     '<a href="/legal.html#imprint" style="color:inherit;text-decoration:none;border-bottom:1px dotted currentColor">Imprint</a>',
     '<a href="mailto:ceo@labs67.com" style="color:inherit;text-decoration:none;border-bottom:1px dotted currentColor">ceo@labs67.com</a>',
     '</div>',
-    '<div style="margin-top:14px;font-size:11px;letter-spacing:.06em;color:#CBD5E1">© 2026 SVITA MICRO · LABS67, Bydgoszcz, Poland</div>'
+    '<div style="margin-top:14px;font-size:11px;letter-spacing:.06em;color:#CBD5E1">© 2026 SVITA MICRO · LABS67, Warsaw, Poland</div>'
   ].join('');
   document.body.appendChild(f);
 })();
