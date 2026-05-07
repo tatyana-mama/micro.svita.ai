@@ -1,17 +1,19 @@
-// ai-concept-chat — per-concept AI assistant (Anthropic Claude Haiku 4.5)
+// ai-concept-chat — per-concept AI assistant.
+// LLM: Ollama on Jetson (qwen2.5:14b) via Tailscale Funnel, OpenAI-compatible API.
 // Only owners of the concept with tier IN ('ai','exclusive') can call it.
 // Context is strictly the concept's brandbook.
 //
 // Deploy:
 //   supabase functions deploy ai-concept-chat --project-ref ctdleobjnzniqkqomlrq
-// Secrets (already set in project):
-//   ANTHROPIC_API_KEY
+// Secrets:
+//   LLM_ENDPOINT  e.g. https://scyraai-desktop-1.tail2060da.ts.net:8443
+//   LLM_MODEL     e.g. qwen2.5:14b-instruct-q4_K_M
 //   SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY (auto-injected)
 
 import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
 
-const ANTHROPIC_KEY = Deno.env.get('ANTHROPIC_API_KEY') ?? '';
-const MODEL = 'claude-haiku-4-5-20251001';
+const LLM_ENDPOINT = Deno.env.get('LLM_ENDPOINT') ?? '';
+const LLM_MODEL = Deno.env.get('LLM_MODEL') ?? 'qwen2.5:14b-instruct-q4_K_M';
 const BRANDBOOK_BASE = 'https://micro.svita.ai/data/concepts';
 
 const admin = createClient(
@@ -61,7 +63,7 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS });
   if (req.method !== 'POST') return json({ error: 'method_not_allowed' }, 405);
 
-  if (!ANTHROPIC_KEY) return json({ error: 'ai_not_configured' }, 503);
+  if (!LLM_ENDPOINT) return json({ error: 'ai_not_configured' }, 503);
 
   const authHeader = req.headers.get('Authorization') ?? '';
   const token = authHeader.replace(/^Bearer\s+/i, '').trim();
@@ -130,11 +132,13 @@ Deno.serve(async (req) => {
     `</BRANDBOOK>`,
   ].join('\n');
 
-  const anthropicBody = {
-    model: MODEL,
+  const llmBody = {
+    model: LLM_MODEL,
     max_tokens: 1024,
-    system: systemPrompt,
+    temperature: 0.7,
+    stream: false,
     messages: [
+      { role: 'system', content: systemPrompt },
       ...history.map((m) => ({ role: m.role, content: String(m.content).slice(0, 4000) })),
       { role: 'user', content: message },
     ],
@@ -142,30 +146,23 @@ Deno.serve(async (req) => {
 
   let answer = '';
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
+    const r = await fetch(`${LLM_ENDPOINT.replace(/\/$/, '')}/v1/chat/completions`, {
       method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'x-api-key': ANTHROPIC_KEY,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify(anthropicBody),
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(llmBody),
+      signal: AbortSignal.timeout(120_000),
     });
     if (!r.ok) {
       const errText = await r.text();
-      console.error('anthropic error', r.status, errText);
+      console.error('llm error', r.status, errText);
       return json({ error: 'ai_upstream', status: r.status }, 502);
     }
     const data = await r.json();
-    answer = (data.content ?? [])
-      .filter((c: { type?: string }) => c.type === 'text')
-      .map((c: { text?: string }) => c.text ?? '')
-      .join('\n')
-      .trim();
+    answer = String(data?.choices?.[0]?.message?.content ?? '').trim();
   } catch (e) {
-    console.error('anthropic fetch threw', e);
+    console.error('llm fetch threw', e);
     return json({ error: 'ai_upstream_threw' }, 502);
   }
 
-  return json({ answer, model: MODEL });
+  return json({ answer, model: LLM_MODEL });
 });
