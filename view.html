@@ -84,7 +84,7 @@ body{
 }
 /* repeating brand pattern — drifts horizontally */
 body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  content:'';position:fixed;top:-120px;bottom:-120px;left:-240px;right:-240px;pointer-events:none;z-index:0;
   background-image:var(--pattern,none);
   background-size:var(--pattern-size,240px);
   opacity:var(--pattern-opacity,0.18);
