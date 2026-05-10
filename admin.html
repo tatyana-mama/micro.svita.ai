@@ -460,7 +460,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="tab" data-tab="cohorts" id="tab-cohorts" style="display:none">Cohorts</div>
       <div class="tab" data-tab="segments" id="tab-segments" style="display:none">Segments</div>
       <div class="tab" data-tab="upcoming" id="tab-upcoming">Upcoming <span class="count" id="t-upcoming">—</span></div>
-      <div class="tab tab-trash" data-tab="archive" id="tab-archive" title="Sold-out concepts — permanent archive (the trash bin)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>Archive <span class="count" id="t-archive">—</span></div>
+      <div class="tab tab-trash" data-tab="archive" id="tab-archive" style="display:none" title="Legacy archive — exclusive sales retired with the 2026-05-10 subscription pivot"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>Legacy <span class="count" id="t-archive">—</span></div>
       <div class="tab" data-tab="waitlist" id="tab-waitlist">Waitlist <span class="count" id="t-waitlist">—</span></div>
     </div>
 
@@ -696,10 +696,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
         <div class="card">
-          <div class="hdr"><h3>By price tier</h3></div>
+          <div class="hdr"><h3>By plan</h3></div>
           <div class="table-wrap" style="border:0;border-radius:0;background:transparent">
-            <table><thead><tr><th>Tier</th><th>Orders</th><th>Buyers</th><th>Revenue</th><th>Share</th></tr></thead>
-            <tbody id="seg-tier"></tbody></table>
+            <table><thead><tr><th>Plan</th><th>Active</th><th>Trial</th><th>Cancelled</th><th>MRR</th></tr></thead>
+            <tbody id="seg-plan"></tbody></table>
           </div>
         </div>
       </div>
@@ -1547,9 +1547,13 @@ async function openUserModal(userId){
   box.innerHTML = '<div style="padding:60px;text-align:center;color:var(--text-3)"><div class="spin" style="margin:0 auto 16px"></div>Loading user...</div>';
   document.body.style.overflow = 'hidden';
   try{
-    const {data, error} = await sb.rpc('admin_user_detail', {p_user_id: userId});
+    const [{data, error}, subsRes] = await Promise.all([
+      sb.rpc('admin_user_detail', {p_user_id: userId}),
+      sb.from('subscriptions').select('id,status,plan,interval,price_amount,currency,current_period_end,trial_ends_at,cancelled_at,created_at,provider,ls_subscription_id').eq('user_id', userId).order('created_at', {ascending:false}),
+    ]);
     if(error) throw error;
-    renderUserModal(data);
+    const enriched = Object.assign({}, data, { subscriptions: subsRes.data || [] });
+    renderUserModal(enriched);
   }catch(e){
     box.innerHTML = '<div style="padding:60px;text-align:center;color:var(--err)">Error: '+escape(e.message||String(e))+'<br><button class="btn-s" style="margin-top:16px" onclick="closeUserModal()">Close</button></div>';
   }
@@ -1632,15 +1636,36 @@ function renderUserModal(d){
       <div class="umodal-section">
         <h3>Stats</h3>
         <div class="stat-grid">
-          <div class="stat-mini"><div class="num">${stats.total_purchases||0}</div><div class="lbl">Concepts</div></div>
-          <div class="stat-mini"><div class="num">€${(stats.total_spent||0).toLocaleString()}</div><div class="lbl">Spent</div></div>
+          <div class="stat-mini"><div class="num">${(d.subscriptions||[]).filter(s=>['active','trialing','past_due'].includes((s.status||'').toLowerCase())).length}</div><div class="lbl">Active subs</div></div>
+          <div class="stat-mini"><div class="num">${stats.total_purchases||0}</div><div class="lbl">Legacy buys</div></div>
           <div class="stat-mini"><div class="num" style="font-size:11px;line-height:1.6">${stats.first_purchase?new Date(stats.first_purchase).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}):'—'}</div><div class="lbl">First buy</div></div>
           <div class="stat-mini"><div class="num" style="font-size:11px;line-height:1.6">${stats.last_purchase?new Date(stats.last_purchase).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}):'—'}</div><div class="lbl">Last buy</div></div>
         </div>
       </div>
 
       <div class="umodal-section">
-        <h3>Concepts (${purchases.length})</h3>
+        <h3>Subscriptions (${(d.subscriptions||[]).length})</h3>
+        <div class="usubs" style="display:flex;flex-direction:column;gap:8px">
+          ${(d.subscriptions||[]).length ? (d.subscriptions||[]).map(s => {
+            const status = (s.status||'').toLowerCase();
+            const isActive = ['active','trialing','past_due'].includes(status);
+            const sym = s.currency === 'USD' ? '$' : s.currency === 'EUR' ? '€' : (s.currency||'') + ' ';
+            const end = s.current_period_end ? new Date(s.current_period_end).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'}) : '—';
+            const colour = isActive ? 'var(--ok)' : status==='cancelled' ? 'var(--warn)' : 'var(--text-3)';
+            return `<div style="padding:12px 14px;border:1px solid var(--line);border-radius:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+              <div>
+                <div style="font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;color:${colour};text-transform:uppercase">● ${escape(status)} · ${escape(s.interval||'monthly')}</div>
+                <div style="font-size:13px;margin-top:4px">${sym}${s.price_amount ?? '—'} · ${escape(s.plan||'library')} · ${escape(s.provider||'lemon_squeezy')}</div>
+                <div style="font-size:11px;color:var(--text-3);margin-top:2px">Renews ${end}${s.cancelled_at?` · cancelled ${new Date(s.cancelled_at).toLocaleDateString('en-GB')}`:''}</div>
+              </div>
+              <code style="font-size:10px;color:var(--text-3);font-family:'JetBrains Mono'">${escape((s.ls_subscription_id||s.id||'').toString().slice(0,12))}…</code>
+            </div>`;
+          }).join('') : '<div style="padding:24px;text-align:center;color:var(--text-3);font-size:12px">No subscriptions</div>'}
+        </div>
+      </div>
+
+      <div class="umodal-section">
+        <h3>Legacy purchases (${purchases.length})</h3>
         <div class="uconcepts">${purchasesHtml}</div>
       </div>
 
@@ -1853,7 +1878,6 @@ function renderConceptModal(c, accessRows, i18n, brand){
             : `<button type="button" class="btn-s primary" onclick="toggleVerifyModal('${escape(c.slug)}', true)" style="background:rgba(132,204,22,0.16);color:var(--ok);border-color:rgba(132,204,22,0.45)">✓ Verify</button>`
           ):''}
           <button type="button" class="btn-s" onclick="copyToClipboard(location.origin + '/view.html?c=${escape(c.slug)}', this)">📎 Copy concept link</button>
-          ${c.ls_url?`<button type="button" class="btn-s" onclick="copyToClipboard(${JSON.stringify(c.ls_url)}, this)">💳 Copy payment link</button>`:'<span class="btn-s" style="opacity:.5;cursor:not-allowed" title="Set payment link in the table row">💳 No payment link</span>'}
         </div>
       </div>
 
@@ -2234,12 +2258,37 @@ async function loadSegments(){
     return `<tr><td><span class="chip">${escape(r.category||'—')}</span></td><td class="mono">${fmtN(r.orders)}</td><td class="mono">${fmtN(r.buyers)}</td><td class="mono">${fmtEur(r.revenue)}</td><td class="mono">${share}%</td></tr>`;
   }).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--text-3);padding:30px">No data</td></tr>';
 
-  const tierRows = d.by_price_tier || [];
-  const totalTierRev = tierRows.reduce((a,r)=>a+Number(r.revenue||0),0) || 1;
-  $('seg-tier').innerHTML = tierRows.length ? tierRows.map(r=>{
-    const share = (Number(r.revenue||0)/totalTierRev*100).toFixed(1);
-    return `<tr><td>${escape(r.tier)}</td><td class="mono">${fmtN(r.orders)}</td><td class="mono">${fmtN(r.buyers)}</td><td class="mono">${fmtEur(r.revenue)}</td><td class="mono">${share}%</td></tr>`;
-  }).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--text-3);padding:30px">No data</td></tr>';
+  // Subscription pivot 2026-05-10: replaced by-price-tier breakdown with by-plan
+  // sourced live from public.subscriptions. MRR = sum(monthly equivalents).
+  try {
+    const {data: subRows, error: subErr} = await sb.from('subscriptions')
+      .select('interval,price_amount,currency,status');
+    if (subErr) throw subErr;
+    const buckets = {};
+    (subRows||[]).forEach(s=>{
+      const interval = (s.interval||'monthly').toLowerCase();
+      const key = interval === 'yearly' ? 'Yearly' : 'Monthly';
+      const b = buckets[key] = buckets[key] || {active:0,trial:0,cancelled:0,mrr:0,currency:s.currency||'USD'};
+      const status = (s.status||'').toLowerCase();
+      if (status === 'active' || status === 'past_due') b.active++;
+      else if (status === 'trialing') b.trial++;
+      else if (status === 'cancelled' || status === 'expired') b.cancelled++;
+      const amount = Number(s.price_amount||0);
+      const monthly = interval === 'yearly' ? amount/12 : amount;
+      if (status === 'active' || status === 'trialing' || status === 'past_due') b.mrr += monthly;
+    });
+    const planKeys = Object.keys(buckets);
+    $('seg-plan').innerHTML = planKeys.length
+      ? planKeys.map(k => {
+          const b = buckets[k];
+          const sym = b.currency === 'USD' ? '$' : b.currency === 'EUR' ? '€' : '';
+          return `<tr><td><span class="chip">${k}</span></td><td class="mono">${fmtN(b.active)}</td><td class="mono">${fmtN(b.trial)}</td><td class="mono">${fmtN(b.cancelled)}</td><td class="mono">${sym}${b.mrr.toFixed(0)}</td></tr>`;
+        }).join('')
+      : '<tr><td colspan="5" style="text-align:center;color:var(--text-3);padding:30px">No subscriptions yet</td></tr>';
+  } catch(e){
+    console.warn('loadSegments / by-plan failed', e);
+    $('seg-plan').innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-3);padding:30px">${escape(e.message||'load error')}</td></tr>`;
+  }
 
   const provRows = d.by_provider || [];
   $('seg-prov').innerHTML = provRows.length ? provRows.map(r=>{

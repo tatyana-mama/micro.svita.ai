@@ -31,29 +31,16 @@ window.SvitaCard = (function(){
 
   function shopCard(c, opts){
     opts = opts || {};
-    const owned = opts.owned || false;
     const slug = c.slug || c.concept_slug || '';
     const vis = visual(c);
-    const price = (c.current_price_eur != null) ? c.current_price_eur : (c.price_eur||0);
-    const archived = !!c.archived;
-    const priceBlock = owned
-      ? '<span class="sc-owned-tag">Owned</span>'
-      : (archived
-          ? '<span class="sc-price sc-archived-price">Sold out</span>'
-          : '<span class="sc-price">€'+price+'</span>');
     const numBadge = (c.catalog_number != null)
       ? '<span class="sc-num">#' + String(c.catalog_number).padStart(3,'0') + '</span>'
       : '';
-    const readyBadge = (c.brandbook_actualised && !archived)
-      ? '<span class="sc-ready">● READY FOR SALE</span>'
-      : '';
-    return '<a class="sc-card'+(owned?' sc-owned':'')+(archived?' sc-card-archived':'')+'" href="view.html?c='+esc(slug)+'">'
+    return '<a class="sc-card" href="view.html?c='+esc(slug)+'">'
       +'<div class="sc-media">'+vis+'<div class="sc-shade"></div>'
       +'<button type="button" class="sc-fav" data-fav="'+esc(slug)+'" aria-label="Favorite" aria-pressed="false">'
       +'<svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg></button>'
       +numBadge
-      +readyBadge
-      +(owned?'<span class="sc-badge">Owned</span>':'')
       +'</div>'
       +'<div class="sc-body">'
       +'<span class="sc-cat">'+esc(catLabel(c.category))+'</span>'
@@ -64,9 +51,8 @@ window.SvitaCard = (function(){
       +'<span>'+(c.weeks||'—')+'w</span>'
       +'<span>concept brief</span>'
       +'</div>'
-      +scarcityBadge(c)
       +'<div class="sc-bottom">'
-      +priceBlock
+      +'<span class="sc-included">In library</span>'
       +'<span class="sc-open">Open <svg width="14" height="9" viewBox="0 0 14 9" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4.5h11M8 1l4 3.5-4 3.5"/></svg></span>'
       +'</div></div></a>';
   }
@@ -107,9 +93,9 @@ window.SvitaCard = (function(){
       +'<span class="sc-cat">'+esc(catLabel(c.category))+'</span>'
       +'<h3 class="sc-name">'+esc(c.name||slug)+'</h3>'
       +'<div class="sc-meta">'
-      +'<span>€'+(c.price_eur||0)+'</span>'
       +'<span>'+(c.size_m2||'—')+' m²</span>'
       +'<span>'+(c.weeks||'—')+'w</span>'
+      +'<span>'+(catLabel(c.category)||'concept')+'</span>'
       +'</div></div></div>';
   }
 

@@ -1289,34 +1289,17 @@ async function enterAccount(user){
   loadFavorites();
   await updateSubscriptionBlock(user);
   await loadOwned();
+  // Subscription pivot 2026-05-10: PAID_SLUG flow refactored — payment now lands
+  // on the same /account.html?paid=… URL but we just show a thank-you and refresh
+  // the subscription block (which read from my_access).
   if(PAID_SLUG){
     clearPendingBuy();
     const box = $('intent-box');
     box.className = 'intent reveal in';
-    box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--accent)">Processing payment…</span><h4>Unlocking your concept</h4><div class="specs">This takes a few seconds.</div></div><div class="actions"><div class="spin" style="margin:0 8px"></div></div>`;
-    // Server-side verification only. claim_paid_concept RPC must confirm the purchase
-    // (SECURITY DEFINER on server verifies webhook row in purchases).
-    // Client never inserts paid=true directly — that would be forgeable via DevTools.
-    try{
-      const {error: claimErr} = await sb.rpc('claim_paid_concept', {p_slug: PAID_SLUG, p_provider: 'lemon_squeezy'});
-      // If RPC missing or failed, check if a paid row already exists (set by webhook
-      // or superadmin direct grant). Accept it only if status='paid' is already persisted.
-      const {data: existing} = await sb.from('purchases')
-        .select('status')
-        .eq('user_id', user.id)
-        .eq('concept_slug', PAID_SLUG)
-        .eq('status','paid')
-        .maybeSingle();
-      if(claimErr && !existing){
-        throw new Error('Payment not yet confirmed. If you completed checkout, please wait a minute and refresh — our payment webhook will unlock access.');
-      }
-    }catch(e){
-      box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--err)">Payment issue</span><h4>Could not unlock automatically</h4><div class="specs">${(e && e.message) || 'Unknown error'}. Contact support at hello@svita.ai.</div></div><div class="actions"><button class="btn btn-ghost" onclick="location.reload()">Retry</button><button class="btn btn-ghost" onclick="history.replaceState({},'','account.html');this.closest('.intent').className='hidden';">Close</button></div>`;
-      return;
-    }
-    await loadOwned();
-    box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--accent)">Payment received</span><h4>Thank you — concept unlocked</h4><div class="specs">Lifetime access. Open it whenever you need.</div></div><div class="actions"><button class="btn btn-ghost" id="close-paid">Close</button><a class="btn btn-primary" id="open-paid" href="view.html?c=${encodeURIComponent(PAID_SLUG)}">Open concept →</a></div>`;
+    box.innerHTML = `<div class="left"><span class="kicker" style="color:var(--accent)">Payment received</span><h4>Welcome to the library</h4><div class="specs">Your subscription is being activated by our webhook — usually instant. Refresh in a few seconds if it doesn't appear.</div></div><div class="actions"><button class="btn btn-ghost" id="close-paid">Close</button><a class="btn btn-primary" href="/shop.html">Open concepts →</a></div>`;
     $('close-paid').onclick = ()=>{ history.replaceState({},'','account.html'); box.className='hidden'; };
+    // Pull fresh access state so the sub-block updates without manual refresh.
+    setTimeout(()=>{ updateSubscriptionBlock(user).catch(()=>{}); }, 1500);
   } else if(BUY_INTENT) {
     showBuyIntent(BUY_INTENT);
   }
@@ -1674,90 +1657,43 @@ async function loadOwned(){
   show('owned-grid');
 }
 
+// Subscription pivot 2026-05-10: per-concept buy flow retired.
+// Any ?buy=<slug> deep-link from old marketing now lands on a Subscribe prompt.
 async function showBuyIntent(slug){
   try{
-    // Prefer DB row (has ls_url), fall back to local catalog
     let c = null;
     try{
-      const {data} = await sb.from('concepts_catalog').select('*').eq('slug', slug).maybeSingle();
+      const {data} = await sb.from('concepts_catalog').select('slug,name,category,size_m2,weeks,budget_eur').eq('slug', slug).maybeSingle();
       if(data) c = data;
     }catch(e){}
     if(!c){
-      const r = await fetch('data/catalog.json');
-      const all = await r.json();
-      c = all.find(x=>x.slug === slug);
+      try{
+        const r = await fetch('data/catalog.json');
+        const all = await r.json();
+        c = all.find(x=>x.slug === slug);
+      }catch{}
     }
-    if(!c) return;
-
-    // Superadmin: free access, one-click ownership
-    if(MY_ROLE === 'superadmin'){
-      const box = $('intent-box');
-      box.className = 'intent reveal in';
-      box.innerHTML = `
-        <div class="left">
-          <span class="kicker">Superadmin · free access</span>
-          <h4>${c.name}</h4>
-          <div class="specs">${c.category} · ${c.size_m2||'—'}m² · €${(c.budget_eur||0).toLocaleString()} total launch</div>
-        </div>
-        <div class="actions">
-          <button class="btn btn-ghost" id="cancel-buy">Cancel</button>
-          <button class="btn btn-primary" id="grant-sa">Unlock now</button>
-        </div>`;
-      $('cancel-buy').onclick = ()=>{ history.replaceState({},'','account.html'); box.className='hidden'; };
-      $('grant-sa').onclick = async ()=>{
-        const {data:{session}} = await sb.auth.getSession();
-        const {error} = await sb.from('purchases').upsert({
-          user_id: session.user.id, concept_slug: slug,
-          price_paid: 0, currency: 'EUR', provider: 'superadmin', status: 'paid'
-        }, {onConflict:'user_id,concept_slug'});
-        if(error){ alert(error.message); return; }
-        location.href = 'account.html?paid=' + encodeURIComponent(slug);
-      };
-      return;
-    }
-
+    const conceptName = (c && c.name) || slug;
+    const conceptMeta = c ? `${c.category||'concept'} · ${c.size_m2||'—'}m² · €${(c.budget_eur||0).toLocaleString()} to open` : '';
+    const cfg = await getSubConfig();
+    const monthlyHref = cfg.monthly_url || '/account.html?subscribe=1';
+    const yearlyHref  = cfg.yearly_url  || '/account.html?subscribe=1&plan=yearly';
     const box = $('intent-box');
     box.className = 'intent reveal in';
-    const hasLink = !!c.ls_url;
     box.innerHTML = `
       <div class="left">
-        <span class="kicker">Ready to buy</span>
-        <h4>${c.name}</h4>
-        <div class="specs">${c.category} · ${c.size_m2||'—'}m² · €${(c.budget_eur||0).toLocaleString()} total launch</div>
+        <span class="kicker">Open «${conceptName}» — and the rest of the library</span>
+        <h4>One subscription, every concept</h4>
+        <div class="specs">${conceptMeta || 'Library access · 90+ editorial brandbooks · new concepts every week'}</div>
       </div>
       <div class="actions">
-        <button class="btn btn-ghost" id="cancel-buy">Cancel</button>
-        <button class="btn btn-primary" id="confirm-buy" ${hasLink?'':'disabled'}>
-          ${hasLink ? `Buy €${c.price_eur}` : 'Checkout not configured'}
+        <a class="btn btn-ghost" href="${yearlyHref}">$149 / year</a>
+        <a class="btn btn-primary" href="${monthlyHref}">
+          Start trial · $19/mo
           <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
-        </button>
-      </div>
-    `;
-    $('cancel-buy').onclick = ()=>{ history.replaceState({},'','account.html'); box.className='hidden'; };
-    if(hasLink){
-      $('confirm-buy').onclick = async ()=>{
-        const {data:{session}} = await sb.auth.getSession();
-        if(!session){ alert('Please sign in first'); return; }
-        const base = c.ls_url;
-        const joiner = base.includes('?') ? '&' : '?';
-        const success = encodeURIComponent(location.origin + '/account.html?paid=' + c.slug);
-        const ref = session.user.id + ':' + c.slug;
-        const email = session.user.email || '';
-        // Both Stripe Payment Links AND Lemon Squeezy checkout params in one URL.
-        // Stripe reads: client_reference_id, prefilled_email
-        // Lemon Squeezy reads: checkout[email], checkout[custom][ref]
-        // Each provider ignores the other's params.
-        const params = new URLSearchParams();
-        params.set('client_reference_id', ref);
-        params.set('prefilled_email', email);
-        params.set('checkout[email]', email);
-        params.set('checkout[custom][ref]', ref);
-        params.set('success_url', decodeURIComponent(success));
-        const url = `${base}${joiner}${params.toString()}`;
-        try { window.svitaTrack && window.svitaTrack('checkout_start', { slug: c.slug, price: c.price_eur }); } catch {}
-        window.location.href = url;
-      };
-    }
+        </a>
+      </div>`;
+    try { window.svitaTrack && window.svitaTrack('subscribe_intent_from_buy_link', { slug }); } catch {}
   }catch(e){ console.error(e); }
 }
 

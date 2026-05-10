@@ -733,8 +733,6 @@ function applyAll(){
     return true;
   });
   const cmp = {
-    'price_eur-asc':(a,b)=>(a.price_eur||0)-(b.price_eur||0),
-    'price_eur-desc':(a,b)=>(b.price_eur||0)-(a.price_eur||0),
     'budget_eur-asc':(a,b)=>(a.budget_eur||0)-(b.budget_eur||0),
     'budget_eur-desc':(a,b)=>(b.budget_eur||0)-(a.budget_eur||0),
     'popular':(a,b)=>0,
