@@ -99,6 +99,46 @@
     .btn-primary:hover{background:transparent;color:var(--paper)}
     .cta-small{margin-top:32px;font-size:12px;letter-spacing:.06em;opacity:.5}
 
+    /* concierge — full support / leave a request */
+    .concierge{
+      background:linear-gradient(180deg,var(--paper) 0%,var(--paper-2) 100%);
+      padding:96px 28px;border-top:1px solid color-mix(in srgb,var(--ink) 12%,transparent);
+    }
+    .concierge-inner{max-width:980px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:start}
+    @media (max-width:880px){.concierge-inner{grid-template-columns:1fr;gap:36px}}
+    .concierge-eyebrow{font-family:var(--serif);font-weight:300;font-size:13px;letter-spacing:.22em;text-transform:uppercase;opacity:.55}
+    .concierge h2{font-family:var(--serif);font-weight:300;font-size:clamp(32px,4vw,52px);line-height:1.1;letter-spacing:-.01em;margin:14px 0 20px;color:var(--ink)}
+    .concierge h2 i{font-style:italic;font-weight:400;color:var(--accent)}
+    .concierge p.lead{font-family:var(--serif);font-weight:300;font-size:18px;line-height:1.6;color:color-mix(in srgb,var(--ink) 88%,transparent);max-width:42ch}
+    .concierge ul.bullets-c{list-style:none;margin-top:24px;display:grid;gap:8px}
+    .concierge ul.bullets-c li{padding-left:22px;position:relative;font-size:14.5px;line-height:1.55;color:color-mix(in srgb,var(--ink) 80%,transparent)}
+    .concierge ul.bullets-c li::before{content:'·';position:absolute;left:6px;top:-3px;font-size:24px;opacity:.6;color:var(--accent)}
+    .concierge form{background:var(--paper);border:1px solid color-mix(in srgb,var(--ink) 18%,transparent);padding:32px 30px;display:flex;flex-direction:column;gap:14px}
+    .concierge form label{display:block;font-family:var(--serif);font-weight:300;font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-bottom:6px}
+    .concierge form input,.concierge form textarea{
+      width:100%;padding:12px 14px;border:1px solid color-mix(in srgb,var(--ink) 22%,transparent);
+      background:var(--paper);font-family:var(--sans);font-size:14.5px;color:var(--ink);
+      transition:border-color .2s;
+    }
+    .concierge form input:focus,.concierge form textarea:focus{outline:none;border-color:var(--ink)}
+    .concierge form textarea{min-height:84px;resize:vertical}
+    .concierge form .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:520px){.concierge form .row2{grid-template-columns:1fr}}
+    .concierge form button{
+      margin-top:8px;padding:14px 22px;background:var(--ink);color:var(--paper);
+      border:none;font-family:var(--sans);font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+      cursor:pointer;transition:background .2s,color .2s;
+    }
+    .concierge form button:hover{background:var(--accent)}
+    .concierge form button[disabled]{opacity:.6;cursor:wait}
+    .concierge .form-note{font-size:11.5px;letter-spacing:.04em;opacity:.55;margin-top:6px}
+    .concierge .form-error{display:none;color:#b1442a;font-size:12.5px;margin-top:4px}
+    .concierge .form-success{display:none;text-align:center;padding:28px 8px}
+    .concierge .form-success h3{font-family:var(--serif);font-weight:400;font-size:24px;color:var(--accent);margin-bottom:8px}
+    .concierge .form-success p{font-size:14px;color:color-mix(in srgb,var(--ink) 80%,transparent)}
+    .concierge.sent form .form-fields{display:none}
+    .concierge.sent form .form-success{display:block}
+
     /* paywall overlay when not subscribed */
     .paywall{
       position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
@@ -320,6 +360,52 @@
 
   
 
+  <section class="concierge" id="concierge" data-slug="svyatlitsa-dental">
+    <div class="concierge-inner">
+      <div>
+        <div class="concierge-eyebrow">— full support —</div>
+        <h2>Мы откроем <i>«114 · SVYATLITSA DENTAL»</i> вместе с вами.</h2>
+        <p class="lead">Мы можем оказать вам полное сопровождение при открытии вашего заведения. Просто оставьте заявку, и наш менеджер свяжется с вами.</p>
+        <ul class="bullets-c">
+          <li>помещение, договор аренды, разрешения</li>
+          <li>дизайн интерьера и фасада, бренд-идентика</li>
+          <li>оборудование, поставщики, монтаж</li>
+          <li>команда: подбор и обучение</li>
+          <li>план открытия и первый месяц работы</li>
+        </ul>
+      </div>
+      <form id="concierge-form" novalidate>
+        <div class="form-fields">
+          <div>
+            <label for="cf-name">Как к вам обращаться</label>
+            <input type="text" id="cf-name" name="name" autocomplete="name" required maxlength="120" />
+          </div>
+          <div class="row2">
+            <div>
+              <label for="cf-email">Email</label>
+              <input type="email" id="cf-email" name="email" autocomplete="email" maxlength="180" />
+            </div>
+            <div>
+              <label for="cf-phone">Телефон</label>
+              <input type="tel" id="cf-phone" name="phone" autocomplete="tel" maxlength="40" />
+            </div>
+          </div>
+          <div>
+            <label for="cf-msg">Что вас интересует (необязательно)</label>
+            <textarea id="cf-msg" name="message" maxlength="1200" placeholder="Город, сроки, бюджет, любые детали — всё, что хотите рассказать заранее."></textarea>
+          </div>
+          <button type="submit" id="cf-submit">Оставить заявку →</button>
+          <div class="form-note">Нажимая кнопку, вы соглашаетесь на обработку контактных данных. Мы свяжемся в течение рабочего дня.</div>
+          <div class="form-error" id="cf-error"></div>
+        </div>
+        <div class="form-success">
+          <h3>Заявка получена.</h3>
+          <p>Менеджер LABS67 свяжется с вами в течение рабочего дня по указанному контакту. Спасибо.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
   <section class="cta">
     <div class="cta-eyebrow">114 · SVYATLITSA DENTAL</div>
     <h2>Open it, or open the whole library.</h2>
@@ -351,17 +437,59 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-  (async () => {
+  (() => {
     const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
     const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
     if (!window.supabase) { document.body.classList.add('gated'); return; }
     const sb = window.supabase.createClient(SB_URL, SB_ANON, { auth: { persistSession: true, storageKey: 'svita-micro-auth' } });
-    try {
-      const { data: { session } } = await sb.auth.getSession();
-      if (!session) { document.body.classList.add('gated'); return; }
-      const { data, error } = await sb.rpc('has_library_access', { p_user_id: session.user.id });
-      if (error || data !== true) { document.body.classList.add('gated'); return; }
-    } catch (e) { document.body.classList.add('gated'); }
+
+    // ── paywall: gate concept body when no library access ──────────────────
+    (async () => {
+      try {
+        const { data: { session } } = await sb.auth.getSession();
+        if (!session) { document.body.classList.add('gated'); return; }
+        const { data, error } = await sb.rpc('has_library_access', { p_user_id: session.user.id });
+        if (error || data !== true) { document.body.classList.add('gated'); return; }
+      } catch (e) { document.body.classList.add('gated'); }
+    })();
+
+    // ── concierge form: full-support lead capture into public.leads ────────
+    const cf = document.getElementById('concierge-form');
+    if (cf) {
+      const errEl = document.getElementById('cf-error');
+      const btn   = document.getElementById('cf-submit');
+      const wrap  = document.getElementById('concierge');
+      cf.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        errEl.style.display = 'none';
+        const fd = new FormData(cf);
+        const name    = String(fd.get('name')||'').trim();
+        const email   = String(fd.get('email')||'').trim();
+        const phone   = String(fd.get('phone')||'').trim();
+        const message = String(fd.get('message')||'').trim();
+        if (!name) { errEl.textContent = 'Укажите, как к вам обращаться.'; errEl.style.display='block'; return; }
+        if (!email && !phone) { errEl.textContent = 'Оставьте email или телефон, чтобы мы могли связаться.'; errEl.style.display='block'; return; }
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Email указан некорректно.'; errEl.style.display='block'; return; }
+        btn.disabled = true;
+        try {
+          const slug = wrap.getAttribute('data-slug') || 'concept';
+          const { error } = await sb.from('leads').insert({
+            name, email: email || null, phone: phone || null, message: message || null,
+            source: 'concept_' + slug,
+            status: 'new',
+            lang: (navigator.language || 'ru').split('-')[0],
+          });
+          if (error) throw error;
+          wrap.classList.add('sent');
+          try { window.svitaTrack && window.svitaTrack('concierge_lead', { slug }); } catch {}
+        } catch (e) {
+          console.error('concierge submit failed', e);
+          errEl.textContent = 'Не удалось отправить. Попробуйте ещё раз или напишите на ceo@labs67.com.';
+          errEl.style.display = 'block';
+          btn.disabled = false;
+        }
+      });
+    }
   })();
   </script>
 </body>
