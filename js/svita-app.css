@@ -70,7 +70,7 @@
   /* Disable keyframe sparkle/glow loops */
   *{animation-play-state:running}
   @media (prefers-reduced-motion:no-preference){
-    .brand-dot{animation:none !important;box-shadow:0 0 8px var(--accent,#D6FF3E) !important}
+    .brand-dot{animation:none !important;box-shadow:0 0 8px var(--accent,#7A6B3D) !important}
   }
   /* Reserve space only when the tab bar is actually present
      (svita-app.js injects #app-tabbar on index/shop/account, NOT on view.html).
@@ -98,7 +98,7 @@
     background:rgba(10,10,11,0.78) !important;
     backdrop-filter:blur(22px) saturate(180%) !important;
     -webkit-backdrop-filter:blur(22px) saturate(180%) !important;
-    border-bottom:1px solid var(--line,#232327) !important;
+    border-bottom:1px solid var(--line,rgba(47,68,56,.15)) !important;
     min-height:calc(var(--app-safe-top) + 48px);
   }
   nav.scrolled{padding:calc(var(--app-safe-top) + 8px) 16px 8px !important}
@@ -136,24 +136,24 @@
     background:rgba(10,10,11,0.82);
     backdrop-filter:blur(24px) saturate(180%);
     -webkit-backdrop-filter:blur(24px) saturate(180%);
-    border-top:1px solid var(--line,#232327);
+    border-top:1px solid var(--line,rgba(47,68,56,.15));
     align-items:stretch;justify-content:space-around;
   }
   #app-tabbar a{
     flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:3px;color:var(--text-3,#6E6E78);text-decoration:none;
+    gap:3px;color:var(--text-3,rgba(47,68,56,.55));text-decoration:none;
     font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:500;
     letter-spacing:0.02em;transition:color 160ms ease;
     min-height:48px;padding:6px 4px 4px;
   }
   #app-tabbar a svg{width:22px;height:22px;stroke-width:1.8}
-  #app-tabbar a.active{color:var(--accent,#D6FF3E)}
+  #app-tabbar a.active{color:var(--accent,#7A6B3D)}
   #app-tabbar a:active{transform:scale(0.9) !important}
   #app-tabbar .badge{
     position:absolute;top:4px;margin-left:14px;
-    background:var(--accent,#D6FF3E);color:#0A0A0B;
+    background:var(--accent,#7A6B3D);color:#EFEAE0;
     border-radius:100px;min-width:16px;height:16px;padding:0 5px;
-    font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;
+    font-family:'Inter Tight',monospace;font-size:9px;font-weight:700;
     display:flex;align-items:center;justify-content:center;line-height:1;
   }
 }

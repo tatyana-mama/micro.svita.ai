@@ -9,7 +9,7 @@
   color:inherit;text-decoration:none;
 }
 .sc-card:hover{transform:translateY(-6px);border-color:var(--line-2)}
-.sc-card.sc-owned{border-color:rgba(214,255,62,0.35)}
+.sc-card.sc-owned{border-color:rgba(201,169,122,0.35)}
 .sc-card.sc-owned:hover{border-color:var(--accent)}
 
 /* media */
@@ -43,16 +43,16 @@
 /* badge */
 .sc-badge{
   position:absolute;top:14px;left:14px;z-index:3;
-  background:var(--accent);color:#0A0A0B;border-radius:100px;padding:7px 14px;
-  font-family:'JetBrains Mono';font-size:11px;font-weight:700;letter-spacing:0.02em;
-  box-shadow:0 2px 12px rgba(214,255,62,0.3);
+  background:var(--accent);color:#EFEAE0;border-radius:100px;padding:7px 14px;
+  font-family:'Inter Tight';font-size:11px;font-weight:700;letter-spacing:0.02em;
+  box-shadow:0 2px 12px rgba(201,169,122,0.3);
 }
 
 /* catalog number badge (top-right) — stable concept id */
 .sc-num{
   position:absolute;top:12px;right:12px;z-index:4;
   background:rgba(10,10,11,0.78);color:#fff;border-radius:6px;padding:5px 9px;
-  font-family:'JetBrains Mono';font-size:10.5px;font-weight:600;letter-spacing:0.04em;
+  font-family:'Inter Tight';font-size:10.5px;font-weight:600;letter-spacing:0.04em;
   border:1px solid rgba(255,255,255,0.14);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   pointer-events:none;
 }
@@ -60,7 +60,7 @@
 /* ready-for-sale pill (bottom-left of media) — only shown when has_brandbook */
 .sc-ready{
   position:absolute;left:12px;bottom:12px;z-index:3;
-  background:#3BA9F5;color:#0A0A0B;border-radius:100px;padding:5px 12px 5px 10px;
+  background:#3BA9F5;color:#EFEAE0;border-radius:100px;padding:5px 12px 5px 10px;
   font-family:'Inter',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:0.12em;
   text-transform:uppercase;
   box-shadow:0 2px 14px rgba(59,169,245,0.35);
@@ -70,15 +70,15 @@
 /* body */
 .sc-body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
 .sc-cat{font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent);font-weight:600}
-.sc-name{font-family:'Space Grotesk';font-size:20px;font-weight:700;letter-spacing:-0.02em;line-height:1.1;color:#fff;margin:0}
+.sc-name{font-family:'Cormorant Garamond';font-size:20px;font-weight:700;letter-spacing:-0.02em;line-height:1.1;color:#fff;margin:0}
 .sc-tagline{font-size:12px;color:var(--text-3);line-height:1.5;flex:1;margin:0}
-.sc-meta{display:flex;gap:14px;font-family:'JetBrains Mono';font-size:10px;color:var(--text-3);margin-top:4px;padding-top:14px;border-top:1px solid var(--line)}
+.sc-meta{display:flex;gap:14px;font-family:'Inter Tight';font-size:10px;color:var(--text-3);margin-top:4px;padding-top:14px;border-top:1px solid var(--line)}
 
 /* bottom row */
 .sc-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px}
-.sc-price{font-family:'JetBrains Mono';font-size:14px;font-weight:700;color:var(--accent);letter-spacing:-0.01em}
-.sc-owned-tag{font-family:'JetBrains Mono';font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.02em}
-.sc-included{font-family:'JetBrains Mono';font-size:10px;font-weight:600;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase}
+.sc-price{font-family:'Inter Tight';font-size:14px;font-weight:700;color:var(--accent);letter-spacing:-0.01em}
+.sc-owned-tag{font-family:'Inter Tight';font-size:11px;font-weight:700;color:var(--accent);letter-spacing:0.02em}
+.sc-included{font-family:'Inter Tight';font-size:10px;font-weight:600;color:var(--accent);letter-spacing:0.14em;text-transform:uppercase}
 .sc-open{
   display:inline-flex;align-items:center;gap:6px;
   font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-2);
@@ -101,11 +101,11 @@
 .sc-card.sc-owned-tile .sc-shade{background:linear-gradient(180deg,rgba(10,10,11,0) 40%,rgba(10,10,11,0.92) 95%)}
 .sc-card.sc-owned-tile .sc-badge{
   top:16px;right:16px;left:auto;
-  background:rgba(214,255,62,0.92);backdrop-filter:blur(8px);
+  background:rgba(201,169,122,0.92);backdrop-filter:blur(8px);
   font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;
   display:flex;align-items:center;gap:6px;box-shadow:none;
 }
-.sc-card.sc-owned-tile .sc-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#0A0A0B}
+.sc-card.sc-owned-tile .sc-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#EFEAE0}
 .sc-card.sc-owned-tile .sc-body{
   position:absolute;left:24px;right:24px;bottom:24px;z-index:2;
   padding:0;gap:0;
@@ -179,8 +179,8 @@
   display:inline-flex;align-items:center;gap:5px;
   font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
   padding:4px 9px;border-radius:999px;
-  background:rgba(214,255,62,0.12);color:var(--accent);
-  border:1px solid rgba(214,255,62,0.26);
+  background:rgba(201,169,122,0.12);color:var(--accent);
+  border:1px solid rgba(201,169,122,0.26);
   margin-top:8px;align-self:flex-start;cursor:help;
 }
 .sc-scarcity.sc-hot{background:rgba(255,183,66,0.14);color:#ffb742;border-color:rgba(255,183,66,0.32)}

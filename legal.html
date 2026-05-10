@@ -33,10 +33,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="stylesheet" href="/js/svita-app.css">
 <link rel="stylesheet" href="/js/svita-ui.css">
 <link rel="stylesheet" href="/js/svita-mobile.css">
+<link rel="stylesheet" href="/css/svita-rust.css">
 <style>
-:root{--bg:#0A0A0B;--surface:#121214;--fg:#F5F5F4;--muted:#8B8B86;--line:#26262A;--accent:#D4FF00}
+/* RUST design system override */
+:root{--bg:#EFEAE0;--surface:#F0EADF;--fg:#2F4438;--muted:#5F6870;--line:rgba(47,68,56,.15);--accent:#7A6B3D}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.7 -apple-system,BlinkMacSystemFont,"Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.7 'Inter Tight',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.legal-content h1,.legal-section h2{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;letter-spacing:-.005em}
+.legal-toplinks{background:color-mix(in srgb,var(--bg) 92%,transparent)!important}
+.legal-toplinks .brand{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400}
+.legal-section p,.legal-section ul{color:var(--muted)}
+.legal-section strong{color:var(--fg)}
+.legal-section .meta code{font-family:'Inter Tight',monospace;background:var(--surface);color:var(--accent)}
+.legal-section .callout{border-left:3px solid var(--accent)}
+.legal-section h3::before{color:var(--muted)}
 .legal-shell{max-width:1200px;margin:0 auto;padding:120px 32px 120px;display:grid;grid-template-columns:240px 1fr;gap:64px}
 @media(max-width:880px){.legal-shell{grid-template-columns:1fr;gap:32px;padding:96px 20px 80px}}
 .legal-toc{position:sticky;top:96px;align-self:start;font-size:14px}
@@ -53,14 +63,14 @@ body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.7 -apple-system,B
 .legal-section:last-child{border-bottom:none}
 .legal-section h2{font-size:28px;line-height:1.2;font-weight:500;letter-spacing:-.01em;margin:0 0 8px}
 .legal-section .meta{font-size:12px;color:var(--muted);margin-bottom:24px;display:flex;gap:16px;flex-wrap:wrap}
-.legal-section .meta code{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;background:var(--surface);padding:2px 8px;border-radius:4px;color:var(--accent)}
+.legal-section .meta code{font-family:"Inter Tight",ui-monospace,monospace;font-size:11px;background:var(--surface);padding:2px 8px;border-radius:4px;color:var(--accent)}
 .legal-section h3{font-size:16px;font-weight:500;margin:28px 0 10px;color:var(--fg)}
 .legal-section h3::before{content:"§";color:var(--muted);margin-right:8px;font-weight:300}
-.legal-section p{color:#D8D8D4;margin:0 0 12px}
-.legal-section ul{color:#D8D8D4;margin:0 0 12px;padding-left:24px}
+.legal-section p{color:var(--muted);margin:0 0 12px}
+.legal-section ul{color:var(--muted);margin:0 0 12px;padding-left:24px}
 .legal-section li{margin:6px 0}
 .legal-section strong{color:var(--fg);font-weight:500}
-.legal-section a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(212,255,0,.3)}
+.legal-section a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(122,107,61,.3)}
 .legal-section a:hover{border-bottom-color:var(--accent)}
 .legal-section .callout{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);padding:16px 20px;margin:16px 0;border-radius:6px}
 .legal-section .callout p{margin:0;font-size:14px}
@@ -70,7 +80,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.7 -apple-system,B
 .legal-back{display:inline-flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;font-size:13px;margin-bottom:32px}
 .legal-back:hover{color:var(--fg)}
 .legal-back svg{width:14px;height:14px}
-.legal-toplinks{position:fixed;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:rgba(10,10,11,.8);backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:12px;z-index:100}
+.legal-toplinks{position:fixed;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:rgba(239,234,224,.92);backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:12px;z-index:100}
 .legal-toplinks .brand{font-size:14px;letter-spacing:-.01em;font-weight:500}
 .legal-toplinks .brand small{font-size:10px;letter-spacing:.2em;color:var(--accent);margin-left:8px}
 .legal-toplinks nav{display:flex;gap:20px;font-size:13px}

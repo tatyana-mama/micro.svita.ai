@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-label="micro.svita">
+  <title>micro.svita — wordmark</title>
+  <style>
+    .display { font-family: 'Cormorant Garamond', 'Times New Roman', serif; font-weight: 400; }
+    .display-italic { font-family: 'Cormorant Garamond', 'Times New Roman', serif; font-weight: 400; font-style: italic; }
+    .tagline { font-family: 'Inter Tight', system-ui, sans-serif; font-weight: 500; }
+  </style>
+
+  <!-- baseline guides (invisible) -->
+  <text x="0" y="48" class="display" font-size="46" fill="#2F4438">micro</text>
+  <!-- accent dot (small wax dot) -->
+  <circle cx="138" cy="40" r="2.6" fill="#7A6B3D"/>
+  <text x="150" y="48" class="display-italic" font-size="46" fill="#2F4438">svita</text>
+
+  <!-- thin underline rule -->
+  <line x1="0" y1="60" x2="248" y2="60" stroke="#2F4438" stroke-width="0.5" stroke-opacity="0.25"/>
+
+  <!-- tagline -->
+  <text x="0" y="74" class="tagline" font-size="9.2" letter-spacing="2.2" fill="#5F6870">
+    ATLAS · OF · UNBUILT · WORLDS
+  </text>
+</svg>
