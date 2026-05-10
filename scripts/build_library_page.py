@@ -23,6 +23,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PRES = ROOT / "presentations"
 
+# Slide PNGs and brandbook PDFs are NOT published to GitHub Pages (the slim
+# pages.yml workflow excludes presentations/*/*.png and *.pdf because the bundle
+# would exceed the 1 GB Pages limit). Instead, we serve heavy assets straight
+# from jsDelivr's git CDN — same place concepts_catalog.hero_image already
+# points to. Only the per-concept index.html lands on Pages.
+JSDELIVR_PRES_BASE = "https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations"
+
 # canonical 25-slide narrative — title + intent for the annotation panel
 SLIDE_NARRATIVE = [
     ("01", "cover",       "Anchor",            "First glance, full-bleed. The image you would put on the cover of a magazine if this place existed tomorrow. Mood, palette, aspiration in one frame."),
@@ -240,7 +247,7 @@ def render_story_section(slides: list[Path], folder_name: str, fmt: str) -> str:
         title  = meta[2] if meta else f"Frame {n}"
         body   = meta[3] if meta else ""
         side   = "left" if idx % 2 == 0 else "right"
-        img    = f"/presentations/{url_encode_folder(folder_name)}/{slide_path.name}"
+        img    = f"{JSDELIVR_PRES_BASE}/{url_encode_folder(folder_name)}/{slide_path.name}"
         n_total = len(slides)
         rendered.append(f"""
       <section class="slide-row slide-row--{side}" id="slide-{n}">
@@ -274,13 +281,13 @@ def build_html(folder: Path) -> str:
 
     cover = next((p for p in slides if "slide-01" in p.name), None)
     cover_url = (
-        f"/presentations/{url_encode_folder(folder_name)}/{cover.name}" if cover else ""
+        f"{JSDELIVR_PRES_BASE}/{url_encode_folder(folder_name)}/{cover.name}" if cover else ""
     )
 
     # search for PDF deck if present
     pdf = next(folder.glob("*_deck.pdf"), None) or next(folder.glob("*deck*.pdf"), None)
     pdf_url = (
-        f"/presentations/{url_encode_folder(folder_name)}/{pdf.name}" if pdf else ""
+        f"{JSDELIVR_PRES_BASE}/{url_encode_folder(folder_name)}/{pdf.name}" if pdf else ""
     )
 
     meta_section = render_meta(concept)

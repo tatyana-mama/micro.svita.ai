@@ -24,13 +24,15 @@ jobs:
       - name: Stage slim site
         run: |
           mkdir -p _site
+          # Heavy assets (slide PNGs, brandbook PDFs, raw concept.json) are served
+          # from jsDelivr's git-CDN — keep them out of the GitHub Pages bundle.
+          # We DO publish per-concept index.html (≤ 100 KB each) and the small
+          # data/* JSON files used by view.html / sub_config / library_routes.
           rsync -a \
             --exclude='_site' \
             --exclude='.git' \
             --exclude='.github' \
             --exclude='node_modules' \
-            --exclude='presentations' \
-            --exclude='data' \
             --exclude='concepts' \
             --exclude='brand/logo-r1' \
             --exclude='_backups' \
@@ -45,6 +47,19 @@ jobs:
             --exclude='*.log' \
             --exclude='package*.json' \
             --exclude='capacitor.config.json' \
+            --exclude='data/concepts' \
+            --exclude='data/threads' \
+            --exclude='data/bonuses' \
+            --exclude='data/*.backup-*' \
+            --exclude='data/*.json.backup-*' \
+            --exclude='presentations/_*' \
+            --exclude='presentations/*/_photos' \
+            --exclude='presentations/*/*.png' \
+            --exclude='presentations/*/*.pdf' \
+            --exclude='presentations/*/*.jpg' \
+            --exclude='presentations/*/concept.json' \
+            --exclude='presentations/*/concept_dice.json' \
+            --exclude='presentations/*/_DB_UPDATE.sql' \
             ./ _site/
           echo "::group::Slim site listing"
           ls -la _site
