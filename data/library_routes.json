@@ -1,0 +1,370 @@
+{
+  "amsterdam-juice-lab": {
+    "folder": "36-amsterdam-juice-lab [good]",
+    "nn": "36"
+  },
+  "amsterdam-kids-studio": {
+    "folder": "31-amsterdam-kids-studio [good]",
+    "nn": "31"
+  },
+  "amsterdam-letterpress": {
+    "folder": "17-amsterdam-letterpress [good]",
+    "nn": "17"
+  },
+  "amsterdam-massage": {
+    "folder": "16-amsterdam-massage [good]",
+    "nn": "16"
+  },
+  "amsterdam-physio": {
+    "folder": "28-amsterdam-physio",
+    "nn": "28"
+  },
+  "athens-olive-spa": {
+    "folder": "18-athens-olive-spa [good]",
+    "nn": "18"
+  },
+  "bangkok-pad-thai": {
+    "folder": "75-bangkok-pad-thai [good]",
+    "nn": "75"
+  },
+  "basel-watch-repair": {
+    "folder": "96-basel-watch-repair [good]",
+    "nn": "96"
+  },
+  "beirut-mezze-den": {
+    "folder": "76-beirut-mezze-den [good]",
+    "nn": "76"
+  },
+  "berlin-bagel-co": {
+    "folder": "37-berlin-bagel-co",
+    "nn": "37"
+  },
+  "berlin-code-camp": {
+    "folder": "19-berlin-code-camp [good]",
+    "nn": "19"
+  },
+  "berlin-dental-hygiene": {
+    "folder": "44-berlin-dental-hygiene [good]",
+    "nn": "44"
+  },
+  "berlin-phone-fix": {
+    "folder": "97-berlin-phone-fix [good]",
+    "nn": "97"
+  },
+  "berlin-screen-print": {
+    "folder": "98-berlin-screen-print [good]",
+    "nn": "98"
+  },
+  "berlin-skin-clinic": {
+    "folder": "99-berlin-skin-clinic [good]",
+    "nn": "99"
+  },
+  "berlin-vintage-shop": {
+    "folder": "38-berlin-vintage-shop",
+    "nn": "38"
+  },
+  "berlin-yoga-loft": {
+    "folder": "39-berlin-yoga-loft",
+    "nn": "39"
+  },
+  "bordeaux-wine-cave": {
+    "folder": "95-bordeaux-wine-cave [good]",
+    "nn": "95"
+  },
+  "bratislava-tv-fix": {
+    "folder": "100-bratislava-tv-fix [good]",
+    "nn": "100"
+  },
+  "bruges-beauty-bar": {
+    "folder": "45-bruges-beauty-bar [good]",
+    "nn": "45"
+  },
+  "brussels-bike-cafe": {
+    "folder": "101-brussels-bike-cafe [good]",
+    "nn": "101"
+  },
+  "brussels-chiro-care": {
+    "folder": "20-brussels-chiro-care [good]",
+    "nn": "20"
+  },
+  "brussels-frites-box": {
+    "folder": "102-brussels-frites-box [good]",
+    "nn": "102"
+  },
+  "brussels-yoga-shala": {
+    "folder": "29-brussels-yoga-shala",
+    "nn": "29"
+  },
+  "bucharest-car-detail": {
+    "folder": "103-bucharest-car-detail [good]",
+    "nn": "103"
+  },
+  "bucharest-eggcraft": {
+    "folder": "48-bucharest-eggcraft [good]",
+    "nn": "48"
+  },
+  "budapest-bath-mini": {
+    "folder": "30-budapest-bath-mini",
+    "nn": "30"
+  },
+  "budapest-dance-studio": {
+    "folder": "50-budapest-dance-studio",
+    "nn": "50"
+  },
+  "budapest-piano-tune": {
+    "folder": "107-budapest-piano-tune",
+    "nn": "107"
+  },
+  "budapest-toy-store": {
+    "folder": "108-budapest-toy-store",
+    "nn": "108"
+  },
+  "cairo-shawarma": {
+    "folder": "109-cairo-shawarma",
+    "nn": "109"
+  },
+  "cluj-hair-salon": {
+    "folder": "110-cluj-hair-salon",
+    "nn": "110"
+  },
+  "copenhagen-makers": {
+    "folder": "07-copenhagen-makers [good]",
+    "nn": "07"
+  },
+  "copenhagen-print-bar": {
+    "folder": "111-copenhagen-print-bar",
+    "nn": "111"
+  },
+  "copenhagen-stationery": {
+    "folder": "112-copenhagen-stationery [good]",
+    "nn": "112"
+  },
+  "copenhagen-zen-den": {
+    "folder": "113-copenhagen-zen-den",
+    "nn": "113"
+  },
+  "delft-blue-tile-studio": {
+    "folder": "94-delft-blue-tile-studio [good]",
+    "nn": "94"
+  },
+  "dublin-english-hub": {
+    "folder": "08-dublin-english-hub [good]",
+    "nn": "08"
+  },
+  "edinburgh-whisky-flights": {
+    "folder": "92-edinburgh-whisky-flights [good]",
+    "nn": "92"
+  },
+  "gdansk-amber-atelier": {
+    "folder": "83-gdansk-amber-atelier",
+    "nn": "83"
+  },
+  "helsinki-design-lab": {
+    "folder": "52-helsinki-design-lab",
+    "nn": "52"
+  },
+  "helsinki-sauna-club": {
+    "folder": "15-helsinki-sauna-club [good]",
+    "nn": "15"
+  },
+  "helsinki-wood-studio": {
+    "folder": "14-helsinki-wood-studio [good]",
+    "nn": "14"
+  },
+  "krakow-obwarzanek-cart": {
+    "folder": "84-krakow-obwarzanek-cart",
+    "nn": "84"
+  },
+  "krakow-wodka-buffet": {
+    "folder": "105-krakow-wodka-buffet",
+    "nn": "105"
+  },
+  "lisbon-barber-co": {
+    "folder": "40-lisbon-barber-co [good]",
+    "nn": "40"
+  },
+  "lisbon-osteo-clinic": {
+    "folder": "27-lisbon-osteo-clinic",
+    "nn": "27"
+  },
+  "lisbon-pilates": {
+    "folder": "13-lisbon-pilates [good]",
+    "nn": "13"
+  },
+  "lisbon-plant-store": {
+    "folder": "77-lisbon-plant-store",
+    "nn": "77"
+  },
+  "ljubljana-bag-fix": {
+    "folder": "78-ljubljana-bag-fix",
+    "nn": "78"
+  },
+  "ljubljana-sleep-lab": {
+    "folder": "01-ljubljana-sleep-lab [good]",
+    "nn": "01"
+  },
+  "ljubljana-yoga-teach": {
+    "folder": "09-ljubljana-yoga-teach [good]",
+    "nn": "09"
+  },
+  "madrid-music-lessons": {
+    "folder": "79-madrid-music-lessons",
+    "nn": "79"
+  },
+  "madrid-yoga-barre": {
+    "folder": "10-madrid-yoga-barre [good]",
+    "nn": "10"
+  },
+  "marseille-savon-atelier": {
+    "folder": "93-marseille-savon-atelier [good]",
+    "nn": "93"
+  },
+  "milano-design-store": {
+    "folder": "12-milano-design-store [good]",
+    "nn": "12"
+  },
+  "milano-gelato-cube": {
+    "folder": "41-milano-gelato-cube",
+    "nn": "41"
+  },
+  "mumbai-curry-house": {
+    "folder": "55-mumbai-curry-house",
+    "nn": "55"
+  },
+  "oaxaca-taco-joint": {
+    "folder": "58-oaxaca-taco-joint",
+    "nn": "58"
+  },
+  "oslo-waffle-cart": {
+    "folder": "87-oslo-waffle-cart",
+    "nn": "87"
+  },
+  "paris-candle-atelier": {
+    "folder": "42-paris-candle-atelier",
+    "nn": "42"
+  },
+  "paris-chemex-only": {
+    "folder": "106-paris-chemex-only [good]",
+    "nn": "106"
+  },
+  "paris-meditation": {
+    "folder": "11-paris-meditation [good]",
+    "nn": "11"
+  },
+  "paris-optometry": {
+    "folder": "21-paris-optometry [good]",
+    "nn": "21"
+  },
+  "poppy-matcha": {
+    "folder": "35-poppy-matcha",
+    "nn": "35"
+  },
+  "porto-tile-studio": {
+    "folder": "63-porto-tile-studio [good]",
+    "nn": "63"
+  },
+  "poznan-rogale-co": {
+    "folder": "88-poznan-rogale-co [good]",
+    "nn": "88"
+  },
+  "prague-crystal-spa": {
+    "folder": "68-prague-crystal-spa",
+    "nn": "68"
+  },
+  "prague-puppet-atelier": {
+    "folder": "70-prague-puppet-atelier",
+    "nn": "70"
+  },
+  "reykjavik-wool-room": {
+    "folder": "85-reykjavik-wool-room",
+    "nn": "85"
+  },
+  "rome-camera-repair": {
+    "folder": "22-rome-camera-repair",
+    "nn": "22"
+  },
+  "rome-italian-school": {
+    "folder": "23-rome-italian-school",
+    "nn": "23"
+  },
+  "rome-posture-clinic": {
+    "folder": "24-rome-posture-clinic [good]",
+    "nn": "24"
+  },
+  "rome-thermal-bath": {
+    "folder": "25-rome-thermal-bath",
+    "nn": "25"
+  },
+  "sardinia-pasta-lab": {
+    "folder": "73-sardinia-pasta-lab [good]",
+    "nn": "73"
+  },
+  "seville-tapas-nook": {
+    "folder": "74-seville-tapas-nook",
+    "nn": "74"
+  },
+  "sofia-mountain-forage": {
+    "folder": "26-sofia-mountain-forage",
+    "nn": "26"
+  },
+  "stockholm-car-wash": {
+    "folder": "02-stockholm-car-wash [good]",
+    "nn": "02"
+  },
+  "stockholm-cryo-bar": {
+    "folder": "03-stockholm-cryo-bar [good]",
+    "nn": "03"
+  },
+  "stockholm-glass-blow": {
+    "folder": "04-stockholm-glass-blow [good]",
+    "nn": "04"
+  },
+  "stockholm-wellness": {
+    "folder": "05-stockholm-wellness [good]",
+    "nn": "05"
+  },
+  "svyatlitsa-dental": {
+    "folder": "114-svyatlitsa-dental",
+    "nn": "114"
+  },
+  "tallinn-rye-bakery": {
+    "folder": "91-tallinn-rye-bakery [good]",
+    "nn": "91"
+  },
+  "tel-aviv-hummus": {
+    "folder": "43-tel-aviv-hummus",
+    "nn": "43"
+  },
+  "vienna-dental-spa": {
+    "folder": "06-vienna-dental-spa [good]",
+    "nn": "06"
+  },
+  "warsaw-art-studio": {
+    "folder": "80-warsaw-art-studio",
+    "nn": "80"
+  },
+  "warsaw-hygiene-hub": {
+    "folder": "81-warsaw-hygiene-hub",
+    "nn": "81"
+  },
+  "warsaw-movement": {
+    "folder": "82-warsaw-movement [good]",
+    "nn": "82"
+  },
+  "warsaw-waffle-works": {
+    "folder": "33-warsaw-waffle-works [good]",
+    "nn": "33"
+  },
+  "warsaw-zapiekanka-okno": {
+    "folder": "32-warsaw-zapiekanka-okno [good]",
+    "nn": "32"
+  },
+  "zagreb-pottery-class": {
+    "folder": "104-zagreb-pottery-class",
+    "nn": "104"
+  },
+  "zurich-fondue-cellar": {
+    "folder": "86-zurich-fondue-cellar",
+    "nn": "86"
+  }
+}

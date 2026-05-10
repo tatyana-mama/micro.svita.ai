@@ -1,0 +1,8 @@
+{
+  "_comment": "Lemon Squeezy subscription checkout URLs for the micro.svita library. Set these in LS dashboard, then replace the placeholders below. Until set, the UI falls back to mailto: so we don't ship broken Subscribe buttons.",
+  "monthly_url": "",
+  "yearly_url": "",
+  "monthly_price_eur": 19,
+  "yearly_price_eur": 149,
+  "trial_days": 7
+}

@@ -93,6 +93,129 @@ async function sendWelcomeEmail(params: {
   }
 }
 
+interface SubscriptionPayload {
+  meta?: {
+    event_name?: string;
+    custom_data?: Record<string, unknown>;
+  };
+  data?: {
+    id?: string;
+    attributes?: {
+      store_id?: number;
+      customer_id?: number;
+      product_id?: number;
+      variant_id?: number;
+      user_email?: string;
+      user_name?: string;
+      status?: string;
+      pause?: { mode?: string } | null;
+      cancelled?: boolean;
+      trial_ends_at?: string | null;
+      renews_at?: string | null;
+      ends_at?: string | null;
+      created_at?: string;
+      updated_at?: string;
+      first_subscription_item?: {
+        price_id?: number;
+      };
+      urls?: { update_payment_method?: string; customer_portal?: string };
+    };
+  };
+}
+
+async function resolveUserId(
+  customData: Record<string, unknown>,
+  email: string,
+): Promise<string | null> {
+  const direct = String(customData.user_id ?? '').trim();
+  if (direct && direct !== 'placeholder') return direct;
+  const ref = String(customData.ref ?? '');
+  const [refUser] = ref.split(':');
+  if (refUser && refUser !== 'placeholder') return refUser;
+  if (!email) return null;
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('user_id')
+    .ilike('email', email)
+    .maybeSingle();
+  if (error) {
+    console.error('lemon-webhook: profile lookup failed', error);
+    return null;
+  }
+  return data?.user_id ?? null;
+}
+
+function deriveInterval(variantId: number | undefined): { interval: string; price_eur: number | null } {
+  // Variant IDs configured in Lemon Squeezy. Default to monthly when unset.
+  const yearlyId = Number(Deno.env.get('LS_VARIANT_YEARLY') ?? '0');
+  const monthlyId = Number(Deno.env.get('LS_VARIANT_MONTHLY') ?? '0');
+  if (variantId && yearlyId && variantId === yearlyId) {
+    return { interval: 'yearly', price_eur: 149 };
+  }
+  if (variantId && monthlyId && variantId === monthlyId) {
+    return { interval: 'monthly', price_eur: 19 };
+  }
+  return { interval: 'monthly', price_eur: null };
+}
+
+async function handleSubscriptionEvent(
+  eventName: string,
+  payload: SubscriptionPayload,
+): Promise<{ status: number; body: string }> {
+  const attrs = payload.data?.attributes ?? {};
+  const lsSubId = String(payload.data?.id ?? '');
+  if (!lsSubId) {
+    console.warn('lemon-webhook: subscription event without id', { eventName });
+    return { status: 200, body: 'ignored: no subscription id' };
+  }
+
+  const email = String(attrs.user_email ?? '').trim();
+  const customData = payload.meta?.custom_data ?? {};
+  const userId = await resolveUserId(customData, email);
+  if (!userId) {
+    console.warn('lemon-webhook: cannot resolve user_id for subscription', { eventName, lsSubId, email });
+    return { status: 200, body: 'ignored: unknown user' };
+  }
+
+  const variantId = attrs.variant_id;
+  const { interval, price_eur } = deriveInterval(variantId);
+
+  const status = (attrs.status ?? 'active').toLowerCase();
+  const cancelledAt =
+    eventName === 'subscription_cancelled' || attrs.cancelled
+      ? new Date().toISOString()
+      : null;
+  const periodEnd = attrs.renews_at ?? attrs.ends_at ?? null;
+
+  const row: Record<string, unknown> = {
+    user_id: userId,
+    plan: 'library',
+    provider: 'lemon_squeezy',
+    ls_subscription_id: lsSubId,
+    ls_customer_id: attrs.customer_id ? String(attrs.customer_id) : null,
+    ls_variant_id: variantId ?? null,
+    interval,
+    price_eur,
+    status,
+    current_period_end: periodEnd,
+    trial_ends_at: attrs.trial_ends_at ?? null,
+    cancelled_at: cancelledAt,
+    updated_at: new Date().toISOString(),
+  };
+
+  const { error } = await supabase
+    .from('subscriptions')
+    .upsert(row, { onConflict: 'ls_subscription_id' });
+
+  if (error) {
+    console.error('lemon-webhook: subscriptions upsert failed', error, { eventName, lsSubId });
+    return { status: 500, body: `db error: ${error.message}` };
+  }
+
+  console.log('lemon-webhook: subscription synced', { eventName, lsSubId, userId, status, interval });
+  return { status: 200, body: 'ok' };
+}
+
 async function verifySignature(rawBody: string, signature: string): Promise<boolean> {
   if (!SIGNING_SECRET || !signature) return false;
   const encoder = new TextEncoder();
@@ -147,6 +270,28 @@ Deno.serve(async (req) => {
   }
 
   const eventName = payload.meta?.event_name ?? '';
+
+  // ── Subscription events ────────────────────────────────────────────────────
+  // Pivot 2026-05-10: micro.svita is now a single-tier subscription product.
+  // We forward every subscription_* webhook into public.subscriptions so the
+  // user gets / loses library access in real time.
+  const SUBSCRIPTION_EVENTS = new Set([
+    'subscription_created',
+    'subscription_updated',
+    'subscription_resumed',
+    'subscription_paused',
+    'subscription_unpaused',
+    'subscription_cancelled',
+    'subscription_expired',
+    'subscription_payment_success',
+    'subscription_payment_failed',
+    'subscription_payment_recovered',
+  ]);
+  if (SUBSCRIPTION_EVENTS.has(eventName)) {
+    const subResult = await handleSubscriptionEvent(eventName, payload);
+    return new Response(subResult.body, { status: subResult.status });
+  }
+
   if (eventName !== 'order_created') {
     return new Response('ignored', { status: 200 });
   }

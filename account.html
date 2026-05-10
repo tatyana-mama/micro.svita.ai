@@ -783,6 +783,42 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div id="intent-box" class="hidden"></div>
 
+    <!-- ─── Subscription block (added 2026-05-10 pivot) ─── -->
+    <section id="sub-block" class="reveal" style="margin:0 0 28px;padding:24px 26px;border:1px solid var(--line,#e2e8f0);border-radius:14px;background:linear-gradient(180deg,#fafaf6,#f3efdf);">
+      <div id="sub-active" class="hidden" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div>
+          <div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#64748b;margin-bottom:4px">Library access</div>
+          <h3 style="font-family:'Space Grotesk',system-ui;font-weight:600;font-size:22px;letter-spacing:-.01em;margin:0">
+            <span id="sub-status-label">Active</span> <span id="sub-status-plan" style="color:#64748b;font-weight:400;font-size:15px"></span>
+          </h3>
+          <div id="sub-status-meta" style="font-size:13px;color:#475569;margin-top:4px"></div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a href="/shop.html" class="btn btn-primary" style="font-size:13px;padding:10px 18px">Open the library →</a>
+          <a href="#" id="sub-manage" class="btn btn-ghost" style="font-size:13px;padding:10px 16px;display:none">Manage</a>
+        </div>
+      </div>
+
+      <div id="sub-pitch" class="hidden">
+        <div style="display:grid;grid-template-columns:1fr auto;gap:18px;align-items:end;margin-bottom:16px">
+          <div>
+            <div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#64748b;margin-bottom:6px">Library card</div>
+            <h3 style="font-family:'Space Grotesk',system-ui;font-weight:600;font-size:26px;letter-spacing:-.01em;margin:0 0 6px">Open every concept — €19/mo</h3>
+            <p style="font-size:14px;color:#475569;margin:0;line-height:1.55">90+ editorial brandbooks. New concepts every week. 7-day free trial. Cancel anytime.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a href="#" id="sub-cta-monthly" class="btn btn-primary" style="font-size:13px;padding:12px 20px">Start trial · €19/month</a>
+          <a href="#" id="sub-cta-yearly" class="btn btn-ghost" style="font-size:13px;padding:12px 18px">€149 / year (save ~35%)</a>
+        </div>
+        <div id="sub-legacy" class="hidden" style="margin-top:16px;padding:12px 14px;border-radius:10px;background:#fffbe6;border:1px solid #fde68a;font-size:13px;color:#7c5e10">
+          Legacy access · You bought concepts under the old per-purchase model — your library access is permanent without a subscription.
+        </div>
+      </div>
+
+      <div id="sub-loading" style="font-size:13px;color:#94a3b8">Checking your access…</div>
+    </section>
+
     <div class="acc-tabs reveal" role="tablist">
       <button type="button" class="acc-tab" data-tab="owned" role="tab">My concepts <span class="acc-tab-count" id="tab-count-owned"></span></button>
       <button type="button" class="acc-tab" data-tab="favorites" role="tab">Favorites <span class="acc-tab-count" id="tab-count-favs"></span></button>
@@ -806,7 +842,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div id="owned-empty" class="empty hidden">
         <div class="eyebrow">Empty cabinet</div>
         <h3>Pick your first <span class="accent">concept</span>.</h3>
-        <p>90 ready-to-launch concepts waiting. Coffee shops, matcha kiosks, ramen bars, beauty salons. From €49.</p>
+        <p>90+ ready-to-launch concepts waiting. Coffee shops, matcha kiosks, ramen bars, beauty salons. Open the whole library — €19/mo.</p>
         <a href="index.html#gallery" class="btn btn-primary">
           Browse concepts
           <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
@@ -1251,6 +1287,7 @@ async function enterAccount(user){
   wireSettings(user, displayName);
   observeReveals();
   loadFavorites();
+  await updateSubscriptionBlock(user);
   await loadOwned();
   if(PAID_SLUG){
     clearPendingBuy();
@@ -1282,6 +1319,93 @@ async function enterAccount(user){
     $('close-paid').onclick = ()=>{ history.replaceState({},'','account.html'); box.className='hidden'; };
   } else if(BUY_INTENT) {
     showBuyIntent(BUY_INTENT);
+  }
+}
+
+// ─── Subscription block ─────────────────────────────────────────────────
+let SUB_CONFIG_CACHE = null;
+async function getSubConfig(){
+  if(SUB_CONFIG_CACHE) return SUB_CONFIG_CACHE;
+  try{
+    const r = await fetch('/data/sub_config.json', {cache:'no-store'});
+    SUB_CONFIG_CACHE = r.ok ? await r.json() : {};
+  }catch{ SUB_CONFIG_CACHE = {}; }
+  return SUB_CONFIG_CACHE;
+}
+
+async function updateSubscriptionBlock(user){
+  const block      = document.getElementById('sub-block');
+  const loading    = document.getElementById('sub-loading');
+  const activeBox  = document.getElementById('sub-active');
+  const pitchBox   = document.getElementById('sub-pitch');
+  const legacyTip  = document.getElementById('sub-legacy');
+  const planLabel  = document.getElementById('sub-status-plan');
+  const metaLabel  = document.getElementById('sub-status-meta');
+  const ctaMonthly = document.getElementById('sub-cta-monthly');
+  const ctaYearly  = document.getElementById('sub-cta-yearly');
+  if(!block) return;
+
+  const cfg = await getSubConfig();
+  const fallbackHref = `mailto:ceo@labs67.com?subject=micro.svita%20subscription&body=I%E2%80%99d%20like%20to%20subscribe%20to%20the%20library.`;
+  if(ctaMonthly) ctaMonthly.href = cfg.monthly_url || fallbackHref;
+  if(ctaYearly)  ctaYearly.href  = cfg.yearly_url  || fallbackHref;
+
+  // Read access state from my_access view (covers subscriptions + legacy_lifetime + superadmin)
+  let access = null;
+  try {
+    const {data, error} = await sb.from('my_access').select('*').maybeSingle();
+    if(error) console.warn('my_access read failed', error);
+    access = data;
+  } catch(e){ console.warn('my_access threw', e); }
+
+  loading.classList.add('hidden');
+
+  const hasAccess = !!(access && access.has_access);
+  const isLegacy  = !!(access && access.is_legacy);
+  const sub       = access && access.subscription;
+
+  if(hasAccess){
+    activeBox.classList.remove('hidden');
+    pitchBox.classList.add('hidden');
+    if(sub && sub.status){
+      const status = String(sub.status).toLowerCase();
+      const isTrial = status === 'trialing';
+      document.getElementById('sub-status-label').textContent = isTrial ? 'Trial' : (status.charAt(0).toUpperCase() + status.slice(1));
+      const interval = sub.interval ? `· ${sub.interval}` : '';
+      const price = sub.price_eur ? `€${sub.price_eur}` : '';
+      planLabel.textContent = [price, interval].filter(Boolean).join(' ');
+      const end = sub.current_period_end ? new Date(sub.current_period_end) : null;
+      if(end && !isNaN(end)){
+        const fmt = end.toLocaleDateString(undefined, {year:'numeric',month:'short',day:'numeric'});
+        metaLabel.textContent = isTrial ? `Trial ends ${fmt}` : `Renews ${fmt}`;
+      } else {
+        metaLabel.textContent = '';
+      }
+    } else if (isLegacy) {
+      document.getElementById('sub-status-label').textContent = 'Lifetime';
+      planLabel.textContent = '· legacy access';
+      metaLabel.textContent = 'You bought concepts under the old per-purchase model — access never expires.';
+    } else {
+      document.getElementById('sub-status-label').textContent = 'Active';
+      planLabel.textContent = '';
+      metaLabel.textContent = '';
+    }
+    if(legacyTip && isLegacy && !sub) legacyTip.classList.remove('hidden');
+  } else {
+    activeBox.classList.add('hidden');
+    pitchBox.classList.remove('hidden');
+  }
+
+  // ?subscribe=1 deep-link: fire monthly checkout immediately when configured
+  const params = new URLSearchParams(location.search);
+  if(params.get('subscribe') === '1' && !hasAccess){
+    const wantYearly = params.get('plan') === 'yearly';
+    const url = wantYearly ? cfg.yearly_url : cfg.monthly_url;
+    if(url){
+      // Strip the subscribe params from history before redirect to avoid loops
+      history.replaceState({}, '', '/account.html');
+      location.href = url;
+    }
   }
 }
 

@@ -7,3 +7,6 @@ node_modules/
 
 # Intermediate Vertex nano-banana artifacts — not needed in repo
 presentations/*/_photos/
+
+# Supabase CLI scratch
+supabase/.temp/

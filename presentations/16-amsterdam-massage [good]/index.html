@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>16 · AMSTERDAM MASSAGE — micro.svita</title>
+  <meta name="description" content="16 · AMSTERDAM MASSAGE — ">
+  <link rel="canonical" href="https://micro.svita.ai/presentations/16-amsterdam-massage%20%5Bgood%5D/">
+  <meta property="og:title" content="16 · AMSTERDAM MASSAGE">
+  <meta property="og:description" content="">
+  <meta property="og:image" content="https://micro.svita.ai/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-01-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#1a1612;
+      --paper:#f6f1e7;
+      --paper-2:#ede4d2;
+      --rule:#1a1612;
+      --accent:#6b1a2b;
+      --serif:'Fraunces',Georgia,serif;
+      --sans:'Inter',system-ui,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+    img{display:block;max-width:100%;height:auto}
+    a{color:inherit}
+    .topbar{
+      position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+      padding:14px 28px;border-bottom:1px solid color-mix(in srgb,var(--ink) 12%,transparent);
+      background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(10px);
+    }
+    .brand{font-family:var(--serif);font-weight:300;font-size:18px;letter-spacing:.02em}
+    .brand b{font-weight:500}
+    .topbar-actions{display:flex;gap:18px;align-items:center;font-size:13px;letter-spacing:.04em}
+    .topbar-actions a{text-decoration:none;color:var(--ink);opacity:.75;transition:opacity .2s}
+    .topbar-actions a:hover{opacity:1}
+    .pill{padding:7px 14px;border:1px solid var(--ink);border-radius:999px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--ink);transition:background .2s,color .2s}
+    .pill:hover{background:var(--ink);color:var(--paper)}
+
+    .hero{
+      position:relative;min-height:78vh;display:grid;place-items:end;padding:48px 28px;
+      background-image:url('/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-01-cover.png');
+      background-size:cover;background-position:center;color:#f6f1e7;
+    }
+    .hero::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.6))}
+    .hero-inner{position:relative;max-width:1200px;width:100%}
+    .hero-eyebrow{font-family:var(--serif);font-weight:300;font-size:14px;letter-spacing:.18em;text-transform:uppercase;opacity:.85;margin-bottom:14px}
+    .hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,7vw,96px);line-height:1.02;letter-spacing:-.02em;margin-bottom:18px}
+    .hero-tag{font-family:var(--serif);font-weight:300;font-style:italic;font-size:clamp(16px,1.6vw,22px);max-width:640px;opacity:.9}
+    .hero-facts{margin-top:24px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;opacity:.85}
+
+    .pretext{padding:64px 28px 24px;max-width:880px;margin:0 auto;text-align:center}
+    .pretext h2{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.4vw,30px);line-height:1.4;color:var(--ink)}
+    .pretext .small{margin-top:14px;font-size:13px;letter-spacing:.06em;opacity:.6}
+
+    .story{max-width:1240px;margin:0 auto;padding:32px 28px 80px}
+    .slide-row{display:grid;gap:40px;align-items:center;margin:64px 0;grid-template-columns:1fr 1fr}
+    .slide-row--right .slide-figure{order:2}
+    .slide-row--right .slide-note{order:1}
+    .slide-figure{margin:0}
+    .slide-figure img{width:100%;border-radius:2px;box-shadow:0 24px 60px -30px rgba(0,0,0,.35)}
+    .slide-figure figcaption{margin-top:12px;font-family:var(--serif);font-weight:300;font-size:12px;letter-spacing:.16em;text-transform:uppercase;opacity:.55}
+    .slide-note{padding:8px 0}
+    .slide-note-num{display:inline-block;font-family:var(--serif);font-weight:300;font-size:12px;letter-spacing:.18em;opacity:.5;margin-bottom:14px}
+    .slide-note h2{font-family:var(--serif);font-weight:400;font-size:clamp(26px,3vw,38px);line-height:1.15;letter-spacing:-.01em;margin-bottom:16px}
+    .slide-note p{font-size:16.5px;line-height:1.7;max-width:46ch;color:color-mix(in srgb,var(--ink) 88%,transparent)}
+
+    .meta-section{background:var(--paper-2);padding:80px 28px;border-top:1px solid color-mix(in srgb,var(--ink) 12%,transparent)}
+    .meta-section h2.section-title{max-width:1240px;margin:0 auto 36px;font-family:var(--serif);font-weight:300;font-size:clamp(28px,3.4vw,42px);letter-spacing:-.01em}
+    .meta-grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:36px}
+    .meta-block{padding:30px;background:var(--paper);border:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
+    .meta-wide{grid-column:1/-1}
+    .meta-block h3{font-family:var(--serif);font-weight:400;font-size:14px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:18px;opacity:.65}
+    .prose{font-size:16px;line-height:1.75;color:color-mix(in srgb,var(--ink) 88%,transparent)}
+    .lead{font-family:var(--serif);font-weight:300;font-size:clamp(20px,2vw,26px);line-height:1.45;letter-spacing:-.005em}
+    .bullets{list-style:none;display:flex;flex-direction:column;gap:8px}
+    .bullets li{padding-left:18px;position:relative;font-size:15px;line-height:1.55}
+    .bullets li::before{content:'·';position:absolute;left:4px;top:-3px;font-size:22px;opacity:.6}
+    .chips{list-style:none;display:flex;flex-wrap:wrap;gap:14px}
+    .chips li{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.04em}
+    .chip{display:inline-block;width:22px;height:22px;border-radius:50%;border:1px solid color-mix(in srgb,var(--ink) 20%,transparent)}
+    .meta-econ dl{display:grid;grid-template-columns:1fr auto;column-gap:20px;row-gap:10px;font-variant-numeric:tabular-nums}
+    .meta-econ dt{font-size:14px;opacity:.7}
+    .meta-econ dd{font-family:var(--serif);font-weight:400;font-size:18px;text-align:right}
+    .footnote{margin-top:18px;font-size:11.5px;letter-spacing:.06em;opacity:.55}
+
+    .cta{padding:96px 28px;text-align:center;background:var(--ink);color:var(--paper);position:relative}
+    .cta-eyebrow{font-family:var(--serif);font-weight:300;font-size:13px;letter-spacing:.2em;text-transform:uppercase;opacity:.6}
+    .cta h2{font-family:var(--serif);font-weight:300;font-size:clamp(34px,5vw,68px);line-height:1.05;letter-spacing:-.02em;margin:18px auto 14px;max-width:840px}
+    .cta h2 b{font-weight:500}
+    .cta p{font-family:var(--serif);font-weight:300;font-style:italic;font-size:18px;opacity:.75;margin-bottom:36px}
+    .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .btn{display:inline-block;padding:16px 28px;border:1px solid var(--paper);text-decoration:none;color:var(--paper);font-size:13px;letter-spacing:.16em;text-transform:uppercase;transition:background .2s,color .2s}
+    .btn:hover{background:var(--paper);color:var(--ink)}
+    .btn-primary{background:var(--paper);color:var(--ink)}
+    .btn-primary:hover{background:transparent;color:var(--paper)}
+    .cta-small{margin-top:32px;font-size:12px;letter-spacing:.06em;opacity:.5}
+
+    /* paywall overlay when not subscribed */
+    .paywall{
+      position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
+      background:color-mix(in srgb,var(--paper) 86%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    }
+    body.gated .paywall{display:flex}
+    body.gated main.story,
+    body.gated .meta-section,
+    body.gated .cta{filter:blur(6px) saturate(.8);pointer-events:none;user-select:none}
+    .paywall-card{background:var(--paper);border:1px solid color-mix(in srgb,var(--ink) 22%,transparent);max-width:520px;padding:48px 40px;text-align:center;box-shadow:0 30px 80px -30px rgba(0,0,0,.3)}
+    .paywall-card .pw-eyebrow{font-family:var(--serif);font-weight:300;font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.55}
+    .paywall-card h3{font-family:var(--serif);font-weight:300;font-size:32px;line-height:1.15;letter-spacing:-.01em;margin:14px 0 10px}
+    .paywall-card p{font-family:var(--serif);font-weight:300;font-style:italic;font-size:16px;line-height:1.5;opacity:.7;margin-bottom:28px}
+    .paywall-card .pw-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+    .paywall-card .pw-row a{display:inline-block;padding:14px 22px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:1px solid var(--ink)}
+    .paywall-card .pw-primary{background:var(--ink);color:var(--paper)}
+    .paywall-card .pw-primary:hover{background:transparent;color:var(--ink)}
+    .paywall-card .pw-secondary:hover{background:var(--ink);color:var(--paper)}
+    .paywall-card .pw-small{font-size:12px;letter-spacing:.06em;opacity:.55;line-height:1.6}
+    .paywall-card .pw-small a{color:var(--ink);border-bottom:1px solid color-mix(in srgb,var(--ink) 35%,transparent);text-decoration:none}
+
+    footer.colophon{padding:36px 28px;text-align:center;font-size:12px;letter-spacing:.08em;opacity:.55}
+    footer.colophon a{text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--ink) 30%,transparent)}
+
+    @media (max-width:780px){
+      .slide-row{grid-template-columns:1fr;gap:18px;margin:36px 0}
+      .slide-row--right .slide-figure{order:0}
+      .slide-row--right .slide-note{order:1}
+      .meta-grid{grid-template-columns:1fr}
+      .topbar{padding:12px 18px}
+      .topbar-actions{gap:10px}
+      .topbar-actions a:not(.pill){display:none}
+      .hero{padding:32px 20px;min-height:64vh}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/"><b>micro.svita</b> · library</a>
+    <nav class="topbar-actions">
+      <a href="/shop.html">All concepts</a>
+      <a href="/account.html">My library</a>
+      <a class="pill" href="/account.html?subscribe=1">Subscribe</a>
+    </nav>
+  </header>
+
+  <section class="hero" role="banner">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">16</div>
+      <h1>AMSTERDAM MASSAGE</h1>
+      
+      
+    </div>
+  </section>
+
+  <section class="pretext">
+    <h2>Read the place like a magazine. Twenty-five frames, each annotated — what is shown, why it matters, what to copy.</h2>
+    <p class="small">Scroll, don’t skim. Each frame is a decision waiting to be made.</p>
+  </section>
+
+  <main class="story">
+    
+      <section class="slide-row slide-row--left" id="slide-01">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-01-cover.png" alt="Slide 01: Anchor" loading="lazy" />
+          <figcaption>01 / 25 · Anchor</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">01</span>
+          <h2>Anchor</h2>
+          <p>First glance, full-bleed. The image you would put on the cover of a magazine if this place existed tomorrow. Mood, palette, aspiration in one frame.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--right" id="slide-02">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-02-definition.png" alt="Slide 02: What it is" loading="lazy" />
+          <figcaption>02 / 25 · What it is</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">02</span>
+          <h2>What it is</h2>
+          <p>One sentence answer to ‘what is this?’ Strip away marketing — what physical thing happens here, for whom, why it could not exist anywhere else.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--left" id="slide-03">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-03-axonometric.png" alt="Slide 03: The blueprint" loading="lazy" />
+          <figcaption>03 / 25 · The blueprint</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">03</span>
+          <h2>The blueprint</h2>
+          <p>30° isometric of the room. Zones, footprint, flow. If a friend asked ‘can I afford to copy this?’, this is the page that answers — every metre is accounted for.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--right" id="slide-04">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-04-facade.png" alt="Slide 04: From the street" loading="lazy" />
+          <figcaption>04 / 25 · From the street</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">04</span>
+          <h2>From the street</h2>
+          <p>Façade in city context. Signage discreet, lighting warm. The first decision a passer-by makes is here: do I cross the threshold?</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--left" id="slide-05">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-05-arrival.png" alt="Slide 05: Crossing in" loading="lazy" />
+          <figcaption>05 / 25 · Crossing in</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">05</span>
+          <h2>Crossing in</h2>
+          <p>First three seconds inside. What the eye lands on, the smell, the sound. Arrival design is hospitality compressed into one moment.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--right" id="slide-06">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-06-interior.png" alt="Slide 06: The main space" loading="lazy" />
+          <figcaption>06 / 25 · The main space</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">06</span>
+          <h2>The main space</h2>
+          <p>Wide shot of the room as it is meant to be lived in. Materials, light, silence. No staged people — the place must feel inhabited, not photographed.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--left" id="slide-07">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-07-materials.png" alt="Slide 07: Hands and grain" loading="lazy" />
+          <figcaption>07 / 25 · Hands and grain</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">07</span>
+          <h2>Hands and grain</h2>
+          <p>Macro of textures: stone, wood, metal, linen. Fingers in frame. This is the page that tells a craftsperson what to source — and a customer why it costs what it costs.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--right" id="slide-08">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-08-ritual.png" alt="Slide 08: The signature gesture" loading="lazy" />
+          <figcaption>08 / 25 · The signature gesture</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">08</span>
+          <h2>The signature gesture</h2>
+          <p>The single repeating gesture this place is built around. The thing the customer comes back for and tells a friend about.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--left" id="slide-09">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-09-still-life.png" alt="Slide 09: Three objects" loading="lazy" />
+          <figcaption>09 / 25 · Three objects</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">09</span>
+          <h2>Three objects</h2>
+          <p>Editorial still life of three to five hero objects on neutral ground. The product line distilled into a magazine spread.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--right" id="slide-10">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-10-equipment.png" alt="Slide 10: Tools of the trade" loading="lazy" />
+          <figcaption>10 / 25 · Tools of the trade</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">10</span>
+          <h2>Tools of the trade</h2>
+          <p>Top-down lay-out of the working equipment. Real models, real prices. This page is what you take to a supplier and a builder on day one.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--left" id="slide-11">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-11-menu.png" alt="Slide 11: What is sold" loading="lazy" />
+          <figcaption>11 / 25 · What is sold</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">11</span>
+          <h2>What is sold</h2>
+          <p>Nine miniatures of the offer with prices in euro. Not a menu card — a product family laid out for owner and customer simultaneously.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--right" id="slide-12">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-12-takeaway.png" alt="Slide 12: What leaves the room" loading="lazy" />
+          <figcaption>12 / 25 · What leaves the room</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">12</span>
+          <h2>What leaves the room</h2>
+          <p>Flat-lay of branded packaging. The piece of the place a customer carries home. Continuity of identity beyond the four walls.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--left" id="slide-13">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-13-signage.png" alt="Slide 13: Wayfinding" loading="lazy" />
+          <figcaption>13 / 25 · Wayfinding</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">13</span>
+          <h2>Wayfinding</h2>
+          <p>Sign and navigation up close. Type, colour, hierarchy. A room without signage is a room without grammar.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--right" id="slide-14">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-14-identity.png" alt="Slide 14: Mark, type, palette" loading="lazy" />
+          <figcaption>14 / 25 · Mark, type, palette</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">14</span>
+          <h2>Mark, type, palette</h2>
+          <p>Logo lock-up, type pair, palette swatches, pattern. The identity board you hand to a print-shop or a developer.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--left" id="slide-15">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-15-economics.png" alt="Slide 15: The numbers" loading="lazy" />
+          <figcaption>15 / 25 · The numbers</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">15</span>
+          <h2>The numbers</h2>
+          <p>Editorial list — not a table. Pull-quote figures, hairlines. Rent, revenue, cost-of-goods, margin. EU-averaged ranges, not promises.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--right" id="slide-16">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-16-capex.png" alt="Slide 16: What it costs to open" loading="lazy" />
+          <figcaption>16 / 25 · What it costs to open</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">16</span>
+          <h2>What it costs to open</h2>
+          <p>One-time spend, broken into honest chunks. No hidden line, no consultant fee. The amount that goes from your account to the world.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--left" id="slide-17">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-17-timeline.png" alt="Slide 17: Eight weeks" loading="lazy" />
+          <figcaption>17 / 25 · Eight weeks</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">17</span>
+          <h2>Eight weeks</h2>
+          <p>Horizontal Gantt across roughly eight weeks. Lease, licences, build, soft-open. The plan that turns a brief into a key in the door.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--right" id="slide-18">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-18-team.png" alt="Slide 18: Who runs it" loading="lazy" />
+          <figcaption>18 / 25 · Who runs it</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">18</span>
+          <h2>Who runs it</h2>
+          <p>Two or three roles, drawn or silhouetted. Responsibilities, hours, payroll order of magnitude.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--left" id="slide-19">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-19-moment.png" alt="Slide 19: After-service euphoria" loading="lazy" />
+          <figcaption>19 / 25 · After-service euphoria</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">19</span>
+          <h2>After-service euphoria</h2>
+          <p>A live human after the service has happened. The reason the place exists — not a stock smile, an honest after-image.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--right" id="slide-20">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-20-personas.png" alt="Slide 20: Who walks in" loading="lazy" />
+          <figcaption>20 / 25 · Who walks in</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">20</span>
+          <h2>Who walks in</h2>
+          <p>Three personas — name, city, why they came today. Not demographics — small fictions specific enough to brief a copywriter.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--left" id="slide-21">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-21-channels.png" alt="Slide 21: Where they hear of you" loading="lazy" />
+          <figcaption>21 / 25 · Where they hear of you</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">21</span>
+          <h2>Where they hear of you</h2>
+          <p>Four channels with a tone-of-voice for each. How this place speaks on Instagram is not how it speaks on Google Maps.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--right" id="slide-22">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-22-risks.png" alt="Slide 22: What can go wrong" loading="lazy" />
+          <figcaption>22 / 25 · What can go wrong</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">22</span>
+          <h2>What can go wrong</h2>
+          <p>Three real risks and the short answer to each. Honest, not defensive. The page an investor reads first.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--left" id="slide-23">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-23-manifesto.png" alt="Slide 23: The reason" loading="lazy" />
+          <figcaption>23 / 25 · The reason</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">23</span>
+          <h2>The reason</h2>
+          <p>Manifesto paragraph against a high-contrast image. Why this place, why now, why you. One paragraph you would tape to the back of the till.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--right" id="slide-24">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-24-package.png" alt="Slide 24: What you receive" loading="lazy" />
+          <figcaption>24 / 25 · What you receive</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">24</span>
+          <h2>What you receive</h2>
+          <p>Inventory of what comes inside the brandbook: P&amp;L, floor-plan, equipment list, menu, eight-week plan, day-one checklist.</p>
+        </aside>
+      </section>
+
+      <section class="slide-row slide-row--left" id="slide-25">
+        <figure class="slide-figure">
+          <img src="/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-25-cta.png" alt="Slide 25: Claim it" loading="lazy" />
+          <figcaption>25 / 25 · Claim it</figcaption>
+        </figure>
+        <aside class="slide-note">
+          <span class="slide-note-num">25</span>
+          <h2>Claim it</h2>
+          <p>Closing call: one concept, one place, one team. The handoff from idea to execution.</p>
+        </aside>
+      </section>
+  </main>
+
+  
+
+  <section class="cta">
+    <div class="cta-eyebrow">16 · AMSTERDAM MASSAGE</div>
+    <h2>Open it, or open the whole library.</h2>
+    <p>One subscription · every concept · every update.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="/account.html?subscribe=1">Subscribe — €19/mo</a>
+      <a class="btn" href="/account.html?subscribe=1&plan=yearly">€149 / year</a>
+      <a class="btn" href="/presentations/16-amsterdam-massage%20%5Bgood%5D/RUST_deck.pdf" download>Download PDF</a>
+    </div>
+    <div class="cta-small">7-day trial · cancel anytime · access keeps the whole library, not one concept.</div>
+  </section>
+
+  <div class="paywall" aria-hidden="true">
+    <div class="paywall-card">
+      <div class="pw-eyebrow">16 · AMSTERDAM MASSAGE</div>
+      <h3>Open the whole library.</h3>
+      <p>One subscription unlocks every concept page — including this one. No per-concept paywalls.</p>
+      <div class="pw-row">
+        <a class="pw-primary" href="/account.html?subscribe=1">€19 / month</a>
+        <a class="pw-secondary" href="/account.html?subscribe=1&plan=yearly">€149 / year</a>
+      </div>
+      <div class="pw-small">7-day free trial · cancel anytime · already a member? <a href="/account.html">Sign in →</a></div>
+    </div>
+  </div>
+
+  <footer class="colophon">
+    <a href="/">micro.svita</a> · concept library · 2026
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  (async () => {
+    const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
+    const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+    if (!window.supabase) { document.body.classList.add('gated'); return; }
+    const sb = window.supabase.createClient(SB_URL, SB_ANON, { auth: { persistSession: true, storageKey: 'svita-micro-auth' } });
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) { document.body.classList.add('gated'); return; }
+      const { data, error } = await sb.rpc('has_library_access', { p_user_id: session.user.id });
+      if (error || data !== true) { document.body.classList.add('gated'); return; }
+    } catch (e) { document.body.classList.add('gated'); }
+  })();
+  </script>
+</body>
+</html>
