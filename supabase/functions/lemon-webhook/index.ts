@@ -145,17 +145,20 @@ async function resolveUserId(
   return data?.user_id ?? null;
 }
 
-function deriveInterval(variantId: number | undefined): { interval: string; price_eur: number | null } {
+function deriveInterval(
+  variantId: number | undefined,
+): { interval: string; price_amount: number | null; currency: string } {
   // Variant IDs configured in Lemon Squeezy. Default to monthly when unset.
+  // Pricing pivot 2026-05-10: USD with tax exclusive (buyer pays VAT/sales tax on top).
   const yearlyId = Number(Deno.env.get('LS_VARIANT_YEARLY') ?? '0');
   const monthlyId = Number(Deno.env.get('LS_VARIANT_MONTHLY') ?? '0');
   if (variantId && yearlyId && variantId === yearlyId) {
-    return { interval: 'yearly', price_eur: 149 };
+    return { interval: 'yearly', price_amount: 149, currency: 'USD' };
   }
   if (variantId && monthlyId && variantId === monthlyId) {
-    return { interval: 'monthly', price_eur: 19 };
+    return { interval: 'monthly', price_amount: 19, currency: 'USD' };
   }
-  return { interval: 'monthly', price_eur: null };
+  return { interval: 'monthly', price_amount: null, currency: 'USD' };
 }
 
 async function handleSubscriptionEvent(
@@ -178,7 +181,7 @@ async function handleSubscriptionEvent(
   }
 
   const variantId = attrs.variant_id;
-  const { interval, price_eur } = deriveInterval(variantId);
+  const { interval, price_amount, currency } = deriveInterval(variantId);
 
   const status = (attrs.status ?? 'active').toLowerCase();
   const cancelledAt =
@@ -195,7 +198,8 @@ async function handleSubscriptionEvent(
     ls_customer_id: attrs.customer_id ? String(attrs.customer_id) : null,
     ls_variant_id: variantId ?? null,
     interval,
-    price_eur,
+    price_amount,
+    currency,
     status,
     current_period_end: periodEnd,
     trial_ends_at: attrs.trial_ends_at ?? null,

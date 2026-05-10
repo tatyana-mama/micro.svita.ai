@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>16 · RUST — atelier van stilte · Amsterdam</title>
+  <meta name="description" content="Three-room canal-house massage atelier on Prinsengracht. Seventy-five minutes of slow hands, warm sesame oil from copper. A concept by micro.svita.ai" />
+  <link rel="canonical" href="https://micro.svita.ai/presentations/16-amsterdam-massage%20%5Bgood%5D/landing.html" />
+  <meta property="og:title" content="16 · RUST — atelier van stilte" />
+  <meta property="og:description" content="Three rooms. Seventy-five minutes. Warm sesame oil from copper." />
+  <meta property="og:image" content="slide-01-cover.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            groen: '#2F4438',
+            grijs: '#5F6870',
+            oak: '#C9A97A',
+            creme: '#F0EADF',
+            okra: '#7A6B3D',
+            paper: '#EFEAE0',
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            body: ['"Inter Tight"', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html, body { background:#EFEAE0; color:#2F4438; font-family:'Inter Tight',system-ui,sans-serif; font-weight:400; line-height:1.5; -webkit-font-smoothing:antialiased; }
+    .font-display { font-family:'Cormorant Garamond', Georgia, serif; }
+    ::selection { background:#2F4438; color:#F0EADF; }
+
+    @keyframes hp-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(201,169,122,.7); }
+      50%      { box-shadow: 0 0 0 14px rgba(201,169,122,0); }
+    }
+    .hp-pulse { animation: hp-pulse 2.4s cubic-bezier(.4,0,.6,1) infinite; }
+
+    .grain { position:relative; }
+    .grain::after {
+      content:''; pointer-events:none; position:absolute; inset:0;
+      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.045 0'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>");
+      opacity:.5; mix-blend-mode:multiply;
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display:none; }
+    .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+
+    /* Scoped style for floor-plan SVG */
+    .axo-spot { cursor:pointer; }
+    .axo-spot:hover circle.dot { fill:#2F4438; }
+
+    .marquee { animation: marquee 60s linear infinite; }
+    @keyframes marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+
+    /* gentle reveal for sections */
+    .section-bg { background-color:#EFEAE0; }
+    .section-dark { background-color:#2F4438; color:#F0EADF; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.3.1",
+        "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime",
+        "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
+        "framer-motion": "https://esm.sh/framer-motion@11.11.17?external=react,react-dom"
+      }
+    }
+  </script>
+
+  <script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
+  <script type="text/babel" data-type="module" data-presets="react">
+    import React, { useState, useRef, useEffect } from 'react';
+    import { createRoot } from 'react-dom/client';
+    import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+
+    /* ────────────── ASSETS ────────────── */
+    const P = {
+      cover: '_photos/cover.png',
+      definition: '_photos/definition.png',
+      axo: '_photos/axo.png',
+      facade: '_photos/facade.png',
+      arrivalL: '_photos/arrival-L.png',
+      arrivalR: '_photos/arrival-R.png',
+      interior: '_photos/interior.png',
+      mat1: '_photos/mat-1.png',
+      mat2: '_photos/mat-2.png',
+      mat3: '_photos/mat-3.png',
+      ritual: '_photos/ritual.png',
+      stilllife: '_photos/stilllife.png',
+      equipment: '_photos/equipment.png',
+      welcomekit: '_photos/welcomekit.png',
+      sign1: '_photos/sign-1.png',
+      sign2: '_photos/sign-2.png',
+      team1: '_photos/team-1.png',
+      team2: '_photos/team-2.png',
+      team3: '_photos/team-3.png',
+      after: '_photos/after.png',
+      persona1: '_photos/persona-1.png',
+      persona2: '_photos/persona-2.png',
+      persona3: '_photos/persona-3.png',
+      whynow: '_photos/whynow.png',
+    };
+
+    /* ────────────── SHARED ────────────── */
+    function HotPoint({ x, y, label, name, detail, side='right' }) {
+      const [open, setOpen] = useState(false);
+      const popPos = {
+        right:  { left:'18px',  top:'-8px',  transformOrigin:'left center' },
+        left:   { right:'18px', top:'-8px',  transformOrigin:'right center' },
+        top:    { left:'-128px',bottom:'18px', transformOrigin:'center bottom' },
+        bottom: { left:'-128px',top:'18px',  transformOrigin:'center top' },
+      }[side];
+
+      return (
+        <div className="absolute z-30" style={{ left:`${x}%`, top:`${y}%` }}>
+          <button
+            onMouseEnter={()=>setOpen(true)} onMouseLeave={()=>setOpen(false)}
+            onFocus={()=>setOpen(true)} onBlur={()=>setOpen(false)}
+            onClick={()=>setOpen(o=>!o)}
+            className="block -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-oak border border-creme hp-pulse focus:outline-none focus:ring-2 focus:ring-oak/60"
+            aria-label={`${label||''} ${name}`}
+          />
+          <AnimatePresence>
+            {open && (
+              <motion.div
+                initial={{ opacity:0, scale:.96 }} animate={{ opacity:1, scale:1 }} exit={{ opacity:0, scale:.96 }}
+                transition={{ duration:.2, ease:[.4,0,.2,1] }}
+                className="absolute w-64 p-4 bg-paper/95 backdrop-blur-sm border border-groen/15 shadow-2xl pointer-events-none"
+                style={popPos}
+              >
+                {label && <div className="text-[10px] tracking-[0.28em] uppercase text-okra mb-1">{label}</div>}
+                <div className="font-display text-lg leading-tight text-groen">{name}</div>
+                {detail && <div className="mt-2 text-xs text-grijs leading-relaxed">{detail}</div>}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      );
+    }
+
+    function Eyebrow({ children, className='' }) {
+      return <div className={`text-[11px] tracking-[0.28em] uppercase text-grijs ${className}`}>{children}</div>;
+    }
+
+    function Reveal({ children, delay=0, y=24, className='' }) {
+      return (
+        <motion.div
+          className={className}
+          initial={{ opacity:0, y }} whileInView={{ opacity:1, y:0 }}
+          viewport={{ once:true, margin:'-80px' }}
+          transition={{ duration:.9, delay, ease:[.22,.61,.36,1] }}
+        >{children}</motion.div>
+      );
+    }
+
+    /* ────────────── 01 · HERO ────────────── */
+    function Hero() {
+      const ref = useRef(null);
+      const { scrollYProgress } = useScroll({ target: ref, offset:['start start','end start'] });
+      const yBack  = useTransform(scrollYProgress, [0,1], [0, 180]);
+      const yMid   = useTransform(scrollYProgress, [0,1], [0, 320]);
+      const yFront = useTransform(scrollYProgress, [0,1], [0, 480]);
+      const opacity = useTransform(scrollYProgress, [0,.7,1], [1,1,0]);
+
+      return (
+        <section ref={ref} className="relative h-screen overflow-hidden bg-groen">
+          {/* layer 1 — full cover */}
+          <motion.img
+            src={P.cover} alt=""
+            style={{ y:yBack }}
+            className="absolute inset-0 w-full h-[120%] object-cover opacity-90"
+          />
+          {/* layer 2 — interior pinned mid-right */}
+          <motion.div
+            style={{ y:yMid }}
+            className="hidden md:block absolute right-[6%] top-[18%] w-[42%] h-[64%] shadow-2xl ring-1 ring-groen/30 overflow-hidden"
+          >
+            <img src={P.interior} alt="" className="w-full h-full object-cover" />
+          </motion.div>
+          {/* layer 3 — copper bowl small accent */}
+          <motion.div
+            style={{ y:yFront }}
+            className="hidden lg:block absolute right-[8%] bottom-[8%] w-[18%] aspect-square shadow-2xl ring-1 ring-groen/30 overflow-hidden"
+          >
+            <img src={P.ritual} alt="" className="w-full h-full object-cover" />
+          </motion.div>
+
+          {/* vignette */}
+          <div className="absolute inset-0 bg-gradient-to-r from-groen/85 via-groen/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-groen/70" />
+
+          {/* title */}
+          <motion.div
+            style={{ opacity }}
+            className="relative z-10 h-full flex flex-col justify-end px-6 md:px-16 lg:px-24 pb-16 lg:pb-24 max-w-7xl mx-auto"
+          >
+            <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ duration:1.2, delay:.3 }}>
+              <Eyebrow className="text-creme/70 mb-6">a concept by micro.svita.ai</Eyebrow>
+            </motion.div>
+            <motion.h1
+              initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:1.4, delay:.5 }}
+              className="font-display text-creme text-[clamp(56px,12vw,180px)] leading-[.95] tracking-tight"
+            >
+              16 · <span className="italic font-light">RUST</span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ duration:1, delay:.9 }}
+              className="font-display italic text-creme/80 text-xl md:text-2xl mt-6"
+            >
+              atelier van stilte — Amsterdam · Jordaan
+            </motion.p>
+            <motion.div
+              initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ duration:1, delay:1.2 }}
+              className="flex flex-wrap gap-x-8 gap-y-2 mt-8 text-creme/70 text-sm tracking-[0.18em] uppercase"
+            >
+              <span>three rooms</span>
+              <span className="text-creme/30">·</span>
+              <span>34 m²</span>
+              <span className="text-creme/30">·</span>
+              <span>8 weeks to open</span>
+              <span className="text-creme/30">·</span>
+              <span>est. 2026</span>
+            </motion.div>
+          </motion.div>
+
+          {/* scroll hint */}
+          <motion.div
+            initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:2, duration:1 }}
+            className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 text-creme/50 text-[10px] tracking-[0.4em] uppercase"
+          >
+            ↓ scroll
+          </motion.div>
+        </section>
+      );
+    }
+
+    /* ────────────── 02 · DEFINITION ────────────── */
+    function Definition() {
+      return (
+        <section className="bg-paper py-24 md:py-36 px-6 md:px-16 lg:px-24">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <Reveal className="lg:col-span-7">
+              <Eyebrow className="mb-8">— definition —</Eyebrow>
+              <h2 className="font-display text-[clamp(36px,5vw,72px)] leading-[1.05] text-groen">
+                Seventy-five minutes of slow hands. <span className="italic">One canal house.</span> Three rooms. <span className="italic">Warm sesame oil from copper.</span>
+              </h2>
+              <p className="mt-10 font-display italic text-grijs">16 · RUST · Prinsengracht · Jordaan</p>
+            </Reveal>
+            <Reveal className="lg:col-span-5 aspect-[4/5] overflow-hidden ring-1 ring-groen/10 grain" delay={.15}>
+              <img src={P.definition} alt="steaming copper bowl on linen" className="w-full h-full object-cover" />
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    /* ────────────── 03 · THE HOUSE ────────────── */
+    const HOUSE_SPOTS = [
+      { x:18, y:62, label:'1', name:'entry & reception', detail:'Hand-lettered welkom card · three warm cups · slippers under foot.' },
+      { x:36, y:38, label:'2', name:'linen cupboard', detail:'Reclaimed pine — €580 in equipment line.' },
+      { x:78, y:30, label:'3', name:'KAMER I', detail:'Treatment room · north window · identical to II and III.' },
+      { x:55, y:50, label:'4', name:'KAMER II', detail:'34 m² split into three identical rooms · canal view · lime plaster, verde panel, pine floor.' },
+      { x:32, y:72, label:'5', name:'KAMER III', detail:'Closest to entry · Sanne signs every welcome card here.' },
+      { x:74, y:14, label:'6', name:'towel-warmer & utility', detail:'Enamel + copper towel warmer — €460. Daily oils warmed at 10:00.', side:'left' },
+      { x:88, y:9,  label:'7', name:'WC', detail:'Brass fixtures · oatmeal linen hand-towels · same plaster.', side:'left' },
+    ];
+
+    function TheHouse() {
+      return (
+        <section className="bg-paper py-24 md:py-32 px-6 md:px-16 lg:px-24 border-t border-groen/10">
+          <div className="max-w-7xl mx-auto">
+            <Reveal>
+              <Eyebrow className="mb-4">act i · the house</Eyebrow>
+              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen mb-3">Prinsengracht 352 — a canal house chooses slowness.</h2>
+              <p className="font-display italic text-grijs text-lg max-w-2xl">Hover the seven dots to read each room.</p>
+            </Reveal>
+
+            <div className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8">
+              {/* facade */}
+              <Reveal className="lg:col-span-4 grain ring-1 ring-groen/10 overflow-hidden aspect-[3/4]" delay={.1}>
+                <img src={P.facade} alt="Prinsengracht facade" className="w-full h-full object-cover" />
+              </Reveal>
+
+              {/* axonometric with hotspots */}
+              <Reveal className="lg:col-span-8 relative grain ring-1 ring-groen/10 overflow-hidden bg-creme" delay={.2}>
+                <img src={P.axo} alt="34 m² axonometric floorplan" className="w-full h-full object-contain" />
+                {HOUSE_SPOTS.map((s,i)=>(<HotPoint key={i} {...s} />))}
+              </Reveal>
+            </div>
+
+            {/* palette swatches */}
+            <Reveal delay={.3}>
+              <div className="mt-12 flex flex-wrap gap-3 items-center">
+                <Eyebrow>palette</Eyebrow>
+                {[
+                  ['Groen Gracht', '#2F4438'],
+                  ['Kanaal Grijs', '#5F6870'],
+                  ['Eiken Warm', '#C9A97A'],
+                  ['Linnen Crème', '#F0EADF'],
+                  ['Mos Oker', '#7A6B3D'],
+                ].map(([n,c])=>(
+                  <div key={c} className="flex items-center gap-2 text-xs">
+                    <span className="block w-5 h-5 ring-1 ring-groen/20" style={{background:c}} />
+                    <span className="font-display italic">{n}</span>
+                    <span className="text-grijs/70">{c}</span>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    /* ────────────── 04 · THE ATELIER ────────────── */
+    const ATELIER_SPOTS = [
+      { x:60, y:78, label:'a', name:'copper bowl · 15 cm', detail:'Hammered, oxidised — warm sesame oil at 38°C.', side:'left' },
+      { x:50, y:54, label:'b', name:'oatmeal linen · 60 × 120 cm', detail:'Dutch-made, heavy weave · folded by Joep daily.' },
+      { x:88, y:46, label:'c', name:'brass pharmacy lamp', detail:'Tungsten 2700K only · €240 · adjustable arm.', side:'left' },
+      { x:24, y:18, label:'d', name:'reclaimed oak beam', detail:'Pine beam from a 1660s warehouse · breathable lime plaster, no paint.' },
+      { x:50, y:30, label:'e', name:'19th-c. canal painting', detail:'Anonymous · gilt frame · found at Spui flea market.' },
+      { x:18, y:62, label:'f', name:'verde panel wainscot', detail:'Groen Gracht #2F4438 · pine, hand-rubbed beeswax finish.' },
+      { x:10, y:88, label:'g', name:'reclaimed oak floor', detail:'Sourced Westerstraat demolition · pegged, oiled.' },
+    ];
+
+    function TheAtelier() {
+      return (
+        <section className="bg-paper py-24 md:py-32 px-6 md:px-16 lg:px-24 border-t border-groen/10">
+          <div className="max-w-7xl mx-auto">
+            <Reveal>
+              <Eyebrow className="mb-4">interior · KAMER II — three identical rooms</Eyebrow>
+              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen mb-3">An afternoon before opening.</h2>
+              <p className="font-display italic text-grijs text-lg max-w-2xl">Seven small dots — copper, linen, plaster, beam.</p>
+            </Reveal>
+
+            <Reveal delay={.15}>
+              <div className="mt-12 relative grain ring-1 ring-groen/10 overflow-hidden aspect-[16/9]">
+                <img src={P.interior} alt="KAMER II interior" className="w-full h-full object-cover" />
+                {ATELIER_SPOTS.map((s,i)=>(<HotPoint key={i} {...s} />))}
+              </div>
+            </Reveal>
+
+            {/* materials triptych */}
+            <Reveal delay={.25}>
+              <Eyebrow className="mt-16 mb-6">materials & hands · textures of RUST</Eyebrow>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[
+                  { src:P.mat1, cap:'copper · hammered · oxidised' },
+                  { src:P.mat2, cap:'oatmeal linen · heavy weave · Dutch-made' },
+                  { src:P.mat3, cap:'lime plaster · verde panel · pine' },
+                ].map((m,i)=>(
+                  <figure key={i} className="grain ring-1 ring-groen/10 overflow-hidden">
+                    <div className="aspect-square overflow-hidden">
+                      <img src={m.src} alt={m.cap} className="w-full h-full object-cover" />
+                    </div>
+                    <figcaption className="bg-paper px-4 py-3 text-xs tracking-wider text-grijs text-center font-display italic">{m.cap}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    /* ────────────── 05 · THE RITUAL ────────────── */
+    const STILL_LIFE = [
+      { name:'copper bowl', spec:'15 cm' },
+      { name:'sesame oil', spec:'vial 30 ml' },
+      { name:'linen towel', spec:'60 × 120 cm' },
+      { name:'end-of-session bell', spec:'brass' },
+    ];
+
+    const MENU = [
+      { code:'RUST 60', sub:'Thai stretch',     min:60,  price:75  },
+      { code:'RUST 75', sub:'Thai + oil',       min:75,  price:95  },
+      { code:'RUST 90', sub:'full body',        min:90,  price:115 },
+      { code:'DIEP 60', sub:'deep-tissue',      min:60,  price:80  },
+      { code:'DIEP 75', sub:'deep-tissue',      min:75,  price:100 },
+      { code:'VIER HANDEN', sub:'four-hands',   min:75,  price:180 },
+      { code:'WARME STEEN', sub:'warm-stone',   min:75,  price:110 },
+      { code:'GEZICHT', sub:'face & scalp',     min:45,  price:65  },
+      { code:'VOETEN',  sub:'foot reflex',      min:45,  price:65  },
+      { code:'VOETEN',  sub:'foot reflex',      min:45,  price:60  },
+    ];
+
+    const WELCOME = [
+      { n:1, name:'outer wrap',       note:'oatmeal linen · waxed verde ribbon' },
+      { n:2, name:'inner pouch',      note:'hand-tied · burlap' },
+      { n:3, name:'sesame oil vial',  note:'30 ml · sesam · 01' },
+      { n:4, name:'post-session card',note:'drink water · walk slowly · sleep early' },
+      { n:5, name:'rosemary sprig',   note:'eucalyptus pair · cotton string' },
+    ];
+
+    function TheRitual() {
+      return (
+        <>
+          {/* signature ritual full bleed */}
+          <section className="relative h-[80vh] overflow-hidden bg-groen">
+            <img src={P.ritual} alt="warm oil pour" className="absolute inset-0 w-full h-full object-cover opacity-95" />
+            <div className="absolute inset-0 bg-gradient-to-t from-groen/80 via-transparent to-groen/40" />
+            <div className="relative h-full flex flex-col justify-end p-8 md:p-16 lg:p-24 max-w-7xl mx-auto">
+              <Reveal>
+                <Eyebrow className="text-creme/70 mb-6">signature ritual</Eyebrow>
+                <h2 className="font-display text-creme text-[clamp(40px,8vw,120px)] leading-[.95] italic font-light">warm oil. four hands. seventy-five minutes.</h2>
+              </Reveal>
+            </div>
+          </section>
+
+          {/* still life + welcome kit */}
+          <section className="bg-paper py-24 md:py-32 px-6 md:px-16 lg:px-24 border-t border-groen/10">
+            <div className="max-w-7xl mx-auto">
+              <Reveal>
+                <Eyebrow className="mb-4">still life · four objects of the house</Eyebrow>
+                <h3 className="font-display text-[clamp(28px,3.6vw,52px)] leading-[1.05] text-groen mb-12">— the quiet kit of RUST —</h3>
+              </Reveal>
+
+              <Reveal delay={.1}>
+                <div className="relative grain ring-1 ring-groen/10 overflow-hidden aspect-[16/7] mb-6">
+                  <img src={P.stilllife} alt="still life of four objects" className="w-full h-full object-cover" />
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {STILL_LIFE.map((o,i)=>(
+                    <div key={i} className="px-4 py-3 bg-creme/60 ring-1 ring-groen/10">
+                      <div className="font-display text-base text-groen">{o.name}</div>
+                      <div className="text-xs text-grijs mt-1">{o.spec}</div>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+
+              {/* welcome kit */}
+              <Reveal delay={.2}>
+                <div className="mt-24">
+                  <Eyebrow className="mb-4">welcome kit · what the guest carries home</Eyebrow>
+                  <h3 className="font-display text-[clamp(24px,3vw,40px)] leading-[1.1] text-groen mb-10">given to every first-time guest · tied by hand</h3>
+                  <div className="relative grain ring-1 ring-groen/10 overflow-hidden aspect-[16/6] mb-8">
+                    <img src={P.welcomekit} alt="welcome kit five objects" className="w-full h-full object-cover" />
+                  </div>
+                  <ol className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    {WELCOME.map(w=>(
+                      <li key={w.n} className="px-4 py-3 bg-creme/60 ring-1 ring-groen/10">
+                        <div className="text-[10px] tracking-[0.28em] uppercase text-okra mb-1">— {w.n} —</div>
+                        <div className="font-display text-base text-groen">{w.name}</div>
+                        <div className="text-xs text-grijs mt-1 font-display italic">{w.note}</div>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </Reveal>
+
+              {/* menu */}
+              <Reveal delay={.3}>
+                <div className="mt-24">
+                  <Eyebrow className="mb-4">the menu · negen behandelingen</Eyebrow>
+                  <h3 className="font-display text-[clamp(28px,3.6vw,52px)] leading-[1.05] text-groen mb-3">seasonal oils · no additives · booking only</h3>
+                  <div className="mt-10 grid grid-cols-2 md:grid-cols-5 gap-x-4 gap-y-10">
+                    {MENU.map((m,i)=>(
+                      <div key={i} className="text-center">
+                        <div className="aspect-square rounded-full bg-gradient-to-br from-oak/20 to-okra/30 ring-1 ring-groen/15 grain mb-4 flex items-center justify-center">
+                          <span className="font-display italic text-groen/40 text-xl">{m.code.split(' ')[0]}</span>
+                        </div>
+                        <div className="font-display text-base text-groen leading-tight">{m.code} · <span className="italic">{m.sub}</span></div>
+                        <div className="text-xs text-grijs font-display italic mt-1">{m.min} min</div>
+                        <div className="text-base text-groen mt-1">€{m.price}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-8 text-xs text-grijs/70 font-display italic">* deck title reads <em>negen</em> (nine) — ten cards displayed; pending clarification.</p>
+                </div>
+              </Reveal>
+            </div>
+          </section>
+        </>
+      );
+    }
+
+    /* ────────────── 06 · NUMBERS ────────────── */
+    const EQUIPMENT = [
+      { name:'massage table', detail:'teak oak legs, cream linen', price:920 },
+      { name:'copper bowl set', detail:'3 sizes', price:180 },
+      { name:'brass pharmacy lamp', detail:'tungsten', price:240 },
+      { name:'linen cupboard', detail:'reclaimed pine', price:580 },
+      { name:'towel warmer', detail:'enamel + copper', price:460 },
+      { name:'ceramic diffuser', detail:'Delft-style', price:95 },
+      { name:'sea-grass rug', detail:'2 × 3 m', price:280 },
+      { name:'brass end-of-session bell', detail:'', price:45 },
+    ];
+
+    const CAPEX_SEGMENTS = [
+      { label:'fit-out · verde panel, plaster, pine floor', value:12100, pct:35, color:'#2F4438' },
+      { label:'three treatment tables + linens',            value:4500,  pct:13, color:'#5F6870' },
+      { label:'equipment · copper, brass, ceramic',         value:2800,  pct:8,  color:'#C9A97A' },
+      { label:'lighting, electrical, sound-insulation',     value:5200,  pct:15, color:'#7A6B3D' },
+      { label:'licences, insurance, deposit',               value:6300,  pct:18, color:'#A89878' },
+      { label:'launch events + identity print',             value:3700,  pct:11, color:'#E8DCC0' },
+    ];
+
+    function CapexDonut() {
+      const r = 110, sw = 32, C = 2*Math.PI*r;
+      let acc = 0;
+      return (
+        <div className="flex flex-col md:flex-row items-center gap-10">
+          <svg viewBox="-150 -150 300 300" className="w-72 h-72 shrink-0">
+            <g transform="rotate(-90)">
+              {CAPEX_SEGMENTS.map((s,i)=>{
+                const dash = (s.pct/100)*C;
+                const el = (
+                  <circle key={i} r={r} fill="none" stroke={s.color} strokeWidth={sw}
+                          strokeDasharray={`${dash} ${C-dash}`} strokeDashoffset={-acc}/>
+                );
+                acc += dash;
+                return el;
+              })}
+            </g>
+            <text x="0" y="-4" textAnchor="middle" className="fill-groen font-display" fontSize="34">€34,600</text>
+            <text x="0" y="22" textAnchor="middle" className="fill-grijs" fontSize="11" letterSpacing="2">TOTAL CAPEX · 8-WEEK BUILD</text>
+          </svg>
+          <ul className="flex-1 space-y-3 w-full">
+            {CAPEX_SEGMENTS.map((s,i)=>(
+              <li key={i} className="flex items-center gap-3 text-sm">
+                <span className="w-3 h-3 shrink-0 ring-1 ring-groen/20" style={{background:s.color}}/>
+                <span className="flex-1 text-groen/90">{s.label}</span>
+                <span className="font-display italic text-okra shrink-0">€{s.value.toLocaleString()} · {s.pct}%</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    function NumberStatement({ value, label, sub }) {
+      return (
+        <div className="border-t border-groen/15 pt-6">
+          <div className="font-display text-groen text-[clamp(40px,5vw,72px)] leading-none">{value}</div>
+          <div className="mt-3 text-xs tracking-[0.22em] uppercase text-grijs">{label}</div>
+          {sub && <div className="mt-1 text-xs text-grijs/70 font-display italic">{sub}</div>}
+        </div>
+      );
+    }
+
+    function Numbers() {
+      return (
+        <section className="bg-paper py-24 md:py-32 px-6 md:px-16 lg:px-24 border-t border-groen/10">
+          <div className="max-w-7xl mx-auto">
+            <Reveal>
+              <Eyebrow className="mb-4">act ii · numbers · planning orientation, not a guarantee</Eyebrow>
+              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen">een werkdag bij RUST.</h2>
+            </Reveal>
+
+            {/* Equipment kit */}
+            <Reveal delay={.1}>
+              <div className="mt-16">
+                <Eyebrow className="mb-6">equipment kit · eight essentials</Eyebrow>
+                <div className="relative grain ring-1 ring-groen/10 overflow-hidden mb-8">
+                  <img src={P.equipment} alt="equipment kit eight essentials" className="w-full h-auto block" />
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {EQUIPMENT.map((e,i)=>(
+                    <div key={i} className="px-4 py-3 bg-creme/60 ring-1 ring-groen/10">
+                      <div className="font-display text-sm text-groen leading-tight">{e.name}</div>
+                      {e.detail && <div className="text-[11px] text-grijs mt-1 font-display italic">{e.detail}</div>}
+                      <div className="text-sm text-okra mt-2">€{e.price}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 text-xs text-grijs font-display italic">total CAPEX for equipment alone · €2,800</div>
+              </div>
+            </Reveal>
+
+            {/* CAPEX donut */}
+            <Reveal delay={.2}>
+              <div className="mt-24">
+                <Eyebrow className="mb-2">capex · what it takes to open the door</Eyebrow>
+                <p className="text-xs text-grijs font-display italic mb-10">estimates vary with found-object sourcing ± 12 %</p>
+                <CapexDonut />
+              </div>
+            </Reveal>
+
+            {/* Unit economics — 12 statements */}
+            <Reveal delay={.3}>
+              <div className="mt-24">
+                <Eyebrow className="mb-2">unit economics</Eyebrow>
+                <p className="text-xs text-grijs font-display italic mb-10">Amsterdam mid-market · indicative · not a guarantee</p>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
+                  <NumberStatement value="3 rooms"      label="running in parallel" />
+                  <NumberStatement value="6 / day"      label="average occupancy" sub="sessions" />
+                  <NumberStatement value="€95"          label="avg ticket" />
+                  <NumberStatement value="€570"         label="daily revenue" />
+                  <NumberStatement value="€3,420"       label="weekly · 6 days" />
+                  <NumberStatement value="€13,680"      label="monthly · 24 days" />
+                  <NumberStatement value="62–68 %"      label="gross margin" />
+                  <NumberStatement value="5–7 mo"       label="payback on capex" />
+                  <NumberStatement value="€2,400"       label="rent / month" sub="34 m² Prinsengracht" />
+                  <NumberStatement value="€5,200"       label="staff / month" sub="2 therapists + 1 host" />
+                  <NumberStatement value="≈ 12 %"       label="oils · linen · candles" sub="of revenue" />
+                  <NumberStatement value="≈ €9,800"     label="monthly opex" />
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    /* ────────────── 07 · TIMELINE ────────────── */
+    const GANTT = [
+      { task:'lease · permits · insurance',          start:1, end:2, color:'#5F6870', mile:[{w:2, t:'signed & filed'}] },
+      { task:'fit-out · verde panel · pine floor',   start:1, end:3, color:'#2F4438', mile:[{w:2, t:'panels up'},{w:3, t:'floor sealed'}] },
+      { task:'treatment tables · linen · install',   start:3, end:4, color:'#C9A97A', mile:[{w:4, t:'first table tested'}] },
+      { task:'identity · wax seals · linen stamps',  start:3, end:5, color:'#7A6B3D', mile:[{w:5, t:'first ribbon pulled'}] },
+      { task:'therapist training · SOP · trial',     start:5, end:6, color:'#5F6870', mile:[{w:6, t:'ritual rehearsed'}] },
+      { task:'branding · website · IG · GBP',        start:4, end:7, color:'#2F4438', mile:[] },
+      { task:'soft-open · press day · full opening', start:7, end:8, color:'#C9A97A', mile:[{w:8, t:'first guest'}] },
+    ];
+
+    function Timeline() {
+      return (
+        <section className="bg-paper py-24 md:py-32 px-6 md:px-16 lg:px-24 border-t border-groen/10">
+          <div className="max-w-7xl mx-auto">
+            <Reveal>
+              <Eyebrow className="mb-4">timeline · 8 weeks to open</Eyebrow>
+              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen mb-3">opening day · end of week 8</h2>
+              <p className="font-display italic text-grijs">Prinsengracht · evening apéro · neighbours + first 18 bookings</p>
+            </Reveal>
+
+            <Reveal delay={.1}>
+              <div className="mt-12 ring-1 ring-groen/10 bg-creme/50 p-4 md:p-6 overflow-x-auto">
+                {/* week header */}
+                <div className="grid items-center" style={{ gridTemplateColumns:'minmax(220px, 2fr) repeat(8, minmax(56px, 1fr))' }}>
+                  <div></div>
+                  {Array.from({length:8}).map((_,i)=>(
+                    <div key={i} className="text-xs tracking-[0.2em] uppercase text-grijs text-center py-2 border-l border-groen/10">W {i+1}</div>
+                  ))}
+                </div>
+                {/* rows */}
+                {GANTT.map((row,i)=>(
+                  <div key={i} className="grid items-center border-t border-groen/10" style={{ gridTemplateColumns:'minmax(220px, 2fr) repeat(8, minmax(56px, 1fr))' }}>
+                    <div className="py-3 pr-4 text-sm text-groen font-display italic">{row.task}</div>
+                    {Array.from({length:8}).map((_,w)=>{
+                      const week = w+1;
+                      const inRange = week>=row.start && week<=row.end;
+                      const isStart = week===row.start;
+                      const isEnd   = week===row.end;
+                      const m = row.mile.find(mm=>mm.w===week);
+                      return (
+                        <div key={w} className="relative h-12 border-l border-groen/10">
+                          {inRange && (
+                            <motion.div
+                              initial={{ scaleX:0 }} whileInView={{ scaleX:1 }} viewport={{ once:true }}
+                              transition={{ duration:.6, delay:.1*i, ease:[.22,.61,.36,1] }}
+                              style={{ background:row.color, transformOrigin: isStart ? 'left' : 'center' }}
+                              className={`absolute inset-y-3 ${isStart?'left-0':'-left-px'} ${isEnd?'right-0':'-right-px'} opacity-90`}
+                            />
+                          )}
+                          {m && (
+                            <div className="absolute -top-1 right-1 z-10 group">
+                              <div className="w-2 h-2 rounded-full bg-okra ring-2 ring-paper" />
+                              <div className="absolute right-3 top-1/2 -translate-y-1/2 whitespace-nowrap text-[10px] text-okra font-display italic opacity-0 group-hover:opacity-100 transition pointer-events-none">{m.t}</div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+              <p className="mt-4 text-xs text-grijs font-display italic">all dates conditional on Amsterdam permit calendar</p>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    /* ────────────── 08 · PEOPLE ────────────── */
+    const TEAM = [
+      { role:'THE MASTER', img:P.team1, name:'Sanne van der Veer', tag:'atelier-keeper · founder · Dutch-certified', motto:'de ziel van de rust', bullets:['leads every full-body ritual','signs every welcome card','trains and audits the other two therapists','handles press and collaborations'] },
+      { role:'THE HANDS',  img:P.team2, name:'Nok Suwannaphum',    tag:'senior therapist · Thai lineage',           motto:'wijsheid uit het oosten', bullets:['trained in Wat Pho, Bangkok, for 7 years','delivers Thai-stretch and four-hands','prepares daily warm oils at 10:00','quiet Tuesdays — deep-clean day'] },
+      { role:'THE HOST',   img:P.team3, name:'Joep Mulder-Diallo', tag:'host · bookings · linen',                   motto:'de warme ontvangst',     bullets:['opens at 09:30, closes at 20:30','manages booking calendar and gift cards','washes and folds linen daily','writes post-session cards by hand'] },
+    ];
+
+    const PERSONAS = [
+      { n:'01', img:P.persona1, name:'Matthijs', age:38, where:'Amsterdam-Zuid', arch:'THE CANAL NATIVE',
+        body:`Grew up on the Prinsengracht. Finds his peace in the familiar stones and the water's reflections. Values silent authenticity.`,
+        why:'walks over from his studio every Friday · asks for Nok · pays in cash · remembers the first ribbon',
+        spend:'€95 · RUST 75' },
+      { n:'02', img:P.persona2, name:'Rina', age:42, where:'Tokyo → Amsterdam, once a quarter', arch:'THE RETURNING TRAVELLER',
+        body:'Seeks sanctuary in the quiet canals. The city is her European retreat for restoration and reflection.',
+        why:'sleeps at the Pulitzer · walks the Jordaan · saves the slot three weeks ahead · buys rosemary sprig for the flight back',
+        spend:'€115 · RUST 90' },
+      { n:'03', img:P.persona3, name:'Chloé & Astrid', age:'34 & 36', where:'Paris + Malmö', arch:'THE TWO FRIENDS',
+        body:'A ritual reconnection across borders. They cherish shared moments of calm and indulgence in the city.',
+        why:'girls-weekend every autumn · book the four-hands · leave with one vial each · dinner at Toscanini after',
+        spend:'€180 · VIER HANDEN shared' },
+    ];
+
+    function ThePeople() {
+      return (
+        <section className="bg-paper py-24 md:py-32 px-6 md:px-16 lg:px-24 border-t border-groen/10">
+          <div className="max-w-7xl mx-auto">
+            <Reveal>
+              <Eyebrow className="mb-4">act iii · drie rollen, één huis</Eyebrow>
+              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen mb-3">three people · six days a week · closed on Sunday</h2>
+            </Reveal>
+
+            <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+              {TEAM.map((m,i)=>(
+                <Reveal key={i} delay={.1*i}>
+                  <article className="bg-creme/40 ring-1 ring-groen/10 p-6 h-full flex flex-col">
+                    <div className="text-xs tracking-[0.28em] uppercase text-okra mb-4">{m.role}</div>
+                    <div className="grain ring-1 ring-groen/10 overflow-hidden aspect-[4/5] mb-5">
+                      <img src={m.img} alt={m.name} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="font-display text-2xl text-groen leading-tight">{m.name}</div>
+                    <div className="text-xs text-grijs mt-1">{m.tag}</div>
+                    <div className="font-display italic text-grijs/80 mt-3 mb-4">— {m.motto} —</div>
+                    <ul className="space-y-1.5 text-sm text-groen/90">
+                      {m.bullets.map((b,j)=>(<li key={j} className="flex gap-2"><span className="text-oak">·</span><span>{b}</span></li>))}
+                    </ul>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+
+            {/* customer moment */}
+            <Reveal delay={.3}>
+              <div className="mt-24 relative grain ring-1 ring-groen/10 overflow-hidden">
+                <img src={P.after} alt="customer walking home along canal" className="w-full h-auto block" />
+                <div className="absolute inset-0 bg-gradient-to-t from-groen/70 via-transparent to-transparent" />
+                <div className="absolute bottom-6 left-6 md:bottom-12 md:left-12 right-6 md:right-12">
+                  <Eyebrow className="text-creme/80 mb-3">customer moment · the walk home</Eyebrow>
+                  <p className="font-display italic text-creme text-xl md:text-3xl leading-snug max-w-3xl">— Sanne gave her seventy-five minutes, and she gave herself the walk back —</p>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* personas */}
+            <Reveal delay={.4}>
+              <div className="mt-24">
+                <Eyebrow className="mb-4">personas · who comes in</Eyebrow>
+                <h3 className="font-display text-[clamp(24px,3vw,40px)] leading-[1.1] text-groen mb-10">three archetypes · many faces</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {PERSONAS.map((p,i)=>(
+                    <Reveal key={i} delay={.05*i}>
+                      <article className="bg-creme/40 ring-1 ring-groen/10 p-5 h-full flex flex-col">
+                        <div className="text-xs tracking-[0.28em] uppercase text-grijs mb-3">— {p.n} —</div>
+                        <div className="grain ring-1 ring-groen/10 overflow-hidden aspect-[4/3] mb-4">
+                          <img src={p.img} alt={p.name} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="font-display text-lg text-groen">{p.name} · {p.age} · {p.where}</div>
+                        <div className="text-[10px] tracking-[0.28em] uppercase text-okra mt-1 mb-3">{p.arch}</div>
+                        <p className="font-display italic text-sm text-grijs leading-relaxed">{p.body}</p>
+                        <p className="mt-3 text-xs text-groen/80 leading-relaxed"><span className="text-okra">why:</span> {p.why}</p>
+                        <div className="mt-auto pt-4 text-sm text-groen font-display">spend: <span className="italic">{p.spend}</span></div>
+                      </article>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    /* ────────────── 09 · BRAND ────────────── */
+    const CHANNELS = [
+      { code:'CARD 01', name:'word of mouth',     sub:'the only channel that truly matters', bullets:['20 % referral card','handwritten thank-you','guest-book signed at door'], goal:'top-of-funnel · repeat bookings' },
+      { code:'CARD 02', name:'@rust.amsterdam',    sub:'restrained · no price · no face',     bullets:['3 stories a week','macro hands · linen · copper','never a smile'],            goal:'slow recognition · press noticing' },
+      { code:'CARD 03', name:'print press · annual',sub:'one long feature · not weekly noise', bullets:['Kinfolk × Monocle × De Groene','one on-site visit per year'],                  goal:'authority · search-discovery · premium tier' },
+      { code:'CARD 04', name:'Jordaan footfall',  sub:'the walk-by, the remembered door',     bullets:['candle-lit sign at dusk','small board: "vandaag één plek vrij om 16:45"'],     goal:'conversion · spontaneous bookings' },
+    ];
+
+    function TheBrand() {
+      return (
+        <section className="bg-paper py-24 md:py-32 px-6 md:px-16 lg:px-24 border-t border-groen/10">
+          <div className="max-w-7xl mx-auto">
+            <Reveal>
+              <Eyebrow className="mb-4">identity · mark, type, palette, seal</Eyebrow>
+              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen">16 · RUST · atelier van stilte — Amsterdam.</h2>
+            </Reveal>
+
+            <Reveal delay={.1}>
+              <div className="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* mark */}
+                <div className="bg-creme/40 ring-1 ring-groen/10 p-8">
+                  <Eyebrow className="mb-3">mark</Eyebrow>
+                  <div className="font-display text-5xl text-groen">16 · RUST</div>
+                  <div className="font-display italic text-grijs mt-2">atelier van stilte — Amsterdam</div>
+                </div>
+                {/* fonts */}
+                <div className="bg-creme/40 ring-1 ring-groen/10 p-8">
+                  <Eyebrow className="mb-3">type</Eyebrow>
+                  <div className="font-display text-3xl text-groen">Cormorant<span className="italic"> · Aa Bb Cc · 123</span></div>
+                  <div className="text-xs text-grijs mt-1">display · italic-capable</div>
+                  <div className="mt-4 text-2xl">Inter Tight · A a B b · 123</div>
+                  <div className="text-xs text-grijs mt-1">body · 300 · 400</div>
+                </div>
+                {/* seal */}
+                <div className="bg-creme/40 ring-1 ring-groen/10 p-8 flex flex-col items-center justify-center text-center">
+                  <Eyebrow className="mb-4">seal</Eyebrow>
+                  <div className="w-28 h-28 rounded-full bg-gradient-to-br from-groen to-okra/80 grain ring-2 ring-groen/30 flex items-center justify-center text-creme font-display text-2xl">R · 16</div>
+                  <div className="text-xs text-grijs mt-4 font-display italic">deep-verde wax · hand-pressed</div>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* signage */}
+            <Reveal delay={.2}>
+              <div className="mt-16">
+                <Eyebrow className="mb-6">signage · inside & out — one name outside · three rooms numbered I · II · III</Eyebrow>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {[P.sign1, P.sign2].map((s,i)=>(
+                    <div key={i} className="grain ring-1 ring-groen/10 overflow-hidden aspect-[4/3]">
+                      <img src={s} alt={`signage ${i+1}`} className="w-full h-full object-cover" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+
+            {/* channels */}
+            <Reveal delay={.3}>
+              <div className="mt-24">
+                <Eyebrow className="mb-4">channels · one voice, four doors</Eyebrow>
+                <h3 className="font-display text-[clamp(24px,3vw,40px)] leading-[1.1] text-groen mb-10">quiet · specific · Amsterdam-owned</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {CHANNELS.map((c,i)=>(
+                    <article key={i} className="bg-creme/40 ring-1 ring-groen/10 p-6 flex flex-col h-full">
+                      <div className="text-[10px] tracking-[0.28em] uppercase text-okra mb-3">— {c.code} —</div>
+                      <div className="font-display text-xl text-groen">{c.name}</div>
+                      <div className="font-display italic text-grijs text-sm mt-1 mb-5">{c.sub}</div>
+                      <ul className="space-y-1 text-sm text-groen/90">
+                        {c.bullets.map((b,j)=>(<li key={j} className="flex gap-2"><span className="text-oak">·</span><span>{b}</span></li>))}
+                      </ul>
+                      <div className="mt-auto pt-4 text-xs text-grijs font-display italic">goal: {c.goal}</div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    /* ────────────── 10 · RISKS ────────────── */
+    const RISKS = [
+      { title:'THERAPIST BURNOUT', body:'three-room model means therapists do 6 sessions a day · backs, wrists, attention wear', resp:['caps every therapist at 5 sessions','Tuesdays off','monthly body-work swap between therapists','quarterly paid retreat to Koh Samui or Schiermonnikoog'] },
+      { title:'LOW-SEASON DIP',    body:'Amsterdam tourism drops Nov–Feb · expats leave for the holidays · canal winter bite',  resp:['launch "winter members’ club"','gift-card push in late Nov','14 % off bookings before 13:00 in Jan','b2b for nearby architecture offices and Van Gogh museum staff'] },
+      { title:'COPYCAT NEXT DOOR', body:'Jordaan rent is rising · a competitor can open on Bloemgracht in 6 months',           resp:['three-year lease locked','Sanne’s name is the brand','48-hour notice policy and by-appointment-only cannot be copied overnight','keep welcome-kit hand-tied, never outsourced'] },
+    ];
+
+    function Risks() {
+      return (
+        <section className="bg-paper py-24 md:py-32 px-6 md:px-16 lg:px-24 border-t border-groen/10">
+          <div className="max-w-7xl mx-auto">
+            <Reveal>
+              <Eyebrow className="mb-4">risks · what could dim the light</Eyebrow>
+              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen mb-3">three risks · three honest answers · revisited every quarter</h2>
+            </Reveal>
+
+            <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+              {RISKS.map((r,i)=>(
+                <Reveal key={i} delay={.1*i}>
+                  <article className="bg-creme/40 ring-1 ring-groen/10 p-7 h-full flex flex-col">
+                    <h3 className="font-display text-3xl md:text-4xl text-groen leading-tight mb-4">{r.title}</h3>
+                    <p className="font-display italic text-grijs text-sm leading-relaxed mb-6">{r.body}</p>
+                    <div className="text-[10px] tracking-[0.28em] uppercase text-okra mb-3">RESPONSE</div>
+                    <ul className="space-y-1.5 text-sm text-groen/90">
+                      {r.resp.map((b,j)=>(<li key={j} className="flex gap-2"><span className="text-oak">·</span><span>{b}</span></li>))}
+                    </ul>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ────────────── 11 · MANIFESTO ────────────── */
+    function Manifesto() {
+      return (
+        <section className="relative section-dark py-32 md:py-48 px-6 md:px-16 lg:px-24 overflow-hidden">
+          <img src={P.whynow} alt="" className="absolute inset-0 w-full h-full object-cover opacity-25" />
+          <div className="absolute inset-0 bg-gradient-to-r from-groen/95 via-groen/80 to-groen/60" />
+          <div className="relative max-w-5xl mx-auto">
+            <Reveal>
+              <Eyebrow className="text-creme/60 mb-8">— why now · the manifesto · pinned behind the door —</Eyebrow>
+              <blockquote className="font-display text-creme text-[clamp(28px,3.6vw,52px)] leading-[1.2]">
+                In a city built on speed — bicycles, trams, deliveries — one canal house on Prinsengracht chooses slowness. Three rooms. Seventy-five minutes. Warm sesame oil from hammered copper. Thai stretch. Deep-tissue. Four hands when you need them. Rust is not a retreat from Amsterdam — <span className="italic">it is the city's breath held, for a moment, between two appointments.</span>
+              </blockquote>
+              <footer className="mt-12 font-display italic text-creme/70">— Sanne van der Veer · founder · October 2026</footer>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    /* ────────────── 12 · LEAD FORM (replaces Claim) ────────────── */
+    function LeadForm() {
+      const [sent, setSent] = useState(false);
+      const [data, setData] = useState({ name:'', contact:'', city:'', idea:'' });
+
+      function onSubmit(e) {
+        e.preventDefault();
+        // Endpoint placeholder — wire to Supabase / formspree / own fn
+        console.log('lead', data);
+        setSent(true);
+      }
+
+      return (
+        <section className="bg-paper py-24 md:py-36 px-6 md:px-16 lg:px-24 border-t border-groen/10">
+          <div className="max-w-5xl mx-auto">
+            <Reveal>
+              <Eyebrow className="mb-4">act iv · launch support</Eyebrow>
+              <h2 className="font-display text-[clamp(36px,5vw,80px)] leading-[1.02] text-groen mb-6">
+                We help you launch your atelier — <span className="italic">the full concept, in a short time.</span>
+              </h2>
+              <p className="font-display italic text-grijs text-lg max-w-2xl">
+                Brandbook · floorplan · P&amp;L · equipment list · 8-week plan · day-1 checklist. Hand-tied for one licensee, one city. Leave a request — we will get back to you within two working days.
+              </p>
+            </Reveal>
+
+            <Reveal delay={.15}>
+              <div className="mt-14 grid grid-cols-1 md:grid-cols-12 gap-10">
+                {/* form */}
+                <div className="md:col-span-7">
+                  <AnimatePresence mode="wait">
+                    {!sent ? (
+                      <motion.form
+                        key="form"
+                        onSubmit={onSubmit}
+                        initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
+                        className="space-y-6"
+                      >
+                        {[
+                          { k:'name',    label:'your name',                 placeholder:'Anna Visser', type:'text',  required:true },
+                          { k:'contact', label:'email or phone',            placeholder:'anna@studio.nl  /  +31 6 …', type:'text', required:true },
+                          { k:'city',    label:'city / location',           placeholder:'Warsaw · Lisbon · Riga …',   type:'text' },
+                        ].map(f=>(
+                          <div key={f.k}>
+                            <label className="block text-[11px] tracking-[0.22em] uppercase text-grijs mb-2">{f.label}{f.required && <span className="text-okra"> *</span>}</label>
+                            <input
+                              type={f.type} required={f.required}
+                              value={data[f.k]} onChange={e=>setData({...data, [f.k]:e.target.value})}
+                              placeholder={f.placeholder}
+                              className="w-full bg-transparent border-b border-groen/30 focus:border-groen text-lg py-2 outline-none transition placeholder:text-grijs/40 font-display italic"
+                            />
+                          </div>
+                        ))}
+                        <div>
+                          <label className="block text-[11px] tracking-[0.22em] uppercase text-grijs mb-2">your idea — one paragraph is enough</label>
+                          <textarea
+                            value={data.idea} onChange={e=>setData({...data, idea:e.target.value})}
+                            placeholder="kind of place, location, timeline, what you already have…"
+                            rows={4}
+                            className="w-full bg-transparent border-b border-groen/30 focus:border-groen text-lg py-2 outline-none transition placeholder:text-grijs/40 font-display italic resize-none"
+                          />
+                        </div>
+
+                        <div className="pt-4">
+                          <button type="submit" className="group inline-flex items-center gap-3 px-7 py-4 bg-groen text-creme tracking-[0.18em] uppercase text-xs hover:bg-okra transition-colors duration-300">
+                            <span>send the request</span>
+                            <span className="transition-transform group-hover:translate-x-1">→</span>
+                          </button>
+                          <p className="mt-4 text-[11px] text-grijs/70 font-display italic">we usually answer within 48 h · no automated funnels · single-thread reply</p>
+                        </div>
+                      </motion.form>
+                    ) : (
+                      <motion.div
+                        key="ok"
+                        initial={{ opacity:0, y:10 }} animate={{ opacity:1, y:0 }}
+                        className="border-l-2 border-okra pl-6 py-4"
+                      >
+                        <div className="text-[10px] tracking-[0.28em] uppercase text-okra mb-3">— request received —</div>
+                        <p className="font-display text-3xl text-groen leading-tight">Thank you, {data.name||'friend'}.</p>
+                        <p className="font-display italic text-grijs mt-3">We will hand-write a reply within two working days. Like everything else here — by hand, never automated.</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* deliverables side */}
+                <div className="md:col-span-5">
+                  <div className="bg-creme/50 ring-1 ring-groen/15 p-6">
+                    <Eyebrow className="mb-4">what you receive</Eyebrow>
+                    <ul className="space-y-3 text-sm text-groen">
+                      {[
+                        ['BRANDBOOK · 25 pages',           'comprehensive visual identity, voice, applications'],
+                        ['P&L · 3-year projection',         'monthly revenue, opex, break-even curve'],
+                        ['FLOORPLAN · axonometric + 1:40',  'architectural layout, elevations, spatial design'],
+                        ['EQUIPMENT LIST · 24 items',       'curated suppliers, specs, contacts, prices'],
+                        ['MENU · negen behandelingen',      'nine treatments + seasonal sesame-oil recipes'],
+                        ['8-WEEK PLAN · milestone sheet',   'week-by-week open-the-door roadmap'],
+                        ['DAY-1 OPENING CHECKLIST',         'morning of · opening night · press-day script'],
+                      ].map(([t,d],i)=>(
+                        <li key={i} className="border-t border-groen/10 pt-3 first:border-t-0 first:pt-0">
+                          <div className="font-display">{t}</div>
+                          <div className="font-display italic text-grijs text-xs mt-1">{d}</div>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-6 text-xs text-grijs font-display italic">all seven pieces arrive in one oatmeal linen folio, tied with a deep-verde waxed ribbon.</p>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      );
+    }
+
+    /* ────────────── FOOTER ────────────── */
+    function Footer() {
+      return (
+        <footer className="section-dark py-12 px-6 md:px-16 lg:px-24">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div>
+              <div className="font-display text-xl text-creme">16 · RUST</div>
+              <div className="font-display italic text-creme/60 text-sm mt-1">atelier van stilte — Prinsengracht · Jordaan</div>
+            </div>
+            <div className="text-xs tracking-[0.2em] uppercase text-creme/60">
+              micro.svita.ai · one concept · one brandbook · one ribbon
+            </div>
+          </div>
+        </footer>
+      );
+    }
+
+    /* ────────────── APP ────────────── */
+    function App() {
+      return (
+        <>
+          <Hero />
+          <Definition />
+          <TheHouse />
+          <TheAtelier />
+          <TheRitual />
+          <Numbers />
+          <Timeline />
+          <ThePeople />
+          <TheBrand />
+          <Risks />
+          <Manifesto />
+          <LeadForm />
+          <Footer />
+        </>
+      );
+    }
+
+    createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

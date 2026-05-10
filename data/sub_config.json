@@ -1,8 +1,11 @@
 {
-  "_comment": "Lemon Squeezy subscription checkout URLs for the micro.svita library. Set these in LS dashboard, then replace the placeholders below. Until set, the UI falls back to mailto: so we don't ship broken Subscribe buttons.",
+  "_comment": "Lemon Squeezy subscription checkout URLs for the micro.svita library. Set these in LS dashboard, then replace the placeholders below. Until set, the UI falls back to mailto: so we don't ship broken Subscribe buttons. Pricing pivot 2026-05-10: USD with tax exclusive (buyer pays VAT/sales tax on top of advertised price).",
+  "currency": "USD",
+  "currency_symbol": "$",
+  "tax_behaviour": "exclusive",
   "monthly_url": "",
   "yearly_url": "",
-  "monthly_price_eur": 19,
-  "yearly_price_eur": 149,
+  "monthly_price": 19,
+  "yearly_price": 149,
   "trial_days": 7
 }

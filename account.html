@@ -803,13 +803,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div style="display:grid;grid-template-columns:1fr auto;gap:18px;align-items:end;margin-bottom:16px">
           <div>
             <div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#64748b;margin-bottom:6px">Library card</div>
-            <h3 style="font-family:'Space Grotesk',system-ui;font-weight:600;font-size:26px;letter-spacing:-.01em;margin:0 0 6px">Open every concept — €19/mo</h3>
-            <p style="font-size:14px;color:#475569;margin:0;line-height:1.55">90+ editorial brandbooks. New concepts every week. 7-day free trial. Cancel anytime.</p>
+            <h3 style="font-family:'Space Grotesk',system-ui;font-weight:600;font-size:26px;letter-spacing:-.01em;margin:0 0 6px">Open every concept — $19/mo</h3>
+            <p style="font-size:14px;color:#475569;margin:0;line-height:1.55">90+ editorial brandbooks. New concepts every week. 7-day free trial. Cancel anytime. Taxes added at checkout where applicable.</p>
           </div>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <a href="#" id="sub-cta-monthly" class="btn btn-primary" style="font-size:13px;padding:12px 20px">Start trial · €19/month</a>
-          <a href="#" id="sub-cta-yearly" class="btn btn-ghost" style="font-size:13px;padding:12px 18px">€149 / year (save ~35%)</a>
+          <a href="#" id="sub-cta-monthly" class="btn btn-primary" style="font-size:13px;padding:12px 20px">Start trial · $19/month</a>
+          <a href="#" id="sub-cta-yearly" class="btn btn-ghost" style="font-size:13px;padding:12px 18px">$149 / year (save ~35%)</a>
         </div>
         <div id="sub-legacy" class="hidden" style="margin-top:16px;padding:12px 14px;border-radius:10px;background:#fffbe6;border:1px solid #fde68a;font-size:13px;color:#7c5e10">
           Legacy access · You bought concepts under the old per-purchase model — your library access is permanent without a subscription.
@@ -842,7 +842,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div id="owned-empty" class="empty hidden">
         <div class="eyebrow">Empty cabinet</div>
         <h3>Pick your first <span class="accent">concept</span>.</h3>
-        <p>90+ ready-to-launch concepts waiting. Coffee shops, matcha kiosks, ramen bars, beauty salons. Open the whole library — €19/mo.</p>
+        <p>90+ ready-to-launch concepts waiting. Coffee shops, matcha kiosks, ramen bars, beauty salons. Open the whole library — $19/mo.</p>
         <a href="index.html#gallery" class="btn btn-primary">
           Browse concepts
           <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
@@ -1372,7 +1372,12 @@ async function updateSubscriptionBlock(user){
       const isTrial = status === 'trialing';
       document.getElementById('sub-status-label').textContent = isTrial ? 'Trial' : (status.charAt(0).toUpperCase() + status.slice(1));
       const interval = sub.interval ? `· ${sub.interval}` : '';
-      const price = sub.price_eur ? `€${sub.price_eur}` : '';
+      const sym = sub.currency === 'USD' ? '$'
+                : sub.currency === 'EUR' ? '€'
+                : sub.currency === 'GBP' ? '£'
+                : (sub.currency ? sub.currency + ' ' : '');
+      const amount = sub.price_amount ?? sub.price_eur ?? null; // legacy fallback
+      const price = amount ? `${sym}${amount}` : '';
       planLabel.textContent = [price, interval].filter(Boolean).join(' ');
       const end = sub.current_period_end ? new Date(sub.current_period_end) : null;
       if(end && !isNaN(end)){
