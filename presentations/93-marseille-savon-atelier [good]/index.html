@@ -28,17 +28,57 @@
     img{display:block;max-width:100%;height:auto}
     a{color:inherit}
     .topbar{
-      position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
-      padding:14px 28px;border-bottom:1px solid color-mix(in srgb,var(--ink) 12%,transparent);
-      background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(10px);
+      position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:18px;
+      padding:14px clamp(18px,3vw,40px);
+      border-bottom:1px solid color-mix(in srgb,var(--ink) 10%,transparent);
+      background:color-mix(in srgb,var(--paper) 88%,transparent);
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
     }
-    .brand{font-family:var(--serif);font-weight:300;font-size:18px;letter-spacing:.02em}
-    .brand b{font-weight:500}
-    .topbar-actions{display:flex;gap:18px;align-items:center;font-size:13px;letter-spacing:.04em}
-    .topbar-actions a{text-decoration:none;color:var(--ink);opacity:.75;transition:opacity .2s}
-    .topbar-actions a:hover{opacity:1}
-    .pill{padding:7px 14px;border:1px solid var(--ink);border-radius:999px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--ink);transition:background .2s,color .2s}
+    .tb-left{display:flex;align-items:center;gap:14px;min-width:0}
+    .tb-back{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:7px 14px;border-radius:999px;
+      border:1px solid color-mix(in srgb,var(--ink) 22%,transparent);
+      color:var(--ink);text-decoration:none;
+      font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+      transition:background .2s,color .2s,border-color .2s;
+      white-space:nowrap;
+    }
+    .tb-back:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+    .tb-back svg{width:12px;height:12px;flex:none}
+    .brand{
+      display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);
+      transition:color .25s;
+    }
+    .brand:hover{color:var(--accent)}
+    .brand-mark{width:30px;height:30px;flex:none;transition:transform .5s ease}
+    .brand:hover .brand-mark{transform:rotate(12deg)}
+    .brand-word{
+      font-family:var(--serif);font-weight:400;font-size:20px;line-height:1;letter-spacing:-.01em;white-space:nowrap;
+    }
+    .brand-word .dot{color:var(--accent);margin:0 2px}
+    .brand-word i{font-style:italic}
+    .tb-nav{display:flex;gap:24px;align-items:center}
+    .tb-nav a{
+      text-decoration:none;color:var(--ink);opacity:.7;
+      font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+      transition:opacity .2s,color .2s;
+    }
+    .tb-nav a:hover{opacity:1;color:var(--accent)}
+    .topbar-actions{display:flex;gap:14px;align-items:center}
+    .pill{
+      padding:8px 16px;border:1px solid var(--ink);border-radius:999px;
+      font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--ink);
+      transition:background .2s,color .2s;white-space:nowrap;
+    }
     .pill:hover{background:var(--ink);color:var(--paper)}
+    @media(max-width:880px){
+      .tb-nav{display:none}
+      .brand-word{font-size:17px}
+      .brand-mark{width:26px;height:26px}
+      .tb-back{padding:6px 10px;font-size:10px;letter-spacing:.1em}
+      .tb-back .tb-back-label{display:none}
+    }
 
     .hero{
       position:relative;min-height:78vh;display:grid;place-items:end;padding:48px 28px;
@@ -193,12 +233,32 @@
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="/"><b>micro.svita</b> · library</a>
-    <nav class="topbar-actions">
+    <div class="tb-left">
+      <a class="tb-back" href="/shop.html" aria-label="Back to library">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        <span class="tb-back-label">Library</span>
+      </a>
+      <a class="brand" href="/" aria-label="micro.svita home">
+        <svg class="brand-mark" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="20" y="20" width="160" height="160"/>
+          <path d="M100 100 Q 60 60 20 20"/><path d="M100 100 Q 140 60 180 20"/>
+          <path d="M100 100 Q 60 140 20 180"/><path d="M100 100 Q 140 140 180 180"/>
+          <path d="M100 100 Q 70 100 20 100"/><path d="M100 100 Q 130 100 180 100"/>
+          <path d="M100 100 Q 100 70 100 20"/><path d="M100 100 Q 100 130 100 180"/>
+          <circle cx="100" cy="100" r="5" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="brand-word">micro<span class="dot">·</span><i>svita</i></span>
+      </a>
+    </div>
+    <nav class="tb-nav" aria-label="Primary">
       <a href="/shop.html">All concepts</a>
-      <a href="/account.html">My library</a>
-      <a class="pill" href="/account.html?subscribe=1">Subscribe</a>
+      <a href="/#как">How it works</a>
+      <a href="/#faq">FAQ</a>
     </nav>
+    <div class="topbar-actions">
+      <a class="pill" href="/account.html">Sign in</a>
+      <a class="pill" href="/account.html?subscribe=1" style="background:var(--ink);color:var(--paper)">Subscribe</a>
+    </div>
   </header>
 
   <section class="hero" role="banner">
