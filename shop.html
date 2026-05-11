@@ -386,11 +386,283 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 .owned-badge{position:absolute;top:14px;left:14px;z-index:3;background:var(--accent);color:#EFEAE0;border-radius:100px;padding:7px 14px;font-family:'Inter Tight';font-size:11px;font-weight:700;letter-spacing:0.02em;box-shadow:0 2px 12px rgba(201,169,122,0.3)}
 .card.owned{border-color:rgba(201,169,122,0.35)}
 .card.owned:hover{border-color:var(--accent)}
+
+/* =========================================================
+   v3 — SHOP REDESIGN · 2026-05-11
+   - 3-column layout (left categories · main · right AI sidebar)
+   - All text readable black/dark on cream
+   - AI chat always visible on desktop; mobile → FAB button
+   - Top-nav favorites counter
+   ========================================================= */
+
+:root{
+  --black:#1A1A1A; --black-2:#2F2F2F; --black-3:#5A5A5A;
+  --cream:#EFEAE0; --cream-2:#F7F2E8; --cream-3:#E8DCC0;
+  --line-d:rgba(26,26,26,.12); --line-d2:rgba(26,26,26,.22);
+}
+
+/* Force readable text everywhere on cream */
+body{color:var(--black) !important}
+.card h3{color:var(--black) !important}
+.card .tagline{color:var(--black-3) !important}
+.card .meta{color:var(--black-3) !important}
+.card .open{color:var(--black-2) !important}
+.card .country{background:rgba(255,255,255,.92) !important;color:var(--black) !important;border-color:var(--line-d) !important;backdrop-filter:none !important}
+.card .shade{background:linear-gradient(180deg,transparent 60%,rgba(239,234,224,.6) 100%) !important}
+
+/* Toolbar — light cream backdrop, dark text */
+.toolbar{
+  background:rgba(247,242,232,.92) !important;
+  border-top:1px solid var(--line-d) !important;
+  border-bottom:1px solid var(--line-d) !important;
+}
+.chip{background:var(--cream) !important;border-color:var(--line-d) !important;color:var(--black-2) !important}
+.chip:hover{border-color:var(--line-d2) !important;color:var(--black) !important}
+.chip.on{background:var(--accent) !important;color:var(--cream) !important;border-color:var(--accent) !important}
+.sel{background:var(--cream) !important;border-color:var(--line-d) !important;color:var(--black) !important}
+.search{background:var(--cream) !important;border-color:var(--line-d) !important}
+.search input{color:var(--black) !important}
+.search input::placeholder{color:var(--black-3) !important}
+.count{color:var(--black-3) !important}
+
+/* Page hero — soft cream */
+.page::before{background:radial-gradient(circle,rgba(122,107,61,.05) 0%,transparent 60%) !important}
+.page-head h1{color:var(--black) !important}
+.page-head p{color:var(--black-3) !important}
+
+/* Skeleton loader — cream tones */
+.skel-card{background:var(--cream-2) !important;border-color:var(--line-d) !important}
+.skel-card .sk-media,.skel-card .sk-line{background:linear-gradient(90deg,#E8DCC0 0%,#F0E8D8 50%,#E8DCC0 100%) !important;background-size:200% 100% !important}
+
+/* Card refresh */
+.card{background:var(--cream-2) !important;border-color:var(--line-d) !important}
+.card:hover{border-color:var(--line-d2) !important}
+.card .media{background:var(--cream-3) !important}
+.fav-btn{background:rgba(255,255,255,.85) !important;border-color:var(--line-d) !important;color:var(--black-2) !important;backdrop-filter:none !important}
+.fav-btn:hover{background:#fff !important}
+.fav-btn.on{color:#cf101a !important;background:#fff !important}
+
+/* Pre-filter banner — cream */
+.prefilter{
+  background:linear-gradient(135deg,rgba(255,255,255,.5),rgba(201,169,122,.06)) !important;
+  border:1px solid var(--line-d) !important;
+}
+.prefilter .pf-label{color:var(--black-3) !important}
+.prefilter select{background-color:var(--cream) !important;border-color:var(--line-d) !important;color:var(--black) !important}
+
+/* Nav — solid cream when scrolled */
+nav.scrolled{background:rgba(239,234,224,.92) !important;border-bottom:1px solid var(--line-d) !important}
+.nav-right a{color:var(--black-2) !important}
+.nav-right a:hover,.nav-right a.active{color:var(--accent) !important}
+
+/* NAV — top favorites button */
+.nav-favs{
+  position:relative; display:inline-flex; align-items:center; gap:6px;
+  padding:9px 14px; border-radius:100px; border:1px solid var(--line-d);
+  background:var(--cream); color:var(--black);
+  font:600 12px 'Inter Tight',sans-serif; cursor:pointer;
+  transition:all 200ms var(--ease);
+}
+.nav-favs:hover{border-color:var(--line-d2); transform:translateY(-1px)}
+.nav-favs svg{width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:1.8}
+.nav-favs.has-favs{color:#cf101a; border-color:#cf101a33}
+.nav-favs.has-favs svg{fill:currentColor; stroke:currentColor}
+.nav-favs .count-badge{
+  min-width:18px; height:18px; padding:0 5px; border-radius:9px;
+  background:#cf101a; color:#fff; font:700 10px 'Inter Tight',sans-serif;
+  display:inline-flex; align-items:center; justify-content:center;
+  line-height:1;
+}
+.nav-favs:not(.has-favs) .count-badge{display:none}
+
+/* ============ SHOP 3-COLUMN LAYOUT ============ */
+.shop-layout{
+  display:grid;
+  grid-template-columns:240px minmax(0,1fr) 380px;
+  gap:28px;
+  max-width:1600px;
+  margin:0 auto;
+  padding:0 24px;
+  align-items:flex-start;
+}
+.shop-layout > .page{padding-left:0; padding-right:0; min-width:0}
+.shop-layout > .page > .wrap{padding:0; max-width:none}
+
+/* LEFT — Categories sidebar */
+.left-aside{
+  position:sticky; top:88px;
+  padding:24px 18px 24px 0;
+  border-right:1px solid var(--line-d);
+  max-height:calc(100vh - 100px); overflow-y:auto;
+  scrollbar-width:thin;
+}
+.left-aside h4{
+  font:600 11px/1 'Inter Tight',sans-serif; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--black-3);
+  margin:0 0 16px; padding-bottom:12px; border-bottom:1px solid var(--line-d);
+}
+.left-aside .cat-list{display:flex; flex-direction:column; gap:2px}
+.left-aside .cat-item{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:10px 14px; border-radius:10px;
+  font:500 13.5px 'Inter Tight',sans-serif; color:var(--black-2);
+  cursor:pointer; transition:all 180ms var(--ease);
+  text-align:left; background:transparent; border:0;
+}
+.left-aside .cat-item:hover{background:var(--cream-2); color:var(--black)}
+.left-aside .cat-item.on{background:var(--accent); color:var(--cream); font-weight:600}
+.left-aside .cat-item .cat-count{
+  font:600 10.5px 'Inter Tight',sans-serif; opacity:.55;
+  font-variant-numeric:tabular-nums;
+}
+.left-aside .cat-item.on .cat-count{opacity:.85}
+
+.left-aside .ls-divider{height:1px; background:var(--line-d); margin:20px 0}
+
+.left-aside .pf-mini{display:flex; flex-direction:column; gap:8px}
+.left-aside .pf-mini label{
+  font:500 10px 'Inter Tight',sans-serif; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--black-3); margin-bottom:2px;
+}
+.left-aside .pf-mini select{
+  width:100%; padding:9px 30px 9px 12px; border-radius:8px;
+  background:var(--cream); border:1px solid var(--line-d); color:var(--black);
+  font:500 12.5px 'Inter Tight',sans-serif; cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none' stroke='%231a1a1a' stroke-width='1.5'><path d='M1 1l4 4 4-4'/></svg>");
+  background-repeat:no-repeat; background-position:right 10px center;
+  appearance:none; -webkit-appearance:none;
+}
+
+/* RIGHT — Always-visible AI sidebar */
+.right-aside{
+  position:sticky; top:88px;
+  height:calc(100vh - 108px);
+  display:flex; flex-direction:column;
+  background:var(--cream-2);
+  border:1px solid var(--line-d);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 2px 16px rgba(0,0,0,.04);
+}
+.right-aside .head{
+  display:flex; align-items:center; gap:10px;
+  padding:16px 18px; border-bottom:1px solid var(--line-d);
+  background:#fff;
+}
+.right-aside .head .dot{
+  width:8px; height:8px; border-radius:50%;
+  background:var(--accent); box-shadow:0 0 10px var(--accent);
+}
+.right-aside .head h3{
+  margin:0; font:600 14px/1.2 'Cormorant Garamond',serif;
+  color:var(--black); letter-spacing:-.01em;
+}
+.right-aside .head .role{
+  margin-left:auto; font:500 10px 'Inter Tight',sans-serif;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--black-3);
+}
+.right-aside .ai-log{
+  flex:1 1 auto; overflow-y:auto; padding:16px 18px;
+  display:flex; flex-direction:column; gap:10px;
+  scrollbar-width:thin;
+}
+.right-aside .ai-msg{
+  max-width:88%; padding:10px 13px; border-radius:12px;
+  font:400 13.5px/1.5 'Inter','Inter Tight',sans-serif;
+  word-wrap:break-word; color:var(--black);
+}
+.right-aside .ai-msg.user{align-self:flex-end; background:#fff; border:1px solid var(--line-d)}
+.right-aside .ai-msg.bot{align-self:flex-start; background:var(--cream); border:1px solid var(--line-d)}
+.right-aside .ai-msg.bot.thinking{color:var(--black-3); font-style:italic}
+.right-aside .ai-msg.bot a{color:var(--accent); text-decoration:underline; text-underline-offset:2px}
+.right-aside .ai-msg.bot code{background:rgba(0,0,0,.05); padding:1px 5px; border-radius:4px; font:500 12px 'Inter Tight',monospace}
+.right-aside .ai-msg.bot .err{color:#cf101a}
+.right-aside .ai-chips{display:flex; flex-wrap:wrap; gap:6px; padding:8px 14px}
+.right-aside .ai-chips button{
+  padding:6px 11px; border-radius:100px;
+  background:#fff; border:1px solid var(--line-d); color:var(--black-2);
+  font:500 11.5px 'Inter','Inter Tight',sans-serif; cursor:pointer;
+  transition:all 180ms var(--ease);
+}
+.right-aside .ai-chips button:hover{border-color:var(--accent); color:var(--black)}
+.right-aside .ai-form{
+  display:flex; gap:8px; align-items:flex-end;
+  padding:10px 12px; border-top:1px solid var(--line-d); background:#fff;
+}
+.right-aside .ai-form textarea{
+  flex:1; resize:none; min-height:38px; max-height:100px;
+  padding:9px 12px; border-radius:10px;
+  background:var(--cream); border:1px solid var(--line-d); color:var(--black);
+  font:400 13.5px/1.4 'Inter',sans-serif; outline:none;
+  transition:border-color 180ms var(--ease);
+}
+.right-aside .ai-form textarea:focus{border-color:var(--accent)}
+.right-aside .ai-form textarea::placeholder{color:var(--black-3)}
+.right-aside .ai-form button{
+  flex:0 0 auto; width:36px; height:36px; border-radius:50%;
+  background:var(--accent); color:var(--cream); border:0; cursor:pointer;
+  display:grid; place-items:center;
+  transition:transform 180ms var(--ease);
+}
+.right-aside .ai-form button:disabled{opacity:.4; cursor:not-allowed}
+.right-aside .ai-form button:not(:disabled):hover{transform:scale(1.08)}
+.right-aside .ai-foot{
+  padding:6px 14px 10px; font:500 9.5px 'Inter Tight',sans-serif;
+  color:var(--black-3); letter-spacing:.08em; text-align:center;
+}
+
+/* Hide the old fixed-floating advisor — it's now inside the right rail */
+.shop-redesign #advisor-panel,
+.shop-redesign #advisor-launch{display:none !important}
+
+/* RESPONSIVE — fold sidebars on smaller screens */
+@media(max-width:1280px){
+  .shop-layout{grid-template-columns:220px minmax(0,1fr) 340px; gap:20px}
+}
+@media(max-width:1100px){
+  .shop-layout{grid-template-columns:200px minmax(0,1fr); gap:18px}
+  .right-aside{display:none}
+  /* Bring the FAB back on tablet/mobile */
+  .shop-redesign #advisor-launch{display:grid !important; position:fixed; right:20px; bottom:20px;
+    width:54px; height:54px; border-radius:50%; background:var(--accent); color:var(--cream);
+    border:0; cursor:pointer; place-items:center; z-index:95;
+    box-shadow:0 12px 28px rgba(122,107,61,.4);
+  }
+  .shop-redesign #advisor-launch svg{width:22px; height:22px}
+  /* Mobile-style overlay panel reappears when launcher is clicked */
+  .shop-redesign body.advisor-open #advisor-panel{display:flex !important}
+  .shop-redesign #advisor-panel{
+    position:fixed; right:16px; bottom:84px; width:380px; max-width:calc(100vw - 32px);
+    height:min(640px, calc(100dvh - 100px));
+    background:var(--cream-2); border:1px solid var(--line-d); border-radius:16px;
+    box-shadow:0 24px 60px rgba(0,0,0,.25); color:var(--black);
+    overflow:hidden;
+  }
+  .shop-redesign #advisor-panel .head{background:#fff; border-bottom:1px solid var(--line-d)}
+  .shop-redesign #advisor-panel .head h3{color:var(--black)}
+  .shop-redesign #advisor-panel .head .role{color:var(--black-3)}
+  .shop-redesign #advisor-log{padding:14px 16px}
+  .shop-redesign .advisor-msg{color:var(--black) !important}
+  .shop-redesign .advisor-msg.user{background:#fff !important; border:1px solid var(--line-d) !important}
+  .shop-redesign .advisor-msg.bot{background:var(--cream) !important; border:1px solid var(--line-d) !important}
+  .shop-redesign #advisor-form{background:#fff; border-top:1px solid var(--line-d)}
+  .shop-redesign #advisor-form textarea{background:var(--cream); border:1px solid var(--line-d); color:var(--black)}
+  .shop-redesign #advisor-form textarea::placeholder{color:var(--black-3)}
+  .shop-redesign #advisor-foot{color:var(--black-3)}
+  .shop-redesign #advisor-chips button{background:#fff; border:1px solid var(--line-d); color:var(--black-2)}
+}
+@media(max-width:768px){
+  .shop-layout{grid-template-columns:minmax(0,1fr); padding:0 16px}
+  .left-aside{display:none}
+}
+@media(max-width:640px){
+  .shop-redesign #advisor-panel{right:8px; left:8px; bottom:78px; width:auto; max-width:none; height:75dvh}
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="assets/mobile-polish.css?v=14">
 </head>
-<body>
+<body class="shop-redesign">
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T2974BPD"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -408,6 +680,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="js/svita-analytics.js"></script>
 <script src="js/svita-favs.js"></script>
 <script src="js/svita-app.js" defer></script>
+
+<div class="shop-layout">
+
+<!-- LEFT — Categories + mini filters -->
+<aside class="left-aside" id="left-aside">
+  <h4 data-i18n="left_categories">Categories</h4>
+  <div class="cat-list" id="left-cat-list">
+    <button class="cat-item on" data-cat="all"><span data-i18n="shop_chip_all">All concepts</span><span class="cat-count" id="cat-count-all">—</span></button>
+  </div>
+  <div class="ls-divider"></div>
+  <div class="pf-mini">
+    <label data-i18n="pf_left_country">Country</label>
+    <select id="pf-country-left"><option value="" data-i18n="pf_any_country">any country</option></select>
+    <label data-i18n="pf_left_budget" style="margin-top:6px">Budget</label>
+    <select id="pf-budget-left">
+      <option value="" data-i18n="pf_any_budget">any budget</option>
+      <option value="20000">≤ €20k</option>
+      <option value="50000">≤ €50k</option>
+      <option value="100000">≤ €100k</option>
+      <option value="250000">≤ €250k</option>
+    </select>
+  </div>
+</aside>
 
 <section class="page">
   <div class="wrap">
@@ -474,6 +769,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   </div>
 </section>
+
+<!-- RIGHT — Always-on AI concierge sidebar (desktop) -->
+<aside class="right-aside" id="right-aside" aria-label="AI catalog concierge">
+  <div class="head">
+    <span class="dot" aria-hidden="true"></span>
+    <h3 data-i18n="advisor_title">Catalog concierge</h3>
+    <span class="role" data-i18n="advisor_role">AI · Beta</span>
+  </div>
+  <div class="ai-log" id="rail-log" aria-live="polite"></div>
+  <div class="ai-chips" id="rail-chips">
+    <button type="button" data-prompt-key="advisor_chip_budget" data-i18n="advisor_chip_budget">€20k budget · Warsaw</button>
+    <button type="button" data-prompt-key="advisor_chip_food" data-i18n="advisor_chip_food">small food spot</button>
+    <button type="button" data-prompt-key="advisor_chip_solo" data-i18n="advisor_chip_solo">solo founder</button>
+  </div>
+  <form class="ai-form" id="rail-form" autocomplete="off">
+    <textarea id="rail-input" rows="1" maxlength="1500" data-i18n-placeholder="advisor_placeholder" placeholder="Tell me budget, city, vibe…"></textarea>
+    <button type="submit" id="rail-send" aria-label="Send">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </button>
+  </form>
+  <div class="ai-foot" data-i18n="advisor_foot">Anonymous · Catalog only · Claude Haiku</div>
+</aside>
+
+</div><!-- /.shop-layout -->
 
 <!-- AI advisor CTA — invites visitors who can't decide to chat with the concierge. -->
 <div class="wrap">
@@ -1220,5 +1539,236 @@ loadCatalog();
 
 <!-- i18n disabled: English-only -->
 <script src="js/svita-footer.js"></script>
+
+<!-- ─── v3 wiring: left categories · top favs counter · right AI rail ─── -->
+<script>
+(() => {
+  /* ============ 1. LEFT SIDEBAR — mirror category chips with counts ============ */
+  function syncCategories(){
+    const src = document.querySelectorAll('#cat-chips .chip');
+    const dest = document.getElementById('left-cat-list');
+    if (!src.length || !dest) return;
+    /* Collect existing chip data */
+    const cats = [...src].map(b => ({
+      key: b.dataset.cat || 'all',
+      label: b.textContent.trim(),
+      on: b.classList.contains('on'),
+    }));
+    /* Compute counts from loaded grid cards */
+    const cards = [...document.querySelectorAll('#grid .card,#grid .sc-card')];
+    const total = cards.length;
+    const countFor = (key) => key === 'all' ? total :
+      cards.filter(c => (c.dataset.cat || c.getAttribute('data-cat') || '').toLowerCase() === key.toLowerCase()).length;
+    dest.innerHTML = cats.map(c =>
+      `<button class="cat-item${c.on?' on':''}" data-cat="${c.key}">
+        <span>${c.label}</span>
+        <span class="cat-count">${countFor(c.key) || '—'}</span>
+      </button>`
+    ).join('');
+    /* Click → forward to the original chip */
+    dest.querySelectorAll('.cat-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const k = btn.dataset.cat;
+        const target = document.querySelector(`#cat-chips .chip[data-cat="${k}"]`);
+        if (target) target.click();
+        dest.querySelectorAll('.cat-item').forEach(x => x.classList.toggle('on', x === btn));
+      });
+    });
+  }
+  /* Mirror also the pre-filter selects (country, budget) — sync values both ways */
+  function bindPfMirror(){
+    const pairs = [
+      ['pf-country', 'pf-country-left'],
+      ['pf-budget', 'pf-budget-left'],
+    ];
+    pairs.forEach(([a, b]) => {
+      const src = document.getElementById(a);
+      const dst = document.getElementById(b);
+      if (!src || !dst) return;
+      /* Clone options once */
+      if (dst.options.length < src.options.length) {
+        dst.innerHTML = src.innerHTML;
+      }
+      src.addEventListener('change', () => { dst.value = src.value; });
+      dst.addEventListener('change', () => {
+        src.value = dst.value;
+        src.dispatchEvent(new Event('change', {bubbles:true}));
+        const showBtn = document.getElementById('pf-show');
+        if (showBtn) showBtn.click();
+      });
+    });
+  }
+
+  /* Observe DOM — when chips/grid populate, refresh left sidebar */
+  const observer = new MutationObserver(() => {
+    syncCategories();
+  });
+  setTimeout(() => {
+    const chips = document.getElementById('cat-chips');
+    const grid = document.getElementById('grid');
+    if (chips) observer.observe(chips, {childList: true, subtree: true, attributes: true});
+    if (grid) observer.observe(grid, {childList: true});
+    syncCategories();
+    bindPfMirror();
+  }, 600);
+
+  /* ============ 2. TOP NAV — favorites counter button ============ */
+  function injectFavsBtn(){
+    const navRight = document.querySelector('nav .nav-right');
+    if (!navRight || document.querySelector('.nav-favs')) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'nav-favs';
+    btn.setAttribute('aria-label', 'My favorites');
+    btn.innerHTML = `
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span class="nav-favs-label" data-i18n="nav_favs">Favorites</span>
+      <span class="count-badge" id="nav-favs-count">0</span>
+    `;
+    btn.addEventListener('click', () => {
+      /* Scroll to first favourited card, or show all favs if none focused */
+      const first = document.querySelector('.fav-btn.on');
+      if (first) {
+        first.closest('.card,.sc-card')?.scrollIntoView({behavior:'smooth', block:'center'});
+      } else {
+        alert((window.labs67i18n && {
+          en:"You haven't favorited any concept yet. Tap the ♥ on a card.",
+          ru:"Пока нет избранных. Нажми ♥ на любой карточке.",
+          pl:"Brak ulubionych. Kliknij ♥ na karcie.",
+          uk:"Поки нічого в обраному. Тицьни ♥ на картку.",
+          be:"Пакуль няма ўлюбёных. Націсні ♥ на картку."
+        }[window.labs67i18n.getLang()]) || "No favorites yet — tap ♥ on a card.");
+      }
+    });
+    /* Insert before the language switcher / CTA */
+    const cta = navRight.querySelector('.nav-cta');
+    if (cta) navRight.insertBefore(btn, cta); else navRight.appendChild(btn);
+    refreshFavsCount();
+  }
+  function refreshFavsCount(){
+    const btn = document.querySelector('.nav-favs');
+    if (!btn) return;
+    let count = 0;
+    try {
+      const stored = JSON.parse(localStorage.getItem('svita_favs') || '[]');
+      count = Array.isArray(stored) ? stored.length : 0;
+    } catch {}
+    /* Fallback — count active fav buttons in DOM */
+    if (!count) count = document.querySelectorAll('.fav-btn.on').length;
+    const badge = btn.querySelector('.count-badge');
+    if (badge) badge.textContent = count;
+    btn.classList.toggle('has-favs', count > 0);
+  }
+  /* Hook into favs changes */
+  setTimeout(injectFavsBtn, 500);
+  setInterval(refreshFavsCount, 1200);
+  document.addEventListener('click', e => {
+    if (e.target.closest('.fav-btn')) setTimeout(refreshFavsCount, 50);
+  });
+
+  /* ============ 3. RIGHT RAIL — desktop AI chat ============ */
+  /* Use the same Supabase endpoint as the existing advisor; mount our own UI. */
+  const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
+  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+  const ENDPOINT = SB_URL + '/functions/v1/shop-advisor';
+
+  const log = document.getElementById('rail-log');
+  const form = document.getElementById('rail-form');
+  const input = document.getElementById('rail-input');
+  const send = document.getElementById('rail-send');
+  const chipsBox = document.getElementById('rail-chips');
+  if (!log || !form || !input) return;
+
+  const history = [];
+  const greetings = {
+    en: "Hi — I'm the catalog concierge. Tell me your budget, city, and the vibe (food / craft / service / boutique) and I'll point you to 1–2 concepts that fit.",
+    ru: "Привет — я консьерж по каталогу. Расскажи бюджет, город и вайб (еда / крафт / услуги / бутик) — подберу 1–2 концепции.",
+    pl: "Cześć — jestem concierge'em katalogu. Powiedz budżet, miasto i klimat — podpowiem 1–2 koncepcje.",
+    uk: "Привіт — я консьєрж каталогу. Скажи бюджет, місто і вайб — підкажу 1–2 концепції.",
+    be: "Прывітанне — я кансьерж каталога. Скажы бюджэт, горад і вайб — падкажу 1–2 канцэпцыі."
+  };
+  function lang(){ return (window.labs67i18n && window.labs67i18n.getLang && window.labs67i18n.getLang()) || 'en'; }
+  function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function fmt(t){
+    let h = esc(t);
+    h = h.replace(/(→\s*)?\/shop\.html\?concept=([a-z0-9-]+)/g,
+      (_m, _a, s) => `→ <a href="/shop.html?concept=${s}" data-slug="${s}">${s}</a>`);
+    h = h.replace(/`([^`\n]+)`/g, (_m, c) => `<code>${c}</code>`);
+    h = h.replace(/\n/g, '<br>');
+    return h;
+  }
+  function add(role, text, opts){
+    const d = document.createElement('div');
+    d.className = 'ai-msg ' + role + (opts && opts.thinking ? ' thinking' : '');
+    if (role === 'user') d.textContent = text;
+    else d.innerHTML = fmt(text);
+    log.appendChild(d);
+    log.scrollTop = log.scrollHeight;
+    return d;
+  }
+  function seed(){
+    if (history.length === 0) add('bot', greetings[lang()] || greetings.en);
+  }
+  let busy = false;
+  async function ask(message){
+    if (busy || !message) return;
+    busy = true; send.disabled = true; input.disabled = true;
+    add('user', message);
+    history.push({ role:'user', content: message });
+    const thinking = add('bot', '…', { thinking: true });
+    try{
+      const res = await fetch(ENDPOINT, {
+        method:'POST',
+        headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY},
+        body: JSON.stringify({ message, history: history.slice(-12) }),
+      });
+      const data = await res.json().catch(() => ({}));
+      thinking.remove();
+      if (!res.ok || !data.reply){
+        const errMsg = (data && data.error === 'upstream_error' && /credit balance is too low/i.test(data.body || ''))
+          ? 'AI is temporarily out of credit — please try again later or browse the catalog directly.'
+          : (data.error || 'Something went wrong. Try again.');
+        const m = add('bot', '');
+        m.innerHTML = '<span class="err">' + esc(errMsg) + '</span>';
+        return;
+      }
+      add('bot', data.reply);
+      history.push({ role:'assistant', content: data.reply });
+    } catch (e){
+      thinking.remove();
+      const m = add('bot', '');
+      m.innerHTML = '<span class="err">Network error. Try again.</span>';
+    } finally{
+      busy = false; send.disabled = false; input.disabled = false;
+      input.value = ''; input.style.height = 'auto';
+    }
+  }
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 100) + 'px';
+  });
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const v = input.value.trim();
+    if (v) ask(v);
+  });
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); form.requestSubmit(); }
+  });
+  if (chipsBox){
+    chipsBox.addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      input.value = b.textContent.trim();
+      input.focus();
+      input.dispatchEvent(new Event('input'));
+    });
+  }
+  /* Seed the greeting once the rail is visible (desktop only) */
+  if (window.matchMedia('(min-width:1101px)').matches) {
+    setTimeout(seed, 200);
+  }
+})();
+</script>
 </body>
 </html>
