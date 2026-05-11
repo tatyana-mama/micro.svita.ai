@@ -1,21 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="micro.svita">
-  <title>micro.svita — favicon</title>
-  <defs>
-    <radialGradient id="fav-wax" cx="38%" cy="38%" r="62%">
-      <stop offset="0%"   stop-color="#9C8757"/>
-      <stop offset="55%"  stop-color="#7A6B3D"/>
-      <stop offset="100%" stop-color="#544A29"/>
-    </radialGradient>
-  </defs>
-  <!-- background paper -->
-  <rect width="100" height="100" rx="14" fill="#F0EADF"/>
-  <!-- ribbon cross -->
-  <rect x="0" y="44" width="100" height="12" fill="#2F4438"/>
-  <rect x="44" y="0" width="12" height="100" fill="#2F4438"/>
-  <!-- wax seal -->
-  <circle cx="50" cy="50" r="22" fill="url(#fav-wax)" stroke="#2F4438" stroke-width="1"/>
-  <circle cx="50" cy="50" r="16" fill="none" stroke="#F0EADF" stroke-width="0.7" stroke-opacity="0.5"/>
-  <ellipse cx="42" cy="42" rx="6" ry="3" fill="#F0EADF" fill-opacity="0.18"/>
-  <!-- italic m -->
-  <text x="50" y="62" font-family="'Cormorant Garamond',serif" font-size="32" font-style="italic" font-weight="500" fill="#F0EADF" text-anchor="middle">m</text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- outer square frame -->
+  <rect x="20" y="20" width="160" height="160"/>
+  <!-- 8 curved petals radiating from center: 4 to corners (long curves), 4 to side-midpoints (short curves) -->
+  <!-- petals to corners (curving inward as folded paper) -->
+  <path d="M100 100 Q 60 60 20 20"/>
+  <path d="M100 100 Q 140 60 180 20"/>
+  <path d="M100 100 Q 60 140 20 180"/>
+  <path d="M100 100 Q 140 140 180 180"/>
+  <!-- petals to side midpoints -->
+  <path d="M100 100 Q 70 100 20 100"/>
+  <path d="M100 100 Q 130 100 180 100"/>
+  <path d="M100 100 Q 100 70 100 20"/>
+  <path d="M100 100 Q 100 130 100 180"/>
+  <!-- center dot -->
+  <circle cx="100" cy="100" r="3" fill="currentColor" stroke="none"/>
 </svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="micro.svita">
+  <title>micro.svita — favicon</title>
+  <defs>
+    <radialGradient id="fav-wax" cx="38%" cy="38%" r="62%">
+      <stop offset="0%"   stop-color="#9C8757"/>
+      <stop offset="55%"  stop-color="#7A6B3D"/>
+      <stop offset="100%" stop-color="#544A29"/>
+    </radialGradient>
+  </defs>
+  <!-- background paper -->
+  <rect width="100" height="100" rx="14" fill="#F0EADF"/>
+  <!-- ribbon cross -->
+  <rect x="0" y="44" width="100" height="12" fill="#2F4438"/>
+  <rect x="44" y="0" width="12" height="100" fill="#2F4438"/>
+  <!-- wax seal -->
+  <circle cx="50" cy="50" r="22" fill="url(#fav-wax)" stroke="#2F4438" stroke-width="1"/>
+  <circle cx="50" cy="50" r="16" fill="none" stroke="#F0EADF" stroke-width="0.7" stroke-opacity="0.5"/>
+  <ellipse cx="42" cy="42" rx="6" ry="3" fill="#F0EADF" fill-opacity="0.18"/>
+  <!-- italic m -->
+  <text x="50" y="62" font-family="'Cormorant Garamond',serif" font-size="32" font-style="italic" font-weight="500" fill="#F0EADF" text-anchor="middle">m</text>
+</svg>

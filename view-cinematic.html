@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="kammer">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>38 · KAMMER — preserved, not restored.</title>
+<meta name="description" content="Berlin alchemist's chamber. Pre-1960 European artefacts: cleaned, catalogued, never restored.">
+<meta name="theme-color" content="#1F2A22">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* Palette from concept_dice.json */
+    --c-sand: #D4C4A8;       /* hero_hue */
+    --c-forest: #1F2A22;     /* deep bg */
+    --c-walnut: #3E2A1D;     /* secondary */
+    --c-stone: #8B7E6B;      /* mid grey */
+    --c-oat: #BBA988;        /* warm accent */
+
+    --bg: var(--c-forest);
+    --fg: #F4EFE5;
+    --fg-2: rgba(244,239,229,.72);
+    --fg-3: rgba(244,239,229,.48);
+    --line: rgba(212,196,168,.18);
+    --accent: var(--c-sand);
+
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Inter Tight', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    --ease: cubic-bezier(.22, 1, .36, 1);
+    --ease-in: cubic-bezier(.55, 0, .68, .53);
+
+    --max-w: 1280px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+
+  ::selection { background: var(--accent); color: var(--c-forest); }
+
+  /* ─────────── ambient WebGL noise (background) ─────────── */
+  #ambient {
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none;
+    opacity: .35;
+  }
+
+  /* ─────────── nav ─────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    padding: 22px 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(180deg, rgba(31,42,34,.78) 0%, rgba(31,42,34,0) 100%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  nav .brand {
+    font-family: var(--font-display);
+    font-size: 18px; font-weight: 500;
+    letter-spacing: .02em;
+  }
+  nav .brand small {
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--fg-3); margin-left: 8px;
+    text-transform: uppercase; letter-spacing: .14em;
+  }
+  nav .right {
+    display: flex; gap: 24px; align-items: center;
+    font-size: 12px; color: var(--fg-2);
+    font-family: var(--font-mono);
+    letter-spacing: .04em;
+  }
+  nav .right a:hover { color: var(--accent); }
+  nav .right .lang {
+    font-size: 11px; padding: 4px 10px; border: 1px solid var(--line);
+    border-radius: 100px; cursor: pointer; transition: all 200ms;
+  }
+  nav .right .lang:hover { border-color: var(--accent); color: var(--accent); }
+  @media (max-width: 720px) { nav { padding: 16px 20px; } nav .right { display: none; } }
+
+  /* ─────────── progress bar ─────────── */
+  .progress {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: var(--accent);
+    width: 0%; z-index: 60;
+    transition: width 80ms linear;
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  /* ─────────── act container ─────────── */
+  .act {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    padding: 64px 32px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .act-wrap {
+    max-width: var(--max-w); width: 100%;
+    margin: 0 auto;
+  }
+  .act-eyebrow {
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--fg-3); text-transform: uppercase;
+    letter-spacing: .24em; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .act-eyebrow::before {
+    content: ''; width: 32px; height: 1px;
+    background: var(--fg-3);
+  }
+  .act-title {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(40px, 6vw, 96px);
+    line-height: .98;
+    letter-spacing: -.022em;
+    margin-bottom: 24px;
+  }
+  .act-title em { font-style: italic; color: var(--accent); }
+  .act-body {
+    font-size: clamp(15px, 1.3vw, 18px);
+    color: var(--fg-2);
+    max-width: 56ch;
+    line-height: 1.65;
+  }
+  @media (max-width: 720px) {
+    .act { padding: 48px 22px; }
+  }
+
+  /* ─────────── ACT 1 · OPEN ─────────── */
+  .act-open {
+    min-height: 100svh;
+    align-items: center; text-align: center;
+    overflow: hidden;
+  }
+  .act-open .hero-img {
+    position: absolute; inset: 0; z-index: -1;
+    background: url('https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/38-berlin-vintage-shop/slide-01-cover.png') center/cover no-repeat;
+    will-change: transform, clip-path;
+    animation: hero-reveal 1.6s var(--ease) both,
+               hero-park 60s linear forwards;
+    /* parallax during scroll, animation-timeline supported in Chrome 115+ */
+    animation-timeline: scroll();
+    animation-range: 0 50vh;
+  }
+  .act-open .hero-img::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 30%, rgba(31,42,34,.92) 100%);
+  }
+  @keyframes hero-reveal {
+    from { clip-path: circle(0% at 50% 50%); transform: scale(1.1); }
+    to   { clip-path: circle(120% at 50% 50%); transform: scale(1); }
+  }
+  @keyframes hero-park {
+    to { transform: scale(1.18) translateY(-40px); }
+  }
+  .act-open h1 {
+    font-family: var(--font-display);
+    font-weight: 300; font-style: italic;
+    font-size: clamp(48px, 9vw, 144px);
+    line-height: .9; letter-spacing: -.02em;
+    margin-bottom: 18px;
+    text-shadow: 0 4px 40px rgba(0,0,0,.35);
+  }
+  .act-open .num {
+    font-family: var(--font-mono); font-size: 14px;
+    color: var(--accent); letter-spacing: .26em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .act-open .tagline {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(20px, 2.4vw, 32px);
+    color: var(--accent); margin-bottom: 38px;
+    letter-spacing: .002em;
+  }
+  .act-open .scroll-hint {
+    margin-top: auto; padding-top: 42px;
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: .26em; text-transform: uppercase;
+    color: var(--fg-3);
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    animation: scroll-bounce 2.4s ease-in-out infinite;
+  }
+  .act-open .scroll-hint::after {
+    content: ''; width: 1px; height: 28px;
+    background: linear-gradient(to bottom, var(--fg-3), transparent);
+  }
+  @keyframes scroll-bounce {
+    0%,100% { transform: translateY(0); opacity: 1; }
+    50%     { transform: translateY(8px); opacity: .55; }
+  }
+
+  /* ─────────── ACT 2 · DEFINITION ─────────── */
+  .act-definition {
+    text-align: center;
+    padding-top: 12vh;
+  }
+  .act-definition .quote {
+    font-family: var(--font-display); font-weight: 300; font-style: italic;
+    font-size: clamp(28px, 4.4vw, 64px);
+    line-height: 1.18; letter-spacing: -.012em;
+    max-width: 18ch; margin: 0 auto 48px;
+  }
+  .act-definition .quote em { color: var(--accent); font-style: normal; }
+  .act-definition .quote-img {
+    width: min(720px, 85vw); aspect-ratio: 16/9;
+    margin: 0 auto;
+    background: url('https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/38-berlin-vintage-shop/slide-02-definition.png') center/cover no-repeat;
+    border-radius: 4px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.5), 0 4px 12px rgba(0,0,0,.3);
+    animation: pop-in 1.4s var(--ease) both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+  @keyframes pop-in {
+    from { opacity: 0; transform: translateY(40px) scale(.92); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* ─────────── ACT 3 · SPACE (axonometric + interior split) ─────────── */
+  .act-space {
+    padding: 18vh 32px 14vh;
+  }
+  .act-space .grid {
+    display: grid; gap: 32px;
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 880px) { .act-space .grid { grid-template-columns: 1fr; } }
+  .act-space .img {
+    aspect-ratio: 1/1.1;
+    background-size: cover; background-position: center;
+    border-radius: 2px;
+    will-change: transform;
+    animation: slide-up 1.2s var(--ease) both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+  }
+  .act-space .img.axo  { background-image: url('https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/38-berlin-vintage-shop/slide-03-axonometric.png'); }
+  .act-space .img.intr { background-image: url('https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/38-berlin-vintage-shop/slide-06-interior.png'); animation-delay: .15s; }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(60px); clip-path: inset(0 0 100% 0); }
+    to   { opacity: 1; transform: translateY(0); clip-path: inset(0 0 0% 0); }
+  }
+  .act-space .text {
+    grid-column: 1 / -1;
+    margin-top: 32px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 56px;
+  }
+  @media (max-width: 880px) { .act-space .text { grid-template-columns: 1fr; gap: 24px; } }
+
+  /* ─────────── ACT 4 · EXPERIENCE (3-step image-stack) ─────────── */
+  .act-experience {
+    padding: 16vh 32px 14vh;
+    overflow: hidden;
+  }
+  .act-experience .stages {
+    display: grid; gap: 0;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 48px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  @media (max-width: 880px) { .act-experience .stages { grid-template-columns: 1fr; } }
+  .act-experience .stage {
+    aspect-ratio: 4/5;
+    background-size: cover; background-position: center;
+    position: relative;
+    transition: filter 600ms var(--ease);
+    filter: grayscale(.3) brightness(.85);
+  }
+  .act-experience .stages:hover .stage { filter: grayscale(.6) brightness(.6); }
+  .act-experience .stages .stage:hover { filter: grayscale(0) brightness(1); }
+  .act-experience .stage::after {
+    content: attr(data-label);
+    position: absolute; bottom: 16px; left: 18px; right: 18px;
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--fg); letter-spacing: .14em; text-transform: uppercase;
+    padding: 8px 12px; background: rgba(31,42,34,.8);
+    border-radius: 2px;
+  }
+  .act-experience .s1 { background-image: url('https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/38-berlin-vintage-shop/slide-04-facade.png'); }
+  .act-experience .s2 { background-image: url('https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/38-berlin-vintage-shop/slide-05-entry.png'); }
+  .act-experience .s3 { background-image: url('https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/38-berlin-vintage-shop/slide-07-materials.png'); }
+
+  /* ─────────── ACT 5 · OBJECTS (full-bleed sticky reveal) ─────────── */
+  .act-objects {
+    padding: 0; min-height: 200vh;
+    position: relative;
+  }
+  .act-objects .sticky {
+    position: sticky; top: 0;
+    height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+  }
+  @media (max-width: 880px) { .act-objects .sticky { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; } }
+  .act-objects .img {
+    background: url('https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/38-berlin-vintage-shop/slide-10-equipment.png') center/cover no-repeat;
+    animation-timeline: view();
+    animation-range: entry 0% cover 50%;
+    animation: zoom-park 1s var(--ease) both;
+  }
+  @keyframes zoom-park {
+    from { transform: scale(1.15); }
+    to   { transform: scale(1); }
+  }
+  .act-objects .text {
+    background: var(--c-walnut);
+    padding: 64px 56px;
+    display: flex; flex-direction: column; justify-content: center;
+    border-left: 1px solid rgba(0,0,0,.2);
+  }
+  @media (max-width: 880px) { .act-objects .text { padding: 40px 24px; border-left: 0; border-top: 1px solid rgba(0,0,0,.2); } }
+  .act-objects .grid-of-9 {
+    display: grid; gap: 1px;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 28px;
+    background: rgba(244,239,229,.1);
+  }
+  .act-objects .grid-of-9 div {
+    aspect-ratio: 1; background: var(--c-forest);
+    font-family: var(--font-mono); font-size: 9px;
+    color: var(--fg-3);
+    display: flex; align-items: end; padding: 8px;
+    letter-spacing: .08em;
+  }
+
+  /* ─────────── ACT 6 · BRAND (carousel of identity, packaging, signage) ─────────── */
+  .act-brand {
+    padding: 18vh 32px 14vh;
+  }
+  .act-brand .strip {
+    display: flex; gap: 24px; overflow-x: auto;
+    margin: 48px -32px 0; padding: 0 32px 24px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+  .act-brand .strip::-webkit-scrollbar { height: 4px; }
+  .act-brand .strip::-webkit-scrollbar-thumb { background: var(--c-stone); border-radius: 100px; }
+  .act-brand .card {
+    flex: 0 0 480px; max-width: 80vw;
+    aspect-ratio: 16/10;
+    background-size: cover; background-position: center;
+    scroll-snap-align: start;
+    border-radius: 4px;
+    transition: transform 400ms var(--ease);
+  }
+  .act-brand .card:hover { transform: scale(1.025) translateY(-4px); }
+  .act-brand .c1 { background-image: url('https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/38-berlin-vintage-shop/slide-12-packaging.png'); }
+  .act-brand .c2 { background-image: url('https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/38-berlin-vintage-shop/slide-13-signage.png'); }
+  .act-brand .c3 { background-image: url('https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/38-berlin-vintage-shop/slide-14-identity.png'); }
+  .act-brand .c4 { background-image: url('https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/38-berlin-vintage-shop/slide-09-stilllife.png'); }
+  .act-brand .c5 { background-image: url('https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/38-berlin-vintage-shop/slide-08-ritual.png'); }
+
+  /* ─────────── ACT 7 · NUMBERS ─────────── */
+  .act-numbers {
+    background: var(--c-walnut);
+    padding: 18vh 32px 16vh;
+    margin: 0 -32px;
+  }
+  .act-numbers .nums {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px; margin-top: 56px;
+  }
+  @media (max-width: 880px) { .act-numbers .nums { grid-template-columns: repeat(2, 1fr); } }
+  .act-numbers .num-card {
+    border-top: 1px solid var(--line); padding-top: 18px;
+  }
+  .act-numbers .num-card .v {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 300; letter-spacing: -.02em;
+    margin-bottom: 4px; color: var(--accent);
+  }
+  .act-numbers .num-card .l {
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--fg-3); letter-spacing: .12em; text-transform: uppercase;
+  }
+  .act-numbers .timeline-img {
+    width: 100%; margin-top: 56px;
+    aspect-ratio: 16/9;
+    background: url('https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/38-berlin-vintage-shop/slide-17-timeline.png') center/cover no-repeat;
+    border-radius: 4px;
+    box-shadow: 0 24px 80px rgba(0,0,0,.45);
+  }
+
+  /* ─────────── ACT 8 · CTA (manifesto + button) ─────────── */
+  .act-cta {
+    padding: 22vh 32px 18vh;
+    text-align: center;
+    position: relative;
+  }
+  .act-cta .manifest {
+    font-family: var(--font-display); font-style: italic;
+    font-weight: 300;
+    font-size: clamp(22px, 2.6vw, 36px);
+    line-height: 1.4;
+    max-width: 28ch; margin: 0 auto 40px;
+    color: var(--fg-2);
+  }
+  .act-cta .btn {
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 22px 44px;
+    background: var(--accent); color: var(--c-forest);
+    font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase;
+    border-radius: 100px;
+    transition: all 250ms var(--ease);
+    cursor: pointer;
+  }
+  .act-cta .btn:hover {
+    background: #fff; transform: translateY(-2px);
+    box-shadow: 0 24px 60px rgba(212,196,168,.3);
+  }
+  .act-cta .price {
+    font-family: var(--font-mono); font-size: 12px;
+    color: var(--fg-3); letter-spacing: .14em; margin-top: 24px;
+  }
+  .act-cta .price strong { color: var(--fg); font-weight: 500; }
+
+  /* ─────────── footer ─────────── */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 32px;
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--fg-3); letter-spacing: .04em;
+    display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  footer a:hover { color: var(--accent); }
+
+  /* ─────────── particle canvas (decorative, behind footer) ─────────── */
+  #particles {
+    position: absolute; left: 0; right: 0;
+    height: 280px; margin-top: -280px;
+    z-index: 0; pointer-events: none;
+    opacity: .25;
+  }
+
+  /* prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+    }
+    #ambient, #particles { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="ambient"></canvas>
+<div class="progress" id="progress"></div>
+
+<nav>
+  <div class="brand">38 · KAMMER<small data-i18n="kammer.eyebrow">BRANDBOOK</small></div>
+  <div class="right">
+    <a href="/shop.html" data-i18n="kammer.nav_shop">Shop</a>
+    <a href="/account.html" data-i18n="kammer.nav_account">Account</a>
+    <span class="lang" id="lang-toggle" title="Language">EN</span>
+  </div>
+</nav>
+
+<!-- ACT 1 · OPEN -->
+<section class="act act-open">
+  <div class="hero-img" aria-hidden="true"></div>
+  <div class="act-wrap">
+    <div class="num">№ 38 · BERLIN · MITTE</div>
+    <h1 data-i18n="kammer.brand_name">KAMMER</h1>
+    <div class="tagline" data-i18n="kammer.tagline">preserved, not restored.</div>
+    <p class="act-body" style="margin: 0 auto; max-width: 540px;" data-i18n="kammer.hero_lede">A 32 m² Berlin attic where pre-1960 European objects keep their previous lives intact. Cleaned, catalogued, never restored.</p>
+    <div class="scroll-hint"><span data-i18n="kammer.scroll">scroll</span></div>
+  </div>
+</section>
+
+<!-- ACT 2 · DEFINITION -->
+<section class="act act-definition">
+  <div class="act-wrap">
+    <div class="act-eyebrow"><span data-i18n="kammer.act2_eyebrow">DEFINITION · 02</span></div>
+    <p class="quote" data-i18n="kammer.act2_quote">"a chamber where objects keep their <em>previous life</em> intact."</p>
+    <div class="quote-img"></div>
+  </div>
+</section>
+
+<!-- ACT 3 · SPACE -->
+<section class="act act-space">
+  <div class="act-wrap">
+    <div class="act-eyebrow"><span data-i18n="kammer.act3_eyebrow">THE SPACE · 03</span></div>
+    <h2 class="act-title" data-i18n="kammer.act3_title">Mansard, north skylight, <em>32 m²</em>.</h2>
+    <div class="grid">
+      <div class="img axo" aria-hidden="true"></div>
+      <div class="img intr" aria-hidden="true"></div>
+      <div class="text">
+        <div>
+          <div class="act-eyebrow" style="margin-bottom: 10px"><span data-i18n="kammer.act3_zones">FIVE ZONES</span></div>
+          <p class="act-body" data-i18n="kammer.act3_body_left">Threshold, cataloguing bench, object wall, curiosity vitrine, provenance corner. Every artefact passes through all five before it enters the shelf.</p>
+        </div>
+        <div>
+          <div class="act-eyebrow" style="margin-bottom: 10px"><span data-i18n="kammer.act3_light">LIGHT</span></div>
+          <p class="act-body" data-i18n="kammer.act3_body_right">One Berliner Atelierfenster skylight. Six tin Bauhaus-grade pendants. Dawn falls in a strip across the steel cataloguing bench from 7:14 to 7:48 each morning.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 4 · EXPERIENCE -->
+<section class="act act-experience">
+  <div class="act-wrap">
+    <div class="act-eyebrow"><span data-i18n="kammer.act4_eyebrow">THE WALK-IN · 04</span></div>
+    <h2 class="act-title" data-i18n="kammer.act4_title">From street to <em>steel bench</em>.</h2>
+    <p class="act-body" data-i18n="kammer.act4_body">Three thresholds: a brass plaque on stone, an oak door, a single object on velvet. Hover each.</p>
+    <div class="stages">
+      <div class="stage s1" data-label="01 · STREET"></div>
+      <div class="stage s2" data-label="02 · ENTRY"></div>
+      <div class="stage s3" data-label="03 · DETAIL"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 5 · OBJECTS (sticky split) -->
+<section class="act-objects">
+  <div class="sticky">
+    <div class="img" aria-hidden="true"></div>
+    <div class="text">
+      <div class="act-eyebrow"><span data-i18n="kammer.act5_eyebrow">THE COLLECTION · 05</span></div>
+      <h2 class="act-title" data-i18n="kammer.act5_title">Nine <em>opening artefacts</em>.</h2>
+      <p class="act-body" data-i18n="kammer.act5_body">From a 1936 nautical octant to a 1924 telegraph key — each with a handwritten provenance card 90 × 55 mm.</p>
+      <div class="grid-of-9">
+        <div>OCTANT · 1936</div>
+        <div>BAUHAUS LAMP · 1948</div>
+        <div>COFFEE-POT · 1929</div>
+        <div>APOTHECARY SCALE · 1955</div>
+        <div>WATCH-MAKER LOUPE · 1942</div>
+        <div>TYPE DRAWER · 1937</div>
+        <div>TELEGRAPH KEY · 1924</div>
+        <div>BRASS ALTIMETER · 1958</div>
+        <div>LINEN-PRESS IRON · 1933</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 6 · BRAND -->
+<section class="act act-brand">
+  <div class="act-wrap">
+    <div class="act-eyebrow"><span data-i18n="kammer.act6_eyebrow">IDENTITY · 06</span></div>
+    <h2 class="act-title" data-i18n="kammer.act6_title">Aluminium tag, wax seal, <em>walnut crate</em>.</h2>
+    <p class="act-body" data-i18n="kammer.act6_body">Five surfaces of the brand — packaging, signage, identity board, still-life, ritual. Slide right →</p>
+    <div class="strip">
+      <div class="card c1"></div>
+      <div class="card c2"></div>
+      <div class="card c3"></div>
+      <div class="card c4"></div>
+      <div class="card c5"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 7 · NUMBERS -->
+<section class="act act-numbers">
+  <div class="act-wrap">
+    <div class="act-eyebrow"><span data-i18n="kammer.act7_eyebrow">UNIT ECONOMICS · 07</span></div>
+    <h2 class="act-title" data-i18n="kammer.act7_title">€14,000 capex. <em>6 transactions</em> a week.</h2>
+    <div class="nums">
+      <div class="num-card"><div class="v">€2,400</div><div class="l" data-i18n="kammer.eco_rent">RENT · MONTH</div></div>
+      <div class="num-card"><div class="v">€380</div><div class="l" data-i18n="kammer.eco_basket">AVG BASKET</div></div>
+      <div class="num-card"><div class="v">9</div><div class="l" data-i18n="kammer.eco_tx">TX / WEEK</div></div>
+      <div class="num-card"><div class="v">58 %</div><div class="l" data-i18n="kammer.eco_margin">SOURCING MARGIN</div></div>
+      <div class="num-card"><div class="v">8</div><div class="l" data-i18n="kammer.eco_weeks">WEEKS TO OPEN</div></div>
+      <div class="num-card"><div class="v">2</div><div class="l" data-i18n="kammer.eco_team">CURATOR + PT</div></div>
+      <div class="num-card"><div class="v">38</div><div class="l" data-i18n="kammer.eco_inventory">OPENING ARTEFACTS</div></div>
+      <div class="num-card"><div class="v">€14k</div><div class="l" data-i18n="kammer.eco_total">TOTAL CAPEX</div></div>
+    </div>
+    <div class="timeline-img" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ACT 8 · CTA -->
+<section class="act act-cta">
+  <div class="act-wrap">
+    <div class="act-eyebrow" style="justify-content:center; margin: 0 auto 32px"><span data-i18n="kammer.act8_eyebrow">MANIFESTO · 08</span></div>
+    <p class="manifest" data-i18n="kammer.manifest">In a city addicted to the new, a room that listens to the old. Not antiquariat. Not retro. A chamber where one shelf says: this object had a life before you, and we kept the proof.</p>
+    <a class="btn" href="/account.html?claim=berlin-vintage-shop">
+      <span data-i18n="kammer.cta_btn">Claim 38 · KAMMER</span>
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 6h16M12 1l5 5-5 5"/></svg>
+    </a>
+    <div class="price"><strong>$19</strong> / <span data-i18n="kammer.cta_month">month</span> · <strong>$149</strong> / <span data-i18n="kammer.cta_year">year</span> · <span data-i18n="kammer.cta_trial">7-day trial</span></div>
+  </div>
+</section>
+
+<canvas id="particles"></canvas>
+
+<footer>
+  <div>© SVITA MICRO · 38 · KAMMER · <span data-i18n="kammer.footer_made">Made for one room, not twelve halls.</span></div>
+  <div><a href="/legal.html" data-i18n="kammer.footer_legal">Legal</a> · <a href="/shop.html" data-i18n="kammer.footer_shop">Browse 90 concepts</a></div>
+</footer>
+
+<script>
+/* ─────── i18n dictionary (lightweight, drop-in) ─────── */
+const I18N = {
+  en: {
+    "kammer.eyebrow":"BRANDBOOK", "kammer.nav_shop":"Shop", "kammer.nav_account":"Account",
+    "kammer.brand_name":"KAMMER", "kammer.tagline":"preserved, not restored.",
+    "kammer.hero_lede":"A 32 m² Berlin attic where pre-1960 European objects keep their previous lives intact. Cleaned, catalogued, never restored.",
+    "kammer.scroll":"scroll",
+    "kammer.act2_eyebrow":"DEFINITION · 02",
+    "kammer.act2_quote":'"a chamber where objects keep their <em>previous life</em> intact."',
+    "kammer.act3_eyebrow":"THE SPACE · 03",
+    "kammer.act3_title":"Mansard, north skylight, <em>32 m²</em>.",
+    "kammer.act3_zones":"FIVE ZONES",
+    "kammer.act3_body_left":"Threshold, cataloguing bench, object wall, curiosity vitrine, provenance corner. Every artefact passes through all five before it enters the shelf.",
+    "kammer.act3_light":"LIGHT",
+    "kammer.act3_body_right":"One Berliner Atelierfenster skylight. Six tin Bauhaus-grade pendants. Dawn falls in a strip across the steel cataloguing bench from 7:14 to 7:48 each morning.",
+    "kammer.act4_eyebrow":"THE WALK-IN · 04",
+    "kammer.act4_title":"From street to <em>steel bench</em>.",
+    "kammer.act4_body":"Three thresholds: a brass plaque on stone, an oak door, a single object on velvet. Hover each.",
+    "kammer.act5_eyebrow":"THE COLLECTION · 05",
+    "kammer.act5_title":"Nine <em>opening artefacts</em>.",
+    "kammer.act5_body":"From a 1936 nautical octant to a 1924 telegraph key — each with a handwritten provenance card 90 × 55 mm.",
+    "kammer.act6_eyebrow":"IDENTITY · 06",
+    "kammer.act6_title":"Aluminium tag, wax seal, <em>walnut crate</em>.",
+    "kammer.act6_body":"Five surfaces of the brand — packaging, signage, identity board, still-life, ritual. Slide right →",
+    "kammer.act7_eyebrow":"UNIT ECONOMICS · 07",
+    "kammer.act7_title":"€14,000 capex. <em>6 transactions</em> a week.",
+    "kammer.eco_rent":"RENT · MONTH","kammer.eco_basket":"AVG BASKET","kammer.eco_tx":"TX / WEEK",
+    "kammer.eco_margin":"SOURCING MARGIN","kammer.eco_weeks":"WEEKS TO OPEN","kammer.eco_team":"CURATOR + PT",
+    "kammer.eco_inventory":"OPENING ARTEFACTS","kammer.eco_total":"TOTAL CAPEX",
+    "kammer.act8_eyebrow":"MANIFESTO · 08",
+    "kammer.manifest":"In a city addicted to the new, a room that listens to the old. Not antiquariat. Not retro. A chamber where one shelf says: this object had a life before you, and we kept the proof.",
+    "kammer.cta_btn":"Claim 38 · KAMMER",
+    "kammer.cta_month":"month", "kammer.cta_year":"year", "kammer.cta_trial":"7-day trial",
+    "kammer.footer_made":"Made for one room, not twelve halls.",
+    "kammer.footer_legal":"Legal", "kammer.footer_shop":"Browse 90 concepts",
+  },
+  ru: {
+    "kammer.eyebrow":"БРЕНДБУК", "kammer.nav_shop":"Магазин", "kammer.nav_account":"Кабинет",
+    "kammer.brand_name":"KAMMER", "kammer.tagline":"сохранено, не отреставрировано.",
+    "kammer.hero_lede":"32 м² на берлинской мансарде, где европейские предметы до 1960 года сохраняют свою прежнюю жизнь. Очищены, описаны, никогда не реставрированы.",
+    "kammer.scroll":"листай",
+    "kammer.act2_eyebrow":"ОПРЕДЕЛЕНИЕ · 02",
+    "kammer.act2_quote":'«камера, в которой предметы хранят свою <em>прежнюю жизнь</em>».',
+    "kammer.act3_eyebrow":"ПРОСТРАНСТВО · 03",
+    "kammer.act3_title":"Мансарда, северный фонарь, <em>32 м²</em>.",
+    "kammer.act3_zones":"ПЯТЬ ЗОН",
+    "kammer.act3_body_left":"Threshold, рабочий стол каталогизатора, стеллаж артефактов, витрина-кубик, угол провенанса. Каждый объект проходит все пять, прежде чем попасть на полку.",
+    "kammer.act3_light":"СВЕТ",
+    "kammer.act3_body_right":"Один Berliner Atelierfenster. Шесть оловянных Bauhaus-светильников. Рассветный луч ложится полосой на стальной верстак с 7:14 до 7:48 каждое утро.",
+    "kammer.act4_eyebrow":"ВХОД · 04",
+    "kammer.act4_title":"От улицы до <em>стального верстака</em>.",
+    "kammer.act4_body":"Три порога: латунная табличка на камне, дубовая дверь, один предмет на бархате. Наведи на каждый.",
+    "kammer.act5_eyebrow":"КОЛЛЕКЦИЯ · 05",
+    "kammer.act5_title":"Девять <em>стартовых артефактов</em>.",
+    "kammer.act5_body":"От морского октанта 1936 до телеграфного ключа 1924 — у каждого рукописная карточка провенанса 90 × 55 мм.",
+    "kammer.act6_eyebrow":"ИДЕНТИЧНОСТЬ · 06",
+    "kammer.act6_title":"Алюминиевая бирка, восковая печать, <em>дубовая крата</em>.",
+    "kammer.act6_body":"Пять поверхностей бренда — упаковка, вывеска, мудборд, натюрморт, ритуал. Скролль вправо →",
+    "kammer.act7_eyebrow":"ЭКОНОМИКА · 07",
+    "kammer.act7_title":"€14 000 capex. <em>6 транзакций</em> в неделю.",
+    "kammer.eco_rent":"АРЕНДА · МЕСЯЦ","kammer.eco_basket":"СРЕДНИЙ ЧЕК","kammer.eco_tx":"ТРАНЗАКЦИЙ / НЕДЕЛЮ",
+    "kammer.eco_margin":"МАРЖА ЗАКУПКИ","kammer.eco_weeks":"НЕДЕЛЬ ДО ОТКРЫТИЯ","kammer.eco_team":"КУРАТОР + PT",
+    "kammer.eco_inventory":"СТАРТОВЫЕ АРТЕФАКТЫ","kammer.eco_total":"ИТОГО ИНВЕСТИЦИЙ",
+    "kammer.act8_eyebrow":"МАНИФЕСТ · 08",
+    "kammer.manifest":"В городе, который зависим от нового — комната, которая слушает старое. Не антиквариат. Не ретро. Камера, где одна полка говорит: у этого предмета была жизнь до тебя, и мы сохранили доказательство.",
+    "kammer.cta_btn":"Забрать 38 · KAMMER",
+    "kammer.cta_month":"мес", "kammer.cta_year":"год", "kammer.cta_trial":"7 дней бесплатно",
+    "kammer.footer_made":"Сделано для одной комнаты, не двенадцати залов.",
+    "kammer.footer_legal":"Юридическое", "kammer.footer_shop":"Посмотреть 90 концепций",
+  },
+  pl: {
+    "kammer.eyebrow":"BRANDBOOK", "kammer.nav_shop":"Sklep", "kammer.nav_account":"Konto",
+    "kammer.brand_name":"KAMMER", "kammer.tagline":"zachowane, nie restaurowane.",
+    "kammer.hero_lede":"32 m² berlińskiego poddasza, gdzie europejskie przedmioty sprzed 1960 roku zachowują swoje dawne życie. Oczyszczone, skatalogowane, nigdy nie restaurowane.",
+    "kammer.scroll":"przewiń",
+    "kammer.act2_eyebrow":"DEFINICJA · 02",
+    "kammer.act2_quote":'„komnata, w której przedmioty zachowują swoje <em>dawne życie</em>".',
+    "kammer.act3_eyebrow":"PRZESTRZEŃ · 03",
+    "kammer.act3_title":"Poddasze, świetlik północny, <em>32 m²</em>.",
+    "kammer.act3_zones":"PIĘĆ STREF",
+    "kammer.act3_body_left":"Próg, stół katalogu, ściana obiektów, gablota osobliwości, kącik proweniencji. Każdy artefakt przechodzi przez wszystkie pięć, zanim trafi na półkę.",
+    "kammer.act3_light":"ŚWIATŁO",
+    "kammer.act3_body_right":"Jeden świetlik Berliner Atelierfenster. Sześć cynowych lamp Bauhaus. Świt pada pasmem na stalowy stół katalogu od 7:14 do 7:48 każdego ranka.",
+    "kammer.act4_eyebrow":"WEJŚCIE · 04",
+    "kammer.act4_title":"Od ulicy do <em>stalowego stołu</em>.",
+    "kammer.act4_body":"Trzy progi: mosiężna tabliczka na kamieniu, dębowe drzwi, jeden przedmiot na aksamicie.",
+    "kammer.act5_eyebrow":"KOLEKCJA · 05",
+    "kammer.act5_title":"Dziewięć <em>otwierających artefaktów</em>.",
+    "kammer.act5_body":"Od oktantu nawigacyjnego z 1936 do klucza telegraficznego z 1924 — każdy z odręczną kartą proweniencji 90 × 55 mm.",
+    "kammer.act6_eyebrow":"TOŻSAMOŚĆ · 06",
+    "kammer.act6_title":"Aluminiowa plakietka, woskowa pieczęć, <em>dębowa skrzynka</em>.",
+    "kammer.act6_body":"Pięć powierzchni marki — opakowanie, oznakowanie, moodboard, martwa natura, rytuał.",
+    "kammer.act7_eyebrow":"EKONOMIKA · 07",
+    "kammer.act7_title":"€14 000 capex. <em>6 transakcji</em> tygodniowo.",
+    "kammer.eco_rent":"CZYNSZ · MIES.","kammer.eco_basket":"ŚR. KOSZYK","kammer.eco_tx":"TX / TYDZIEŃ",
+    "kammer.eco_margin":"MARŻA ZAKUPU","kammer.eco_weeks":"TYG. DO OTWARCIA","kammer.eco_team":"KURATOR + PT",
+    "kammer.eco_inventory":"ARTEFAKTY STARTOWE","kammer.eco_total":"CAŁK. INWESTYCJA",
+    "kammer.act8_eyebrow":"MANIFEST · 08",
+    "kammer.manifest":"W mieście uzależnionym od nowego — pokój, który słucha starego. To nie antykwariat. To nie retro. Komnata, gdzie jedna półka mówi: ten przedmiot miał życie przed tobą, i my zachowaliśmy dowód.",
+    "kammer.cta_btn":"Odbierz 38 · KAMMER",
+    "kammer.cta_month":"mies.", "kammer.cta_year":"rok", "kammer.cta_trial":"7 dni bezpłatnie",
+    "kammer.footer_made":"Zrobione dla jednego pokoju, nie dwunastu sal.",
+    "kammer.footer_legal":"Prawne", "kammer.footer_shop":"Zobacz 90 koncepcji",
+  },
+};
+
+const LANGS = ["en", "ru", "pl"];
+let currentLang = localStorage.getItem("svita_lang") || "en";
+
+function applyI18n() {
+  const dict = I18N[currentLang] || I18N.en;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (dict[key]) el.innerHTML = dict[key];
+  });
+  document.documentElement.lang = currentLang;
+  document.getElementById("lang-toggle").textContent = currentLang.toUpperCase();
+}
+document.getElementById("lang-toggle").addEventListener("click", () => {
+  const idx = LANGS.indexOf(currentLang);
+  currentLang = LANGS[(idx + 1) % LANGS.length];
+  localStorage.setItem("svita_lang", currentLang);
+  applyI18n();
+});
+applyI18n();
+
+/* ─────── progress bar ─────── */
+const progress = document.getElementById("progress");
+function updateProgress() {
+  const h = document.documentElement.scrollHeight - innerHeight;
+  const p = Math.max(0, Math.min(1, scrollY / h));
+  progress.style.width = (p * 100) + "%";
+}
+addEventListener("scroll", updateProgress, { passive: true });
+updateProgress();
+
+/* ─────── ambient WebGL noise (lightweight, no Three.js) ─────── */
+const amb = document.getElementById("ambient");
+const aCtx = amb.getContext("2d");
+let aw, ah;
+function ambResize() {
+  aw = amb.width = innerWidth * devicePixelRatio;
+  ah = amb.height = innerHeight * devicePixelRatio;
+}
+ambResize();
+addEventListener("resize", ambResize);
+
+const PALETTE = [
+  [212,196,168],  // sand
+  [139,126,107],  // stone
+  [187,169,136],  // oat
+];
+let blobs = Array.from({length: 5}, () => ({
+  x: Math.random()*aw, y: Math.random()*ah,
+  r: 200 + Math.random()*400,
+  c: PALETTE[Math.floor(Math.random()*PALETTE.length)],
+  vx: (Math.random()-.5)*.3, vy: (Math.random()-.5)*.3,
+}));
+
+function drawAmbient(t) {
+  aCtx.clearRect(0, 0, aw, ah);
+  aCtx.globalCompositeOperation = "lighter";
+  blobs.forEach(b => {
+    b.x += b.vx; b.y += b.vy;
+    if (b.x < 0 || b.x > aw) b.vx *= -1;
+    if (b.y < 0 || b.y > ah) b.vy *= -1;
+    const grd = aCtx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+    grd.addColorStop(0, `rgba(${b.c[0]},${b.c[1]},${b.c[2]},.18)`);
+    grd.addColorStop(1, `rgba(${b.c[0]},${b.c[1]},${b.c[2]},0)`);
+    aCtx.fillStyle = grd;
+    aCtx.fillRect(0, 0, aw, ah);
+  });
+  requestAnimationFrame(drawAmbient);
+}
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) drawAmbient(0);
+
+/* ─────── particle footer ─────── */
+const pcv = document.getElementById("particles");
+const pCtx = pcv.getContext("2d");
+let pw, ph;
+function pResize() {
+  pcv.width = pw = innerWidth * devicePixelRatio;
+  pcv.height = ph = 280 * devicePixelRatio;
+  pcv.style.width = innerWidth + "px";
+  pcv.style.height = "280px";
+}
+pResize(); addEventListener("resize", pResize);
+
+const dots = Array.from({length: 80}, () => ({
+  x: Math.random()*pw, y: Math.random()*ph,
+  vx: (Math.random()-.5)*.6, vy: -Math.random()*.4 - .1,
+  r: Math.random()*1.8 + .4,
+}));
+function drawParticles() {
+  pCtx.clearRect(0, 0, pw, ph);
+  pCtx.fillStyle = "rgba(212,196,168,.6)";
+  dots.forEach(d => {
+    d.x += d.vx; d.y += d.vy;
+    if (d.y < 0) { d.y = ph; d.x = Math.random()*pw; }
+    if (d.x < 0 || d.x > pw) d.vx *= -1;
+    pCtx.beginPath(); pCtx.arc(d.x, d.y, d.r, 0, Math.PI*2); pCtx.fill();
+  });
+  requestAnimationFrame(drawParticles);
+}
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) drawParticles();
+</script>
+
+</body>
+</html>
