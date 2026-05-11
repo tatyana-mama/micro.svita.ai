@@ -7,6 +7,9 @@ node_modules/
 
 # Intermediate Vertex nano-banana artifacts — not needed in repo
 presentations/*/_photos/
+# Exception: 16 · RUST landing.html depends on these for live preview
+!presentations/16-amsterdam-massage [good]/_photos/
+!presentations/16-amsterdam-massage [good]/_photos/**
 
 # Supabase CLI scratch
 supabase/.temp/
