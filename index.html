@@ -393,11 +393,12 @@
             </Reveal>
             <Btn href="/shop.html">Открыть весь каталог</Btn>
           </div>
-          {/* horizontal scroller */}
-          <div className="relative">
-            <div className="flex gap-5 overflow-x-auto px-6 md:px-12 pb-4 no-scrollbar">
-              {CATALOG.map((c,i)=>(<Card key={i} c={c}/>))}
+          {/* infinite marquee carousel */}
+          <div className="relative overflow-hidden group">
+            <div className="marquee-track flex gap-5 w-max pb-4 group-hover:[animation-play-state:paused]">
+              {[...CATALOG, ...CATALOG].map((c,i)=>(<Card key={i} c={c}/>))}
             </div>
+            <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-paper to-transparent pointer-events-none"/>
             <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-paper to-transparent pointer-events-none"/>
           </div>
         </section>
