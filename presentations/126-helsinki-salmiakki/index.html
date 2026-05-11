@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>126 · SALMI — Helsinki Salmiakki Bar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/framer-motion@10.16.16/dist/framer-motion.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+:root{
+  --birch:#F2EBE0;
+  --salt:#9DA7AD;
+  --licorice:#1A1A1A;
+  --brass:#B89569;
+  --cobalt:#2B4C8C;
+  --cream:#F7F1E6;
+  --hair:rgba(26,26,26,.18);
+}
+html,body{margin:0;background:var(--licorice);color:var(--birch);font-family:'Inter',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+.serif{font-family:'Cormorant Garamond',serif}
+.hair{border-color:var(--hair)}
+.dot{display:inline-block;width:4px;height:4px;border-radius:50%;background:currentColor;vertical-align:middle;margin:0 .55em;opacity:.6}
+.grain{background-image:radial-gradient(circle at 20% 30%, rgba(255,255,255,.04), transparent 40%),radial-gradient(circle at 80% 70%, rgba(184,149,105,.06), transparent 40%)}
+.fade-grain::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");opacity:.55;mix-blend-mode:overlay}
+.hotspot{position:absolute;transform:translate(-50%,-50%);cursor:help}
+.hotspot-dot{width:14px;height:14px;border-radius:50%;background:rgba(242,235,224,.18);border:1px solid rgba(242,235,224,.5);box-shadow:0 0 0 6px rgba(242,235,224,.05);transition:all .2s}
+.hotspot:hover .hotspot-dot{background:var(--brass);border-color:var(--brass);box-shadow:0 0 0 10px rgba(184,149,105,.18)}
+.pulse{animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(184,149,105,.4)}50%{box-shadow:0 0 0 12px rgba(184,149,105,0)}}
+.scrollbar-thin::-webkit-scrollbar{width:6px}
+.scrollbar-thin::-webkit-scrollbar-thumb{background:rgba(184,149,105,.3);border-radius:3px}
+
+/* PRINT MODE */
+@media print{
+  @page{size:A4 landscape;margin:0}
+  html,body{background:var(--cream)!important;color:var(--licorice)!important}
+  .no-print{display:none!important}
+  .print-page{page-break-after:always;page-break-inside:avoid;background:var(--cream)!important;color:var(--licorice)!important;width:297mm;height:210mm;padding:14mm 18mm;display:flex;flex-direction:column;position:relative;overflow:hidden}
+  .print-page:last-child{page-break-after:auto}
+  .print-hide{display:none!important}
+  .hotspot{display:none!important}
+  .print-mark{position:absolute;top:10mm;right:14mm;font-family:'Cormorant Garamond',serif;font-size:11pt;letter-spacing:.05em;color:var(--licorice)}
+  .print-brand{position:absolute;top:10mm;left:14mm;font-family:'Cormorant Garamond',serif;font-size:12pt;letter-spacing:.1em;color:var(--licorice)}
+  .print-foot{position:absolute;bottom:10mm;left:14mm;right:14mm;display:flex;justify-content:space-between;font-size:8.5pt;color:var(--licorice);opacity:.6;font-family:'Inter',sans-serif}
+  .print-page h1{color:var(--licorice)!important}
+  .print-page h2{color:var(--licorice)!important}
+  .print-page *{color:inherit!important}
+}
+
+/* Force print classes for preview */
+.print-mode{background:var(--cream)!important;color:var(--licorice)!important}
+.print-mode .print-page{background:var(--cream)!important;color:var(--licorice)!important;width:100%;max-width:1180px;margin:0 auto 24px;aspect-ratio:297/210;padding:48px 64px;display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35);border-radius:2px}
+.print-mode .interactive-only{display:none!important}
+.print-mode .print-only{display:block!important}
+.print-mode .hotspot{display:none!important}
+.interactive-mode .print-only{display:none!important}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef, useMemo, createContext, useContext } = React;
+const { motion, AnimatePresence, useScroll, useTransform } = window.Motion || window.FramerMotion || {};
+const M = window.Motion || window.FramerMotion;
+const Motion = M ? M.motion : { div: (props) => <div {...props}/>, h1: (props) => <h1 {...props}/>, span: (props) => <span {...props}/>, section: (props) => <section {...props}/> };
+const AnimP = M ? M.AnimatePresence : ({children}) => children;
+
+/* ============ ICONS ============ */
+const Icon = ({name, size=18, stroke=1.4, ...p}) => {
+  const paths = {
+    chevron: <polyline points="9 6 15 12 9 18"/>,
+    eye: <><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></>,
+    printer: <><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></>,
+    x: <><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>,
+    pin: <><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></>,
+    clock: <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>,
+    euro: <><path d="M14 21.5a9.5 9.5 0 1 1 0-19"/><line x1="2" y1="10" x2="11" y2="10"/><line x1="2" y1="14" x2="11" y2="14"/></>,
+    mail: <><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22 6 12 13 2 6"/></>,
+    phone: <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>,
+    user: <><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
+    send: <><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></>,
+    sparkle: <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>,
+    package: <><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></>,
+    qr: <><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><line x1="14" y1="14" x2="14" y2="21"/><line x1="17.5" y1="14" x2="17.5" y2="17.5"/><line x1="14" y1="17.5" x2="17.5" y2="17.5"/><line x1="21" y1="14" x2="21" y2="21"/><line x1="14" y1="21" x2="21" y2="21"/></>,
+    arrowDown: <><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></>,
+    droplet: <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>,
+    leaf: <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.96c.45 5.49.78 8.78-.07 11.04C18 17.21 14 20 11 20z"/>,
+    fire: <><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></>,
+    coffee: <><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></>,
+    moon: <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>,
+    shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>,
+    megaphone: <><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></>,
+    layers: <><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></>,
+    check: <polyline points="20 6 9 17 4 12"/>,
+  };
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" {...p}>
+      {paths[name] || null}
+    </svg>
+  );
+};
+
+/* ============ TOOLTIP ============ */
+const Tooltip = ({content, position={x:0,y:0}, visible}) => {
+  if (!M) return null;
+  return (
+    <AnimP>
+      {visible && (
+        <Motion.div
+          initial={{opacity:0, y:6, scale:.96}}
+          animate={{opacity:1, y:0, scale:1}}
+          exit={{opacity:0, y:6, scale:.96}}
+          transition={{duration:.18}}
+          className="fixed z-50 pointer-events-none"
+          style={{left:position.x+14, top:position.y+14, maxWidth:300}}
+        >
+          <div className="bg-[#1A1A1A]/95 border border-[#B89569]/30 backdrop-blur-md px-4 py-3 rounded-sm shadow-2xl">
+            {content}
+          </div>
+        </Motion.div>
+      )}
+    </AnimP>
+  );
+};
+
+const useTooltip = () => {
+  const [state, setState] = useState({visible:false, content:null, pos:{x:0,y:0}});
+  const show = (content) => (e) => setState({visible:true, content, pos:{x:e.clientX, y:e.clientY}});
+  const move = (e) => setState(s => s.visible ? {...s, pos:{x:e.clientX, y:e.clientY}} : s);
+  const hide = () => setState(s => ({...s, visible:false}));
+  return {state, show, move, hide};
+};
+
+/* ============ IMAGES ============ */
+const IMG = {
+  cover: 'slide-01-cover.png',
+  def: 'slide-02-definition.png',
+  facade: 'slide-04-facade.png',
+  interior: 'slide-05-interior.png',
+  back: 'slide-06-back.png',
+  materials: 'slide-07-materials.png',
+  ritual: 'slide-08-ritual.png',
+  still: 'slide-09-still-life.png',
+  equipment: 'slide-10-equipment.png',
+  takeaway: 'slide-12-takeaway.png',
+  signage: 'slide-13-signage.png',
+  moment: 'slide-19-moment.png',
+  manifest: 'slide-23-manifest.png',
+  cta: 'slide-25-cta.png',
+};
+
+/* ============ CONCEPT DATA ============ */
+const CONCEPT = {
+  nn: '126',
+  brand: 'SALMI',
+  fullName: 'Helsinki Salmiakki Bar',
+  slug: 'helsinki-salmiakki',
+  city: 'Helsinki',
+  district: 'Punavuori',
+  country: 'FI',
+  region: 'Baltic Finnish',
+  category: 'food · niche-spirit',
+  m2: 9,
+  weeks: 5,
+  tagline: 'the finnish black salt rim',
+  manifest: 'Nine square meters of finnish darkness, salted at the rim. A standing room with four oak stools, a brass-fronted bar, and one ritual repeated until midnight.',
+  palette: [
+    {hex:'#F2EBE0', name:'Birch', use:'Walls, ceiling, oak finish'},
+    {hex:'#9DA7AD', name:'Sea-salt grey', use:'Stone counter, linen aprons'},
+    {hex:'#1A1A1A', name:'Liquorice', use:'Bar front tile, ironwork'},
+    {hex:'#B89569', name:'Brass', use:'Pendants, taps, hardware'},
+    {hex:'#2B4C8C', name:'Deep cobalt', use:'Signage accent, glass'},
+  ],
+  fonts: [
+    {name:'Cormorant Garamond', use:'Headlines · Brand lock-up', weight:'Light 300 / Regular 400'},
+    {name:'Inter', use:'Body · Captions · Navigation', weight:'Light 300 / Regular 400'},
+  ],
+  ritual: {
+    name:'black salt rim',
+    line:'The rim is dipped in a dish of crushed sea salt and grated salty liquorice, then the shot is poured.',
+    steps: [
+      {n:'01', name:'Salt mortar', text:'Coarse Finnish sea salt is ground each morning with raw salmiakki root.'},
+      {n:'02', name:'Glass dip', text:'Empty glass is inverted into the mixture, twisted half a turn.'},
+      {n:'03', name:'The pour', text:'Cold vodka or rye spirit poured to the rim, never above.'},
+      {n:'04', name:'The first taste', text:'Lip touches the rim first. Salt, liquorice, spirit — in that order.'},
+    ],
+  },
+  equipment: [
+    {name:'Steel ice well', price:980, note:'Built-in counter, 1.6m run'},
+    {name:'Tile-clad bar front', price:1800, note:'Custom matte black 60×60 tile'},
+    {name:'Oak service bench', price:1400, note:'2.4m × 0.55m, raw white oak'},
+    {name:'Oak stools × 4', price:1000, note:'Vienna-bent, sea-salt linen seat'},
+    {name:'Brass pendants × 4', price:1300, note:'Single bulb, antique brass'},
+    {name:'Cold storage', price:1500, note:'Under-counter, 280L'},
+    {name:'Glassware × 60', price:1100, note:'Lead-free shot, rocks, snifter'},
+    {name:'Brass bar tools', price:300, note:'Jigger, strainer, muddler'},
+    {name:'Salt-grind station', price:240, note:'Marble mortar + brass scoop'},
+    {name:'Signage + identity', price:1800, note:'Brushed brass plate, monocone bag'},
+    {name:'Design + permits', price:2900, note:'Architect + Helsinki city fee + insurance Y1'},
+  ],
+  menu: [
+    {name:'Salmiakki shot', price:3, icon:'droplet', note:'House vodka, black salt rim'},
+    {name:'Salmiakki Old Fashioned', price:8, icon:'fire', note:'Rye, salmiakki syrup, orange'},
+    {name:'Salty Liquorice Negroni', price:8, icon:'leaf', note:'Gin, Campari, liquorice vermouth'},
+    {name:'Birchroot Tonic', price:6, icon:'leaf', note:'Non-alc · birch sap, tonic, salt'},
+    {name:'Black Salt Vodka', price:5, icon:'droplet', note:'Single 40ml pour, rim ritual'},
+    {name:'Salmiakki Espresso Martini', price:9, icon:'coffee', note:'Vodka, espresso, liquorice cream'},
+    {name:'Pine Tar Cocoa', price:6, icon:'coffee', note:'Hot · cocoa, smoked pine, salt'},
+    {name:'Rye Sour with Liquorice', price:7, icon:'fire', note:'Finnish rye, lemon, liquorice syrup'},
+    {name:'Tasting Flight 4×30ml', price:18, icon:'sparkle', note:'Curator pick of the night'},
+  ],
+  unitEconomics: [
+    {label:'rent', value:'€1,500', detail:'9 m² ground floor, Punavuori district, central Helsinki'},
+    {label:'host-bartender', value:'€2,400', detail:'One full-time lead, 40 hrs/week incl. social charges'},
+    {label:'utilities + cleaning', value:'€200', detail:'Electric, water, weekly external cleaner'},
+    {label:'total OPEX / month', value:'€4,100', detail:'Lean micro-format running cost'},
+    {label:'avg ticket', value:'€6', detail:'Spread of €3 single shot to €18 tasting flight'},
+    {label:'daily covers', value:'50–70', detail:'Friday-Saturday peaks; midweek 30–45'},
+    {label:'revenue / month', value:'~€9,000', detail:'Planning benchmark at 50 covers × 30 days × €6'},
+    {label:'break-even', value:'~5 months', detail:'Industry benchmark for niche micro-bars in Nordic capitals'},
+  ],
+  capex: [
+    {label:'Bar tile + counter', value:7500, color:'#1A1A1A'},
+    {label:'Bench + 4 stools', value:2400, color:'#B89569'},
+    {label:'Plumbing + ice well', value:3200, color:'#9DA7AD'},
+    {label:'Cold storage', value:1500, color:'#5A6470'},
+    {label:'Glassware + tools', value:1400, color:'#D9C8AA'},
+    {label:'Brass lighting', value:1300, color:'#8A6F4A'},
+    {label:'Signage + brand', value:1800, color:'#2B4C8C'},
+    {label:'Design + permits', value:2900, color:'#3E3E3E'},
+  ],
+  timeline: [
+    {w:1, title:'Lease + Demo', tasks:['Sign 24-mo lease','Demolition of prior fit-out','Permit submission to Helsinki city','Insurance line opened']},
+    {w:2, title:'Wet works', tasks:['Plumbing rough-in','Electrical rerouting','Base bench framing','Drain pre-test']},
+    {w:3, title:'Fit-out', tasks:['Cabinetry install','Tile cladding (black 60×60)','Ice well drop-in','Lighting hang']},
+    {w:4, title:'Brand rollout', tasks:['Brushed brass signage','Glassware delivery','Menu print run','Photography session']},
+    {w:5, title:'Soft open', tasks:['Staff training (4 days)','Recipe drill','3-day friends & family','Public opening Friday']},
+  ],
+  team: [
+    {role:'Host-Bartender', hours:'40 h/week', pay:'€2,400 / month', resp:['Bar operations and ritual','Daily salt-grind','Recipe consistency','Customer relationships']},
+    {role:'Weekend Helper', hours:'16 h/week', pay:'€640 / month', resp:['Friday + Saturday evening support','Glass wash and reset','Door / queue management','Closing checklist']},
+  ],
+  personas: [
+    {name:'Mikael', age:34, where:'Punavuori', why:'IT lead, drops in after work for one ritual and a quiet shelf. Tells two friends per week.'},
+    {name:'Eeva', age:28, where:'Töölö', why:'Graphic designer, photographs the rim under brass light. Brings a date once a fortnight.'},
+    {name:'Olav', age:56, where:'Visiting from Stockholm', why:'Read about it in Monocle\'s "weirdest tastings". One stop on a 48-hour Helsinki list.'},
+  ],
+  channels: [
+    {name:'Instagram', tone:'Slow.', detail:'One image per week. Single object — a glass, a brass pour, a hand at the salt mortar. No faces, no captions over six words.'},
+    {name:'Google Maps', tone:'Earned.', detail:'First 50 reviews matter most. Hand-write thank-you to every reviewer in first 90 days.'},
+    {name:'Tripadvisor', tone:'Niche listing.', detail:'Helsinki "tastings" category. Compete on weirdness, not breadth.'},
+    {name:'Hotel concierge', tone:'Trade only.', detail:'Three boutique hotels within 600m. Quarterly tasting for their staff at 17:00 Tuesdays.'},
+  ],
+  risks: [
+    {risk:'Liquorice taste is niche', mit:'Free 5ml taster handed at the door — converts skeptics into curious, filters out hard nos before they sit.'},
+    {risk:'High central Helsinki rent', mit:'9 m² format absorbs the per-meter price. €1,500/mo is workable at €9k revenue.'},
+    {risk:'Summer Helsinki outflow', mit:'Two heated outdoor stools June–August, lighter botanical menu, partnership with three nearby hotel front-desks.'},
+  ],
+  deliverables: [
+    {name:'Brandbook', detail:'25-page PDF · cover · definition · axonometric · facade · interior · materials · ritual · equipment · menu · packaging · signage · identity · economics · CAPEX · timeline · team · personas · channels · risks · manifest · what-you-get'},
+    {name:'Floorplan', detail:'Vector PDF + AutoCAD source · 9 m² · 30° axonometric · zones A B C D · electrical · plumbing'},
+    {name:'Equipment list', detail:'11 items · vendor-by-vendor with price ranges · alternatives flagged'},
+    {name:'Menu + recipes', detail:'9 drinks · ingredient lists · pour weights · cost per serve · target margin'},
+    {name:'P&L forecast', detail:'12-month sheet · revenue, COGS, OPEX, payback · sensitivity ±20%'},
+    {name:'5-week launch plan', detail:'Day-by-day Gantt · permit checklist · supplier lead times · staff training script'},
+    {name:'Day-1 checklist', detail:'Two-page printable · open / close routines · first-customer ritual script'},
+  ],
+};
+
+/* ============ AXONOMETRIC SVG ============ */
+const Axonometric = ({onHover, onLeave, onMove}) => {
+  const zones = [
+    {id:'A', label:'Bar service line', x:280, y:240, size:'2.4 × 0.55 m', equip:'Counter, ice well, salt mortar'},
+    {id:'B', label:'Standing rail', x:500, y:280, size:'2.0 × 0.4 m', equip:'Oak rail with four stool positions'},
+    {id:'C', label:'Cold + dry storage', x:200, y:170, size:'0.8 × 0.55 m', equip:'Under-counter fridge, dry shelves'},
+    {id:'D', label:'Threshold', x:580, y:340, size:'0.9 × 0.3 m', equip:'Door, signage plate, taster tray'},
+  ];
+  return (
+    <svg viewBox="0 0 760 460" className="w-full h-full">
+      <defs>
+        <linearGradient id="floor" x1="0" x2="1">
+          <stop offset="0" stopColor="#F2EBE0" stopOpacity=".06"/>
+          <stop offset="1" stopColor="#B89569" stopOpacity=".1"/>
+        </linearGradient>
+      </defs>
+      {/* floor */}
+      <polygon points="120,360 640,360 700,200 180,200" fill="url(#floor)" stroke="#F2EBE0" strokeWidth="1" opacity=".9"/>
+      {/* back wall */}
+      <polygon points="180,200 700,200 700,90 180,90" fill="#F2EBE0" opacity=".04" stroke="#F2EBE0" strokeWidth=".7" opacity=".55"/>
+      {/* side wall */}
+      <polygon points="120,360 180,200 180,90 120,250" fill="#F2EBE0" opacity=".03" stroke="#F2EBE0" strokeWidth=".7" opacity=".4"/>
+      {/* bar counter A */}
+      <polygon points="200,260 480,260 510,220 230,220" fill="#1A1A1A" stroke="#B89569" strokeWidth="1"/>
+      <polygon points="480,260 510,220 510,180 480,220" fill="#1A1A1A" stroke="#B89569" strokeWidth="1" opacity=".8"/>
+      <polygon points="200,260 230,220 230,180 200,220" fill="#1A1A1A" stroke="#B89569" strokeWidth="1" opacity=".8"/>
+      {/* counter top */}
+      <polygon points="200,220 480,220 510,180 230,180" fill="#9DA7AD" opacity=".3" stroke="#F2EBE0" strokeWidth=".7"/>
+      {/* standing rail B */}
+      <polygon points="240,330 540,330 565,300 265,300" fill="#B89569" opacity=".5" stroke="#F2EBE0" strokeWidth=".7"/>
+      {/* stools */}
+      {[260,340,420,500].map((x,i) => (
+        <g key={i}>
+          <ellipse cx={x} cy={345+i*0} rx="14" ry="5" fill="#1A1A1A" opacity=".5"/>
+          <rect x={x-10} y={325} width="20" height="22" fill="#B89569" opacity=".7"/>
+        </g>
+      ))}
+      {/* pendant lights */}
+      {[260,340,420,500].map((x,i) => (
+        <g key={'p'+i}>
+          <line x1={x} y1={95} x2={x} y2={140} stroke="#B89569" strokeWidth=".8"/>
+          <circle cx={x} cy={148} r="6" fill="#B89569" opacity=".6"/>
+          <circle cx={x} cy={148} r="3" fill="#F2EBE0" opacity=".4"/>
+        </g>
+      ))}
+      {/* cold storage C */}
+      <polygon points="155,200 215,200 220,170 160,170" fill="#9DA7AD" opacity=".3" stroke="#F2EBE0" strokeWidth=".7"/>
+      <polygon points="155,200 160,170 160,135 155,165" fill="#9DA7AD" opacity=".2" stroke="#F2EBE0" strokeWidth=".5"/>
+      {/* threshold D */}
+      <polygon points="540,360 640,360 660,335 560,335" fill="#2B4C8C" opacity=".25" stroke="#F2EBE0" strokeWidth=".5"/>
+      <polygon points="640,360 660,335 660,260 640,285" fill="#1A1A1A" opacity=".5" stroke="#F2EBE0" strokeWidth=".5"/>
+
+      {/* hotspot dots */}
+      {zones.map(z => (
+        <g key={z.id}>
+          <circle
+            cx={z.x} cy={z.y} r="9"
+            fill="#B89569" fillOpacity=".15"
+            stroke="#B89569" strokeWidth="1.2"
+            style={{cursor:'help'}}
+            onMouseEnter={onHover({title:`Zone ${z.id} · ${z.label}`, body:`${z.size}\n${z.equip}`})}
+            onMouseMove={onMove}
+            onMouseLeave={onLeave}
+            className="pulse"
+          />
+          <text x={z.x} y={z.y+4} textAnchor="middle" fontSize="10" fontFamily="Cormorant Garamond" fill="#F2EBE0">{z.id}</text>
+        </g>
+      ))}
+
+      {/* dimensions */}
+      <text x="380" y="395" textAnchor="middle" fill="#F2EBE0" opacity=".4" fontSize="10" fontFamily="Inter">3.0 m</text>
+      <text x="105" y="280" fill="#F2EBE0" opacity=".4" fontSize="10" fontFamily="Inter">3.0 m</text>
+      <text x="660" y="115" fill="#B89569" opacity=".7" fontSize="11" fontFamily="Cormorant Garamond" fontStyle="italic">9 m²</text>
+
+      {/* palette strip */}
+      {['#F2EBE0','#9DA7AD','#1A1A1A','#B89569','#2B4C8C'].map((c,i) => (
+        <rect key={c} x={140+i*30} y={420} width="28" height="6" fill={c}/>
+      ))}
+      <text x="140" y="445" fill="#F2EBE0" opacity=".5" fontSize="9" fontFamily="Inter" letterSpacing=".15em">PALETTE · 5 HEX</text>
+    </svg>
+  );
+};
+
+/* ============ INTERIOR HOTSPOT SCENE ============ */
+const InteriorScene = ({onHover, onLeave, onMove, kind}) => {
+  const scenes = {
+    entry: {
+      hotspots: [
+        {x:30, y:55, title:'Brass plate signage', body:'Cast brass, 18×4 cm. Etched "SALMI · 126". Lit from above by single sconce.'},
+        {x:50, y:75, title:'Threshold mat', body:'Untreated jute, 90×60 cm. Cleaned twice daily. Salt grit catches here.'},
+        {x:72, y:45, title:'Pendant glow', body:'First of four brass pendants visible from the street through one square window.'},
+        {x:14, y:35, title:'Window decal', body:'Hours only. No menu, no logo. Cobalt vinyl on the glass interior.'},
+      ],
+      gradient: 'radial-gradient(ellipse at 50% 70%, rgba(184,149,105,.25), rgba(26,26,26,.95) 60%)',
+      label:'View 1 · Approach',
+    },
+    interior: {
+      hotspots: [
+        {x:30, y:42, title:'Bar back shelf', body:'Three rows of bottles. Salmiakki and rye selection, 24 SKU max. Brass rail at the front.'},
+        {x:50, y:62, title:'Counter run', body:'2.4 m sea-salt grey stone over black tile. Salt mortar at the left end.'},
+        {x:70, y:75, title:'Standing rail', body:'Oak, 2.0 m, four stool positions. Tucks under the counter when not in use.'},
+        {x:48, y:18, title:'Pendant row', body:'Four single-bulb brass pendants. 2700K, dimmed to 40% after 21:00.'},
+      ],
+      gradient: 'radial-gradient(ellipse at 50% 50%, rgba(157,167,173,.15), rgba(26,26,26,.95) 70%)',
+      label:'View 2 · From the door',
+    },
+    back: {
+      hotspots: [
+        {x:25, y:30, title:'Window frame', body:'Single 90×120 cm window. Cobalt decal interior. Sound dampening curtain at night.'},
+        {x:55, y:55, title:'Salt mortar station', body:'Carrara marble mortar, brass scoop. Refilled each morning at opening.'},
+        {x:78, y:70, title:'Glass rack', body:'Inverted shot and rocks glasses. Always 24 ready. Hand-polished hourly.'},
+        {x:38, y:80, title:'Cold storage door', body:'Under-counter, magnetic latch, brushed brass pull.'},
+      ],
+      gradient: 'radial-gradient(ellipse at 50% 40%, rgba(184,149,105,.2), rgba(26,26,26,.95) 65%)',
+      label:'View 3 · Back wall to door',
+    },
+    materials: {
+      hotspots: [],
+      gradient: 'linear-gradient(90deg, rgba(242,235,224,.1), rgba(26,26,26,.95))',
+      label:'View 4 · Material close-up',
+    },
+  };
+  const s = scenes[kind] || scenes.interior;
+  return (
+    <div className="relative w-full h-full overflow-hidden rounded-sm border hair" style={{background:s.gradient}}>
+      <div className="absolute inset-0 fade-grain"></div>
+      <div className="absolute top-4 left-4 text-[10px] tracking-[.2em] uppercase opacity-50">{s.label}</div>
+
+      {/* Suggestive shapes */}
+      {kind === 'entry' && (
+        <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 60">
+          <rect x="20" y="15" width="60" height="40" fill="#1A1A1A" opacity=".5" stroke="#B89569" strokeWidth=".15"/>
+          <rect x="42" y="22" width="16" height="28" fill="#0A0A0A" stroke="#B89569" strokeWidth=".2"/>
+          <line x1="0" y1="55" x2="100" y2="55" stroke="#F2EBE0" strokeWidth=".15" opacity=".4"/>
+          <circle cx="72" cy="20" r="1.5" fill="#B89569" opacity=".8"/>
+        </svg>
+      )}
+      {kind === 'interior' && (
+        <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 60">
+          <rect x="5" y="20" width="90" height="22" fill="#1A1A1A" opacity=".7" stroke="#B89569" strokeWidth=".1"/>
+          <rect x="5" y="18" width="90" height="3" fill="#9DA7AD" opacity=".5"/>
+          <line x1="10" y1="42" x2="90" y2="42" stroke="#B89569" strokeWidth=".25" opacity=".7"/>
+          {[20,40,60,80].map(x => <circle key={x} cx={x} cy="12" r="1" fill="#B89569"/>)}
+        </svg>
+      )}
+      {kind === 'back' && (
+        <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 60">
+          <rect x="15" y="12" width="22" height="28" fill="#2B4C8C" opacity=".15" stroke="#F2EBE0" strokeWidth=".15"/>
+          <rect x="45" y="35" width="40" height="15" fill="#1A1A1A" opacity=".7" stroke="#B89569" strokeWidth=".1"/>
+        </svg>
+      )}
+
+      {s.hotspots.map((h, i) => (
+        <div
+          key={i}
+          className="hotspot pulse"
+          style={{left:`${h.x}%`, top:`${h.y}%`}}
+          onMouseEnter={onHover({title:h.title, body:h.body})}
+          onMouseMove={onMove}
+          onMouseLeave={onLeave}
+        >
+          <div className="hotspot-dot"></div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+/* ============ MATERIAL SWATCHES ============ */
+const MaterialSwatches = ({onHover, onLeave, onMove}) => {
+  const mats = [
+    {name:'Raw oak', use:'Standing rail and stools', color:'#B89569', tone:'#8A6F4A', pattern:'lines'},
+    {name:'Black ceramic tile', use:'Bar front, 60×60 mm', color:'#1A1A1A', tone:'#2A2A2A', pattern:'grid'},
+    {name:'Sea-salt stone', use:'Counter top, honed', color:'#9DA7AD', tone:'#7A858B', pattern:'speckle'},
+    {name:'Brushed brass', use:'Pulls, taps, pendants', color:'#B89569', tone:'#D9C8AA', pattern:'brush'},
+    {name:'Cobalt glass', use:'Window decal, signage', color:'#2B4C8C', tone:'#1A3870', pattern:'gloss'},
+  ];
+  return (
+    <div className="grid grid-cols-5 gap-2 h-full">
+      {mats.map((m,i) => (
+        <div
+          key={i}
+          onMouseEnter={onHover({title:m.name, body:m.use})}
+          onMouseMove={onMove}
+          onMouseLeave={onLeave}
+          className="relative cursor-help group overflow-hidden rounded-sm border hair"
+          style={{background:`linear-gradient(135deg, ${m.color} 0%, ${m.tone} 100%)`}}
+        >
+          {m.pattern === 'lines' && (
+            <svg className="absolute inset-0 w-full h-full opacity-30" preserveAspectRatio="none">
+              {[...Array(20)].map((_,j) => <line key={j} x1="0" y1={j*15} x2="200" y2={j*15+5} stroke="#1A1A1A" strokeWidth=".5"/>)}
+            </svg>
+          )}
+          {m.pattern === 'grid' && (
+            <svg className="absolute inset-0 w-full h-full opacity-50" preserveAspectRatio="none">
+              <defs><pattern id={`g${i}`} width="20" height="20" patternUnits="userSpaceOnUse"><rect width="18" height="18" fill="none" stroke="#0A0A0A" strokeWidth=".5"/></pattern></defs>
+              <rect width="100%" height="100%" fill={`url(#g${i})`}/>
+            </svg>
+          )}
+          {m.pattern === 'speckle' && (
+            <svg className="absolute inset-0 w-full h-full opacity-40" preserveAspectRatio="none">
+              {[...Array(40)].map((_,j) => <circle key={j} cx={Math.random()*200} cy={Math.random()*200} r={Math.random()*1.2} fill="#1A1A1A"/>)}
+            </svg>
+          )}
+          {m.pattern === 'brush' && (
+            <svg className="absolute inset-0 w-full h-full opacity-30" preserveAspectRatio="none">
+              {[...Array(30)].map((_,j) => <line key={j} x1="0" y1={j*8} x2="200" y2={j*8} stroke="#F2EBE0" strokeWidth=".3"/>)}
+            </svg>
+          )}
+          {m.pattern === 'gloss' && (
+            <div className="absolute inset-0" style={{background:'linear-gradient(135deg, rgba(255,255,255,.25) 0%, transparent 40%, transparent 60%, rgba(255,255,255,.1) 100%)'}}></div>
+          )}
+          <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
+            <div className="serif text-xs tracking-wide">{m.name}</div>
+            <div className="text-[10px] opacity-60 mt-0.5">{m.use}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+/* ============ CAPEX DONUT ============ */
+const CapexDonut = ({onHover, onLeave, onMove}) => {
+  const total = CONCEPT.capex.reduce((s,c) => s+c.value, 0);
+  let offset = 0;
+  const size = 280, r = 110, c = 2*Math.PI*r;
+  return (
+    <div className="flex items-center gap-12">
+      <div className="relative" style={{width:size, height:size}}>
+        <svg width={size} height={size} className="transform -rotate-90">
+          {CONCEPT.capex.map((seg, i) => {
+            const frac = seg.value / total;
+            const len = c * frac;
+            const dash = `${len} ${c-len}`;
+            const el = (
+              <circle
+                key={i}
+                cx={size/2} cy={size/2} r={r}
+                fill="none"
+                stroke={seg.color}
+                strokeWidth="36"
+                strokeDasharray={dash}
+                strokeDashoffset={-offset}
+                style={{cursor:'help', transition:'stroke-width .2s'}}
+                onMouseEnter={onHover({title:seg.label, body:`€${seg.value.toLocaleString()} · ${(frac*100).toFixed(1)}% of CAPEX`})}
+                onMouseMove={onMove}
+                onMouseLeave={onLeave}
+              />
+            );
+            offset += len;
+            return el;
+          })}
+        </svg>
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <div className="text-[10px] tracking-[.25em] opacity-50 uppercase">CAPEX</div>
+          <div className="serif text-4xl mt-1">€{(total/1000).toFixed(0)}k</div>
+          <div className="text-[10px] opacity-50 mt-1 italic">planning total</div>
+        </div>
+      </div>
+      <div className="space-y-2.5">
+        {CONCEPT.capex.map((seg,i) => (
+          <div key={i} className="flex items-center gap-3 text-sm">
+            <div className="w-3 h-3 rounded-sm" style={{background:seg.color}}></div>
+            <div className="flex-1 flex justify-between gap-6 w-64 hair border-b pb-1.5">
+              <span className="opacity-80">{seg.label}</span>
+              <span className="serif">€{seg.value.toLocaleString()}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ============ TIMELINE GANTT ============ */
+const TimelineGantt = ({onHover, onLeave, onMove}) => {
+  return (
+    <div className="w-full">
+      <div className="flex border-b hair pb-3 mb-4">
+        {CONCEPT.timeline.map(t => (
+          <div key={t.w} className="flex-1 text-center">
+            <div className="text-[10px] tracking-[.25em] opacity-50">WEEK</div>
+            <div className="serif text-2xl">{t.w}</div>
+          </div>
+        ))}
+      </div>
+      <div className="space-y-3">
+        {CONCEPT.timeline.map((t,i) => (
+          <div
+            key={t.w}
+            className="relative h-12 rounded-sm hair border overflow-hidden cursor-help group"
+            onMouseEnter={onHover({title:`Week ${t.w} · ${t.title}`, body:t.tasks.join(' · ')})}
+            onMouseMove={onMove}
+            onMouseLeave={onLeave}
+            style={{background:`linear-gradient(90deg, rgba(184,149,105,.05), rgba(184,149,105,${.1 + i*.04}))`}}
+          >
+            <div className="absolute left-0 top-0 bottom-0 flex items-center pl-4 pr-6 group-hover:bg-[#B89569]/10 transition-colors">
+              <div className="serif text-sm tracking-wide opacity-70 mr-3">W{t.w}</div>
+              <div className="serif text-base">{t.title}</div>
+            </div>
+            <div className="absolute right-4 top-0 bottom-0 flex items-center text-[10px] opacity-40 italic">
+              {t.tasks.length} tasks
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ============ MAIN ============ */
+const App = () => {
+  const [mode, setMode] = useState('interactive');
+  const tip = useTooltip();
+
+  useEffect(() => {
+    document.body.className = mode === 'print' ? 'print-mode' : 'interactive-mode';
+  }, [mode]);
+
+  const [form, setForm] = useState({name:'', email:'', city:'', phone:'', message:''});
+  const [submitted, setSubmitted] = useState(false);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const subject = encodeURIComponent(`Curate concept ${CONCEPT.nn} · ${CONCEPT.brand}`);
+    const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\nCity: ${form.city}\nPhone: ${form.phone}\n\n${form.message}\n\n— interest in ${CONCEPT.nn} · ${CONCEPT.brand} (${CONCEPT.fullName})`);
+    window.location.href = `mailto:concepts@labs67.com?subject=${subject}&body=${body}`;
+    setSubmitted(true);
+  };
+
+  return (
+    <div className={mode === 'interactive' ? 'min-h-screen' : 'min-h-screen py-8 px-4'}>
+      {/* Mode switcher */}
+      <div className="no-print fixed top-6 right-6 z-40 flex items-center gap-1 bg-[#1A1A1A]/80 backdrop-blur-md border hair rounded-sm p-1">
+        <button
+          onClick={() => setMode('interactive')}
+          className={`px-3 py-1.5 rounded-sm text-xs tracking-[.15em] uppercase flex items-center gap-2 transition-colors ${mode === 'interactive' ? 'bg-[#B89569] text-[#1A1A1A]' : 'text-[#F2EBE0] hover:bg-white/5'}`}
+        >
+          <Icon name="eye" size={14}/> Interactive
+        </button>
+        <button
+          onClick={() => setMode('print')}
+          className={`px-3 py-1.5 rounded-sm text-xs tracking-[.15em] uppercase flex items-center gap-2 transition-colors ${mode === 'print' ? 'bg-[#B89569] text-[#1A1A1A]' : 'text-[#F2EBE0] hover:bg-white/5'}`}
+        >
+          <Icon name="printer" size={14}/> Print
+        </button>
+        {mode === 'print' && (
+          <button
+            onClick={() => window.print()}
+            className="px-3 py-1.5 rounded-sm text-xs tracking-[.15em] uppercase text-[#F2EBE0] hover:bg-white/5 border-l hair ml-1"
+          >
+            Save PDF
+          </button>
+        )}
+      </div>
+
+      <Tooltip content={tip.state.content && (
+        <div>
+          <div className="serif text-sm text-[#B89569] mb-1">{tip.state.content.title}</div>
+          <div className="text-xs leading-relaxed opacity-90 whitespace-pre-line">{tip.state.content.body}</div>
+        </div>
+      )} position={tip.state.pos} visible={tip.state.visible}/>
+
+      {mode === 'interactive' ? <InteractiveDeck tip={tip} form={form} setForm={setForm} submitted={submitted} onSubmit={onSubmit}/> : <PrintDeck/>}
+    </div>
+  );
+};
+
+/* ============ SECTION SHELL ============ */
+const Sec = ({n, children, className='', dark=true, noChrome=false}) => (
+  <section className={`relative min-h-screen w-full overflow-hidden ${dark ? 'bg-[#1A1A1A]' : ''} ${className}`}>
+    <div className="absolute inset-0 grain pointer-events-none"></div>
+    {!noChrome && <>
+      <div className="absolute top-8 left-10 text-[10px] tracking-[.3em] uppercase opacity-50 serif z-20">{CONCEPT.nn} · {CONCEPT.brand}</div>
+      <div className="absolute top-8 right-10 text-[10px] tracking-[.3em] uppercase opacity-50 serif z-20">{String(n).padStart(2,'0')} / 25</div>
+    </>}
+    <div className="relative z-10 h-full">{children}</div>
+  </section>
+);
+
+/* ============ PHOTO HOTSPOT WRAPPER ============ */
+const PhotoFrame = ({src, alt, hotspots=[], tip, children, className=''}) => (
+  <div className={`relative w-full h-full overflow-hidden rounded-sm ${className}`}>
+    <img src={src} alt={alt} className="absolute inset-0 w-full h-full object-cover" loading="lazy"/>
+    {hotspots.map((h,i) => (
+      <div
+        key={i}
+        className="hotspot pulse"
+        style={{left:`${h.x}%`, top:`${h.y}%`}}
+        onMouseEnter={tip.show({title:h.title, body:h.body})}
+        onMouseMove={tip.move} onMouseLeave={tip.hide}
+      >
+        <div className="hotspot-dot"></div>
+      </div>
+    ))}
+    {children}
+  </div>
+);
+
+/* ============ INTERACTIVE DECK ============ */
+const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
+  return (
+    <div className="text-[#F2EBE0]">
+      {/* 01 COVER */}
+      <Sec n={1} noChrome>
+        <div className="h-screen relative">
+          <img src={IMG.cover} alt="126 · SALMI cover" className="absolute inset-0 w-full h-full object-cover"/>
+          <div className="absolute inset-0" style={{background:'linear-gradient(180deg, transparent 0%, transparent 60%, rgba(26,26,26,.4) 100%)'}}></div>
+          {/* hotspots on the photo */}
+          <div className="hotspot pulse" style={{left:'50%', top:'42%'}}
+            onMouseEnter={tip.show({title:'The black salt rim', body:'Crushed Finnish sea salt + grated salmiakki root. Hand-ground each morning.'})}
+            onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+          <div className="hotspot pulse" style={{left:'88%', top:'18%'}}
+            onMouseEnter={tip.show({title:'Brass pendant', body:'Single bulb antique brass. 2700K. Dimmed to 40% after 21:00.'})}
+            onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+          <Motion.div
+            animate={{y:[0,8,0]}} transition={{duration:2, repeat:Infinity}}
+            className="absolute bottom-8 right-8 text-[10px] tracking-[.3em] opacity-60 flex flex-col items-center gap-2 z-20 text-[#F2EBE0]"
+          >
+            <Icon name="arrowDown" size={14}/>
+            <span>SCROLL</span>
+          </Motion.div>
+        </div>
+      </Sec>
+
+      {/* 02 DEFINITION */}
+      <Sec n={2}>
+        <div className="h-screen flex items-center px-16 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-16 items-center w-full">
+            <div>
+              <div className="text-[10px] tracking-[.3em] opacity-50 mb-6">02 · DEFINITION</div>
+              <h2 className="serif text-5xl md:text-6xl leading-tight font-light">
+                Nine square meters of <span
+                  className="italic text-[#B89569] underline decoration-dotted decoration-1 underline-offset-4 cursor-help"
+                  onMouseEnter={tip.show({title:'Finnish darkness', body:'Helsinki sees 6 hours of sunlight in December. The room leans into it — black tile, single brass pendants, no daylight by design.'})}
+                  onMouseMove={tip.move} onMouseLeave={tip.hide}
+                >finnish darkness</span>, <br/>salted at the <span
+                  className="italic text-[#B89569] underline decoration-dotted decoration-1 underline-offset-4 cursor-help"
+                  onMouseEnter={tip.show({title:'The rim', body:'Each glass rim is dipped in a hand-ground mix of Finnish sea salt and raw salmiakki root. The shot is poured after.'})}
+                  onMouseMove={tip.move} onMouseLeave={tip.hide}
+                >rim</span>.
+              </h2>
+              <div className="mt-10 max-w-md serif text-base opacity-80 leading-relaxed">
+                A standing room with four oak stools, a brass-fronted bar, and <span
+                  className="italic text-[#B89569] cursor-help"
+                  onMouseEnter={tip.show({title:'Salmiakki', body:'Salty liquorice. Finland\'s national candy flavor — ammonium chloride + liquorice root. Iconic, divisive, deeply local.'})}
+                  onMouseMove={tip.move} onMouseLeave={tip.hide}
+                >salmiakki</span> in twelve forms. One ritual, repeated until midnight.
+              </div>
+            </div>
+            <div className="relative aspect-[4/5] rounded-sm overflow-hidden border hair">
+              <img src={IMG.def} alt="salt rim macro" className="absolute inset-0 w-full h-full object-cover"/>
+              <div className="hotspot pulse" style={{left:'62%', top:'28%'}}
+                onMouseEnter={tip.show({title:'The rim', body:'Crushed Finnish sea salt + grated salmiakki root, hand-ground.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+              <div className="hotspot pulse" style={{left:'78%', top:'14%'}}
+                onMouseEnter={tip.show({title:'Brass pendant', body:'Single bulb antique brass, 2700K, dimmed after 21:00.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+            </div>
+          </div>
+        </div>
+      </Sec>
+
+      {/* 03 AXONOMETRIC */}
+      <Sec n={3}>
+        <div className="h-screen flex flex-col px-16 py-20 max-w-7xl mx-auto">
+          <div className="flex justify-between items-end mb-6">
+            <div>
+              <div className="text-[10px] tracking-[.3em] opacity-50 mb-2">03 · AXONOMETRIC</div>
+              <h2 className="serif text-4xl font-light">The spatial seed</h2>
+              <p className="text-sm opacity-60 mt-2 max-w-md serif italic">Hover each zone marker for size and equipment.</p>
+            </div>
+            <div className="text-right text-xs opacity-60 space-y-1">
+              <div><span className="opacity-50">total</span> · <span className="serif">9 m²</span></div>
+              <div><span className="opacity-50">ratio</span> · <span className="serif">3.0 × 3.0 m</span></div>
+              <div><span className="opacity-50">ceiling</span> · <span className="serif">2.85 m</span></div>
+            </div>
+          </div>
+          <div className="flex-1 relative">
+            <Axonometric onHover={(c)=>tip.show(c)} onLeave={tip.hide} onMove={tip.move}/>
+          </div>
+          <div className="grid grid-cols-4 gap-4 mt-6 text-xs">
+            {[
+              {id:'A', name:'Bar service'},
+              {id:'B', name:'Standing rail'},
+              {id:'C', name:'Cold storage'},
+              {id:'D', name:'Threshold'},
+            ].map(z => (
+              <div key={z.id} className="border-t hair pt-2">
+                <div className="flex items-baseline gap-2">
+                  <span className="serif text-[#B89569]">{z.id}</span>
+                  <span className="opacity-70">{z.name}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Sec>
+
+      {/* 04 FACADE */}
+      <Sec n={4}>
+        <div className="h-screen flex items-center px-16 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12 items-center w-full">
+            <div>
+              <div className="text-[10px] tracking-[.3em] opacity-50 mb-6">04 · FACADE</div>
+              <h2 className="serif text-5xl font-light leading-tight">From the street, <br/>almost nothing.</h2>
+              <p className="mt-8 max-w-md serif opacity-80 leading-relaxed">
+                A brass plate. One lit window. Cobalt hours decal on the glass. No menu outside — only the brass plate, etched.
+              </p>
+              <div className="mt-8 text-xs opacity-50 italic">Hover the hotspots to read what makes the approach feel inevitable.</div>
+            </div>
+            <div className="aspect-[4/3] relative rounded-sm overflow-hidden border hair">
+              <img src={IMG.facade} alt="facade" className="absolute inset-0 w-full h-full object-cover"/>
+              <div className="hotspot pulse" style={{left:'52%', top:'45%'}}
+                onMouseEnter={tip.show({title:'Brass plate signage', body:'Cast brass, 180×40mm. Etched "126 · SALMI". Single sconce above.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+              <div className="hotspot pulse" style={{left:'35%', top:'40%'}}
+                onMouseEnter={tip.show({title:'Window decal', body:'Hours only, cobalt vinyl. No menu, no logo outside.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+              <div className="hotspot pulse" style={{left:'42%', top:'82%'}}
+                onMouseEnter={tip.show({title:'Threshold', body:'Untreated jute mat, 90×60. Cleaned twice daily — salt grit catches here.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+            </div>
+          </div>
+        </div>
+      </Sec>
+
+      {/* 05 INTERIOR FROM DOOR */}
+      <Sec n={5}>
+        <div className="h-screen flex items-center px-16 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-5 gap-12 items-center w-full">
+            <div className="md:col-span-3 aspect-[16/10] relative rounded-sm overflow-hidden border hair">
+              <img src={IMG.interior} alt="interior from door" className="absolute inset-0 w-full h-full object-cover"/>
+              <div className="hotspot pulse" style={{left:'50%', top:'25%'}}
+                onMouseEnter={tip.show({title:'Pendant row', body:'Four single-bulb brass pendants. 2700K. Dimmed to 40% after 21:00.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+              <div className="hotspot pulse" style={{left:'50%', top:'58%'}}
+                onMouseEnter={tip.show({title:'Counter run', body:'2.4m dark oak over black 60×60 ceramic tile. Salt mortar at the left end.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+              <div className="hotspot pulse" style={{left:'50%', top:'85%'}}
+                onMouseEnter={tip.show({title:'Standing rail', body:'Oak, 2m, four Vienna-bent stool positions, sea-salt linen seats.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+              <div className="hotspot pulse" style={{left:'30%', top:'45%'}}
+                onMouseEnter={tip.show({title:'Bar back shelf', body:'Three rows of bottles. 24 SKU max. Brass-fronted shelving, brass rail.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+            </div>
+            <div className="md:col-span-2">
+              <div className="text-[10px] tracking-[.3em] opacity-50 mb-6">05 · FROM THE DOOR</div>
+              <h2 className="serif text-4xl font-light leading-tight">The first view <br/>after you push the door.</h2>
+              <p className="mt-6 serif opacity-80 leading-relaxed">Four pendants pulled low. Black tile under the brass rail. The salt mortar at the left end of the counter.</p>
+            </div>
+          </div>
+        </div>
+      </Sec>
+
+      {/* 06 BACK TO DOOR */}
+      <Sec n={6}>
+        <div className="h-screen flex items-center px-16 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-5 gap-12 items-center w-full">
+            <div className="md:col-span-2 order-2 md:order-1">
+              <div className="text-[10px] tracking-[.3em] opacity-50 mb-6">06 · BACK WALL TO DOOR</div>
+              <h2 className="serif text-4xl font-light leading-tight">The reverse, <br/>looking out.</h2>
+              <p className="mt-6 serif opacity-80 leading-relaxed">From the back corner, the window pulls cobalt light at dusk. The mortar station faces the bartender's left.</p>
+            </div>
+            <div className="md:col-span-3 aspect-[16/10] order-1 md:order-2 relative rounded-sm overflow-hidden border hair">
+              <img src={IMG.back} alt="back wall to door" className="absolute inset-0 w-full h-full object-cover"/>
+              <div className="hotspot pulse" style={{left:'45%', top:'40%'}}
+                onMouseEnter={tip.show({title:'Cobalt door decal', body:'Hours only. Cobalt vinyl, applied to glass interior.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+              <div className="hotspot pulse" style={{left:'58%', top:'45%'}}
+                onMouseEnter={tip.show({title:'Brass plate, inside view', body:'180×40mm cast brass. Same plate seen from outside on the facade.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+              <div className="hotspot pulse" style={{left:'30%', top:'70%'}}
+                onMouseEnter={tip.show({title:'Standing rail (rear view)', body:'Oak bar, four stools. From this angle the bartender works toward the door.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+            </div>
+          </div>
+        </div>
+      </Sec>
+
+      {/* 07 MATERIALS */}
+      <Sec n={7}>
+        <div className="h-screen flex flex-col px-16 py-24 max-w-7xl mx-auto">
+          <div className="mb-8">
+            <div className="text-[10px] tracking-[.3em] opacity-50 mb-3">07 · MATERIALS</div>
+            <h2 className="serif text-5xl font-light">Five surfaces, one tone.</h2>
+            <p className="serif italic opacity-50 text-sm mt-2">Hover each swatch.</p>
+          </div>
+          <div className="flex-1 max-h-[60vh] relative rounded-sm overflow-hidden border hair">
+            <img src={IMG.materials} alt="material swatches" className="absolute inset-0 w-full h-full object-cover"/>
+            {[
+              {x:10, y:42, t:'Raw oak', b:'Bar rail and stool tops. Light warm grain, oiled finish.'},
+              {x:30, y:42, t:'Black ceramic tile', b:'60×60mm matte. Front of bar counter only.'},
+              {x:50, y:42, t:'Sea-salt grey stone', b:'Counter top, honed. Stands up to spilled vodka and salt.'},
+              {x:70, y:42, t:'Brushed brass', b:'Pulls, taps, pendants. Visible brushing direction.'},
+              {x:90, y:42, t:'Cobalt glass paint', b:'Signage decal and window vinyl. Deep matte.'},
+            ].map((h,i) => (
+              <div key={i} className="hotspot pulse" style={{left:`${h.x}%`, top:`${h.y}%`}}
+                onMouseEnter={tip.show({title:h.t, body:h.b})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+            ))}
+          </div>
+        </div>
+      </Sec>
+
+      {/* 08 RITUAL */}
+      <Sec n={8} noChrome>
+        <div className="min-h-screen relative">
+          <img src={IMG.ritual} alt="the ritual" className="absolute inset-0 w-full h-full object-cover"/>
+          <div className="absolute inset-0" style={{background:'linear-gradient(90deg, rgba(26,26,26,.85) 0%, rgba(26,26,26,.5) 40%, rgba(26,26,26,.1) 100%)'}}></div>
+          <div className="relative z-10 min-h-screen flex flex-col justify-center px-16 max-w-6xl py-20">
+            <div className="text-[10px] tracking-[.3em] opacity-60 mb-6 serif">08 · THE RITUAL</div>
+            <h2 className="serif text-5xl md:text-6xl font-light italic leading-tight max-w-2xl">
+              The rim is dipped, <br/>the shot is poured, <br/>then the lip touches first.
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 max-w-4xl">
+              {CONCEPT.ritual.steps.map(s => (
+                <div
+                  key={s.n}
+                  className="border-t hair pt-4 cursor-help backdrop-blur-sm bg-[#1A1A1A]/30 -m-2 p-3 rounded-sm"
+                  onMouseEnter={tip.show({title:s.name, body:s.text})}
+                  onMouseMove={tip.move} onMouseLeave={tip.hide}
+                >
+                  <div className="serif text-[#B89569] text-2xl">{s.n}</div>
+                  <div className="serif mt-2">{s.name}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Sec>
+
+      {/* 09 STILL LIFE */}
+      <Sec n={9}>
+        <div className="min-h-screen flex flex-col px-16 py-24 max-w-7xl mx-auto">
+          <div className="mb-8">
+            <div className="text-[10px] tracking-[.3em] opacity-50 mb-3">09 · STILL-LIFE</div>
+            <h2 className="serif text-5xl font-light">Four objects, no faces.</h2>
+          </div>
+          <div className="flex-1 relative rounded-sm overflow-hidden border hair">
+            <img src={IMG.still} alt="still life four objects" className="absolute inset-0 w-full h-full object-cover"/>
+            {[
+              {x:21, y:50, t:'Marble mortar + salt mix', b:'Carrara, hand-cut, 22cm. Refilled each morning with fresh-ground salmiakki salt.'},
+              {x:54, y:36, t:'Brushed brass jigger', b:'30/60ml. Japanese-style. Weighted base. Hand-polished hourly.'},
+              {x:54, y:80, t:'Crystal shot glass', b:'Lead-free, 40ml. Black salt rim freshly applied.'},
+              {x:80, y:65, t:'Brass token', b:'30mm cast brass, etched "126·SALMI". One per ritual completed. Three tokens = one tasting flight.'},
+            ].map((h,i) => (
+              <div key={i} className="hotspot pulse" style={{left:`${h.x}%`, top:`${h.y}%`}}
+                onMouseEnter={tip.show({title:h.t, body:h.b})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+            ))}
+          </div>
+        </div>
+      </Sec>
+
+      {/* 10 EQUIPMENT */}
+      <Sec n={10}>
+        <div className="min-h-screen flex flex-col px-16 py-24 max-w-7xl mx-auto">
+          <div className="mb-8">
+            <div className="text-[10px] tracking-[.3em] opacity-50 mb-3">10 · EQUIPMENT KIT</div>
+            <h2 className="serif text-5xl font-light">Eleven items, one room.</h2>
+            <p className="serif italic opacity-50 text-sm mt-2">Hover the photograph or the cards below for spec and price.</p>
+          </div>
+          <div className="aspect-[16/9] relative rounded-sm overflow-hidden border hair mb-6">
+            <img src={IMG.equipment} alt="equipment flat-lay" className="absolute inset-0 w-full h-full object-cover"/>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {CONCEPT.equipment.map((e,i) => (
+              <div
+                key={i}
+                onMouseEnter={tip.show({title:e.name, body:e.note})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}
+                className="border hair rounded-sm p-5 cursor-help hover:bg-white/[.02] hover:border-[#B89569]/40 transition-colors group"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div className="serif text-xl text-[#B89569]">€{e.price.toLocaleString()}</div>
+                  <div className="text-[9px] tracking-[.3em] opacity-30">0{i+1}</div>
+                </div>
+                <div className="serif text-base group-hover:text-[#B89569] transition-colors">{e.name}</div>
+                <div className="text-[11px] opacity-50 mt-1 line-clamp-2">{e.note}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Sec>
+
+      {/* 11 MENU */}
+      <Sec n={11}>
+        <div className="min-h-screen flex flex-col px-16 py-24 max-w-7xl mx-auto">
+          <div className="mb-10">
+            <div className="text-[10px] tracking-[.3em] opacity-50 mb-3">11 · MENU</div>
+            <h2 className="serif text-5xl font-light">Nine pours.</h2>
+            <p className="serif italic opacity-50 text-sm mt-2">Hover each tile.</p>
+          </div>
+          <div className="grid grid-cols-3 gap-4 flex-1">
+            {CONCEPT.menu.map((m,i) => (
+              <div
+                key={i}
+                onMouseEnter={tip.show({title:m.name, body:m.note})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}
+                className="aspect-square border hair rounded-sm p-6 cursor-help hover:border-[#B89569]/40 transition-all relative overflow-hidden group"
+                style={{background:`linear-gradient(135deg, rgba(26,26,26,.95), rgba(184,149,105,.${i%3 + 1}))`}}
+              >
+                <div className="absolute inset-0 fade-grain opacity-50"></div>
+                <div className="relative h-full flex flex-col justify-between">
+                  <div className="flex justify-between items-start">
+                    <Icon name={m.icon} size={28} stroke={1.2} className="text-[#B89569] opacity-70 group-hover:opacity-100 transition-opacity"/>
+                    <div className="serif text-2xl text-[#B89569]">€{m.price}</div>
+                  </div>
+                  <div>
+                    <div className="serif text-lg leading-tight">{m.name}</div>
+                    <div className="text-[10px] opacity-50 mt-1 line-clamp-1">{m.note}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Sec>
+
+      {/* 12 PACKAGING */}
+      <Sec n={12}>
+        <div className="h-screen flex items-center px-16 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12 items-center w-full">
+            <div>
+              <div className="text-[10px] tracking-[.3em] opacity-50 mb-6">12 · TAKEAWAY</div>
+              <h2 className="serif text-5xl font-light leading-tight">A single brass <br/>token, in hand.</h2>
+              <p className="mt-8 serif opacity-80 leading-relaxed">No bottles to go. No t-shirts. One brass coin per ritual completed, marked with "126 · SALMI" and the date. Collect three to claim a tasting flight.</p>
+              <div className="mt-8 grid grid-cols-3 gap-4 text-xs">
+                <div
+                  className="border-t hair pt-3 cursor-help"
+                  onMouseEnter={tip.show({title:'Brass token', body:'30mm cast brass, etched. Production cost €0.40, retail value €0 — only earned.'})}
+                  onMouseMove={tip.move} onMouseLeave={tip.hide}
+                ><div className="serif text-[#B89569]">Token</div><div className="opacity-50 mt-1">brass · 30mm</div></div>
+                <div
+                  className="border-t hair pt-3 cursor-help"
+                  onMouseEnter={tip.show({title:'Monocone bag', body:'Single-flute kraft cone with cobalt thread tie. Holds three tokens flat.'})}
+                  onMouseMove={tip.move} onMouseLeave={tip.hide}
+                ><div className="serif text-[#B89569]">Cone</div><div className="opacity-50 mt-1">kraft · monocone</div></div>
+                <div
+                  className="border-t hair pt-3 cursor-help"
+                  onMouseEnter={tip.show({title:'Card', body:'45×80mm matte card, recipe of the tasted pour, hand-stamped date.'})}
+                  onMouseMove={tip.move} onMouseLeave={tip.hide}
+                ><div className="serif text-[#B89569]">Card</div><div className="opacity-50 mt-1">45 × 80 mm</div></div>
+              </div>
+            </div>
+            <div className="aspect-square rounded-sm border hair relative overflow-hidden">
+              <img src={IMG.takeaway} alt="takeaway" className="absolute inset-0 w-full h-full object-cover"/>
+              <div className="hotspot pulse" style={{left:'30%', top:'50%'}}
+                onMouseEnter={tip.show({title:'Monocone bag', body:'Single-flute kraft, cobalt waxed-thread tie. Holds three tokens flat.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+              <div className="hotspot pulse" style={{left:'60%', top:'30%'}}
+                onMouseEnter={tip.show({title:'Brass tokens', body:'30mm cast brass etched "126·SALMI". Patina with use. Earned, never sold.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+              <div className="hotspot pulse" style={{left:'78%', top:'58%'}}
+                onMouseEnter={tip.show({title:'Recipe card', body:'45×80mm matte deckle-edge cream stock. Hand-stamped date in dark ink.'})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
+            </div>
+          </div>
+        </div>
+      </Sec>
+
+      {/* 13 SIGNAGE */}
+      <Sec n={13}>
+        <div className="h-screen flex flex-col justify-center px-16 max-w-6xl mx-auto">
+          <div className="text-[10px] tracking-[.3em] opacity-50 mb-6">13 · SIGNAGE</div>
+          <h2 className="serif text-5xl font-light mb-12">A brass plate, etched.</h2>
+          <div className="aspect-[16/9] rounded-sm border hair overflow-hidden relative cursor-help"
+            onMouseEnter={tip.show({title:'Brass plate signage', body:'180×40mm cast brushed brass. Deeply etched. Single brass sconce overhead. No backlight, no neon, no LED.'})}
+            onMouseMove={tip.move} onMouseLeave={tip.hide}
+          >
+            <img src={IMG.signage} alt="brass plate signage" className="absolute inset-0 w-full h-full object-cover"/>
+          </div>
+          <div className="text-xs opacity-50 mt-6 italic serif">Etched, not printed. 180 × 40 mm. Cast brass. Single sconce overhead.</div>
+        </div>
+      </Sec>
+
+      {/* 14 IDENTITY */}
+      <Sec n={14}>
+        <div className="min-h-screen flex flex-col px-16 py-24 max-w-7xl mx-auto">
+          <div className="mb-10">
+            <div className="text-[10px] tracking-[.3em] opacity-50 mb-3">14 · IDENTITY BOARD</div>
+            <h2 className="serif text-5xl font-light">{CONCEPT.nn} · {CONCEPT.brand}</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-10">
+            <div>
+              <div className="text-[10px] tracking-[.3em] opacity-50 mb-4">PALETTE</div>
+              <div className="space-y-2">
+                {CONCEPT.palette.map((c,i) => (
+                  <div
+                    key={i}
+                    onMouseEnter={tip.show({title:`${c.name} · ${c.hex}`, body:c.use})}
+                    onMouseMove={tip.move} onMouseLeave={tip.hide}
+                    className="flex items-center gap-4 hair border-b pb-3 cursor-help group"
+                  >
+                    <div className="w-16 h-16 rounded-sm transition-transform group-hover:scale-105" style={{background:c.hex}}></div>
+                    <div className="flex-1">
+                      <div className="serif text-lg">{c.name}</div>
+                      <div className="text-xs opacity-50 font-mono tracking-wider">{c.hex}</div>
+                    </div>
+                    <div className="text-xs opacity-60 italic max-w-[40%] text-right">{c.use}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="text-[10px] tracking-[.3em] opacity-50 mb-4">TYPOGRAPHY</div>
+              <div className="space-y-6">
+                {CONCEPT.fonts.map((f,i) => (
+                  <div
+                    key={i}
+                    className="hair border-b pb-5 cursor-help"
+                    onMouseEnter={tip.show({title:f.name, body:`${f.use}\nWeights · ${f.weight}`})}
+                    onMouseMove={tip.move} onMouseLeave={tip.hide}
+                  >
+                    <div className={`text-4xl ${i === 0 ? 'serif' : ''} font-light`} style={{fontFamily: f.name + ', serif'}}>Aa Bb Cc 126</div>
+                    <div className="flex justify-between mt-3 text-xs">
+                      <span className="serif text-[#B89569]">{f.name}</span>
+                      <span className="opacity-50">{f.use}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-8">
+                <div className="text-[10px] tracking-[.3em] opacity-50 mb-3">PATTERN</div>
+                <div className="h-20 rounded-sm border hair overflow-hidden" style={{background:`repeating-linear-gradient(135deg, #1A1A1A, #1A1A1A 14px, #B89569 14px, #B89569 16px)`}}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Sec>
+
+      {/* 15 UNIT ECONOMICS */}
+      <Sec n={15}>
+        <div className="min-h-screen flex flex-col justify-center px-16 max-w-5xl mx-auto py-24">
+          <div className="text-[10px] tracking-[.3em] opacity-50 mb-3">15 · UNIT ECONOMICS</div>
+          <h2 className="serif text-5xl font-light mb-12">A simple sheet, large numbers.</h2>
+          <div className="space-y-0">
+            {CONCEPT.unitEconomics.map((u,i) => (
+              <div
+                key={i}
+                onMouseEnter={tip.show({title:u.label, body:u.detail})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}
+                className="grid grid-cols-12 gap-4 items-baseline hair border-b py-5 cursor-help hover:bg-[#B89569]/5 transition-colors px-2"
+              >
+                <div className="col-span-1 serif text-[#B89569] text-sm opacity-60">{String(i+1).padStart(2,'0')}</div>
+                <div className="col-span-5 serif text-lg italic">{u.label}</div>
+                <div className="col-span-6 serif text-3xl text-right font-light text-[#F2EBE0]">{u.value}</div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-10 text-xs opacity-40 italic serif max-w-2xl">
+            Numbers are planning benchmarks for Nordic micro-bars at 9 m². Real performance varies with location, season, and operator. Not a guarantee.
+          </div>
+        </div>
+      </Sec>
+
+      {/* 16 CAPEX */}
+      <Sec n={16}>
+        <div className="min-h-screen flex flex-col justify-center px-16 max-w-6xl mx-auto py-24">
+          <div className="text-[10px] tracking-[.3em] opacity-50 mb-3">16 · CAPEX</div>
+          <h2 className="serif text-5xl font-light mb-12">Twenty-two thousand, eight buckets.</h2>
+          <CapexDonut onHover={(c)=>tip.show(c)} onLeave={tip.hide} onMove={tip.move}/>
+        </div>
+      </Sec>
+
+      {/* 17 TIMELINE */}
+      <Sec n={17}>
+        <div className="min-h-screen flex flex-col justify-center px-16 max-w-6xl mx-auto py-24">
+          <div className="text-[10px] tracking-[.3em] opacity-50 mb-3">17 · LAUNCH TIMELINE</div>
+          <h2 className="serif text-5xl font-light mb-12">Five weeks, door to door.</h2>
+          <TimelineGantt onHover={(c)=>tip.show(c)} onLeave={tip.hide} onMove={tip.move}/>
+        </div>
+      </Sec>
+
+      {/* 18 TEAM */}
+      <Sec n={18}>
+        <div className="min-h-screen flex flex-col justify-center px-16 max-w-5xl mx-auto py-24">
+          <div className="text-[10px] tracking-[.3em] opacity-50 mb-3">18 · TEAM</div>
+          <h2 className="serif text-5xl font-light mb-12">One lead. One weekend hand.</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {CONCEPT.team.map((t,i) => (
+              <div key={i} className="border hair rounded-sm p-8 hover:border-[#B89569]/40 transition-colors">
+                <div className="flex items-start justify-between mb-6">
+                  <Icon name="user" size={32} stroke={1.2} className="text-[#B89569]"/>
+                  <div className="text-right">
+                    <div className="serif text-[#B89569] text-lg">{t.pay}</div>
+                    <div className="text-xs opacity-50">{t.hours}</div>
+                  </div>
+                </div>
+                <h3 className="serif text-2xl mb-4">{t.role}</h3>
+                <ul className="space-y-2">
+                  {t.resp.map((r,j) => (
+                    <li key={j} className="flex items-start gap-2 text-sm opacity-75">
+                      <span className="text-[#B89569] mt-1">·</span>
+                      <span>{r}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Sec>
+
+      {/* 19 CUSTOMER MOMENT */}
+      <Sec n={19} noChrome>
+        <div className="min-h-screen relative">
+          <img src={IMG.moment} alt="customer moment" className="absolute inset-0 w-full h-full object-cover"/>
+          <div className="absolute inset-0" style={{background:'linear-gradient(180deg, rgba(26,26,26,.4) 0%, rgba(26,26,26,.1) 50%, rgba(26,26,26,.85) 100%)'}}></div>
+          <div className="relative z-10 min-h-screen flex items-end justify-center px-16 pb-24">
+            <div className="max-w-4xl text-center">
+              <div className="text-[10px] tracking-[.3em] opacity-70 mb-6 serif">19 · THE MOMENT</div>
+              <h2 className="serif text-5xl md:text-7xl font-light italic leading-[1.05] text-[#F2EBE0]">
+                "I came in skeptical. <br/>I left telling four people."
+              </h2>
+              <div className="serif opacity-70 mt-10 text-sm">— Mikael, 34, Punavuori · regular since week three</div>
+            </div>
+          </div>
+        </div>
+      </Sec>
+
+      {/* 20 PERSONAS */}
+      <Sec n={20}>
+        <div className="min-h-screen flex flex-col justify-center px-16 max-w-7xl mx-auto py-24">
+          <div className="text-[10px] tracking-[.3em] opacity-50 mb-3">20 · PERSONAS</div>
+          <h2 className="serif text-5xl font-light mb-12">Three reasons to walk in.</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {CONCEPT.personas.map((p,i) => (
+              <div
+                key={i}
+                className="border hair rounded-sm p-8 cursor-help hover:border-[#B89569]/40 hover:bg-white/[.02] transition-all"
+                onMouseEnter={tip.show({title:`${p.name}, ${p.age}`, body:`Lives in ${p.where}. ${p.why}`})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}
+              >
+                <div className="text-[10px] tracking-[.3em] opacity-40 mb-4">PERSONA {String(i+1).padStart(2,'0')}</div>
+                <h3 className="serif text-3xl mb-2">{p.name}</h3>
+                <div className="serif text-[#B89569] text-sm mb-4">{p.age} · {p.where}</div>
+                <p className="text-sm opacity-75 leading-relaxed line-clamp-3">{p.why}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Sec>
+
+      {/* 21 CHANNELS */}
+      <Sec n={21}>
+        <div className="min-h-screen flex flex-col justify-center px-16 max-w-6xl mx-auto py-24">
+          <div className="text-[10px] tracking-[.3em] opacity-50 mb-3">21 · CHANNELS</div>
+          <h2 className="serif text-5xl font-light mb-12">Four channels, one voice.</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {CONCEPT.channels.map((c,i) => (
+              <div
+                key={i}
+                className="border hair rounded-sm p-6 cursor-help hover:border-[#B89569]/40 transition-colors"
+                onMouseEnter={tip.show({title:c.name, body:c.detail})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}
+              >
+                <div className="flex items-baseline gap-4 mb-3">
+                  <Icon name="megaphone" size={20} className="text-[#B89569]"/>
+                  <h3 className="serif text-xl">{c.name}</h3>
+                  <span className="serif italic text-[#B89569] opacity-70 text-sm">{c.tone}</span>
+                </div>
+                <p className="text-sm opacity-75 leading-relaxed">{c.detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Sec>
+
+      {/* 22 RISKS */}
+      <Sec n={22}>
+        <div className="min-h-screen flex flex-col justify-center px-16 max-w-5xl mx-auto py-24">
+          <div className="text-[10px] tracking-[.3em] opacity-50 mb-3">22 · RISKS · MITIGATIONS</div>
+          <h2 className="serif text-5xl font-light mb-12">What can go sideways.</h2>
+          <div className="space-y-4">
+            {CONCEPT.risks.map((r,i) => (
+              <div
+                key={i}
+                className="grid md:grid-cols-2 gap-6 hair border-b pb-5 cursor-help"
+                onMouseEnter={tip.show({title:`Risk ${String(i+1).padStart(2,'0')}`, body:`${r.risk}\n\n→ ${r.mit}`})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}
+              >
+                <div className="flex gap-3">
+                  <Icon name="shield" size={18} className="text-[#B89569] mt-0.5 flex-shrink-0"/>
+                  <div>
+                    <div className="text-[10px] tracking-[.25em] opacity-50 mb-1">RISK 0{i+1}</div>
+                    <div className="serif text-lg">{r.risk}</div>
+                  </div>
+                </div>
+                <div className="md:pl-8 md:border-l hair">
+                  <div className="text-[10px] tracking-[.25em] opacity-50 mb-1">MITIGATION</div>
+                  <div className="text-sm opacity-80 italic serif leading-relaxed">{r.mit}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Sec>
+
+      {/* 23 MANIFEST */}
+      <Sec n={23} noChrome>
+        <div className="min-h-screen relative">
+          <img src={IMG.manifest} alt="why now" className="absolute inset-0 w-full h-full object-cover"/>
+          <div className="absolute inset-0" style={{background:'linear-gradient(90deg, rgba(26,26,26,.92) 0%, rgba(26,26,26,.7) 50%, rgba(26,26,26,.2) 100%)'}}></div>
+          <div className="relative z-10 min-h-screen flex items-center px-16">
+            <div className="max-w-3xl">
+              <div className="text-[10px] tracking-[.3em] opacity-70 mb-8 serif">23 · WHY NOW</div>
+              <h2 className="serif text-3xl md:text-4xl font-light italic leading-[1.4] text-[#F2EBE0]">
+                {CONCEPT.manifest}
+              </h2>
+              <div className="mt-12 text-[10px] tracking-[.3em] opacity-50">{CONCEPT.nn} · {CONCEPT.brand} · {CONCEPT.city.toUpperCase()}</div>
+            </div>
+          </div>
+        </div>
+      </Sec>
+
+      {/* 24 WHAT YOU GET */}
+      <Sec n={24}>
+        <div className="min-h-screen flex flex-col justify-center px-16 max-w-6xl mx-auto py-24">
+          <div className="text-[10px] tracking-[.3em] opacity-50 mb-3">24 · WHAT YOU GET</div>
+          <h2 className="serif text-5xl font-light mb-12">Seven deliverables.</h2>
+          <div className="grid md:grid-cols-2 gap-3">
+            {CONCEPT.deliverables.map((d,i) => (
+              <div
+                key={i}
+                onMouseEnter={tip.show({title:d.name, body:d.detail})}
+                onMouseMove={tip.move} onMouseLeave={tip.hide}
+                className="flex items-center gap-4 border hair rounded-sm px-5 py-4 cursor-help hover:border-[#B89569]/40 transition-colors"
+              >
+                <Icon name="package" size={20} className="text-[#B89569] flex-shrink-0"/>
+                <div className="flex-1">
+                  <div className="serif text-base">{d.name}</div>
+                  <div className="text-xs opacity-50 line-clamp-1 mt-0.5">{d.detail}</div>
+                </div>
+                <div className="text-[10px] tracking-[.2em] opacity-40">0{i+1}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Sec>
+
+      {/* 25 CTA + CONTACT FORM */}
+      <Sec n={25} noChrome>
+        <div className="min-h-screen relative">
+          <img src={IMG.cta} alt="cta backdrop" className="absolute inset-0 w-full h-full object-cover"/>
+          <div className="absolute inset-0" style={{background:'linear-gradient(180deg, rgba(26,26,26,.85) 0%, rgba(26,26,26,.95) 100%)'}}></div>
+        <div className="relative z-10 min-h-screen flex flex-col px-16 py-24 max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="text-[10px] tracking-[.3em] opacity-50 mb-6">25 · CURATE THIS CONCEPT</div>
+            <h2 className="serif text-6xl md:text-7xl font-light leading-tight">
+              We'll curate <br/><span className="italic text-[#B89569]">salmi</span> for you.
+            </h2>
+            <p className="serif italic opacity-60 mt-6 max-w-2xl mx-auto">
+              Leave your details. We come back within one working day with a fit-out plan tailored to your city, budget and timeline.
+            </p>
+          </div>
+
+          {/* Tiers */}
+          <div className="grid md:grid-cols-2 gap-6 mb-12 max-w-3xl mx-auto w-full">
+            <div className="border hair rounded-sm p-8 hover:border-[#B89569]/40 transition-colors">
+              <div className="text-[10px] tracking-[.3em] opacity-50 mb-2">CONCEPT</div>
+              <div className="serif text-5xl text-[#B89569] mb-2">€49</div>
+              <div className="text-xs opacity-60 mb-4 serif italic">The brandbook, ours to share.</div>
+              <ul className="text-sm space-y-1.5 opacity-80">
+                <li className="flex gap-2"><Icon name="check" size={14} className="text-[#B89569] mt-1 flex-shrink-0"/>25-page brandbook PDF</li>
+                <li className="flex gap-2"><Icon name="check" size={14} className="text-[#B89569] mt-1 flex-shrink-0"/>Floorplan + equipment list</li>
+                <li className="flex gap-2"><Icon name="check" size={14} className="text-[#B89569] mt-1 flex-shrink-0"/>Menu + 5-week launch plan</li>
+                <li className="flex gap-2 opacity-50"><Icon name="x" size={14} className="mt-1 flex-shrink-0"/>Multiple buyers per slug</li>
+              </ul>
+            </div>
+            <div className="border-2 border-[#B89569] rounded-sm p-8 relative" style={{background:'linear-gradient(135deg, rgba(184,149,105,.1), transparent)'}}>
+              <div className="absolute top-3 right-3 text-[9px] tracking-[.25em] text-[#B89569]">RECOMMENDED</div>
+              <div className="text-[10px] tracking-[.3em] opacity-70 mb-2">EXCLUSIVE</div>
+              <div className="serif text-5xl text-[#B89569] mb-2">€149</div>
+              <div className="text-xs opacity-80 mb-4 serif italic">Yours alone. Slug retires.</div>
+              <ul className="text-sm space-y-1.5 opacity-90">
+                <li className="flex gap-2"><Icon name="check" size={14} className="text-[#B89569] mt-1 flex-shrink-0"/>Everything in Concept</li>
+                <li className="flex gap-2"><Icon name="check" size={14} className="text-[#B89569] mt-1 flex-shrink-0"/>One owner — retired from catalog</li>
+                <li className="flex gap-2"><Icon name="check" size={14} className="text-[#B89569] mt-1 flex-shrink-0"/>P&L forecast 12 months</li>
+                <li className="flex gap-2"><Icon name="check" size={14} className="text-[#B89569] mt-1 flex-shrink-0"/>One curation call (60 min)</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Form */}
+          {!submitted ? (
+            <form onSubmit={onSubmit} className="max-w-2xl mx-auto w-full border hair rounded-sm p-8" style={{background:'rgba(184,149,105,.04)'}}>
+              <div className="text-[10px] tracking-[.3em] opacity-60 mb-1">— OR —</div>
+              <h3 className="serif text-3xl mb-2">Tell us about your project.</h3>
+              <p className="text-sm opacity-60 mb-8 serif italic">We curate fit-outs in 14 European cities. Most projects open within 6–10 weeks.</p>
+              <div className="grid md:grid-cols-2 gap-4 mb-4">
+                <label className="block">
+                  <span className="text-[10px] tracking-[.25em] opacity-60 flex items-center gap-2"><Icon name="user" size={12}/>NAME</span>
+                  <input required value={form.name} onChange={e=>setForm({...form, name:e.target.value})} className="w-full bg-transparent border-b hair py-2 mt-1 outline-none focus:border-[#B89569] transition-colors serif text-lg" placeholder="Artyom"/>
+                </label>
+                <label className="block">
+                  <span className="text-[10px] tracking-[.25em] opacity-60 flex items-center gap-2"><Icon name="mail" size={12}/>EMAIL</span>
+                  <input required type="email" value={form.email} onChange={e=>setForm({...form, email:e.target.value})} className="w-full bg-transparent border-b hair py-2 mt-1 outline-none focus:border-[#B89569] transition-colors serif text-lg" placeholder="you@city.com"/>
+                </label>
+                <label className="block">
+                  <span className="text-[10px] tracking-[.25em] opacity-60 flex items-center gap-2"><Icon name="pin" size={12}/>CITY</span>
+                  <input value={form.city} onChange={e=>setForm({...form, city:e.target.value})} className="w-full bg-transparent border-b hair py-2 mt-1 outline-none focus:border-[#B89569] transition-colors serif text-lg" placeholder="Warsaw"/>
+                </label>
+                <label className="block">
+                  <span className="text-[10px] tracking-[.25em] opacity-60 flex items-center gap-2"><Icon name="phone" size={12}/>PHONE · OPTIONAL</span>
+                  <input value={form.phone} onChange={e=>setForm({...form, phone:e.target.value})} className="w-full bg-transparent border-b hair py-2 mt-1 outline-none focus:border-[#B89569] transition-colors serif text-lg" placeholder="+48"/>
+                </label>
+              </div>
+              <label className="block mb-6">
+                <span className="text-[10px] tracking-[.25em] opacity-60">YOUR MESSAGE</span>
+                <textarea rows="3" value={form.message} onChange={e=>setForm({...form, message:e.target.value})} className="w-full bg-transparent border-b hair py-2 mt-1 outline-none focus:border-[#B89569] transition-colors serif text-lg resize-none" placeholder="Looking to open a SALMI in Warsaw, ground floor, 12 m². When can we start?"/>
+              </label>
+              <button type="submit" className="w-full bg-[#B89569] text-[#1A1A1A] py-4 rounded-sm tracking-[.25em] text-sm uppercase flex items-center justify-center gap-3 hover:bg-[#D9C8AA] transition-colors serif">
+                Send · we reply within 24h <Icon name="send" size={16}/>
+              </button>
+              <div className="text-[10px] opacity-50 mt-4 text-center serif italic">By submitting you agree to be contacted by LABS67 about this concept only. No newsletter.</div>
+            </form>
+          ) : (
+            <div className="max-w-2xl mx-auto w-full text-center py-16 border hair rounded-sm" style={{background:'rgba(184,149,105,.06)'}}>
+              <Icon name="check" size={48} className="text-[#B89569] mx-auto mb-6" stroke={1}/>
+              <h3 className="serif text-3xl mb-3">Your message is on its way.</h3>
+              <p className="serif italic opacity-70">We open your mail client to <span className="text-[#B89569]">concepts@labs67.com</span>. Reply within one working day.</p>
+            </div>
+          )}
+
+          <div className="mt-16 flex justify-between items-end opacity-50 text-xs">
+            <div>
+              <div className="serif">{CONCEPT.nn} · {CONCEPT.brand}</div>
+              <div className="opacity-60 mt-1">{CONCEPT.fullName}</div>
+            </div>
+            <div className="text-right">
+              <div className="serif italic">25 / 25</div>
+              <div className="opacity-60 mt-1">micro.svita.ai</div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </Sec>
+    </div>
+  );
+};
+
+/* ============ PRINT DECK ============ */
+const PrintPage = ({n, title, children}) => (
+  <div className="print-page hair border">
+    <div className="print-brand">{CONCEPT.nn} · {CONCEPT.brand}</div>
+    <div className="print-mark">{String(n).padStart(2,'0')} / 25</div>
+    <div className="flex-1 flex flex-col justify-center pt-12 pb-12">
+      {title && <div className="text-[9pt] tracking-[.3em] opacity-50 mb-3 uppercase">{title}</div>}
+      {children}
+    </div>
+    <div className="print-foot">
+      <span>{CONCEPT.fullName} · {CONCEPT.city}, {CONCEPT.country}</span>
+      <span>micro.svita.ai / {CONCEPT.slug}</span>
+    </div>
+  </div>
+);
+
+const PrintDeck = () => {
+  return (
+    <div className="max-w-[1200px] mx-auto">
+      <div className="text-center mb-10 no-print">
+        <div className="serif text-2xl text-[#F2EBE0]">Print Mode · A4 landscape preview</div>
+        <div className="text-sm text-[#F2EBE0] opacity-60 mt-2 serif italic">Click "Save PDF" in the top-right to export. Browser's "Save as PDF" preserves layout.</div>
+      </div>
+
+      {/* 01 COVER */}
+      <PrintPage n={1}>
+        <div className="flex-1 grid grid-cols-2 gap-10 items-end">
+          <div>
+            <div className="serif" style={{fontSize:'62pt', lineHeight:'.95', fontWeight:300}}>salmi</div>
+            <div className="serif italic mt-3" style={{fontSize:'14pt', color:'#B89569'}}>— the black salt rim</div>
+            <div className="serif mt-8 text-sm opacity-70">{CONCEPT.fullName} · {CONCEPT.city}, {CONCEPT.country} · {CONCEPT.m2} m² · {CONCEPT.weeks} weeks</div>
+          </div>
+          <div className="aspect-[4/3] rounded-sm overflow-hidden border hair">
+            <img src={IMG.cover} alt="cover" className="w-full h-full object-cover"/>
+          </div>
+        </div>
+      </PrintPage>
+
+      {/* 02 DEFINITION */}
+      <PrintPage n={2} title="02 · DEFINITION">
+        <div className="grid grid-cols-2 gap-8 items-center flex-1">
+          <div>
+            <div className="serif" style={{fontSize:'26pt', lineHeight:1.15, fontWeight:300}}>
+              Nine square meters of <span style={{fontStyle:'italic', color:'#B89569'}}>finnish darkness</span>, salted at the <span style={{fontStyle:'italic', color:'#B89569'}}>rim</span>.
+            </div>
+            <div className="serif mt-5" style={{fontSize:'11pt', lineHeight:1.6, opacity:.8}}>
+              A standing room with four oak stools, a brass-fronted bar, and salmiakki in twelve forms. One ritual, repeated until midnight.
+            </div>
+          </div>
+          <div className="aspect-[4/3] rounded-sm overflow-hidden border hair">
+            <img src={IMG.def} alt="definition" className="w-full h-full object-cover"/>
+          </div>
+        </div>
+      </PrintPage>
+
+      {/* 03 AXONOMETRIC */}
+      <PrintPage n={3} title="03 · AXONOMETRIC · 9 M²">
+        <div className="flex-1 flex">
+          <div className="flex-1"><Axonometric onHover={()=>()=>{}} onLeave={()=>{}} onMove={()=>{}}/></div>
+          <div className="w-64 pl-8 serif text-sm space-y-3">
+            <div><span style={{color:'#B89569'}}>A</span> · Bar service line — 2.4 × 0.55 m</div>
+            <div><span style={{color:'#B89569'}}>B</span> · Standing rail — 2.0 × 0.4 m</div>
+            <div><span style={{color:'#B89569'}}>C</span> · Cold + dry storage — 0.8 × 0.55 m</div>
+            <div><span style={{color:'#B89569'}}>D</span> · Threshold — 0.9 × 0.3 m</div>
+            <div className="pt-4 mt-4 border-t hair text-xs opacity-70 italic">3.0 × 3.0 m · ceiling 2.85 m</div>
+          </div>
+        </div>
+      </PrintPage>
+
+      {/* 04-07 Views — compact summary */}
+      <PrintPage n={4} title="04 · FACADE">
+        <div className="serif" style={{fontSize:'22pt', lineHeight:1.2, fontWeight:300}}>From the street, almost nothing.</div>
+        <div className="serif mt-3 max-w-2xl" style={{fontSize:'10.5pt', lineHeight:1.6, opacity:.8}}>A brass plate. One lit window. Cobalt hours decal on the glass. No menu outside — only the etched brass plate.</div>
+        <div className="mt-6 flex-1 rounded-sm overflow-hidden border hair">
+          <img src={IMG.facade} alt="facade" className="w-full h-full object-cover"/>
+        </div>
+      </PrintPage>
+
+      <PrintPage n={5} title="05 · FROM THE DOOR">
+        <div className="serif" style={{fontSize:'22pt', lineHeight:1.2, fontWeight:300}}>The first view after you push the door.</div>
+        <div className="serif mt-3 max-w-2xl" style={{fontSize:'10.5pt', lineHeight:1.6, opacity:.8}}>Four pendants pulled low. Black tile under the brass rail. The salt mortar at the left end of the counter.</div>
+        <div className="mt-6 flex-1 rounded-sm overflow-hidden border hair">
+          <img src={IMG.interior} alt="interior" className="w-full h-full object-cover"/>
+        </div>
+      </PrintPage>
+
+      <PrintPage n={6} title="06 · BACK WALL TO DOOR">
+        <div className="serif" style={{fontSize:'22pt', lineHeight:1.2, fontWeight:300}}>The reverse, looking out.</div>
+        <div className="serif mt-3 max-w-2xl" style={{fontSize:'10.5pt', lineHeight:1.6, opacity:.8}}>From the back corner, the window pulls cobalt light at dusk. The mortar station faces the bartender's left.</div>
+        <div className="mt-6 flex-1 rounded-sm overflow-hidden border hair">
+          <img src={IMG.back} alt="back wall" className="w-full h-full object-cover"/>
+        </div>
+      </PrintPage>
+
+      <PrintPage n={7} title="07 · MATERIALS">
+        <div className="serif mb-4" style={{fontSize:'22pt', fontWeight:300}}>Five surfaces, one tone.</div>
+        <div className="flex-1 rounded-sm overflow-hidden border hair">
+          <img src={IMG.materials} alt="materials" className="w-full h-full object-cover"/>
+        </div>
+      </PrintPage>
+
+      <PrintPage n={8} title="08 · THE RITUAL">
+        <div className="grid grid-cols-5 gap-6 flex-1">
+          <div className="col-span-3 rounded-sm overflow-hidden border hair">
+            <img src={IMG.ritual} alt="ritual" className="w-full h-full object-cover"/>
+          </div>
+          <div className="col-span-2 flex flex-col justify-center">
+            <div className="serif italic" style={{fontSize:'20pt', lineHeight:1.2, fontWeight:300}}>The rim is dipped, the shot is poured, then the lip touches first.</div>
+            <div className="mt-6 space-y-2.5">
+              {CONCEPT.ritual.steps.map(s => (
+                <div key={s.n} className="border-t hair pt-2">
+                  <div className="flex items-baseline gap-3">
+                    <span className="serif" style={{color:'#B89569', fontSize:'11pt'}}>{s.n}</span>
+                    <span className="serif text-[10pt]">{s.name}</span>
+                  </div>
+                  <div className="text-[8.5pt] opacity-70 mt-1 leading-snug">{s.text}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </PrintPage>
+
+      <PrintPage n={9} title="09 · STILL-LIFE">
+        <div className="serif mb-4" style={{fontSize:'22pt', fontWeight:300}}>Four objects, no faces.</div>
+        <div className="flex-1 rounded-sm overflow-hidden border hair">
+          <img src={IMG.still} alt="still life" className="w-full h-full object-cover"/>
+        </div>
+      </PrintPage>
+
+      <PrintPage n={10} title="10 · EQUIPMENT KIT">
+        <div className="serif mb-3" style={{fontSize:'22pt', fontWeight:300}}>Eleven items, one room.</div>
+        <div className="aspect-[16/6] rounded-sm overflow-hidden border hair mb-4">
+          <img src={IMG.equipment} alt="equipment" className="w-full h-full object-cover"/>
+        </div>
+        <div className="grid grid-cols-2 gap-x-10 gap-y-1.5">
+          {CONCEPT.equipment.map((e,i) => (
+            <div key={i} className="flex items-baseline justify-between border-b hair py-1.5">
+              <div>
+                <span className="serif text-sm">{e.name}</span>
+                <span className="text-[9pt] opacity-60 ml-2 italic">{e.note}</span>
+              </div>
+              <span className="serif text-sm" style={{color:'#B89569'}}>€{e.price.toLocaleString()}</span>
+            </div>
+          ))}
+          <div className="flex items-baseline justify-between pt-3 mt-3 border-t hair col-span-2">
+            <span className="serif text-base">Total CAPEX</span>
+            <span className="serif text-lg" style={{color:'#B89569'}}>€{CONCEPT.equipment.reduce((s,e)=>s+e.price,0).toLocaleString()}</span>
+          </div>
+        </div>
+      </PrintPage>
+
+      <PrintPage n={11} title="11 · MENU">
+        <div className="serif mb-6" style={{fontSize:'22pt', fontWeight:300}}>Nine pours.</div>
+        <div className="grid grid-cols-3 gap-4 flex-1">
+          {CONCEPT.menu.map((m,i) => (
+            <div key={i} className="border hair rounded-sm p-4">
+              <div className="flex justify-between items-baseline mb-1">
+                <span className="serif text-sm">{m.name}</span>
+                <span className="serif" style={{color:'#B89569'}}>€{m.price}</span>
+              </div>
+              <div className="text-[9pt] opacity-70 italic">{m.note}</div>
+            </div>
+          ))}
+        </div>
+      </PrintPage>
+
+      <PrintPage n={12} title="12 · TAKEAWAY">
+        <div className="grid grid-cols-2 gap-8 items-center flex-1">
+          <div>
+            <div className="serif" style={{fontSize:'22pt', fontWeight:300}}>A single brass token, in hand.</div>
+            <div className="serif mt-3" style={{fontSize:'10.5pt', lineHeight:1.6, opacity:.8}}>No bottles to go. No t-shirts. One brass coin per ritual completed, marked "126 · SALMI" and the date. Collect three to claim a tasting flight.</div>
+            <div className="grid grid-cols-1 gap-2 mt-6">
+              {[{n:'Token',d:'30 mm cast brass · etched'},{n:'Monocone bag',d:'kraft · cobalt thread tie'},{n:'Recipe card',d:'45 × 80 mm · hand-stamped date'}].map((x,i)=>(
+                <div key={i} className="border-t hair pt-2">
+                  <div className="flex justify-between items-baseline">
+                    <span className="serif text-[11pt]">{x.n}</span>
+                    <span className="text-[9pt] opacity-70 italic">{x.d}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="aspect-square rounded-sm overflow-hidden border hair">
+            <img src={IMG.takeaway} alt="takeaway" className="w-full h-full object-cover"/>
+          </div>
+        </div>
+      </PrintPage>
+
+      <PrintPage n={13} title="13 · SIGNAGE">
+        <div className="serif mb-3" style={{fontSize:'22pt', fontWeight:300}}>A brass plate, etched.</div>
+        <div className="flex-1 rounded-sm overflow-hidden border hair">
+          <img src={IMG.signage} alt="signage" className="w-full h-full object-cover"/>
+        </div>
+        <div className="text-[10pt] opacity-60 italic mt-4 serif">Etched, not printed. 180 × 40 mm. Cast brass.</div>
+      </PrintPage>
+
+      <PrintPage n={14} title="14 · IDENTITY BOARD">
+        <div className="serif mb-6" style={{fontSize:'22pt', fontWeight:300}}>{CONCEPT.nn} · {CONCEPT.brand}</div>
+        <div className="grid grid-cols-2 gap-10 flex-1">
+          <div>
+            <div className="text-[9pt] tracking-[.3em] opacity-50 mb-3">PALETTE</div>
+            {CONCEPT.palette.map((c,i)=>(
+              <div key={i} className="flex items-center gap-3 border-b hair py-2">
+                <div className="w-10 h-10 rounded-sm" style={{background:c.hex}}></div>
+                <div className="flex-1">
+                  <div className="serif text-sm">{c.name}</div>
+                  <div className="text-[9pt] opacity-50">{c.hex}</div>
+                </div>
+                <div className="text-[9pt] opacity-60 italic text-right max-w-[45%]">{c.use}</div>
+              </div>
+            ))}
+          </div>
+          <div>
+            <div className="text-[9pt] tracking-[.3em] opacity-50 mb-3">TYPOGRAPHY</div>
+            {CONCEPT.fonts.map((f,i)=>(
+              <div key={i} className="border-b hair py-3">
+                <div className="serif" style={{fontSize:'28pt', fontFamily:f.name+', serif', fontWeight:300, lineHeight:1}}>Aa 126</div>
+                <div className="flex justify-between mt-2 text-[10pt]">
+                  <span className="serif" style={{color:'#B89569'}}>{f.name}</span>
+                  <span className="opacity-50 italic">{f.use}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </PrintPage>
+
+      <PrintPage n={15} title="15 · UNIT ECONOMICS">
+        <div className="serif mb-6" style={{fontSize:'22pt', fontWeight:300}}>A simple sheet, large numbers.</div>
+        <div className="flex-1">
+          {CONCEPT.unitEconomics.map((u,i)=>(
+            <div key={i} className="grid grid-cols-12 items-baseline border-b hair py-2.5">
+              <div className="col-span-1 serif text-[10pt] opacity-50">{String(i+1).padStart(2,'0')}</div>
+              <div className="col-span-6 serif italic text-base">{u.label}</div>
+              <div className="col-span-5 serif text-right text-2xl" style={{fontWeight:300}}>{u.value}</div>
+            </div>
+          ))}
+        </div>
+        <div className="text-[9pt] opacity-50 italic mt-4 serif">Planning benchmarks. Real performance varies. Not a guarantee.</div>
+      </PrintPage>
+
+      <PrintPage n={16} title="16 · CAPEX">
+        <div className="serif mb-6" style={{fontSize:'22pt', fontWeight:300}}>Twenty-two thousand, eight buckets.</div>
+        <div className="flex-1 flex items-center gap-12">
+          <div style={{width:'260px', flexShrink:0, position:'relative'}}>
+            <svg width="260" height="260" className="transform -rotate-90">
+              {(()=>{const c=2*Math.PI*100;let o=0;const t=CONCEPT.capex.reduce((s,c)=>s+c.value,0);return CONCEPT.capex.map((s,i)=>{const f=s.value/t;const l=c*f;const el=<circle key={i} cx="130" cy="130" r="100" fill="none" stroke={s.color} strokeWidth="32" strokeDasharray={`${l} ${c-l}`} strokeDashoffset={-o}/>;o+=l;return el});})()}
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <div className="text-[8pt] tracking-[.25em] opacity-60">CAPEX</div>
+              <div className="serif" style={{fontSize:'30pt', fontWeight:300}}>€22k</div>
+            </div>
+          </div>
+          <div className="flex-1 space-y-1.5">
+            {CONCEPT.capex.map((s,i)=>(
+              <div key={i} className="flex items-center gap-3 text-sm border-b hair pb-1.5">
+                <div className="w-3 h-3 rounded-sm" style={{background:s.color}}></div>
+                <span className="flex-1 serif text-[11pt]">{s.label}</span>
+                <span className="serif text-[11pt]" style={{color:'#B89569'}}>€{s.value.toLocaleString()}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </PrintPage>
+
+      <PrintPage n={17} title="17 · LAUNCH TIMELINE">
+        <div className="serif mb-6" style={{fontSize:'22pt', fontWeight:300}}>Five weeks, door to door.</div>
+        <div className="space-y-3 flex-1">
+          {CONCEPT.timeline.map((t,i)=>(
+            <div key={i} className="border hair rounded-sm p-4" style={{background:`linear-gradient(90deg, rgba(184,149,105,.04), rgba(184,149,105,${.05+i*.04}))`}}>
+              <div className="flex items-baseline gap-3 mb-1">
+                <div className="serif text-base" style={{color:'#B89569'}}>W{t.w}</div>
+                <div className="serif text-base">{t.title}</div>
+              </div>
+              <div className="text-[10pt] opacity-70 italic serif">{t.tasks.join(' · ')}</div>
+            </div>
+          ))}
+        </div>
+      </PrintPage>
+
+      <PrintPage n={18} title="18 · TEAM">
+        <div className="serif mb-6" style={{fontSize:'22pt', fontWeight:300}}>One lead. One weekend hand.</div>
+        <div className="grid grid-cols-2 gap-6 flex-1">
+          {CONCEPT.team.map((t,i)=>(
+            <div key={i} className="border hair rounded-sm p-6">
+              <div className="flex justify-between items-baseline mb-3">
+                <div className="serif text-lg">{t.role}</div>
+                <div className="text-right">
+                  <div className="serif text-sm" style={{color:'#B89569'}}>{t.pay}</div>
+                  <div className="text-[10pt] opacity-60">{t.hours}</div>
+                </div>
+              </div>
+              <ul className="text-[10pt] opacity-80 space-y-1">
+                {t.resp.map((r,j)=><li key={j} className="flex gap-2"><span style={{color:'#B89569'}}>·</span>{r}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </PrintPage>
+
+      <PrintPage n={19} title="19 · THE MOMENT">
+        <div className="grid grid-cols-2 gap-8 items-center flex-1">
+          <div className="rounded-sm overflow-hidden border hair aspect-[4/3]">
+            <img src={IMG.moment} alt="moment" className="w-full h-full object-cover"/>
+          </div>
+          <div>
+            <div className="serif italic" style={{fontSize:'24pt', lineHeight:1.2, fontWeight:300}}>"I came in skeptical. I left telling four people."</div>
+            <div className="serif mt-6 text-sm opacity-60">— Mikael, 34, Punavuori · regular since week three</div>
+          </div>
+        </div>
+      </PrintPage>
+
+      <PrintPage n={20} title="20 · PERSONAS">
+        <div className="serif mb-6" style={{fontSize:'22pt', fontWeight:300}}>Three reasons to walk in.</div>
+        <div className="grid grid-cols-3 gap-5 flex-1">
+          {CONCEPT.personas.map((p,i)=>(
+            <div key={i} className="border hair rounded-sm p-5">
+              <div className="text-[9pt] tracking-[.3em] opacity-40 mb-2">PERSONA 0{i+1}</div>
+              <div className="serif text-xl">{p.name}</div>
+              <div className="text-[10pt] opacity-70 mb-3" style={{color:'#B89569'}}>{p.age} · {p.where}</div>
+              <div className="text-[10pt] opacity-80 leading-relaxed">{p.why}</div>
+            </div>
+          ))}
+        </div>
+      </PrintPage>
+
+      <PrintPage n={21} title="21 · CHANNELS">
+        <div className="serif mb-6" style={{fontSize:'22pt', fontWeight:300}}>Four channels, one voice.</div>
+        <div className="grid grid-cols-2 gap-4 flex-1">
+          {CONCEPT.channels.map((c,i)=>(
+            <div key={i} className="border hair rounded-sm p-5">
+              <div className="flex items-baseline gap-3 mb-2">
+                <div className="serif text-base">{c.name}</div>
+                <div className="serif italic text-[11pt]" style={{color:'#B89569'}}>{c.tone}</div>
+              </div>
+              <div className="text-[10pt] opacity-80 leading-relaxed">{c.detail}</div>
+            </div>
+          ))}
+        </div>
+      </PrintPage>
+
+      <PrintPage n={22} title="22 · RISKS · MITIGATIONS">
+        <div className="serif mb-6" style={{fontSize:'22pt', fontWeight:300}}>What can go sideways.</div>
+        <div className="flex-1 space-y-4">
+          {CONCEPT.risks.map((r,i)=>(
+            <div key={i} className="grid grid-cols-2 gap-6 border-b hair pb-3">
+              <div>
+                <div className="text-[9pt] tracking-[.25em] opacity-50 mb-1">RISK 0{i+1}</div>
+                <div className="serif text-base">{r.risk}</div>
+              </div>
+              <div className="pl-6 border-l hair">
+                <div className="text-[9pt] tracking-[.25em] opacity-50 mb-1">MITIGATION</div>
+                <div className="serif italic text-[11pt] leading-relaxed">{r.mit}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </PrintPage>
+
+      <PrintPage n={23} title="23 · WHY NOW">
+        <div className="grid grid-cols-2 gap-8 items-center flex-1">
+          <div>
+            <div className="serif italic" style={{fontSize:'18pt', lineHeight:1.4, fontWeight:300}}>{CONCEPT.manifest}</div>
+            <div className="mt-6 text-[9pt] tracking-[.3em] opacity-50">{CONCEPT.nn} · {CONCEPT.brand} · {CONCEPT.city.toUpperCase()}</div>
+          </div>
+          <div className="rounded-sm overflow-hidden border hair aspect-[4/3]">
+            <img src={IMG.manifest} alt="why now" className="w-full h-full object-cover"/>
+          </div>
+        </div>
+      </PrintPage>
+
+      <PrintPage n={24} title="24 · WHAT YOU GET">
+        <div className="serif mb-6" style={{fontSize:'22pt', fontWeight:300}}>Seven deliverables.</div>
+        <div className="grid grid-cols-2 gap-3 flex-1">
+          {CONCEPT.deliverables.map((d,i)=>(
+            <div key={i} className="border hair rounded-sm p-4">
+              <div className="flex items-baseline justify-between mb-1">
+                <div className="serif text-sm">{d.name}</div>
+                <div className="text-[9pt] opacity-40">0{i+1}</div>
+              </div>
+              <div className="text-[9.5pt] opacity-70 leading-snug">{d.detail}</div>
+            </div>
+          ))}
+        </div>
+      </PrintPage>
+
+      <PrintPage n={25} title="25 · CURATE THIS CONCEPT">
+        <div className="flex-1 flex flex-col items-center justify-center text-center">
+          <div className="serif" style={{fontSize:'36pt', lineHeight:1.1, fontWeight:300}}>We'll curate <span style={{fontStyle:'italic', color:'#B89569'}}>salmi</span> for you.</div>
+          <div className="serif italic opacity-70 mt-6 text-base max-w-2xl">Reach us at concepts@labs67.com — we reply within one working day.</div>
+
+          <div className="grid grid-cols-2 gap-6 mt-10 max-w-3xl w-full">
+            <div className="border hair rounded-sm p-6 text-left">
+              <div className="text-[9pt] tracking-[.3em] opacity-50">CONCEPT</div>
+              <div className="serif mt-1" style={{fontSize:'30pt', color:'#B89569', fontWeight:300}}>€49</div>
+              <div className="text-[10pt] opacity-70 italic serif">The brandbook, ours to share.</div>
+            </div>
+            <div className="border-2 rounded-sm p-6 text-left" style={{borderColor:'#B89569'}}>
+              <div className="text-[9pt] tracking-[.3em]" style={{color:'#B89569'}}>EXCLUSIVE · RECOMMENDED</div>
+              <div className="serif mt-1" style={{fontSize:'30pt', color:'#B89569', fontWeight:300}}>€149</div>
+              <div className="text-[10pt] opacity-80 italic serif">Yours alone. Slug retires.</div>
+            </div>
+          </div>
+
+          <div className="mt-10 flex items-center gap-8">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" style={{opacity:.7}}>
+              <rect x="3" y="3" width="7" height="7"/>
+              <rect x="14" y="3" width="7" height="7"/>
+              <rect x="3" y="14" width="7" height="7"/>
+              <line x1="14" y1="14" x2="14" y2="21"/>
+              <line x1="17.5" y1="14" x2="17.5" y2="17.5"/>
+              <line x1="14" y1="17.5" x2="17.5" y2="17.5"/>
+              <line x1="21" y1="14" x2="21" y2="21"/>
+              <line x1="14" y1="21" x2="21" y2="21"/>
+            </svg>
+            <div className="text-left">
+              <div className="text-[9pt] tracking-[.3em] opacity-50">SCAN · OR · WRITE</div>
+              <div className="serif text-lg mt-1">micro.svita.ai/view.html?c=helsinki-salmiakki</div>
+              <div className="serif text-base mt-1" style={{color:'#B89569'}}>concepts@labs67.com</div>
+            </div>
+          </div>
+        </div>
+      </PrintPage>
+    </div>
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+</script>
+</body>
+</html>

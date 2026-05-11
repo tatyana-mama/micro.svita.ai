@@ -1,0 +1,24 @@
+{
+  "slug": "helsinki-salmiakki",
+  "category": "food",
+  "country": "FI",
+  "variant": 3,
+  "region": "Baltic",
+  "archetype": "Street Poet",
+  "hero_hue": "#3E2E1F",
+  "palette": [
+    "#3E2E1F",
+    "#2E3A2B",
+    "#6B5A3D",
+    "#1F1A10",
+    "#CBB88E"
+  ],
+  "mood": "sun-faded",
+  "light": "blue-hour",
+  "composition": "symmetric",
+  "texture": "metal",
+  "human": "macro-hand",
+  "season": "summer",
+  "time_of_day": "evening",
+  "collision_score": 1
+}
