@@ -9,15 +9,27 @@
 //   • Replies are short, opinionated, and end with concept slugs the visitor
 //     can click straight on the shop.
 //
+// LLM routing:
+//   Default provider = `ollama` (Jetson qwen2.5:14b via Tailscale Funnel).
+//   Override with LLM_PROVIDER=anthropic to use Claude if a credited
+//   ANTHROPIC_API_KEY is set.
+//
 // Deploy:
 //   supabase functions deploy shop-advisor --project-ref ctdleobjnzniqkqomlrq --no-verify-jwt
-// Secrets required (already set in project):
-//   ANTHROPIC_API_KEY
+// Secrets:
+//   LLM_PROVIDER      ollama | anthropic   (default: ollama)
+//   LLM_ENDPOINT      e.g. https://scyraai-desktop-1.tail2060da.ts.net:8443
+//   LLM_MODEL         e.g. qwen2.5:14b-instruct-q4_K_M
+//   ANTHROPIC_API_KEY (only when LLM_PROVIDER=anthropic)
+//   SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY (auto-injected)
 
 import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
 
+const LLM_PROVIDER = (Deno.env.get('LLM_PROVIDER') ?? 'ollama').toLowerCase();
+const LLM_ENDPOINT = (Deno.env.get('LLM_ENDPOINT') ?? '').replace(/\/+$/, '');
+const LLM_MODEL = Deno.env.get('LLM_MODEL') ?? 'qwen2.5:14b-instruct-q4_K_M';
 const ANTHROPIC_KEY = Deno.env.get('ANTHROPIC_API_KEY') ?? '';
-const MODEL = 'claude-haiku-4-5-20251001';
+const ANTHROPIC_MODEL = 'claude-haiku-4-5-20251001';
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';
 const SERVICE_ROLE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
 
@@ -112,10 +124,58 @@ DO NOT
 
 interface Msg { role: 'user' | 'assistant'; content: string; }
 
+async function callAnthropic(system: string, turns: Msg[]) {
+  if (!ANTHROPIC_KEY) {
+    return { ok: false, status: 503, body: 'anthropic_not_configured' };
+  }
+  const r = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-api-key': ANTHROPIC_KEY,
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify({
+      model: ANTHROPIC_MODEL,
+      max_tokens: 600,
+      temperature: 0.4,
+      system,
+      messages: turns,
+    }),
+  });
+  if (!r.ok) return { ok: false, status: r.status, body: await r.text() };
+  const data = await r.json();
+  return { ok: true, reply: (data?.content?.[0]?.text ?? '').trim(), model: ANTHROPIC_MODEL };
+}
+
+async function callOllama(system: string, turns: Msg[]) {
+  if (!LLM_ENDPOINT) {
+    return { ok: false, status: 503, body: 'llm_endpoint_not_configured' };
+  }
+  // Ollama exposes OpenAI-compatible /v1/chat/completions.
+  const r = await fetch(`${LLM_ENDPOINT}/v1/chat/completions`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      model: LLM_MODEL,
+      temperature: 0.4,
+      max_tokens: 600,
+      stream: false,
+      messages: [
+        { role: 'system', content: system },
+        ...turns,
+      ],
+    }),
+  });
+  if (!r.ok) return { ok: false, status: r.status, body: await r.text() };
+  const data = await r.json();
+  const reply = (data?.choices?.[0]?.message?.content ?? '').trim();
+  return { ok: true, reply, model: LLM_MODEL };
+}
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS });
   if (req.method !== 'POST') return json({ error: 'method_not_allowed' }, 405);
-  if (!ANTHROPIC_KEY) return json({ error: 'ai_not_configured' }, 503);
 
   let body: { message?: string; history?: Msg[] };
   try {
@@ -143,27 +203,25 @@ Deno.serve(async (req) => {
     return json({ error: 'catalog_unavailable', detail: String(e) }, 503);
   }
 
-  const upstream = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'x-api-key': ANTHROPIC_KEY,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: 600,
-      temperature: 0.4,
-      system,
-      messages: turns,
-    }),
-  });
+  // Primary provider, with cross-fallback if it fails. Default = ollama;
+  // anthropic is opt-in via LLM_PROVIDER=anthropic.
+  const primary  = LLM_PROVIDER === 'anthropic' ? callAnthropic : callOllama;
+  const fallback = LLM_PROVIDER === 'anthropic' ? callOllama   : callAnthropic;
 
-  if (!upstream.ok) {
-    const text = await upstream.text();
-    return json({ error: 'upstream_error', status: upstream.status, body: text }, 502);
+  let res = await primary(system, turns);
+  let provider = LLM_PROVIDER;
+  if (!res.ok) {
+    const alt = await fallback(system, turns);
+    if (alt.ok) {
+      res = alt;
+      provider = LLM_PROVIDER === 'anthropic' ? 'ollama' : 'anthropic';
+    } else {
+      return json({
+        error: 'upstream_error',
+        primary:  { provider: LLM_PROVIDER, status: res.status, body: res.body },
+        fallback: { status: alt.status, body: alt.body },
+      }, 502);
+    }
   }
-  const data = await upstream.json();
-  const reply = (data?.content?.[0]?.text ?? '').trim();
-  return json({ reply, model: MODEL });
+  return json({ reply: res.reply, model: res.model, provider });
 });
