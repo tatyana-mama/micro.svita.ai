@@ -115,21 +115,21 @@
 
       return (
         <section ref={ref} className="relative min-h-[88vh] overflow-hidden bg-paper">
-          {/* layered preview cards */}
-          <motion.div style={{ y:y1 }} className="absolute -right-[8%] top-[8%] w-[42%] aspect-[3/4] hidden lg:block ring-1 ring-groen/10 shadow-2xl overflow-hidden grain">
+          {/* layered preview cards — only on xl+ screens, shifted right to clear text column */}
+          <motion.div style={{ y:y1 }} className="absolute -right-[10%] top-[8%] w-[38%] aspect-[3/4] hidden xl:block ring-1 ring-groen/10 shadow-2xl overflow-hidden grain pointer-events-none">
             <img src="https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-01-cover.png" alt="" className="w-full h-full object-cover"/>
           </motion.div>
-          <motion.div style={{ y:y2 }} className="absolute right-[28%] top-[24%] w-[26%] aspect-[3/4] hidden lg:block ring-1 ring-groen/10 shadow-2xl overflow-hidden grain rotate-[-3deg]">
+          <motion.div style={{ y:y2 }} className="absolute right-[14%] top-[26%] w-[24%] aspect-[3/4] hidden xl:block ring-1 ring-groen/10 shadow-2xl overflow-hidden grain rotate-[-3deg] pointer-events-none">
             <img src="https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/13-lisbon-pilates%20%5Bgood%5D/slide-01-cover.png" alt="" className="w-full h-full object-cover"/>
           </motion.div>
 
-          <div className="relative max-w-7xl mx-auto px-6 md:px-12 pt-20 lg:pt-32 pb-20">
-            <div className="w-full lg:max-w-[52%]">
+          <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-20 lg:pt-32 pb-20">
+            <div className="w-full lg:max-w-[58%] xl:max-w-[48%]">
               <Reveal>
                 <Eyebrow className="mb-8">№ 94 · атлас непостроенных миров</Eyebrow>
               </Reveal>
               <Reveal delay={.1}>
-                <h1 className="font-display text-[clamp(36px,5.4vw,84px)] leading-[1.04] text-groen">
+                <h1 className="font-display text-[clamp(34px,4.8vw,72px)] leading-[1.06] text-groen">
                   <span className="italic font-light">Восемь из десяти идей</span> гаснут <br/>до того, как откроется дверь.
                 </h1>
               </Reveal>
