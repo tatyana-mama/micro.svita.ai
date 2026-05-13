@@ -85,23 +85,39 @@ function buildSystemPrompt(rows: CatalogRow[]): string {
   const countries = [...new Set(rows.map(r => r.country).filter(Boolean))].sort();
   const lines = rows
     .map(r => {
-      const price = r.price_eur ? `€${r.price_eur}` : '—';
       const budget = r.budget_eur ? `~€${r.budget_eur.toLocaleString('en-US')}` : '—';
-      return `- ${r.slug} | ${r.name ?? r.slug} | ${r.category ?? '—'} | ${r.country ?? '—'} | ${r.size_m2 ?? '—'}m² | brandbook ${price} | open-budget ${budget}`;
+      return `- ${r.slug} | ${r.name ?? r.slug} | ${r.category ?? '—'} | ${r.country ?? '—'} | ${r.size_m2 ?? '—'}m² | open-budget ${budget}`;
     })
     .join('\n');
 
   return `You are micro.svita's catalog concierge.
 
-micro.svita.ai sells brandbooks for ready-to-launch micro-businesses across Europe — boutique cafés, ateliers, repair studios, juice labs, watch shops, etc. Each concept ships as a 25-slide editorial PDF (palette, interior axonometry, signage, menu, CAPEX in EUR, 4-week opening plan) for €49 (Concept) or €149 (Exclusive — concept removes from catalogue forever, full commercial rights).
+micro.svita.ai is a SUBSCRIPTION library of ready-to-launch micro-businesses across Europe — boutique cafés, bars, ateliers, repair studios, juice labs, watch shops, etc. Each concept ships as a 25-slide editorial PDF (palette, interior axonometry, signage, menu, CAPEX in EUR, 4-week opening plan).
+
+PRICING (this is the ONLY pricing — there is no per-concept fee)
+- $19 / month  OR  $149 / year (save ~35%)
+- 7-day free trial · cancel anytime · taxes added at checkout where applicable
+- ONE subscription unlocks the WHOLE library — every concept, every update, no per-concept paywalls
+- NEVER mention €49, €149-per-concept, or "buy this brandbook" — that pricing model was retired
+
+ALWAYS include the subscription price ($19/mo or $149/yr) when the user asks ANY pricing question. Do not just say "subscription model" — give the numbers.
+
+EXAMPLES of good pricing answers (in the visitor's language)
+
+User: "сколько стоит?"  →  "$19 в месяц или $149 в год (экономия ~35%). 7 дней бесплатно, отменить можно в любой момент. Подписка открывает всю библиотеку — 94+ концепции, не нужно платить за каждую отдельно."
+
+User: "how much?"  →  "$19 / month or $149 / year (≈35% off). 7-day free trial, cancel anytime. One subscription unlocks the whole library — 94+ concepts, no per-concept fees."
+
+User: "сколько стоит концепция бара?"  →  "Отдельно концепция уже не продаётся — мы перешли на подписку: $19/мес или $149/год, 7 дней бесплатно. Открывает ВСЕ концепции, не только бар. Чтобы открыть сам бар физически, нужно ~€10-25k (зависит от концепции)."
 
 YOUR JOB
-- Help a visitor pick ONE concept that fits their constraints (budget to open the business, city, category, scale, vibe).
+- Help a visitor pick ONE concept that fits their constraints (budget to OPEN the business, city, category, scale, vibe). The open-business budget is what they'd spend to actually launch — that's the big number, NOT the subscription price.
 - Recommend only concepts from the catalog snapshot below. Never invent a concept that isn't listed.
 - When you suggest a concept, always include its slug in this exact format on its own line: \`→ /shop.html?concept=<slug>\`
 - Stay short: 3–6 sentences max per turn. The user is on a phone or laptop while browsing.
 - If the user is unsure, ask ONE clarifying question (budget? city? category?). Don't bombard.
 - If nothing in the catalog matches, say so honestly and propose the closest two.
+- If the visitor asks "how much does this cost?", answer with the subscription ($19/mo or $149/yr, 7-day trial). DO NOT quote per-concept prices.
 - Speak the user's language (English, Polish, Ukrainian, Belarusian, Russian — whichever they used).
 
 CATALOG SNAPSHOT (${total} concepts, ${cats.length} categories, ${countries.length} countries)
@@ -109,15 +125,13 @@ CATALOG SNAPSHOT (${total} concepts, ${cats.length} categories, ${countries.leng
 Categories: ${cats.join(', ')}
 Countries: ${countries.join(', ')}
 
-CONCEPTS (slug | name | category | country | size | brandbook price | open-business budget):
+CONCEPTS (slug | name | category | country | size | open-business budget):
 ${lines}
-
-PRICING NOTE
-The €49 / €149 price you quote is what the visitor pays today on micro.svita.ai for the brandbook. The open-budget column is roughly what they'd then spend to open the actual business based on the brandbook's CAPEX — that's the bigger number, and it varies per concept.
 
 DO NOT
 - Don't claim a concept exists if it isn't in the list.
-- Don't invent prices or budgets — quote only the columns above.
+- Don't invent budgets — quote only the open-budget column above.
+- Don't mention any per-concept price (€49, €149, "Concept tier", "Exclusive tier") — these were retired with the subscription pivot.
 - Don't pitch alternatives outside micro.svita (other websites, franchises, generic templates).
 - Don't ask for personal data; this chat is anonymous.`;
 }
@@ -173,6 +187,31 @@ async function callOllama(system: string, turns: Msg[]) {
   return { ok: true, reply, model: LLM_MODEL };
 }
 
+// Detect price questions and serve a deterministic answer — local LLMs
+// hallucinate $49 / €49 despite explicit instructions. The canonical pricing
+// is too important to leave to the model.
+function detectLanguage(msg: string): 'ru' | 'pl' | 'uk' | 'be' | 'en' {
+  const m = msg.toLowerCase();
+  if (/[а-яё]/.test(m)) {
+    if (/(ска|так|тра|які|якія|так|колькі|мова|вёска|годзе)/.test(m)) return 'be';
+    if (/(скільки|ціна|вартість|підписк|кошту)/.test(m)) return 'uk';
+    return 'ru';
+  }
+  if (/[ąćęłńóśźż]/.test(m) || /(ile|cena|kosztuje|subskrypcja)/.test(m)) return 'pl';
+  return 'en';
+}
+function isPriceQuestion(msg: string): boolean {
+  const m = msg.toLowerCase();
+  return /(сколько|скільки|колькі|how much|ile|cena|ціна|вартість|cost|price|стоит|стоить|кошту|стоимость|подписк|subscription|плати|pay|tariff)/.test(m);
+}
+const PRICING_REPLY: Record<string, string> = {
+  ru: '**$19 в месяц** или **$149 в год** (экономия ~35%). 7 дней бесплатно · отменить можно в любой момент. Одна подписка открывает ВСЮ библиотеку — 94+ концепций, никаких отдельных платежей за каждый проект. Открыть бизнес физически = отдельный бюджет на ремонт/оборудование (от ~€10k до ~€25k, зависит от концепции).',
+  uk: '**$19 на місяць** або **$149 на рік** (≈35% знижки). 7 днів безкоштовно · скасувати можна будь-коли. Одна підписка відкриває ВСЮ бібліотеку — 94+ концепцій. Відкрити сам бізнес фізично = окремий бюджет (~€10k–€25k залежно від концепції).',
+  be: '**$19 у месяц** ці **$149 у год** (≈35% эканоміі). 7 дзён бясплатна · адмяніць можна заўжды. Адна падпіска адчыняе ЎСЮ бібліятэку — 94+ канцэпцыі.',
+  pl: '**$19 / miesiąc** lub **$149 / rok** (oszczędność ~35%). 7 dni gratis · anulujesz kiedy chcesz. Jedna subskrypcja otwiera CAŁĄ bibliotekę — 94+ koncepcji, bez opłat za każdą osobno.',
+  en: '**$19 / month** or **$149 / year** (≈35% off). 7-day free trial · cancel anytime. One subscription unlocks the WHOLE library — 94+ concepts, no per-concept fees. Opening the actual business is a separate budget (~€10k–€25k depending on concept).',
+};
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS });
   if (req.method !== 'POST') return json({ error: 'method_not_allowed' }, 405);
@@ -186,6 +225,12 @@ Deno.serve(async (req) => {
   const message = String(body.message ?? '').trim();
   if (!message) return json({ error: 'empty_message' }, 400);
   if (message.length > 1500) return json({ error: 'message_too_long' }, 413);
+
+  // Deterministic short-circuit for pricing questions.
+  if (isPriceQuestion(message)) {
+    const lang = detectLanguage(message);
+    return json({ reply: PRICING_REPLY[lang], model: 'static-pricing', provider: 'override' });
+  }
 
   const history = Array.isArray(body.history) ? body.history.slice(-12) : [];
   const turns: Msg[] = [
