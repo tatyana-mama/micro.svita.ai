@@ -475,27 +475,63 @@ nav.scrolled{background:rgba(239,234,224,.92) !important;border-bottom:1px solid
 }
 .nav-favs:not(.has-favs) .count-badge{display:none}
 
-/* ============ SHOP 3-COLUMN LAYOUT ============ */
+/* ============ SHOP — drawer layout (sidebars slide in) ============ */
 .shop-layout{
-  display:grid;
-  grid-template-columns:240px minmax(0,1fr) 380px;
-  gap:28px;
-  max-width:1600px;
+  display:block;
+  max-width:1100px;
   margin:0 auto;
   padding:0 24px;
-  align-items:flex-start;
 }
 .shop-layout > .page{padding-left:0; padding-right:0; min-width:0}
 .shop-layout > .page > .wrap{padding:0; max-width:none}
 
-/* LEFT — Categories sidebar */
-.left-aside{
-  position:sticky; top:88px;
-  padding:24px 18px 24px 0;
-  border-right:1px solid var(--line-d);
-  max-height:calc(100vh - 100px); overflow-y:auto;
-  scrollbar-width:thin;
+/* Backdrop dimmer when a drawer is open */
+.drawer-backdrop{
+  position:fixed; inset:0; z-index:90;
+  background:rgba(26,26,26,.32);
+  opacity:0; pointer-events:none;
+  transition:opacity 220ms var(--ease);
 }
+body.drawer-open .drawer-backdrop{opacity:1; pointer-events:auto}
+
+/* Drawer-toggle buttons live in the nav-right */
+.drawer-toggle{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:9px 14px; border-radius:100px;
+  border:1px solid var(--line-d); background:var(--cream);
+  color:var(--black);
+  font:600 12px 'Inter Tight',sans-serif; cursor:pointer;
+  transition:all 200ms var(--ease);
+}
+.drawer-toggle:hover{border-color:var(--line-d2); transform:translateY(-1px)}
+.drawer-toggle svg{width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:1.8}
+.drawer-toggle.active{background:var(--accent); color:var(--cream); border-color:var(--accent)}
+
+/* Drawer-close button shared style */
+.drawer-close{
+  position:absolute; top:18px; right:14px; z-index:2;
+  width:34px; height:34px; border-radius:50%;
+  background:transparent; border:1px solid var(--line-d);
+  display:grid; place-items:center; cursor:pointer;
+  color:var(--black-2);
+  transition:all 180ms var(--ease);
+}
+.drawer-close:hover{background:var(--cream); border-color:var(--line-d2)}
+.drawer-close svg{width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2}
+
+/* LEFT drawer — slides in from left */
+.left-aside{
+  position:fixed; top:0; bottom:0; left:0; z-index:95;
+  width:320px; max-width:88vw;
+  padding:88px 22px 24px;
+  background:var(--cream-2);
+  border-right:1px solid var(--line-d);
+  box-shadow:24px 0 60px rgba(0,0,0,.12);
+  transform:translateX(-100%);
+  transition:transform 280ms var(--ease);
+  overflow-y:auto; scrollbar-width:thin;
+}
+body.left-open .left-aside{transform:translateX(0)}
 .left-aside h4{
   font:600 11px/1 'Inter Tight',sans-serif; letter-spacing:.18em;
   text-transform:uppercase; color:var(--black-3);
@@ -533,17 +569,19 @@ nav.scrolled{background:rgba(239,234,224,.92) !important;border-bottom:1px solid
   appearance:none; -webkit-appearance:none;
 }
 
-/* RIGHT — Always-visible AI sidebar */
+/* RIGHT drawer — slides in from right */
 .right-aside{
-  position:sticky; top:88px;
-  height:calc(100vh - 108px);
+  position:fixed; top:0; bottom:0; right:0; z-index:95;
+  width:400px; max-width:92vw;
   display:flex; flex-direction:column;
   background:var(--cream-2);
-  border:1px solid var(--line-d);
-  border-radius:18px;
+  border-left:1px solid var(--line-d);
+  box-shadow:-24px 0 60px rgba(0,0,0,.12);
+  transform:translateX(100%);
+  transition:transform 280ms var(--ease);
   overflow:hidden;
-  box-shadow:0 2px 16px rgba(0,0,0,.04);
 }
+body.right-open .right-aside{transform:translateX(0)}
 .right-aside .head{
   display:flex; align-items:center; gap:10px;
   padding:16px 18px; border-bottom:1px solid var(--line-d);
@@ -611,52 +649,21 @@ nav.scrolled{background:rgba(239,234,224,.92) !important;border-bottom:1px solid
   color:var(--black-3); letter-spacing:.08em; text-align:center;
 }
 
-/* Hide the old fixed-floating advisor — it's now inside the right rail */
+/* Hide the legacy floating advisor — drawers replace it */
 .shop-redesign #advisor-panel,
 .shop-redesign #advisor-launch{display:none !important}
 
-/* RESPONSIVE — fold sidebars on smaller screens */
-@media(max-width:1280px){
-  .shop-layout{grid-template-columns:220px minmax(0,1fr) 340px; gap:20px}
-}
-@media(max-width:1100px){
-  .shop-layout{grid-template-columns:200px minmax(0,1fr); gap:18px}
-  .right-aside{display:none}
-  /* Bring the FAB back on tablet/mobile */
-  .shop-redesign #advisor-launch{display:grid !important; position:fixed; right:20px; bottom:20px;
-    width:54px; height:54px; border-radius:50%; background:var(--accent); color:var(--cream);
-    border:0; cursor:pointer; place-items:center; z-index:95;
-    box-shadow:0 12px 28px rgba(122,107,61,.4);
-  }
-  .shop-redesign #advisor-launch svg{width:22px; height:22px}
-  /* Mobile-style overlay panel reappears when launcher is clicked */
-  .shop-redesign body.advisor-open #advisor-panel{display:flex !important}
-  .shop-redesign #advisor-panel{
-    position:fixed; right:16px; bottom:84px; width:380px; max-width:calc(100vw - 32px);
-    height:min(640px, calc(100dvh - 100px));
-    background:var(--cream-2); border:1px solid var(--line-d); border-radius:16px;
-    box-shadow:0 24px 60px rgba(0,0,0,.25); color:var(--black);
-    overflow:hidden;
-  }
-  .shop-redesign #advisor-panel .head{background:#fff; border-bottom:1px solid var(--line-d)}
-  .shop-redesign #advisor-panel .head h3{color:var(--black)}
-  .shop-redesign #advisor-panel .head .role{color:var(--black-3)}
-  .shop-redesign #advisor-log{padding:14px 16px}
-  .shop-redesign .advisor-msg{color:var(--black) !important}
-  .shop-redesign .advisor-msg.user{background:#fff !important; border:1px solid var(--line-d) !important}
-  .shop-redesign .advisor-msg.bot{background:var(--cream) !important; border:1px solid var(--line-d) !important}
-  .shop-redesign #advisor-form{background:#fff; border-top:1px solid var(--line-d)}
-  .shop-redesign #advisor-form textarea{background:var(--cream); border:1px solid var(--line-d); color:var(--black)}
-  .shop-redesign #advisor-form textarea::placeholder{color:var(--black-3)}
-  .shop-redesign #advisor-foot{color:var(--black-3)}
-  .shop-redesign #advisor-chips button{background:#fff; border:1px solid var(--line-d); color:var(--black-2)}
-}
+/* Tablet/mobile drawer tweaks */
 @media(max-width:768px){
-  .shop-layout{grid-template-columns:minmax(0,1fr); padding:0 16px}
-  .left-aside{display:none}
+  .shop-layout{padding:0 16px}
+  .left-aside{width:300px}
+  .right-aside{width:380px}
+  .drawer-toggle .toggle-label{display:none}
+  .drawer-toggle{padding:9px 11px}
 }
-@media(max-width:640px){
-  .shop-redesign #advisor-panel{right:8px; left:8px; bottom:78px; width:auto; max-width:none; height:75dvh}
+@media(max-width:480px){
+  .left-aside{width:88vw}
+  .right-aside{width:92vw}
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -670,6 +677,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 <nav id="nav"></nav>
+<div class="drawer-backdrop" id="drawer-backdrop" aria-hidden="true"></div>
 <script src="js/svita-card.js"></script>
 <script>window.LABS67_LANGS = ['en','pl','uk','be','ru']; window.LABS67_DEFAULT_LANG = 'en';</script>
 <script src="js/svita-i18n-dict.js"></script>
@@ -684,7 +692,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="shop-layout">
 
 <!-- LEFT — Categories + mini filters -->
-<aside class="left-aside" id="left-aside">
+<aside class="left-aside" id="left-aside" aria-hidden="true">
+  <button type="button" class="drawer-close" id="left-close" aria-label="Close categories">
+    <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
   <h4 data-i18n="left_categories">Categories</h4>
   <div class="cat-list" id="left-cat-list">
     <button class="cat-item on" data-cat="all"><span data-i18n="shop_chip_all">All concepts</span><span class="cat-count" id="cat-count-all">—</span></button>
@@ -770,12 +781,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
-<!-- RIGHT — Always-on AI concierge sidebar (desktop) -->
-<aside class="right-aside" id="right-aside" aria-label="AI catalog concierge">
+<!-- RIGHT — AI concierge drawer -->
+<aside class="right-aside" id="right-aside" aria-label="AI catalog concierge" aria-hidden="true">
   <div class="head">
     <span class="dot" aria-hidden="true"></span>
     <h3 data-i18n="advisor_title">Catalog concierge</h3>
     <span class="role" data-i18n="advisor_role">AI · Beta</span>
+    <button type="button" class="drawer-close" id="right-close" aria-label="Close concierge" style="position:static;margin-left:8px">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
   </div>
   <div class="ai-log" id="rail-log" aria-live="polite"></div>
   <div class="ai-chips" id="rail-chips">
@@ -1736,6 +1750,105 @@ loadCatalog();
     if (e.target.closest('.fav-btn')) setTimeout(refreshFavsCount, 50);
   });
 
+  /* ============ 2b. DRAWER TOGGLES — inject Categories + Concierge buttons ============ */
+  const DRAWER_LABELS = {
+    en: {cat:'Categories', ai:'Concierge'},
+    ru: {cat:'Категории', ai:'AI-помощник'},
+    pl: {cat:'Kategorie', ai:'Asystent'},
+    uk: {cat:'Категорії', ai:'Помічник'},
+    be: {cat:'Катэгорыі', ai:'Памочнік'},
+  };
+  function lblFor(key){
+    const L = (window.labs67i18n && window.labs67i18n.getLang && window.labs67i18n.getLang()) || 'en';
+    return (DRAWER_LABELS[L] || DRAWER_LABELS.en)[key];
+  }
+  function injectDrawerToggles(){
+    const navRight = document.querySelector('nav .nav-right');
+    if (!navRight || document.querySelector('.drawer-toggle')) return;
+
+    const catBtn = document.createElement('button');
+    catBtn.type = 'button';
+    catBtn.className = 'drawer-toggle drawer-toggle-cat';
+    catBtn.setAttribute('aria-label', 'Open categories');
+    catBtn.innerHTML = `
+      <svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      <span class="toggle-label">${lblFor('cat')}</span>
+    `;
+    catBtn.addEventListener('click', () => toggleDrawer('left'));
+
+    const aiBtn = document.createElement('button');
+    aiBtn.type = 'button';
+    aiBtn.className = 'drawer-toggle drawer-toggle-ai';
+    aiBtn.setAttribute('aria-label', 'Open concierge');
+    aiBtn.innerHTML = `
+      <svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 11-3.5-6.6L21 4l-1.4 3.5A8 8 0 0121 12z"/><circle cx="9" cy="12" r="1" fill="currentColor"/><circle cx="13" cy="12" r="1" fill="currentColor"/><circle cx="17" cy="12" r="1" fill="currentColor"/></svg>
+      <span class="toggle-label">${lblFor('ai')}</span>
+    `;
+    aiBtn.addEventListener('click', () => toggleDrawer('right'));
+
+    /* Insert as the first two entries in nav-right */
+    const firstA = navRight.querySelector('a, .nav-favs, .nav-cta');
+    if (firstA) {
+      navRight.insertBefore(catBtn, firstA);
+      navRight.insertBefore(aiBtn, firstA);
+    } else {
+      navRight.appendChild(catBtn);
+      navRight.appendChild(aiBtn);
+    }
+  }
+  setTimeout(injectDrawerToggles, 500);
+
+  function setDrawer(side, open){
+    const body = document.body;
+    const otherSide = side === 'left' ? 'right' : 'left';
+    body.classList.toggle(side + '-open', open);
+    if (open) body.classList.remove(otherSide + '-open');
+    body.classList.toggle('drawer-open', body.classList.contains('left-open') || body.classList.contains('right-open'));
+    document.querySelector('.drawer-toggle-cat')?.classList.toggle('active', body.classList.contains('left-open'));
+    document.querySelector('.drawer-toggle-ai')?.classList.toggle('active', body.classList.contains('right-open'));
+    document.getElementById('left-aside')?.setAttribute('aria-hidden', !body.classList.contains('left-open'));
+    document.getElementById('right-aside')?.setAttribute('aria-hidden', !body.classList.contains('right-open'));
+    /* If opening the AI drawer for the first time, seed the greeting */
+    if (open && side === 'right' && !window.__railSeeded){
+      window.__railSeeded = true;
+      window.dispatchEvent(new CustomEvent('rail:seed'));
+    }
+  }
+  function toggleDrawer(side){
+    const isOpen = document.body.classList.contains(side + '-open');
+    setDrawer(side, !isOpen);
+  }
+
+  document.getElementById('left-close')?.addEventListener('click', () => setDrawer('left', false));
+  document.getElementById('right-close')?.addEventListener('click', () => setDrawer('right', false));
+  document.getElementById('drawer-backdrop')?.addEventListener('click', () => {
+    setDrawer('left', false); setDrawer('right', false);
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape'){
+      if (document.body.classList.contains('left-open')) setDrawer('left', false);
+      if (document.body.classList.contains('right-open')) setDrawer('right', false);
+    }
+  });
+  /* Update labels when the user switches language */
+  window.addEventListener('labs67:langChanged', () => {
+    document.querySelector('.drawer-toggle-cat .toggle-label')?.replaceWith(
+      Object.assign(document.createElement('span'), {className:'toggle-label', textContent: lblFor('cat')})
+    );
+    document.querySelector('.drawer-toggle-ai .toggle-label')?.replaceWith(
+      Object.assign(document.createElement('span'), {className:'toggle-label', textContent: lblFor('ai')})
+    );
+  });
+  /* "Ask AI" pre-filter button → open right drawer */
+  document.getElementById('pf-ai')?.addEventListener('click', e => {
+    e.preventDefault();
+    setDrawer('right', true);
+  });
+  document.getElementById('advisor-cta-open')?.addEventListener('click', e => {
+    e.preventDefault();
+    setDrawer('right', true);
+  });
+
   /* ============ 3. RIGHT RAIL — desktop AI chat ============ */
   /* Use the same Supabase endpoint as the existing advisor; mount our own UI. */
   const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
@@ -1834,10 +1947,8 @@ loadCatalog();
       input.dispatchEvent(new Event('input'));
     });
   }
-  /* Seed the greeting once the rail is visible (desktop only) */
-  if (window.matchMedia('(min-width:1101px)').matches) {
-    setTimeout(seed, 200);
-  }
+  /* Seed the greeting when the drawer is first opened */
+  window.addEventListener('rail:seed', () => setTimeout(seed, 80));
 })();
 </script>
 </body>
