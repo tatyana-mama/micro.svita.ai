@@ -184,7 +184,7 @@
                     </svg>
                   </a>
                 )}
-                <a href={user ? '/account.html' : '#подписка'} className="hidden md:inline-flex items-center gap-2 pl-5 pr-4 py-2.5 bg-groen text-creme text-[10px] tracking-[0.2em] uppercase hover:bg-okra transition-colors">
+                <a href={user ? '/shop.html' : '#подписка'} className="hidden md:inline-flex items-center gap-2 pl-5 pr-4 py-2.5 bg-groen text-creme text-[10px] tracking-[0.2em] uppercase hover:bg-okra transition-colors">
                   <span>{user ? 'Открыть библиотеку' : '$19 / мес'}</span>
                   <span aria-hidden="true">→</span>
                 </a>
@@ -220,7 +220,7 @@
                   ))}
                   <div className="mt-8 flex flex-col gap-3">
                     {user ? (
-                      <a href="/account.html" onClick={()=>setOpen(false)} className="inline-flex items-center justify-center px-5 py-4 bg-groen text-creme text-xs tracking-[0.2em] uppercase">
+                      <a href="/shop.html" onClick={()=>setOpen(false)} className="inline-flex items-center justify-center px-5 py-4 bg-groen text-creme text-xs tracking-[0.2em] uppercase">
                         Открыть библиотеку →
                       </a>
                     ) : (
