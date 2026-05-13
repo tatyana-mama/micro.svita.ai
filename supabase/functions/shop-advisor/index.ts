@@ -55,9 +55,10 @@ interface CatalogRow {
   category: string | null;
   country: string | null;
   size_m2: number | null;
-  price_eur: number | null;
   budget_eur: number | null;
   tagline: string | null;
+  catalog_number: number | null;
+  hero_image: string | null;
 }
 
 let catalogCache: { ts: number; rows: CatalogRow[] } | null = null;
@@ -69,10 +70,9 @@ async function loadCatalog(): Promise<CatalogRow[]> {
     return catalogCache.rows;
   }
   const { data, error } = await admin
-    .from('concepts_catalog')
-    .select('slug,name,category,country,size_m2,price_eur,budget_eur,tagline')
-    .eq('is_active', true)
-    .order('slug');
+    .from('public_verified_catalog')
+    .select('slug,name,category,country,size_m2,budget_eur,tagline,catalog_number,hero_image')
+    .order('catalog_number');
   if (error) throw new Error(`catalog_query_failed: ${error.message}`);
   const rows = (data ?? []) as CatalogRow[];
   catalogCache = { ts: now, rows };
@@ -86,7 +86,8 @@ function buildSystemPrompt(rows: CatalogRow[]): string {
   const lines = rows
     .map(r => {
       const budget = r.budget_eur ? `~€${r.budget_eur.toLocaleString('en-US')}` : '—';
-      return `- ${r.slug} | ${r.name ?? r.slug} | ${r.category ?? '—'} | ${r.country ?? '—'} | ${r.size_m2 ?? '—'}m² | open-budget ${budget}`;
+      const tag = r.tagline ? ` — ${r.tagline}` : '';
+      return `- ${r.slug} | ${r.name ?? r.slug} | ${r.category ?? '—'} | ${r.country ?? '—'} | ${r.size_m2 ?? '—'}m² | open ${budget}${tag}`;
     })
     .join('\n');
 
@@ -204,6 +205,69 @@ function isPriceQuestion(msg: string): boolean {
   const m = msg.toLowerCase();
   return /(сколько|скільки|колькі|how much|ile|cena|ціна|вартість|cost|price|стоит|стоить|кошту|стоимость|подписк|subscription|плати|pay|tariff)/.test(m);
 }
+// Post-process: scan AI reply for catalog concept names and auto-inject the
+// canonical slug-link after each mention. This guarantees clickable cards in
+// the UI even when the LLM forgot to emit `→ /shop.html?concept=<slug>` itself.
+function enrichWithSlugLinks(reply: string, rows: CatalogRow[]): string {
+  if (!reply || !rows.length) return reply;
+
+  // Build candidates list — match by `name` AND parenthesised brand (last part).
+  // E.g. row.name = "16 · RUST" → match "RUST" and "16 · RUST".
+  const candidates: Array<{ slug: string; needle: RegExp }> = [];
+  const slugsAlreadyEmitted = new Set<string>();
+  // Detect slugs the model already produced — don't duplicate them.
+  for (const m of reply.matchAll(/\/shop\.html\?concept=([a-z0-9\-]+)/gi)) {
+    slugsAlreadyEmitted.add(m[1].toLowerCase());
+  }
+
+  for (const r of rows) {
+    if (!r.slug || !r.name) continue;
+    if (slugsAlreadyEmitted.has(r.slug.toLowerCase())) continue;
+    // Variants: full name, name without "NN · " prefix, last 1-2 words (brand).
+    const variants = new Set<string>();
+    variants.add(r.name);
+    const noNumber = r.name.replace(/^\d+\s*·\s*/, '').trim();
+    if (noNumber && noNumber !== r.name) variants.add(noNumber);
+    // Also: city-derived ("Warsaw Hummus") if slug encodes it
+    const slugWords = r.slug.split(/[\-\s]+/).filter(w => w.length > 2);
+    if (slugWords.length >= 2) {
+      const titleized = slugWords.slice(0, 3).map(w => w[0].toUpperCase() + w.slice(1)).join(' ');
+      variants.add(titleized);
+    }
+    for (const v of variants) {
+      // Escape regex specials, then build a word-boundary-ish match (cyr/lat).
+      const esc = v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      // (?<![\w\-]) = not preceded by a word char/hyphen; (?![\w\-]) = same after.
+      // Required so "rust" doesn't match inside "crusty".
+      candidates.push({ slug: r.slug, needle: new RegExp(`(?<![\\w\\-])(${esc})(?![\\w\\-])`, 'i') });
+    }
+  }
+
+  let out = reply;
+  const injected = new Set<string>();
+  for (const c of candidates) {
+    if (injected.has(c.slug)) continue;
+    const m = c.needle.exec(out);
+    if (!m) continue;
+    // Find end of the SENTENCE/BULLET containing the match — append link there
+    // so it lands on its own line right after the relevant block.
+    const idx = m.index + m[0].length;
+    // walk forward until newline, period+space, or end
+    let cut = idx;
+    while (cut < out.length && !/[\n\r]/.test(out[cut])) cut++;
+    const link = `\n→ /shop.html?concept=${c.slug}\n`;
+    // Skip if a link for this slug already exists nearby (within 200 chars after)
+    if (out.slice(idx, cut + 200).includes(`concept=${c.slug}`)) {
+      injected.add(c.slug);
+      continue;
+    }
+    out = out.slice(0, cut) + link + out.slice(cut);
+    injected.add(c.slug);
+    if (injected.size >= 5) break; // cap clutter
+  }
+  return out;
+}
+
 const PRICING_REPLY: Record<string, string> = {
   ru: '**$19 в месяц** или **$149 в год** (экономия ~35%). 7 дней бесплатно · отменить можно в любой момент. Одна подписка открывает ВСЮ библиотеку — 94+ концепций, никаких отдельных платежей за каждый проект. Открыть бизнес физически = отдельный бюджет на ремонт/оборудование (от ~€10k до ~€25k, зависит от концепции).',
   uk: '**$19 на місяць** або **$149 на рік** (≈35% знижки). 7 днів безкоштовно · скасувати можна будь-коли. Одна підписка відкриває ВСЮ бібліотеку — 94+ концепцій. Відкрити сам бізнес фізично = окремий бюджет (~€10k–€25k залежно від концепції).',
@@ -241,9 +305,10 @@ Deno.serve(async (req) => {
   ];
 
   let system: string;
+  let catalogRows: CatalogRow[] = [];
   try {
-    const rows = await loadCatalog();
-    system = buildSystemPrompt(rows);
+    catalogRows = await loadCatalog();
+    system = buildSystemPrompt(catalogRows);
   } catch (e) {
     return json({ error: 'catalog_unavailable', detail: String(e) }, 503);
   }
@@ -268,5 +333,32 @@ Deno.serve(async (req) => {
       }, 502);
     }
   }
-  return json({ reply: res.reply, model: res.model, provider });
+  // Make sure the reply contains slug-links so the UI can render preview cards.
+  const enrichedReply = enrichWithSlugLinks(res.reply, catalogRows);
+
+  // Attach a small metadata bundle for each slug we just mentioned, so the
+  // client can render preview cards (cover image + name + budget) without a
+  // round-trip back to the catalog.
+  const mentionedSlugs = new Set<string>();
+  for (const m of enrichedReply.matchAll(/\/shop\.html\?concept=([a-z0-9\-]+)/gi)) {
+    mentionedSlugs.add(m[1].toLowerCase());
+  }
+  const concepts = catalogRows
+    .filter(r => mentionedSlugs.has(r.slug.toLowerCase()))
+    .map(r => ({
+      slug: r.slug,
+      name: r.name,
+      category: r.category,
+      country: r.country,
+      size_m2: r.size_m2,
+      budget_eur: r.budget_eur,
+      tagline: r.tagline,
+      catalog_number: r.catalog_number,
+      href: `/view.html?c=${r.slug}`,
+      // hero_image from public_verified_catalog already encodes the
+      // "[good]" suffix correctly as %20%5Bgood%5D — use it verbatim.
+      cover: r.hero_image,
+    }));
+
+  return json({ reply: enrichedReply, concepts, model: res.model, provider });
 });

@@ -73,6 +73,38 @@
     .sv-msg.user{ background:#2F4438; color:#EFEAE0; align-self:flex-end }
     .sv-msg a{ color:inherit; text-decoration:underline; text-underline-offset:2px }
     .sv-msg .sv-slug-row{ display:inline-flex; align-items:center; gap:6px; margin-top:6px; padding:6px 10px; border-radius:100px; background:rgba(47,68,56,0.08); font-size:12px }
+
+    /* concept preview cards — clickable, hi-res cover, compact info */
+    .sv-cards{ display:flex; flex-direction:column; gap:8px; margin-top:10px }
+    .sv-card{
+      display:flex; gap:12px; padding:8px;
+      background:#EFEAE0; border:1px solid rgba(47,68,56,0.12); border-radius:12px;
+      text-decoration:none; color:inherit;
+      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .sv-card:hover{
+      transform:translateY(-1px);
+      box-shadow:0 12px 24px -12px rgba(15,20,16,0.25);
+      border-color:rgba(122,107,61,0.4);
+    }
+    .sv-card-cover{
+      flex:none; width:64px; height:64px; border-radius:8px;
+      background:#CEC2AD center/cover no-repeat;
+      filter:saturate(1.06) contrast(1.03);
+    }
+    .sv-card-body{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; gap:2px }
+    .sv-card-name{
+      font:500 13.5px/1.25 'Cormorant Garamond',Georgia,serif;
+      color:#2F4438; letter-spacing:.005em;
+      overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    }
+    .sv-card-meta{
+      font-size:11px; color:#5F6870; line-height:1.3;
+      display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+    }
+    .sv-card-meta .dot{ color:rgba(47,68,56,0.3) }
+    .sv-card-budget{ font-weight:600; color:#7A6B3D }
+    .sv-card-arrow{ flex:none; align-self:center; color:#7A6B3D; font-size:18px; line-height:1; padding-right:4px }
     .sv-typing{ display:inline-flex; gap:4px; padding:9px 12px; background:#EFEAE0; border-radius:12px; align-self:flex-start }
     .sv-typing span{ width:6px; height:6px; border-radius:50%; background:rgba(47,68,56,0.4); animation:sv-blink 1.2s infinite }
     .sv-typing span:nth-child(2){ animation-delay:.15s } .sv-typing span:nth-child(3){ animation-delay:.3s }
@@ -213,15 +245,63 @@
     );
   }
 
-  function addMsg(role, text) {
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // Strip the bare `→ /shop.html?concept=slug` markers from the prose body —
+  // we'll render them as rich cards below instead.
+  function stripSlugLines(text, slugs) {
+    if (!slugs || !slugs.size) return text;
+    let out = text;
+    for (const slug of slugs) {
+      const re = new RegExp(`^\\s*→?\\s*\\/shop\\.html\\?concept=${slug}\\s*$`, 'gim');
+      out = out.replace(re, '');
+    }
+    // Also collapse triple newlines created by the strip.
+    return out.replace(/\n{3,}/g, '\n\n').trim();
+  }
+
+  function renderConceptCard(c) {
+    const meta = [];
+    if (c.category) meta.push(`<span>${escapeHtml(c.category)}</span>`);
+    if (c.country)  meta.push(`<span>${escapeHtml(c.country)}</span>`);
+    if (c.size_m2)  meta.push(`<span>${escapeHtml(c.size_m2)} m²</span>`);
+    if (c.budget_eur) {
+      const k = Math.round(c.budget_eur / 1000);
+      meta.push(`<span class="sv-card-budget">~€${k}k open</span>`);
+    }
+    const metaHtml = meta.join('<span class="dot">·</span>');
+    const cover = c.cover ? `style="background-image:url('${escapeHtml(c.cover)}')"` : '';
+    return `
+      <a class="sv-card" href="${escapeHtml(c.href || '/view.html?c=' + c.slug)}" target="_top">
+        <div class="sv-card-cover" ${cover} aria-hidden="true"></div>
+        <div class="sv-card-body">
+          <div class="sv-card-name">${escapeHtml(c.name || c.slug)}</div>
+          <div class="sv-card-meta">${metaHtml}</div>
+        </div>
+        <span class="sv-card-arrow" aria-hidden="true">→</span>
+      </a>`;
+  }
+
+  function addMsg(role, text, concepts) {
     history.push({ role, content: text });
     const el = document.createElement('div');
     el.className = 'sv-msg ' + role;
-    // Linkify slug refs like `→ /shop.html?concept=foo-bar`.
-    const html = text
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+    const conceptSlugs = new Set((concepts || []).map(c => c.slug.toLowerCase()));
+    const cleaned = role === 'assistant' ? stripSlugLines(text, conceptSlugs) : text;
+
+    // Linkify any remaining inline `/shop.html?concept=slug` mentions (for
+    // models that didn't put the link on its own line). Also escape HTML.
+    const inlineLinked = escapeHtml(cleaned)
       .replace(/(→\s*)?\/shop\.html\?concept=([a-z0-9\-]+)/gi,
-        (_m, arrow, slug) => `<a class="sv-slug-row" href="/shop.html?concept=${slug}" target="_top">→ ${slug}</a>`);
+        (_m, _arrow, slug) => `<a class="sv-slug-row" href="/view.html?c=${slug}" target="_top">→ ${slug}</a>`);
+
+    let html = inlineLinked.replace(/\n/g, '<br>');
+    if (concepts && concepts.length) {
+      html += `<div class="sv-cards">${concepts.map(renderConceptCard).join('')}</div>`;
+    }
     el.innerHTML = html;
     log.appendChild(el);
     log.scrollTop = log.scrollHeight;
@@ -278,7 +358,8 @@
       }
       const data = await r.json();
       const reply = (data && data.reply) ? String(data.reply).trim() : '';
-      if (reply) addMsg('assistant', reply);
+      const concepts = (data && Array.isArray(data.concepts)) ? data.concepts : [];
+      if (reply) addMsg('assistant', reply, concepts);
       else showFallback();
     } catch (err) {
       clearTyping();
