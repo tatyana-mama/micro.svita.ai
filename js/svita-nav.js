@@ -86,10 +86,16 @@
     if(document.getElementById('nav-mini-styles')) return;
     const css = `
       nav{justify-content:flex-start!important}
-      nav .brand{margin-right:auto;display:flex;align-items:center;gap:0;padding:0;text-decoration:none}
-      nav .brand-logo{display:block;height:96px;width:auto;image-rendering:-webkit-optimize-contrast;-webkit-user-drag:none;user-select:none;transition:height 200ms ease}
-      nav.scrolled .brand-logo{height:64px}
-      @media(max-width:640px){nav .brand-logo{height:64px} nav.scrolled .brand-logo{height:48px}}
+      nav .brand{margin-right:auto;display:flex;align-items:center;gap:10px;padding:0;text-decoration:none;color:var(--text,#0F1410)}
+      nav .brand:hover{color:var(--accent,#7A6B3D)}
+      nav .brand-mark{display:block;width:34px;height:34px;flex:none;transition:transform 500ms ease}
+      nav .brand:hover .brand-mark{transform:rotate(12deg)}
+      nav .brand-word{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:22px;line-height:1;letter-spacing:-.01em;white-space:nowrap}
+      nav .brand-word .dot{color:var(--accent,#7A6B3D);margin:0 2px}
+      nav .brand-word i{font-style:italic}
+      nav.scrolled .brand-mark{width:30px;height:30px}
+      nav.scrolled .brand-word{font-size:20px}
+      @media(max-width:640px){nav .brand-mark{width:28px;height:28px} nav .brand-word{font-size:18px}}
       .nav-mini{display:flex;align-items:center;gap:10px}
       .nav-mini .lang{position:relative}
       @media(min-width:641px){
@@ -240,10 +246,15 @@
 
     nav.innerHTML = `
       <a href="index.html" class="brand" aria-label="micro.svita home">
-        <img class="brand-logo"
-             src="https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/assets/logo/wordmark-dark.png"
-             alt="micro.svita"
-             width="1584" height="672" decoding="async">
+        <svg class="brand-mark" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="20" y="20" width="160" height="160"/>
+          <path d="M100 100 Q 60 60 20 20"/><path d="M100 100 Q 140 60 180 20"/>
+          <path d="M100 100 Q 60 140 20 180"/><path d="M100 100 Q 140 140 180 180"/>
+          <path d="M100 100 Q 70 100 20 100"/><path d="M100 100 Q 130 100 180 100"/>
+          <path d="M100 100 Q 100 70 100 20"/><path d="M100 100 Q 100 130 100 180"/>
+          <circle cx="100" cy="100" r="5" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="brand-word">micro<span class="dot">·</span><i>svita</i></span>
       </a>
       <div class="nav-right">
         <a href="shop.html"${shopActive} data-i18n="nav_shop">${t.shop}</a>
@@ -333,12 +344,23 @@
     // Language picker removed — site is English-only.
 
     const userBtn = document.getElementById('user-btn');
-    if(userBtn){
+    if(userBtn && !userBtn.__wired){
+      // mark element so re-renders don't stack handlers; element identity
+      // changes each render anyway because innerHTML replaces children, but
+      // we keep the guard for safety.
+      userBtn.__wired = true;
       const menu = document.getElementById('user-menu');
-      userBtn.addEventListener('click', (e)=>{
-        e.stopPropagation();
+      const toggle = (e)=>{
+        if (e) { e.preventDefault(); e.stopPropagation(); }
         const open = menu.classList.toggle('open');
         userBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+      // pointerdown beats document `click` race in some browsers
+      userBtn.addEventListener('pointerdown', toggle);
+      userBtn.addEventListener('click', (e)=>{ e.preventDefault(); e.stopPropagation(); });
+      // close on link click inside drop
+      menu.querySelectorAll('.user-drop a, .user-drop button').forEach(el=>{
+        el.addEventListener('click', ()=> menu.classList.remove('open'));
       });
     }
 
