@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" translate="no">
+<html lang="en" translate="no">
 <head>
   <meta charset="UTF-8" />
 <meta name="google" content="notranslate">
@@ -90,12 +90,12 @@
 
     /* ─── 01 · top bar ─── */
     const NAV_LINKS = [
-      { href:'#что',           label:'Что это' },
-      { href:'#как',           label:'Как работает' },
-      { href:'#каталог',       label:'Каталог' },
-      { href:'#подписка',      label:'Цена' },
-      { href:'#сопровождение', label:'Сопровождение' },
-      { href:'#faq',           label:'FAQ' },
+      { href:'#what',     label:'What it is' },
+      { href:'#how',      label:'How it works' },
+      { href:'#catalog',  label:'Catalog' },
+      { href:'#pricing',  label:'Pricing' },
+      { href:'#support',  label:'Full support' },
+      { href:'#faq',      label:'FAQ' },
     ];
 
     function LogoMark({ className='' }) {
@@ -173,22 +173,22 @@
 
               <div className="flex items-center gap-2 md:gap-3 shrink-0">
                 {user ? (
-                  <a href="/account.html" title={user.email} aria-label="Аккаунт" className="hidden md:inline-flex items-center justify-center w-10 h-10 rounded-full bg-groen text-creme text-xs font-display tracking-tight hover:bg-okra transition-colors">
+                  <a href="/account.html" title={user.email} aria-label="Account" className="hidden md:inline-flex items-center justify-center w-10 h-10 rounded-full bg-groen text-creme text-xs font-display tracking-tight hover:bg-okra transition-colors">
                     {initial}
                   </a>
                 ) : (
-                  <a href="/account.html" aria-label="Войти" title="Войти" className="hidden md:inline-flex items-center justify-center w-10 h-10 rounded-full ring-1 ring-groen/25 text-groen hover:bg-groen hover:text-creme hover:ring-groen transition-all">
+                  <a href="/account.html" aria-label="Sign in" title="Sign in" className="hidden md:inline-flex items-center justify-center w-10 h-10 rounded-full ring-1 ring-groen/25 text-groen hover:bg-groen hover:text-creme hover:ring-groen transition-all">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <circle cx="12" cy="8" r="4"/>
                       <path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>
                     </svg>
                   </a>
                 )}
-                <a href={user ? '/shop.html' : '#подписка'} className="hidden md:inline-flex items-center gap-2 pl-5 pr-4 py-2.5 bg-groen text-creme text-[10px] tracking-[0.2em] uppercase hover:bg-okra transition-colors">
-                  <span>{user ? 'Открыть библиотеку' : '$19 / мес'}</span>
+                <a href={user ? '/shop.html' : '#pricing'} className="hidden md:inline-flex items-center gap-2 pl-5 pr-4 py-2.5 bg-groen text-creme text-[10px] tracking-[0.2em] uppercase hover:bg-okra transition-colors">
+                  <span>{user ? 'Open library' : '$19 / mo'}</span>
                   <span aria-hidden="true">→</span>
                 </a>
-                <button onClick={()=>setOpen(o=>!o)} aria-label={open ? 'Закрыть меню' : 'Открыть меню'} aria-expanded={open} className="lg:hidden inline-flex items-center justify-center w-10 h-10 -mr-1 text-groen hover:text-okra transition-colors">
+                <button onClick={()=>setOpen(o=>!o)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} className="lg:hidden inline-flex items-center justify-center w-10 h-10 -mr-1 text-groen hover:text-okra transition-colors">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
                     {open
                       ? <><path d="M6 6l12 12"/><path d="M18 6L6 18"/></>
@@ -221,22 +221,22 @@
                   <div className="mt-8 flex flex-col gap-3">
                     {user ? (
                       <a href="/shop.html" onClick={()=>setOpen(false)} className="inline-flex items-center justify-center px-5 py-4 bg-groen text-creme text-xs tracking-[0.2em] uppercase">
-                        Открыть библиотеку →
+                        Open library →
                       </a>
                     ) : (
                       <>
-                        <a href="#подписка" onClick={()=>setOpen(false)} className="inline-flex items-center justify-center px-5 py-4 bg-groen text-creme text-xs tracking-[0.2em] uppercase">
-                          Открыть библиотеку — $19 / мес
+                        <a href="#pricing" onClick={()=>setOpen(false)} className="inline-flex items-center justify-center px-5 py-4 bg-groen text-creme text-xs tracking-[0.2em] uppercase">
+                          Open library — $19 / mo
                         </a>
                         <a href="/account.html" onClick={()=>setOpen(false)} className="inline-flex items-center justify-center gap-2 px-5 py-4 ring-1 ring-groen/25 text-groen text-xs tracking-[0.2em] uppercase hover:bg-groen hover:text-creme transition-colors">
                           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                             <circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>
                           </svg>
-                          Войти
+                          Sign in
                         </a>
                       </>
                     )}
-                    <p className="mt-2 text-[11px] text-grijs/70 font-display italic text-center">7 дней бесплатно · отменить можно в любой момент</p>
+                    <p className="mt-2 text-[11px] text-grijs/70 font-display italic text-center">7 days free · cancel anytime</p>
                   </div>
                 </motion.nav>
               </motion.div>
@@ -266,24 +266,24 @@
           <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-20 lg:pt-32 pb-20">
             <div className="w-full lg:max-w-[44%] xl:max-w-[42%]">
               <Reveal>
-                <Eyebrow className="mb-8">№ 94 · атлас непостроенных миров</Eyebrow>
+                <Eyebrow className="mb-8">№ 94 · atlas of unbuilt worlds</Eyebrow>
               </Reveal>
               <Reveal delay={.1}>
                 <h1 className="font-display text-[clamp(34px,4.4vw,68px)] leading-[1.06] text-groen">
-                  <span className="italic font-light">Восемь из десяти идей</span> гаснут <br/>до того, как откроется дверь.
+                  <span className="italic font-light">Eight out of ten ideas</span> die <br/>before the door ever opens.
                 </h1>
               </Reveal>
               <Reveal delay={.2}>
                 <p className="mt-10 font-display italic text-grijs text-lg md:text-xl leading-relaxed max-w-xl">
-                  Здесь живёт библиотека из 94 готовых концепций — от ателье массажа до уличной кофейни. Одна подписка открывает всё: каждый брендбук, каждый чертёж, каждый расчёт.
+                  Here lives a library of 94 ready-to-launch concepts — from a massage atelier to a street coffee bar. One subscription opens everything: every brandbook, every floor plan, every calculation.
                 </p>
               </Reveal>
               <Reveal delay={.3}>
                 <div className="mt-12 flex flex-wrap items-center gap-4">
-                  <Btn href="#подписка" primary>Открыть библиотеку — $19/мес</Btn>
-                  <Btn href="#каталог">Смотреть каталог</Btn>
+                  <Btn href="#pricing" primary>Open library — $19/mo</Btn>
+                  <Btn href="#catalog">Browse catalog</Btn>
                 </div>
-                <p className="mt-5 text-xs text-grijs/70 font-display italic">7 дней бесплатно · отменить можно в любой момент</p>
+                <p className="mt-5 text-xs text-grijs/70 font-display italic">7 days free · cancel anytime</p>
               </Reveal>
             </div>
           </div>
@@ -293,10 +293,10 @@
 
     /* ─── 03 · KPI ─── */
     const KPI = [
-      { v:'94',   l:'концепции' },
-      { v:'45+',  l:'городов · по всей Европе' },
-      { v:'7',    l:'документов в полном досье' },
-      { v:'$19',  l:'в месяц · вся библиотека' },
+      { v:'94',   l:'concepts' },
+      { v:'45+',  l:'cities · across Europe' },
+      { v:'7',    l:'documents in every dossier' },
+      { v:'$19',  l:'per month · entire library' },
     ];
     function KpiBar() {
       return (
@@ -316,18 +316,18 @@
     /* ─── 04 · что такое концепция ─── */
     function WhatIsConcept() {
       return (
-        <section id="что" className="py-24 md:py-32 px-6 md:px-12">
+        <section id="what" className="py-24 md:py-32 px-6 md:px-12">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <Reveal className="lg:col-span-6">
-              <Eyebrow className="mb-6">— что такое концепция —</Eyebrow>
+              <Eyebrow className="mb-6">— what is a concept —</Eyebrow>
               <h2 className="font-display text-[clamp(32px,5vw,68px)] leading-[1.05] text-groen">
-                Не просто PDF. <span className="italic">Готовое заведение на бумаге</span> — собранное так, чтобы можно было нести подрядчику без правок.
+                Not just a PDF. <span className="italic">A finished venue on paper</span> — assembled so it can go straight to your contractor without edits.
               </h2>
               <p className="mt-8 font-display italic text-grijs text-lg leading-relaxed max-w-xl">
-                В каждой концепции — интерьер на фотографиях, аксонометрия в масштабе, меню с ценами в евро, расчёт CAPEX и месячного OPEX, понедельный план открытия. Слева — пример: концепция 16 · RUST, массажное ателье в Амстердаме.
+                Every concept includes interior photography, scale axonometry, a menu priced in euros, CAPEX and monthly OPEX, and a week-by-week opening plan. On the left — an example: concept 16 · RUST, a massage atelier in Amsterdam.
               </p>
               <div className="mt-10 flex gap-2 flex-wrap">
-                {['визуальный брендбук','P&L · 3 года','план 1:40','список оборудования','меню в евро','8-недельный график','чек-лист первого дня'].map((t,i)=>(
+                {['visual brandbook','P&L · 3 years','1:40 floor plan','equipment list','menu in euros','8-week schedule','day-one checklist'].map((t,i)=>(
                   <span key={i} className="px-3 py-1.5 ring-1 ring-groen/20 text-[11px] tracking-wider uppercase">{t}</span>
                 ))}
               </div>
@@ -340,12 +340,12 @@
                   <img src="https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/presentations/16-amsterdam-massage%20%5Bgood%5D/slide-01-cover.png" alt="" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"/>
                   <div className="absolute inset-0 bg-gradient-to-t from-groen/60 via-transparent to-transparent"/>
                   <div className="absolute inset-x-0 bottom-0 p-6">
-                    <Eyebrow className="text-creme/70 mb-2">живой пример · концепция № 16</Eyebrow>
+                    <Eyebrow className="text-creme/70 mb-2">live example · concept № 16</Eyebrow>
                     <div className="font-display text-3xl text-creme">16 · RUST <span className="italic">— atelier van stilte</span></div>
-                    <div className="text-creme/80 text-sm mt-1 font-display italic">Amsterdam · 34 m² · 8 недель до открытия</div>
+                    <div className="text-creme/80 text-sm mt-1 font-display italic">Amsterdam · 34 m² · 8 weeks to open</div>
                   </div>
                 </div>
-                <div className="mt-3 text-xs text-okra tracking-[0.2em] uppercase group-hover:translate-x-1 transition inline-flex items-center gap-2">посмотреть страницу концепции →</div>
+                <div className="mt-3 text-xs text-okra tracking-[0.2em] uppercase group-hover:translate-x-1 transition inline-flex items-center gap-2">open concept page →</div>
               </a>
             </Reveal>
           </div>
@@ -356,45 +356,45 @@
     /* ─── 05 · своими силами / с библиотекой ─── */
     const COMPARE = {
       hard: {
-        label:'своими силами',
+        label:'on your own',
         steps:[
-          { t:'бренд-агентство',          d:'айдентика, нейминг, голос' },
-          { t:'архитектор и чертёжник',   d:'план помещения, разрезы, отделка' },
-          { t:'фотограф и копирайтер',    d:'визуал, тексты, упаковка' },
-          { t:'консультант по меню',      d:'позиционирование, рецепты' },
-          { t:'юрист и бухгалтер',        d:'договоры, налоги, лицензии' },
+          { t:'brand agency',                 d:'identity, naming, voice' },
+          { t:'architect & draftsman',        d:'floor plan, sections, finishes' },
+          { t:'photographer & copywriter',    d:'visuals, copy, packaging' },
+          { t:'menu consultant',              d:'positioning, recipes' },
+          { t:'lawyer & accountant',          d:'contracts, taxes, licences' },
         ],
-        time:'≈ 6 месяцев',
-        timeSub:'до открытия двери · параллельно с поиском помещения',
+        time:'≈ 6 months',
+        timeSub:'until the door opens · in parallel with finding the venue',
       },
       easy: {
-        label:'с библиотекой',
+        label:'with the library',
         steps:[
-          { t:'выбрал концепцию',         d:'час за чтением каталога' },
-          { t:'подписался',                d:'$19 — открылись все 94 концепции' },
-          { t:'скачал полное досье',      d:'7 документов · одна льняная папка' },
-          { t:'отдал подрядчику',          d:'всё уже посчитано, описано, запрошено' },
-          { t:'открылся',                  d:'8 недель до первого гостя' },
+          { t:'picked a concept',         d:'an hour reading the catalog' },
+          { t:'subscribed',                d:'$19 — all 94 concepts unlocked' },
+          { t:'downloaded the full dossier',  d:'7 documents · one linen folder' },
+          { t:'handed it to the contractor',  d:'everything already counted, described, sourced' },
+          { t:'opened',                    d:'8 weeks to the first guest' },
         ],
-        time:'≈ 8 недель',
-        timeSub:'до открытия двери · цифра из 8-week plan концепции 16 · RUST',
+        time:'≈ 8 weeks',
+        timeSub:'until the door opens · drawn from the 8-week plan of concept 16 · RUST',
       }
     };
     function BeforeAfter() {
       return (
-        <section id="как" className="py-24 md:py-32 px-6 md:px-12 bg-creme/40 border-y border-groen/10">
+        <section id="how" className="py-24 md:py-32 px-6 md:px-12 bg-creme/40 border-y border-groen/10">
           <div className="max-w-7xl mx-auto">
             <Reveal className="max-w-3xl mb-16">
-              <Eyebrow className="mb-4">— два пути от идеи к двери —</Eyebrow>
+              <Eyebrow className="mb-4">— two paths from idea to door —</Eyebrow>
               <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen">
-                Один — длинный и дорогой. <span className="italic">Второй — наш.</span>
+                One is long and expensive. <span className="italic">The other is ours.</span>
               </h2>
             </Reveal>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-groen/15">
               {/* HARD path */}
               <Reveal className="bg-paper p-8 md:p-12 flex flex-col">
-                <div className="text-[10px] tracking-[0.28em] uppercase text-grijs mb-6">путь 01 · {COMPARE.hard.label}</div>
+                <div className="text-[10px] tracking-[0.28em] uppercase text-grijs mb-6">path 01 · {COMPARE.hard.label}</div>
                 <ol className="space-y-5 flex-1">
                   {COMPARE.hard.steps.map((s,i)=>(
                     <li key={i} className="flex gap-4 items-baseline">
@@ -414,7 +414,7 @@
 
               {/* EASY path */}
               <Reveal className="bg-paper p-8 md:p-12 flex flex-col" delay={.15}>
-                <div className="text-[10px] tracking-[0.28em] uppercase text-okra mb-6">путь 02 · {COMPARE.easy.label}</div>
+                <div className="text-[10px] tracking-[0.28em] uppercase text-okra mb-6">path 02 · {COMPARE.easy.label}</div>
                 <ol className="space-y-5 flex-1">
                   {COMPARE.easy.steps.map((s,i)=>(
                     <li key={i} className="flex gap-4 items-baseline">
@@ -435,7 +435,7 @@
 
             <Reveal delay={.3}>
               <p className="mt-8 text-xs text-grijs/70 font-display italic max-w-3xl">
-                Цифра «6 месяцев» — оценка стандартного цикла бренд-агентство + архитектор + копирайтер + меню-консультант. Цифра «8 недель» взята из реального milestone-листа концепции 16 · RUST (см. слайд timeline). У других концепций сроки сопоставимы — 6–10 недель.
+                The "6 months" figure is the typical cycle of a brand agency + architect + copywriter + menu consultant. The "8 weeks" figure is drawn from the milestone list of concept 16 · RUST (see the timeline slide). Other concepts land in a similar range — 6 to 10 weeks.
               </p>
             </Reveal>
           </div>
@@ -445,22 +445,22 @@
 
     /* ─── 06 · что внутри одной концепции ─── */
     const DELIVERABLES = [
-      { t:'BRANDBOOK',          c:'визуальный пакет',         d:'идентичность, голос, типографика, палитра, применения на печати и в вебе' },
-      { t:'P&L · 3 года',        c:'месячный прогноз',         d:'выручка, OPEX, точка безубыточности, валовая маржа' },
-      { t:'FLOORPLAN',          c:'план + аксонометрия',      d:'расстановка, фасад, разрезы, привязка к улице' },
-      { t:'EQUIPMENT LIST',     c:'список оборудования',       d:'по каждой позиции: поставщик, спецификация, контакт, цена в евро' },
-      { t:'MENU',               c:'основное + рецепты',        d:'позиции с ценами, сезонные рецепты, заметки по подаче' },
-      { t:'8-WEEK PLAN',        c:'график открытия',           d:'неделя за неделей: разрешения, ремонт, обучение, soft-open' },
-      { t:'DAY-1 CHECKLIST',    c:'день открытия',             d:'утро открытия · вечер · сценарий пресс-дня' },
+      { t:'BRANDBOOK',          c:'visual pack',              d:'identity, voice, typography, palette, print & web applications' },
+      { t:'P&L · 3 years',      c:'monthly forecast',         d:'revenue, OPEX, break-even, gross margin' },
+      { t:'FLOORPLAN',          c:'plan + axonometric',       d:'layout, facade, sections, street context' },
+      { t:'EQUIPMENT LIST',     c:'every piece',              d:'per item: supplier, spec, contact, price in euros' },
+      { t:'MENU',               c:'menu + recipes',           d:'items with prices, seasonal recipes, serving notes' },
+      { t:'8-WEEK PLAN',        c:'opening schedule',         d:'week by week: permits, build-out, training, soft-open' },
+      { t:'DAY-1 CHECKLIST',    c:'opening day',              d:'morning · evening · press-day script' },
     ];
     function Deliverables() {
       return (
         <section className="py-24 md:py-32 px-6 md:px-12">
           <div className="max-w-7xl mx-auto">
             <Reveal>
-              <Eyebrow className="mb-4">— что внутри одной концепции —</Eyebrow>
-              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen mb-3">7 документов · одна льняная папка.</h2>
-              <p className="font-display italic text-grijs text-lg max-w-2xl">Всё, что нужно отдать подрядчику, типографии и шефу. Ничего не нужно дописывать.</p>
+              <Eyebrow className="mb-4">— what's inside a single concept —</Eyebrow>
+              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen mb-3">7 documents · one linen folder.</h2>
+              <p className="font-display italic text-grijs text-lg max-w-2xl">Everything you need to hand to your contractor, printer and chef. Nothing left to write yourself.</p>
             </Reveal>
 
             <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-3">
@@ -509,13 +509,13 @@
     }
     function Catalog() {
       return (
-        <section id="каталог" className="py-24 md:py-32 overflow-hidden">
+        <section id="catalog" className="py-24 md:py-32 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12 flex items-end justify-between flex-wrap gap-4">
             <Reveal>
-              <Eyebrow className="mb-3">— каталог · 12 из 94 —</Eyebrow>
-              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen">Загляни в библиотеку.</h2>
+              <Eyebrow className="mb-3">— catalog · 12 of 94 —</Eyebrow>
+              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen">Step into the library.</h2>
             </Reveal>
-            <Btn href="/shop.html">Открыть весь каталог</Btn>
+            <Btn href="/shop.html">Open the full catalog</Btn>
           </div>
           {/* infinite marquee carousel */}
           <div className="relative overflow-hidden group">
@@ -532,26 +532,26 @@
     /* ─── 09 · подписка ─── */
     const TIERS = [
       {
-        name:'Monthly', price:'$19', unit:'/ мес',
-        sub:'Вся библиотека. Каждый брендбук, каждая страница. Отменить можно в любой момент — ничего не теряется.',
-        bullets:['доступ ко всем 94 концепциям','новые концепции открываются сразу','7 дней бесплатно','отмена одним кликом'],
-        cta:'Начать с пробного периода', href:'/account.html?subscribe=1&plan=monthly', accent:false
+        name:'Monthly', price:'$19', unit:'/ mo',
+        sub:'The whole library. Every brandbook, every page. Cancel anytime — nothing is lost.',
+        bullets:['access to all 94 concepts','new concepts unlock instantly','7 days free','cancel in one click'],
+        cta:'Start free trial', href:'/account.html?subscribe=1&plan=monthly', accent:false
       },
       {
-        name:'Yearly · −35%', price:'$149', unit:'/ год',
-        sub:'Та же библиотека за один годовой платёж. Получается примерно на два месяца дешевле помесячной оплаты.',
-        bullets:['всё, что в Monthly','примерно −35% против помесячной','один счёт в год — без автосписаний','можно отменить до следующего списания'],
-        cta:'Оплатить за год', href:'/account.html?subscribe=1&plan=yearly', accent:true
+        name:'Yearly · −35%', price:'$149', unit:'/ year',
+        sub:'The same library in one annual payment. Works out roughly two months cheaper than monthly.',
+        bullets:['everything in Monthly','about −35% vs monthly','one invoice a year — no surprise charges','cancel before the next renewal'],
+        cta:'Pay yearly', href:'/account.html?subscribe=1&plan=yearly', accent:true
       },
     ];
     function Pricing() {
       return (
-        <section id="подписка" className="py-24 md:py-32 px-6 md:px-12 bg-creme/40 border-y border-groen/10">
+        <section id="pricing" className="py-24 md:py-32 px-6 md:px-12 bg-creme/40 border-y border-groen/10">
           <div className="max-w-5xl mx-auto">
             <Reveal className="text-center mb-16">
-              <Eyebrow className="mb-4 inline-block">— одна подписка · вся библиотека —</Eyebrow>
-              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen">Один абонемент. <span className="italic">Каждая концепция.</span></h2>
-              <p className="mt-6 font-display italic text-grijs text-lg max-w-2xl mx-auto">VAT/налог добавляется при оплате там, где требуется по закону.</p>
+              <Eyebrow className="mb-4 inline-block">— one subscription · whole library —</Eyebrow>
+              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen">One subscription. <span className="italic">Every concept.</span></h2>
+              <p className="mt-6 font-display italic text-grijs text-lg max-w-2xl mx-auto">VAT/sales tax is added at checkout where required by law.</p>
             </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -559,7 +559,7 @@
                 <Reveal key={i} delay={.1*i}>
                   <article className={`relative bg-paper p-8 md:p-10 h-full flex flex-col ${t.accent ? 'ring-2 ring-groen' : 'ring-1 ring-groen/15'}`}>
                     {t.accent && (
-                      <div className="absolute -top-3 left-8 bg-groen text-creme text-[10px] tracking-[0.28em] uppercase px-3 py-1.5">самый выгодный</div>
+                      <div className="absolute -top-3 left-8 bg-groen text-creme text-[10px] tracking-[0.28em] uppercase px-3 py-1.5">best value</div>
                     )}
                     <div className="text-[10px] tracking-[0.28em] uppercase text-okra mb-4">{t.name}</div>
                     <div className="font-display text-6xl text-groen leading-none">
@@ -579,7 +579,7 @@
               ))}
             </div>
 
-            <p className="mt-10 text-center text-xs text-grijs/70 font-display italic">оплата через Lemon Squeezy · все основные карты · SEPA · Apple Pay · Google Pay</p>
+            <p className="mt-10 text-center text-xs text-grijs/70 font-display italic">payments via Lemon Squeezy · all major cards · SEPA · Apple Pay · Google Pay</p>
           </div>
         </section>
       );
@@ -604,9 +604,9 @@
         const em = email.trim();
         const ph = phone.trim();
         const msg = message.trim();
-        if (!n) { setError('Укажите, как к вам обращаться.'); return; }
-        if (!em && !ph) { setError('Оставьте email или телефон, чтобы мы могли связаться.'); return; }
-        if (em && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { setError('Email указан некорректно.'); return; }
+        if (!n) { setError('Please tell us your name.'); return; }
+        if (!em && !ph) { setError('Leave an email or phone so we can get back to you.'); return; }
+        if (em && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { setError('That email looks invalid.'); return; }
         setState('sending');
         try {
           const r = await fetch(`${SB_URL}/rest/v1/leads`, {
@@ -621,36 +621,36 @@
               name: n, email: em || null, phone: ph || null, message: msg || null,
               source: 'index_concierge',
               status: 'new',
-              lang: (navigator.language || 'ru').split('-')[0],
+              lang: (navigator.language || 'en').split('-')[0],
             }),
           });
           if (!r.ok) throw new Error(await r.text());
           setState('sent');
         } catch (err) {
           console.error('concierge submit', err);
-          setError('Не удалось отправить. Попробуйте ещё раз или напишите на ceo@labs67.com.');
+          setError('Could not submit. Please try again or email ceo@labs67.com.');
           setState('idle');
         }
       }
 
       return (
-        <section id="сопровождение" className="py-24 md:py-32 px-6 md:px-12 bg-paper border-y border-groen/15">
+        <section id="support" className="py-24 md:py-32 px-6 md:px-12 bg-paper border-y border-groen/15">
           <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <Reveal>
-              <Eyebrow className="mb-4">— полное сопровождение —</Eyebrow>
+              <Eyebrow className="mb-4">— full support —</Eyebrow>
               <h2 className="font-display text-[clamp(32px,4.5vw,60px)] leading-[1.05] text-groen">
-                Не только концепция — <span className="italic">мы откроем заведение вместе с вами.</span>
+                More than a concept — <span className="italic">we'll open the venue with you.</span>
               </h2>
               <p className="mt-8 font-display italic text-grijs text-lg leading-relaxed max-w-xl">
-                Мы можем оказать вам полное сопровождение при открытии вашего заведения. Просто оставьте заявку, и наш менеджер свяжется с вами.
+                We can accompany you end-to-end through opening your venue. Leave a request and our manager will get back to you.
               </p>
               <ul className="mt-8 space-y-2 text-sm text-groen/90">
                 {[
-                  'помещение, договор аренды, разрешения',
-                  'дизайн интерьера и фасада, бренд-идентика',
-                  'оборудование, поставщики, монтаж',
-                  'команда: подбор и обучение',
-                  'план открытия и первый месяц работы',
+                  'site, lease agreement, permits',
+                  'interior & facade design, brand identity',
+                  'equipment, suppliers, installation',
+                  'team: hiring & training',
+                  'launch plan and first month of operations',
                 ].map((b, i) => (
                   <li key={i} className="flex gap-3"><span className="text-oak">·</span><span>{b}</span></li>
                 ))}
@@ -661,15 +661,15 @@
               <form onSubmit={submit} className="bg-creme/40 ring-1 ring-groen/15 p-8 md:p-10 flex flex-col gap-4">
                 {state === 'sent' ? (
                   <div className="py-8 text-center">
-                    <div className="font-display text-3xl text-groen mb-3">Заявка получена.</div>
+                    <div className="font-display text-3xl text-groen mb-3">Request received.</div>
                     <p className="font-display italic text-grijs leading-relaxed">
-                      Менеджер LABS67 свяжется с вами в течение рабочего дня по указанному контакту. Спасибо.
+                      A LABS67 manager will contact you within one business day. Thank you.
                     </p>
                   </div>
                 ) : (
                   <>
                     <div>
-                      <label htmlFor="cf-name" className="block text-[10px] tracking-[0.28em] uppercase text-grijs mb-2">Как к вам обращаться</label>
+                      <label htmlFor="cf-name" className="block text-[10px] tracking-[0.28em] uppercase text-grijs mb-2">Your name</label>
                       <input id="cf-name" type="text" value={name} onChange={e=>setName(e.target.value)} required maxLength={120}
                         className="w-full px-4 py-3 bg-paper border border-groen/25 focus:border-groen focus:outline-none text-groen" />
                     </div>
@@ -680,25 +680,25 @@
                           className="w-full px-4 py-3 bg-paper border border-groen/25 focus:border-groen focus:outline-none text-groen" />
                       </div>
                       <div>
-                        <label htmlFor="cf-phone" className="block text-[10px] tracking-[0.28em] uppercase text-grijs mb-2">Телефон</label>
+                        <label htmlFor="cf-phone" className="block text-[10px] tracking-[0.28em] uppercase text-grijs mb-2">Phone</label>
                         <input id="cf-phone" type="tel" value={phone} onChange={e=>setPhone(e.target.value)} maxLength={40} autoComplete="tel"
                           className="w-full px-4 py-3 bg-paper border border-groen/25 focus:border-groen focus:outline-none text-groen" />
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="cf-msg" className="block text-[10px] tracking-[0.28em] uppercase text-grijs mb-2">Что вас интересует (необязательно)</label>
+                      <label htmlFor="cf-msg" className="block text-[10px] tracking-[0.28em] uppercase text-grijs mb-2">What's on your mind (optional)</label>
                       <textarea id="cf-msg" value={message} onChange={e=>setMessage(e.target.value)} maxLength={1200}
-                        placeholder="Город, сроки, бюджет, любые детали — всё, что хотите рассказать заранее."
+                        placeholder="City, timing, budget, any details — anything you'd like us to know."
                         className="w-full px-4 py-3 bg-paper border border-groen/25 focus:border-groen focus:outline-none text-groen min-h-[110px] resize-y" />
                     </div>
                     {error && <div className="text-[13px] text-[#b1442a] mt-1">{error}</div>}
                     <button type="submit" disabled={state==='sending'}
                       className="mt-2 inline-flex items-center justify-center gap-3 px-7 py-4 bg-groen text-creme text-xs tracking-[0.18em] uppercase hover:bg-okra disabled:opacity-60 disabled:cursor-wait transition-colors duration-300">
-                      <span>{state==='sending' ? 'Отправляем…' : 'Оставить заявку'}</span>
+                      <span>{state==='sending' ? 'Sending…' : 'Send request'}</span>
                       <span>→</span>
                     </button>
                     <p className="text-[11px] text-grijs/70 font-display italic mt-1">
-                      Нажимая кнопку, вы соглашаетесь на обработку контактных данных. Мы свяжемся в течение рабочего дня.
+                      By submitting, you agree to the processing of your contact data. We'll reply within one business day.
                     </p>
                   </>
                 )}
@@ -711,18 +711,18 @@
 
     /* ─── 10 · FAQ ─── */
     const FAQ = [
-      { q:'Можно ли купить только одну концепцию?',
-        a:'Сейчас — нет. Мы перешли на единую подписку: один аккаунт открывает всю библиотеку. Если интересна только одна — берёте Monthly за $19, скачиваете досье и отменяете на следующий день. Получится дешевле, чем раньше.' },
-      { q:'Что будет, если я отменю подписку?',
-        a:'Доступ к страницам концепций и к будущим обновлениям закрывается. Файлы, скачанные ранее, остаются у вас на диске — они ваши, и используются по лицензии.' },
-      { q:'Можно ли открыть бизнес по концепции?',
-        a:'Да, для этого мы её и делаем. Базовая лицензия — на одного владельца и одно заведение в одном городе на одну концепцию. Если планируется сеть или франшиза — напишите, оформим отдельный договор.' },
-      { q:'Цифры выручки и CAPEX — это обещание?',
-        a:'Нет. Это ориентир по среднему европейскому рынку (planning orientation). В каждой P&L указано прямо: цифры индикативные и зависят от города, аренды и поставщиков. Считайте под себя.' },
-      { q:'На каком языке концепции?',
-        a:'Контент собран на английском с локальными терминами (нидерландскими, итальянскими, японскими — там, где это часть характера места). Сам сайт переводится на 12 языков; интерфейс на русском и беларуском в работе.' },
-      { q:'Откуда берутся фотографии в брендбуках?',
-        a:'Каждая визуальная сцена снята специально для концепции — это не сток. Где нужно, используется генеративный AI (Nano Banana / Vertex) с ручной доработкой деталей.' },
+      { q:'Can I buy just one concept?',
+        a:'Not anymore. We moved to a single subscription: one account unlocks the whole library. If you only need one concept, grab Monthly for $19, download the dossier and cancel the next day — still cheaper than the old per-concept price.' },
+      { q:'What happens if I cancel?',
+        a:'Access to concept pages and future updates ends. Files you have already downloaded stay on your disk — they are yours under the licence.' },
+      { q:'Can I actually open a business from a concept?',
+        a:'Yes — that\'s why we make them. The base licence covers one owner and one venue in one city per concept. Planning a chain or franchise? Write to us and we\'ll draw up a separate agreement.' },
+      { q:'Are the revenue and CAPEX numbers a promise?',
+        a:'No. They\'re planning orientation based on average European-market figures. Every P&L states this plainly: numbers are indicative and depend on city, lease and suppliers. Adjust them for your situation.' },
+      { q:'What language are the concepts in?',
+        a:'Content is in English with local vocabulary (Dutch, Italian, Japanese — wherever it\'s part of the place\'s character). The site itself is being translated into 12 languages.' },
+      { q:'Where do the brandbook photos come from?',
+        a:'Every visual scene is shot specifically for the concept — no stock. Where needed we use generative AI (Nano Banana / Vertex) with manual detail polish.' },
     ];
     function Faq() {
       const [open, setOpen] = useState(0);
@@ -730,8 +730,8 @@
         <section id="faq" className="py-24 md:py-32 px-6 md:px-12">
           <div className="max-w-4xl mx-auto">
             <Reveal>
-              <Eyebrow className="mb-4">— частые вопросы —</Eyebrow>
-              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen mb-12">Если коротко.</h2>
+              <Eyebrow className="mb-4">— frequently asked —</Eyebrow>
+              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen mb-12">The short answers.</h2>
             </Reveal>
             <div className="divide-y divide-groen/15 border-y border-groen/15">
               {FAQ.map((f,i)=>(
@@ -771,19 +771,19 @@
           </div>
           <div className="relative max-w-4xl mx-auto text-center">
             <Reveal>
-              <Eyebrow className="text-creme/60 mb-6 inline-block">— открой дверь —</Eyebrow>
+              <Eyebrow className="text-creme/60 mb-6 inline-block">— open the door —</Eyebrow>
               <h2 className="font-display text-[clamp(36px,7vw,108px)] leading-[1.02] italic font-light">
-                Полгода работы. Восемь недель открытия. Один аккаунт.
+                Six months of work. Eight weeks to open. One account.
               </h2>
               <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
-                <a href="#подписка" className="inline-flex items-center gap-3 px-8 py-5 bg-creme text-groen text-xs tracking-[0.18em] uppercase hover:bg-oak transition">
-                  Открыть библиотеку — $19/мес <span>→</span>
+                <a href="#pricing" className="inline-flex items-center gap-3 px-8 py-5 bg-creme text-groen text-xs tracking-[0.18em] uppercase hover:bg-oak transition">
+                  Open library — $19/mo <span>→</span>
                 </a>
                 <a href="/shop.html" className="inline-flex items-center gap-3 px-8 py-5 border border-creme/40 text-creme text-xs tracking-[0.18em] uppercase hover:bg-creme/10 transition">
-                  Сначала посмотреть каталог →
+                  Browse the catalog first →
                 </a>
               </div>
-              <p className="mt-6 text-xs text-creme/60 font-display italic">7 дней бесплатно · отмена одним кликом · карты, SEPA, Apple Pay</p>
+              <p className="mt-6 text-xs text-creme/60 font-display italic">7 days free · cancel in one click · cards, SEPA, Apple Pay</p>
             </Reveal>
           </div>
         </section>
@@ -813,36 +813,36 @@
                   micro<span className="text-okra mx-0.5">·</span><span className="italic">svita</span>
                 </div>
               </div>
-              <div className="font-display italic text-grijs mt-3">атлас непостроенных миров</div>
+              <div className="font-display italic text-grijs mt-3">atlas of unbuilt worlds</div>
             </div>
             <div>
-              <div className="text-[10px] tracking-[0.28em] uppercase text-grijs mb-3">продукт</div>
+              <div className="text-[10px] tracking-[0.28em] uppercase text-grijs mb-3">product</div>
               <ul className="space-y-2">
-                <li><a href="/shop.html" className="hover:text-okra">Каталог концепций</a></li>
-                <li><a href="#подписка" className="hover:text-okra">Подписка</a></li>
-                <li><a href="/account.html" className="hover:text-okra">Аккаунт</a></li>
+                <li><a href="/shop.html" className="hover:text-okra">Concept catalog</a></li>
+                <li><a href="#pricing" className="hover:text-okra">Subscription</a></li>
+                <li><a href="/account.html" className="hover:text-okra">Account</a></li>
               </ul>
             </div>
             <div>
-              <div className="text-[10px] tracking-[0.28em] uppercase text-grijs mb-3">компания</div>
+              <div className="text-[10px] tracking-[0.28em] uppercase text-grijs mb-3">company</div>
               <ul className="space-y-2">
-                <li><a href="/license.html" className="hover:text-okra">Лицензия</a></li>
-                <li><a href="/refund.html" className="hover:text-okra">Возврат</a></li>
+                <li><a href="/license.html" className="hover:text-okra">Licence</a></li>
+                <li><a href="/refund.html" className="hover:text-okra">Refunds</a></li>
                 <li><a href="/imprint.html" className="hover:text-okra">Imprint</a></li>
               </ul>
             </div>
             <div>
-              <div className="text-[10px] tracking-[0.28em] uppercase text-grijs mb-3">правила</div>
+              <div className="text-[10px] tracking-[0.28em] uppercase text-grijs mb-3">legal</div>
               <ul className="space-y-2">
-                <li><a href="/terms.html" className="hover:text-okra">Условия</a></li>
-                <li><a href="/privacy.html" className="hover:text-okra">Приватность</a></li>
-                <li><a href="/legal.html" className="hover:text-okra">Юридическое</a></li>
+                <li><a href="/terms.html" className="hover:text-okra">Terms</a></li>
+                <li><a href="/privacy.html" className="hover:text-okra">Privacy</a></li>
+                <li><a href="/legal.html" className="hover:text-okra">Legal notice</a></li>
               </ul>
             </div>
           </div>
           <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-groen/10 text-xs text-grijs flex flex-wrap justify-between gap-4">
-            <span>© 2026 micro.svita · атлас непостроенных миров</span>
-            <span className="font-display italic">сделано в LABS67</span>
+            <span>© 2026 micro.svita · atlas of unbuilt worlds</span>
+            <span className="font-display italic">made at LABS67</span>
           </div>
         </footer>
       );
