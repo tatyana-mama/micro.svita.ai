@@ -1,0 +1,291 @@
+/* svita-advisor.js — reusable AI concierge button + drawer.
+ *
+ * Drop-in: any page that does <script src="/js/svita-advisor.js" defer></script>
+ * gets a floating round button (bottom-right) and a side-drawer chat panel
+ * that POSTs to the shop-advisor edge function. Self-contained styling,
+ * no external dependencies, no framework.
+ *
+ * The single source of truth is the `shop-advisor` Supabase function — it
+ * knows the entire catalog, so the advisor answers consistently regardless
+ * of which page the visitor opens it from.
+ *
+ * If the function is unreachable (deploy pending, network down) the panel
+ * shows a graceful "leave email" fallback instead of pretending to chat.
+ */
+(function () {
+  if (window.__svitaAdvisor) return;       // load once
+  if (document.getElementById('advisor-launch')) return; // shop.html has its own
+  window.__svitaAdvisor = true;
+
+  const ENDPOINT = 'https://ctdleobjnzniqkqomlrq.supabase.co/functions/v1/shop-advisor';
+  const ANON_KEY =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+
+  const QUICK_PROMPTS = [
+    { label: '€20k coffee', text: 'Coffee shop concept under €20k to open.' },
+    { label: 'Berlin · service', text: 'Service business for Berlin, mid-budget.' },
+    { label: 'small wellness', text: 'Wellness concept under 25 m² that I can run solo.' },
+    { label: 'quick win', text: 'Pick one concept I could open in 4 weeks.' },
+  ];
+
+  const css = `
+    .sv-advisor-fab{
+      position:fixed; right:20px; bottom:20px; z-index:9000;
+      width:56px; height:56px; border-radius:50%;
+      background:#2F4438; color:#EFEAE0; border:0; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 18px 40px -12px rgba(15,20,16,0.5), 0 4px 10px rgba(15,20,16,0.18);
+      transition:transform .2s ease, box-shadow .2s ease, background .25s ease;
+      font-family:'Cormorant Garamond',Georgia,serif;
+    }
+    .sv-advisor-fab:hover{ transform:translateY(-2px) scale(1.04); background:#7A6B3D; }
+    .sv-advisor-fab svg{ width:24px; height:24px }
+    .sv-advisor-fab .sv-dot{ position:absolute; top:8px; right:8px; width:8px; height:8px; border-radius:50%; background:#C9A97A }
+
+    .sv-advisor-panel{
+      position:fixed; right:20px; bottom:88px; z-index:9001;
+      width:min(380px, calc(100vw - 32px)); max-height:min(70vh, 640px);
+      display:none; flex-direction:column;
+      background:#F6F1E6; border:1px solid rgba(47,68,56,0.18); border-radius:18px;
+      box-shadow:0 30px 80px -20px rgba(15,20,16,0.45), 0 8px 22px -10px rgba(15,20,16,0.2);
+      overflow:hidden; font-family:'Inter Tight',system-ui,sans-serif;
+      animation:sv-rise 240ms cubic-bezier(.22,.61,.36,1);
+    }
+    body.sv-advisor-open .sv-advisor-panel{ display:flex }
+    @keyframes sv-rise{ from{ opacity:0; transform:translateY(12px) } to{ opacity:1; transform:none } }
+
+    .sv-advisor-head{
+      display:flex; align-items:center; gap:10px; padding:14px 16px;
+      background:#2F4438; color:#EFEAE0;
+    }
+    .sv-advisor-head .sv-title{ font-family:'Cormorant Garamond',Georgia,serif; font-weight:500; font-size:17px; flex:1; line-height:1.1 }
+    .sv-advisor-head .sv-title small{ display:block; font:300 11px/1.3 'Inter Tight',system-ui; opacity:.7; letter-spacing:.04em }
+    .sv-advisor-head .sv-close{ background:none; border:0; color:#EFEAE0; cursor:pointer; padding:4px; opacity:.7; border-radius:6px }
+    .sv-advisor-head .sv-close:hover{ opacity:1; background:rgba(255,255,255,0.08) }
+
+    .sv-advisor-log{
+      flex:1; overflow-y:auto; padding:16px;
+      display:flex; flex-direction:column; gap:10px;
+      background:#F6F1E6; color:#0F1410; font-size:13.5px; line-height:1.55;
+    }
+    .sv-msg{ max-width:88%; padding:9px 12px; border-radius:12px; white-space:pre-wrap; word-wrap:break-word }
+    .sv-msg.assistant{ background:#EFEAE0; align-self:flex-start; border:1px solid rgba(47,68,56,0.08) }
+    .sv-msg.user{ background:#2F4438; color:#EFEAE0; align-self:flex-end }
+    .sv-msg a{ color:inherit; text-decoration:underline; text-underline-offset:2px }
+    .sv-msg .sv-slug-row{ display:inline-flex; align-items:center; gap:6px; margin-top:6px; padding:6px 10px; border-radius:100px; background:rgba(47,68,56,0.08); font-size:12px }
+    .sv-typing{ display:inline-flex; gap:4px; padding:9px 12px; background:#EFEAE0; border-radius:12px; align-self:flex-start }
+    .sv-typing span{ width:6px; height:6px; border-radius:50%; background:rgba(47,68,56,0.4); animation:sv-blink 1.2s infinite }
+    .sv-typing span:nth-child(2){ animation-delay:.15s } .sv-typing span:nth-child(3){ animation-delay:.3s }
+    @keyframes sv-blink{ 0%,80%,100%{ opacity:.3 } 40%{ opacity:1 } }
+
+    .sv-quick{
+      display:flex; gap:6px; padding:0 16px 12px; overflow-x:auto; flex-wrap:nowrap;
+      background:#F6F1E6;
+    }
+    .sv-quick::-webkit-scrollbar{ display:none }
+    .sv-quick button{
+      flex:none; padding:6px 12px; border-radius:100px;
+      background:#EFEAE0; border:1px solid rgba(47,68,56,0.18);
+      font: 500 11.5px/1 'Inter Tight',system-ui;
+      letter-spacing:.04em; color:#2F4438; cursor:pointer; white-space:nowrap;
+      transition:background .18s ease, color .18s ease;
+    }
+    .sv-quick button:hover{ background:#2F4438; color:#EFEAE0 }
+
+    .sv-advisor-form{ display:flex; gap:8px; padding:12px 14px; border-top:1px solid rgba(47,68,56,0.12); background:#F6F1E6 }
+    .sv-advisor-form textarea{
+      flex:1; resize:none; height:44px; max-height:120px; padding:11px 12px;
+      font:14px/1.4 'Inter Tight',system-ui; color:#0F1410;
+      background:#EFEAE0; border:1px solid rgba(47,68,56,0.2); border-radius:10px;
+      outline:none;
+    }
+    .sv-advisor-form textarea:focus{ border-color:#7A6B3D }
+    .sv-advisor-form button{
+      width:44px; height:44px; flex:none; border:0; border-radius:10px;
+      background:#2F4438; color:#EFEAE0; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition:background .2s ease;
+    }
+    .sv-advisor-form button:hover{ background:#7A6B3D }
+    .sv-advisor-form button:disabled{ opacity:.4; cursor:not-allowed }
+
+    .sv-fallback{
+      padding:14px; margin:12px 16px; border-radius:12px;
+      background:#FFF6E0; border:1px solid #E8C97A;
+      font-size:13px; color:#5A4310;
+    }
+    .sv-fallback a{ color:#5A4310; font-weight:500 }
+
+    @media (max-width:520px){
+      .sv-advisor-panel{ right:12px; left:12px; bottom:84px; width:auto; max-height:75vh }
+      .sv-advisor-fab{ right:16px; bottom:16px }
+    }
+  `;
+
+  const style = document.createElement('style');
+  style.textContent = css;
+  document.head.appendChild(style);
+
+  const fab = document.createElement('button');
+  fab.className = 'sv-advisor-fab';
+  fab.setAttribute('aria-label', 'Ask the catalog AI');
+  fab.title = 'Ask the catalog AI';
+  fab.innerHTML = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12a8 8 0 1 1-3.5-6.6L21 4l-1.4 3.5A8 8 0 0 1 21 12z"/>
+      <circle cx="9" cy="12" r="1" fill="currentColor"/>
+      <circle cx="13" cy="12" r="1" fill="currentColor"/>
+      <circle cx="17" cy="12" r="1" fill="currentColor"/>
+    </svg>
+    <span class="sv-dot" aria-hidden="true"></span>
+  `;
+  document.body.appendChild(fab);
+
+  const panel = document.createElement('div');
+  panel.className = 'sv-advisor-panel';
+  panel.setAttribute('role', 'dialog');
+  panel.setAttribute('aria-label', 'Catalog AI');
+  panel.innerHTML = `
+    <div class="sv-advisor-head">
+      <div class="sv-title">Catalog concierge<small>tell me your budget & vibe — I'll pick a concept</small></div>
+      <button class="sv-close" aria-label="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="sv-advisor-log" id="sv-log"></div>
+    <div class="sv-quick" id="sv-quick"></div>
+    <form class="sv-advisor-form" id="sv-form">
+      <textarea id="sv-input" placeholder="e.g. café in Lisbon under €40k" maxlength="800" rows="1"></textarea>
+      <button type="submit" id="sv-send" aria-label="Send">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+      </button>
+    </form>
+  `;
+  document.body.appendChild(panel);
+
+  const log = panel.querySelector('#sv-log');
+  const form = panel.querySelector('#sv-form');
+  const input = panel.querySelector('#sv-input');
+  const sendBtn = panel.querySelector('#sv-send');
+  const quick = panel.querySelector('#sv-quick');
+  const closeBtn = panel.querySelector('.sv-close');
+
+  const history = [];
+
+  function open() {
+    document.body.classList.add('sv-advisor-open');
+    setTimeout(() => input.focus(), 80);
+    if (!history.length) seedGreeting();
+  }
+  function close() { document.body.classList.remove('sv-advisor-open'); }
+
+  fab.addEventListener('click', () => {
+    if (document.body.classList.contains('sv-advisor-open')) close(); else open();
+  });
+  closeBtn.addEventListener('click', close);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.body.classList.contains('sv-advisor-open')) close();
+  });
+
+  // Auto-grow textarea up to max-height.
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+  });
+  // Enter-to-send, Shift+Enter for newline.
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); }
+  });
+
+  // Quick prompts row.
+  QUICK_PROMPTS.forEach(qp => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = qp.label;
+    b.addEventListener('click', () => { input.value = qp.text; input.focus(); });
+    quick.appendChild(b);
+  });
+
+  function seedGreeting() {
+    addMsg('assistant',
+      "Hi — I'm the catalog concierge. Tell me what you'd like to open (city, budget, vibe) and I'll pick one or two concepts that fit. "
+      + "Or hit a chip below for a quick start."
+    );
+  }
+
+  function addMsg(role, text) {
+    history.push({ role, content: text });
+    const el = document.createElement('div');
+    el.className = 'sv-msg ' + role;
+    // Linkify slug refs like `→ /shop.html?concept=foo-bar`.
+    const html = text
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/(→\s*)?\/shop\.html\?concept=([a-z0-9\-]+)/gi,
+        (_m, arrow, slug) => `<a class="sv-slug-row" href="/shop.html?concept=${slug}" target="_top">→ ${slug}</a>`);
+    el.innerHTML = html;
+    log.appendChild(el);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function showTyping() {
+    const t = document.createElement('div');
+    t.className = 'sv-typing'; t.id = 'sv-typing-now';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    log.appendChild(t);
+    log.scrollTop = log.scrollHeight;
+    return t;
+  }
+  function clearTyping() {
+    const t = document.getElementById('sv-typing-now');
+    if (t) t.remove();
+  }
+
+  function showFallback() {
+    const f = document.createElement('div');
+    f.className = 'sv-fallback';
+    f.innerHTML =
+      `The AI concierge is rebooting — usually back within an hour.<br>` +
+      `Meanwhile email <a href="mailto:hi@svita.ai?subject=micro.svita%20question">hi@svita.ai</a> and a founder will reply.`;
+    log.appendChild(f);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const msg = input.value.trim();
+    if (!msg) return;
+    addMsg('user', msg);
+    input.value = ''; input.style.height = 'auto';
+    sendBtn.disabled = true;
+    const typing = showTyping();
+
+    try {
+      const r = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: ANON_KEY },
+        body: JSON.stringify({
+          message: msg,
+          // Server keeps only last 12 turns — send the most recent slice.
+          history: history.filter(h => h.role !== 'assistant' || h.content).slice(-13, -1),
+        }),
+      });
+      clearTyping();
+      if (!r.ok) {
+        // Don't surface raw error JSON to the visitor — degrade gracefully.
+        console.warn('advisor', r.status, await r.text().catch(() => ''));
+        showFallback();
+        return;
+      }
+      const data = await r.json();
+      const reply = (data && data.reply) ? String(data.reply).trim() : '';
+      if (reply) addMsg('assistant', reply);
+      else showFallback();
+    } catch (err) {
+      clearTyping();
+      console.warn('advisor', err);
+      showFallback();
+    } finally {
+      sendBtn.disabled = false;
+    }
+  });
+})();
