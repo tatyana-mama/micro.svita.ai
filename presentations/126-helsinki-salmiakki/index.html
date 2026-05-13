@@ -61,6 +61,8 @@ html,body{margin:0;background:var(--licorice);color:var(--birch);font-family:'In
 .print-mode .hotspot{display:none!important}
 .interactive-mode .print-only{display:none!important}
 </style>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 </head>
 <body>
 <div id="root"></div>
@@ -658,7 +660,7 @@ const Sec = ({n, children, className='', dark=true, noChrome=false}) => (
 /* ============ PHOTO HOTSPOT WRAPPER ============ */
 const PhotoFrame = ({src, alt, hotspots=[], tip, children, className=''}) => (
   <div className={`relative w-full h-full overflow-hidden rounded-sm ${className}`}>
-    <img src={src} alt={alt} className="absolute inset-0 w-full h-full object-cover" loading="lazy"/>
+    <img width="1920" height="1080" decoding="async" src={src} alt={alt} className="absolute inset-0 w-full h-full object-cover" loading="lazy"/>
     {hotspots.map((h,i) => (
       <div
         key={i}
@@ -681,7 +683,7 @@ const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
       {/* 01 COVER */}
       <Sec n={1} noChrome>
         <div className="h-screen relative">
-          <img src={IMG.cover} alt="126 · SALMI cover" className="absolute inset-0 w-full h-full object-cover"/>
+          <img width="1920" height="1080" decoding="async" src={IMG.cover} alt="126 · SALMI cover" className="absolute inset-0 w-full h-full object-cover"/>
           <div className="absolute inset-0" style={{background:'linear-gradient(180deg, transparent 0%, transparent 60%, rgba(26,26,26,.4) 100%)'}}></div>
           {/* hotspots on the photo */}
           <div className="hotspot pulse" style={{left:'50%', top:'42%'}}
@@ -726,7 +728,7 @@ const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
               </div>
             </div>
             <div className="relative aspect-[4/5] rounded-sm overflow-hidden border hair">
-              <img src={IMG.def} alt="salt rim macro" className="absolute inset-0 w-full h-full object-cover"/>
+              <img width="1920" height="1080" decoding="async" src={IMG.def} alt="salt rim macro" className="absolute inset-0 w-full h-full object-cover"/>
               <div className="hotspot pulse" style={{left:'62%', top:'28%'}}
                 onMouseEnter={tip.show({title:'The rim', body:'Crushed Finnish sea salt + grated salmiakki root, hand-ground.'})}
                 onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
@@ -787,7 +789,7 @@ const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
               <div className="mt-8 text-xs opacity-50 italic">Hover the hotspots to read what makes the approach feel inevitable.</div>
             </div>
             <div className="aspect-[4/3] relative rounded-sm overflow-hidden border hair">
-              <img src={IMG.facade} alt="facade" className="absolute inset-0 w-full h-full object-cover"/>
+              <img width="1920" height="1080" decoding="async" src={IMG.facade} alt="facade" className="absolute inset-0 w-full h-full object-cover"/>
               <div className="hotspot pulse" style={{left:'52%', top:'45%'}}
                 onMouseEnter={tip.show({title:'Brass plate signage', body:'Cast brass, 180×40mm. Etched "126 · SALMI". Single sconce above.'})}
                 onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
@@ -807,7 +809,7 @@ const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
         <div className="h-screen flex items-center px-16 max-w-7xl mx-auto">
           <div className="grid md:grid-cols-5 gap-12 items-center w-full">
             <div className="md:col-span-3 aspect-[16/10] relative rounded-sm overflow-hidden border hair">
-              <img src={IMG.interior} alt="interior from door" className="absolute inset-0 w-full h-full object-cover"/>
+              <img width="1920" height="1080" decoding="async" src={IMG.interior} alt="interior from door" className="absolute inset-0 w-full h-full object-cover"/>
               <div className="hotspot pulse" style={{left:'50%', top:'25%'}}
                 onMouseEnter={tip.show({title:'Pendant row', body:'Four single-bulb brass pendants. 2700K. Dimmed to 40% after 21:00.'})}
                 onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
@@ -840,7 +842,7 @@ const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
               <p className="mt-6 serif opacity-80 leading-relaxed">From the back corner, the window pulls cobalt light at dusk. The mortar station faces the bartender's left.</p>
             </div>
             <div className="md:col-span-3 aspect-[16/10] order-1 md:order-2 relative rounded-sm overflow-hidden border hair">
-              <img src={IMG.back} alt="back wall to door" className="absolute inset-0 w-full h-full object-cover"/>
+              <img width="1920" height="1080" decoding="async" src={IMG.back} alt="back wall to door" className="absolute inset-0 w-full h-full object-cover"/>
               <div className="hotspot pulse" style={{left:'45%', top:'40%'}}
                 onMouseEnter={tip.show({title:'Cobalt door decal', body:'Hours only. Cobalt vinyl, applied to glass interior.'})}
                 onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
@@ -864,7 +866,7 @@ const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
             <p className="serif italic opacity-50 text-sm mt-2">Hover each swatch.</p>
           </div>
           <div className="flex-1 max-h-[60vh] relative rounded-sm overflow-hidden border hair">
-            <img src={IMG.materials} alt="material swatches" className="absolute inset-0 w-full h-full object-cover"/>
+            <img width="1920" height="1080" decoding="async" src={IMG.materials} alt="material swatches" className="absolute inset-0 w-full h-full object-cover"/>
             {[
               {x:10, y:42, t:'Raw oak', b:'Bar rail and stool tops. Light warm grain, oiled finish.'},
               {x:30, y:42, t:'Black ceramic tile', b:'60×60mm matte. Front of bar counter only.'},
@@ -883,7 +885,7 @@ const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
       {/* 08 RITUAL */}
       <Sec n={8} noChrome>
         <div className="min-h-screen relative">
-          <img src={IMG.ritual} alt="the ritual" className="absolute inset-0 w-full h-full object-cover"/>
+          <img width="1920" height="1080" decoding="async" src={IMG.ritual} alt="the ritual" className="absolute inset-0 w-full h-full object-cover"/>
           <div className="absolute inset-0" style={{background:'linear-gradient(90deg, rgba(26,26,26,.85) 0%, rgba(26,26,26,.5) 40%, rgba(26,26,26,.1) 100%)'}}></div>
           <div className="relative z-10 min-h-screen flex flex-col justify-center px-16 max-w-6xl py-20">
             <div className="text-[10px] tracking-[.3em] opacity-60 mb-6 serif">08 · THE RITUAL</div>
@@ -915,7 +917,7 @@ const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
             <h2 className="serif text-5xl font-light">Four objects, no faces.</h2>
           </div>
           <div className="flex-1 relative rounded-sm overflow-hidden border hair">
-            <img src={IMG.still} alt="still life four objects" className="absolute inset-0 w-full h-full object-cover"/>
+            <img width="1920" height="1080" decoding="async" src={IMG.still} alt="still life four objects" className="absolute inset-0 w-full h-full object-cover"/>
             {[
               {x:21, y:50, t:'Marble mortar + salt mix', b:'Carrara, hand-cut, 22cm. Refilled each morning with fresh-ground salmiakki salt.'},
               {x:54, y:36, t:'Brushed brass jigger', b:'30/60ml. Japanese-style. Weighted base. Hand-polished hourly.'},
@@ -939,7 +941,7 @@ const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
             <p className="serif italic opacity-50 text-sm mt-2">Hover the photograph or the cards below for spec and price.</p>
           </div>
           <div className="aspect-[16/9] relative rounded-sm overflow-hidden border hair mb-6">
-            <img src={IMG.equipment} alt="equipment flat-lay" className="absolute inset-0 w-full h-full object-cover"/>
+            <img width="1920" height="1080" decoding="async" src={IMG.equipment} alt="equipment flat-lay" className="absolute inset-0 w-full h-full object-cover"/>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {CONCEPT.equipment.map((e,i) => (
@@ -1022,7 +1024,7 @@ const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
               </div>
             </div>
             <div className="aspect-square rounded-sm border hair relative overflow-hidden">
-              <img src={IMG.takeaway} alt="takeaway" className="absolute inset-0 w-full h-full object-cover"/>
+              <img width="1920" height="1080" decoding="async" src={IMG.takeaway} alt="takeaway" className="absolute inset-0 w-full h-full object-cover"/>
               <div className="hotspot pulse" style={{left:'30%', top:'50%'}}
                 onMouseEnter={tip.show({title:'Monocone bag', body:'Single-flute kraft, cobalt waxed-thread tie. Holds three tokens flat.'})}
                 onMouseMove={tip.move} onMouseLeave={tip.hide}><div className="hotspot-dot"/></div>
@@ -1046,7 +1048,7 @@ const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
             onMouseEnter={tip.show({title:'Brass plate signage', body:'180×40mm cast brushed brass. Deeply etched. Single brass sconce overhead. No backlight, no neon, no LED.'})}
             onMouseMove={tip.move} onMouseLeave={tip.hide}
           >
-            <img src={IMG.signage} alt="brass plate signage" className="absolute inset-0 w-full h-full object-cover"/>
+            <img width="1920" height="1080" decoding="async" src={IMG.signage} alt="brass plate signage" className="absolute inset-0 w-full h-full object-cover"/>
           </div>
           <div className="text-xs opacity-50 mt-6 italic serif">Etched, not printed. 180 × 40 mm. Cast brass. Single sconce overhead.</div>
         </div>
@@ -1183,7 +1185,7 @@ const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
       {/* 19 CUSTOMER MOMENT */}
       <Sec n={19} noChrome>
         <div className="min-h-screen relative">
-          <img src={IMG.moment} alt="customer moment" className="absolute inset-0 w-full h-full object-cover"/>
+          <img width="1920" height="1080" decoding="async" src={IMG.moment} alt="customer moment" className="absolute inset-0 w-full h-full object-cover"/>
           <div className="absolute inset-0" style={{background:'linear-gradient(180deg, rgba(26,26,26,.4) 0%, rgba(26,26,26,.1) 50%, rgba(26,26,26,.85) 100%)'}}></div>
           <div className="relative z-10 min-h-screen flex items-end justify-center px-16 pb-24">
             <div className="max-w-4xl text-center">
@@ -1278,7 +1280,7 @@ const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
       {/* 23 MANIFEST */}
       <Sec n={23} noChrome>
         <div className="min-h-screen relative">
-          <img src={IMG.manifest} alt="why now" className="absolute inset-0 w-full h-full object-cover"/>
+          <img width="1920" height="1080" decoding="async" src={IMG.manifest} alt="why now" className="absolute inset-0 w-full h-full object-cover"/>
           <div className="absolute inset-0" style={{background:'linear-gradient(90deg, rgba(26,26,26,.92) 0%, rgba(26,26,26,.7) 50%, rgba(26,26,26,.2) 100%)'}}></div>
           <div className="relative z-10 min-h-screen flex items-center px-16">
             <div className="max-w-3xl">
@@ -1320,7 +1322,7 @@ const InteractiveDeck = ({tip, form, setForm, submitted, onSubmit}) => {
       {/* 25 CTA + CONTACT FORM */}
       <Sec n={25} noChrome>
         <div className="min-h-screen relative">
-          <img src={IMG.cta} alt="cta backdrop" className="absolute inset-0 w-full h-full object-cover"/>
+          <img width="1920" height="1080" decoding="async" src={IMG.cta} alt="cta backdrop" className="absolute inset-0 w-full h-full object-cover"/>
           <div className="absolute inset-0" style={{background:'linear-gradient(180deg, rgba(26,26,26,.85) 0%, rgba(26,26,26,.95) 100%)'}}></div>
         <div className="relative z-10 min-h-screen flex flex-col px-16 py-24 max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -1451,7 +1453,7 @@ const PrintDeck = () => {
             <div className="serif mt-8 text-sm opacity-70">{CONCEPT.fullName} · {CONCEPT.city}, {CONCEPT.country} · {CONCEPT.m2} m² · {CONCEPT.weeks} weeks</div>
           </div>
           <div className="aspect-[4/3] rounded-sm overflow-hidden border hair">
-            <img src={IMG.cover} alt="cover" className="w-full h-full object-cover"/>
+            <img width="1920" height="1080" decoding="async" src={IMG.cover} alt="cover" className="w-full h-full object-cover"/>
           </div>
         </div>
       </PrintPage>
@@ -1468,7 +1470,7 @@ const PrintDeck = () => {
             </div>
           </div>
           <div className="aspect-[4/3] rounded-sm overflow-hidden border hair">
-            <img src={IMG.def} alt="definition" className="w-full h-full object-cover"/>
+            <img width="1920" height="1080" decoding="async" src={IMG.def} alt="definition" className="w-full h-full object-cover"/>
           </div>
         </div>
       </PrintPage>
@@ -1492,7 +1494,7 @@ const PrintDeck = () => {
         <div className="serif" style={{fontSize:'22pt', lineHeight:1.2, fontWeight:300}}>From the street, almost nothing.</div>
         <div className="serif mt-3 max-w-2xl" style={{fontSize:'10.5pt', lineHeight:1.6, opacity:.8}}>A brass plate. One lit window. Cobalt hours decal on the glass. No menu outside — only the etched brass plate.</div>
         <div className="mt-6 flex-1 rounded-sm overflow-hidden border hair">
-          <img src={IMG.facade} alt="facade" className="w-full h-full object-cover"/>
+          <img width="1920" height="1080" decoding="async" src={IMG.facade} alt="facade" className="w-full h-full object-cover"/>
         </div>
       </PrintPage>
 
@@ -1500,7 +1502,7 @@ const PrintDeck = () => {
         <div className="serif" style={{fontSize:'22pt', lineHeight:1.2, fontWeight:300}}>The first view after you push the door.</div>
         <div className="serif mt-3 max-w-2xl" style={{fontSize:'10.5pt', lineHeight:1.6, opacity:.8}}>Four pendants pulled low. Black tile under the brass rail. The salt mortar at the left end of the counter.</div>
         <div className="mt-6 flex-1 rounded-sm overflow-hidden border hair">
-          <img src={IMG.interior} alt="interior" className="w-full h-full object-cover"/>
+          <img width="1920" height="1080" decoding="async" src={IMG.interior} alt="interior" className="w-full h-full object-cover"/>
         </div>
       </PrintPage>
 
@@ -1508,21 +1510,21 @@ const PrintDeck = () => {
         <div className="serif" style={{fontSize:'22pt', lineHeight:1.2, fontWeight:300}}>The reverse, looking out.</div>
         <div className="serif mt-3 max-w-2xl" style={{fontSize:'10.5pt', lineHeight:1.6, opacity:.8}}>From the back corner, the window pulls cobalt light at dusk. The mortar station faces the bartender's left.</div>
         <div className="mt-6 flex-1 rounded-sm overflow-hidden border hair">
-          <img src={IMG.back} alt="back wall" className="w-full h-full object-cover"/>
+          <img width="1920" height="1080" decoding="async" src={IMG.back} alt="back wall" className="w-full h-full object-cover"/>
         </div>
       </PrintPage>
 
       <PrintPage n={7} title="07 · MATERIALS">
         <div className="serif mb-4" style={{fontSize:'22pt', fontWeight:300}}>Five surfaces, one tone.</div>
         <div className="flex-1 rounded-sm overflow-hidden border hair">
-          <img src={IMG.materials} alt="materials" className="w-full h-full object-cover"/>
+          <img width="1920" height="1080" decoding="async" src={IMG.materials} alt="materials" className="w-full h-full object-cover"/>
         </div>
       </PrintPage>
 
       <PrintPage n={8} title="08 · THE RITUAL">
         <div className="grid grid-cols-5 gap-6 flex-1">
           <div className="col-span-3 rounded-sm overflow-hidden border hair">
-            <img src={IMG.ritual} alt="ritual" className="w-full h-full object-cover"/>
+            <img width="1920" height="1080" decoding="async" src={IMG.ritual} alt="ritual" className="w-full h-full object-cover"/>
           </div>
           <div className="col-span-2 flex flex-col justify-center">
             <div className="serif italic" style={{fontSize:'20pt', lineHeight:1.2, fontWeight:300}}>The rim is dipped, the shot is poured, then the lip touches first.</div>
@@ -1544,14 +1546,14 @@ const PrintDeck = () => {
       <PrintPage n={9} title="09 · STILL-LIFE">
         <div className="serif mb-4" style={{fontSize:'22pt', fontWeight:300}}>Four objects, no faces.</div>
         <div className="flex-1 rounded-sm overflow-hidden border hair">
-          <img src={IMG.still} alt="still life" className="w-full h-full object-cover"/>
+          <img width="1920" height="1080" decoding="async" src={IMG.still} alt="still life" className="w-full h-full object-cover"/>
         </div>
       </PrintPage>
 
       <PrintPage n={10} title="10 · EQUIPMENT KIT">
         <div className="serif mb-3" style={{fontSize:'22pt', fontWeight:300}}>Eleven items, one room.</div>
         <div className="aspect-[16/6] rounded-sm overflow-hidden border hair mb-4">
-          <img src={IMG.equipment} alt="equipment" className="w-full h-full object-cover"/>
+          <img width="1920" height="1080" decoding="async" src={IMG.equipment} alt="equipment" className="w-full h-full object-cover"/>
         </div>
         <div className="grid grid-cols-2 gap-x-10 gap-y-1.5">
           {CONCEPT.equipment.map((e,i) => (
@@ -1602,7 +1604,7 @@ const PrintDeck = () => {
             </div>
           </div>
           <div className="aspect-square rounded-sm overflow-hidden border hair">
-            <img src={IMG.takeaway} alt="takeaway" className="w-full h-full object-cover"/>
+            <img width="1920" height="1080" decoding="async" src={IMG.takeaway} alt="takeaway" className="w-full h-full object-cover"/>
           </div>
         </div>
       </PrintPage>
@@ -1610,7 +1612,7 @@ const PrintDeck = () => {
       <PrintPage n={13} title="13 · SIGNAGE">
         <div className="serif mb-3" style={{fontSize:'22pt', fontWeight:300}}>A brass plate, etched.</div>
         <div className="flex-1 rounded-sm overflow-hidden border hair">
-          <img src={IMG.signage} alt="signage" className="w-full h-full object-cover"/>
+          <img width="1920" height="1080" decoding="async" src={IMG.signage} alt="signage" className="w-full h-full object-cover"/>
         </div>
         <div className="text-[10pt] opacity-60 italic mt-4 serif">Etched, not printed. 180 × 40 mm. Cast brass.</div>
       </PrintPage>
@@ -1722,7 +1724,7 @@ const PrintDeck = () => {
       <PrintPage n={19} title="19 · THE MOMENT">
         <div className="grid grid-cols-2 gap-8 items-center flex-1">
           <div className="rounded-sm overflow-hidden border hair aspect-[4/3]">
-            <img src={IMG.moment} alt="moment" className="w-full h-full object-cover"/>
+            <img width="1920" height="1080" decoding="async" src={IMG.moment} alt="moment" className="w-full h-full object-cover"/>
           </div>
           <div>
             <div className="serif italic" style={{fontSize:'24pt', lineHeight:1.2, fontWeight:300}}>"I came in skeptical. I left telling four people."</div>
@@ -1785,7 +1787,7 @@ const PrintDeck = () => {
             <div className="mt-6 text-[9pt] tracking-[.3em] opacity-50">{CONCEPT.nn} · {CONCEPT.brand} · {CONCEPT.city.toUpperCase()}</div>
           </div>
           <div className="rounded-sm overflow-hidden border hair aspect-[4/3]">
-            <img src={IMG.manifest} alt="why now" className="w-full h-full object-cover"/>
+            <img width="1920" height="1080" decoding="async" src={IMG.manifest} alt="why now" className="w-full h-full object-cover"/>
           </div>
         </div>
       </PrintPage>
