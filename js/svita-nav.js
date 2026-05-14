@@ -1,15 +1,14 @@
-/* SVITA MICRO — shared nav across all pages.
-   Renders into <nav id="nav"></nav>. Reads Supabase session and swaps
-   "Log in / Sign up" for an avatar dropdown (Cabinet / Favorites / My concepts / Cart / Settings / Sign out).
-   Shows a separate cart icon with item counter (localStorage `svita_micro_cart`).
-   Lang switcher limited to EN + RU. */
+/* SVITA MICRO — shared nav for all internal pages (shop / account /
+   generate / admin). Deliberately minimal: the logo on the left, the
+   sign-in (or user) pill and the language pill on the right — nothing else.
+   The six marketing links live only on the landing (index.html).
+   The two pills are styled in svita-ui.css to be byte-identical to the
+   landing's React pills, so the header reads the same on every page. */
 (function(){
   const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
   const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
 
-  /* Read nav labels from window.I18N (svita-i18n-dict.js).
-     Each call resolves to the active language picked by labs67-i18n.js
-     (en/pl/uk/be/ru) with a hard fallback to English so nav never blanks. */
+  /* Nav labels from window.I18N (svita-i18n-dict.js) with English fallback. */
   function L(key, fallback){
     const dict = window.I18N || {};
     const lang = (window.labs67i18n && window.labs67i18n.getLang && window.labs67i18n.getLang()) || 'en';
@@ -19,46 +18,16 @@
   }
   function getLabels(){
     return {
-      shop:     L('nav_shop',     'Shop'),
-      generate: L('nav_generate', 'Generate'),
-      how:      L('nav_how',      'How it works'),
-      signin:   L('nav_signin',   'Log in'),
-      signup:   L('nav_signup',   'Sign up'),
+      signin:   L('nav_signin',   'Sign in'),
       cabinet:  L('nav_cabinet',  'My cabinet'),
       favs:     L('nav_favs',     'Favorites'),
       mine:     L('nav_mine',     'My concepts'),
-      cart:     L('nav_cart',     'Cart'),
       settings: L('nav_settings', 'Settings'),
       signout:  L('nav_signout',  'Sign out'),
       admin:    L('nav_admin',    'Admin')
     };
   }
-  function getLang(){ return 'EN'; }
 
-  /* One-shot migration: purge stale lang key from localStorage so no ghost
-     overrides creep in from older sessions. */
-  try { localStorage.removeItem('svita_micro_lang'); } catch (_) {}
-  function getCartCount(){
-    try{
-      const raw = localStorage.getItem('svita_micro_cart');
-      if(!raw) return 0;
-      const arr = JSON.parse(raw);
-      return Array.isArray(arr) ? arr.length : 0;
-    }catch(e){ return 0; }
-  }
-  function getFavCount(){
-    if(window.SvitaFavs) return window.SvitaFavs.count();
-    try{
-      const auth = JSON.parse(localStorage.getItem('svita-micro-auth') || 'null');
-      const uid = auth && auth.user && auth.user.id ? auth.user.id : 'anon';
-      const raw = localStorage.getItem('svita_micro_favs:' + uid);
-      if(!raw) return 0;
-      const arr = JSON.parse(raw);
-      return Array.isArray(arr) ? arr.length : 0;
-    }catch(e){ return 0; }
-  }
-
-  /* ---------- page + role detection ---------- */
   function currentPage(){
     const p = location.pathname.toLowerCase();
     if(p.endsWith('shop.html')) return 'shop';
@@ -82,100 +51,59 @@
     return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
+  /* ---------- styles — self-contained, override per-page nav CSS ---------- */
   function injectNavMiniStyles(){
     if(document.getElementById('nav-mini-styles')) return;
     const css = `
-      nav{justify-content:flex-start!important}
-      nav .brand{margin-right:auto;display:flex;align-items:center;gap:10px;padding:0;text-decoration:none;color:var(--text,#0F1410)}
-      nav .brand:hover{color:var(--accent,#7A6B3D)}
-      nav .brand-mark{display:block;width:34px;height:34px;flex:none;transition:transform 500ms ease}
-      nav .brand:hover .brand-mark{transform:rotate(12deg)}
-      nav .brand-word{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:22px;line-height:1;letter-spacing:-.01em;white-space:nowrap}
-      nav .brand-word .dot{color:var(--accent,#7A6B3D);margin:0 2px}
-      nav .brand-word i{font-style:italic}
-      nav.scrolled .brand-mark{width:30px;height:30px}
-      nav.scrolled .brand-word{font-size:20px}
-      @media(max-width:640px){nav .brand-mark{width:28px;height:28px} nav .brand-word{font-size:18px}}
-      .nav-mini{display:flex;align-items:center;gap:10px}
-      .nav-mini .lang{position:relative}
-      @media(min-width:641px){
-        .nav-mini{margin-left:20px}
+      /* ===== shell — neutralise each page's own nav{} block ===== */
+      nav#nav{
+        position:fixed!important;top:0!important;left:0!important;right:0!important;
+        z-index:100!important;display:block!important;padding:0!important;
+        background:rgba(239,234,224,0.7)!important;
+        backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important;
+        border-bottom:1px solid transparent!important;
+        transition:background 300ms cubic-bezier(.22,1,.36,1),border-color 300ms cubic-bezier(.22,1,.36,1)!important;
       }
-      /* svita-app.css hides nav-right children at <=720px (display:none).
-         When the burger drawer opens we must restore them. */
-      @media(max-width:720px){
-        body.menu-open nav .nav-right > a,
-        body.menu-open nav .nav-right > a.nav-cta,
-        body.menu-open nav .nav-right > .lang-switcher,
-        body.menu-open nav .nav-right > .user-menu,
-        body.menu-open nav .nav-right > .cart-btn{display:block!important}
+      nav#nav.scrolled{
+        background:rgba(239,234,224,0.92)!important;
+        backdrop-filter:blur(20px) saturate(160%)!important;
+        -webkit-backdrop-filter:blur(20px) saturate(160%)!important;
+        border-bottom-color:rgba(47,68,56,0.15)!important;
       }
+      nav#nav .nav-inner{
+        max-width:80rem;margin:0 auto;width:100%;
+        display:flex;align-items:center;justify-content:space-between;gap:16px;
+        padding:14px 20px;
+        padding-top:calc(14px + env(safe-area-inset-top,0px));
+        transition:padding 300ms cubic-bezier(.22,1,.36,1);
+      }
+      @media(min-width:768px){ nav#nav .nav-inner{padding:16px 48px;padding-top:calc(16px + env(safe-area-inset-top,0px))} }
+      nav#nav.scrolled .nav-inner{
+        padding-top:calc(12px + env(safe-area-inset-top,0px));padding-bottom:12px;
+      }
+
+      /* ===== brand ===== */
+      nav#nav .brand{
+        display:flex;align-items:center;gap:10px;flex:none;
+        text-decoration:none;color:#2F4438;transition:color 200ms ease;
+      }
+      nav#nav .brand:hover{color:#7A6B3D}
+      nav#nav .brand-mark{width:36px;height:36px;flex:none;transition:transform 500ms ease}
+      nav#nav .brand:hover .brand-mark{transform:rotate(12deg)}
+      nav#nav .brand-word{
+        font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;
+        font-size:24px;line-height:1;letter-spacing:-0.01em;white-space:nowrap;
+      }
+      nav#nav .brand-word .dot{color:#7A6B3D;margin:0 2px}
+      nav#nav .brand-word i{font-style:italic}
       @media(max-width:640px){
-        nav{gap:8px}
-        .nav-mini{order:2;margin-left:auto;margin-right:6px;z-index:102;position:relative}
-        .nav-mini .lang-btn{padding:6px 10px;font-size:11px;border-radius:100px;border:1px solid var(--line,rgba(255,255,255,0.14));background:rgba(255,255,255,0.04);color:var(--text,#fff);display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;font-weight:600}
-        .nav-mini .lang-menu{position:absolute;top:calc(100% + 6px);right:0;background:rgba(10,10,11,0.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:8px;display:none;grid-template-columns:repeat(3,1fr);gap:4px;min-width:180px;z-index:103}
-        .nav-mini .lang.open .lang-menu{display:grid}
-        .nav-mini .lang-menu button{background:none;border:0;color:var(--text,#fff);font-family:'JetBrains Mono',monospace;font-size:11px;padding:8px 6px;border-radius:6px;cursor:pointer;letter-spacing:0.08em}
-        .nav-mini .lang-menu button:hover,.nav-mini .lang-menu button.active{background:var(--accent,#D6FF3E);color:#0A0A0B}
-        .nav-mini .icon-btn,.nav-mini .cart-icon{width:34px;height:34px;border-radius:50%;border:1px solid var(--line,rgba(255,255,255,0.14));background:rgba(255,255,255,0.04);display:inline-flex;align-items:center;justify-content:center;color:var(--text,#fff);position:relative}
-        .nav-mini .cart-count{position:absolute;top:-4px;right:-4px;background:var(--accent,#D6FF3E);color:#0A0A0B;font-size:9px;font-weight:700;border-radius:100px;padding:1px 5px;font-family:'JetBrains Mono',monospace}
-
-        /* Defensive mobile drawer baseline — applies to every page that uses
-           the shared nav. Per-page CSS may further refine. */
-        nav .nav-right{
-          position:fixed!important;inset:0!important;
-          width:100vw!important;height:100vh!important;height:100dvh!important;
-          background:#08080a!important;
-          display:flex!important;flex-direction:column!important;
-          justify-content:flex-start!important;align-items:stretch!important;
-          gap:6px!important;padding:88px 28px 40px!important;
-          transform:translateX(100%);transition:transform 320ms cubic-bezier(.22,1,.36,1);
-          z-index:99;pointer-events:none;overflow-y:auto;
-        }
-        body.menu-open nav .nav-right{transform:translateX(0)!important;pointer-events:auto!important}
-        body.menu-open{overflow:hidden}
-        nav .nav-right > a{
-          font:500 20px/1.3 'Space Grotesk',system-ui,sans-serif!important;
-          color:var(--text,#fff)!important;text-decoration:none!important;
-          padding:18px 4px!important;border-bottom:1px solid rgba(255,255,255,0.08)!important;
-          text-align:left!important;display:block;
-        }
-        nav .nav-right > a.nav-cta{
-          margin-top:14px;background:var(--accent,#D6FF3E);color:#0A0A0B!important;
-          border:0!important;border-radius:100px;font-size:15px!important;
-          padding:16px 24px!important;text-align:center!important;font-weight:600!important;
-        }
-        nav .nav-right > a.nav-login{
-          background:transparent;border:1px solid rgba(255,255,255,0.18)!important;
-          border-radius:100px;font-size:15px!important;padding:16px 24px!important;
-          text-align:center!important;color:var(--text,#fff)!important;
-        }
-        nav .nav-right .user-menu{margin-top:14px;width:100%;position:relative}
-        nav .nav-right .user-btn{
-          width:100%;justify-content:flex-start;padding:14px 16px;
-          border-radius:14px;background:rgba(255,255,255,0.04);
-          border:1px solid rgba(255,255,255,0.12);
-        }
-        nav .nav-right .user-drop{
-          position:static!important;display:none;margin-top:10px;
-          background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);
-          border-radius:14px;padding:8px;width:100%;
-        }
-        nav .nav-right .user-menu.open .user-drop{display:block}
-
-        /* Burger always above the drawer with a clean tap target. */
-        nav .burger{position:fixed!important;top:14px;right:18px;z-index:120!important;background:transparent}
-
-        /* On mobile: hide desktop-only switcher in .nav-mini, show drawer one. */
-        .nav-lang-desktop{display:none!important}
-        .nav-lang-mobile{margin-top:14px;display:block!important}
-        .nav-lang-mobile .lang-current{width:100%;justify-content:space-between;padding:14px 16px;border-radius:14px;font-size:14px;background:rgba(255,255,255,0.04)}
+        nav#nav .brand-mark{width:32px;height:32px}
+        nav#nav .brand-word{font-size:20px}
       }
-      @media(min-width:641px){
-        .nav-lang-mobile{display:none!important}
-        .nav-lang-desktop{display:inline-block!important}
-      }
+
+      /* ===== right cluster — login pill + language pill, always visible ===== */
+      nav#nav .nav-actions{display:flex;align-items:center;gap:10px;flex:none}
+      @media(min-width:641px){ nav#nav .nav-actions{gap:12px} }
     `;
     const style = document.createElement('style');
     style.id = 'nav-mini-styles';
@@ -187,29 +115,21 @@
   function render(user, opts){
     const nav = document.getElementById('nav');
     if(!nav) return;
-    const role = (opts && opts.role) || null; // 'superadmin' | null
+    const role = (opts && opts.role) || null;
     const page = currentPage();
-    const lang = getLang();
     const t = getLabels();
-    const cartN = getCartCount();
+    nav.className = (page === 'admin' || page === 'edit') ? 'admin-mode' : '';
 
-    const shopActive = page === 'shop' ? ' class="active"' : '';
-    const genClass   = 'nav-generate' + (page === 'generate' ? ' active' : '');
-    const navClass = page === 'admin' || page === 'edit' ? ' admin-mode' : '';
-    nav.className = navClass.trim();
-
-    // Cart removed: purchases go directly to Stripe/Lemon Squeezy checkout,
-    // no multi-item cart concept exists in this app.
-    const cartBtn = '';
-
-    // auth area
+    /* auth area — user dropdown OR sign-in pill */
     let authArea;
     if(user){
       const email = user.email || 'Account';
       const ini = initials(email);
       const handle = email.split('@')[0] || 'you';
-      const roleBadge = role === 'superadmin' ? `<span class="role-tag">${t.admin}</span>` : '';
-      const adminLink = role === 'superadmin' ? `<a href="admin.html" role="menuitem"><span class="ic">⚙</span><span data-i18n="nav_admin">${t.admin}</span></a><div class="user-sep"></div>` : '';
+      const roleBadge = role === 'superadmin' ? `<span class="role-tag">${escape(t.admin)}</span>` : '';
+      const adminLink = role === 'superadmin'
+        ? `<a href="admin.html" role="menuitem"><span class="ic">⚙</span><span data-i18n="nav_admin">${escape(t.admin)}</span></a><div class="user-sep"></div>`
+        : '';
       authArea = `
         <div class="user-menu" id="user-menu">
           <button class="user-btn" id="user-btn" aria-haspopup="menu" aria-expanded="false" title="${escape(email)}">
@@ -223,29 +143,29 @@
               <span class="user-avatar lg">${escape(ini)}</span>
               <div class="user-head-txt">
                 <span class="user-head-email">${escape(email)}</span>
-                ${role === 'superadmin' ? `<span class="user-head-role">${t.admin}</span>` : ''}
+                ${role === 'superadmin' ? `<span class="user-head-role">${escape(t.admin)}</span>` : ''}
               </div>
             </div>
             <div class="user-sep"></div>
-            <a href="account.html" role="menuitem"><span class="ic">◱</span><span data-i18n="nav_cabinet">${t.cabinet}</span></a>
-            <a href="account.html#favorites" role="menuitem"><span class="ic">♡</span><span data-i18n="nav_favs">${t.favs}</span></a>
-            <a href="account.html#owned" role="menuitem"><span class="ic">▣</span><span data-i18n="nav_mine">${t.mine}</span></a>
-            <a href="account.html#settings" role="menuitem"><span class="ic">⚙</span><span data-i18n="nav_settings">${t.settings}</span></a>
+            <a href="account.html" role="menuitem"><span class="ic">◱</span><span data-i18n="nav_cabinet">${escape(t.cabinet)}</span></a>
+            <a href="account.html#favorites" role="menuitem"><span class="ic">♡</span><span data-i18n="nav_favs">${escape(t.favs)}</span></a>
+            <a href="account.html#owned" role="menuitem"><span class="ic">▣</span><span data-i18n="nav_mine">${escape(t.mine)}</span></a>
+            <a href="account.html#settings" role="menuitem"><span class="ic">⚙</span><span data-i18n="nav_settings">${escape(t.settings)}</span></a>
             ${adminLink ? `<div class="user-sep"></div>${adminLink}` : ''}
             <div class="user-sep"></div>
-            <button type="button" id="nav-signout" role="menuitem"><span class="ic">⎋</span><span data-i18n="nav_signout">${t.signout}</span></button>
+            <button type="button" id="nav-signout" role="menuitem"><span class="ic">⎋</span><span data-i18n="nav_signout">${escape(t.signout)}</span></button>
           </div>
         </div>`;
     } else {
       authArea = `
-        <a href="account.html" class="nav-signin-pill" aria-label="Sign in" title="Sign in" data-i18n-attr="title:nav_signin">
+        <a href="account.html" class="nav-signin-pill" aria-label="Sign in" title="Sign in">
           <span class="icon" aria-hidden="true">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="8" r="4"/>
               <path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>
             </svg>
           </span>
-          <span data-i18n="nav_signin">${t.signin}</span>
+          <span data-i18n="nav_signin">${escape(t.signin)}</span>
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="opacity:0.5">
             <polyline points="9 18 15 12 9 6"/>
           </svg>
@@ -255,109 +175,42 @@
     injectNavMiniStyles();
 
     nav.innerHTML = `
-      <a href="index.html" class="brand" aria-label="micro.svita home">
-        <svg class="brand-mark" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="20" y="20" width="160" height="160"/>
-          <path d="M100 100 Q 60 60 20 20"/><path d="M100 100 Q 140 60 180 20"/>
-          <path d="M100 100 Q 60 140 20 180"/><path d="M100 100 Q 140 140 180 180"/>
-          <path d="M100 100 Q 70 100 20 100"/><path d="M100 100 Q 130 100 180 100"/>
-          <path d="M100 100 Q 100 70 100 20"/><path d="M100 100 Q 100 130 100 180"/>
-          <circle cx="100" cy="100" r="5" fill="currentColor" stroke="none"/>
-        </svg>
-        <span class="brand-word">micro<span class="dot">·</span><i>svita</i></span>
-      </a>
-      <div class="nav-right">
-        <a href="shop.html"${shopActive} data-i18n="nav_shop">${t.shop}</a>
-        <a href="index.html#how" data-i18n="nav_how">${t.how}</a>
-        ${authArea}
-        <div class="lang-switcher nav-lang-mobile" aria-label="Language"></div>
+      <div class="nav-inner">
+        <a href="index.html" class="brand" aria-label="micro.svita home">
+          <svg class="brand-mark" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="20" y="20" width="160" height="160"/>
+            <path d="M100 100 Q 60 60 20 20"/><path d="M100 100 Q 140 60 180 20"/>
+            <path d="M100 100 Q 60 140 20 180"/><path d="M100 100 Q 140 140 180 180"/>
+            <path d="M100 100 Q 70 100 20 100"/><path d="M100 100 Q 130 100 180 100"/>
+            <path d="M100 100 Q 100 70 100 20"/><path d="M100 100 Q 100 130 100 180"/>
+            <circle cx="100" cy="100" r="5" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">micro<span class="dot">·</span><i>svita</i></span>
+        </a>
+        <div class="nav-actions">
+          ${authArea}
+          <div class="lang-switcher" aria-label="Language"></div>
+        </div>
       </div>
-      <div class="nav-mini">
-        <div class="lang-switcher nav-lang-desktop" aria-label="Language"></div>
-        ${cartBtn}
-      </div>
-      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
     `;
-    /* Re-build the language switchers we just injected (labs67-i18n.js
-       only auto-builds those present at DOMContentLoaded). */
+
+    /* Re-build the language switcher we just injected (labs67-i18n.js only
+       auto-builds those present at DOMContentLoaded) and re-apply the active
+       language so data-i18n nodes inside the freshly injected nav update. */
     if (window.labs67i18n && typeof window.__labs67BuildSwitchers === 'function') {
       window.__labs67BuildSwitchers();
-      /* Re-apply translations to the freshly injected nav DOM so
-         data-i18n attributes inside <a>, dropdown, sign-out etc. pick up
-         the active language on first paint, not just after a switch. */
       try { window.labs67i18n.setLang(window.labs67i18n.getLang()); } catch (e) {}
     }
 
-    injectBurgerOverlay();
     wireEvents();
-  }
-
-  /* Backdrop overlay for mobile drawer — click to close, fade in/out. */
-  function injectBurgerOverlay(){
-    if(document.getElementById('nav-overlay')) return;
-    const o = document.createElement('div');
-    o.id = 'nav-overlay';
-    o.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(o);
-    if(document.getElementById('nav-overlay-styles')) return;
-    const style = document.createElement('style');
-    style.id = 'nav-overlay-styles';
-    style.textContent = `
-      #nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);opacity:0;pointer-events:none;transition:opacity 240ms cubic-bezier(.22,1,.36,1);z-index:98;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
-      body.menu-open #nav-overlay{opacity:1;pointer-events:auto}
-      @media(min-width:641px){#nav-overlay{display:none}}
-    `;
-    document.head.appendChild(style);
-  }
-
-  function closeBurger(){
-    document.body.classList.remove('menu-open');
-    const b = document.getElementById('burger');
-    if(b) b.setAttribute('aria-expanded', 'false');
-  }
-  function openBurger(){
-    document.body.classList.add('menu-open');
-    const b = document.getElementById('burger');
-    if(b) b.setAttribute('aria-expanded', 'true');
   }
 
   /* ---------- events ---------- */
   function wireEvents(){
     const nav = document.getElementById('nav');
 
-    const burger = document.getElementById('burger');
-    if(burger){
-      burger.addEventListener('click', ()=>{
-        if(document.body.classList.contains('menu-open')) closeBurger();
-        else openBurger();
-      });
-      nav.querySelectorAll('.nav-right a').forEach(a=>a.addEventListener('click', closeBurger));
-    }
-
-    const overlay = document.getElementById('nav-overlay');
-    if(overlay && !overlay.__wired){
-      overlay.__wired = true;
-      overlay.addEventListener('click', closeBurger);
-    }
-
-    if(!document.__navEscWired){
-      document.__navEscWired = true;
-      document.addEventListener('keydown', (e)=>{
-        if(e.key === 'Escape'){
-          if(document.body.classList.contains('menu-open')) closeBurger();
-          const um = document.getElementById('user-menu');
-          if(um) um.classList.remove('open');
-        }
-      });
-    }
-
-    // Language picker removed — site is English-only.
-
     const userBtn = document.getElementById('user-btn');
     if(userBtn && !userBtn.__wired){
-      // mark element so re-renders don't stack handlers; element identity
-      // changes each render anyway because innerHTML replaces children, but
-      // we keep the guard for safety.
       userBtn.__wired = true;
       const menu = document.getElementById('user-menu');
       const toggle = (e)=>{
@@ -365,10 +218,8 @@
         const open = menu.classList.toggle('open');
         userBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
       };
-      // pointerdown beats document `click` race in some browsers
       userBtn.addEventListener('pointerdown', toggle);
       userBtn.addEventListener('click', (e)=>{ e.preventDefault(); e.stopPropagation(); });
-      // close on link click inside drop
       menu.querySelectorAll('.user-drop a, .user-drop button').forEach(el=>{
         el.addEventListener('click', ()=> menu.classList.remove('open'));
       });
@@ -382,6 +233,16 @@
       });
     }
 
+    if(!document.__navEscWired){
+      document.__navEscWired = true;
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape'){
+          const um = document.getElementById('user-menu');
+          if(um) um.classList.remove('open');
+        }
+      });
+    }
+
     if(!document.__navOutsideWired){
       document.__navOutsideWired = true;
       document.addEventListener('click', (e)=>{
@@ -392,12 +253,10 @@
 
     if(!nav.__scrollWired){
       nav.__scrollWired = true;
-      let lastScroll = 0;
       window.addEventListener('scroll', ()=>{
-        const y = window.scrollY;
-        nav.classList.toggle('scrolled', y > 20);
-        lastScroll = y;
+        nav.classList.toggle('scrolled', window.scrollY > 12);
       }, { passive:true });
+      nav.classList.toggle('scrolled', window.scrollY > 12);
     }
   }
 
@@ -441,18 +300,14 @@
       });
     }
 
-    // re-render when cart/favs change from other tabs or same tab
+    /* re-render when the session changes from another tab */
     window.addEventListener('storage', (e)=>{
-      if(e.key === 'svita_micro_cart' || (e.key && e.key.indexOf('svita_micro_favs') === 0) || e.key === 'svita-micro-auth'){
-        render(user, { role });
-      }
+      if(e.key === 'svita-micro-auth'){ render(user, { role }); }
     });
-    window.addEventListener('svita:cart', ()=> render(user, { role }));
-    window.addEventListener('svita:favs', ()=> render(user, { role }));
-    /* Re-render nav when the user picks a different language so labels update.
-       Guard against re-entry: render() calls labs67i18n.setLang() to re-apply
-       translations to freshly injected nav DOM, and setLang fires onLangChange,
-       which would otherwise loop back into render() forever. */
+
+    /* re-render nav when the user picks a different language so labels update.
+       Guard against re-entry: render() calls labs67i18n.setLang() which fires
+       onLangChange, which would otherwise loop back into render() forever. */
     const prevOnLangChange = window.onLangChange;
     let __navInRender = false;
     window.onLangChange = function(lang, dict){

@@ -115,23 +115,38 @@
       );
     }
 
+    /* Auth + library access. `hasAccess` is read from the `my_access` view
+       (covers active subscription, legacy lifetime and superadmin) — the
+       "$19/mo" CTA hides as soon as the visitor actually has access. */
     function useAuth() {
       const [user, setUser] = useState(null);
+      const [hasAccess, setHasAccess] = useState(false);
       useEffect(() => {
-        let sb = null;
-        try { sb = window.__svitaSb || (window.supabase && window.SVITA_SB_URL ? null : null); } catch(e){}
         if (!window.supabase) return;
         const url = 'https://ctdleobjnzniqkqomlrq.supabase.co';
         const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM0NTUzMDgsImV4cCI6MjA1OTAzMTMwOH0.dFRJDQ8u6_3aKgxgozb8N7SFt6lUaB5n7CmLnL_oZpY';
         try {
           const client = window.__svitaSb || window.supabase.createClient(url, key, {auth:{persistSession:true,autoRefreshToken:true,storageKey:'svita-micro-auth'}});
           window.__svitaSb = client;
-          client.auth.getSession().then(({data}) => setUser(data?.session?.user || null));
-          const { data: sub } = client.auth.onAuthStateChange((_e, session) => setUser(session?.user || null));
+          const checkAccess = async (u) => {
+            if (!u) { setHasAccess(false); return; }
+            try {
+              const { data } = await client.from('my_access').select('has_access').maybeSingle();
+              setHasAccess(!!(data && data.has_access));
+            } catch (e) { setHasAccess(false); }
+          };
+          client.auth.getSession().then(({data}) => {
+            const u = data?.session?.user || null;
+            setUser(u); checkAccess(u);
+          });
+          const { data: sub } = client.auth.onAuthStateChange((_e, session) => {
+            const u = session?.user || null;
+            setUser(u); checkAccess(u);
+          });
           return () => sub?.subscription?.unsubscribe?.();
         } catch(e){}
       }, []);
-      return user;
+      return { user, hasAccess };
     }
 
     /* Shared language state — single source of truth is the `labs67lang`
@@ -226,7 +241,7 @@
     function TopBar() {
       const [open, setOpen] = useState(false);
       const [scrolled, setScrolled] = useState(false);
-      const user = useAuth();
+      const { user, hasAccess } = useAuth();
 
       useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 12);
@@ -307,7 +322,7 @@
                 )}
                 {/* lang switcher — synced via labs67lang localStorage */}
                 <LangSwitcher />
-                {!user && (
+                {!hasAccess && (
                   <a href="#pricing" className="hidden md:inline-flex items-center gap-2 pl-5 pr-4 py-2.5 rounded-full bg-groen text-creme text-[10px] tracking-[0.2em] uppercase hover:bg-okra transition-colors">
                     <span>$19 / mo</span>
                     <span aria-hidden="true">→</span>
@@ -344,7 +359,7 @@
                     </a>
                   ))}
                   <div className="mt-8 flex flex-col gap-3">
-                    {user ? (
+                    {hasAccess ? (
                       <a href="/shop.html" onClick={()=>setOpen(false)} className="inline-flex items-center justify-center px-5 py-4 bg-groen text-creme text-xs tracking-[0.2em] uppercase">
                         Open library →
                       </a>
@@ -353,12 +368,14 @@
                         <a href="#pricing" onClick={()=>setOpen(false)} className="inline-flex items-center justify-center px-5 py-4 bg-groen text-creme text-xs tracking-[0.2em] uppercase">
                           Open library — $19 / mo
                         </a>
-                        <a href="/account.html" onClick={()=>setOpen(false)} className="inline-flex items-center justify-center gap-2 px-5 py-4 ring-1 ring-groen/25 text-groen text-xs tracking-[0.2em] uppercase hover:bg-groen hover:text-creme transition-colors">
-                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                            <circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>
-                          </svg>
-                          Sign in
-                        </a>
+                        {!user && (
+                          <a href="/account.html" onClick={()=>setOpen(false)} className="inline-flex items-center justify-center gap-2 px-5 py-4 ring-1 ring-groen/25 text-groen text-xs tracking-[0.2em] uppercase hover:bg-groen hover:text-creme transition-colors">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                              <circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>
+                            </svg>
+                            Sign in
+                          </a>
+                        )}
                       </>
                     )}
                     <p className="mt-2 text-[11px] text-grijs/70 font-display italic text-center">7 days free · cancel anytime</p>
