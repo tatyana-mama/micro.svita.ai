@@ -101,9 +101,26 @@
         nav#nav .brand-word{font-size:20px}
       }
 
-      /* ===== right cluster — login pill + language pill, always visible ===== */
+      /* ===== right cluster — Shop + login pill + language pill, always visible ===== */
       nav#nav .nav-actions{display:flex;align-items:center;gap:10px;flex:none}
       @media(min-width:641px){ nav#nav .nav-actions{gap:12px} }
+
+      /* highlighted Shop pill — identical to the landing's Shop button */
+      nav#nav .nav-shop-pill{
+        display:inline-flex;align-items:center;gap:8px;
+        padding:10px 16px 10px 20px;border-radius:999px;
+        background:#2F4438;color:#EFEAE0;
+        font-family:'Inter Tight',system-ui,sans-serif;
+        font-size:10px;letter-spacing:0.2em;text-transform:uppercase;font-weight:600;
+        text-decoration:none;white-space:nowrap;
+        box-shadow:0 2px 8px rgba(15,20,16,0.12);
+        transition:background 200ms cubic-bezier(.22,1,.36,1);
+      }
+      nav#nav .nav-shop-pill:hover{background:#7A6B3D}
+      @media(max-width:480px){
+        nav#nav .nav-shop-pill{padding:9px 14px;letter-spacing:0.14em}
+        nav#nav .nav-shop-pill .arrow{display:none}
+      }
     `;
     const style = document.createElement('style');
     style.id = 'nav-mini-styles';
@@ -188,6 +205,7 @@
           <span class="brand-word">micro<span class="dot">·</span><i>svita</i></span>
         </a>
         <div class="nav-actions">
+          <a href="shop.html" class="nav-shop-pill"><span data-i18n="nav_shop">Shop</span> <span class="arrow" aria-hidden="true">→</span></a>
           ${authArea}
           <div class="lang-switcher" aria-label="Language"></div>
         </div>
