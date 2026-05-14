@@ -238,8 +238,18 @@
         </div>`;
     } else {
       authArea = `
-        <a href="account.html" class="nav-cta nav-login" data-i18n="nav_signin">${t.signin}</a>
-        <a href="account.html?signup=1" class="nav-cta nav-signup" data-i18n="nav_signup">${t.signup}</a>`;
+        <a href="account.html" class="nav-signin-pill" aria-label="Sign in" title="Sign in" data-i18n-attr="title:nav_signin">
+          <span class="icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>
+            </svg>
+          </span>
+          <span data-i18n="nav_signin">${t.signin}</span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="opacity:0.5">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>`;
     }
 
     injectNavMiniStyles();
