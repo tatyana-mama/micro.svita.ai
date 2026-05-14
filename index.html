@@ -324,7 +324,7 @@
                 <LangSwitcher />
                 {/* subscription CTA — hides once the visitor actually has access */}
                 {!hasAccess && (
-                  <a href="#pricing" className="hidden lg:inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full ring-1 ring-groen/40 text-groen text-[10px] tracking-[0.16em] uppercase hover:bg-groen hover:text-creme transition-colors">
+                  <a href="/subscribe.html" className="hidden lg:inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full ring-1 ring-groen/40 text-groen text-[10px] tracking-[0.16em] uppercase hover:bg-groen hover:text-creme transition-colors">
                     <span>$19 / mo</span>
                   </a>
                 )}
@@ -368,7 +368,7 @@
                       Shop →
                     </a>
                     {!hasAccess && (
-                      <a href="#pricing" onClick={()=>setOpen(false)} className="inline-flex items-center justify-center px-5 py-4 ring-1 ring-groen/40 text-groen text-xs tracking-[0.2em] uppercase hover:bg-groen hover:text-creme transition-colors">
+                      <a href="/subscribe.html" onClick={()=>setOpen(false)} className="inline-flex items-center justify-center px-5 py-4 ring-1 ring-groen/40 text-groen text-xs tracking-[0.2em] uppercase hover:bg-groen hover:text-creme transition-colors">
                         Subscribe — $19 / mo
                       </a>
                     )}
