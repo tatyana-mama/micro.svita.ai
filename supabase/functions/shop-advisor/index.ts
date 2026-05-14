@@ -10,7 +10,7 @@
 //     can click straight on the shop.
 //
 // LLM routing:
-//   Default provider = `ollama` (Jetson qwen2.5:14b via Tailscale Funnel).
+//   Default provider = `ollama` (Jetson qwen3.6:27b via Tailscale Funnel).
 //   Override with LLM_PROVIDER=anthropic to use Claude if a credited
 //   ANTHROPIC_API_KEY is set.
 //
@@ -19,7 +19,7 @@
 // Secrets:
 //   LLM_PROVIDER      ollama | anthropic   (default: ollama)
 //   LLM_ENDPOINT      e.g. https://scyraai-desktop-1.tail2060da.ts.net:8443
-//   LLM_MODEL         e.g. qwen2.5:14b-instruct-q4_K_M
+//   LLM_MODEL         e.g. qwen3.6:27b   (the only Qwen on the Jetson)
 //   ANTHROPIC_API_KEY (only when LLM_PROVIDER=anthropic)
 //   SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY (auto-injected)
 
@@ -27,7 +27,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
 
 const LLM_PROVIDER = (Deno.env.get('LLM_PROVIDER') ?? 'ollama').toLowerCase();
 const LLM_ENDPOINT = (Deno.env.get('LLM_ENDPOINT') ?? '').replace(/\/+$/, '');
-const LLM_MODEL = Deno.env.get('LLM_MODEL') ?? 'qwen2.5:14b-instruct-q4_K_M';
+const LLM_MODEL = Deno.env.get('LLM_MODEL') ?? 'qwen3.6:27b';
 const ANTHROPIC_KEY = Deno.env.get('ANTHROPIC_API_KEY') ?? '';
 const ANTHROPIC_MODEL = 'claude-haiku-4-5-20251001';
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';
@@ -111,12 +111,22 @@ User: "how much?"  →  "$19 / month or $149 / year (≈35% off). 7-day free tri
 
 User: "сколько стоит концепция бара?"  →  "Отдельно концепция уже не продаётся — мы перешли на подписку: $19/мес или $149/год, 7 дней бесплатно. Открывает ВСЕ концепции, не только бар. Чтобы открыть сам бар физически, нужно ~€10-25k (зависит от концепции)."
 
-YOUR JOB
-- Help a visitor pick ONE concept that fits their constraints (budget to OPEN the business, city, category, scale, vibe). The open-business budget is what they'd spend to actually launch — that's the big number, NOT the subscription price.
-- Recommend only concepts from the catalog snapshot below. Never invent a concept that isn't listed.
-- When you suggest a concept, always include its slug in this exact format on its own line: \`→ /shop.html?concept=<slug>\`
-- Stay short: 3–6 sentences max per turn. The user is on a phone or laptop while browsing.
-- If the user is unsure, ask ONE clarifying question (budget? city? category?). Don't bombard.
+WHO YOU ARE
+You are a living index of the WHOLE micro.svita catalog. You know every concept in the snapshot below — its category, country, scale and open-business budget. A visitor talks to you instead of scrolling 94 cards: they describe what they want, you navigate the catalog for them and surface the exact matches.
+
+HOW YOU WORK — surf by category, match the request
+1. Read the visitor's request and map it to the catalog's CATEGORIES (the list is given below — e.g. food, drink, beauty, craft, repair, health, retail, service, wellness…). "I want a coffee bar" → drink/food; "a place to fix watches" → repair; "a nail studio" → beauty.
+2. Inside the matching category (or 2–3 categories if the request straddles them), scan EVERY concept and keep the ones that also fit their other constraints — open-business budget, city/country, square meters, vibe.
+3. Surface 1–3 best matches, strongest first. For each: ONE sentence on WHY it fits their request, then the slug line.
+4. If the request is broad ("something cheap to open", "anything in Berlin"), name the category/categories you are searching, say what's there, and ask ONE narrowing question.
+5. If a named category has nothing matching their budget/city, say so plainly and offer the closest concepts from an adjacent category.
+
+RULES
+- Recommend ONLY concepts from the catalog snapshot below. Never invent a concept, a slug, a category or a budget that isn't listed.
+- When you suggest a concept, ALWAYS include its slug on its own line in this exact format: \`→ /shop.html?concept=<slug>\`
+- The open-business budget is what they'd spend to actually launch — that's the big number, NOT the subscription price. Quote only the open-budget column.
+- Stay short: 3–6 sentences max per turn. The visitor is on a phone or laptop while browsing.
+- If the visitor is unsure, ask ONE clarifying question (budget? city? category?). Don't bombard.
 - If nothing in the catalog matches, say so honestly and propose the closest two.
 - If the visitor asks "how much does this cost?", answer with the subscription ($19/mo or $149/yr, 7-day trial). DO NOT quote per-concept prices.
 - Speak the user's language (English, Polish, Ukrainian, Belarusian, Russian — whichever they used).
@@ -167,15 +177,19 @@ async function callOllama(system: string, turns: Msg[]) {
   if (!LLM_ENDPOINT) {
     return { ok: false, status: 503, body: 'llm_endpoint_not_configured' };
   }
-  // Ollama exposes OpenAI-compatible /v1/chat/completions.
-  const r = await fetch(`${LLM_ENDPOINT}/v1/chat/completions`, {
+  // Native Ollama /api/chat — qwen3.6 ships with thinking mode ON, which eats
+  // the whole token budget and returns an empty reply. `think:false` disables
+  // it (the OpenAI-compat /v1 endpoint has no way to pass this flag).
+  const r = await fetch(`${LLM_ENDPOINT}/api/chat`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
       model: LLM_MODEL,
-      temperature: 0.4,
-      max_tokens: 600,
       stream: false,
+      think: false,
+      // Replies are 3–6 sentences — 256 tokens is plenty. 600 made the 27B
+      // model run ~80s and blow the edge-function timeout.
+      options: { temperature: 0.4, num_predict: 256 },
       messages: [
         { role: 'system', content: system },
         ...turns,
@@ -184,7 +198,7 @@ async function callOllama(system: string, turns: Msg[]) {
   });
   if (!r.ok) return { ok: false, status: r.status, body: await r.text() };
   const data = await r.json();
-  const reply = (data?.choices?.[0]?.message?.content ?? '').trim();
+  const reply = (data?.message?.content ?? '').trim();
   return { ok: true, reply, model: LLM_MODEL };
 }
 
