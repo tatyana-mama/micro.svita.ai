@@ -477,8 +477,13 @@ window.I18N = {
 
   // ========== NAV ==========
   nav_shop: { en: 'Shop', ru: 'Магазин', pl: 'Sklep', uk: 'Магазин', be: 'Крама' },
+  nav_what: { en: 'What it is', ru: 'Что это', pl: 'Co to jest', uk: 'Що це', be: 'Што гэта' },
   nav_how: { en: 'How it works', ru: 'Как это работает', pl: 'Jak to działa', uk: 'Як це працює', be: 'Як гэта працуе' },
-  nav_signin: { en: 'Log in', ru: 'Войти', pl: 'Zaloguj', uk: 'Увійти', be: 'Увайсці' },
+  nav_catalog: { en: 'Catalog', ru: 'Каталог', pl: 'Katalog', uk: 'Каталог', be: 'Каталог' },
+  nav_pricing: { en: 'Pricing', ru: 'Цены', pl: 'Cennik', uk: 'Ціни', be: 'Цэны' },
+  nav_support: { en: 'Full support', ru: 'Полная поддержка', pl: 'Pełne wsparcie', uk: 'Повна підтримка', be: 'Поўная падтрымка' },
+  nav_faq: { en: 'FAQ', ru: 'FAQ', pl: 'FAQ', uk: 'FAQ', be: 'FAQ' },
+  nav_signin: { en: 'Sign in', ru: 'Войти', pl: 'Zaloguj', uk: 'Увійти', be: 'Увайсці' },
   nav_signup: { en: 'Sign up', ru: 'Регистрация', pl: 'Rejestracja', uk: 'Реєстрація', be: 'Рэгістрацыя' },
   nav_cabinet: { en: 'My cabinet', ru: 'Мой кабинет', pl: 'Mój kabinet', uk: 'Мій кабінет', be: 'Мой кабінет' },
   nav_favs: { en: 'Favorites', ru: 'Избранное', pl: 'Ulubione', uk: 'Обране', be: 'Абранае' },
@@ -488,6 +493,7 @@ window.I18N = {
   nav_admin: { en: 'Admin', ru: 'Админ', pl: 'Admin', uk: 'Адмін', be: 'Адмін' },
   nav_generate: { en: 'Generate', ru: 'Создать', pl: 'Generuj', uk: 'Створити', be: 'Стварыць' },
   nav_cart: { en: 'Cart', ru: 'Корзина', pl: 'Koszyk', uk: 'Кошик', be: 'Кошык' },
+  nav_library: { en: 'Open library', ru: 'Открыть библиотеку', pl: 'Otwórz bibliotekę', uk: 'Відкрити бібліотеку', be: 'Адкрыць бібліятэку' },
 
   // ========== shop.html ==========
   shop_eyebrow: { en: 'Concept shop', ru: 'Магазин концепций', pl: 'Sklep konceptów', uk: 'Магазин концепцій', be: 'Крама канцэпцый' },

@@ -1,20 +1,16 @@
 /* SVITA MICRO — mobile app shell.
    Turns the site into a native-feeling app on ≤720px:
-   - iOS-style sticky header with blur
-   - Bottom tab bar (rendered by svita-nav.js)
+   - iOS-style sticky header with blur, paper theme (matches desktop)
+   - All mobile nav lives in the burger drawer (no bottom tab bar)
    - Safe-area insets for notch/home indicator
    - Tap-highlight off, momentum scroll, no hover hacks
    - PWA standalone mode adjustments
    Desktop layout is untouched. */
 
 :root{
-  --app-tabbar-h:64px;
   --app-safe-top:env(safe-area-inset-top,0px);
   --app-safe-bot:env(safe-area-inset-bottom,0px);
 }
-
-/* Never show on desktop */
-#app-tabbar{display:none}
 
 @media (max-width:720px){
   html,body{
@@ -60,23 +56,12 @@
     transition:opacity 240ms ease-out,transform 240ms ease-out !important;
     transform:translateY(12px) !important;
   }
-  /* Drop blur on nav itself to 10px — still feels app-y but cheap */
-  nav,nav.scrolled{
-    backdrop-filter:blur(10px) !important;
-    -webkit-backdrop-filter:blur(10px) !important;
-  }
   /* Any filter on body / html (inherited blur) is a catastrophe on mobile */
   body{filter:none !important}
   /* Disable keyframe sparkle/glow loops */
   *{animation-play-state:running}
   @media (prefers-reduced-motion:no-preference){
     .brand-dot{animation:none !important;box-shadow:0 0 8px var(--accent,#7A6B3D) !important}
-  }
-  /* Reserve space only when the tab bar is actually present
-     (svita-app.js injects #app-tabbar on index/shop/account, NOT on view.html).
-     Without :has(), view.html would get 64px of dead space under its iframe. */
-  body:has(#app-tabbar){
-    padding-bottom:calc(var(--app-tabbar-h) + var(--app-safe-bot)) !important;
   }
   /* Smooth momentum scroll in any overflow container */
   *{-webkit-overflow-scrolling:touch}
@@ -92,26 +77,8 @@
     transform:scale(0.97) !important;
   }
 
-  /* iOS-style top bar — uses existing <nav> */
-  nav{
-    padding:calc(var(--app-safe-top) + 8px) 16px 8px !important;
-    background:rgba(10,10,11,0.78) !important;
-    backdrop-filter:blur(22px) saturate(180%) !important;
-    -webkit-backdrop-filter:blur(22px) saturate(180%) !important;
-    border-bottom:1px solid var(--line,rgba(47,68,56,.15)) !important;
-    min-height:calc(var(--app-safe-top) + 48px);
-  }
-  nav.scrolled{padding:calc(var(--app-safe-top) + 8px) 16px 8px !important}
-
-  /* Hide desktop nav links on mobile — tabs replace them */
-  .nav-right a:not(.nav-cta),
-  .nav-right .nav-cta,
-  .nav-right .cart-btn,
-  .nav-right .lang-switcher{display:none !important}
-  /* Keep avatar & sign-in link only */
-  .nav-right{gap:10px !important}
-
-  /* Burger stays available to open language / full menu */
+  /* The shared header (#nav) is fully owned by js/svita-nav.js — including
+     its mobile layout, safe-area insets and burger drawer. No nav rules here. */
 
   /* Content padding reduced */
   .wrap{padding:0 16px !important}
@@ -126,36 +93,6 @@
   .card{border-radius:20px !important}
   .card .media{aspect-ratio:16/10 !important}
   .card h3{font-size:18px !important}
-
-  /* ===== BOTTOM TAB BAR ===== */
-  #app-tabbar{
-    display:flex;
-    position:fixed;left:0;right:0;bottom:0;z-index:200;
-    height:calc(var(--app-tabbar-h) + var(--app-safe-bot));
-    padding:0 8px var(--app-safe-bot);
-    background:rgba(10,10,11,0.82);
-    backdrop-filter:blur(24px) saturate(180%);
-    -webkit-backdrop-filter:blur(24px) saturate(180%);
-    border-top:1px solid var(--line,rgba(47,68,56,.15));
-    align-items:stretch;justify-content:space-around;
-  }
-  #app-tabbar a{
-    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:3px;color:var(--text-3,rgba(47,68,56,.55));text-decoration:none;
-    font-family:'Inter',system-ui,sans-serif;font-size:10px;font-weight:500;
-    letter-spacing:0.02em;transition:color 160ms ease;
-    min-height:48px;padding:6px 4px 4px;
-  }
-  #app-tabbar a svg{width:22px;height:22px;stroke-width:1.8}
-  #app-tabbar a.active{color:var(--accent,#7A6B3D)}
-  #app-tabbar a:active{transform:scale(0.9) !important}
-  #app-tabbar .badge{
-    position:absolute;top:4px;margin-left:14px;
-    background:var(--accent,#7A6B3D);color:#EFEAE0;
-    border-radius:100px;min-width:16px;height:16px;padding:0 5px;
-    font-family:'Inter Tight',monospace;font-size:9px;font-weight:700;
-    display:flex;align-items:center;justify-content:center;line-height:1;
-  }
 }
 
 /* PWA standalone tweaks */
