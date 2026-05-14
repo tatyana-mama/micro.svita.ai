@@ -491,6 +491,7 @@ window.I18N = {
   nav_settings: { en: 'Settings', ru: 'Настройки', pl: 'Ustawienia', uk: 'Налаштування', be: 'Налады' },
   nav_signout: { en: 'Sign out', ru: 'Выйти', pl: 'Wyloguj', uk: 'Вийти', be: 'Выйсці' },
   nav_admin: { en: 'Admin', ru: 'Админ', pl: 'Admin', uk: 'Адмін', be: 'Адмін' },
+  nav_subscribe: { en: 'Subscribe', ru: 'Подписка', pl: 'Subskrypcja', uk: 'Підписка', be: 'Падпіска' },
   nav_generate: { en: 'Generate', ru: 'Создать', pl: 'Generuj', uk: 'Створити', be: 'Стварыць' },
   nav_cart: { en: 'Cart', ru: 'Корзина', pl: 'Koszyk', uk: 'Кошик', be: 'Кошык' },
   nav_library: { en: 'Open library', ru: 'Открыть библиотеку', pl: 'Otwórz bibliotekę', uk: 'Відкрити бібліотеку', be: 'Адкрыць бібліятэку' },

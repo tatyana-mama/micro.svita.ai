@@ -227,7 +227,10 @@ header.svita-header.scrolled .svh-inner{
   transition:background 200ms ease,color 200ms ease;
 }
 .svh-subscribe:hover{background:var(--svh-groen);color:var(--svh-creme)}
-@media(max-width:1023px){ .svh-subscribe{display:none} }
+/* On the landing the subscribe pill collapses into the burger drawer below lg;
+   on internal pages there is no drawer, so it stays visible at every width. */
+@media(max-width:1023px){ .svh-actions.svh-actions--landing > .svh-subscribe{display:none} }
+@media(max-width:380px){ .svh-actions:not(.svh-actions--landing) > .svh-subscribe{display:none} }
 
 /* ---- Language pill — overrides labs67-i18n.js fallback CSS ---- */
 .labs67-lang .lang-current{

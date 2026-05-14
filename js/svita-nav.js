@@ -19,13 +19,14 @@
   }
   function getLabels(){
     return {
-      signin:   L('nav_signin',   'Sign in'),
-      cabinet:  L('nav_cabinet',  'My cabinet'),
-      favs:     L('nav_favs',     'Favorites'),
-      mine:     L('nav_mine',     'My concepts'),
-      settings: L('nav_settings', 'Settings'),
-      signout:  L('nav_signout',  'Sign out'),
-      admin:    L('nav_admin',    'Admin')
+      signin:    L('nav_signin',    'Sign in'),
+      cabinet:   L('nav_cabinet',   'My cabinet'),
+      favs:      L('nav_favs',      'Favorites'),
+      mine:      L('nav_mine',      'My concepts'),
+      settings:  L('nav_settings',  'Settings'),
+      signout:   L('nav_signout',   'Sign out'),
+      admin:     L('nav_admin',     'Admin'),
+      subscribe: L('nav_subscribe', 'Subscribe')
     };
   }
 
@@ -68,9 +69,17 @@
     const nav = document.getElementById('nav');
     if(!nav) return;
     const role = (opts && opts.role) || null;
+    const hasAccess = !!(opts && opts.hasAccess);
     const page = currentPage();
     const t = getLabels();
     nav.className = (page === 'admin' || page === 'edit') ? 'admin-mode' : '';
+
+    /* Subscribe affordance — shown until the visitor actually has library
+       access. As a header pill (after Shop) AND inside the cabinet dropdown. */
+    const subscribePill = hasAccess ? '' :
+      `<a href="subscribe.html" class="svh-subscribe" data-i18n="nav_subscribe">${escape(t.subscribe)}</a>`;
+    const subscribeMenuItem = hasAccess ? '' :
+      `<a href="subscribe.html" role="menuitem"><span class="ic">✦</span><span data-i18n="nav_subscribe">${escape(t.subscribe)}</span></a><div class="svh-sep"></div>`;
 
     /* auth area — user dropdown OR sign-in pill */
     let authArea;
@@ -99,6 +108,7 @@
               </div>
             </div>
             <div class="svh-sep"></div>
+            ${subscribeMenuItem}
             <a href="account.html" role="menuitem"><span class="ic">◱</span><span data-i18n="nav_cabinet">${escape(t.cabinet)}</span></a>
             <a href="account.html#favorites" role="menuitem"><span class="ic">♡</span><span data-i18n="nav_favs">${escape(t.favs)}</span></a>
             <a href="account.html#owned" role="menuitem"><span class="ic">▣</span><span data-i18n="nav_mine">${escape(t.mine)}</span></a>
@@ -141,6 +151,7 @@
         </a>
         <div class="svh-actions">
           <a href="shop.html" class="svh-shop"><span data-i18n="nav_shop">Shop</span> <span class="arrow" aria-hidden="true">→</span></a>
+          ${subscribePill}
           ${authArea}
           <div class="lang-switcher" aria-label="Language"></div>
         </div>
@@ -230,33 +241,44 @@
 
     let user = null;
     let role = null;
+    let hasAccess = false;
+
+    /* Resolve role + library-access for a user in one place. */
+    async function resolveAccess(u){
+      let r = null, access = false;
+      if(u){
+        try{
+          const { data } = await sb.from('profiles').select('role').eq('user_id', u.id).maybeSingle();
+          r = data && data.role ? data.role : null;
+        }catch(e){}
+        try{
+          const { data } = await sb.rpc('has_library_access', { p_user_id: u.id });
+          access = data === true;
+        }catch(e){}
+        if(r === 'superadmin' || r === 'admin') access = true;
+      }
+      return { role:r, hasAccess:access };
+    }
+
     if(sb){
       try{
         const { data:{ session } } = await sb.auth.getSession();
         user = session && session.user ? session.user : null;
       }catch(e){}
       if(user){
-        try{
-          const { data } = await sb.from('profiles').select('role').eq('user_id', user.id).maybeSingle();
-          role = data && data.role ? data.role : null;
-        }catch(e){}
+        const a = await resolveAccess(user);
+        role = a.role; hasAccess = a.hasAccess;
       }
       sb.auth.onAuthStateChange(async (_evt, session)=>{
         const u = session && session.user ? session.user : null;
-        let r = null;
-        if(u){
-          try{
-            const { data } = await sb.from('profiles').select('role').eq('user_id', u.id).maybeSingle();
-            r = data && data.role ? data.role : null;
-          }catch(e){}
-        }
-        render(u, { role:r });
+        const a = await resolveAccess(u);
+        render(u, { role:a.role, hasAccess:a.hasAccess });
       });
     }
 
     /* re-render when the session changes from another tab */
     window.addEventListener('storage', (e)=>{
-      if(e.key === 'svita-micro-auth'){ render(user, { role }); }
+      if(e.key === 'svita-micro-auth'){ render(user, { role, hasAccess }); }
     });
 
     /* re-render nav when the user picks a different language so labels update.
@@ -267,13 +289,13 @@
     window.onLangChange = function(lang, dict){
       if(!__navInRender){
         __navInRender = true;
-        try{ render(user, { role }); }catch(_){}
+        try{ render(user, { role, hasAccess }); }catch(_){}
         finally{ __navInRender = false; }
       }
       if(typeof prevOnLangChange === 'function') prevOnLangChange(lang, dict);
     };
 
-    render(user, { role });
+    render(user, { role, hasAccess });
   }
 
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

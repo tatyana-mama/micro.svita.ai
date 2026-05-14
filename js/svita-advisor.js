@@ -12,6 +12,51 @@
  * If the function is unreachable (deploy pending, network down) the panel
  * shows a graceful "leave email" fallback instead of pretending to chat.
  */
+
+/* ── canonical-header upgrade for legacy concept pages ──────────────────────
+ * The presentation pages (presentations/NN-slug/index.html) are generated
+ * artefacts that still carry the old hand-built <header class="topbar">.
+ * Rather than editing 90+ QA-locked files, we swap that legacy header for
+ * the SAME canonical header every other page uses: drop in <nav id="nav">,
+ * load css/svita-header.css + svita-nav.js, and let svita-nav.js render it.
+ * Net effect — concept pages get the identical logo / Shop / sign-in / lang
+ * header, wired to the shared svita-micro-auth session (so a signed-in
+ * visitor is recognised, no second login prompt in the bar). Runs before the
+ * advisor IIFE so the load-once guard never blocks it. */
+(function upgradeLegacyConceptHeader(){
+  const legacy = document.querySelector('header.topbar');
+  if (!legacy || document.getElementById('nav')) return;
+
+  const nav = document.createElement('nav');
+  nav.id = 'nav';
+  legacy.replaceWith(nav);
+
+  if (!document.querySelector('link[data-svita-header]')) {
+    const css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = '/css/svita-header.css';
+    css.setAttribute('data-svita-header', '');
+    document.head.appendChild(css);
+  }
+
+  function loadScript(src){
+    return new Promise((resolve) => {
+      if (document.querySelector('script[src="' + src + '"]')) { resolve(); return; }
+      const s = document.createElement('script');
+      s.src = src; s.onload = resolve; s.onerror = resolve;
+      document.body.appendChild(s);
+    });
+  }
+
+  /* svita-nav.js reads window.I18N (svita-i18n-dict.js) and window.labs67i18n
+     (labs67-i18n.js) for the language pill — load them first, in order. */
+  (async () => {
+    if (!window.I18N)        await loadScript('/js/svita-i18n-dict.js');
+    if (!window.labs67i18n)  await loadScript('/js/labs67-i18n.js');
+    await loadScript('/js/svita-nav.js');
+  })();
+})();
+
 (function () {
   if (window.__svitaAdvisor) return;       // load once
   if (document.getElementById('advisor-launch')) return; // shop.html has its own
