@@ -581,8 +581,13 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-7px) rotate(-45de
 .acc-tab.on .acc-tab-count{background:var(--accent);color:#EFEAE0}
 .acc-panel{min-height:200px}
 @media(max-width:640px){
-  .acc-tabs{gap:0}
-  .acc-tab{padding:10px 12px;font-size:11px}
+  /* keep the 3 tabs on one row — scroll instead of wrap */
+  .acc-tabs{
+    gap:0;flex-wrap:nowrap;overflow-x:auto;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+  }
+  .acc-tabs::-webkit-scrollbar{display:none}
+  .acc-tab{padding:11px 14px;font-size:11px;white-space:nowrap;flex:none}
 }
 
 /* ============ SETTINGS ============ */
