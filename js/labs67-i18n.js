@@ -257,6 +257,17 @@
     }
   };
 
+  /* ── Cross-tab + cross-page live sync ──
+     Another tab (or the React switcher on index.html) writes `labs67lang`
+     to localStorage → every open page re-applies the language instantly.
+     Guard against echo: only act when the value actually differs from `cur`. */
+  window.addEventListener('storage', function (e) {
+    if (e.key !== STORAGE_KEY || !e.newValue) return;
+    if (e.newValue === cur) return;
+    if (LANGS.indexOf(e.newValue) === -1) return;
+    setLang(e.newValue);
+  });
+
   /* ── Init ── */
   document.addEventListener('DOMContentLoaded', function () {
     injectCSS();

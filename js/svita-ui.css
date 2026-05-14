@@ -301,6 +301,40 @@ html,body{overflow-x:hidden}
 }
 .user-sep{height:1px;background:rgba(47,68,56,.15);margin:6px 4px}
 
+/* ====== LANG SWITCHER — pill matching the user / sign-in pills ======
+   Overrides the generic fallback CSS injected by labs67-i18n.js. */
+.labs67-lang .lang-current{
+  display:inline-flex;align-items:center;gap:5px;
+  height:40px;padding:0 12px;
+  border-radius:999px;
+  border:1px solid rgba(47,68,56,0.25);
+  background:rgba(239,234,224,0.4);
+  color:#2F4438;
+  font-family:'Inter Tight',-apple-system,system-ui,sans-serif;
+  font-size:13px;font-weight:500;letter-spacing:-0.01em;
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  transition:all 200ms cubic-bezier(.22,1,.36,1);
+}
+.labs67-lang .lang-current:hover{
+  border-color:rgba(47,68,56,0.5);
+  background:rgba(239,234,224,0.7);
+}
+.labs67-lang .lang-arrow{font-size:9px;opacity:0.6}
+.labs67-lang .lang-dropdown{
+  background:#F0EADF;
+  border:1px solid rgba(47,68,56,0.15);
+  border-radius:14px;
+  box-shadow:0 24px 60px rgba(0,0,0,0.18),0 2px 6px rgba(0,0,0,0.08);
+  padding:6px;min-width:140px;
+}
+.labs67-lang .lang-opt{
+  color:#5F6870;font-family:'Inter Tight',system-ui,sans-serif;
+  font-size:12px;font-weight:500;letter-spacing:0.02em;
+  padding:9px 12px;border-radius:9px;
+}
+.labs67-lang .lang-opt:hover{background:#E8DCC0;color:#2F4438}
+.labs67-lang .lang-opt.active{color:#7A6B3D;font-weight:600;background:rgba(122,107,61,0.08)}
+
 /* Ensure lang/user button stays touchable */
 .lang-btn,.user-btn{min-height:36px}
 

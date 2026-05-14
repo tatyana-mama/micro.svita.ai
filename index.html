@@ -134,6 +134,95 @@
       return user;
     }
 
+    /* Shared language state — single source of truth is the `labs67lang`
+       localStorage key (same key labs67-i18n.js uses on every other page).
+       Picking a language persists it, so navigating to shop/account/generate
+       carries the choice; a `storage` event keeps other open tabs in sync. */
+    const LANG_LABELS = { be:'BY', en:'EN', pl:'PL', ru:'RU', uk:'UA' };
+    const LANG_ORDER = ['en','pl','uk','be','ru'];
+
+    function useLang() {
+      const [lang, setLangState] = useState('en');
+      useEffect(() => {
+        try { setLangState(localStorage.getItem('labs67lang') || 'en'); } catch(e){}
+        const onStorage = (e) => {
+          if (e.key === 'labs67lang' && e.newValue) setLangState(e.newValue);
+        };
+        window.addEventListener('storage', onStorage);
+        return () => window.removeEventListener('storage', onStorage);
+      }, []);
+      const setLang = (l) => {
+        setLangState(l);
+        try {
+          localStorage.setItem('labs67lang', l);
+          const host = location.hostname;
+          const dom = host.indexOf('svita.ai') >= 0 ? '.svita.ai' : '';
+          document.cookie = 'svita_lang=' + l + ';path=/;max-age=31536000;SameSite=Lax' + (dom ? ';domain=' + dom : '');
+        } catch(e){}
+        document.documentElement.setAttribute('lang', l);
+        if (window.labs67i18n && window.labs67i18n.setLang) {
+          try { window.labs67i18n.setLang(l); } catch(e){}
+        }
+      };
+      return [lang, setLang];
+    }
+
+    function LangSwitcher() {
+      const [lang, setLang] = useLang();
+      const [open, setOpen] = useState(false);
+      const ref = useRef(null);
+
+      useEffect(() => {
+        const onClickOut = (e) => {
+          if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+        };
+        document.addEventListener('click', onClickOut);
+        return () => document.removeEventListener('click', onClickOut);
+      }, []);
+
+      return (
+        <div ref={ref} className="relative hidden md:block">
+          <button
+            onClick={(e)=>{ e.stopPropagation(); setOpen(o=>!o); }}
+            aria-label="Language" aria-expanded={open}
+            className="inline-flex items-center gap-1.5 h-10 px-3 rounded-full ring-1 ring-groen/25 bg-paper/40 backdrop-blur-sm text-groen text-[13px] font-medium hover:ring-groen/50 hover:bg-paper/70 transition-all">
+            <span>{LANG_LABELS[lang] || 'EN'}</span>
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className={`opacity-60 transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          {open && (
+            <div className="absolute top-[calc(100%+6px)] right-0 min-w-[140px] p-1.5 rounded-2xl bg-paper border border-groen/15 shadow-[0_24px_60px_rgba(0,0,0,0.18)] z-50">
+              {LANG_ORDER.map(l => (
+                <button key={l} onClick={()=>{ setLang(l); setOpen(false); }}
+                  className={`block w-full text-left px-3 py-2 rounded-lg text-[12px] font-medium transition-colors ${l === lang ? 'text-okra bg-okra/10' : 'text-grijs hover:bg-creme hover:text-groen'}`}>
+                  {LANG_LABELS[l]}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    /* Mobile lang row — same state, lives inside the burger drawer. */
+    function MobileLangRow() {
+      const [lang, setLang] = useLang();
+      return (
+        <div className="mt-6 pt-6 border-t border-groen/10">
+          <div className="text-[10px] tracking-[0.2em] uppercase text-grijs/60 mb-3">Language</div>
+          <div className="flex flex-wrap gap-2">
+            {LANG_ORDER.map(l => (
+              <button key={l} onClick={()=>setLang(l)}
+                className={`min-w-[52px] h-11 px-3 rounded-full text-[13px] font-medium transition-colors ${l === lang ? 'bg-groen text-creme' : 'ring-1 ring-groen/25 text-groen hover:bg-creme'}`}>
+                {LANG_LABELS[l]}
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
     function TopBar() {
       const [open, setOpen] = useState(false);
       const [scrolled, setScrolled] = useState(false);
@@ -216,13 +305,8 @@
                     </svg>
                   </a>
                 )}
-                {/* lang switcher */}
-                <div className="hidden md:inline-flex items-center justify-center px-2.5 py-1.5 rounded-md ring-1 ring-groen/25 text-groen text-[11px] tracking-tight hover:ring-groen/50 cursor-pointer transition-colors lang-switcher" aria-label="language">
-                  <span>EN</span>
-                  <svg className="ml-1 opacity-60" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-                    <polyline points="6 9 12 15 18 9"/>
-                  </svg>
-                </div>
+                {/* lang switcher — synced via labs67lang localStorage */}
+                <LangSwitcher />
                 {!user && (
                   <a href="#pricing" className="hidden md:inline-flex items-center gap-2 pl-5 pr-4 py-2.5 rounded-full bg-groen text-creme text-[10px] tracking-[0.2em] uppercase hover:bg-okra transition-colors">
                     <span>$19 / mo</span>
@@ -279,6 +363,7 @@
                     )}
                     <p className="mt-2 text-[11px] text-grijs/70 font-display italic text-center">7 days free · cancel anytime</p>
                   </div>
+                  <MobileLangRow />
                 </motion.nav>
               </motion.div>
             )}
