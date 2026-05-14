@@ -722,14 +722,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </a>
   <a href="index.html" class="login-back">
     <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 5H1M5 1L1 5l4 4"/></svg>
-    Back to shop
+    <span data-i18n="acc_back_shop">Back to shop</span>
   </a>
 
   <div class="login-wrap">
     <div class="login-card">
-      <div class="eyebrow" id="auth-eyebrow">Account access</div>
-      <h2 id="auth-title">Your <span class="accent">cabinet</span>.</h2>
-      <p class="lead" id="auth-lead">Sign in to see your purchased concepts. No magic link required — just email and password.</p>
+      <div class="eyebrow" id="auth-eyebrow" data-i18n="acc_access_eyebrow">Account access</div>
+      <h2 id="auth-title" data-i18n="acc_title_cabinet">Your <span class="accent">cabinet</span>.</h2>
+      <p class="lead" id="auth-lead" data-i18n="acc_lead_signin">Sign in to see your purchased concepts. No magic link required — just email and password.</p>
 
       <!-- TABS -->
       <div class="auth-tabs" id="auth-tabs">
@@ -753,7 +753,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </span>
             </div>
           </div>
-          <div class="forgot-row"><span class="forgot-link" id="forgot-link">Forgot password?</span></div>
+          <div class="forgot-row"><span class="forgot-link" id="forgot-link" data-i18n="acc_forgot">Forgot password?</span></div>
           <button class="btn btn-primary" type="submit" id="si-btn">
             <span data-i18n="acc_signin">Sign in</span>
             <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
@@ -764,15 +764,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="oauth-stack">
           <button type="button" class="oauth-btn" data-provider="google">
             <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5h-1.9V20H24v8h11.3c-1.6 4.7-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C33.6 6.1 29.1 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.3-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.8 1.2 7.9 3l5.7-5.7C33.6 7.1 29.1 5 24 5 16.3 5 9.7 9 6.3 14.7z"/><path fill="#4CAF50" d="M24 43c5 0 9.6-1.9 13.1-5.1l-6-5.1c-1.9 1.4-4.3 2.2-7.1 2.2-5.3 0-9.7-3.3-11.3-8l-6.6 5.1C9.5 38.9 16.2 43 24 43z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.6l6 5.1C41 35 44 30 44 24c0-1.3-.1-2.3-.4-3.5z"/></svg>
-            Continue with Google
+            <span data-i18n="acc_continue_google">Continue with Google</span>
           </button>
           <button type="button" class="oauth-btn" data-provider="github">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.8.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.9.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.3v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg>
-            Continue with GitHub
+            <span data-i18n="acc_continue_github">Continue with GitHub</span>
           </button>
           <button type="button" class="oauth-btn" data-provider="discord">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="#5865F2"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.2.4a18.3 18.3 0 0 1 5 2.6 18.5 18.5 0 0 0-6.5-1.5 18.5 18.5 0 0 0-6.5 1.5 18 18 0 0 1 5-2.6L12 3A19.8 19.8 0 0 0 7.1 4.4C4 9 3.1 13.5 3.5 17.9A20 20 0 0 0 9.5 21l.4-.7a13 13 0 0 1-2-1c.2 0 .3-.2.5-.3a14 14 0 0 0 12 0l.5.3-2 1 .4.7a20 20 0 0 0 6-3.1c.5-5.2-.9-9.7-4-13.5zM9.7 15.3c-1.2 0-2.2-1.1-2.2-2.4 0-1.4 1-2.5 2.2-2.5s2.2 1.1 2.2 2.5-1 2.4-2.2 2.4zm4.6 0c-1.2 0-2.2-1.1-2.2-2.4 0-1.4 1-2.5 2.2-2.5s2.2 1.1 2.2 2.5-1 2.4-2.2 2.4z"/></svg>
-            Continue with Discord
+            <span data-i18n="acc_continue_discord">Continue with Discord</span>
           </button>
         </div>
       </div>
@@ -781,7 +781,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="auth-panel" id="panel-signup">
         <form id="form-signup">
           <div class="field">
-            <label for="su-name">Name</label>
+            <label for="su-name" data-i18n="acc_name">Name</label>
             <input type="text" id="su-name" placeholder="How should we call you" required autocomplete="name">
           </div>
           <div class="field">
@@ -802,7 +802,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
           </div>
           <div class="field last">
-            <label for="su-pass2">Confirm password</label>
+            <label for="su-pass2" data-i18n="acc_confirm_pw">Confirm password</label>
             <div class="pass-wrap">
               <input type="password" id="su-pass2" placeholder="Repeat password" required autocomplete="new-password">
               <span class="eye" data-target="su-pass2">
@@ -815,7 +815,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <label for="su-agree">I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</label>
           </div>
           <button class="btn btn-primary" type="submit" id="su-btn">
-            Create account
+            <span data-i18n="acc_create_account">Create account</span>
             <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
           </button>
         </form>
@@ -826,23 +826,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="auth-panel" id="panel-forgot">
         <form id="form-forgot">
           <div class="field last">
-            <label for="fg-email">Email</label>
+            <label for="fg-email" data-i18n="acc_email">Email</label>
             <input type="email" id="fg-email" placeholder="you@domain.com" required autocomplete="email">
           </div>
           <button class="btn btn-primary" type="submit" id="fg-btn">
-            Send reset link
+            <span data-i18n="acc_send_reset">Send reset link</span>
             <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
           </button>
         </form>
         <div id="fg-msg"></div>
-        <div class="center-text"><span class="back-link" id="back-to-signin"><svg width="12" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 5H1M5 1L1 5l4 4"/></svg> Back to sign in</span></div>
+        <div class="center-text"><span class="back-link" id="back-to-signin"><svg width="12" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 5H1M5 1L1 5l4 4"/></svg> <span data-i18n="acc_back_signin">Back to sign in</span></span></div>
       </div>
 
       <!-- RESET -->
       <div class="auth-panel" id="panel-reset">
         <form id="form-reset">
           <div class="field">
-            <label for="rs-pass">New password</label>
+            <label for="rs-pass" data-i18n="acc_new_pw">New password</label>
             <div class="pass-wrap">
               <input type="password" id="rs-pass" placeholder="Minimum 8 characters" required autocomplete="new-password">
               <span class="eye" data-target="rs-pass">
@@ -851,7 +851,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
           </div>
           <div class="field last">
-            <label for="rs-pass2">Confirm password</label>
+            <label for="rs-pass2" data-i18n="acc_confirm_pw">Confirm password</label>
             <div class="pass-wrap">
               <input type="password" id="rs-pass2" placeholder="Repeat password" required autocomplete="new-password">
               <span class="eye" data-target="rs-pass2">
@@ -860,14 +860,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
           </div>
           <button class="btn btn-primary" type="submit" id="rs-btn">
-            Save password
+            <span data-i18n="acc_save_pw">Save password</span>
             <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
           </button>
         </form>
         <div id="rs-msg"></div>
       </div>
 
-      <div class="note">Your purchased concepts are tied to your account. We never share your email.</div>
+      <div class="note" data-i18n="acc_note_tied">Your purchased concepts are tied to your account. We never share your email.</div>
     </div>
   </div>
 </div>
@@ -880,12 +880,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         S<span class="live-dot" aria-hidden="true"></span>
       </div>
       <div class="acc-hero-body">
-        <div class="acc-hero-eyebrow">Your cabinet <span id="role-badge" class="role-badge"></span></div>
-        <div class="acc-hero-name">Hello, <span class="accent" id="user-name">friend</span>.</div>
+        <div class="acc-hero-eyebrow"><span data-i18n="acc_hero_eyebrow">Your cabinet</span> <span id="role-badge" class="role-badge"></span></div>
+        <div class="acc-hero-name"><span data-i18n="acc_hello">Hello,</span> <span class="accent" id="user-name">friend</span>.</div>
         <div class="acc-hero-meta">
           <span class="email-inline" id="user-email"></span>
           <span class="sep">·</span>
-          <span>Everything you've bought lives here.</span>
+          <span data-i18n="acc_hero_meta">Everything you've bought lives here.</span>
         </div>
       </div>
     </div>
@@ -896,62 +896,62 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <section id="sub-block" class="sub-card reveal">
       <div id="sub-active" class="hidden sub-active">
         <div class="sub-active-body">
-          <div class="sub-eyebrow">Library access</div>
+          <div class="sub-eyebrow" data-i18n="acc_lib_access">Library access</div>
           <h3 class="sub-title">
-            <span id="sub-status-label">Active</span> <span id="sub-status-plan" class="sub-plan"></span>
+            <span id="sub-status-label" data-i18n="acc_active">Active</span> <span id="sub-status-plan" class="sub-plan"></span>
           </h3>
           <div id="sub-status-meta" class="sub-meta"></div>
         </div>
         <div class="sub-actions">
-          <a href="/shop.html" class="btn btn-primary sub-btn">Open the library →</a>
-          <a href="#" id="sub-manage" class="btn btn-ghost sub-btn hidden">Manage</a>
+          <a href="/shop.html" class="btn btn-primary sub-btn" data-i18n="acc_open_library">Open the library →</a>
+          <a href="#" id="sub-manage" class="btn btn-ghost sub-btn hidden" data-i18n="acc_manage">Manage</a>
         </div>
       </div>
 
       <div id="sub-pitch" class="hidden">
         <div class="sub-pitch-head">
-          <div class="sub-eyebrow">Library card</div>
-          <h3 class="sub-pitch-title">Open every concept — $19/mo</h3>
-          <p class="sub-pitch-lead">90+ editorial brandbooks. New concepts every week. 7-day free trial. Cancel anytime. Taxes added at checkout where applicable.</p>
+          <div class="sub-eyebrow" data-i18n="acc_lib_card">Library card</div>
+          <h3 class="sub-pitch-title" data-i18n="acc_lib_card_title">Open every concept — $19/mo</h3>
+          <p class="sub-pitch-lead" data-i18n="acc_lib_card_lead">90+ editorial brandbooks. New concepts every week. 7-day free trial. Cancel anytime. Taxes added at checkout where applicable.</p>
         </div>
         <div class="sub-actions">
-          <a href="#" id="sub-cta-monthly" class="btn btn-primary sub-btn-lg">Start trial · $19/month</a>
-          <a href="#" id="sub-cta-yearly" class="btn btn-ghost sub-btn-lg">$149 / year (save ~35%)</a>
+          <a href="#" id="sub-cta-monthly" class="btn btn-primary sub-btn-lg" data-i18n="acc_start_trial">Start trial · $19/month</a>
+          <a href="#" id="sub-cta-yearly" class="btn btn-ghost sub-btn-lg" data-i18n="acc_yearly">$149 / year (save ~35%)</a>
         </div>
-        <div id="sub-legacy" class="hidden sub-legacy">
+        <div id="sub-legacy" class="hidden sub-legacy" data-i18n="acc_legacy">
           Legacy access · You bought concepts under the old per-purchase model — your library access is permanent without a subscription.
         </div>
       </div>
 
-      <div id="sub-loading" class="sub-loading">Checking your access…</div>
+      <div id="sub-loading" class="sub-loading" data-i18n="acc_checking">Checking your access…</div>
     </section>
 
     <div class="acc-tabs reveal" role="tablist">
-      <button type="button" class="acc-tab" data-tab="owned" role="tab">My concepts <span class="acc-tab-count" id="tab-count-owned"></span></button>
-      <button type="button" class="acc-tab" data-tab="favorites" role="tab">Favorites <span class="acc-tab-count" id="tab-count-favs"></span></button>
-      <button type="button" class="acc-tab" data-tab="settings" role="tab">Settings</button>
+      <button type="button" class="acc-tab" data-tab="owned" role="tab"><span data-i18n="acc_my_concepts">My concepts</span> <span class="acc-tab-count" id="tab-count-owned"></span></button>
+      <button type="button" class="acc-tab" data-tab="favorites" role="tab"><span data-i18n="acc_favorites">Favorites</span> <span class="acc-tab-count" id="tab-count-favs"></span></button>
+      <button type="button" class="acc-tab" data-tab="settings" role="tab" data-i18n="acc_settings">Settings</button>
     </div>
 
     <div class="acc-panel hidden" id="acc-panel-owned" role="tabpanel">
       <div class="owned-head reveal">
-        <h2>My concepts</h2>
+        <h2 data-i18n="acc_my_concepts">My concepts</h2>
         <span class="count" id="owned-count"></span>
       </div>
       <div id="owned-bonus" class="hidden" style="margin:12px 0 20px;padding:14px 18px;border:1px solid var(--line,#e2e8f0);border-radius:12px;background:linear-gradient(90deg,#f7fee7,#ecfccb);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
         <div style="font-size:14px;line-height:1.5">
-          <b>✓ Your bonus · Day-1 opening checklist</b>
-          <div style="color:#475569;margin-top:2px">Printable PDF · 48 pre-launch tasks · included with every concept you own.</div>
+          <b data-i18n="acc_bonus_title">✓ Your bonus · Day-1 opening checklist</b>
+          <div style="color:#475569;margin-top:2px" data-i18n="acc_bonus_sub">Printable PDF · 48 pre-launch tasks · included with every concept you own.</div>
         </div>
-        <a href="data/bonuses/day1-checklist.pdf" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:13px;padding:8px 14px;white-space:nowrap">Download PDF →</a>
+        <a href="data/bonuses/day1-checklist.pdf" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:13px;padding:8px 14px;white-space:nowrap" data-i18n="acc_download_pdf">Download PDF →</a>
       </div>
       <div id="owned-loading" class="loader"><span class="spin"></span></div>
       <div id="owned-grid" class="owned hidden"></div>
       <div id="owned-empty" class="empty hidden">
-        <div class="eyebrow">Empty cabinet</div>
-        <h3>Pick your first <span class="accent">concept</span>.</h3>
-        <p>90+ ready-to-launch concepts waiting. Coffee shops, matcha kiosks, ramen bars, beauty salons. Open the whole library — $19/mo.</p>
+        <div class="eyebrow" data-i18n="acc_empty_cabinet">Empty cabinet</div>
+        <h3 data-i18n="acc_pick_first">Pick your first <span class="accent">concept</span>.</h3>
+        <p data-i18n="acc_pick_first_p">90+ ready-to-launch concepts waiting. Coffee shops, matcha kiosks, ramen bars, beauty salons. Open the whole library — $19/mo.</p>
         <a href="index.html#gallery" class="btn btn-primary">
-          Browse concepts
+          <span data-i18n="acc_browse_concepts">Browse concepts</span>
           <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
         </a>
       </div>
@@ -959,17 +959,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="acc-panel hidden" id="acc-panel-generated" role="tabpanel">
       <div class="owned-head reveal">
-        <h2>Generated by you</h2>
+        <h2 data-i18n="acc_generated_by_you">Generated by you</h2>
         <span class="count" id="gen-count"></span>
       </div>
       <div id="gen-loading" class="loader"><span class="spin"></span></div>
       <div id="gen-list" class="hidden" style="display:flex;flex-direction:column;gap:14px;margin-top:12px"></div>
       <div id="gen-empty" class="empty hidden">
-        <div class="eyebrow">Nothing generated yet</div>
-        <h3>Design your <span class="accent">next idea</span>.</h3>
-        <p>Use the AI Concept Generator to spin up a fresh brandbook in about a minute. It lives here even after you close the tab.</p>
+        <div class="eyebrow" data-i18n="acc_nothing_gen">Nothing generated yet</div>
+        <h3 data-i18n="acc_next_idea">Design your <span class="accent">next idea</span>.</h3>
+        <p data-i18n="acc_gen_p">Use the AI Concept Generator to spin up a fresh brandbook in about a minute. It lives here even after you close the tab.</p>
         <a href="generate.html" class="btn btn-primary">
-          Open generator
+          <span data-i18n="acc_open_generator">Open generator</span>
           <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 5h14M10 1l5 4-5 4"/></svg>
         </a>
       </div>
@@ -977,18 +977,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="acc-panel hidden" id="acc-panel-favorites" role="tabpanel">
       <div class="owned-head reveal">
-        <h2>Favorites</h2>
+        <h2 data-i18n="acc_favorites">Favorites</h2>
         <span class="count" id="favs-count"></span>
       </div>
       <div id="favs-grid" class="favs hidden"></div>
       <div id="favs-empty" class="favs-empty hidden">
-        No favorites yet. Tap the <span style="color:#ff4d6b">♥</span> on any concept to save it here. <a href="shop.html">Browse shop →</a>
+        <span data-i18n="acc_favs_empty_full">No favorites yet. Tap the ♥ on any concept to save it here.</span> <a href="shop.html" data-i18n="acc_browse_shop_arrow">Browse shop →</a>
       </div>
     </div>
 
     <div id="faq-modal" class="faq-overlay hidden" onclick="if(event.target===this)this.classList.add('hidden')">
       <div class="faq-card">
-        <h3>FAQ</h3>
+        <h3 data-i18n="acc_faq">FAQ</h3>
         <div class="faq-sub">Can't find an answer? Email <a href="mailto:support@svita.labs67.com" style="color:var(--accent)">support@svita.labs67.com</a></div>
         <details><summary>What do I get after buying a concept?</summary><p>Instant access to the full brandbook (25 A4 pages): concept, audience, floor plan, equipment list, budget, P&L, suppliers, registration steps, 9-week launch timeline. You can open it anytime from this cabinet.</p></details>
         <details><summary>Is the license per person or per business?</summary><p>Per buyer. One person, one business. Not for redistribution or resale.</p></details>
@@ -996,86 +996,86 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <details><summary>My payment succeeded but brandbook is locked.</summary><p>Refresh the cabinet. If it's still locked after a minute, email support with your order ID.</p></details>
         <details><summary>Do you offer refunds?</summary><p>Digital goods — no refunds after the brandbook is unlocked. Ask questions before buying.</p></details>
         <details><summary>How many concepts are in the catalog?</summary><p>90 ready concepts across 13 categories. New ones added regularly.</p></details>
-        <button class="btn btn-ghost faq-close" onclick="document.getElementById('faq-modal').classList.add('hidden')">Close</button>
+        <button class="btn btn-ghost faq-close" onclick="document.getElementById('faq-modal').classList.add('hidden')" data-i18n="acc_faq_close">Close</button>
       </div>
     </div>
 
     <div class="acc-panel hidden" id="acc-panel-settings" role="tabpanel">
     <div class="owned-head reveal">
-      <h2>Settings</h2>
+      <h2 data-i18n="acc_settings">Settings</h2>
     </div>
     <div class="settings-grid">
       <div class="settings-card">
         <div class="settings-head">
-          <h3>Profile</h3>
-          <p>Your display name and email. Email can't be changed — contact support if you need to.</p>
+          <h3 data-i18n="acc_profile">Profile</h3>
+          <p data-i18n="acc_profile_sub">Your display name and email. Email can't be changed — contact support if you need to.</p>
         </div>
         <label class="settings-field">
-          <span class="lbl">Display name</span>
+          <span class="lbl" data-i18n="acc_display_name">Display name</span>
           <input type="text" id="set-name" maxlength="60" placeholder="How should we call you?">
         </label>
         <label class="settings-field">
-          <span class="lbl">Email</span>
+          <span class="lbl" data-i18n="acc_email">Email</span>
           <input type="email" id="set-email" disabled>
         </label>
         <div class="settings-actions">
-          <button type="button" class="btn btn-primary" id="set-save-profile">Save profile</button>
+          <button type="button" class="btn btn-primary" id="set-save-profile" data-i18n="acc_save_profile">Save profile</button>
           <span class="settings-msg" id="set-msg-profile"></span>
         </div>
       </div>
 
       <div class="settings-card">
         <div class="settings-head">
-          <h3>Password</h3>
-          <p>Enter a new password of at least 8 characters and we'll update it.</p>
+          <h3 data-i18n="acc_password">Password</h3>
+          <p data-i18n="acc_pw_block_sub">Enter a new password of at least 8 characters and we'll update it.</p>
         </div>
         <label class="settings-field">
-          <span class="lbl">New password</span>
+          <span class="lbl" data-i18n="acc_new_pw">New password</span>
           <input type="password" id="set-pw1" autocomplete="new-password" minlength="8" placeholder="••••••••">
         </label>
         <label class="settings-field">
-          <span class="lbl">Confirm new password</span>
+          <span class="lbl" data-i18n="acc_confirm_new_pw">Confirm new password</span>
           <input type="password" id="set-pw2" autocomplete="new-password" minlength="8" placeholder="••••••••">
         </label>
         <div class="settings-actions">
-          <button type="button" class="btn btn-primary" id="set-save-pw">Update password</button>
+          <button type="button" class="btn btn-primary" id="set-save-pw" data-i18n="acc_update_pw">Update password</button>
           <span class="settings-msg" id="set-msg-pw"></span>
         </div>
       </div>
 
       <div class="settings-card">
         <div class="settings-head">
-          <h3>Contacts</h3>
-          <p>Questions, refunds, partnerships — one inbox handles everything.</p>
+          <h3 data-i18n="acc_contacts">Contacts</h3>
+          <p data-i18n="acc_contacts_sub">Questions, refunds, partnerships — one inbox handles everything.</p>
         </div>
         <div class="contacts-list">
           <a class="contact-row" href="mailto:ceo@labs67.com?subject=SVITA%20Micro%20%E2%80%94%20Support">
-            <span class="crow-kind">Support</span>
+            <span class="crow-kind" data-i18n="acc_support">Support</span>
             <span class="crow-val">ceo@labs67.com</span>
           </a>
           <a class="contact-row" href="mailto:ceo@labs67.com?subject=SVITA%20Micro%20%E2%80%94%20Commercial%20inquiry">
-            <span class="crow-kind">Commercial</span>
+            <span class="crow-kind" data-i18n="acc_commercial">Commercial</span>
             <span class="crow-val">ceo@labs67.com</span>
           </a>
           <button type="button" class="contact-row as-btn" id="open-faq">
-            <span class="crow-kind">FAQ</span>
-            <span class="crow-val">Common questions →</span>
+            <span class="crow-kind" data-i18n="acc_faq">FAQ</span>
+            <span class="crow-val" data-i18n="acc_faq_common">Common questions →</span>
           </button>
           <a class="contact-row" href="shop.html">
-            <span class="crow-kind">Shop</span>
-            <span class="crow-val">Browse 90 concepts →</span>
+            <span class="crow-kind" data-i18n="acc_shop_word">Shop</span>
+            <span class="crow-val" data-i18n="acc_browse_n">Browse all concepts →</span>
           </a>
         </div>
       </div>
 
       <div class="settings-card danger">
         <div class="settings-head">
-          <h3>Danger zone</h3>
-          <p>Sign out from this browser, or permanently delete your account and purchase history.</p>
+          <h3 data-i18n="acc_danger">Danger zone</h3>
+          <p data-i18n="acc_danger_sub">Sign out from this browser, or permanently delete your account and purchase history.</p>
         </div>
         <div class="settings-actions">
-          <button type="button" class="btn btn-ghost" id="set-signout">Sign out</button>
-          <button type="button" class="btn btn-danger" id="set-delete">Delete account…</button>
+          <button type="button" class="btn btn-ghost" id="set-signout" data-i18n="acc_signout_btn">Sign out</button>
+          <button type="button" class="btn btn-danger" id="set-delete" data-i18n="acc_delete_account">Delete account…</button>
         </div>
         <span class="settings-msg" id="set-msg-danger"></span>
       </div>
