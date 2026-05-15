@@ -136,6 +136,89 @@ async function loadCatalog(): Promise<CatalogRow[]> {
   return rows;
 }
 
+/* Compact tokeniser — strip punctuation/stop-words, lower-case, dedupe.
+   Used by the keyword scorer to align the visitor's request with concept
+   metadata. Multilingual: we just split on non-letter and let exact-match do
+   the work; the model still handles fuzzy/conceptual matching afterwards. */
+const STOP_WORDS = new Set([
+  'a','an','the','and','or','but','for','to','of','in','on','at','by','with','from','as','is','are','am','be','was','were','been','being','have','has','had','do','does','did','i','you','he','she','it','we','they','my','your','his','her','its','our','their','this','that','these','those','can','could','should','would','will','want','need','like','please','tell','me','show','give','find','about','around','near','some','any','what','which','how','where','who','when','why',
+  'и','в','во','не','что','он','на','я','с','со','как','а','то','все','она','так','его','но','да','ты','к','у','же','вы','за','бы','по','только','ее','мне','было','вот','от','меня','еще','нет','о','из','ему','теперь','когда','даже','ну','если','уже','или','ни','быть','был','него','до','тебя','их','чем','без','будто','чтоб','этого','этом','этот','эта','эти','при','для','есть','ещё','чтобы','этого','очень','хочу','нужно','можно','может','лучше','концепции','концепция','концепцию','концепций','концепциях','что-то','что-нибудь','покажи','найди','выбери','подскажи','посоветуй','посмотреть','посмотри','один','одну','одна','одно',
+  'i','w','do','na','z','jest','są','być','dla','to','tak','nie','już','można','chciał','chcę','potrzebuję','jakąś','jakieś','jaki','jaką','jakie',
+  'і','в','у','на','з','це','так','ні','для','хочу','треба','можна','який','яку','які','якесь','щось',
+  'і','у','на','з','гэта','так','не','для','хачу','патрэбна','можна','які','якое','якую','штосьці','штонебудзь'
+]);
+function tokenize(s: string): string[] {
+  if (!s) return [];
+  const out = new Set<string>();
+  for (const raw of s.toLowerCase().split(/[^a-zа-яёіїєґўá-žà-ÿ0-9-]+/)) {
+    const w = raw.trim();
+    if (!w || w.length < 3) continue;
+    if (STOP_WORDS.has(w)) continue;
+    out.add(w);
+  }
+  return [...out];
+}
+
+/* For a given user query, score every catalog row by how many tokens match in
+   its searchable fields (slug, name, tagline, category, country, slide titles
+   from the deep RAG dict). Returns the top-K rows ordered by score so the
+   prompt can show the model a small, relevant menu instead of all 91 rows. */
+function scoreConcepts(query: string, rows: CatalogRow[], k = 12): CatalogRow[] {
+  const tokens = tokenize(query);
+  if (!tokens.length) return rows.slice(0, k);
+
+  const scored = rows.map(r => {
+    const haystack = [
+      r.slug || '',
+      r.name || '',
+      r.category || '',
+      r.country || '',
+      r.tagline || ''
+    ].join(' ').toLowerCase();
+    /* Add slide-title text from the deep-knowledge dict (eyebrow + hero_tag
+       + pretext) — these carry the strongest semantic hints about what the
+       concept actually IS (e.g. "ceramics atelier" mentions "clay/kiln"). */
+    const deep = conceptTexts[r.slug];
+    const deepHay = deep
+      ? [deep.title, deep.eyebrow, deep.hero_tag, deep.pretext,
+         ...(deep.slides ? deep.slides.slice(0, 6) : [])].filter(Boolean).join(' ').toLowerCase()
+      : '';
+    let score = 0;
+    for (const t of tokens) {
+      if (haystack.includes(t)) score += 3;     // direct meta match — strongest
+      if (deepHay.includes(t))  score += 1;     // body/slide match — supporting
+    }
+    return { r, score };
+  });
+  scored.sort((a, b) => b.score - a.score);
+  /* Drop zero-score rows from the top — if nothing matches, return empty and
+     let the model fall back to the full catalog snapshot. */
+  const positives = scored.filter(s => s.score > 0);
+  if (!positives.length) return [];
+  return positives.slice(0, k).map(s => s.r);
+}
+
+function buildBestMatchesBlock(query: string, rows: CatalogRow[], shown: string[]): string {
+  /* Score against the user's last turn only — earlier turns may have
+     wandered. The shown-slug filter keeps the menu fresh after each round. */
+  const ranked = scoreConcepts(query, rows, 24).filter(r => !shown.includes(r.slug.toLowerCase()));
+  if (!ranked.length) return '';
+  const top = ranked.slice(0, 12);
+  const lines = top.map(r => {
+    const budget = r.budget_eur ? `~€${r.budget_eur.toLocaleString('en-US')}` : '—';
+    const tag = r.tagline ? ` — ${r.tagline}` : '';
+    return `- ${r.slug} | ${r.name ?? r.slug} | ${r.category ?? '—'} | ${r.country ?? '—'} | ${r.size_m2 ?? '—'}m² | open ${budget}${tag}`;
+  }).join('\n');
+  return [
+    '',
+    'BEST MATCHES FOR THIS TURN — keyword-scored shortlist',
+    'These rows match the visitor\'s most recent message by direct token overlap (slug/name/category/country/tagline + slide bodies). Treat this as your PRIMARY shortlist. Pick the strongest 1–3 from here unless none truly fit; only then fall back to the full catalog below.',
+    '',
+    lines,
+    '',
+  ].join('\n');
+}
+
 /* Pull every concept slug the assistant has already recommended in this
    conversation, so the system prompt can ban them and force variety. The
    visitor sees the same 3 slugs repeated as a sign of broken behaviour. */
@@ -212,9 +295,11 @@ THE BIG IDEA YOU SELL — INVISIBLY
 Every concept in this library exists for one reason: a micro-business survives against chain giants ONLY by being uncopiable. The uncopiable part is the ATMOSPHERE — the palette, the smell, the slowness, the ritual, the materials, the specific way light hits the counter. Brand the chains can't fake. Mention this when it lands naturally (NOT every reply, NOT preachy) — usually one sentence about WHY a recommended concept has the atmosphere a chain can never reproduce. The visitor should feel: this is not a template, it's a stance.
 
 HOW TO HELP THEM DECIDE
-- If they tell you their craft / profession / what they already do (керамика, glass-blowing, candles, leather, photography, music, tea, vinyl, etc.) — treat that as the strongest signal. First scan the "craft" category. Then scan EVERY concept whose tagline/name/category aligns with the material or activity. Don't default to food/drink just because those are the biggest categories.
+- The visitor's most recent message is your strongest signal. PRIMARY shortlist below ("BEST MATCHES FOR THIS TURN") already filters the catalog by token overlap with their message — start there. If a row in that shortlist clearly fits, pick it. If multiple compete, pick the one that best matches their profile (memory section) and explain WHY in one sentence (the atmosphere, the craft, the budget fit).
+- If they tell you their craft / profession / what they already do (керамика, glass-blowing, candles, leather, photography, music, tea, vinyl, etc.) — treat that as the strongest signal. Scan the BEST MATCHES first, then the "craft" category in the full snapshot. Don't default to food/drink just because those are the biggest categories.
 - If their craft has NO direct concept in the catalog — say so plainly. Then propose the closest 1–2 adjacent concepts (craft category, or a maker's workshop concept) and explain HOW their craft could plug into that structure (same atmosphere, same retail logic, swapped product).
-- If they are unsure — ask ONE sharp narrowing question (budget? city? scale: solo or with team? indoor or street-facing?) and then commit to a recommendation. Don't bounce them with three questions in a row.
+- If you cannot identify ANY of craft / budget / city / scale / atmosphere from the visitor's message (e.g. they said only "что у вас есть?" or "помоги выбрать"), ask EXACTLY ONE sharp clarifying question — pick the dimension that would most narrow the search (usually craft or budget). Do NOT also try to recommend in the same turn. Wait for their answer first. Bombarding with three questions in one breath is also wrong — ONE question, then commit.
+- Always vary the recommendations: each new turn should surface DIFFERENT slugs than your previous turns unless the visitor explicitly asks to revisit one. You have 91 concepts — recycling the same 1–3 is a critical failure. The BEST MATCHES list already excludes slugs you've recommended before in this chat.
 - Close every reply with a clear next step: either a specific concept slug to open, OR the one narrowing question that unlocks the recommendation.
 
 HOW YOU WORK — surf by category, match the request
@@ -445,9 +530,16 @@ Deno.serve(async (req) => {
     // real editorial detail instead of paraphrasing the tagline.
     const deepDive = buildConceptDeepDive(turns, catalogRows);
     if (deepDive) system += '\n' + deepDive;
+    // Semantic preselect — score every concept against the visitor's last
+    // message (token overlap on slug/name/tag/category/country + deep slide
+    // text) and inject a top-12 shortlist. The model picks from this first
+    // and only falls back to the full snapshot if nothing here fits.
+    const shownSlugs = extractShownSlugs(turns);
+    const bestMatches = buildBestMatchesBlock(message, catalogRows, shownSlugs);
+    if (bestMatches) system += '\n' + bestMatches;
     // Anti-repeat — list already-recommended slugs so the model picks fresh
     // concepts on follow-up turns instead of cycling the same 1–3 every time.
-    const antiRepeat = buildAntiRepeatBlock(extractShownSlugs(turns), catalogRows);
+    const antiRepeat = buildAntiRepeatBlock(shownSlugs, catalogRows);
     if (antiRepeat) system += '\n' + antiRepeat;
   } catch (e) {
     return json({ error: 'catalog_unavailable', detail: String(e) }, 503);
