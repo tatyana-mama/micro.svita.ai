@@ -480,6 +480,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="stat"><div class="lbl">Users total</div><div class="num" id="o-users">—</div><div class="sub" id="o-gifts">— gifts</div></div>
       </div>
 
+      <!-- ─── Subscription stats (added 2026-05-15) ─── -->
+      <div class="stats">
+        <div class="stat accent"><div class="lbl">Trials active</div><div class="num" id="s-trial-active">—</div><div class="sub" id="s-trial-expired">— expired</div></div>
+        <div class="stat"><div class="lbl">Paid subscribers</div><div class="num" id="s-paid-active">—</div><div class="sub" id="s-paid-past-due">— past-due</div></div>
+        <div class="stat"><div class="lbl">Trial → paid</div><div class="num" id="s-conv">—</div><div class="sub">conversion %</div></div>
+        <div class="stat"><div class="lbl">Paid months</div><div class="num" id="s-paid-months">—</div><div class="sub" id="s-mrr">— MRR / mo</div></div>
+      </div>
+
       <div class="grid-2">
         <div class="card">
           <div class="hdr">
@@ -2041,12 +2049,23 @@ let OVR_RANGE = 30, OVR_TOP_RANGE = 30;
 
 async function loadOverview(){
   try {
-    const [statsR, tsR, feedR, topR] = await Promise.all([
+    const [statsR, tsR, feedR, topR, subR] = await Promise.all([
       sb.rpc('admin_dashboard_stats'),
       sb.rpc('admin_revenue_timeseries', {p_days: OVR_RANGE}),
       sb.rpc('admin_recent_activity', {p_limit: 20}),
       sb.rpc('admin_top_concepts', {p_days: OVR_TOP_RANGE, p_limit: 20}),
+      sb.rpc('admin_subscription_stats'),
     ]);
+    // Subscription cards — populated from admin_subscription_stats RPC.
+    const ss = subR.data || {};
+    const setN = (id, v) => { const el = $(id); if (el) el.textContent = fmtN(v ?? 0); };
+    setN('s-trial-active', ss.trial_active);
+    setN('s-paid-active',  ss.paid_active);
+    setN('s-paid-months',  ss.paid_months);
+    const exp = $('s-trial-expired');   if (exp) exp.textContent = fmtN(ss.trial_expired ?? 0) + ' expired';
+    const pd  = $('s-paid-past-due');   if (pd)  pd.textContent  = fmtN(ss.paid_past_due ?? 0) + ' past-due';
+    const conv = $('s-conv');           if (conv) conv.textContent = (Number(ss.conversion_pct ?? 0)).toFixed(1) + '%';
+    const mrr  = $('s-mrr');            if (mrr)  mrr.textContent  = '$' + Math.round(Number(ss.mrr_usd ?? 0)).toLocaleString() + ' MRR';
     if(statsR.error) console.warn('dashboard_stats', statsR.error);
     const s = statsR.data || {};
     $('o-rev30').textContent = fmtEur(s.revenue_30d);
