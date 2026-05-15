@@ -59,7 +59,8 @@
 
 (function () {
   if (window.__svitaAdvisor) return;       // load once
-  if (document.getElementById('advisor-launch')) return; // shop.html has its own
+  /* shop.html ships a legacy #advisor-launch button (hidden by CSS now); the
+     global FAB is the canonical chat everywhere — let it spawn there too. */
   window.__svitaAdvisor = true;
 
   const ENDPOINT = 'https://ctdleobjnzniqkqomlrq.supabase.co/functions/v1/shop-advisor';
