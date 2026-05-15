@@ -24,10 +24,67 @@
 //   SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY (auto-injected)
 
 import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
+import CONCEPT_TEXTS from './concept_texts.json' with { type: 'json' };
 
 const LLM_PROVIDER = (Deno.env.get('LLM_PROVIDER') ?? 'ollama').toLowerCase();
 const LLM_ENDPOINT = (Deno.env.get('LLM_ENDPOINT') ?? '').replace(/\/+$/, '');
-const LLM_MODEL = Deno.env.get('LLM_MODEL') ?? 'qwen3.6:27b';
+const LLM_MODEL = Deno.env.get('LLM_MODEL') ?? 'qwen3:14b';
+
+interface ConceptText {
+  slug: string;
+  title?: string;
+  eyebrow?: string;
+  hero_tag?: string;
+  pretext?: string;
+  slides?: string[];
+}
+const conceptTexts = CONCEPT_TEXTS as Record<string, ConceptText>;
+
+/* Pull a compact deep-knowledge block for up to N concepts whose slugs are
+   mentioned anywhere in the current turn or recent history. Each concept's
+   block lists its title + the per-slide annotations so the model can answer
+   "tell me more about <concept>" with real editorial detail instead of
+   inventing. Capped by character budget so the prompt stays manageable. */
+function buildConceptDeepDive(turns: { content: string }[], rows: { slug: string }[]): string {
+  const validSlugs = new Set(rows.map(r => r.slug.toLowerCase()));
+  const haystack = turns.map(t => t.content || '').join(' \n ');
+  const mentioned: string[] = [];
+  for (const slug of validSlugs) {
+    // word-boundary match on the slug, case-insensitive
+    const re = new RegExp(`(?<![\\w\\-])${slug.replace(/[-]/g, '\\-')}(?![\\w\\-])`, 'i');
+    if (re.test(haystack)) mentioned.push(slug);
+  }
+  if (!mentioned.length) return '';
+  const MAX_CONCEPTS = 3;
+  const MAX_CHARS_PER = 3500;
+  const picked = mentioned.slice(0, MAX_CONCEPTS);
+  const blocks: string[] = [];
+  for (const slug of picked) {
+    const rec = conceptTexts[slug];
+    if (!rec) continue;
+    const parts: string[] = [];
+    parts.push(`▶ ${rec.title || slug.toUpperCase()} (slug: ${slug})`);
+    if (rec.eyebrow) parts.push(`  ${rec.eyebrow}`);
+    if (rec.hero_tag) parts.push(`  ${rec.hero_tag}`);
+    if (rec.pretext) parts.push(`  ${rec.pretext}`);
+    if (rec.slides && rec.slides.length) {
+      parts.push('  Slide-by-slide annotations:');
+      for (const s of rec.slides) parts.push(`    · ${s}`);
+    }
+    let block = parts.join('\n');
+    if (block.length > MAX_CHARS_PER) block = block.slice(0, MAX_CHARS_PER) + '…';
+    blocks.push(block);
+  }
+  if (!blocks.length) return '';
+  return [
+    '',
+    'DETAILED KNOWLEDGE — only these concepts came up in the conversation. When the visitor asks for details, draw from THIS block (palette, atmosphere, slide-by-slide reasoning) instead of inventing or guessing. Stay faithful to the source.',
+    '',
+    blocks.join('\n\n'),
+    '',
+  ].join('\n');
+}
+
 const ANTHROPIC_KEY = Deno.env.get('ANTHROPIC_API_KEY') ?? '';
 const ANTHROPIC_MODEL = 'claude-haiku-4-5-20251001';
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';
@@ -130,6 +187,9 @@ RULES
 - If nothing in the catalog matches, say so honestly and propose the closest two.
 - If the visitor asks "how much does this cost?", answer with the subscription ($19/mo or $149/yr, 7-day trial). DO NOT quote per-concept prices.
 - Speak the user's language (English, Polish, Ukrainian, Belarusian, Russian — whichever they used).
+
+THE EXACT CATALOG SIZE
+- The library currently contains EXACTLY ${total} concepts. If the visitor asks "how many?" / "сколько концепций?" / "ile konceptów?" — answer with ${total}. Never round, never approximate, never invent a different number.
 
 CATALOG SNAPSHOT (${total} concepts, ${cats.length} categories, ${countries.length} countries)
 
@@ -323,6 +383,11 @@ Deno.serve(async (req) => {
   try {
     catalogRows = await loadCatalog();
     system = buildSystemPrompt(catalogRows);
+    // RAG-lite — attach deep slide-by-slide annotations for any concept slug
+    // mentioned in this turn or recent history, so the model can answer with
+    // real editorial detail instead of paraphrasing the tagline.
+    const deepDive = buildConceptDeepDive(turns, catalogRows);
+    if (deepDive) system += '\n' + deepDive;
   } catch (e) {
     return json({ error: 'catalog_unavailable', detail: String(e) }, 503);
   }
