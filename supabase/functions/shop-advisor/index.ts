@@ -24,8 +24,17 @@
 //   SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY (auto-injected)
 
 import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
-import CONCEPT_TEXTS from './concept_texts.json' with { type: 'json' };
-import CONCEPT_RICH from './concept_rich.json' with { type: 'json' };
+
+/* Big knowledge bundles are NOT imported anymore — MCP deploy can't handle
+   2MB of inlined JSON. They are hosted on jsdelivr (mirror of the GitHub
+   repo) and fetched lazily on first request, then cached in module scope
+   for the edge function's lifetime (~10 min between cold starts).
+   Files at:
+     https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/data/concept_texts.json
+     https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/data/concept_rich.json
+     https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/data/concept_embeddings.json
+*/
+const CDN_BASE = 'https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/data';
 
 const LLM_PROVIDER = (Deno.env.get('LLM_PROVIDER') ?? 'ollama').toLowerCase();
 const LLM_ENDPOINT = (Deno.env.get('LLM_ENDPOINT') ?? '').replace(/\/+$/, '');
@@ -41,7 +50,6 @@ interface ConceptText {
   pretext?: string;
   slides?: string[];
 }
-const conceptTexts = CONCEPT_TEXTS as Record<string, ConceptText>;
 
 /* Rich knowledge bundle produced by Agent B1 — 91 concepts × ~4KB each, with
    the densest searchable string per concept (search_text). Keyword scoring
@@ -70,7 +78,32 @@ interface ConceptRich {
   atmosphere_words?: string[];
   search_text?: string;
 }
-const conceptRich = CONCEPT_RICH as Record<string, ConceptRich>;
+
+/* Lazy CDN cache — fetched once per cold start, reused for all subsequent
+   requests on the same worker instance. ~2MB total; jsdelivr serves in
+   ~150ms warm-cached. */
+let conceptTexts: Record<string, ConceptText> = {};
+let conceptRich: Record<string, ConceptRich> = {};
+let cdnLoadedAt = 0;
+const CDN_TTL_MS = 10 * 60 * 1000; // 10 min — match GH Pages cache
+
+async function loadCdnBundles(): Promise<void> {
+  if (Date.now() - cdnLoadedAt < CDN_TTL_MS && Object.keys(conceptRich).length > 0) {
+    return; // warm cache hit
+  }
+  try {
+    const [textsRes, richRes] = await Promise.all([
+      fetch(`${CDN_BASE}/concept_texts.json`, { signal: AbortSignal.timeout(15000) }),
+      fetch(`${CDN_BASE}/concept_rich.json`,  { signal: AbortSignal.timeout(15000) }),
+    ]);
+    if (textsRes.ok) conceptTexts = await textsRes.json();
+    if (richRes.ok)  conceptRich  = await richRes.json();
+    cdnLoadedAt = Date.now();
+    console.log('[advisor] CDN bundles loaded:', Object.keys(conceptTexts).length, 'texts /', Object.keys(conceptRich).length, 'rich');
+  } catch (e) {
+    console.log('[advisor] CDN bundle load failed:', (e as Error).message);
+  }
+}
 
 /* Pull a compact deep-knowledge block for up to N concepts whose slugs are
    mentioned anywhere in the current turn or recent history. Each concept's
@@ -204,15 +237,22 @@ type ConceptVectorIndex = {
   vectors: Record<string, number[]>;
 };
 let conceptVectors: ConceptVectorIndex | null = null;
-try {
-  // dynamic import — file may not exist on every deploy
-  const vecMod = await import('./concept_embeddings.json' as string, { with: { type: 'json' } } as never).catch(() => null);
-  if (vecMod && (vecMod as { default: ConceptVectorIndex }).default) {
-    conceptVectors = (vecMod as { default: ConceptVectorIndex }).default;
-    console.log('[advisor] loaded concept_embeddings.json:', conceptVectors.count, 'vectors,', conceptVectors.dim, 'dim');
+let vectorsLoadedAt = 0;
+
+async function loadVectors(): Promise<void> {
+  if (Date.now() - vectorsLoadedAt < CDN_TTL_MS && conceptVectors) return;
+  try {
+    const r = await fetch(`${CDN_BASE}/concept_embeddings.json`, { signal: AbortSignal.timeout(15000) });
+    if (r.ok) {
+      conceptVectors = await r.json();
+      vectorsLoadedAt = Date.now();
+      console.log('[advisor] concept_embeddings.json loaded from CDN:', conceptVectors?.count, 'vectors');
+    } else {
+      console.log('[advisor] vectors fetch failed:', r.status);
+    }
+  } catch (e) {
+    console.log('[advisor] vectors fetch error:', (e as Error).message);
   }
-} catch (e) {
-  console.log('[advisor] concept_embeddings.json not present — falling back to keyword scoring');
 }
 
 async function embedQuery(text: string): Promise<number[] | null> {
@@ -247,8 +287,9 @@ function cosine(a: number[], b: number[]): number {
 }
 
 async function semanticScore(query: string, rows: CatalogRow[], k = 12): Promise<CatalogRow[] | null> {
-  if (!conceptVectors || !conceptVectors.vectors) return null;
   if (EMBEDDINGS_ENABLED === 'off') return null;
+  if (!conceptVectors) await loadVectors();
+  if (!conceptVectors || !conceptVectors.vectors) return null;
   const qvec = await embedQuery(query);
   if (!qvec) return null;
   const scored: { row: CatalogRow; sim: number }[] = [];
@@ -621,6 +662,107 @@ function isPriceQuestion(msg: string): boolean {
   return /(сколько|скільки|колькі|how much|ile|cena|ціна|вартість|cost|price|стоит|стоить|кошту|стоимость|подписк|subscription|плати|pay|tariff)/.test(m);
 }
 
+/* Parse hard constraints (budget cap, city, country) from the visitor's
+   message so the retriever can pre-filter candidates instead of relying on
+   the LLM to "remember" them. B3 stress-test showed budget was echoed but
+   not enforced — pre-filtering fixes that at the retrieval layer. */
+interface QueryConstraints {
+  maxBudget?: number;     // EUR — visitor's stated ceiling
+  city?: string;          // lowercase city name (catalog match)
+  country?: string;       // ISO-2 from catalog
+}
+
+function extractConstraints(message: string, rows: CatalogRow[]): QueryConstraints {
+  const c: QueryConstraints = {};
+  const m = message.toLowerCase();
+
+  /* Budget — "до X (тыс|тысяч|k|тис|€|евро) ; under X ; до Xk" — picks the
+     ceiling number. Accepts 20k, 20 000, 20.000, 15 тысяч, до €15 000. */
+  const budgetPatterns = [
+    /(?:до|под|under|менее|less\s+than|до)\s*€?\s*(\d{1,3}(?:[ .,]?\d{3})*|\d+)\s*(?:k|к|тыс|тысяч|тис|тысячi|тысячи|тысячах)?/i,
+    /€\s*(\d{1,3}(?:[ .,]?\d{3})*|\d+)\s*(?:k|к|тыс|тысяч)?/i,
+    /(\d{1,3}(?:[ .,]?\d{3})*|\d+)\s*(?:k|к)\s*€?/i,
+  ];
+  for (const p of budgetPatterns) {
+    const hit = m.match(p);
+    if (hit) {
+      const numRaw = hit[1].replace(/[ .,]/g, '');
+      let num = parseInt(numRaw, 10);
+      if (!isNaN(num)) {
+        if (/\d\s*[kк]/i.test(hit[0]) || /тыс|тис/.test(hit[0])) num *= 1000;
+        if (num > 1000 && num < 1_000_000) {
+          c.maxBudget = num;
+          break;
+        }
+      }
+    }
+  }
+
+  /* City — scan known cities from catalog (rich.city is populated). Match
+     case-insensitively + handles RU/UK declensions ("в Берлине", "у Львові",
+     "в Варшаве") by checking if the city stem appears anywhere. */
+  const cities = new Set<string>();
+  for (const r of rows) {
+    const rich = conceptRich[r.slug];
+    if (rich?.city) cities.add(rich.city.toLowerCase());
+  }
+  /* Manual stem map — declension-tolerant matching for the major Slavic langs.
+     Stem must appear as a substring in the lowercase message. */
+  const cityStems: Array<[string, string]> = [
+    ['berlin', 'berlin'], ['берлин', 'berlin'], ['берлине', 'berlin'],
+    ['paris', 'paris'], ['париж', 'paris'],
+    ['lisbon', 'lisbon'], ['lisboa', 'lisbon'], ['лиссабон', 'lisbon'], ['лісабон', 'lisbon'],
+    ['amsterdam', 'amsterdam'], ['амстердам', 'amsterdam'],
+    ['warsaw', 'warsaw'], ['warszaw', 'warsaw'], ['варшав', 'warsaw'], ['варшаве', 'warsaw'],
+    ['stockholm', 'stockholm'], ['стокгольм', 'stockholm'],
+    ['helsinki', 'helsinki'], ['хельсинки', 'helsinki'],
+    ['vienna', 'vienna'], ['wien', 'vienna'], ['вена', 'vienna'], ['вене', 'vienna'],
+    ['milano', 'milano'], ['milan', 'milano'], ['милан', 'milano'],
+    ['ljubljana', 'ljubljana'], ['любляна', 'ljubljana'],
+    ['cluj', 'cluj'],
+    ['brussels', 'brussels'], ['bruxelles', 'brussels'], ['брюссел', 'brussels'],
+    ['copenhagen', 'copenhagen'], ['københavn', 'copenhagen'], ['копенгаген', 'copenhagen'],
+    ['budapest', 'budapest'], ['будапешт', 'budapest'],
+    ['poznan', 'poznan'], ['poznań', 'poznan'], ['познан', 'poznan'],
+    ['krakow', 'krakow'], ['kraków', 'krakow'], ['краков', 'krakow'],
+    ['wroclaw', 'wroclaw'], ['wrocław', 'wroclaw'], ['вроцлав', 'wroclaw'],
+    ['bordeaux', 'bordeaux'], ['бордо', 'bordeaux'],
+    ['basel', 'basel'], ['базель', 'basel'],
+    ['zurich', 'zurich'], ['zürich', 'zurich'], ['цюрих', 'zurich'],
+    ['prague', 'prague'], ['praha', 'prague'], ['прага', 'prague'], ['праге', 'prague'],
+    ['bratislava', 'bratislava'], ['братислав', 'bratislava'],
+    ['bucharest', 'bucharest'], ['бухарест', 'bucharest'],
+    ['tallinn', 'tallinn'], ['таллин', 'tallinn'],
+    ['cairo', 'cairo'], ['каир', 'cairo'],
+    ['tel aviv', 'tel-aviv'], ['тель-авив', 'tel-aviv'], ['тель авив', 'tel-aviv'],
+    ['delft', 'delft'], ['дельфт', 'delft'],
+    ['marseille', 'marseille'], ['марсель', 'marseille'],
+    ['madrid', 'madrid'], ['мадрид', 'madrid'],
+    ['florence', 'florence'], ['firenze', 'florence'], ['флоренц', 'florence'],
+  ];
+  for (const [stem, canon] of cityStems) {
+    if (m.includes(stem) && cities.has(canon)) {
+      c.city = canon;
+      break;
+    }
+  }
+  return c;
+}
+
+function applyConstraints(rows: CatalogRow[], cons: QueryConstraints): CatalogRow[] {
+  let filtered = rows;
+  if (cons.maxBudget != null) {
+    filtered = filtered.filter(r => !r.budget_eur || r.budget_eur <= cons.maxBudget!);
+  }
+  if (cons.city) {
+    filtered = filtered.filter(r => {
+      const rich = conceptRich[r.slug];
+      return rich?.city?.toLowerCase() === cons.city;
+    });
+  }
+  return filtered;
+}
+
 /* Detect refinement intent — visitor wants MORE of the same kind, not a new
    topic. Used to (a) feed the retriever the prior query + exclusion list, (b)
    tell the LLM "this is a follow-up, don't re-recommend slugs already shown". */
@@ -793,7 +935,27 @@ Deno.serve(async (req) => {
   let catalogRows: CatalogRow[] = [];
   try {
     catalogRows = await loadCatalog();
+    /* Lazy-load CDN bundles (concept_texts + concept_rich) — first request
+       per cold start pays ~300ms, subsequent requests reuse the in-memory
+       cache for 10 min. Empty objects on failure → graceful degradation
+       (model still has the catalog snapshot from buildSystemPrompt). */
+    await loadCdnBundles();
+    /* Apply hard constraints (budget cap, city) by pre-filtering candidate
+       rows BEFORE retrieval. If filter empties the pool, the BEST MATCHES
+       block disappears and the model is forced into honest-refusal mode by
+       the ABSOLUTE GROUND TRUTH rule. */
+    const constraints = extractConstraints(message, catalogRows);
+    const filteredRows = applyConstraints(catalogRows, constraints);
+    console.log('[advisor] constraints:', JSON.stringify(constraints), '→', filteredRows.length, '/', catalogRows.length);
     system = buildSystemPrompt(catalogRows);
+    /* If constraints were extracted, surface them to the model so the
+       refuse-honestly template can fire when filteredRows is empty. */
+    if (constraints.maxBudget != null || constraints.city) {
+      const parts: string[] = [];
+      if (constraints.maxBudget != null) parts.push(`max budget €${constraints.maxBudget.toLocaleString('en-US')}`);
+      if (constraints.city) parts.push(`city = ${constraints.city}`);
+      system += `\n\nDETECTED HARD CONSTRAINTS THIS TURN: ${parts.join(', ')}\nThe retriever PRE-FILTERED the catalog to ${filteredRows.length} concept(s) matching these constraints. If that number is 0 (zero), there is NOTHING in the catalog matching the visitor's hard constraints — refuse honestly in their language and offer the closest 1–2 from the full catalog as a relaxation option.\n`;
+    }
     // RAG-lite — attach deep slide-by-slide annotations for any concept slug
     // mentioned in this turn or recent history, so the model can answer with
     // real editorial detail instead of paraphrasing the tagline.
@@ -804,7 +966,10 @@ Deno.serve(async (req) => {
     // text) and inject a top-12 shortlist. The model picks from this first
     // and only falls back to the full snapshot if nothing here fits.
     const shownSlugs = extractShownSlugs(turns);
-    const bestMatches = await buildBestMatchesBlock(message, catalogRows, shownSlugs);
+    /* BEST MATCHES uses the CONSTRAINT-FILTERED pool — keeps recommendations
+       inside the visitor's stated budget/city. If filteredRows is empty,
+       block returns '' and the model goes into honest-refusal mode. */
+    const bestMatches = await buildBestMatchesBlock(message, filteredRows, shownSlugs);
     if (bestMatches) system += '\n' + bestMatches;
     // Anti-repeat — list already-recommended slugs so the model picks fresh
     // concepts on follow-up turns instead of cycling the same 1–3 every time.
