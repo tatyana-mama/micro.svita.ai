@@ -41,14 +41,27 @@
       const tpl = el.getAttribute('data-concept-count-template') || '';
       el.innerHTML = tpl.replace(/\{N\}/g, escape(N));
     });
-    /* Catch-all: any element whose innerHTML still contains the {N} placeholder
-       (typically driven by an i18n dict entry that uses {N}) gets the value
-       substituted in place. Restricted to [data-i18n] so we never accidentally
-       mutate unrelated copy that happens to contain the literal "{N}". */
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      if (el.innerHTML.indexOf('{N}') === -1) return;
-      el.innerHTML = el.innerHTML.replace(/\{N\}/g, escape(N));
-    });
+    /* Catch-all: walk every text node in the document body and substitute
+       the {N} placeholder wherever it appears. {N} is unique enough that
+       this is safe — never appears as content elsewhere. Catches both
+       data-i18n elements (whose innerHTML was filled from dict) AND React
+       JSX templates that set innerHTML via dangerouslySetInnerHTML. */
+    if (document.body) {
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+        acceptNode: (node) => {
+          const p = node.parentNode;
+          if (!p) return NodeFilter.FILTER_REJECT;
+          const tag = (p.nodeName || '').toLowerCase();
+          if (tag === 'script' || tag === 'style' || tag === 'noscript') return NodeFilter.FILTER_REJECT;
+          return node.nodeValue && node.nodeValue.indexOf('{N}') !== -1
+            ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        }
+      });
+      const pending = [];
+      let node;
+      while ((node = walker.nextNode())) pending.push(node);
+      for (const n of pending) n.nodeValue = n.nodeValue.replace(/\{N\}/g, N);
+    }
     /* Expose an event so other components (chat advisor system prompt, etc.)
        can listen and react when the count loads or changes. */
     window.dispatchEvent(new CustomEvent('svita:concept-count', { detail: { count: n } }));

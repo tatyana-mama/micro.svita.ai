@@ -412,7 +412,7 @@
                 </h1>
               </Reveal>
               <Reveal delay={.2}>
-                <p className="mt-10 font-display italic text-grijs text-lg md:text-xl leading-relaxed max-w-xl" dangerouslySetInnerHTML={{__html: t('hero_sub_html', 'Here lives a library of 94 ready-to-launch concepts — from a massage atelier to a street coffee bar. One subscription opens everything: every brandbook, every floor plan, every calculation.')}}/>
+                <p className="mt-10 font-display italic text-grijs text-lg md:text-xl leading-relaxed max-w-xl" dangerouslySetInnerHTML={{__html: t('hero_sub_html', 'Here lives a library of {N} ready-to-launch concepts — from a massage atelier to a street coffee bar. One subscription opens everything: every brandbook, every floor plan, every calculation.')}}/>
               </Reveal>
               <Reveal delay={.3}>
                 <div className="mt-12 flex flex-wrap items-center gap-4">
@@ -507,7 +507,7 @@
         label:'with the library',
         steps:[
           { t:'picked a concept',         d:'an hour reading the catalog' },
-          { t:'subscribed',                d:'$19 — all 94 concepts unlocked' },
+          { t:'subscribed',                d:'$19 — all {N} concepts unlocked' },
           { t:'downloaded the full dossier',  d:'7 documents · one linen folder' },
           { t:'handed it to the contractor',  d:'everything already counted, described, sourced' },
           { t:'opened',                    d:'8 weeks to the first guest' },
@@ -680,7 +680,7 @@
       {
         name:'Monthly', price:'$19', unit:'/ mo',
         sub:'The whole library. Every brandbook, every page. Cancel anytime — nothing is lost.',
-        bullets:['access to all 94 concepts','new concepts unlock instantly','7 days free','cancel in one click'],
+        bullets:['access to all {N} concepts','new concepts unlock instantly','7 days free','cancel in one click'],
         cta:'Start free trial', href:'/account.html?subscribe=1&plan=monthly', accent:false
       },
       {

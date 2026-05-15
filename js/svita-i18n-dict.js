@@ -11,11 +11,11 @@ window.I18N = {
 
   // ========== HERO ==========
   hero_eyebrow: {
-    en: '№ 94 · atlas of unbuilt worlds',
-    ru: '№ 94 · атлас непостроенных миров',
-    pl: '№ 94 · atlas niezbudowanych światów',
-    uk: '№ 94 · атлас небудованих світів',
-    be: '№ 94 · атлас непабудаваных светаў'
+    en: '№ {N} · atlas of unbuilt worlds',
+    ru: '№ {N} · атлас непостроенных миров',
+    pl: '№ {N} · atlas niezbudowanych światów',
+    uk: '№ {N} · атлас небудованих світів',
+    be: '№ {N} · атлас непабудаваных светаў'
   },
   hero_h1_a: {
     en: 'Eight out of ten ideas',
