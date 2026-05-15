@@ -72,8 +72,10 @@
     import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 
     /* ─── shared ─── */
-    function Eyebrow({ children, className='' }) {
-      return <div className={`text-[11px] tracking-[0.28em] uppercase text-grijs ${className}`}>{children}</div>;
+    function Eyebrow({ children, className='', html }) {
+      const base = `text-[11px] tracking-[0.28em] uppercase text-grijs ${className}`;
+      if (html) return <div className={base} dangerouslySetInnerHTML={{__html: html}}/>;
+      return <div className={base}>{children}</div>;
     }
     function Reveal({ children, delay=0, y=24, className='' }) {
       return (
@@ -419,7 +421,7 @@
                   <Btn href="#pricing" primary>{t('hero_cta_open', 'Open library — $19/mo')}</Btn>
                   <Btn href="#catalog">{t('hero_cta_browse', 'Browse catalog')}</Btn>
                 </div>
-                <p className="mt-5 text-xs text-grijs/70 font-display italic">7 days free · cancel anytime</p>
+                <p className="mt-5 text-xs text-grijs/70 font-display italic">{t('idx_trial_line', '7 days free · cancel anytime')}</p>
               </Reveal>
             </div>
           </div>
@@ -428,11 +430,14 @@
     }
 
     /* ─── 03 · KPI ─── */
+    /* The "concepts" value is bound to the actual DB count — see
+       js/svita-concept-count.js (data-concept-count). The other numbers are
+       fixed business facts, but their labels translate. */
     const KPI = [
-      { v:'94',   l:'concepts' },
-      { v:'45+',  l:'cities · across Europe' },
-      { v:'7',    l:'documents in every dossier' },
-      { v:'$19',  l:'per month · entire library' },
+      { vAttr:'data-concept-count', v:'91', l:'kpi_concepts',  lFallback:'concepts' },
+      { v:'45+',                              l:'kpi_cities',    lFallback:'cities · across Europe' },
+      { v:'7',                                l:'kpi_documents', lFallback:'documents in every dossier' },
+      { v:'$19',                              l:'kpi_per_month', lFallback:'per month · entire library' },
     ];
     function KpiBar() {
       return (
@@ -440,8 +445,8 @@
           <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-8">
             {KPI.map((k,i)=>(
               <Reveal key={i} delay={.05*i} className="text-center md:text-left">
-                <div className="font-display text-4xl md:text-6xl text-creme leading-none">{k.v}</div>
-                <div className="mt-2 text-[10px] tracking-[0.28em] uppercase text-creme/60">{k.l}</div>
+                <div className="font-display text-4xl md:text-6xl text-creme leading-none" {...(k.vAttr ? { 'data-concept-count': '' } : {})}>{k.v}</div>
+                <div className="mt-2 text-[10px] tracking-[0.28em] uppercase text-creme/60">{t(k.l, k.lFallback)}</div>
               </Reveal>
             ))}
           </div>
@@ -648,8 +653,8 @@
         <section id="catalog" className="py-24 md:py-32 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12 flex items-end justify-between flex-wrap gap-4">
             <Reveal>
-              <Eyebrow className="mb-3">— catalog · 12 of 94 —</Eyebrow>
-              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen">Step into the library.</h2>
+              <Eyebrow className="mb-3" html={(t('idx_catalog_eyebrow', '— catalog · 12 of {N} —')).replace('{N}', String(window.__svitaConceptCountValue || 91))}/>
+              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen">{t('idx_catalog_h2', 'Step into the library.')}</h2>
             </Reveal>
             <Btn href="/shop.html">Open the full catalog</Btn>
           </div>
@@ -691,13 +696,17 @@
       },
     ];
     function Pricing() {
+      /* `tx` is the translation helper; we can't use the name `t` here
+         because the inner map iterates the TIERS array with `t` as the
+         tier object — that name would shadow useT. */
+      const tx = useT();
       return (
         <section id="pricing" className="py-24 md:py-32 px-6 md:px-12 bg-creme/40 border-y border-groen/10">
           <div className="max-w-5xl mx-auto">
             <Reveal className="text-center mb-16">
-              <Eyebrow className="mb-4 inline-block">— one subscription · whole library —</Eyebrow>
-              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen">One subscription. <span className="italic">Every concept.</span></h2>
-              <p className="mt-6 font-display italic text-grijs text-lg max-w-2xl mx-auto">VAT/sales tax is added at checkout where required by law.</p>
+              <Eyebrow className="mb-4 inline-block">{tx('idx_pricing_eyebrow', '— one subscription · whole library —')}</Eyebrow>
+              <h2 className="font-display text-[clamp(32px,4.5vw,64px)] leading-[1.05] text-groen" dangerouslySetInnerHTML={{__html: tx('idx_pricing_h2', 'One subscription. <span class="italic">Every concept.</span>')}}/>
+              <p className="mt-6 font-display italic text-grijs text-lg max-w-2xl mx-auto">{tx('idx_pricing_vat', 'VAT/sales tax is added at checkout where required by law.')}</p>
             </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -725,7 +734,7 @@
               ))}
             </div>
 
-            <p className="mt-10 text-center text-xs text-grijs/70 font-display italic">payments via Lemon Squeezy · all major cards · SEPA · Apple Pay · Google Pay</p>
+            <p className="mt-10 text-center text-xs text-grijs/70 font-display italic">{tx('idx_pricing_pay', 'payments via Lemon Squeezy · all major cards · SEPA · Apple Pay · Google Pay')}</p>
           </div>
         </section>
       );
