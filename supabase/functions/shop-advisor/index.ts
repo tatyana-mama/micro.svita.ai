@@ -785,20 +785,25 @@ Deno.serve(async (req) => {
   }
   const concepts = catalogRows
     .filter(r => mentionedSlugs.has(r.slug.toLowerCase()))
-    .map(r => ({
-      slug: r.slug,
-      name: r.name,
-      category: r.category,
-      country: r.country,
-      size_m2: r.size_m2,
-      budget_eur: r.budget_eur,
-      tagline: r.tagline,
-      catalog_number: r.catalog_number,
-      href: `/view.html?c=${r.slug}`,
-      // hero_image from public_verified_catalog already encodes the
-      // "[good]" suffix correctly as %20%5Bgood%5D — use it verbatim.
-      cover: r.hero_image,
-    }));
+    .map(r => {
+      const rich = conceptRich[r.slug];
+      return {
+        slug: r.slug,
+        name: r.name,
+        category: r.category,
+        country: r.country,
+        city: rich?.city ?? null,        // for "Bordeaux, FR" location string
+        size_m2: r.size_m2,
+        budget_eur: r.budget_eur,
+        weeks: rich?.weeks ?? null,      // weeks-to-open badge
+        tagline: r.tagline,
+        catalog_number: r.catalog_number,
+        href: `/view.html?c=${r.slug}`,
+        // hero_image from public_verified_catalog already encodes the
+        // "[good]" suffix correctly as %20%5Bgood%5D — use it verbatim.
+        cover: r.hero_image,
+      };
+    });
 
   return json({ reply: enrichedReply, concepts, model: res.model, provider });
 });

@@ -133,10 +133,23 @@
       border-color:rgba(122,107,61,0.55);
     }
     .sv-card-cover{
+      position:relative;
       width:100%; aspect-ratio:16/9;
       background:#CEC2AD center/cover no-repeat;
       filter:saturate(1.05) contrast(1.02);
       transition:transform .6s cubic-bezier(.22,1,.36,1);
+    }
+    .sv-card-num{
+      position:absolute; top:8px; left:8px;
+      font:600 9.5px/1 'Inter Tight',system-ui,sans-serif;
+      letter-spacing:.08em;
+      padding:4px 6px 3px;
+      background:rgba(15,20,16,0.5);
+      color:#EFEAE0;
+      border-radius:3px;
+      backdrop-filter:blur(4px);
+      -webkit-backdrop-filter:blur(4px);
+      z-index:2;
     }
     .sv-card:hover .sv-card-cover{ transform:scale(1.03) }
     .sv-card-body{
@@ -523,10 +536,16 @@
   }
 
   function renderConceptCard(c) {
+    /* Premium meta row — editorial number badge, city+country, size, budget,
+       weeks-to-open. Each piece is its own span; dots are visual separators. */
     const meta = [];
     if (c.category) meta.push(`<span>${escapeHtml(c.category)}</span>`);
-    if (c.country)  meta.push(`<span>${escapeHtml(c.country)}</span>`);
+    /* Combine city + country if both present (e.g. "Bordeaux, FR"). Falls back
+       to country code alone if city not in payload. */
+    const loc = c.city && c.country ? `${c.city}, ${c.country}` : (c.city || c.country || '');
+    if (loc) meta.push(`<span>${escapeHtml(loc)}</span>`);
     if (c.size_m2)  meta.push(`<span>${escapeHtml(c.size_m2)} m²</span>`);
+    if (c.weeks)    meta.push(`<span>${escapeHtml(c.weeks)} w</span>`);
     if (c.budget_eur) {
       const k = Math.round(c.budget_eur / 1000);
       meta.push(`<span class="sv-card-budget">~€${k}k open</span>`);
@@ -536,9 +555,14 @@
     const tagline = c.tagline
       ? `<div class="sv-card-tagline">${escapeHtml(c.tagline)}</div>`
       : '';
+    /* Catalog-number ribbon: small editorial #042 in top-left of the cover.
+       Reinforces "this is a curated library, not a generic template gallery." */
+    const numBadge = (c.catalog_number != null)
+      ? `<span class="sv-card-num">#${String(c.catalog_number).padStart(3, '0')}</span>`
+      : '';
     return `
       <a class="sv-card" href="${escapeHtml(c.href || '/view.html?c=' + c.slug)}" target="_top">
-        <div class="sv-card-cover" ${cover} aria-hidden="true"></div>
+        <div class="sv-card-cover" ${cover} aria-hidden="true">${numBadge}</div>
         <div class="sv-card-body">
           <div class="sv-card-name">${escapeHtml(c.name || c.slug)}</div>
           ${tagline}
