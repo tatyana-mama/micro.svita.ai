@@ -300,57 +300,62 @@
       const handle = user?.email?.split('@')[0] || 'you';
 
       return (
-        <header className={`svita-header${scrolled ? ' scrolled' : ''}`}>
-          <div className="svh-inner">
-            <a href="/" className="svh-brand" aria-label="micro·svita home">
-              <LogoMark className="svh-brand-mark"/>
-              <span className="svh-brand-word">micro<span className="dot">·</span><i>svita</i></span>
-            </a>
-
-            <nav className="svh-links">
-              {NAV_LINKS.map(l => (
-                <a key={l.href} href={l.href}>{t(l.i18n, l.label)}</a>
-              ))}
-            </nav>
-
-            <div className="svh-actions svh-actions--landing">
-              <a href="/shop.html" className="svh-shop">
-                <span>{t('nav_shop', 'Shop')}</span> <span className="arrow" aria-hidden="true">→</span>
+        <>
+          <header className={`svita-header${scrolled ? ' scrolled' : ''}`}>
+            <div className="svh-inner">
+              <a href="/" className="svh-brand" aria-label="micro·svita home">
+                <LogoMark className="svh-brand-mark"/>
+                <span className="svh-brand-word">micro<span className="dot">·</span><i>svita</i></span>
               </a>
-              {user ? (
-                <a href="/account.html" className="svh-user-btn" title={user.email} aria-label="Account">
-                  <span className="svh-avatar">{initial}<span className="live-dot" aria-hidden="true"></span></span>
-                  <span className="svh-handle">{handle}</span>
-                  <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 1l4 4 4-4"/></svg>
-                </a>
-              ) : (
-                <a href="/account.html" className="svh-signin" aria-label="Sign in" title="Sign in">
-                  <span className="icon" aria-hidden="true">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>
-                    </svg>
-                  </span>
-                  <span>{t('nav_signin', 'Sign in')}</span>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true" style={{opacity:0.5}}>
-                    <polyline points="9 18 15 12 9 6"/>
-                  </svg>
-                </a>
-              )}
-              {!hasAccess && (
-                <a href="/subscribe.html" className="svh-subscribe">{t('nav_subscribe', 'Subscribe')}</a>
-              )}
-              <LangSwitcher />
-              <button className="svh-burger" onClick={()=>setOpen(o=>!o)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}>
-                <svg className="burger-open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-                  <path d="M3 7h18"/><path d="M3 12h18"/><path d="M3 17h18"/>
-                </svg>
-                <svg className="burger-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-                  <path d="M6 6l12 12"/><path d="M18 6L6 18"/>
-                </svg>
-              </button>
-            </div>
-          </div>
 
+              <nav className="svh-links">
+                {NAV_LINKS.map(l => (
+                  <a key={l.href} href={l.href}>{t(l.i18n, l.label)}</a>
+                ))}
+              </nav>
+
+              <div className="svh-actions svh-actions--landing">
+                <a href="/shop.html" className="svh-shop">
+                  <span>{t('nav_shop', 'Shop')}</span> <span className="arrow" aria-hidden="true">→</span>
+                </a>
+                {user ? (
+                  <a href="/account.html" className="svh-user-btn" title={user.email} aria-label="Account">
+                    <span className="svh-avatar">{initial}<span className="live-dot" aria-hidden="true"></span></span>
+                    <span className="svh-handle">{handle}</span>
+                    <svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 1l4 4 4-4"/></svg>
+                  </a>
+                ) : (
+                  <a href="/account.html" className="svh-signin" aria-label="Sign in" title="Sign in">
+                    <span className="icon" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>
+                      </svg>
+                    </span>
+                    <span>{t('nav_signin', 'Sign in')}</span>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true" style={{opacity:0.5}}>
+                      <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                  </a>
+                )}
+                {!hasAccess && (
+                  <a href="/subscribe.html" className="svh-subscribe">{t('nav_subscribe', 'Subscribe')}</a>
+                )}
+                <LangSwitcher />
+                <button className="svh-burger" onClick={()=>setOpen(o=>!o)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}>
+                  <svg className="burger-open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+                    <path d="M3 7h18"/><path d="M3 12h18"/><path d="M3 17h18"/>
+                  </svg>
+                  <svg className="burger-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+                    <path d="M6 6l12 12"/><path d="M18 6L6 18"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </header>
+
+          {/* Drawer is a sibling of <header>, NOT a child — so it sits in the
+              root stacking context and reliably covers parallax/hero blocks
+              that have their own transform-induced stacking contexts. */}
           <div className="svh-drawer">
             {NAV_LINKS.map((l,i) => (
               <a key={l.href} href={l.href} className="svh-drawer-link" onClick={()=>setOpen(false)}>
@@ -363,7 +368,7 @@
                 <a href="/subscribe.html" className="svh-drawer-ghost" onClick={()=>setOpen(false)}>{t('nav_subscribe', 'Subscribe')} — $19 / mo</a>
               )}
               {!user && (
-                <a href="/account.html" className="svh-drawer-ghost" onClick={()=>setOpen(false)}>Sign in</a>
+                <a href="/account.html" className="svh-drawer-ghost" onClick={()=>setOpen(false)}>{t('nav_signin', 'Sign in')}</a>
               )}
             </div>
             <p className="svh-drawer-note">7 days free · cancel anytime</p>
@@ -372,7 +377,7 @@
               <MobileLangRow />
             </div>
           </div>
-        </header>
+        </>
       );
     }
 
