@@ -80,27 +80,30 @@ img,svg{display:block;max-width:100%}
 @media(max-width:640px){.wrap{padding:0 18px}}
 
 /* ============ HERO ============ */
-.sub-hero{padding:140px 0 60px;text-align:center;position:relative}
-@media(max-width:768px){.sub-hero{padding:112px 0 44px}}
-.sub-hero .eyebrow{margin-bottom:22px}
+.sub-hero{padding:108px 0 22px;text-align:center;position:relative}
+@media(max-width:768px){.sub-hero{padding:92px 0 18px}}
+.sub-hero .eyebrow{margin-bottom:14px}
 .sub-hero h1{
-  font-size:clamp(38px,6vw,72px);margin:0 auto 18px;max-width:14ch;
+  font-size:clamp(34px,5vw,58px);margin:0 auto 12px;max-width:16ch;
 }
 .sub-hero h1 .it{font-style:italic;color:var(--accent)}
 .sub-hero p.lead{
   font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;
-  font-size:clamp(17px,2.4vw,22px);color:var(--text-2);
-  max-width:46ch;margin:0 auto;line-height:1.5;
+  font-size:clamp(15px,2vw,18px);color:var(--text-2);
+  max-width:48ch;margin:0 auto;line-height:1.5;
 }
 .sub-hero .trust{
-  margin-top:26px;display:inline-flex;flex-wrap:wrap;justify-content:center;
-  gap:8px 18px;font-size:12px;color:var(--text-3);letter-spacing:0.04em;
+  margin-top:16px;display:inline-flex;flex-wrap:wrap;justify-content:center;
+  gap:6px 16px;font-size:11.5px;color:var(--text-3);letter-spacing:0.04em;
 }
-.sub-hero .trust span{display:inline-flex;align-items:center;gap:7px}
-.sub-hero .trust .dot{width:4px;height:4px;border-radius:50%;background:var(--accent)}
+.sub-hero .trust span{display:inline-flex;align-items:center;gap:6px}
+.sub-hero .trust .dot{width:3px;height:3px;border-radius:50%;background:var(--accent)}
 
 /* ============ PERKS GRID ============ */
-.perks{padding:40px 0 20px}
+.perks{padding:36px 0 0}
+.perks-head{text-align:center;margin-bottom:18px}
+.perks-head .eyebrow{margin-bottom:10px}
+.perks-head h2{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(22px,3vw,32px);letter-spacing:-0.02em;line-height:1.1}
 .perks-grid{
   display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
   background:var(--line);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;
@@ -123,16 +126,17 @@ img,svg{display:block;max-width:100%}
 .perk p{font-size:13px;color:var(--text-2);line-height:1.55}
 
 /* ============ PRICING ============ */
-.pricing{padding:64px 0 40px}
-.pricing-head{text-align:center;margin-bottom:36px}
-.pricing-head .eyebrow{margin-bottom:16px}
-.pricing-head h2{font-size:clamp(28px,4vw,46px)}
+.pricing{padding:0 0 28px}
+.pricing.first{padding-top:0}
+.pricing-head{text-align:center;margin:0 0 18px}
+.pricing-head .eyebrow{margin-bottom:8px}
+.pricing-head h2{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(22px,3vw,30px);letter-spacing:-0.02em;line-height:1.1}
 .pricing-head h2 .it{font-style:italic;color:var(--accent)}
-.tiers{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.tiers{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 @media(max-width:680px){.tiers{grid-template-columns:1fr}}
 .tier{
   position:relative;background:var(--bg-1);border:1px solid var(--line);
-  border-radius:var(--radius-lg);padding:34px 30px;display:flex;flex-direction:column;
+  border-radius:var(--radius-lg);padding:24px 24px 22px;display:flex;flex-direction:column;
 }
 .tier.accent{border-color:var(--text);box-shadow:0 18px 50px -24px rgba(47,68,56,0.4)}
 .tier .flag{
@@ -140,32 +144,32 @@ img,svg{display:block;max-width:100%}
   background:var(--text);color:#EFEAE0;font-size:9px;font-weight:700;
   letter-spacing:0.18em;text-transform:uppercase;padding:5px 11px;border-radius:999px;
 }
-.tier .tname{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:14px}
-.tier .tprice{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:58px;line-height:0.95;color:var(--text);letter-spacing:-0.03em}
-.tier .tprice .unit{font-size:17px;color:var(--text-3);font-style:italic;font-weight:400}
-.tier .tsub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:15px;color:var(--text-2);margin-top:12px;line-height:1.5}
-.tier ul{list-style:none;margin:22px 0 0;display:flex;flex-direction:column;gap:9px}
-.tier li{display:flex;gap:9px;font-size:13.5px;color:var(--text);line-height:1.45}
+.tier .tname{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px}
+.tier .tprice{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:46px;line-height:0.95;color:var(--text);letter-spacing:-0.03em}
+.tier .tprice .unit{font-size:15px;color:var(--text-3);font-style:italic;font-weight:400}
+.tier .tsub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:14px;color:var(--text-2);margin-top:8px;line-height:1.45}
+.tier ul{list-style:none;margin:14px 0 0;display:flex;flex-direction:column;gap:7px}
+.tier li{display:flex;gap:8px;font-size:13px;color:var(--text);line-height:1.4}
 .tier li svg{flex:none;margin-top:3px;color:var(--accent)}
 .tier .cta{
-  margin-top:auto;padding-top:26px;
+  margin-top:auto;padding-top:18px;
 }
 .tier .cta a{
   display:inline-flex;align-items:center;justify-content:center;gap:9px;width:100%;
-  padding:15px 22px;border-radius:999px;font-size:11px;letter-spacing:0.16em;
+  padding:13px 20px;border-radius:999px;font-size:11px;letter-spacing:0.16em;
   text-transform:uppercase;font-weight:600;transition:all 200ms var(--ease);
 }
 .tier .cta a.primary{background:var(--text);color:#EFEAE0}
 .tier .cta a.primary:hover{background:var(--accent)}
 .tier .cta a.ghost{border:1px solid var(--line-2);color:var(--text)}
 .tier .cta a.ghost:hover{background:var(--text);color:#EFEAE0;border-color:var(--text)}
-.pay-note{margin-top:22px;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:13px;color:var(--text-3)}
+.pay-note{margin-top:14px;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:12.5px;color:var(--text-3)}
 
 /* ============ REASSURANCE STRIP ============ */
 .reassure{
-  margin:48px 0 0;padding:34px 30px;border:1px solid var(--line);border-radius:var(--radius-lg);
+  margin:28px 0 0;padding:24px 26px;border:1px solid var(--line);border-radius:var(--radius-lg);
   background:linear-gradient(180deg,#F0EADF,#E8DCC0);
-  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
 }
 @media(max-width:680px){.reassure{grid-template-columns:1fr;gap:18px}}
 .reassure .r{display:flex;flex-direction:column;gap:5px}
@@ -173,7 +177,7 @@ img,svg{display:block;max-width:100%}
 .reassure .r .rd{font-size:12.5px;color:var(--text-2);line-height:1.5}
 
 /* ============ FOOTER ============ */
-.sub-foot{padding:56px 0 64px;text-align:center}
+.sub-foot{padding:34px 0 44px;text-align:center}
 .sub-foot a.back{
   display:inline-flex;align-items:center;gap:9px;font-size:11px;letter-spacing:0.16em;
   text-transform:uppercase;color:var(--text-2);transition:color 200ms var(--ease);
@@ -203,110 +207,113 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="js/svita-nav.js"></script>
 <script src="js/svita-app.js" defer></script>
 
-<!-- ============ HERO ============ -->
+<!-- ============ HERO + PRICING (tiers immediately visible) ============ -->
 <section class="sub-hero">
   <div class="wrap">
-    <div class="eyebrow reveal">one subscription · whole library</div>
-    <h1 class="display reveal">One subscription. <span class="it">Every concept.</span></h1>
-    <p class="lead reveal">A library of 94 ready-to-launch business concepts — each one a full brandbook, not a teaser. One card opens all of it.</p>
+    <div class="eyebrow reveal" data-i18n="sub_eyebrow">one subscription · whole library</div>
+    <h1 class="display reveal" data-i18n="sub_hero_h1">One subscription. <span class="it">Every concept.</span></h1>
+    <p class="lead reveal" data-i18n="sub_hero_lead">A library of 91 ready-to-launch business concepts — each one a full brandbook, not a teaser. One card opens all of it.</p>
     <div class="trust reveal">
-      <span><span class="dot"></span>7 days free</span>
-      <span><span class="dot"></span>cancel in one click</span>
-      <span><span class="dot"></span>new concepts every week</span>
+      <span><span class="dot"></span><span data-i18n="sub_trust_trial">7 days free</span></span>
+      <span><span class="dot"></span><span data-i18n="sub_trust_cancel">cancel in one click</span></span>
+      <span><span class="dot"></span><span data-i18n="sub_trust_weekly">new concepts every week</span></span>
     </div>
+  </div>
+</section>
+
+<section class="pricing first">
+  <div class="wrap">
+    <div class="pricing-head reveal">
+      <div class="eyebrow" data-i18n="sub_pick">pick your card</div>
+      <h2 data-i18n="sub_two_ways">Two ways to <span class="it">subscribe.</span></h2>
+    </div>
+    <div class="tiers">
+      <article class="tier reveal">
+        <div class="tname" data-i18n="sub_monthly_name">Monthly</div>
+        <div class="tprice">$19<span class="unit"> <span data-i18n="sub_per_mo">/ mo</span></span></div>
+        <div class="tsub" data-i18n="sub_monthly_sub">The whole library. Cancel anytime — nothing you opened is lost.</div>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="sub_b_access">Access to all 91 concepts</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="sub_b_new">New concepts unlock instantly</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="sub_b_ai">AI concept generator included</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="sub_b_trial">7 days free · cancel in one click</span></li>
+        </ul>
+        <div class="cta">
+          <a class="ghost" href="/account.html?subscribe=1&plan=monthly" data-i18n="sub_cta_trial">Start free trial →</a>
+        </div>
+      </article>
+      <article class="tier accent reveal">
+        <div class="flag" data-i18n="sub_best">best value</div>
+        <div class="tname" data-i18n="sub_yearly_name">Yearly · −35%</div>
+        <div class="tprice">$149<span class="unit"> <span data-i18n="sub_per_yr">/ year</span></span></div>
+        <div class="tsub" data-i18n="sub_yearly_sub">The same library in one annual payment — about two months cheaper.</div>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="sub_y_all">Everything in Monthly</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="sub_y_save">About −35% vs paying monthly</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="sub_y_invoice">One invoice a year — no surprise charges</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="sub_y_cancel">Cancel before the next renewal</span></li>
+        </ul>
+        <div class="cta">
+          <a class="primary" href="/account.html?subscribe=1&plan=yearly" data-i18n="sub_cta_yearly">Pay yearly →</a>
+        </div>
+      </article>
+    </div>
+    <p class="pay-note" data-i18n="sub_pay_note">VAT / sales tax added at checkout where required · payments via Lemon Squeezy · cards, SEPA, Apple Pay, Google Pay</p>
   </div>
 </section>
 
 <!-- ============ PERKS ============ -->
 <section class="perks">
   <div class="wrap">
+    <div class="perks-head reveal">
+      <div class="eyebrow" data-i18n="sub_inside_eyebrow">what's inside</div>
+      <h2 data-i18n="sub_inside_h2">Everything the subscription unlocks.</h2>
+    </div>
     <div class="perks-grid">
       <div class="perk reveal">
         <div class="pn">01</div>
-        <h3>The whole library — 94 concepts</h3>
-        <p>Coffee bars, matcha kiosks, ramen counters, beauty studios, repair ateliers. Every category, every concept — open the moment you subscribe.</p>
+        <h3 data-i18n="sub_p1_h">The whole library — 91 concepts</h3>
+        <p data-i18n="sub_p1_p">Coffee bars, matcha kiosks, ramen counters, beauty studios, repair ateliers. Every category, every concept — open the moment you subscribe.</p>
       </div>
       <div class="perk reveal">
         <div class="pn">02</div>
-        <h3>A full 25-page brandbook each</h3>
-        <p>Not a mood board. Concept, audience, floor plan, equipment list, verified budget, P&amp;L, suppliers, registration steps and a 9-week launch timeline.</p>
+        <h3 data-i18n="sub_p2_h">A full 25-page brandbook each</h3>
+        <p data-i18n="sub_p2_p">Not a mood board. Concept, audience, floor plan, equipment list, verified budget, P&amp;L, suppliers, registration steps and a 9-week launch timeline.</p>
       </div>
       <div class="perk reveal">
         <div class="pn">03</div>
-        <h3>New concepts every week</h3>
-        <p>The library keeps growing. Fresh editorial brandbooks land continuously and unlock instantly for every subscriber — no extra charge.</p>
+        <h3 data-i18n="sub_p3_h">New concepts every week</h3>
+        <p data-i18n="sub_p3_p">The library keeps growing. Fresh editorial brandbooks land continuously and unlock instantly for every subscriber — no extra charge.</p>
       </div>
       <div class="perk reveal">
         <div class="pn">04</div>
-        <h3>AI concept generator</h3>
-        <p>Need something that isn't in the catalogue? Spin up a fresh brandbook in about a minute and keep it in your cabinet forever.</p>
+        <h3 data-i18n="sub_p4_h">AI concept generator</h3>
+        <p data-i18n="sub_p4_p">Need something that isn't in the catalogue? Spin up a fresh brandbook in about a minute and keep it in your cabinet forever.</p>
       </div>
       <div class="perk reveal">
         <div class="pn">05</div>
-        <h3>Day-1 opening checklist</h3>
-        <p>A printable PDF with 48 pre-launch tasks — included with every concept you open, so nothing is forgotten before the door swings.</p>
+        <h3 data-i18n="sub_p5_h">Day-1 opening checklist</h3>
+        <p data-i18n="sub_p5_p">A printable PDF with 48 pre-launch tasks — included with every concept you open, so nothing is forgotten before the door swings.</p>
       </div>
       <div class="perk reveal">
         <div class="pn">06</div>
-        <h3>Yours on every device</h3>
-        <p>Everything you open lives in your cabinet. Sign in anywhere — laptop, phone, the print shop's screen — and it's all there.</p>
+        <h3 data-i18n="sub_p6_h">Yours on every device</h3>
+        <p data-i18n="sub_p6_p">Everything you open lives in your cabinet. Sign in anywhere — laptop, phone, the print shop's screen — and it's all there.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============ PRICING ============ -->
-<section class="pricing">
-  <div class="wrap">
-    <div class="pricing-head reveal">
-      <div class="eyebrow">pick your card</div>
-      <h2 class="display">Two ways to <span class="it">subscribe.</span></h2>
-    </div>
-    <div class="tiers">
-      <article class="tier reveal">
-        <div class="tname">Monthly</div>
-        <div class="tprice">$19<span class="unit"> / mo</span></div>
-        <div class="tsub">The whole library. Cancel anytime — nothing you opened is lost.</div>
-        <ul>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Access to all 94 concepts</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>New concepts unlock instantly</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>AI concept generator included</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>7 days free · cancel in one click</li>
-        </ul>
-        <div class="cta">
-          <a class="ghost" href="/account.html?subscribe=1&plan=monthly">Start free trial →</a>
-        </div>
-      </article>
-      <article class="tier accent reveal">
-        <div class="flag">best value</div>
-        <div class="tname">Yearly · −35%</div>
-        <div class="tprice">$149<span class="unit"> / year</span></div>
-        <div class="tsub">The same library in one annual payment — about two months cheaper.</div>
-        <ul>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Everything in Monthly</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>About −35% vs paying monthly</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>One invoice a year — no surprise charges</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Cancel before the next renewal</li>
-        </ul>
-        <div class="cta">
-          <a class="primary" href="/account.html?subscribe=1&plan=yearly">Pay yearly →</a>
-        </div>
-      </article>
-    </div>
-    <p class="pay-note">VAT / sales tax added at checkout where required · payments via Lemon Squeezy · cards, SEPA, Apple Pay, Google Pay</p>
 
     <div class="reassure reveal">
       <div class="r">
-        <div class="rt">Try before you pay</div>
-        <div class="rd">Seven full days, the entire library open. If it's not for you, cancel and you're charged nothing.</div>
+        <div class="rt" data-i18n="sub_r1_t">Try before you pay</div>
+        <div class="rd" data-i18n="sub_r1_d">Seven full days, the entire library open. If it's not for you, cancel and you're charged nothing.</div>
       </div>
       <div class="r">
-        <div class="rt">Cancel in one click</div>
-        <div class="rd">No emails, no retention maze. One button in your cabinet ends it — everything you already opened stays readable.</div>
+        <div class="rt" data-i18n="sub_r2_t">Cancel in one click</div>
+        <div class="rd" data-i18n="sub_r2_d">No emails, no retention maze. One button in your cabinet ends it — everything you already opened stays readable.</div>
       </div>
       <div class="r">
-        <div class="rt">Bought a concept before?</div>
-        <div class="rd">Legacy buyers keep permanent access to what they purchased — no subscription needed for those.</div>
+        <div class="rt" data-i18n="sub_r3_t">Bought a concept before?</div>
+        <div class="rd" data-i18n="sub_r3_d">Legacy buyers keep permanent access to what they purchased — no subscription needed for those.</div>
       </div>
     </div>
   </div>
@@ -315,7 +322,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ============ FOOTER ============ -->
 <footer class="sub-foot">
   <div class="wrap">
-    <a class="back" href="/shop.html">← Browse the catalogue first</a>
+    <a class="back" href="/shop.html" data-i18n="sub_back_shop">← Browse the catalogue first</a>
     <div class="legal">© 2026 micro.svita · atlas of unbuilt worlds · made at LABS67</div>
   </div>
 </footer>
