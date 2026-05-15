@@ -186,6 +186,7 @@ RULES
 - When you suggest a concept, ALWAYS include its slug on its own line in this exact format: \`→ /shop.html?concept=<slug>\`
 - The open-business budget is what they'd spend to actually launch — that's the big number, NOT the subscription price. Quote only the open-budget column.
 - Stay short: 3–6 sentences max per turn. The visitor is on a phone or laptop while browsing.
+- ALWAYS finish your last sentence and close every bullet. If you sense you are running out of room, end EARLIER with a complete thought — never let the reply trail off mid-word or mid-bullet.
 - If the visitor is unsure, ask ONE clarifying question (budget? city? category?). Don't bombard.
 - If nothing in the catalog matches, say so honestly and propose the closest two.
 - If the visitor asks "how much does this cost?", answer with the subscription ($19/mo or $149/yr, 7-day trial). DO NOT quote per-concept prices.
@@ -250,9 +251,10 @@ async function callOllama(system: string, turns: Msg[]) {
       model: LLM_MODEL,
       stream: false,
       think: false,
-      // Replies are 3–6 sentences — 256 tokens is plenty. 600 made the 27B
-      // model run ~80s and blow the edge-function timeout.
-      options: { temperature: 0.4, num_predict: 256 },
+      // 500 tokens — enough for a paragraph + a few bulletted concept rows
+      // without truncating mid-sentence. qwen3:14b on the Jetson runs this
+      // in ~60s, well inside the edge-function 150s budget.
+      options: { temperature: 0.4, num_predict: 500 },
       messages: [
         { role: 'system', content: system },
         ...turns,
