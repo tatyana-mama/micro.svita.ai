@@ -115,44 +115,66 @@
     .sv-msg a{ color:inherit; text-decoration:underline; text-underline-offset:2px }
     .sv-msg .sv-slug-row{ display:inline-flex; align-items:center; gap:6px; margin-top:6px; padding:6px 10px; border-radius:100px; background:rgba(47,68,56,0.08); font-size:12px }
 
-    /* concept preview cards — clickable, hi-res cover, compact info */
-    .sv-cards{ display:flex; flex-direction:column; gap:8px; margin-top:10px }
+    /* concept preview cards — editorial covers, clickable, compact info */
+    .sv-cards{ display:flex; flex-direction:column; gap:10px; margin-top:12px }
     .sv-card{
-      display:flex; gap:12px; padding:8px;
-      background:#EFEAE0; border:1px solid rgba(47,68,56,0.12); border-radius:12px;
-      text-decoration:none; color:inherit;
-      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      position:relative;
+      display:flex; flex-direction:column; gap:0; padding:0;
+      background:#EFEAE0; border:1px solid rgba(47,68,56,0.12); border-radius:14px;
+      text-decoration:none; color:inherit; overflow:hidden;
+      transition:transform .25s cubic-bezier(.22,1,.36,1),
+                 box-shadow .25s cubic-bezier(.22,1,.36,1),
+                 border-color .25s ease;
     }
     .sv-card:hover{
-      transform:translateY(-1px);
-      box-shadow:0 12px 24px -12px rgba(15,20,16,0.25);
-      border-color:rgba(122,107,61,0.4);
+      transform:translateY(-2px);
+      box-shadow:0 16px 32px -16px rgba(15,20,16,0.28);
+      border-color:rgba(122,107,61,0.55);
     }
     .sv-card-cover{
-      flex:none; width:88px; height:88px; border-radius:10px;
+      width:100%; aspect-ratio:16/9;
       background:#CEC2AD center/cover no-repeat;
-      filter:saturate(1.06) contrast(1.03);
+      filter:saturate(1.05) contrast(1.02);
+      transition:transform .6s cubic-bezier(.22,1,.36,1);
     }
-    .sv-card-body{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; gap:3px }
+    .sv-card:hover .sv-card-cover{ transform:scale(1.03) }
+    .sv-card-body{
+      display:flex; flex-direction:column; gap:5px;
+      padding:11px 14px 13px;
+      border-top:1px solid rgba(47,68,56,0.08);
+    }
     .sv-card-name{
-      font:500 15px/1.2 'Cormorant Garamond',Georgia,serif;
-      color:#2F4438; letter-spacing:.005em;
+      font:500 16px/1.18 'Cormorant Garamond',Georgia,serif;
+      color:#2F4438; letter-spacing:-.005em;
       overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
     }
     .sv-card-tagline{
-      font:italic 400 12.5px/1.4 'Cormorant Garamond',Georgia,serif;
+      font:italic 400 13px/1.4 'Cormorant Garamond',Georgia,serif;
       color:#5F6870;
       display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
-      overflow:hidden; max-height:2.8em;
+      overflow:hidden;
     }
     .sv-card-meta{
-      font-size:11px; color:#5F6870; line-height:1.3;
-      display:flex; gap:8px; flex-wrap:wrap; align-items:center;
-      margin-top:1px;
+      font-size:10.5px; color:rgba(95,104,112,0.85); line-height:1.3;
+      letter-spacing:.04em; text-transform:uppercase;
+      display:flex; gap:6px; flex-wrap:wrap; align-items:center;
+      margin-top:3px;
     }
-    .sv-card-meta .dot{ color:rgba(47,68,56,0.3) }
-    .sv-card-budget{ font-weight:600; color:#7A6B3D }
-    .sv-card-arrow{ flex:none; align-self:center; color:#7A6B3D; font-size:18px; line-height:1; padding-right:4px }
+    .sv-card-meta > span:not(.sv-card-budget):not(.dot){ font-weight:500 }
+    .sv-card-meta .dot{ color:rgba(47,68,56,0.25); letter-spacing:0 }
+    .sv-card-budget{ font-weight:700; color:#7A6B3D; letter-spacing:0; text-transform:none }
+    .sv-card-arrow{
+      position:absolute; top:10px; right:10px; z-index:2;
+      width:28px; height:28px; border-radius:50%;
+      background:rgba(47,68,56,0.9); color:#EFEAE0;
+      display:inline-flex; align-items:center; justify-content:center;
+      font-size:13px; line-height:1;
+      box-shadow:0 4px 10px rgba(15,20,16,0.25);
+      transform:translateY(-2px); opacity:0;
+      transition:opacity .2s ease, transform .2s ease;
+    }
+    .sv-card:hover .sv-card-arrow{ opacity:1; transform:translateY(0) }
+    @media(hover:none){ .sv-card-arrow{ opacity:1; transform:translateY(0) } }
     .sv-typing{ display:inline-flex; gap:4px; padding:9px 12px; background:#EFEAE0; border-radius:12px; align-self:flex-start }
     .sv-typing span{ width:6px; height:6px; border-radius:50%; background:rgba(47,68,56,0.4); animation:sv-blink 1.2s infinite }
     .sv-typing span:nth-child(2){ animation-delay:.15s } .sv-typing span:nth-child(3){ animation-delay:.3s }
