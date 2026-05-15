@@ -237,7 +237,6 @@
       </button>
     </div>
     <div class="sv-advisor-log" id="sv-log"></div>
-    <div class="sv-quick" id="sv-quick"></div>
     <form class="sv-advisor-form" id="sv-form">
       <textarea id="sv-input" placeholder="e.g. café in Lisbon under €40k" maxlength="800" rows="1"></textarea>
       <button type="submit" id="sv-send" aria-label="Send">
@@ -251,7 +250,6 @@
   const form = panel.querySelector('#sv-form');
   const input = panel.querySelector('#sv-input');
   const sendBtn = panel.querySelector('#sv-send');
-  const quick = panel.querySelector('#sv-quick');
   const closeBtn = panel.querySelector('.sv-close');
 
   /* Persist conversation across page navigations and tab restarts so the
@@ -350,14 +348,7 @@
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); }
   });
 
-  // Quick prompts row.
-  QUICK_PROMPTS.forEach(qp => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.textContent = qp.label;
-    b.addEventListener('click', () => { input.value = qp.text; input.focus(); });
-    quick.appendChild(b);
-  });
+  // Quick prompts row removed — they were noise. Visitor types freely.
 
   function seedGreeting() {
     addMsg('assistant',

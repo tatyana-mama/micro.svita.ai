@@ -59,6 +59,10 @@
     }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- i18n dictionary (sets window.I18N) — loaded synchronously BEFORE the
+       React babel script so the t() helper has the dict at first render. -->
+  <script>window.LABS67_LANGS = ['en','pl','uk','be','ru']; window.LABS67_DEFAULT_LANG = 'en';</script>
+  <script src="/js/svita-i18n-dict.js"></script>
   <script src="/js/svita-advisor.js" defer></script>
   <script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
   <script type="text/babel" data-type="module" data-presets="react">
@@ -92,12 +96,12 @@
 
     /* ─── 01 · top bar ─── */
     const NAV_LINKS = [
-      { href:'#what',     label:'What it is' },
-      { href:'#how',      label:'How it works' },
-      { href:'#catalog',  label:'Catalog' },
-      { href:'#pricing',  label:'Pricing' },
-      { href:'#support',  label:'Full support' },
-      { href:'#faq',      label:'FAQ' },
+      { href:'#what',     i18n:'nav_what',     label:'What it is' },
+      { href:'#how',      i18n:'nav_how',      label:'How it works' },
+      { href:'#catalog',  i18n:'nav_catalog',  label:'Catalog' },
+      { href:'#pricing',  i18n:'nav_pricing',  label:'Pricing' },
+      { href:'#support',  i18n:'nav_support',  label:'Full support' },
+      { href:'#faq',      i18n:'nav_faq',      label:'FAQ' },
     ];
 
     function LogoMark({ className='' }) {
@@ -158,6 +162,39 @@
     const LANG_LABELS = { be:'BY', en:'EN', pl:'PL', ru:'RU', uk:'UA' };
     const LANG_ORDER = ['en','pl','uk','be','ru'];
 
+    /* useT(): React-bound i18n helper. Reads window.I18N (set by
+       js/svita-i18n-dict.js loaded synchronously before this script) and the
+       active labs67lang from localStorage. Re-renders the component when the
+       language changes in another tab / via the LangSwitcher in this tab. */
+    function useT() {
+      const [lang, setLang] = useState(() => {
+        try { return localStorage.getItem('labs67lang') || 'en'; } catch(_) { return 'en'; }
+      });
+      useEffect(() => {
+        const onStorage = (e) => {
+          if (e.key === 'labs67lang' && e.newValue) setLang(e.newValue);
+        };
+        window.addEventListener('storage', onStorage);
+        // also catch same-tab lang changes (no storage event)
+        const onLocal = () => {
+          try {
+            const cur = localStorage.getItem('labs67lang') || 'en';
+            setLang(cur);
+          } catch (_) {}
+        };
+        window.addEventListener('svita:lang', onLocal);
+        return () => {
+          window.removeEventListener('storage', onStorage);
+          window.removeEventListener('svita:lang', onLocal);
+        };
+      }, []);
+      return (key, fallback) => {
+        const entry = (window.I18N || {})[key];
+        if (!entry) return fallback !== undefined ? fallback : key;
+        return entry[lang] || entry.en || (fallback !== undefined ? fallback : key);
+      };
+    }
+
     function useLang() {
       const [lang, setLangState] = useState('en');
       useEffect(() => {
@@ -172,6 +209,7 @@
         setLangState(l);
         try {
           localStorage.setItem('labs67lang', l);
+          window.dispatchEvent(new Event('svita:lang'));
           const host = location.hostname;
           const dom = host.indexOf('svita.ai') >= 0 ? '.svita.ai' : '';
           document.cookie = 'svita_lang=' + l + ';path=/;max-age=31536000;SameSite=Lax' + (dom ? ';domain=' + dom : '');
@@ -244,6 +282,7 @@
       const [open, setOpen] = useState(false);
       const [scrolled, setScrolled] = useState(false);
       const { user, hasAccess } = useAuth();
+      const t = useT();
 
       useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 12);
@@ -270,13 +309,13 @@
 
             <nav className="svh-links">
               {NAV_LINKS.map(l => (
-                <a key={l.href} href={l.href}>{l.label}</a>
+                <a key={l.href} href={l.href}>{t(l.i18n, l.label)}</a>
               ))}
             </nav>
 
             <div className="svh-actions svh-actions--landing">
               <a href="/shop.html" className="svh-shop">
-                <span>Shop</span> <span className="arrow" aria-hidden="true">→</span>
+                <span>{t('nav_shop', 'Shop')}</span> <span className="arrow" aria-hidden="true">→</span>
               </a>
               {user ? (
                 <a href="/account.html" className="svh-user-btn" title={user.email} aria-label="Account">
@@ -291,14 +330,14 @@
                       <circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>
                     </svg>
                   </span>
-                  <span>Sign in</span>
+                  <span>{t('nav_signin', 'Sign in')}</span>
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true" style={{opacity:0.5}}>
                     <polyline points="9 18 15 12 9 6"/>
                   </svg>
                 </a>
               )}
               {!hasAccess && (
-                <a href="/subscribe.html" className="svh-subscribe">Subscribe</a>
+                <a href="/subscribe.html" className="svh-subscribe">{t('nav_subscribe', 'Subscribe')}</a>
               )}
               <LangSwitcher />
               <button className="svh-burger" onClick={()=>setOpen(o=>!o)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}>
@@ -315,13 +354,13 @@
           <div className="svh-drawer">
             {NAV_LINKS.map((l,i) => (
               <a key={l.href} href={l.href} className="svh-drawer-link" onClick={()=>setOpen(false)}>
-                <span>{l.label}</span><span className="num">0{i+1}</span>
+                <span>{t(l.i18n, l.label)}</span><span className="num">0{i+1}</span>
               </a>
             ))}
             <div className="svh-drawer-cta">
-              <a href="/shop.html" className="svh-drawer-primary" onClick={()=>setOpen(false)}>Shop →</a>
+              <a href="/shop.html" className="svh-drawer-primary" onClick={()=>setOpen(false)}>{t('nav_shop', 'Shop')} →</a>
               {!hasAccess && (
-                <a href="/subscribe.html" className="svh-drawer-ghost" onClick={()=>setOpen(false)}>Subscribe — $19 / mo</a>
+                <a href="/subscribe.html" className="svh-drawer-ghost" onClick={()=>setOpen(false)}>{t('nav_subscribe', 'Subscribe')} — $19 / mo</a>
               )}
               {!user && (
                 <a href="/account.html" className="svh-drawer-ghost" onClick={()=>setOpen(false)}>Sign in</a>
@@ -340,6 +379,7 @@
     /* ─── 02 · hero ─── */
     function Hero() {
       const ref = useRef(null);
+      const t = useT();
       const { scrollYProgress } = useScroll({ target: ref, offset:['start start','end start'] });
       const y1 = useTransform(scrollYProgress, [0,1], [0, 240]);
       const y2 = useTransform(scrollYProgress, [0,1], [0, 380]);
@@ -357,22 +397,21 @@
           <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-20 lg:pt-32 pb-20">
             <div className="w-full lg:max-w-[44%] xl:max-w-[42%]">
               <Reveal>
-                <Eyebrow className="mb-8">№ 94 · atlas of unbuilt worlds</Eyebrow>
+                <Eyebrow className="mb-8">{t('hero_eyebrow', '№ 94 · atlas of unbuilt worlds')}</Eyebrow>
               </Reveal>
               <Reveal delay={.1}>
                 <h1 className="font-display text-[clamp(34px,4.4vw,68px)] leading-[1.06] text-groen">
-                  <span className="italic font-light">Eight out of ten ideas</span> die <br/>before the door ever opens.
+                  <span className="italic font-light">{t('hero_h1_a', 'Eight out of ten ideas')}</span>{' '}
+                  <span dangerouslySetInnerHTML={{__html: t('hero_h1_b', 'die before the door ever opens.')}}/>
                 </h1>
               </Reveal>
               <Reveal delay={.2}>
-                <p className="mt-10 font-display italic text-grijs text-lg md:text-xl leading-relaxed max-w-xl">
-                  Here lives a library of 94 ready-to-launch concepts — from a massage atelier to a street coffee bar. One subscription opens everything: every brandbook, every floor plan, every calculation.
-                </p>
+                <p className="mt-10 font-display italic text-grijs text-lg md:text-xl leading-relaxed max-w-xl" dangerouslySetInnerHTML={{__html: t('hero_sub_html', 'Here lives a library of 94 ready-to-launch concepts — from a massage atelier to a street coffee bar. One subscription opens everything: every brandbook, every floor plan, every calculation.')}}/>
               </Reveal>
               <Reveal delay={.3}>
                 <div className="mt-12 flex flex-wrap items-center gap-4">
-                  <Btn href="#pricing" primary>Open library — $19/mo</Btn>
-                  <Btn href="#catalog">Browse catalog</Btn>
+                  <Btn href="#pricing" primary>{t('hero_cta_open', 'Open library — $19/mo')}</Btn>
+                  <Btn href="#catalog">{t('hero_cta_browse', 'Browse catalog')}</Btn>
                 </div>
                 <p className="mt-5 text-xs text-grijs/70 font-display italic">7 days free · cancel anytime</p>
               </Reveal>

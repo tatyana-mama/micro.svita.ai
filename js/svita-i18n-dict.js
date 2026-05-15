@@ -11,28 +11,46 @@ window.I18N = {
 
   // ========== HERO ==========
   hero_eyebrow: {
-    en: '№ 90 · atlas of unbuilt worlds',
-    ru: '№ 90 · атлас непостроенных миров',
-    pl: '№ 90 · atlas niezbudowanych światów',
-    uk: '№ 90 · атлас небудованих світів',
-    be: '№ 90 · атлас непабудаваных светаў'
+    en: '№ 94 · atlas of unbuilt worlds',
+    ru: '№ 94 · атлас непостроенных миров',
+    pl: '№ 94 · atlas niezbudowanych światów',
+    uk: '№ 94 · атлас небудованих світів',
+    be: '№ 94 · атлас непабудаваных светаў'
   },
   hero_h1_a: {
-    en: '8 of 10', ru: '8 из 10', pl: '8 z 10', uk: '8 з 10', be: '8 з 10'
+    en: 'Eight out of ten ideas',
+    ru: 'Восемь из десяти идей',
+    pl: 'Osiem z dziesięciu pomysłów',
+    uk: 'Вісім з десяти ідей',
+    be: 'Восем з дзесяці ідэй'
   },
   hero_h1_b: {
-    en: 'ideas die before the door opens.',
-    ru: 'идей умирают до того, как откроется дверь.',
-    pl: 'pomysłów ginie, zanim otworzą się drzwi.',
-    uk: 'ідей помирають ще до того, як відчиняться двері.',
-    be: 'ідэй гінуць яшчэ да таго, як адчыняцца дзверы.'
+    en: 'die <br/>before the door ever opens.',
+    ru: 'умирают <br/>до того, как откроется дверь.',
+    pl: 'ginie <br/>zanim otworzą się drzwi.',
+    uk: 'помирають <br/>ще до того, як відчиняться двері.',
+    be: 'гінуць <br/>яшчэ да таго, як адчыняцца дзверы.'
   },
   hero_sub_html: {
-    en: 'Not because the idea was wrong. Because the founder couldn’t <em>see it yet</em> — pressure, money and fear arrive faster than vision does. micro.svita is the quiet way to see your business <em>before your first investment</em>.',
-    ru: 'Не потому что идея была плохой. Потому что основатель ещё не <em>увидел её</em> — давление, деньги и страх приходят быстрее, чем картинка. micro.svita — тихий способ увидеть свой бизнес <em>до первой инвестиции</em>.',
-    pl: 'Nie dlatego, że pomysł był zły. Dlatego, że founder nie potrafił go jeszcze <em>zobaczyć</em> — presja, pieniądze i strach przychodzą szybciej niż wizja. micro.svita to spokojny sposób, by zobaczyć swój biznes <em>przed pierwszą inwestycją</em>.',
-    uk: 'Не тому що ідея погана. Тому що засновник ще не зміг <em>її побачити</em> — тиск, гроші та страх приходять швидше за бачення. micro.svita — тихий спосіб побачити свій бізнес <em>до першої інвестиції</em>.',
-    be: 'Не таму што ідэя была дрэннай. Таму што заснавальнік яшчэ не мог <em>яе ўбачыць</em> — ціск, грошы і страх прыходзяць хутчэй за бачанне. micro.svita — ціхі спосаб убачыць свой бізнес <em>да першай інвестыцыі</em>.'
+    en: 'Here lives a library of 94 ready-to-launch concepts — from a massage atelier to a street coffee bar. One subscription opens everything: every brandbook, every floor plan, every calculation.',
+    ru: 'Здесь живёт библиотека из 94 готовых к запуску концепций — от массажного ателье до уличной кофейни. Одна подписка открывает всё: каждый брендбук, каждый план этажа, каждый расчёт.',
+    pl: 'Tu mieszka biblioteka 94 gotowych do uruchomienia konceptów — od atelier masażu po uliczną kawiarnię. Jedna subskrypcja otwiera wszystko: każdy brandbook, każdy plan piętra, każde wyliczenie.',
+    uk: 'Тут живе бібліотека з 94 готових до запуску концепцій — від масажного ательє до вуличної кавʼярні. Одна підписка відкриває все: кожен брендбук, кожен план поверху, кожен розрахунок.',
+    be: 'Тут жыве бібліятэка з 94 гатовых да запуску канцэпцый — ад масажнага атэлье да вулічнай кавярні. Адна падпіска адкрывае ўсё: кожны брэндбук, кожны план паверху, кожны разлік.'
+  },
+  hero_cta_open: {
+    en: 'Open library — $19/mo',
+    ru: 'Открыть библиотеку — $19/мес',
+    pl: 'Otwórz bibliotekę — $19/mies',
+    uk: 'Відкрити бібліотеку — $19/міс',
+    be: 'Адкрыць бібліятэку — $19/мес'
+  },
+  hero_cta_browse: {
+    en: 'Browse catalog',
+    ru: 'Смотреть каталог',
+    pl: 'Przeglądaj katalog',
+    uk: 'Дивитися каталог',
+    be: 'Глядзець каталог'
   },
   cta_dont_be_eight: {
     en: 'Don’t be the eight · €49',

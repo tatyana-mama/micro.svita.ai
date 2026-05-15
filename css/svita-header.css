@@ -232,18 +232,23 @@ header.svita-header.scrolled .svh-inner{
 @media(max-width:1023px){ .svh-actions.svh-actions--landing > .svh-subscribe{display:none} }
 @media(max-width:380px){ .svh-actions:not(.svh-actions--landing) > .svh-subscribe{display:none} }
 
-/* ---- Language pill — overrides labs67-i18n.js fallback CSS ---- */
+/* ---- Language pill — same dimensions as the sign-in pill ----
+   !important everywhere: labs67-i18n.js injects its own fallback CSS that
+   sets padding/font-size/border which otherwise wins the cascade and makes
+   the EN pill render taller than its neighbours. */
 .labs67-lang .lang-current{
-  display:inline-flex;align-items:center;gap:5px;
-  height:40px;padding:0 12px;border-radius:999px;
-  border:1px solid rgba(47,68,56,0.25);
-  background:rgba(239,234,224,0.4);color:var(--svh-groen);
-  font-family:'Inter Tight',system-ui,sans-serif;
-  font-size:13px;font-weight:500;letter-spacing:-0.01em;
+  display:inline-flex!important;align-items:center!important;gap:6px!important;
+  box-sizing:border-box!important;
+  height:40px!important;min-height:40px!important;line-height:1!important;
+  padding:0 14px!important;border-radius:999px!important;
+  border:1px solid rgba(47,68,56,0.25)!important;outline:0!important;
+  background:rgba(239,234,224,0.4)!important;color:var(--svh-groen)!important;
+  font-family:'Inter Tight',system-ui,sans-serif!important;
+  font-size:13px!important;font-weight:500!important;letter-spacing:-0.01em!important;
   -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
   transition:background 200ms ease,border-color 200ms ease;
 }
-.labs67-lang .lang-current:hover{border-color:rgba(47,68,56,0.5);background:rgba(239,234,224,0.7)}
+.labs67-lang .lang-current:hover{outline-color:rgba(47,68,56,0.5);background:rgba(239,234,224,0.7)}
 .labs67-lang .lang-arrow{font-size:9px;opacity:0.6}
 .labs67-lang .lang-dropdown{
   background:var(--svh-creme);border:1px solid rgba(47,68,56,0.15);border-radius:14px;
