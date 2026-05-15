@@ -254,12 +254,81 @@
   const quick = panel.querySelector('#sv-quick');
   const closeBtn = panel.querySelector('.sv-close');
 
-  const history = [];
+  /* Persist conversation across page navigations and tab restarts so the
+     visitor can browse shop → concept → account and keep talking to the same
+     assistant. Each USER gets their own history bucket — when logged in we
+     key by Supabase user.id; when anonymous we mint a per-browser id and
+     stick to it. Different users on the same browser never see each other's
+     conversation. */
+  const HISTORY_MAX = 40;
+  function anonId() {
+    try {
+      let a = localStorage.getItem('svita_anon_id');
+      if (!a) { a = 'a_' + Math.random().toString(36).slice(2, 12) + Date.now().toString(36); localStorage.setItem('svita_anon_id', a); }
+      return a;
+    } catch (e) { return 'a_session'; }
+  }
+  function currentUserId() {
+    try {
+      const raw = localStorage.getItem('svita-micro-auth');
+      if (!raw) return null;
+      const sess = JSON.parse(raw);
+      return sess?.user?.id || sess?.currentSession?.user?.id || null;
+    } catch (e) { return null; }
+  }
+  function historyKey() {
+    const uid = currentUserId();
+    return 'svita_advisor_history_v2_' + (uid || anonId());
+  }
+  let HISTORY_KEY = historyKey();
+  let history = [];
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem(HISTORY_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed.slice(-HISTORY_MAX) : [];
+    } catch (e) { return []; }
+  }
+  history = loadHistory();
+  function persistHistory() {
+    try {
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(-HISTORY_MAX)));
+    } catch (e) { /* quota or sandbox — silent */ }
+  }
+  /* Cross-tab sync: when the SAME user updates history in another tab,
+     mirror it here. Also re-key when auth changes (login/logout) so the
+     assistant flips to the right bucket without a page reload. */
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'svita-micro-auth') {
+      const newKey = historyKey();
+      if (newKey !== HISTORY_KEY) {
+        HISTORY_KEY = newKey;
+        history = loadHistory();
+      }
+      return;
+    }
+    if (e.key === HISTORY_KEY && e.newValue) {
+      try {
+        const next = JSON.parse(e.newValue);
+        if (Array.isArray(next)) history = next.slice(-HISTORY_MAX);
+      } catch (_) {}
+    }
+  });
 
   function open() {
     document.body.classList.add('sv-advisor-open');
     setTimeout(() => input.focus(), 80);
-    if (!history.length) seedGreeting();
+    if (history.length) {
+      // Replay saved turns into the panel so the visitor sees the full
+      // conversation when they reopen the assistant.
+      log.innerHTML = '';
+      const snapshot = history.slice();
+      history = [];
+      for (const m of snapshot) addMsg(m.role, m.content, m.concepts);
+    } else {
+      seedGreeting();
+    }
   }
   function close() { document.body.classList.remove('sv-advisor-open'); }
 
@@ -341,7 +410,8 @@
   }
 
   function addMsg(role, text, concepts) {
-    history.push({ role, content: text });
+    history.push({ role, content: text, concepts: concepts || [] });
+    persistHistory();
     const el = document.createElement('div');
     el.className = 'sv-msg ' + role;
 
