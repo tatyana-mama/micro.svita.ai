@@ -304,7 +304,9 @@ body.svh-menu-open .svh-burger .burger-close{display:block}
   display:flex;flex-direction:column;
   opacity:0;pointer-events:none;visibility:hidden;
   transition:opacity 250ms cubic-bezier(.22,1,.36,1),visibility 0s linear 250ms;
-  z-index:120;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  /* Strictly below the header (z-index 100) so the X close button in the
+     bar stays clickable. Above page content via position:fixed. */
+  z-index:95;overflow-y:auto;-webkit-overflow-scrolling:touch;
 }
 body.svh-menu-open .svh-drawer{opacity:1;pointer-events:auto;visibility:visible;transition:opacity 250ms cubic-bezier(.22,1,.36,1)}
 body.svh-menu-open{overflow:hidden}
