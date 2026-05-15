@@ -133,19 +133,26 @@
       border-color:rgba(122,107,61,0.4);
     }
     .sv-card-cover{
-      flex:none; width:64px; height:64px; border-radius:8px;
+      flex:none; width:88px; height:88px; border-radius:10px;
       background:#CEC2AD center/cover no-repeat;
       filter:saturate(1.06) contrast(1.03);
     }
-    .sv-card-body{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; gap:2px }
+    .sv-card-body{ flex:1; min-width:0; display:flex; flex-direction:column; justify-content:center; gap:3px }
     .sv-card-name{
-      font:500 13.5px/1.25 'Cormorant Garamond',Georgia,serif;
+      font:500 15px/1.2 'Cormorant Garamond',Georgia,serif;
       color:#2F4438; letter-spacing:.005em;
       overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    }
+    .sv-card-tagline{
+      font:italic 400 12.5px/1.4 'Cormorant Garamond',Georgia,serif;
+      color:#5F6870;
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+      overflow:hidden; max-height:2.8em;
     }
     .sv-card-meta{
       font-size:11px; color:#5F6870; line-height:1.3;
       display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+      margin-top:1px;
     }
     .sv-card-meta .dot{ color:rgba(47,68,56,0.3) }
     .sv-card-budget{ font-weight:600; color:#7A6B3D }
@@ -318,11 +325,15 @@
     }
     const metaHtml = meta.join('<span class="dot">·</span>');
     const cover = c.cover ? `style="background-image:url('${escapeHtml(c.cover)}')"` : '';
+    const tagline = c.tagline
+      ? `<div class="sv-card-tagline">${escapeHtml(c.tagline)}</div>`
+      : '';
     return `
       <a class="sv-card" href="${escapeHtml(c.href || '/view.html?c=' + c.slug)}" target="_top">
         <div class="sv-card-cover" ${cover} aria-hidden="true"></div>
         <div class="sv-card-body">
           <div class="sv-card-name">${escapeHtml(c.name || c.slug)}</div>
+          ${tagline}
           <div class="sv-card-meta">${metaHtml}</div>
         </div>
         <span class="sv-card-arrow" aria-hidden="true">→</span>
