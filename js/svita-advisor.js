@@ -66,12 +66,8 @@
   const ANON_KEY =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
 
-  const QUICK_PROMPTS = [
-    { label: '€20k coffee', text: 'Coffee shop concept under €20k to open.' },
-    { label: 'Berlin · service', text: 'Service business for Berlin, mid-budget.' },
-    { label: 'small wellness', text: 'Wellness concept under 25 m² that I can run solo.' },
-    { label: 'quick win', text: 'Pick one concept I could open in 4 weeks.' },
-  ];
+  /* Quick-prompt chips were removed — they distracted more than they helped.
+     The textarea placeholder still nudges what to type. */
 
   const css = `
     .sv-advisor-fab{
@@ -161,20 +157,6 @@
     .sv-typing span{ width:6px; height:6px; border-radius:50%; background:rgba(47,68,56,0.4); animation:sv-blink 1.2s infinite }
     .sv-typing span:nth-child(2){ animation-delay:.15s } .sv-typing span:nth-child(3){ animation-delay:.3s }
     @keyframes sv-blink{ 0%,80%,100%{ opacity:.3 } 40%{ opacity:1 } }
-
-    .sv-quick{
-      display:flex; gap:6px; padding:0 16px 12px; overflow-x:auto; flex-wrap:nowrap;
-      background:#F6F1E6;
-    }
-    .sv-quick::-webkit-scrollbar{ display:none }
-    .sv-quick button{
-      flex:none; padding:6px 12px; border-radius:100px;
-      background:#EFEAE0; border:1px solid rgba(47,68,56,0.18);
-      font: 500 11.5px/1 'Inter Tight',system-ui;
-      letter-spacing:.04em; color:#2F4438; cursor:pointer; white-space:nowrap;
-      transition:background .18s ease, color .18s ease;
-    }
-    .sv-quick button:hover{ background:#2F4438; color:#EFEAE0 }
 
     .sv-advisor-form{ display:flex; gap:8px; padding:12px 14px; border-top:1px solid rgba(47,68,56,0.12); background:#F6F1E6 }
     .sv-advisor-form textarea{
