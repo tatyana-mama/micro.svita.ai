@@ -271,11 +271,91 @@
     } catch (e) { return []; }
   }
   history = loadHistory();
+
+  /* Server-side persistence. Authenticated users get their chat stored in
+     public.advisor_history (one row per user_id, RLS-locked to auth.uid()).
+     localStorage stays as a fast offline cache + the only path for anon
+     visitors. Cross-device chat sync flows through the server. */
+  const SB_URL = 'https://ctdleobjnzniqkqomlrq.supabase.co';
+  const SB_ANON =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZGxlb2JqbnpuaXFrcW9tbHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyMzE4MTEsImV4cCI6MjA4NzgwNzgxMX0.AMHtY7zGPemKYCxMy2bqRTOEAp8trA_Slor9wmg7C38';
+  function authToken() {
+    try {
+      const raw = localStorage.getItem('svita-micro-auth');
+      if (!raw) return null;
+      const sess = JSON.parse(raw);
+      return sess?.access_token || sess?.currentSession?.access_token || null;
+    } catch (_) { return null; }
+  }
+  async function pullServerHistory() {
+    const uid = currentUserId(); const tok = authToken();
+    if (!uid || !tok) return null;
+    try {
+      const r = await fetch(
+        `${SB_URL}/rest/v1/advisor_history?select=history&user_id=eq.${uid}`,
+        { headers: { apikey: SB_ANON, Authorization: `Bearer ${tok}`, Accept: 'application/json' } }
+      );
+      if (!r.ok) return null;
+      const arr = await r.json();
+      const remote = Array.isArray(arr?.[0]?.history) ? arr[0].history.slice(-HISTORY_MAX) : null;
+      return remote;
+    } catch (_) { return null; }
+  }
+  let pushTimer = null;
+  function schedulePush() {
+    const uid = currentUserId(); const tok = authToken();
+    if (!uid || !tok) return;
+    if (pushTimer) clearTimeout(pushTimer);
+    pushTimer = setTimeout(async () => {
+      try {
+        await fetch(`${SB_URL}/rest/v1/advisor_history?on_conflict=user_id`, {
+          method: 'POST',
+          headers: {
+            apikey: SB_ANON,
+            Authorization: `Bearer ${tok}`,
+            'Content-Type': 'application/json',
+            Prefer: 'resolution=merge-duplicates,return=minimal',
+          },
+          body: JSON.stringify({
+            user_id: uid,
+            history: history.slice(-HISTORY_MAX),
+            updated_at: new Date().toISOString(),
+          }),
+        });
+      } catch (_) { /* offline / network — localStorage still has it */ }
+    }, 600);
+  }
+
   function persistHistory() {
     try {
       localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(-HISTORY_MAX)));
     } catch (e) { /* quota or sandbox — silent */ }
+    schedulePush();
   }
+
+  /* On boot: if the visitor is logged in, pull the server copy and merge —
+     longer of (local, remote) wins. Then push the merged version back so
+     both sides converge. Runs once. */
+  (async () => {
+    const remote = await pullServerHistory();
+    if (!remote) return;
+    if (remote.length > history.length) {
+      history = remote.slice(-HISTORY_MAX);
+      try { localStorage.setItem(HISTORY_KEY, JSON.stringify(history)); } catch (_) {}
+      /* If the panel is already open, rebuild it from the server snapshot. */
+      if (document.body.classList.contains('sv-advisor-open')) {
+        const log = document.querySelector('#sv-log');
+        if (log) {
+          log.innerHTML = '';
+          const snap = history.slice();
+          history = [];
+          for (const m of snap) addMsg(m.role, m.content, m.concepts);
+        }
+      }
+    } else if (history.length > remote.length) {
+      schedulePush();
+    }
+  })();
   /* Cross-tab sync: when the SAME user updates history in another tab,
      mirror it here. On auth change (login/logout) the bucket key changes —
      we MIGRATE the current in-memory conversation into the new bucket so
