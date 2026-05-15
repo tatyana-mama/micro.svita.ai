@@ -3,8 +3,8 @@
   "currency": "USD",
   "currency_symbol": "$",
   "tax_behaviour": "exclusive",
-  "monthly_url": "",
-  "yearly_url": "",
+  "monthly_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/a0aac500-2f7c-4b1e-a37d-09af3ff13be9",
+  "yearly_url": "https://svitamicro.lemonsqueezy.com/checkout/buy/0de5201c-1283-4747-9025-58bfd743aa89",
   "monthly_price": 19,
   "yearly_price": 149,
   "trial_days": 7
