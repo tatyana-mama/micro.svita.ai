@@ -136,6 +136,34 @@ async function loadCatalog(): Promise<CatalogRow[]> {
   return rows;
 }
 
+/* Pull every concept slug the assistant has already recommended in this
+   conversation, so the system prompt can ban them and force variety. The
+   visitor sees the same 3 slugs repeated as a sign of broken behaviour. */
+function extractShownSlugs(turns: { role: string; content: string }[]): string[] {
+  const set = new Set<string>();
+  for (const t of turns) {
+    if (t.role !== 'assistant' || !t.content) continue;
+    for (const m of t.content.matchAll(/\/shop\.html\?concept=([a-z0-9\-]+)/gi)) {
+      set.add(m[1].toLowerCase());
+    }
+  }
+  return [...set];
+}
+
+function buildAntiRepeatBlock(shown: string[], rows: CatalogRow[]): string {
+  if (!shown.length) return '';
+  const valid = new Set(rows.map(r => r.slug.toLowerCase()));
+  const filtered = shown.filter(s => valid.has(s));
+  if (!filtered.length) return '';
+  return [
+    '',
+    'ANTI-REPEAT — VARIETY RULE',
+    `You ALREADY recommended these concepts to this visitor: ${filtered.join(', ')}.`,
+    'DO NOT recommend any of those slugs again unless the visitor explicitly names that slug or asks to revisit it. If the visitor says "another one" / "ещё" / "another option" / "что-то другое" — pick from the catalog DIFFERENT slugs that still fit their criteria (craft, budget, city, scale). You have 90+ concepts — there is always a fresh one to offer. Repeating the same 1–3 slugs every turn is a critical failure.',
+    '',
+  ].join('\n');
+}
+
 function buildSystemPrompt(rows: CatalogRow[]): string {
   const total = rows.length;
   const cats = [...new Set(rows.map(r => r.category).filter(Boolean))].sort();
@@ -245,7 +273,7 @@ async function callAnthropic(system: string, turns: Msg[]) {
     body: JSON.stringify({
       model: ANTHROPIC_MODEL,
       max_tokens: 600,
-      temperature: 0.4,
+      temperature: 0.75,
       system,
       messages: turns,
     }),
@@ -272,7 +300,10 @@ async function callOllama(system: string, turns: Msg[]) {
       // 500 tokens — enough for a paragraph + a few bulletted concept rows
       // without truncating mid-sentence. qwen3:14b on the Jetson runs this
       // in ~60s, well inside the edge-function 150s budget.
-      options: { temperature: 0.4, num_predict: 500 },
+      // Bumped from 0.4 → 0.75 because deterministic mode kept cycling the
+      // same 1–3 slugs across follow-up turns. 0.75 + anti-repeat block in
+      // the system prompt gives genuine variety without going off-rails.
+      options: { temperature: 0.75, num_predict: 500 },
       messages: [
         { role: 'system', content: system },
         ...turns,
@@ -414,6 +445,10 @@ Deno.serve(async (req) => {
     // real editorial detail instead of paraphrasing the tagline.
     const deepDive = buildConceptDeepDive(turns, catalogRows);
     if (deepDive) system += '\n' + deepDive;
+    // Anti-repeat — list already-recommended slugs so the model picks fresh
+    // concepts on follow-up turns instead of cycling the same 1–3 every time.
+    const antiRepeat = buildAntiRepeatBlock(extractShownSlugs(turns), catalogRows);
+    if (antiRepeat) system += '\n' + antiRepeat;
   } catch (e) {
     return json({ error: 'catalog_unavailable', detail: String(e) }, 503);
   }

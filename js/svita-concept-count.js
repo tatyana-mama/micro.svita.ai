@@ -67,6 +67,49 @@
     window.dispatchEvent(new CustomEvent('svita:concept-count', { detail: { count: n } }));
   }
 
+  /* React (and any other client-side renderer) may paint nodes AFTER our
+     initial walker ran — those new text nodes still carry literal "{N}".
+     A MutationObserver catches every added/changed text node and substitutes
+     in place. We keep the substitution surgical (text-node only) so we never
+     mutate React's reconciled HTML structure. */
+  function observeNewNodes() {
+    if (!document.body || !window.MutationObserver) return;
+    const sub = (text) => {
+      const N = window.__svitaConceptCountValue;
+      if (!N) return text;
+      return text.indexOf('{N}') !== -1 ? text.replace(/\{N\}/g, String(N)) : text;
+    };
+    const fixSubtree = (root) => {
+      if (!window.__svitaConceptCountValue) return;
+      if (root.nodeType === 3) {
+        const next = sub(root.nodeValue || '');
+        if (next !== root.nodeValue) root.nodeValue = next;
+        return;
+      }
+      if (root.nodeType !== 1) return;
+      const tag = (root.nodeName || '').toLowerCase();
+      if (tag === 'script' || tag === 'style' || tag === 'noscript') return;
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      const pending = [];
+      let node;
+      while ((node = walker.nextNode())) {
+        if (node.nodeValue && node.nodeValue.indexOf('{N}') !== -1) pending.push(node);
+      }
+      for (const n of pending) n.nodeValue = sub(n.nodeValue);
+    };
+    const obs = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.type === 'characterData') {
+          const next = sub(m.target.nodeValue || '');
+          if (next !== m.target.nodeValue) m.target.nodeValue = next;
+        } else if (m.type === 'childList') {
+          m.addedNodes.forEach(fixSubtree);
+        }
+      }
+    });
+    obs.observe(document.body, { childList: true, subtree: true, characterData: true });
+  }
+
   async function fetchCount() {
     /* sessionStorage cache for the page-load journey. */
     try {
@@ -107,6 +150,9 @@
       }
     } catch (e) {}
     fetchCount().then(n => { if (n) applyCount(n); });
+
+    /* Start the React/late-paint observer right after the first paint pass. */
+    observeNewNodes();
 
     /* Re-apply after every language change — labs67-i18n.js sets innerHTML
        from the dictionary (which carries the {N} placeholder), so we have
