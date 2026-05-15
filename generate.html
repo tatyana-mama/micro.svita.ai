@@ -221,14 +221,14 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
 <section class="page">
   <div class="wrap">
     <div class="page-head">
-      <div class="eyebrow">AI concept generator</div>
-      <h1 class="display">Tell us what to <span class="accent">imagine</span>.</h1>
-      <p>Pick the shape of your future business. In about a minute Svita will return a full concept — brand name, tagline, palette, interior, equipment list, and four nano-banana prompts ready for a 25-page brandbook.</p>
+      <div class="eyebrow" data-i18n="gen_eyebrow">AI concept generator</div>
+      <h1 class="display" data-i18n="gen_h1">Tell us what to <span class="accent">imagine</span>.</h1>
+      <p data-i18n="gen_lead">Pick the shape of your future business. In about a minute Svita will return a full concept — brand name, tagline, palette, interior, equipment list, and four nano-banana prompts ready for a 25-page brandbook.</p>
     </div>
 
     <form id="gen-form" class="form-grid" autocomplete="off">
       <div class="field">
-        <label><b>01</b> Business direction</label>
+        <label data-i18n="gen_f01"><b>01</b> Business direction</label>
         <select name="category" required>
           <option value="food">Food &amp; drink</option>
           <option value="craft">Craft &amp; making</option>
@@ -241,7 +241,7 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
       </div>
 
       <div class="field">
-        <label><b>02</b> Budget tier</label>
+        <label data-i18n="gen_f02"><b>02</b> Budget tier</label>
         <select name="budget" required>
           <option value="€15k–30k">€15k–30k — micro cart / kiosk</option>
           <option value="€30k–60k" selected>€30k–60k — small studio</option>
@@ -252,7 +252,7 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
       </div>
 
       <div class="field">
-        <label><b>03</b> Style &amp; mood</label>
+        <label data-i18n="gen_f03"><b>03</b> Style &amp; mood</label>
         <select name="style" required>
           <option value="editorial minimal" selected>Editorial minimal (Kinfolk)</option>
           <option value="warm rustic">Warm rustic (Apartamento)</option>
@@ -267,7 +267,7 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
       </div>
 
       <div class="field">
-        <label><b>04</b> Country</label>
+        <label data-i18n="gen_f04"><b>04</b> Country</label>
         <select name="country" required>
           <option value="PL">Poland</option>
           <option value="DE">Germany</option>
@@ -301,12 +301,12 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
       </div>
 
       <div class="field">
-        <label><b>05</b> City</label>
+        <label data-i18n="gen_f05"><b>05</b> City</label>
         <input type="text" name="city" placeholder="Paris" value="Paris" required>
       </div>
 
       <div class="field">
-        <label><b>06</b> Footprint</label>
+        <label data-i18n="gen_f06"><b>06</b> Footprint</label>
         <select name="size_m2" required>
           <option value="12">12 m² — kiosk corner</option>
           <option value="24" selected>24 m² — intimate</option>
@@ -318,7 +318,7 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
       </div>
 
       <div class="field">
-        <label><b>07</b> Primary audience</label>
+        <label data-i18n="gen_f07"><b>07</b> Primary audience</label>
         <select name="audience" required>
           <option value="locals + creatives" selected>Locals + creatives</option>
           <option value="young professionals">Young professionals</option>
@@ -332,7 +332,7 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
       </div>
 
       <div class="field">
-        <label><b>08</b> Uniqueness level</label>
+        <label data-i18n="gen_f08"><b>08</b> Uniqueness level</label>
         <select name="uniqueness" required>
           <option value="conservative">Conservative — familiar format done beautifully</option>
           <option value="bold" selected>Bold — twist on a known idea</option>
@@ -341,7 +341,7 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
       </div>
 
       <div class="field">
-        <label><b>09</b> Season focus</label>
+        <label data-i18n="gen_f09"><b>09</b> Season focus</label>
         <select name="season">
           <option value="all-year" selected>All-year</option>
           <option value="summer">Summer heavy</option>
@@ -351,14 +351,14 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
       </div>
 
       <div class="field full">
-        <label>Brand name hint <i style="color:var(--text-3);font-weight:400;font-style:normal;font-size:10px">(optional — leave blank to let AI invent)</i></label>
+        <label><span data-i18n="gen_brand_hint">Brand name hint</span> <i style="color:var(--text-3);font-weight:400;font-style:normal;font-size:10px" data-i18n="gen_brand_opt">(optional — leave blank to let AI invent)</i></label>
         <input type="text" name="brand_name_hint" placeholder="e.g. something with 'numbers', or Latin word, or leave empty">
       </div>
 
       <div class="form-cta">
-        <div class="hint">One generation ≈ 30–60 seconds. The concept is saved to your cabinet as a draft — you can claim it as exclusive afterwards.</div>
+        <div class="hint" data-i18n="gen_hint">One generation ≈ 30–60 seconds. The concept is saved to your cabinet as a draft — you can claim it as exclusive afterwards.</div>
         <button type="submit" id="go" class="btn-go">
-          <span class="btn-label">Generate concept</span>
+          <span class="btn-label" data-i18n="gen_go">Generate concept</span>
           <svg id="go-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </button>
       </div>
