@@ -522,6 +522,7 @@
       }
     };
     function BeforeAfter() {
+      const t = useT();
       return (
         <section id="how" className="py-24 md:py-32 px-6 md:px-12 bg-creme/40 border-y border-groen/10">
           <div className="max-w-7xl mx-auto">
@@ -593,6 +594,7 @@
       { t:'DAY-1 CHECKLIST',    c:'opening day',              d:'morning · evening · press-day script' },
     ];
     function Deliverables() {
+      const t = useT();
       return (
         <section className="py-24 md:py-32 px-6 md:px-12">
           <div className="max-w-7xl mx-auto">
@@ -647,6 +649,7 @@
       );
     }
     function Catalog() {
+      const t = useT();
       return (
         <section id="catalog" className="py-24 md:py-32 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12 flex items-end justify-between flex-wrap gap-4">
@@ -879,6 +882,7 @@
     ];
     function Faq() {
       const [open, setOpen] = useState(0);
+      const t = useT();
       return (
         <section id="faq" className="py-24 md:py-32 px-6 md:px-12">
           <div className="max-w-4xl mx-auto">
