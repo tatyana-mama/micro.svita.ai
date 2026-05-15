@@ -30,6 +30,8 @@ import CONCEPT_RICH from './concept_rich.json' with { type: 'json' };
 const LLM_PROVIDER = (Deno.env.get('LLM_PROVIDER') ?? 'ollama').toLowerCase();
 const LLM_ENDPOINT = (Deno.env.get('LLM_ENDPOINT') ?? '').replace(/\/+$/, '');
 const LLM_MODEL = Deno.env.get('LLM_MODEL') ?? 'qwen3:14b';
+const EMBED_MODEL = Deno.env.get('EMBED_MODEL') ?? 'all-minilm:33m';
+const EMBEDDINGS_ENABLED = (Deno.env.get('EMBEDDINGS_ENABLED') ?? 'auto').toLowerCase(); // 'on' | 'off' | 'auto'
 
 interface ConceptText {
   slug: string;
@@ -189,6 +191,80 @@ function tokenize(s: string): string[] {
   return [...out];
 }
 
+/* ─── Embeddings layer ────────────────────────────────────────────────────
+   Tries to import a precomputed vector index of all 91 concepts. When the
+   bundle includes `concept_embeddings.json`, we embed the visitor's query at
+   runtime via Ollama's /api/embed (all-minilm:33m, 384-dim, ~80ms on Jetson)
+   and rank by cosine similarity — replacing keyword scoring with real
+   semantic retrieval. Gracefully falls back to keyword scoring on any error
+   so the concierge never breaks if Jetson is offline. */
+type ConceptVectorIndex = {
+  model: string; dim: number; normalized: boolean;
+  built_at?: string; count: number;
+  vectors: Record<string, number[]>;
+};
+let conceptVectors: ConceptVectorIndex | null = null;
+try {
+  // dynamic import — file may not exist on every deploy
+  const vecMod = await import('./concept_embeddings.json' as string, { with: { type: 'json' } } as never).catch(() => null);
+  if (vecMod && (vecMod as { default: ConceptVectorIndex }).default) {
+    conceptVectors = (vecMod as { default: ConceptVectorIndex }).default;
+    console.log('[advisor] loaded concept_embeddings.json:', conceptVectors.count, 'vectors,', conceptVectors.dim, 'dim');
+  }
+} catch (e) {
+  console.log('[advisor] concept_embeddings.json not present — falling back to keyword scoring');
+}
+
+async function embedQuery(text: string): Promise<number[] | null> {
+  if (!LLM_ENDPOINT) return null;
+  try {
+    const r = await fetch(`${LLM_ENDPOINT}/api/embed`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ model: EMBED_MODEL, input: text.slice(0, 2000) }),
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!r.ok) return null;
+    const data = await r.json();
+    const vec = data?.embeddings?.[0];
+    return Array.isArray(vec) && vec.length > 0 ? vec : null;
+  } catch { return null; }
+}
+
+function cosine(a: number[], b: number[]): number {
+  /* If precomputed vectors are L2-normalized AND query vec is normalized too,
+     this is just dot. Ollama's all-minilm output is not L2-normed by default
+     so we compute proper cosine. */
+  const len = Math.min(a.length, b.length);
+  let dot = 0, na = 0, nb = 0;
+  for (let i = 0; i < len; i++) {
+    dot += a[i] * b[i];
+    na  += a[i] * a[i];
+    nb  += b[i] * b[i];
+  }
+  const denom = Math.sqrt(na) * Math.sqrt(nb);
+  return denom === 0 ? 0 : dot / denom;
+}
+
+async function semanticScore(query: string, rows: CatalogRow[], k = 12): Promise<CatalogRow[] | null> {
+  if (!conceptVectors || !conceptVectors.vectors) return null;
+  if (EMBEDDINGS_ENABLED === 'off') return null;
+  const qvec = await embedQuery(query);
+  if (!qvec) return null;
+  const scored: { row: CatalogRow; sim: number }[] = [];
+  for (const r of rows) {
+    const v = conceptVectors.vectors[r.slug];
+    if (!v) continue;
+    scored.push({ row: r, sim: cosine(qvec, v) });
+  }
+  scored.sort((a, b) => b.sim - a.sim);
+  /* Drop weak matches (sim < 0.25) — they're noise. Returns null if nothing
+     meaningful so the caller can fall back to keyword scoring. */
+  const positives = scored.filter(s => s.sim > 0.25);
+  if (!positives.length) return null;
+  return positives.slice(0, k).map(s => s.row);
+}
+
 /* For a given user query, score every catalog row by how many tokens match in
    the rich knowledge bundle (slug/name/category/country/tagline + ALL 25 slide
    annotations + dice constraints + atmosphere words). Returns the top-K rows
@@ -239,12 +315,23 @@ function compactSlideHighlights(slides: string[]): string {
   return lines.map(l => `      • ${l.slice(0, 280)}`).join('\n');
 }
 
-function buildBestMatchesBlock(query: string, rows: CatalogRow[], shown: string[]): string {
-  /* Score against the user's last turn only — earlier turns may have
-     wandered. The shown-slug filter keeps the menu fresh after each round. */
-  const ranked = scoreConcepts(query, rows, 24).filter(r => !shown.includes(r.slug.toLowerCase()));
+async function buildBestMatchesBlock(query: string, rows: CatalogRow[], shown: string[]): Promise<string> {
+  /* Two-stage retrieval:
+       1. Semantic (Jetson Ollama all-minilm:33m + cosine) if vectors+endpoint
+          available. Catches "что-то тёплое и тактильное" → ceramics/wood/leather
+          even without literal word matches.
+       2. Keyword overlap fallback (tokenise vs rich.search_text) if semantic
+          unavailable or returns nothing strong. */
+  let ranked: CatalogRow[] | null = await semanticScore(query, rows, 24);
+  let mode = 'semantic';
+  if (!ranked || !ranked.length) {
+    ranked = scoreConcepts(query, rows, 24);
+    mode = 'keyword';
+  }
+  ranked = ranked.filter(r => !shown.includes(r.slug.toLowerCase()));
   if (!ranked.length) return '';
   const top = ranked.slice(0, 12);
+  console.log('[advisor] best-matches via', mode, '→', top.map(r => r.slug).join(','));
   /* Each top concept gets a RICH block: metadata + atmosphere + dice
      constraints + 4 most informative slide annotations + palette hex.
      Model writes faithful sensory "why this fits" sentences from this. */
@@ -635,7 +722,7 @@ Deno.serve(async (req) => {
     // text) and inject a top-12 shortlist. The model picks from this first
     // and only falls back to the full snapshot if nothing here fits.
     const shownSlugs = extractShownSlugs(turns);
-    const bestMatches = buildBestMatchesBlock(message, catalogRows, shownSlugs);
+    const bestMatches = await buildBestMatchesBlock(message, catalogRows, shownSlugs);
     if (bestMatches) system += '\n' + bestMatches;
     // Anti-repeat — list already-recommended slugs so the model picks fresh
     // concepts on follow-up turns instead of cycling the same 1–3 every time.
