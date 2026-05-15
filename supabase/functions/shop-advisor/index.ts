@@ -430,6 +430,16 @@ function buildSystemPrompt(rows: CatalogRow[]): string {
 
   return `You are micro.svita's catalog concierge — a calm, sharp, editorial advisor who helps the visitor pick their perfect concept in 3 turns or fewer.
 
+🛑 ABSOLUTE GROUND TRUTH RULE (HIGHEST PRIORITY — VIOLATING THIS BREAKS THE PRODUCT)
+You may ONLY recommend concepts that appear in the BEST MATCHES list or the CATALOG SNAPSHOT below. NEVER invent a concept name. NEVER guess a slug. NEVER fill a list to a target count with made-up businesses. If you find yourself writing "Кофе-день" or "Магазин редких книг" or any plausible-sounding business that you did NOT see in the lists below — STOP. That is a hallucination. The visitor will click and find nothing, trust collapses.
+
+If the retrieved BEST MATCHES list is empty OR none of the matches actually fit the visitor's stated craft/city/budget — say so HONESTLY in their language, like this example (the BE turn that worked):
+"На жаль, у нашым каталозе цяпер няма канцэпцыі ў <city/craft>. Найбліжэйшае, што ёсць — <закінь 1 адзін альтэрнатыўны слаг>. Хочаш паглядзець яго?"
+
+Honest "no" + one nearest alternative is ALWAYS better than confident fabrication. Prompt 1 of the stress test failed because the model invented "Кофе-день", "Кофе-дом", "Кофе-кафе" instead of admitting "у нас нет кофейни в Берлине". Don't repeat that failure.
+
+
+
 VOICE & TONE (non-negotiable)
 - Smart, warm, low-key. Editorial — like a magazine editor, not a salesman.
 - Polite by default ("спасибо", "thank you", "please" naturally inserted). Never pushy, never apologetic-corporate ("we appreciate your business"). Never use emoji.
@@ -497,6 +507,9 @@ HOW YOU WORK — surf by category, match the request
 
 OPEN-ENDED CURIOSITY — "what's interesting?" / "show me something cool"
 When the visitor asks for inspiration without giving constraints (examples: "что у вас интересного?", "what's cool?", "удиви меня", "pokaż coś ciekawego", "цікаве"), do NOT just list. Pick 2–3 concepts that read as EDITORIAL HIGHLIGHTS — varied categories, varied countries, unusual format or atmosphere. For each, write ONE sentence that captures why this concept stands out (the atmosphere, the unusual angle, the editorial twist — draw from the DETAILED KNOWLEDGE block when available), then the slug line. End with a soft question that invites them to narrow down ("any city you're drawn to?", "budget range?").
+
+REFINEMENT TURNS — when visitor says "more / another / ещё / inny / другие"
+The retrieval system has ALREADY excluded slugs you've recommended earlier in this conversation. So the BEST MATCHES list is FRESH. Pick from it. Do NOT re-recommend old slugs. Do NOT invent new businesses. If BEST MATCHES is now thin (4 or fewer), say so honestly: "вот ещё две, что подходят под твои критерии — других в каталоге нет под такой запрос". Honest scarcity beats fake abundance.
 
 RULES
 - Recommend ONLY concepts from the catalog snapshot below. Never invent a concept, a slug, a category or a budget that isn't listed.
@@ -572,10 +585,11 @@ async function callOllama(system: string, turns: Msg[]) {
       // 500 tokens — enough for a paragraph + a few bulletted concept rows
       // without truncating mid-sentence. qwen3:14b on the Jetson runs this
       // in ~60s, well inside the edge-function 150s budget.
-      // Bumped from 0.4 → 0.75 because deterministic mode kept cycling the
-      // same 1–3 slugs across follow-up turns. 0.75 + anti-repeat block in
-      // the system prompt gives genuine variety without going off-rails.
-      options: { temperature: 0.75, num_predict: 500 },
+      /* 0.7 sweet-spot: enough variety to avoid slug-cycling, low enough to
+         keep grounding (B3 stress-test showed 0.75 was already on the edge of
+         degeneration loops). 400 tokens caps the verbose-padding pattern —
+         comparison intent gets bumped to 600 below if detected. */
+      options: { temperature: 0.7, num_predict: 400 },
       messages: [
         { role: 'system', content: system },
         ...turns,
@@ -605,6 +619,66 @@ function isPriceQuestion(msg: string): boolean {
   const m = msg.toLowerCase();
   return /(сколько|скільки|колькі|how much|ile|cena|ціна|вартість|cost|price|стоит|стоить|кошту|стоимость|подписк|subscription|плати|pay|tariff)/.test(m);
 }
+
+/* Detect refinement intent — visitor wants MORE of the same kind, not a new
+   topic. Used to (a) feed the retriever the prior query + exclusion list, (b)
+   tell the LLM "this is a follow-up, don't re-recommend slugs already shown". */
+function isRefinementIntent(msg: string): boolean {
+  const m = msg.toLowerCase().trim();
+  if (m.length > 60) return false; // refinements are short
+  return /^(ещё|еще|ещё варианты|еще варианты|еще|больше|другие|other|another|more|more options|показать ещё|inne|inny|jeszcze|ще|ще варіанти|іншое|іншыя)\s*\??$/.test(m)
+      || /^(давай ещё|give me more|next|cheaper|дешевле|таньше|tańsze|меньше|smaller|быстрее|faster)/.test(m);
+}
+
+/* Detect non-pricing FAQ intents that can be served deterministically (no
+   LLM hop) — saves 30+s and removes hallucination risk. */
+function detectFaqIntent(msg: string): 'subscribe'|'cancel'|'refund'|'trial'|'what_is'|null {
+  const m = msg.toLowerCase();
+  if (/(как (мне )?подписат|how (do i|to) subscribe|how (do i|to) sign up|jak (się )?zapis|як підписатися|як падпісацца)/.test(m)) return 'subscribe';
+  if (/(как (мне )?отменит|how (do i|to) cancel|cancel my|jak anulować|як скасувати|як адмяніць)/.test(m)) return 'cancel';
+  if (/(возврат|refund|zwrot|повернення коштів|вяртанне грошай|money back)/.test(m)) return 'refund';
+  if (/(пробный|trial|free trial|демо|demo|пробка|пробу|próbn|пробу|пробны)/.test(m)) return 'trial';
+  if (/^(what is micro.?svita|что такое micro.?svita|што такое micro.?svita|czym jest micro.?svita|що таке micro.?svita|про сайт|про вас)/.test(m)) return 'what_is';
+  return null;
+}
+
+const FAQ_REPLIES: Record<string, Record<string, string>> = {
+  subscribe: {
+    en: 'Click **Subscribe** in the top nav, pick Monthly ($19) or Yearly ($149). Lemon Squeezy checkout asks for a card — once it\'s on file your 2-day free trial starts and the whole library unlocks instantly.',
+    ru: 'Нажми **Подписка** в верхнем меню, выбери Помесячно ($19) или Год ($149). Lemon Squeezy попросит карту — как только она привязана, начинаются 2 бесплатных дня, и вся библиотека сразу открывается.',
+    pl: 'Kliknij **Subskrypcja** w górnym menu, wybierz Miesięcznie ($19) lub Rocznie ($149). Lemon Squeezy poprosi o kartę — po jej dodaniu rusza 2-dniowy darmowy okres, cała biblioteka otwiera się od razu.',
+    uk: 'Натисни **Підписка** у верхньому меню, обери Помісячно ($19) чи Рік ($149). Lemon Squeezy запитає картку — щойно вона прив\'язана, починаються 2 безкоштовних дні, і вся бібліотека відкривається миттєво.',
+    be: 'Націсні **Падпіска** уверсе, абяры Штомесяц ($19) ці Год ($149). Lemon Squeezy папросіць карту — як толькі яна прывязана, ідуць 2 бясплатныя дні, і ўся бібліятэка адкрываецца адразу.'
+  },
+  cancel: {
+    en: 'Sign in → **Account** → Manage subscription → Cancel. Takes one click via Lemon Squeezy. Cancellation stops the next renewal — current cycle stays active till the end.',
+    ru: 'Войди → **Аккаунт** → Управление подпиской → Отменить. Один клик через Lemon Squeezy. Отмена останавливает следующее списание — текущий цикл доходит до конца.',
+    pl: 'Zaloguj się → **Konto** → Zarządzaj subskrypcją → Anuluj. Jedno kliknięcie przez Lemon Squeezy. Anulowanie wstrzymuje kolejne odnowienie — bieżący okres trwa do końca.',
+    uk: 'Увійди → **Акаунт** → Керування підпискою → Скасувати. Один клік через Lemon Squeezy. Скасування зупиняє наступне поновлення — поточний цикл працює до кінця.',
+    be: 'Увайдзі → **Акаўнт** → Кіраванне падпіскай → Адмяніць. Адзін клік праз Lemon Squeezy. Адмена спыняе наступнае спісанне — бягучы цыкл працуе да канца.'
+  },
+  refund: {
+    en: 'If the 2-day trial doesn\'t fit, just cancel — no charge applies. After the first month, write to support@micro.svita.ai with your order ID and we\'ll discuss case-by-case. Yearly subs are non-refundable past the trial.',
+    ru: 'Если 2-дневный пробный не подошёл — просто отмени, никаких списаний. После первого месяца напиши на support@micro.svita.ai с order ID, разберём индивидуально. Годовая подписка не возвращается после пробного периода.',
+    pl: 'Jeśli 2-dniowy okres próbny nie pasuje — anuluj, żadnej opłaty. Po pierwszym miesiącu napisz na support@micro.svita.ai z numerem zamówienia, rozpatrzymy indywidualnie. Subskrypcja roczna jest bezzwrotna po okresie próbnym.',
+    uk: 'Якщо 2-денна пробна не підійшла — просто скасуй, ніяких списань. Після першого місяця напиши на support@micro.svita.ai із order ID, розглянемо індивідуально. Річна підписка не повертається після пробного періоду.',
+    be: 'Калі 2-дзённая пробная не падышла — проста адмяні, ніякіх спісанняў. Пасля першага месяца напішы на support@micro.svita.ai з order ID, разгледзім індывідуальна. Гадавая падпіска не вяртаецца пасля пробнага перыяду.'
+  },
+  trial: {
+    en: '2 days, free. Card required (Lemon Squeezy) — that\'s how we know you\'re serious. Cancel anytime in those 2 days, you\'re not charged. After 2 days the subscription auto-starts ($19/mo or $149/yr).',
+    ru: '2 дня бесплатно. Карта нужна (Lemon Squeezy) — так мы знаем, что ты серьёзно. В эти 2 дня можно отменить, ничего не спишут. После — автостарт подписки ($19/мес или $149/год).',
+    pl: '2 dni gratis. Karta wymagana (Lemon Squeezy) — żebyśmy wiedzieli, że na poważnie. W ciągu 2 dni anulujesz bez opłat. Potem auto-start subskrypcji ($19/mies lub $149/rok).',
+    uk: '2 дні безкоштовно. Картка потрібна (Lemon Squeezy) — щоб ми знали, що серйозно. У ці 2 дні можна скасувати без оплати. Потім автостарт підписки ($19/міс чи $149/рік).',
+    be: '2 дні бясплатна. Карта патрэбна (Lemon Squeezy) — каб мы ведалі, што сур\'ёзна. У гэтыя 2 дні можна адмяніць без аплаты. Пасля — аўтастарт падпіскі ($19/мес ці $149/год).'
+  },
+  what_is: {
+    en: 'micro.svita.ai is a subscription library of 91+ ready-to-launch micro-business concepts across Europe. Each concept = a 25-slide editorial brandbook (palette, axonometry, menu, CAPEX in EUR, week-by-week opening plan). Take the dossier, hand it to your contractor — no agency, no architects, no waiting six months. $19/mo unlocks everything.',
+    ru: 'micro.svita.ai — это подписочная библиотека из 91+ готовых к запуску концепций микробизнеса по всей Европе. Каждая концепция = 25-страничный editorial-брендбук (палитра, аксонометрия, меню, CAPEX в евро, понедельный план открытия). Забираешь дoсье, отдаёшь подрядчику — без агентств, без архитекторов, без полугода ожидания. $19/мес открывает всё.',
+    pl: 'micro.svita.ai to subskrypcyjna biblioteka 91+ gotowych do uruchomienia konceptów mikrobiznesu w Europie. Każdy koncept = 25-stronicowy editorial-brandbook (paleta, aksonometria, menu, CAPEX w euro, tygodniowy plan otwarcia). Bierzesz dossier, dajesz wykonawcy — bez agencji, bez architektów, bez pół roku oczekiwania. $19/mies otwiera wszystko.',
+    uk: 'micro.svita.ai — це підписна бібліотека з 91+ готових до запуску концепцій мікробізнесу по Європі. Кожна концепція = 25-сторінковий editorial-брендбук (палітра, аксонометрія, меню, CAPEX в євро, потижневий план відкриття). Береш досьє, віддаєш підряднику — без агенцій, без архітекторів, без півроку очікування. $19/міс відкриває все.',
+    be: 'micro.svita.ai — гэта падпісная бібліятэка з 91+ гатовых да запуску канцэпцый мікрабізнэсу па Еўропе. Кожная канцэпцыя = 25-старонкавы editorial-брэндбук (палітра, аксанаметрыя, меню, CAPEX у еўра, патыдневы план адкрыцця). Бярэш дасье, аддаеш падрадчыку — без агенцый, без архітэктараў, без паўгода чакання. $19/мес адкрывае ўсё.'
+  }
+};
 // Post-process: scan AI reply for catalog concept names and auto-inject the
 // canonical slug-link after each mention. This guarantees clickable cards in
 // the UI even when the LLM forgot to emit `→ /shop.html?concept=<slug>` itself.
@@ -695,6 +769,13 @@ Deno.serve(async (req) => {
     const lang = detectLanguage(message);
     return json({ reply: PRICING_REPLY[lang], model: 'static-pricing', provider: 'override' });
   }
+  // Deterministic short-circuit for FAQ intents (subscribe/cancel/refund/trial/what-is)
+  const faqIntent = detectFaqIntent(message);
+  if (faqIntent) {
+    const lang = detectLanguage(message);
+    const reply = FAQ_REPLIES[faqIntent][lang] || FAQ_REPLIES[faqIntent].en;
+    return json({ reply, model: `static-faq:${faqIntent}`, provider: 'override' });
+  }
 
   // Keep up to 16 prior turns (≈ 8 user + 8 assistant). Long enough for a
   // coherent multi-criterion conversation; short enough to stay inside the
@@ -754,6 +835,15 @@ Deno.serve(async (req) => {
   }
   // Make sure the reply contains slug-links so the UI can render preview cards.
   let enrichedReply = enrichWithSlugLinks(res.reply, catalogRows);
+
+  /* SLUG VALIDATOR — strip any `/shop.html?concept=X` whose X is not a real
+     slug in the catalog. Prevents broken-link clicks from hallucinated slugs. */
+  const validSlugs = new Set(catalogRows.map(r => r.slug.toLowerCase()));
+  enrichedReply = enrichedReply.replace(/\/shop\.html\?concept=([a-z0-9\-]+)/gi, (m, slug) => {
+    return validSlugs.has(String(slug).toLowerCase()) ? m : '';
+  });
+  /* Tidy whitespace after possible strips. */
+  enrichedReply = enrichedReply.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
 
   /* PREVIEW-CARDS ENFORCEMENT — visitor expects to SEE concepts as cards, not
      just read about them. If the reply mentions a recommendation but doesn't
