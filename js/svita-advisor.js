@@ -559,8 +559,11 @@
         headers: { 'Content-Type': 'application/json', apikey: ANON_KEY },
         body: JSON.stringify({
           message: msg,
-          // Server keeps only last 12 turns — send the most recent slice.
-          history: history.filter(h => h.role !== 'assistant' || h.content).slice(-13, -1),
+          // Send the last ~16 turns of context. The just-added user message
+          // is the last element in `history` (we addMsg'd it before fetch),
+          // so .slice(-17, -1) gives the 16 preceding turns and drops the
+          // duplicate — the server already adds `message` to the turn list.
+          history: history.filter(h => h.role !== 'assistant' || h.content).slice(-17, -1),
         }),
       });
       clearTyping();
