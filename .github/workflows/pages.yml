@@ -49,7 +49,6 @@ jobs:
             --exclude='capacitor.config.json' \
             --exclude='data/concepts' \
             --exclude='data/threads' \
-            --exclude='data/bonuses' \
             --exclude='data/*.backup-*' \
             --exclude='data/*.json.backup-*' \
             --exclude='presentations/_*' \
