@@ -625,6 +625,16 @@ window.I18N = {
   // loader
   gen_loading:        { en: 'Generating your concept…', ru: 'Генерируем вашу концепцию…', pl: 'Generujemy koncept…', uk: 'Генеруємо вашу концепцію…', be: 'Генеруем вашу канцэпцыю…' },
 
+  // ========== landing section blocks ==========
+  ba_eyebrow:      { en: '— two paths from idea to door —', ru: '— два пути от идеи до двери —', pl: '— dwie ścieżki od pomysłu do drzwi —', uk: '— два шляхи від ідеї до дверей —', be: '— два шляхі ад ідэі да дзвярэй —' },
+  ba_h2:           { en: 'One is long and expensive. <span class="italic">The other is ours.</span>', ru: 'Один — долгий и дорогой. <span class="italic">Другой — наш.</span>', pl: 'Jedna jest długa i kosztowna. <span class="italic">Druga jest nasza.</span>', uk: 'Один — довгий і дорогий. <span class="italic">Інший — наш.</span>', be: 'Адзін — доўгі і дарагі. <span class="italic">Іншы — наш.</span>' },
+  deli_eyebrow:    { en: "— what's inside a single concept —", ru: '— что внутри одной концепции —', pl: '— co kryje pojedynczy koncept —', uk: '— що всередині однієї концепції —', be: '— што ўнутры адной канцэпцыі —' },
+  deli_h2:         { en: '7 documents · one linen folder.', ru: '7 документов · одна льняная папка.', pl: '7 dokumentów · jedna lniana teczka.', uk: '7 документів · одна лляна папка.', be: '7 дакументаў · адна льняная папка.' },
+  deli_lead:       { en: 'Everything you need to hand to your contractor, printer and chef. Nothing left to write yourself.', ru: 'Всё, что нужно отдать подрядчику, типографии и шефу. Ничего не остаётся писать самому.', pl: 'Wszystko, co przekażesz wykonawcy, drukarni i szefowi kuchni. Nic do napisania samemu.', uk: 'Усе, що передасте підряднику, друкарні та шефу. Нічого не залишається писати самому.', be: 'Усё, што перадаеце падрадчыку, друкарні і шэфу. Нічога не застаецца пісаць самому.' },
+  cat_btn_full:    { en: 'Open the full catalog', ru: 'Открыть весь каталог', pl: 'Otwórz pełny katalog', uk: 'Відкрити весь каталог', be: 'Адкрыць увесь каталог' },
+  faq_eyebrow_idx: { en: '— frequently asked —', ru: '— частые вопросы —', pl: '— często zadawane —', uk: '— часті питання —', be: '— частыя пытанні —' },
+  faq_h2_idx:      { en: 'The short answers.', ru: 'Короткие ответы.', pl: 'Krótkie odpowiedzi.', uk: 'Короткі відповіді.', be: 'Кароткія адказы.' },
+
   // ========== subscribe.html ==========
   sub_eyebrow:        { en: 'one subscription · whole library', ru: 'одна подписка · вся библиотека', pl: 'jedna subskrypcja · cała biblioteka', uk: 'одна підписка · вся бібліотека', be: 'адна падпіска · уся бібліятэка' },
   sub_hero_h1:        { en: 'One subscription. <span class="it">Every concept.</span>', ru: 'Одна подписка. <span class="it">Все концепции.</span>', pl: 'Jedna subskrypcja. <span class="it">Każdy koncept.</span>', uk: 'Одна підписка. <span class="it">Усі концепції.</span>', be: 'Адна падпіска. <span class="it">Усе канцэпцыі.</span>' },
