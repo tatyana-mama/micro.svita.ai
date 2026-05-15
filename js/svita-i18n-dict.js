@@ -847,5 +847,277 @@ window.I18N = {
   idx_final_h2:         { en: 'Six months of work. Eight weeks to open. One account.', ru: 'Полгода работы. Восемь недель до открытия. Один аккаунт.', pl: 'Sześć miesięcy pracy. Osiem tygodni do otwarcia. Jedno konto.', uk: 'Півроку роботи. Вісім тижнів до відкриття. Один акаунт.', be: 'Паўгода працы. Восем тыдняў да адкрыцця. Адзін акаўнт.' },
   idx_final_cta_open:   { en: 'Open library — $19/mo', ru: 'Открыть библиотеку — $19/мес', pl: 'Otwórz bibliotekę — $19/mies', uk: 'Відкрити бібліотеку — $19/міс', be: 'Адкрыць бібліятэку — $19/мес' },
   idx_final_cta_browse: { en: 'Browse the catalog first →', ru: 'Сначала посмотреть каталог →', pl: 'Najpierw przejrzyj katalog →', uk: 'Спочатку перегляньте каталог →', be: 'Спачатку прагледзьце каталог →' },
-  idx_final_trial:      { en: '2 days free · cancel in one click · cards, SEPA, Apple Pay', ru: '2 дня бесплатно · отмена в один клик · карты, SEPA, Apple Pay', pl: '2 dni za darmo · anulujesz jednym kliknięciem · karty, SEPA, Apple Pay', uk: '2 дні безкоштовно · скасування в один клік · картки, SEPA, Apple Pay', be: '2 дні бясплатна · адмена ў адзін клік · карты, SEPA, Apple Pay' }
+  idx_final_trial:      { en: '2 days free · cancel in one click · cards, SEPA, Apple Pay', ru: '2 дня бесплатно · отмена в один клик · карты, SEPA, Apple Pay', pl: '2 dni za darmo · anulujesz jednym kliknięciem · karty, SEPA, Apple Pay', uk: '2 дні безкоштовно · скасування в один клік · картки, SEPA, Apple Pay', be: '2 дні бясплатна · адмена ў адзін клік · карты, SEPA, Apple Pay' },
+
+  // ========== index.html — WhatIsConcept ==========
+  wic_eyebrow: { en: '— what is a concept —', ru: '— что такое концепция —', pl: '— czym jest koncept —', uk: '— що таке концепція —', be: '— што такое канцэпцыя —' },
+  wic_h2_html: {
+    en: 'Not just a PDF. <span class="italic">A finished venue on paper</span> — assembled so it can go straight to your contractor without edits.',
+    ru: 'Это не просто PDF. <span class="italic">Готовое заведение на бумаге</span> — собранное так, что его можно отдать подрядчику без правок.',
+    pl: 'To nie tylko PDF. <span class="italic">Gotowy lokal na papierze</span> — złożony tak, by trafić do wykonawcy bez poprawek.',
+    uk: 'Це не просто PDF. <span class="italic">Готовий заклад на папері</span> — зібраний так, щоб одразу віддати підряднику без правок.',
+    be: 'Гэта не проста PDF. <span class="italic">Гатовая ўстанова на паперы</span> — сабраная так, каб адразу аддаць падрадчыку без правак.'
+  },
+  wic_lead: {
+    en: 'Every concept includes interior photography, scale axonometry, a menu priced in euros, CAPEX and monthly OPEX, and a week-by-week opening plan. On the left — an example: concept 16 · RUST, a massage atelier in Amsterdam.',
+    ru: 'В каждой концепции — фотография интерьеров, масштабная аксонометрия, меню в евро, CAPEX и помесячный OPEX, план открытия по неделям. Слева — пример: концепция 16 · RUST, массажное ателье в Амстердаме.',
+    pl: 'Każdy koncept zawiera fotografię wnętrz, aksonometrię w skali, menu w euro, CAPEX i miesięczny OPEX oraz tygodniowy plan otwarcia. Po lewej — przykład: koncept 16 · RUST, atelier masażu w Amsterdamie.',
+    uk: 'Кожна концепція містить фотографію інтерʼєрів, масштабну аксонометрію, меню в євро, CAPEX і помісячний OPEX, потижневий план відкриття. Ліворуч — приклад: концепція 16 · RUST, масажне ательє в Амстердамі.',
+    be: 'У кожнай канцэпцыі — фатаграфія інтэрʼераў, маштабная аксанаметрыя, меню ў еўра, CAPEX і памесячны OPEX, плян адкрыцця па тыднях. Злева — прыклад: канцэпцыя 16 · RUST, масажнае атэлье ў Амстэрдаме.'
+  },
+  wic_chip_1: { en: 'visual brandbook',   ru: 'визуальный брендбук',  pl: 'brandbook wizualny',     uk: 'візуальний брендбук',   be: 'візуальны брэндбук' },
+  wic_chip_2: { en: 'P&L · 3 years',      ru: 'P&L · 3 года',         pl: 'P&L · 3 lata',            uk: 'P&L · 3 роки',           be: 'P&L · 3 гады' },
+  wic_chip_3: { en: '1:40 floor plan',    ru: 'план 1:40',            pl: 'plan 1:40',               uk: 'план 1:40',              be: 'план 1:40' },
+  wic_chip_4: { en: 'equipment list',     ru: 'список оборудования',  pl: 'lista wyposażenia',       uk: 'перелік обладнання',     be: 'спіс абсталявання' },
+  wic_chip_5: { en: 'menu in euros',      ru: 'меню в евро',          pl: 'menu w euro',             uk: 'меню в євро',            be: 'меню ў еўра' },
+  wic_chip_6: { en: '8-week schedule',    ru: 'график на 8 недель',   pl: 'harmonogram 8 tygodni',   uk: 'графік на 8 тижнів',     be: 'графік на 8 тыдняў' },
+  wic_chip_7: { en: 'day-one checklist',  ru: 'чек-лист дня открытия',pl: 'checklist dnia otwarcia', uk: 'чек-лист дня відкриття', be: 'чэк-ліст дня адкрыцця' },
+  wic_live_eyebrow: { en: 'live example · concept № 16', ru: 'живой пример · концепция № 16', pl: 'żywy przykład · koncept nr 16', uk: 'живий приклад · концепція № 16', be: 'жывы прыклад · канцэпцыя № 16' },
+  wic_live_title_html: {
+    en: '16 · RUST <span class="italic">— atelier van stilte</span>',
+    ru: '16 · RUST <span class="italic">— atelier van stilte</span>',
+    pl: '16 · RUST <span class="italic">— atelier van stilte</span>',
+    uk: '16 · RUST <span class="italic">— atelier van stilte</span>',
+    be: '16 · RUST <span class="italic">— atelier van stilte</span>'
+  },
+  wic_live_sub: {
+    en: 'Amsterdam · 34 m² · 8 weeks to open',
+    ru: 'Амстердам · 34 м² · 8 недель до открытия',
+    pl: 'Amsterdam · 34 m² · 8 tygodni do otwarcia',
+    uk: 'Амстердам · 34 м² · 8 тижнів до відкриття',
+    be: 'Амстэрдам · 34 м² · 8 тыдняў да адкрыцця'
+  },
+  wic_open_page: { en: 'open concept page →', ru: 'открыть страницу концепции →', pl: 'otwórz stronę konceptu →', uk: 'відкрити сторінку концепції →', be: 'адкрыць старонку канцэпцыі →' },
+
+  // ========== index.html — BeforeAfter / COMPARE ==========
+  ba_path_01: { en: 'path 01', ru: 'путь 01', pl: 'ścieżka 01', uk: 'шлях 01', be: 'шлях 01' },
+  ba_path_02: { en: 'path 02', ru: 'путь 02', pl: 'ścieżka 02', uk: 'шлях 02', be: 'шлях 02' },
+  ba_hard_label: { en: 'on your own', ru: 'своими силами', pl: 'na własną rękę', uk: 'своїми силами', be: 'сваімі сіламі' },
+  ba_easy_label: { en: 'with the library', ru: 'с библиотекой', pl: 'z biblioteką', uk: 'з бібліотекою', be: 'з бібліятэкай' },
+  ba_hard_s1_t: { en: 'brand agency',              ru: 'брендинговое агентство',     pl: 'agencja brandingowa',         uk: 'брендингова агенція',         be: 'брэндынгавая агенцыя' },
+  ba_hard_s1_d: { en: 'identity, naming, voice',   ru: 'айдентика, нейминг, голос',  pl: 'identyfikacja, naming, głos', uk: 'айдентика, нейминг, голос',   be: 'ідэнтычнасць, нэймінг, голас' },
+  ba_hard_s2_t: { en: 'architect & draftsman',     ru: 'архитектор и чертёжник',     pl: 'architekt i kreślarz',        uk: 'архітектор та кресляр',       be: 'архітэктар і чарцёжнік' },
+  ba_hard_s2_d: { en: 'floor plan, sections, finishes', ru: 'план, разрезы, отделка', pl: 'rzut, przekroje, wykończenia', uk: 'план, перерізи, оздоблення', be: 'план, разрэзы, аздабленне' },
+  ba_hard_s3_t: { en: 'photographer & copywriter', ru: 'фотограф и копирайтер',      pl: 'fotograf i copywriter',       uk: 'фотограф і копірайтер',       be: 'фатограф і капірайтэр' },
+  ba_hard_s3_d: { en: 'visuals, copy, packaging',  ru: 'визуал, тексты, упаковка',   pl: 'wizualizacje, teksty, opakowania', uk: 'візуал, тексти, упаковка', be: 'візуал, тэксты, пакаванне' },
+  ba_hard_s4_t: { en: 'menu consultant',           ru: 'консультант по меню',        pl: 'konsultant menu',             uk: 'консультант з меню',          be: 'кансультант па меню' },
+  ba_hard_s4_d: { en: 'positioning, recipes',      ru: 'позиционирование, рецепты',  pl: 'pozycjonowanie, przepisy',    uk: 'позиціонування, рецепти',     be: 'пазіцыянаванне, рэцэпты' },
+  ba_hard_s5_t: { en: 'lawyer & accountant',       ru: 'юрист и бухгалтер',          pl: 'prawnik i księgowy',          uk: 'юрист і бухгалтер',           be: 'юрыст і бухгалтар' },
+  ba_hard_s5_d: { en: 'contracts, taxes, licences',ru: 'договоры, налоги, лицензии', pl: 'umowy, podatki, licencje',    uk: 'договори, податки, ліцензії', be: 'дамовы, падаткі, ліцэнзіі' },
+  ba_hard_time: { en: '≈ 6 months', ru: '≈ 6 месяцев', pl: '≈ 6 miesięcy', uk: '≈ 6 місяців', be: '≈ 6 месяцаў' },
+  ba_hard_time_sub: { en: 'until the door opens · in parallel with finding the venue', ru: 'до открытия двери · параллельно с поиском помещения', pl: 'do otwarcia drzwi · równolegle z szukaniem lokalu', uk: 'до відкриття дверей · паралельно з пошуком приміщення', be: 'да адкрыцця дзвярэй · паралельна з пошукам памяшкання' },
+  ba_easy_s1_t: { en: 'picked a concept',           ru: 'выбрал концепцию',           pl: 'wybrałeś koncept',            uk: 'обрав концепцію',             be: 'выбраў канцэпцыю' },
+  ba_easy_s1_d: { en: 'an hour reading the catalog',ru: 'час за чтением каталога',    pl: 'godzina przeglądania katalogu', uk: 'година читання каталогу',   be: 'гадзіна чытання каталога' },
+  ba_easy_s2_t: { en: 'subscribed',                 ru: 'оформил подписку',           pl: 'wykupiłeś subskrypcję',       uk: 'оформив підписку',            be: 'аформіў падпіску' },
+  ba_easy_s2_d: { en: '$19 — all {N} concepts unlocked', ru: '$19 — открыты все {N} концепций', pl: '$19 — odblokowane wszystkie {N} konceptów', uk: '$19 — відкриті всі {N} концепцій', be: '$19 — адкрытыя ўсе {N} канцэпцый' },
+  ba_easy_s3_t: { en: 'downloaded the full dossier',ru: 'скачал полное досье',        pl: 'pobrałeś pełne dossier',      uk: 'завантажив повне досьє',      be: 'спампаваў поўнае дасье' },
+  ba_easy_s3_d: { en: '7 documents · one linen folder', ru: '7 документов · одна льняная папка', pl: '7 dokumentów · jedna lniana teczka', uk: '7 документів · одна лляна папка', be: '7 дакументаў · адна льняная папка' },
+  ba_easy_s4_t: { en: 'handed it to the contractor',ru: 'передал подрядчику',         pl: 'przekazałeś wykonawcy',       uk: 'передав підряднику',          be: 'перадаў падрадчыку' },
+  ba_easy_s4_d: { en: 'everything already counted, described, sourced', ru: 'всё уже посчитано, описано, найдено', pl: 'wszystko już policzone, opisane, znalezione', uk: 'усе вже пораховано, описано, знайдено', be: 'усё ўжо палічана, апісана, знойдзена' },
+  ba_easy_s5_t: { en: 'opened',                     ru: 'открылся',                   pl: 'otworzyłeś',                  uk: 'відкрився',                   be: 'адкрыўся' },
+  ba_easy_s5_d: { en: '8 weeks to the first guest', ru: '8 недель до первого гостя',  pl: '8 tygodni do pierwszego gościa', uk: '8 тижнів до першого гостя', be: '8 тыдняў да першага госця' },
+  ba_easy_time: { en: '≈ 8 weeks', ru: '≈ 8 недель', pl: '≈ 8 tygodni', uk: '≈ 8 тижнів', be: '≈ 8 тыдняў' },
+  ba_easy_time_sub: { en: 'until the door opens · drawn from the 8-week plan of concept 16 · RUST', ru: 'до открытия двери · по плану на 8 недель из концепции 16 · RUST', pl: 'do otwarcia drzwi · według 8-tygodniowego planu konceptu 16 · RUST', uk: 'до відкриття дверей · за 8-тижневим планом концепції 16 · RUST', be: 'да адкрыцця дзвярэй · паводле 8-тыднёвага плану канцэпцыі 16 · RUST' },
+  ba_footnote: {
+    en: 'The "6 months" figure is the typical cycle of a brand agency + architect + copywriter + menu consultant. The "8 weeks" figure is drawn from the milestone list of concept 16 · RUST (see the timeline slide). Other concepts land in a similar range — 6 to 10 weeks.',
+    ru: 'Цифра «6 месяцев» — типичный цикл брендингового агентства + архитектора + копирайтера + консультанта по меню. Цифра «8 недель» взята из списка вех концепции 16 · RUST (см. слайд таймлайна). Другие концепции укладываются в похожий диапазон — 6–10 недель.',
+    pl: 'Liczba „6 miesięcy" to typowy cykl agencji brandingowej + architekta + copywritera + konsultanta menu. Liczba „8 tygodni" pochodzi z listy kamieni milowych konceptu 16 · RUST (patrz slajd osi czasu). Inne koncepty mieszczą się w podobnym zakresie — 6–10 tygodni.',
+    uk: 'Цифра «6 місяців» — типовий цикл брендингової агенції + архітектора + копірайтера + консультанта з меню. Цифра «8 тижнів» взята зі списку віх концепції 16 · RUST (див. слайд таймлайну). Інші концепції лягають у схожий діапазон — 6–10 тижнів.',
+    be: 'Лічба «6 месяцаў» — тыповы цыкл брэндынгавай агенцыі + архітэктара + капірайтэра + кансультанта па меню. Лічба «8 тыдняў» узята са спіса вех канцэпцыі 16 · RUST (гл. слайд таймлайна). Іншыя канцэпцыі трапляюць у падобны дыяпазон — 6–10 тыдняў.'
+  },
+
+  // ========== index.html — Deliverables ==========
+  deli_1_t: { en: 'BRANDBOOK',       ru: 'БРЕНДБУК',           pl: 'BRANDBOOK',         uk: 'БРЕНДБУК',          be: 'БРЭНДБУК' },
+  deli_1_c: { en: 'visual pack',     ru: 'визуальный пакет',   pl: 'pakiet wizualny',   uk: 'візуальний пакет',  be: 'візуальны пакет' },
+  deli_1_d: { en: 'identity, voice, typography, palette, print & web applications', ru: 'айдентика, голос, типографика, палитра, применение в печати и вебе', pl: 'identyfikacja, głos, typografia, paleta, zastosowania w druku i webie', uk: 'айдентика, голос, типографіка, палітра, застосування в друці й вебі', be: 'ідэнтычнасць, голас, тыпаграфіка, палітра, ужыванне ў друку і вэбе' },
+  deli_2_t: { en: 'P&L · 3 years',   ru: 'P&L · 3 года',       pl: 'P&L · 3 lata',      uk: 'P&L · 3 роки',      be: 'P&L · 3 гады' },
+  deli_2_c: { en: 'monthly forecast',ru: 'помесячный прогноз', pl: 'prognoza miesięczna', uk: 'помісячний прогноз', be: 'памесячны прагноз' },
+  deli_2_d: { en: 'revenue, OPEX, break-even, gross margin', ru: 'выручка, OPEX, точка безубыточности, валовая маржа', pl: 'przychody, OPEX, próg rentowności, marża brutto', uk: 'виручка, OPEX, точка беззбитковості, валова маржа', be: 'выручка, OPEX, кропка беззбытковасці, валавая маржа' },
+  deli_3_t: { en: 'FLOORPLAN',       ru: 'ПЛАН ПОМЕЩЕНИЯ',     pl: 'PLAN LOKALU',       uk: 'ПЛАН ПРИМІЩЕННЯ',   be: 'ПЛАН ПАМЯШКАННЯ' },
+  deli_3_c: { en: 'plan + axonometric', ru: 'план + аксонометрия', pl: 'plan + aksonometria', uk: 'план + аксонометрія', be: 'план + аксанаметрыя' },
+  deli_3_d: { en: 'layout, facade, sections, street context', ru: 'планировка, фасад, разрезы, контекст улицы', pl: 'układ, fasada, przekroje, kontekst ulicy', uk: 'планування, фасад, перерізи, контекст вулиці', be: 'планіроўка, фасад, разрэзы, кантэкст вуліцы' },
+  deli_4_t: { en: 'EQUIPMENT LIST',  ru: 'СПИСОК ОБОРУДОВАНИЯ',pl: 'LISTA WYPOSAŻENIA', uk: 'ПЕРЕЛІК ОБЛАДНАННЯ',be: 'СПІС АБСТАЛЯВАННЯ' },
+  deli_4_c: { en: 'every piece',     ru: 'каждая позиция',     pl: 'każda pozycja',     uk: 'кожна позиція',     be: 'кожная пазіцыя' },
+  deli_4_d: { en: 'per item: supplier, spec, contact, price in euros', ru: 'по каждой позиции: поставщик, спецификация, контакт, цена в евро', pl: 'dla każdej pozycji: dostawca, specyfikacja, kontakt, cena w euro', uk: 'на кожну позицію: постачальник, специфікація, контакт, ціна в євро', be: 'на кожную пазіцыю: пастаўшчык, спецыфікацыя, кантакт, кошт у еўра' },
+  deli_5_t: { en: 'MENU',            ru: 'МЕНЮ',               pl: 'MENU',              uk: 'МЕНЮ',              be: 'МЕНЮ' },
+  deli_5_c: { en: 'menu + recipes',  ru: 'меню + рецепты',     pl: 'menu + przepisy',   uk: 'меню + рецепти',    be: 'меню + рэцэпты' },
+  deli_5_d: { en: 'items with prices, seasonal recipes, serving notes', ru: 'позиции с ценами, сезонные рецепты, заметки по подаче', pl: 'pozycje z cenami, sezonowe przepisy, notatki o serwowaniu', uk: 'позиції з цінами, сезонні рецепти, нотатки щодо подачі', be: 'пазіцыі з коштамі, сезонныя рэцэпты, нататкі пра падачу' },
+  deli_6_t: { en: '8-WEEK PLAN',     ru: 'ПЛАН НА 8 НЕДЕЛЬ',   pl: 'PLAN 8 TYGODNI',    uk: 'ПЛАН НА 8 ТИЖНІВ',  be: 'ПЛАН НА 8 ТЫДНЯЎ' },
+  deli_6_c: { en: 'opening schedule',ru: 'график открытия',    pl: 'harmonogram otwarcia', uk: 'графік відкриття', be: 'графік адкрыцця' },
+  deli_6_d: { en: 'week by week: permits, build-out, training, soft-open', ru: 'неделя за неделей: разрешения, ремонт, обучение, soft-open', pl: 'tydzień po tygodniu: pozwolenia, prace wykończeniowe, szkolenia, soft-open', uk: 'тиждень за тижнем: дозволи, ремонт, навчання, soft-open', be: 'тыдзень за тыднем: дазволы, рамонт, навучанне, soft-open' },
+  deli_7_t: { en: 'DAY-1 CHECKLIST', ru: 'ЧЕК-ЛИСТ ДНЯ-1',     pl: 'CHECKLIST DNIA-1',  uk: 'ЧЕК-ЛИСТ ДНЯ-1',    be: 'ЧЭК-ЛІСТ ДНЯ-1' },
+  deli_7_c: { en: 'opening day',     ru: 'день открытия',      pl: 'dzień otwarcia',    uk: 'день відкриття',    be: 'дзень адкрыцця' },
+  deli_7_d: { en: 'morning · evening · press-day script', ru: 'утро · вечер · сценарий пресс-дня', pl: 'rano · wieczór · scenariusz dnia prasowego', uk: 'ранок · вечір · сценарій прес-дня', be: 'раніца · вечар · сцэнар прэс-дня' },
+
+  // ========== index.html — Catalog card subtitles ==========
+  cat_16_s:  { en: 'massage · Amsterdam', ru: 'массаж · Амстердам',  pl: 'masaż · Amsterdam',  uk: 'масаж · Амстердам',  be: 'масаж · Амстэрдам' },
+  cat_13_s:  { en: 'studio · Lisbon',     ru: 'студия · Лиссабон',   pl: 'studio · Lizbona',    uk: 'студія · Лісабон',   be: 'студыя · Лісабон' },
+  cat_15_s:  { en: 'club · Helsinki',     ru: 'клуб · Хельсинки',    pl: 'klub · Helsinki',     uk: 'клуб · Гельсінкі',   be: 'клуб · Хельсінкі' },
+  cat_06_s:  { en: 'clinic · Vienna',     ru: 'клиника · Вена',      pl: 'klinika · Wiedeń',    uk: 'клініка · Відень',   be: 'клініка · Вена' },
+  cat_12_s:  { en: 'shop · Milano',       ru: 'магазин · Милан',     pl: 'sklep · Mediolan',    uk: 'крамниця · Мілан',   be: 'крама · Мілан' },
+  cat_11_s:  { en: 'room · Paris',        ru: 'зал · Париж',         pl: 'sala · Paryż',        uk: 'зала · Париж',       be: 'зала · Парыж' },
+  cat_14_s:  { en: 'workshop · Helsinki', ru: 'мастерская · Хельсинки', pl: 'pracownia · Helsinki', uk: 'майстерня · Гельсінкі', be: 'майстэрня · Хельсінкі' },
+  cat_03_s:  { en: 'bar · Stockholm',     ru: 'бар · Стокгольм',     pl: 'bar · Sztokholm',     uk: 'бар · Стокгольм',    be: 'бар · Стакгольм' },
+  cat_09_s:  { en: 'school · Ljubljana',  ru: 'школа · Любляна',     pl: 'szkoła · Lublana',    uk: 'школа · Любляна',    be: 'школа · Любляна' },
+  cat_04_s:  { en: 'studio · Stockholm',  ru: 'студия · Стокгольм',  pl: 'studio · Sztokholm',  uk: 'студія · Стокгольм', be: 'студыя · Стакгольм' },
+  cat_102_s: { en: 'kiosk · Brussels',    ru: 'киоск · Брюссель',    pl: 'kiosk · Bruksela',    uk: 'кіоск · Брюссель',   be: 'кіёск · Брусэль' },
+  cat_101_s: { en: 'cafe · Brussels',     ru: 'кафе · Брюссель',     pl: 'kawiarnia · Bruksela',uk: 'кафе · Брюссель',    be: 'кавярня · Брусэль' },
+
+  // ========== index.html — FAQ ==========
+  idx_faq_q1: {
+    en: 'Can I buy just one concept?',
+    ru: 'Можно ли купить только одну концепцию?',
+    pl: 'Czy mogę kupić tylko jeden koncept?',
+    uk: 'Чи можна купити лише одну концепцію?',
+    be: 'Ці можна купіць толькі адну канцэпцыю?'
+  },
+  idx_faq_a1: {
+    en: 'Not anymore. We moved to a single subscription: one account unlocks the whole library. If you only need one concept, grab Monthly for $19, download the dossier and cancel the next day — still cheaper than the old per-concept price.',
+    ru: 'Больше нет. Мы перешли на единую подписку: один аккаунт открывает всю библиотеку. Если нужна только одна концепция — оформите Monthly за $19, скачайте досье и отмените на следующий день. Всё равно дешевле, чем старая цена за одну концепцию.',
+    pl: 'Już nie. Przeszliśmy na jedną subskrypcję: jedno konto odblokowuje całą bibliotekę. Jeśli potrzebujesz tylko jednego konceptu — kup Monthly za $19, pobierz dossier i anuluj następnego dnia. I tak będzie taniej niż dawna cena za koncept.',
+    uk: 'Уже ні. Ми перейшли на єдину підписку: один акаунт відкриває всю бібліотеку. Якщо потрібна лише одна концепція — оформіть Monthly за $19, завантажте досьє та скасуйте наступного дня. Усе одно дешевше за стару ціну за концепцію.',
+    be: 'Ужо не. Мы перайшлі на адзіную падпіску: адзін акаўнт адкрывае ўсю бібліятэку. Калі патрэбна толькі адна канцэпцыя — аформце Monthly за $19, спампуйце дасье і скасуйце наступным днём. Усё адно танней за старую цану за канцэпцыю.'
+  },
+  idx_faq_q2: {
+    en: 'What happens if I cancel?',
+    ru: 'Что будет, если я отменю подписку?',
+    pl: 'Co się stanie, jeśli anuluję?',
+    uk: 'Що буде, якщо я скасую підписку?',
+    be: 'Што будзе, калі я скасую падпіску?'
+  },
+  idx_faq_a2: {
+    en: 'Access to concept pages and future updates ends. Files you have already downloaded stay on your disk — they are yours under the licence.',
+    ru: 'Доступ к страницам концепций и будущим обновлениям заканчивается. Файлы, которые вы уже скачали, остаются у вас на диске — они ваши по лицензии.',
+    pl: 'Dostęp do stron konceptów i przyszłych aktualizacji się kończy. Pliki, które już pobrałeś, zostają na twoim dysku — należą do ciebie zgodnie z licencją.',
+    uk: 'Доступ до сторінок концепцій і майбутніх оновлень припиняється. Файли, які ви вже завантажили, залишаються на вашому диску — вони ваші згідно з ліцензією.',
+    be: 'Доступ да старонак канцэпцый і будучых абнаўленняў сканчваецца. Файлы, якія вы ўжо спампавалі, застаюцца на вашым дыску — яны вашыя паводле ліцэнзіі.'
+  },
+  idx_faq_q3: {
+    en: 'Can I actually open a business from a concept?',
+    ru: 'Можно ли реально открыть бизнес по концепции?',
+    pl: 'Czy naprawdę można otworzyć biznes na podstawie konceptu?',
+    uk: 'Чи можна справді відкрити бізнес за концепцією?',
+    be: 'Ці можна на самой справе адкрыць бізнес па канцэпцыі?'
+  },
+  idx_faq_a3: {
+    en: 'Yes — that\'s why we make them. The base licence covers one owner and one venue in one city per concept. Planning a chain or franchise? Write to us and we\'ll draw up a separate agreement.',
+    ru: 'Да — для этого их и делаем. Базовая лицензия покрывает одного владельца и одно заведение в одном городе на концепцию. Планируете сеть или франшизу? Напишите нам — оформим отдельный договор.',
+    pl: 'Tak — po to je tworzymy. Licencja podstawowa obejmuje jednego właściciela i jeden lokal w jednym mieście dla każdego konceptu. Planujesz sieć lub franczyzę? Napisz do nas — sporządzimy osobną umowę.',
+    uk: 'Так — для цього їх і робимо. Базова ліцензія покриває одного власника і один заклад в одному місті на концепцію. Плануєте мережу або франшизу? Напишіть нам — складемо окремий договір.',
+    be: 'Так — для гэтага іх і робім. Базавая ліцэнзія пакрывае аднаго ўладальніка і адну ўстанову ў адным горадзе на канцэпцыю. Плануеце сетку ці франшызу? Напішыце нам — складзем асобную дамову.'
+  },
+  idx_faq_q4: {
+    en: 'Are the revenue and CAPEX numbers a promise?',
+    ru: 'Цифры по выручке и CAPEX — это обещание?',
+    pl: 'Czy liczby przychodów i CAPEX to obietnica?',
+    uk: 'Чи цифри виручки та CAPEX — це обіцянка?',
+    be: 'Ці лічбы выручкі і CAPEX — гэта абяцанне?'
+  },
+  idx_faq_a4: {
+    en: 'No. They\'re planning orientation based on average European-market figures. Every P&L states this plainly: numbers are indicative and depend on city, lease and suppliers. Adjust them for your situation.',
+    ru: 'Нет. Это ориентир для планирования, основанный на средних европейских цифрах. В каждом P&L это прямо указано: цифры индикативны и зависят от города, аренды и поставщиков. Подстраивайте их под свою ситуацию.',
+    pl: 'Nie. To orientacja do planowania na podstawie średnich europejskich. Każdy P&L mówi to wprost: liczby są poglądowe i zależą od miasta, najmu i dostawców. Dostosuj je do swojej sytuacji.',
+    uk: 'Ні. Це орієнтир для планування на основі середніх європейських цифр. У кожному P&L це чітко вказано: цифри індикативні й залежать від міста, оренди та постачальників. Адаптуйте їх до своєї ситуації.',
+    be: 'Не. Гэта арыенцір для планавання, заснаваны на сярэдніх еўрапейскіх лічбах. У кожным P&L гэта прама пазначана: лічбы індыкатыўныя і залежаць ад горада, арэнды і пастаўшчыкоў. Прыстасоўвайце іх пад сваю сітуацыю.'
+  },
+  idx_faq_q5: {
+    en: 'What language are the concepts in?',
+    ru: 'На каком языке концепции?',
+    pl: 'W jakim języku są koncepty?',
+    uk: 'Якою мовою концепції?',
+    be: 'На якой мове канцэпцыі?'
+  },
+  idx_faq_a5: {
+    en: 'Content is in English with local vocabulary (Dutch, Italian, Japanese — wherever it\'s part of the place\'s character). The site itself is being translated into 12 languages.',
+    ru: 'Контент на английском с местной лексикой (нидерландский, итальянский, японский — там, где это часть характера места). Сам сайт переводится на 12 языков.',
+    pl: 'Treść jest po angielsku z lokalnym słownictwem (niderlandzkim, włoskim, japońskim — tam, gdzie należy do charakteru miejsca). Sama strona jest tłumaczona na 12 języków.',
+    uk: 'Контент англійською з місцевою лексикою (нідерландська, італійська, японська — там, де це частина характеру місця). Сам сайт перекладається 12 мовами.',
+    be: 'Кантэнт на англійскай з мясцовай лексікай (нідэрландская, італьянская, японская — там, дзе гэта частка характару месца). Сам сайт перакладаецца на 12 моў.'
+  },
+  idx_faq_q6: {
+    en: 'Where do the brandbook photos come from?',
+    ru: 'Откуда фотографии в брендбуках?',
+    pl: 'Skąd zdjęcia w brandbookach?',
+    uk: 'Звідки фотографії в брендбуках?',
+    be: 'Адкуль фатаграфіі ў брэндбуках?'
+  },
+  idx_faq_a6: {
+    en: 'Every visual scene is shot specifically for the concept — no stock. Where needed we use generative AI (Nano Banana / Vertex) with manual detail polish.',
+    ru: 'Каждая визуальная сцена создаётся специально под концепцию — без стока. Где нужно — используем генеративный ИИ (Nano Banana / Vertex) с ручной доводкой деталей.',
+    pl: 'Każda scena wizualna jest tworzona specjalnie pod koncept — bez stocku. Tam, gdzie trzeba, używamy generatywnej AI (Nano Banana / Vertex) z ręcznym dopracowaniem detali.',
+    uk: 'Кожна візуальна сцена створюється спеціально під концепцію — без стоку. Де потрібно — використовуємо генеративний ШІ (Nano Banana / Vertex) з ручним доопрацюванням деталей.',
+    be: 'Кожная візуальная сцэна ствараецца спецыяльна пад канцэпцыю — без стоку. Дзе трэба — выкарыстоўваем генератыўны ШІ (Nano Banana / Vertex) з ручной даводкай дэталяў.'
+  },
+
+  // ========== index.html — Concierge ==========
+  cncrg_eyebrow: { en: '— full support —', ru: '— полная поддержка —', pl: '— pełne wsparcie —', uk: '— повна підтримка —', be: '— поўная падтрымка —' },
+  cncrg_h2_html: {
+    en: 'More than a concept — <span class="italic">we\'ll open the venue with you.</span>',
+    ru: 'Больше, чем концепция — <span class="italic">мы откроем заведение вместе с вами.</span>',
+    pl: 'Więcej niż koncept — <span class="italic">otworzymy lokal razem z tobą.</span>',
+    uk: 'Більше, ніж концепція — <span class="italic">ми відкриємо заклад разом із вами.</span>',
+    be: 'Больш, чым канцэпцыя — <span class="italic">мы адкрыем установу разам з вамі.</span>'
+  },
+  cncrg_lead: {
+    en: 'We can accompany you end-to-end through opening your venue. Leave a request and our manager will get back to you.',
+    ru: 'Мы можем сопровождать вас от и до по пути открытия заведения. Оставьте заявку — наш менеджер свяжется с вами.',
+    pl: 'Możemy towarzyszyć ci od początku do końca w otwarciu lokalu. Zostaw zgłoszenie, a nasz menedżer się odezwie.',
+    uk: 'Ми можемо супроводжувати вас від А до Я в дорозі до відкриття закладу. Залиште заявку — наш менеджер звʼяжеться з вами.',
+    be: 'Мы можам суправаджаць вас ад А да Я па шляху да адкрыцця ўстановы. Пакіньце заяўку — наш менеджэр звяжацца з вамі.'
+  },
+  cncrg_b1: { en: 'site, lease agreement, permits', ru: 'помещение, договор аренды, разрешения', pl: 'lokal, umowa najmu, pozwolenia', uk: 'приміщення, договір оренди, дозволи', be: 'памяшканне, дамова арэнды, дазволы' },
+  cncrg_b2: { en: 'interior & facade design, brand identity', ru: 'дизайн интерьера и фасада, фирменный стиль', pl: 'projekt wnętrza i fasady, identyfikacja marki', uk: 'дизайн інтерʼєру та фасаду, фірмовий стиль', be: 'дызайн інтэрʼеру і фасада, фірмовы стыль' },
+  cncrg_b3: { en: 'equipment, suppliers, installation', ru: 'оборудование, поставщики, монтаж', pl: 'wyposażenie, dostawcy, montaż', uk: 'обладнання, постачальники, монтаж', be: 'абсталяванне, пастаўшчыкі, мантаж' },
+  cncrg_b4: { en: 'team: hiring & training', ru: 'команда: найм и обучение', pl: 'zespół: rekrutacja i szkolenia', uk: 'команда: найм і навчання', be: 'каманда: найм і навучанне' },
+  cncrg_b5: { en: 'launch plan and first month of operations', ru: 'план запуска и первый месяц работы', pl: 'plan startu i pierwszy miesiąc działania', uk: 'план запуску і перший місяць роботи', be: 'план запуску і першы месяц працы' },
+  cncrg_sent_h: { en: 'Request received.', ru: 'Заявка получена.', pl: 'Zgłoszenie przyjęte.', uk: 'Заявку отримано.', be: 'Заяўка прынятая.' },
+  cncrg_sent_p: {
+    en: 'A LABS67 manager will contact you within one business day. Thank you.',
+    ru: 'Менеджер LABS67 свяжется с вами в течение одного рабочего дня. Спасибо.',
+    pl: 'Menedżer LABS67 skontaktuje się z tobą w ciągu jednego dnia roboczego. Dziękujemy.',
+    uk: 'Менеджер LABS67 звʼяжеться з вами протягом одного робочого дня. Дякуємо.',
+    be: 'Менеджэр LABS67 звяжацца з вамі на працягу аднаго працоўнага дня. Дзякуй.'
+  },
+  cncrg_lbl_name:  { en: 'Your name', ru: 'Ваше имя', pl: 'Twoje imię', uk: 'Ваше імʼя', be: 'Ваша імя' },
+  cncrg_lbl_email: { en: 'Email',     ru: 'Email',    pl: 'Email',      uk: 'Email',     be: 'Email' },
+  cncrg_lbl_phone: { en: 'Phone',     ru: 'Телефон',  pl: 'Telefon',    uk: 'Телефон',   be: 'Тэлефон' },
+  cncrg_lbl_msg:   { en: "What's on your mind (optional)", ru: 'О чём думаете (необязательно)', pl: 'O czym myślisz (opcjonalnie)', uk: 'Про що думаєте (необовʼязково)', be: 'Пра што думаеце (неабавязкова)' },
+  cncrg_msg_placeholder: {
+    en: "City, timing, budget, any details — anything you'd like us to know.",
+    ru: 'Город, сроки, бюджет, любые детали — всё, что хотите нам сообщить.',
+    pl: 'Miasto, terminy, budżet, dowolne szczegóły — wszystko, co chcesz nam przekazać.',
+    uk: 'Місто, терміни, бюджет, будь-які деталі — усе, що хочете нам розповісти.',
+    be: 'Горад, тэрміны, бюджэт, любыя дэталі — усё, што хочаце нам паведаміць.'
+  },
+  cncrg_btn_sending: { en: 'Sending…', ru: 'Отправка…', pl: 'Wysyłanie…', uk: 'Надсилання…', be: 'Адпраўка…' },
+  cncrg_btn_send:    { en: 'Send request', ru: 'Отправить заявку', pl: 'Wyślij zgłoszenie', uk: 'Надіслати заявку', be: 'Адправіць заяўку' },
+  cncrg_consent: {
+    en: "By submitting, you agree to the processing of your contact data. We'll reply within one business day.",
+    ru: 'Отправляя форму, вы соглашаетесь на обработку контактных данных. Ответим в течение одного рабочего дня.',
+    pl: 'Wysyłając zgodzasz się na przetwarzanie danych kontaktowych. Odpowiemy w ciągu jednego dnia roboczego.',
+    uk: 'Надсилаючи, ви погоджуєтесь на обробку контактних даних. Відповімо протягом одного робочого дня.',
+    be: 'Адпраўляючы, вы згаджаецеся на апрацоўку кантактных даных. Адкажам на працягу аднаго працоўнага дня.'
+  },
+  cncrg_err_name:    { en: 'Please tell us your name.', ru: 'Пожалуйста, укажите имя.', pl: 'Podaj swoje imię.', uk: 'Будь ласка, вкажіть імʼя.', be: 'Калі ласка, пакажыце імя.' },
+  cncrg_err_contact: { en: 'Leave an email or phone so we can get back to you.', ru: 'Оставьте email или телефон, чтобы мы могли с вами связаться.', pl: 'Zostaw email lub telefon, byśmy mogli się skontaktować.', uk: 'Залиште email або телефон, щоб ми могли звʼязатися.', be: 'Пакіньце email ці тэлефон, каб мы маглі звязацца.' },
+  cncrg_err_email:   { en: 'That email looks invalid.', ru: 'Email выглядит некорректно.', pl: 'Ten email wygląda na nieprawidłowy.', uk: 'Email виглядає некоректно.', be: 'Email выглядае некарэктна.' },
+  cncrg_err_submit:  { en: 'Could not submit. Please try again or email ceo@labs67.com.', ru: 'Не удалось отправить. Попробуйте ещё раз или напишите на ceo@labs67.com.', pl: 'Nie udało się wysłać. Spróbuj ponownie lub napisz na ceo@labs67.com.', uk: 'Не вдалося надіслати. Спробуйте ще раз або напишіть на ceo@labs67.com.', be: 'Не атрымалася адправіць. Паспрабуйце яшчэ раз ці напішыце на ceo@labs67.com.' },
+
+  // ========== index.html — Footer ==========
+  footer_tagline: { en: 'atlas of unbuilt worlds', ru: 'атлас непостроенных миров', pl: 'atlas niezbudowanych światów', uk: 'атлас небудованих світів', be: 'атлас непабудаваных светаў' },
+  footer_language: { en: 'Language', ru: 'Язык', pl: 'Język', uk: 'Мова', be: 'Мова' },
+  footer_h_product: { en: 'product', ru: 'продукт', pl: 'produkt', uk: 'продукт', be: 'прадукт' },
+  footer_h_company: { en: 'company', ru: 'компания', pl: 'firma', uk: 'компанія', be: 'кампанія' },
+  footer_h_legal:   { en: 'legal',   ru: 'правовое', pl: 'prawne', uk: 'юридичне', be: 'юрыдычнае' },
+  footer_link_catalog: { en: 'Concept catalog', ru: 'Каталог концепций', pl: 'Katalog konceptów', uk: 'Каталог концепцій', be: 'Каталог канцэпцый' },
+  footer_link_subscription: { en: 'Subscription', ru: 'Подписка', pl: 'Subskrypcja', uk: 'Підписка', be: 'Падпіска' },
+  footer_link_account: { en: 'Account', ru: 'Аккаунт', pl: 'Konto', uk: 'Акаунт', be: 'Акаўнт' },
+  footer_link_licence: { en: 'Licence', ru: 'Лицензия', pl: 'Licencja', uk: 'Ліцензія', be: 'Ліцэнзія' },
+  footer_link_refunds: { en: 'Refunds', ru: 'Возвраты', pl: 'Zwroty', uk: 'Повернення', be: 'Звароты' },
+  footer_link_imprint: { en: 'Imprint', ru: 'Реквизиты', pl: 'Stopka prawna', uk: 'Реквізити', be: 'Рэквізіты' },
+  footer_link_terms:   { en: 'Terms',   ru: 'Условия',   pl: 'Regulamin',  uk: 'Умови',     be: 'Умовы' },
+  footer_link_privacy: { en: 'Privacy', ru: 'Приватность', pl: 'Prywatność', uk: 'Приватність', be: 'Прыватнасць' },
+  footer_link_legal:   { en: 'Legal notice', ru: 'Правовая информация', pl: 'Informacja prawna', uk: 'Правова інформація', be: 'Прававая інфармацыя' },
+  footer_copyright: { en: '© 2026 micro.svita · atlas of unbuilt worlds', ru: '© 2026 micro.svita · атлас непостроенных миров', pl: '© 2026 micro.svita · atlas niezbudowanych światów', uk: '© 2026 micro.svita · атлас небудованих світів', be: '© 2026 micro.svita · атлас непабудаваных светаў' },
+  footer_made: { en: 'made at LABS67', ru: 'сделано в LABS67', pl: 'wykonane w LABS67', uk: 'зроблено в LABS67', be: 'зроблена ў LABS67' }
 };
