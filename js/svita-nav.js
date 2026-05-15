@@ -77,9 +77,9 @@
     /* Subscribe affordance — shown until the visitor actually has library
        access. As a header pill (after Shop) AND inside the cabinet dropdown. */
     const subscribePill = hasAccess ? '' :
-      `<a href="subscribe.html" class="svh-subscribe" data-i18n="nav_subscribe">${escape(t.subscribe)}</a>`;
+      `<a href="/subscribe.html" class="svh-subscribe" data-i18n="nav_subscribe">${escape(t.subscribe)}</a>`;
     const subscribeMenuItem = hasAccess ? '' :
-      `<a href="subscribe.html" role="menuitem"><span class="ic">✦</span><span data-i18n="nav_subscribe">${escape(t.subscribe)}</span></a><div class="svh-sep"></div>`;
+      `<a href="/subscribe.html" role="menuitem"><span class="ic">✦</span><span data-i18n="nav_subscribe">${escape(t.subscribe)}</span></a><div class="svh-sep"></div>`;
 
     /* auth area — user dropdown OR sign-in pill */
     let authArea;
@@ -89,7 +89,7 @@
       const handle = email.split('@')[0] || 'you';
       const roleBadge = role === 'superadmin' ? `<span class="svh-role">${escape(t.admin)}</span>` : '';
       const adminLink = role === 'superadmin'
-        ? `<a href="admin.html" role="menuitem"><span class="ic">⚙</span><span data-i18n="nav_admin">${escape(t.admin)}</span></a><div class="svh-sep"></div>`
+        ? `<a href="/admin.html" role="menuitem"><span class="ic">⚙</span><span data-i18n="nav_admin">${escape(t.admin)}</span></a><div class="svh-sep"></div>`
         : '';
       authArea = `
         <div class="svh-user" id="user-menu">
@@ -109,7 +109,7 @@
             </div>
             <div class="svh-sep"></div>
             ${subscribeMenuItem}
-            <a href="account.html" role="menuitem"><span class="ic">◱</span><span data-i18n="nav_cabinet">${escape(t.cabinet)}</span></a>
+            <a href="/account.html" role="menuitem"><span class="ic">◱</span><span data-i18n="nav_cabinet">${escape(t.cabinet)}</span></a>
             <a href="account.html#favorites" role="menuitem"><span class="ic">♡</span><span data-i18n="nav_favs">${escape(t.favs)}</span></a>
             <a href="account.html#owned" role="menuitem"><span class="ic">▣</span><span data-i18n="nav_mine">${escape(t.mine)}</span></a>
             <a href="account.html#settings" role="menuitem"><span class="ic">⚙</span><span data-i18n="nav_settings">${escape(t.settings)}</span></a>
@@ -120,7 +120,7 @@
         </div>`;
     } else {
       authArea = `
-        <a href="account.html" class="svh-signin" aria-label="Sign in" title="Sign in">
+        <a href="/account.html" class="svh-signin" aria-label="Sign in" title="Sign in">
           <span class="icon" aria-hidden="true">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="8" r="4"/>
@@ -138,7 +138,7 @@
 
     nav.innerHTML = `
       <div class="svh-inner">
-        <a href="index.html" class="svh-brand" aria-label="micro.svita home">
+        <a href="/" class="svh-brand" aria-label="micro.svita home">
           <svg class="svh-brand-mark" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="20" y="20" width="160" height="160"/>
             <path d="M100 100 Q 60 60 20 20"/><path d="M100 100 Q 140 60 180 20"/>
@@ -150,7 +150,7 @@
           <span class="svh-brand-word">micro<span class="dot">·</span><i>svita</i></span>
         </a>
         <div class="svh-actions">
-          <a href="shop.html" class="svh-shop"><span data-i18n="nav_shop">Shop</span> <span class="arrow" aria-hidden="true">→</span></a>
+          <a href="/shop.html" class="svh-shop"><span data-i18n="nav_shop">Shop</span> <span class="arrow" aria-hidden="true">→</span></a>
           ${subscribePill}
           ${authArea}
           <div class="lang-switcher" aria-label="Language"></div>
