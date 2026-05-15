@@ -63,6 +63,7 @@
        React babel script so the t() helper has the dict at first render. -->
   <script>window.LABS67_LANGS = ['en','pl','uk','be','ru']; window.LABS67_DEFAULT_LANG = 'en';</script>
   <script src="/js/svita-i18n-dict.js"></script>
+  <script src="/js/svita-concept-count.js" defer></script>
   <script src="/js/svita-advisor.js" defer></script>
   <script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
   <script type="text/babel" data-type="module" data-presets="react">
@@ -652,13 +653,23 @@
             </Reveal>
             <Btn href="/shop.html">Open the full catalog</Btn>
           </div>
-          {/* infinite marquee carousel */}
-          <div className="relative overflow-hidden group">
-            <div className="marquee-track flex gap-5 w-max pb-4 group-hover:[animation-play-state:paused]">
-              {[...CATALOG, ...CATALOG].map((c,i)=>(<Card key={i} c={c}/>))}
+          {/* Infinite marquee on desktop, finger-swipe on touch.
+              overflow-x:auto + touch-action:pan-x makes the strip respond to
+              swipe; the auto-animation pauses while the visitor drags. */}
+          <div className="relative group">
+            <div
+              className="marquee-track flex gap-5 w-max pb-4 overflow-x-auto no-scrollbar group-hover:[animation-play-state:paused]"
+              style={{ touchAction: 'pan-x', scrollSnapType: 'x proximity', WebkitOverflowScrolling: 'touch' }}
+              onTouchStart={(e)=>{ e.currentTarget.style.animationPlayState='paused'; }}
+            >
+              {[...CATALOG, ...CATALOG].map((c,i)=>(
+                <div key={i} style={{ scrollSnapAlign:'start', flex:'none' }}>
+                  <Card c={c}/>
+                </div>
+              ))}
             </div>
-            <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-paper to-transparent pointer-events-none"/>
-            <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-paper to-transparent pointer-events-none"/>
+            <div className="absolute left-0 top-0 bottom-0 w-12 md:w-24 bg-gradient-to-r from-paper to-transparent pointer-events-none"/>
+            <div className="absolute right-0 top-0 bottom-0 w-12 md:w-24 bg-gradient-to-l from-paper to-transparent pointer-events-none"/>
           </div>
         </section>
       );

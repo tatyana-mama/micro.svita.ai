@@ -292,15 +292,21 @@ body.svh-menu-open .svh-burger .burger-close{display:block}
    stays clickable to close. */
 .svh-drawer{
   position:fixed;inset:0;
-  background:rgba(239,234,224,0.98);
-  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
-  padding:84px 24px 40px;
+  /* Use 100dvh — iOS Safari shrinks 100vh when the address bar appears and
+     the drawer would leak. */
+  width:100vw;height:100dvh;
+  /* Solid paper background so the hero / parallax sections can never bleed
+     through. backdrop-filter is intentionally OFF — combining it with a
+     low-alpha background let iOS render the drawer as a faint wash and the
+     page beneath stayed legible. */
+  background:#EFEAE0;
+  padding:84px 24px calc(40px + env(safe-area-inset-bottom,0px));
   display:flex;flex-direction:column;
-  opacity:0;pointer-events:none;
-  transition:opacity 250ms cubic-bezier(.22,1,.36,1);
-  z-index:90;overflow-y:auto;
+  opacity:0;pointer-events:none;visibility:hidden;
+  transition:opacity 250ms cubic-bezier(.22,1,.36,1),visibility 0s linear 250ms;
+  z-index:120;overflow-y:auto;-webkit-overflow-scrolling:touch;
 }
-body.svh-menu-open .svh-drawer{opacity:1;pointer-events:auto}
+body.svh-menu-open .svh-drawer{opacity:1;pointer-events:auto;visibility:visible;transition:opacity 250ms cubic-bezier(.22,1,.36,1)}
 body.svh-menu-open{overflow:hidden}
 @media(min-width:1024px){ .svh-drawer{display:none} }
 .svh-drawer-link{

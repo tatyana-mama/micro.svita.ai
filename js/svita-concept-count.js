@@ -41,6 +41,14 @@
       const tpl = el.getAttribute('data-concept-count-template') || '';
       el.innerHTML = tpl.replace(/\{N\}/g, escape(N));
     });
+    /* Catch-all: any element whose innerHTML still contains the {N} placeholder
+       (typically driven by an i18n dict entry that uses {N}) gets the value
+       substituted in place. Restricted to [data-i18n] so we never accidentally
+       mutate unrelated copy that happens to contain the literal "{N}". */
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      if (el.innerHTML.indexOf('{N}') === -1) return;
+      el.innerHTML = el.innerHTML.replace(/\{N\}/g, escape(N));
+    });
     /* Expose an event so other components (chat advisor system prompt, etc.)
        can listen and react when the count loads or changes. */
     window.dispatchEvent(new CustomEvent('svita:concept-count', { detail: { count: n } }));
