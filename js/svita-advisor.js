@@ -277,15 +277,28 @@
     } catch (e) { /* quota or sandbox — silent */ }
   }
   /* Cross-tab sync: when the SAME user updates history in another tab,
-     mirror it here. Also re-key when auth changes (login/logout) so the
-     assistant flips to the right bucket without a page reload. */
+     mirror it here. On auth change (login/logout) the bucket key changes —
+     we MIGRATE the current in-memory conversation into the new bucket so
+     the visitor never sees the chat go blank just because they signed in. */
   window.addEventListener('storage', (e) => {
     if (e.key === 'svita-micro-auth') {
       const newKey = historyKey();
-      if (newKey !== HISTORY_KEY) {
-        HISTORY_KEY = newKey;
-        history = loadHistory();
-      }
+      if (newKey === HISTORY_KEY) return;
+      /* Migrate: prefer the longer of (current in-memory) vs (already-saved
+         in new bucket). This way a fresh login doesn't wipe a conversation
+         the visitor was in the middle of having. */
+      let nextSaved = [];
+      try {
+        const raw = localStorage.getItem(newKey);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) nextSaved = parsed.slice(-HISTORY_MAX);
+        }
+      } catch (_) {}
+      const merged = (history.length >= nextSaved.length) ? history : nextSaved;
+      HISTORY_KEY = newKey;
+      history = merged.slice(-HISTORY_MAX);
+      try { localStorage.setItem(HISTORY_KEY, JSON.stringify(history)); } catch (_) {}
       return;
     }
     if (e.key === HISTORY_KEY && e.newValue) {
