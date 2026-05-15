@@ -708,18 +708,29 @@
     }
 
     /* ─── 09 · подписка ─── */
+    /* Every visible string is a dict key — `Pricing` resolves them through tx() */
     const TIERS = [
       {
-        name:'Monthly', price:'$19', unit:'/ mo',
+        nameKey:'idx_tier_monthly_name', name:'Monthly',
+        price:'$19', unit:'/ mo',
+        unitKey:'idx_tier_monthly_unit',
+        subKey:'idx_tier_monthly_sub',
         sub:'The whole library. Every brandbook, every page. Cancel anytime — nothing is lost.',
+        bulletKeys:['idx_tier_b_all','idx_tier_b_unlock','idx_tier_b_2days','idx_tier_b_cancel'],
         bullets:['access to all {N} concepts','new concepts unlock instantly','2 days free','cancel in one click'],
-        cta:'Start free trial', href:'/account.html?subscribe=1&plan=monthly', accent:false
+        ctaKey:'idx_tier_cta_monthly', cta:'Start free trial',
+        href:'/account.html?subscribe=1&plan=monthly', accent:false
       },
       {
-        name:'Yearly · −35%', price:'$149', unit:'/ year',
+        nameKey:'idx_tier_yearly_name', name:'Yearly · −35%',
+        price:'$149', unit:'/ year',
+        unitKey:'idx_tier_yearly_unit',
+        subKey:'idx_tier_yearly_sub',
         sub:'The same library in one annual payment. Works out roughly two months cheaper than monthly.',
+        bulletKeys:['idx_tier_b_y_all','idx_tier_b_y_save','idx_tier_b_y_one','idx_tier_b_y_cancel'],
         bullets:['everything in Monthly','about −35% vs monthly','one invoice a year — no surprise charges','cancel before the next renewal'],
-        cta:'Pay yearly', href:'/account.html?subscribe=1&plan=yearly', accent:true
+        ctaKey:'idx_tier_cta_yearly', cta:'Pay yearly',
+        href:'/account.html?subscribe=1&plan=yearly', accent:true
       },
     ];
     function Pricing() {
@@ -737,23 +748,23 @@
             </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {TIERS.map((t,i)=>(
+              {TIERS.map((tier,i)=>(
                 <Reveal key={i} delay={.1*i}>
-                  <article className={`relative bg-paper p-8 md:p-10 h-full flex flex-col ${t.accent ? 'ring-2 ring-groen' : 'ring-1 ring-groen/15'}`}>
-                    {t.accent && (
-                      <div className="absolute -top-3 left-8 bg-groen text-creme text-[10px] tracking-[0.28em] uppercase px-3 py-1.5">best value</div>
+                  <article className={`relative bg-paper p-8 md:p-10 h-full flex flex-col ${tier.accent ? 'ring-2 ring-groen' : 'ring-1 ring-groen/15'}`}>
+                    {tier.accent && (
+                      <div className="absolute -top-3 left-8 bg-groen text-creme text-[10px] tracking-[0.28em] uppercase px-3 py-1.5">{tx('idx_tier_best_value', 'best value')}</div>
                     )}
-                    <div className="text-[10px] tracking-[0.28em] uppercase text-okra mb-4">{t.name}</div>
+                    <div className="text-[10px] tracking-[0.28em] uppercase text-okra mb-4">{tx(tier.nameKey, tier.name)}</div>
                     <div className="font-display text-6xl text-groen leading-none">
-                      {t.price}<span className="text-lg text-grijs italic font-light"> {t.unit}</span>
+                      {tier.price}<span className="text-lg text-grijs italic font-light"> {tx(tier.unitKey, tier.unit)}</span>
                     </div>
-                    <p className="mt-5 font-display italic text-grijs leading-relaxed">{t.sub}</p>
+                    <p className="mt-5 font-display italic text-grijs leading-relaxed">{tx(tier.subKey, tier.sub)}</p>
                     <ul className="mt-8 space-y-2 text-sm text-groen/90">
-                      {t.bullets.map((b,j)=>(<li key={j} className="flex gap-2"><span className="text-oak">·</span><span>{b}</span></li>))}
+                      {tier.bullets.map((b,j)=>(<li key={j} className="flex gap-2"><span className="text-oak">·</span><span>{tx(tier.bulletKeys[j], b)}</span></li>))}
                     </ul>
-                    <a href={t.href}
-                       className={`mt-10 inline-flex items-center justify-center gap-3 px-7 py-4 text-xs tracking-[0.18em] uppercase transition-colors duration-300 ${t.accent ? 'bg-groen text-creme hover:bg-okra' : 'border border-groen/40 text-groen hover:bg-groen hover:text-creme'}`}>
-                      <span>{t.cta}</span>
+                    <a href={tier.href}
+                       className={`mt-10 inline-flex items-center justify-center gap-3 px-7 py-4 text-xs tracking-[0.18em] uppercase transition-colors duration-300 ${tier.accent ? 'bg-groen text-creme hover:bg-okra' : 'border border-groen/40 text-groen hover:bg-groen hover:text-creme'}`}>
+                      <span>{tx(tier.ctaKey, tier.cta)}</span>
                       <span>→</span>
                     </a>
                   </article>
