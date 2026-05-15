@@ -1692,6 +1692,35 @@ loadCatalog();
     bindPfMirror();
   }, 600);
 
+  /* On every language change rebuild category-chip text — CAT_LABELS is now
+     locale-aware so the chips need to repaint with the active dictionary. */
+  function repaintCatLabels(){
+    if (typeof window.CAT_LABELS === 'undefined' && typeof CAT_LABELS === 'undefined') return;
+    const labels = window.CAT_LABELS || (window.SvitaCard && window.SvitaCard.CAT_LABELS);
+    if (!labels) return;
+    document.querySelectorAll('#cat-chips .chip[data-cat]').forEach(chip => {
+      const key = chip.dataset.cat;
+      if (!key || key === 'all') return;
+      const next = labels[key];
+      if (next && next !== chip.textContent.trim()) chip.textContent = next;
+    });
+    /* Re-mirror counts + labels into the left sidebar. */
+    syncCategories();
+    /* Country/category SELECT options carry English country names — they live
+       in CAT_LABELS too, so refresh option labels. */
+    document.querySelectorAll('#pf-cat option').forEach(opt => {
+      const k = opt.value;
+      if (k && labels[k]) opt.textContent = labels[k];
+    });
+  }
+  const _prevLang = window.onLangChange;
+  window.onLangChange = function(lang, dict){
+    if (typeof _prevLang === 'function') {
+      try { _prevLang(lang, dict); } catch(_) {}
+    }
+    repaintCatLabels();
+  };
+
   /* ============ 2. TOP NAV — favorites counter button ============ */
   function injectFavsBtn(){
     const navRight = document.querySelector('nav .nav-right');

@@ -9,11 +9,39 @@ window.SvitaCard = (function(){
     health:['#1a2a2e','#2d3e4a','+'], education:['#2e281a','#4a402d','✎']
   };
 
-  const CAT_LABELS = {
-    food:'Food', restaurant:'Restaurant', beauty:'Beauty', service:'Service',
-    repair:'Repair', craft:'Craft', retail:'Retail', wellness:'Wellness',
-    health:'Health', education:'Education'
+  const CAT_LABELS_I18N = {
+    food:        { en:'Food',        ru:'Еда',           pl:'Jedzenie',     uk:'Їжа',          be:'Ежа' },
+    restaurant:  { en:'Restaurant',  ru:'Ресторан',      pl:'Restauracja',  uk:'Ресторан',     be:'Рэстаран' },
+    beauty:      { en:'Beauty',      ru:'Красота',       pl:'Uroda',        uk:'Краса',        be:'Прыгажосць' },
+    service:     { en:'Service',     ru:'Услуги',        pl:'Usługi',       uk:'Послуги',      be:'Паслугі' },
+    repair:      { en:'Repair',      ru:'Ремонт',        pl:'Naprawa',      uk:'Ремонт',       be:'Рамонт' },
+    craft:       { en:'Craft',       ru:'Ремёсла',       pl:'Rękodzieło',   uk:'Ремесло',      be:'Рамёствы' },
+    retail:      { en:'Retail',      ru:'Магазины',      pl:'Sklepy',       uk:'Магазини',     be:'Крамы' },
+    wellness:    { en:'Wellness',    ru:'Велнес',        pl:'Wellness',     uk:'Велнес',       be:'Веллнес' },
+    health:      { en:'Health',      ru:'Здоровье',      pl:'Zdrowie',      uk:'Здоровʼя',     be:'Здароўе' },
+    education:   { en:'Education',   ru:'Образование',   pl:'Edukacja',     uk:'Освіта',       be:'Адукацыя' }
   };
+
+  function currentLang(){
+    try { return localStorage.getItem('labs67lang') || 'en'; } catch(e) { return 'en'; }
+  }
+
+  /* Backwards-compatible flat object — reads the current locale on every property
+     access, so any old code that does CAT_LABELS[cat] still works AND translates. */
+  const CAT_LABELS = new Proxy({}, {
+    get(_t, key){
+      const row = CAT_LABELS_I18N[key];
+      if (!row) return undefined;
+      const lang = currentLang();
+      return row[lang] || row.en || key;
+    },
+    has(_t, key){ return Object.prototype.hasOwnProperty.call(CAT_LABELS_I18N, key); },
+    ownKeys(){ return Object.keys(CAT_LABELS_I18N); },
+    getOwnPropertyDescriptor(_t, key){
+      if (!Object.prototype.hasOwnProperty.call(CAT_LABELS_I18N, key)) return undefined;
+      return { enumerable: true, configurable: true, value: this.get(null, key) };
+    }
+  });
 
   function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 

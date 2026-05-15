@@ -229,26 +229,76 @@
   `;
   document.body.appendChild(fab);
 
+  /* All visible advisor copy goes through these dicts so the panel speaks
+     the active site locale. Falls back to English when the dict is missing. */
+  const ADV_COPY = {
+    title: {
+      en: 'Catalog concierge', ru: 'Консьерж каталога',
+      pl: 'Konsjerż katalogu', uk: 'Консьєрж каталогу', be: 'Кансьерж каталогу'
+    },
+    subtitle: {
+      en: "tell me your budget & vibe — I'll pick a concept",
+      ru: 'расскажите бюджет и настроение — подберу концепцию',
+      pl: 'powiedz mi swój budżet i klimat — wybiorę koncept',
+      uk: 'розкажіть бюджет і настрій — підберу концепцію',
+      be: 'раскажыце бюджэт і настрой — падбяру канцэпцыю'
+    },
+    placeholder: {
+      en: 'e.g. café in Lisbon under €40k',
+      ru: 'напр. кофейня в Лиссабоне до €40k',
+      pl: 'np. kawiarnia w Lizbonie do €40k',
+      uk: 'напр. кав\'ярня в Лісабоні до €40k',
+      be: 'напр. кавярня ў Лісабоне да €40k'
+    },
+    close: { en:'Close', ru:'Закрыть', pl:'Zamknij', uk:'Закрити', be:'Закрыць' },
+    send:  { en:'Send',  ru:'Отправить', pl:'Wyślij', uk:'Надіслати', be:'Адправіць' },
+    ariaLabel: { en:'Catalog AI', ru:'AI каталога', pl:'AI katalogu', uk:'AI каталогу', be:'AI каталогу' }
+  };
+  function advLang(){ try { return localStorage.getItem('labs67lang') || 'en'; } catch(_) { return 'en'; } }
+  function advT(key){ const r = ADV_COPY[key]; if (!r) return ''; return r[advLang()] || r.en; }
+
   const panel = document.createElement('div');
   panel.className = 'sv-advisor-panel';
   panel.setAttribute('role', 'dialog');
-  panel.setAttribute('aria-label', 'Catalog AI');
+  panel.setAttribute('aria-label', advT('ariaLabel'));
   panel.innerHTML = `
     <div class="sv-advisor-head">
-      <div class="sv-title">Catalog concierge<small>tell me your budget & vibe — I'll pick a concept</small></div>
-      <button class="sv-close" aria-label="Close">
+      <div class="sv-title"><span class="sv-title-main">${advT('title')}</span><small>${advT('subtitle')}</small></div>
+      <button class="sv-close" aria-label="${advT('close')}">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </div>
     <div class="sv-advisor-log" id="sv-log"></div>
     <form class="sv-advisor-form" id="sv-form">
-      <textarea id="sv-input" placeholder="e.g. café in Lisbon under €40k" maxlength="800" rows="1"></textarea>
-      <button type="submit" id="sv-send" aria-label="Send">
+      <textarea id="sv-input" placeholder="${advT('placeholder')}" maxlength="800" rows="1"></textarea>
+      <button type="submit" id="sv-send" aria-label="${advT('send')}">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
       </button>
     </form>
   `;
   document.body.appendChild(panel);
+
+  /* Refresh advisor copy whenever the visitor flips the language pill. */
+  function repaintAdvisorCopy(){
+    const titleMain = panel.querySelector('.sv-title-main');
+    const titleSmall = panel.querySelector('.sv-title small');
+    const closeBtn2 = panel.querySelector('.sv-close');
+    const inputEl = panel.querySelector('#sv-input');
+    const sendBtn2 = panel.querySelector('#sv-send');
+    if (titleMain) titleMain.textContent = advT('title');
+    if (titleSmall) titleSmall.textContent = advT('subtitle');
+    if (closeBtn2) closeBtn2.setAttribute('aria-label', advT('close'));
+    if (inputEl) inputEl.setAttribute('placeholder', advT('placeholder'));
+    if (sendBtn2) sendBtn2.setAttribute('aria-label', advT('send'));
+    panel.setAttribute('aria-label', advT('ariaLabel'));
+  }
+  const _prevAdvLang = window.onLangChange;
+  window.onLangChange = function(lang, dict){
+    if (typeof _prevAdvLang === 'function') {
+      try { _prevAdvLang(lang, dict); } catch(_) {}
+    }
+    repaintAdvisorCopy();
+  };
 
   const log = panel.querySelector('#sv-log');
   const form = panel.querySelector('#sv-form');
