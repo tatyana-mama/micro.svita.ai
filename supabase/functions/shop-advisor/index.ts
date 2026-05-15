@@ -198,23 +198,54 @@ function scoreConcepts(query: string, rows: CatalogRow[], k = 12): CatalogRow[] 
   return positives.slice(0, k).map(s => s.r);
 }
 
+/* For a concept's slide list, pull the 3 most semantically informative slide
+   annotations: slide-02 "what it is", slide-08/09 "ritual/atmosphere", slide-19
+   "moment". These three answer 80% of "is this what I want?" questions without
+   blowing the prompt. Falls back gracefully if fewer slides are available. */
+function compactSlideHighlights(slides: string[]): string {
+  if (!slides || !slides.length) return '';
+  const pick = (idx: number) => (idx < slides.length ? slides[idx] : '');
+  const lines = [pick(1), pick(7), pick(8), pick(18)].filter(s => s && s.length > 10);
+  return lines.map(l => `      • ${l.slice(0, 280)}`).join('\n');
+}
+
 function buildBestMatchesBlock(query: string, rows: CatalogRow[], shown: string[]): string {
   /* Score against the user's last turn only — earlier turns may have
      wandered. The shown-slug filter keeps the menu fresh after each round. */
   const ranked = scoreConcepts(query, rows, 24).filter(r => !shown.includes(r.slug.toLowerCase()));
   if (!ranked.length) return '';
   const top = ranked.slice(0, 12);
-  const lines = top.map(r => {
+  /* Each top concept gets a RICH block: metadata + atmosphere snippet + 3-4
+     most informative slide annotations. Model uses this to write a faithful
+     "why this concept fits" sentence instead of paraphrasing the tagline. */
+  const blocks = top.map(r => {
     const budget = r.budget_eur ? `~€${r.budget_eur.toLocaleString('en-US')}` : '—';
-    const tag = r.tagline ? ` — ${r.tagline}` : '';
-    return `- ${r.slug} | ${r.name ?? r.slug} | ${r.category ?? '—'} | ${r.country ?? '—'} | ${r.size_m2 ?? '—'}m² | open ${budget}${tag}`;
-  }).join('\n');
+    const meta = `▶ ${r.slug} · ${r.name ?? r.slug} · ${r.category ?? '—'} · ${r.country ?? '—'} · ${r.size_m2 ?? '—'}m² · open ${budget}`;
+    const tagline = r.tagline ? `   tagline: ${r.tagline}` : '';
+    const deep = conceptTexts[r.slug];
+    const atmosphere = deep?.pretext ? `   atmosphere: ${deep.pretext.slice(0, 260)}` : '';
+    const slides = deep?.slides ? compactSlideHighlights(deep.slides) : '';
+    return [meta, tagline, atmosphere, slides].filter(Boolean).join('\n');
+  }).join('\n\n');
+
   return [
     '',
-    'BEST MATCHES FOR THIS TURN — keyword-scored shortlist',
-    'These rows match the visitor\'s most recent message by direct token overlap (slug/name/category/country/tagline + slide bodies). Treat this as your PRIMARY shortlist. Pick the strongest 1–3 from here unless none truly fit; only then fall back to the full catalog below.',
+    '═════════════ BEST MATCHES FOR THIS TURN — RICH KNOWLEDGE ═════════════',
+    `Top-${top.length} concepts from the catalog scored against the visitor's last message (keyword overlap on metadata + slide bodies). Already filters out slugs you\'ve recommended earlier in this chat — these are FRESH options.`,
     '',
-    lines,
+    'Each block: slug · name · category · country · size · open-budget',
+    '             tagline',
+    '             atmosphere (concept manifesto)',
+    '             • slide-02 (what it physically is)',
+    '             • slide-08 (the ritual / moment of use)',
+    '             • slide-09 (the still-life of materials)',
+    '             • slide-19 (the signature moment that sells the place)',
+    '',
+    'Use these slide snippets to write specific, sensory "why this fits" sentences (the smell, the texture, the time of day) — NOT generic tagline paraphrases.',
+    '',
+    blocks,
+    '',
+    '═══════════════════════════════════════════════════════════════════════',
     '',
   ].join('\n');
 }
