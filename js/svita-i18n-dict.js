@@ -592,6 +592,39 @@ window.I18N = {
   gen_hint:       { en: 'One generation ≈ 30–60 seconds. The concept is saved to your cabinet as a draft — you can claim it as exclusive afterwards.', ru: 'Одна генерация ≈ 30–60 секунд. Концепция сохраняется в кабинете как черновик — позже её можно сделать эксклюзивной.', pl: 'Jedna generacja ≈ 30–60 sekund. Koncept zapisuje się w gabinecie jako szkic — później można odebrać go jako wyłączny.', uk: 'Одна генерація ≈ 30–60 секунд. Концепція зберігається в кабінеті як чернетка — пізніше її можна забрати як ексклюзивну.', be: 'Адна генерацыя ≈ 30–60 секунд. Канцэпцыя захоўваецца ў кабінеце як чарнавік — пазней яе можна забраць як эксклюзіўную.' },
   gen_go:         { en: 'Generate concept', ru: 'Создать концепцию', pl: 'Wygeneruj koncept', uk: 'Створити концепцію', be: 'Стварыць канцэпцыю' },
 
+  // category options
+  gen_cat_food:      { en: 'Food & drink', ru: 'Еда и напитки', pl: 'Jedzenie i napoje', uk: 'Їжа і напої', be: 'Ежа і напоі' },
+  gen_cat_craft:     { en: 'Craft & making', ru: 'Ремесло', pl: 'Rzemiosło', uk: 'Ремесло', be: 'Рамяство' },
+  gen_cat_wellness:  { en: 'Wellness & beauty', ru: 'Велнес и красота', pl: 'Wellness i uroda', uk: 'Велнес і краса', be: 'Велнес і прыгажосць' },
+  gen_cat_service:   { en: 'Service & repair', ru: 'Сервис и ремонт', pl: 'Serwis i naprawa', uk: 'Сервіс і ремонт', be: 'Сэрвіс і рамонт' },
+  gen_cat_education: { en: 'Education & learning', ru: 'Образование', pl: 'Edukacja', uk: 'Освіта', be: 'Адукацыя' },
+  gen_cat_retail:    { en: 'Retail boutique', ru: 'Бутик-ретейл', pl: 'Butik', uk: 'Бутик-рітейл', be: 'Бутык' },
+  gen_cat_studio:    { en: 'Studio & practice', ru: 'Студия / практика', pl: 'Studio / praktyka', uk: 'Студія / практика', be: 'Студыя / практыка' },
+
+  // audience options
+  gen_aud_locals:    { en: 'Locals + creatives', ru: 'Местные и креативщики', pl: 'Lokalni + kreatywni', uk: 'Місцеві + креативщики', be: 'Мясцовыя + крэатыўныя' },
+  gen_aud_young:     { en: 'Young professionals', ru: 'Молодые профессионалы', pl: 'Młodzi profesjonaliści', uk: 'Молоді професіонали', be: 'Маладыя прафесіяналы' },
+  gen_aud_tourists:  { en: 'Tourists & travellers', ru: 'Туристы и путешественники', pl: 'Turyści i podróżnicy', uk: 'Туристи і подорожні', be: 'Турысты і падарожнікі' },
+  gen_aud_wealthy:   { en: 'Wealthy regulars', ru: 'Состоятельные постоянные клиенты', pl: 'Zamożni stali klienci', uk: 'Заможні постійні клієнти', be: 'Заможныя сталыя кліенты' },
+  gen_aud_students:  { en: 'Students + grad-school', ru: 'Студенты и аспиранты', pl: 'Studenci', uk: 'Студенти', be: 'Студэнты' },
+  gen_aud_families:  { en: 'Families with kids', ru: 'Семьи с детьми', pl: 'Rodziny z dziećmi', uk: 'Сімʼї з дітьми', be: 'Сямʼі з дзецьмі' },
+  gen_aud_late:      { en: 'Late-night crowd', ru: 'Ночная публика', pl: 'Publika nocna', uk: 'Нічна публіка', be: 'Начная публіка' },
+  gen_aud_health:    { en: 'Health-conscious', ru: 'Сторонники здорового образа жизни', pl: 'Świadomi zdrowia', uk: 'Прихильники здоровʼя', be: 'Прыхільнікі здаровага ладу жыцця' },
+
+  // uniqueness levels
+  gen_uniq_conservative: { en: 'Conservative — familiar format done beautifully', ru: 'Консервативно — знакомый формат, выполненный красиво', pl: 'Konserwatywnie — znany format wykonany pięknie', uk: 'Консервативно — знайомий формат, виконаний красиво', be: 'Кансерватыўна — знаёмы фармат, выкананы прыгожа' },
+  gen_uniq_bold:         { en: 'Bold — twist on a known idea', ru: 'Смело — необычный поворот известной идеи', pl: 'Śmiało — twist znanej idei', uk: 'Сміливо — твіст відомої ідеї', be: 'Адважна — паварот вядомай ідэі' },
+  gen_uniq_avant:        { en: 'Avant-garde — unseen format', ru: 'Авангард — невиданный формат', pl: 'Awangarda — niewidziany format', uk: 'Авангард — небачений формат', be: 'Авангард — небачаны фармат' },
+
+  // season focus
+  gen_season_all:     { en: 'All-year', ru: 'Круглый год', pl: 'Cały rok', uk: 'Цілий рік', be: 'Увесь год' },
+  gen_season_summer:  { en: 'Summer heavy', ru: 'Летний пик', pl: 'Sezon letni', uk: 'Літній пік', be: 'Летні пік' },
+  gen_season_winter:  { en: 'Winter heavy', ru: 'Зимний пик', pl: 'Sezon zimowy', uk: 'Зимовий пік', be: 'Зімовы пік' },
+  gen_season_holiday: { en: 'Holiday / seasonal pop-up', ru: 'Праздничный поп-ап', pl: 'Świąteczny pop-up', uk: 'Святковий поп-ап', be: 'Святочны поп-ап' },
+
+  // loader
+  gen_loading:        { en: 'Generating your concept…', ru: 'Генерируем вашу концепцию…', pl: 'Generujemy koncept…', uk: 'Генеруємо вашу концепцію…', be: 'Генеруем вашу канцэпцыю…' },
+
   // ========== subscribe.html ==========
   sub_eyebrow:        { en: 'one subscription · whole library', ru: 'одна подписка · вся библиотека', pl: 'jedna subskrypcja · cała biblioteka', uk: 'одна підписка · вся бібліотека', be: 'адна падпіска · уся бібліятэка' },
   sub_hero_h1:        { en: 'One subscription. <span class="it">Every concept.</span>', ru: 'Одна подписка. <span class="it">Все концепции.</span>', pl: 'Jedna subskrypcja. <span class="it">Każdy koncept.</span>', uk: 'Одна підписка. <span class="it">Усі концепції.</span>', be: 'Адна падпіска. <span class="it">Усе канцэпцыі.</span>' },

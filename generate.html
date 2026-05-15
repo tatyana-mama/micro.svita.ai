@@ -230,13 +230,13 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
       <div class="field">
         <label data-i18n="gen_f01"><b>01</b> Business direction</label>
         <select name="category" required>
-          <option value="food">Food &amp; drink</option>
-          <option value="craft">Craft &amp; making</option>
-          <option value="wellness">Wellness &amp; beauty</option>
-          <option value="service">Service &amp; repair</option>
-          <option value="education">Education &amp; learning</option>
-          <option value="retail">Retail boutique</option>
-          <option value="studio">Studio &amp; practice</option>
+          <option value="food" data-i18n="gen_cat_food">Food &amp; drink</option>
+          <option value="craft" data-i18n="gen_cat_craft">Craft &amp; making</option>
+          <option value="wellness" data-i18n="gen_cat_wellness">Wellness &amp; beauty</option>
+          <option value="service" data-i18n="gen_cat_service">Service &amp; repair</option>
+          <option value="education" data-i18n="gen_cat_education">Education &amp; learning</option>
+          <option value="retail" data-i18n="gen_cat_retail">Retail boutique</option>
+          <option value="studio" data-i18n="gen_cat_studio">Studio &amp; practice</option>
         </select>
       </div>
 
@@ -320,33 +320,33 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
       <div class="field">
         <label data-i18n="gen_f07"><b>07</b> Primary audience</label>
         <select name="audience" required>
-          <option value="locals + creatives" selected>Locals + creatives</option>
-          <option value="young professionals">Young professionals</option>
-          <option value="tourists + travellers">Tourists &amp; travellers</option>
-          <option value="wealthy regulars">Wealthy regulars</option>
-          <option value="students + grad">Students + grad-school</option>
-          <option value="families with kids">Families with kids</option>
-          <option value="late-night crowd">Late-night crowd</option>
-          <option value="health-conscious">Health-conscious</option>
+          <option value="locals + creatives" selected data-i18n="gen_aud_locals">Locals + creatives</option>
+          <option value="young professionals" data-i18n="gen_aud_young">Young professionals</option>
+          <option value="tourists + travellers" data-i18n="gen_aud_tourists">Tourists &amp; travellers</option>
+          <option value="wealthy regulars" data-i18n="gen_aud_wealthy">Wealthy regulars</option>
+          <option value="students + grad" data-i18n="gen_aud_students">Students + grad-school</option>
+          <option value="families with kids" data-i18n="gen_aud_families">Families with kids</option>
+          <option value="late-night crowd" data-i18n="gen_aud_late">Late-night crowd</option>
+          <option value="health-conscious" data-i18n="gen_aud_health">Health-conscious</option>
         </select>
       </div>
 
       <div class="field">
         <label data-i18n="gen_f08"><b>08</b> Uniqueness level</label>
         <select name="uniqueness" required>
-          <option value="conservative">Conservative — familiar format done beautifully</option>
-          <option value="bold" selected>Bold — twist on a known idea</option>
-          <option value="avantgarde">Avant-garde — unseen format</option>
+          <option value="conservative" data-i18n="gen_uniq_conservative">Conservative — familiar format done beautifully</option>
+          <option value="bold" selected data-i18n="gen_uniq_bold">Bold — twist on a known idea</option>
+          <option value="avantgarde" data-i18n="gen_uniq_avant">Avant-garde — unseen format</option>
         </select>
       </div>
 
       <div class="field">
         <label data-i18n="gen_f09"><b>09</b> Season focus</label>
         <select name="season">
-          <option value="all-year" selected>All-year</option>
-          <option value="summer">Summer heavy</option>
-          <option value="winter">Winter heavy</option>
-          <option value="holiday">Holiday / seasonal pop-up</option>
+          <option value="all-year" selected data-i18n="gen_season_all">All-year</option>
+          <option value="summer" data-i18n="gen_season_summer">Summer heavy</option>
+          <option value="winter" data-i18n="gen_season_winter">Winter heavy</option>
+          <option value="holiday" data-i18n="gen_season_holiday">Holiday / seasonal pop-up</option>
         </select>
       </div>
 
@@ -364,7 +364,7 @@ nav.scrolled{background:rgba(10,10,11,0.72);backdrop-filter:blur(24px) saturate(
       </div>
     </form>
 
-    <div class="loader" id="loader"><div class="dots"><span></span><span></span><span></span></div> Generating your concept…</div>
+    <div class="loader" id="loader"><div class="dots"><span></span><span></span><span></span></div> <span data-i18n="gen_loading">Generating your concept…</span></div>
 
     <div class="result-panel" id="result">
       <div class="err-box" id="err-box"></div>
