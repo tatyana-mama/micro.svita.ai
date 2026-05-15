@@ -292,18 +292,55 @@ async function semanticScore(query: string, rows: CatalogRow[], k = 12): Promise
   if (!conceptVectors || !conceptVectors.vectors) return null;
   const qvec = await embedQuery(query);
   if (!qvec) return null;
-  const scored: { row: CatalogRow; sim: number }[] = [];
+
+  /* HYBRID scoring (v6) — fixes B5 watch-repair regression where pure
+     semantic ranked zurich-fondue-cellar above basel-watch-repair for
+     "watch repair in Switzerland". Combines three axes:
+        final = 0.65 * semantic_cosine
+              + 0.25 * keyword_token_overlap (rich.search_text)
+              + 0.10 * category_match_bonus  (query mentions cat keyword)
+     The keyword & category boost rescue exact-match cases that pure
+     semantic drowns in country/style proximity. */
+  const tokens = tokenize(query);
+  const lowerQ = query.toLowerCase();
+  const CAT_KEYWORDS: Record<string, string[]> = {
+    repair:    ['repair','fix','watch','watches','phone','clock','clocks','tv','часы','часов','зегарм','наручные','remont','ремонт','ремонту','watch-repair','наручні'],
+    food:      ['cafe','coffee','bagel','bakery','pizza','pastry','еда','кафе','кофе','кофейн','пекарн','хлеб','выпечка','restaurant','food','meal','cuisine','завтрак','breakfast'],
+    craft:     ['craft','atelier','workshop','ceramics','ceramic','candle','candles','wood','glass','pottery','leather','керамик','ремесла','ремесло','свеч','стекл','rzemio','ремесел','шкіра','шкіря'],
+    beauty:    ['beauty','salon','spa','hair','nail','nails','барбер','barber','barbershop','салон','краса','краси','маникюр'],
+    health:    ['health','clinic','dental','dentist','massage','therapy','здоров','здоровье','клиник','стомат','dent','медицин'],
+    service:   ['service','services','wash','clean','laundry','bike','услуг','послуг','паслуг','сервис','стирк','laundr'],
+    retail:    ['shop','store','retail','boutique','магазин','sklep','крам'],
+    education: ['school','class','course','lesson','teach','школа','курс','учеб','навчанн'],
+    wellness:  ['yoga','pilates','meditation','sauna','йог','пилатес','медитац','спа','sauna','медытац'],
+    restaurant:['restaurant','dining','bistro','tavern','ресторан','restauracja'],
+  };
+
+  const scored: { row: CatalogRow; sim: number; final: number }[] = [];
   for (const r of rows) {
     const v = conceptVectors.vectors[r.slug];
     if (!v) continue;
-    scored.push({ row: r, sim: cosine(qvec, v) });
+    const sim = cosine(qvec, v);
+    const rich = conceptRich[r.slug];
+    const hay = ((rich?.search_text || '') + ' ' + (r.tagline || '') + ' ' + (r.name || '') + ' ' + (r.category || '')).toLowerCase();
+    let kwHits = 0;
+    for (const t of tokens) if (hay.includes(t)) kwHits++;
+    const kwScore = tokens.length ? Math.min(1, kwHits / Math.max(2, tokens.length)) : 0;
+    let catBonus = 0;
+    if (r.category && CAT_KEYWORDS[r.category]) {
+      for (const kw of CAT_KEYWORDS[r.category]) {
+        if (lowerQ.includes(kw)) { catBonus = 1; break; }
+      }
+    }
+    const final = 0.65 * sim + 0.25 * kwScore + 0.10 * catBonus;
+    scored.push({ row: r, sim, final });
   }
-  scored.sort((a, b) => b.sim - a.sim);
-  /* Threshold tuned from local recall test: yoga queries land at ~0.28,
-     wine-bordeaux at ~0.5, watch-repair at ~0.34. 0.2 is the floor — below
-     that the alignment is too weak to trust. Falls back to keyword if empty. */
-  const positives = scored.filter(s => s.sim > 0.2);
+  scored.sort((a, b) => b.final - a.final);
+  /* Floor on hybrid final score. Yoga/wine/watch land 0.25-0.45 with hybrid;
+     0.15 keeps weak-but-real picks, drops pure noise. */
+  const positives = scored.filter(s => s.final > 0.15);
   if (!positives.length) return null;
+  console.log('[advisor] hybrid top-3:', positives.slice(0, 3).map(s => `${s.row.slug}(s=${s.sim.toFixed(2)},f=${s.final.toFixed(2)})`).join(' | '));
   return positives.slice(0, k).map(s => s.row);
 }
 
@@ -563,7 +600,17 @@ RULES
 - If the visitor is unsure (no signal on craft/budget/city/scale/vibe), ask ONE clarifying question and STOP. Do not also try to recommend in the same turn. The question should be the dimension that narrows fastest — usually craft ("what's the activity — coffee, repair, beauty, craft, food?") or budget ("rough budget to open — under €15k, €15-30k, or €30k+?").
 - If nothing in the catalog truly fits (after honest score-check), say so plainly and propose the closest TWO with one sentence each on what's similar / what's different.
 - If the visitor asks "how much does this cost?", answer with the subscription ($19/mo or $149/yr, 2-day trial). DO NOT quote per-concept prices.
-- Speak the user's language (English, Polish, Ukrainian, Belarusian, Russian — whichever they used). Match register: formal Russian if they wrote formal Russian, casual Polish if they wrote casual Polish, etc.
+- Speak the user's language (English, Polish, Ukrainian, Belarusian, Russian — whichever they used).
+- BELARUSIAN GLOSSARY (use these forms, NOT Ukrainian look-alikes):
+    use «няма», NOT «немає»
+    use «цяпер», NOT «наразі»
+    use «гэта», NOT «це»
+    use «у нашым каталозе», NOT «у нашому каталозі»
+    use «знойдзена/знайдзена», NOT «знайдено»
+    use «Згодна з данымі», NOT «Згідна з данимі»
+    use «кожны», NOT «кожен»
+- DO NOT echo internal slide-card headings to the user. Phrases like "Read the place like a magazine", "Twenty-five frames", "Scroll, don't skim", "Each frame is a decision" are INTERNAL editorial template language — never reproduce them in your reply. They belong on the brandbook PDF, not in chat.
+- NEVER format a "▶ slug · NN · BRAND · cat · country · m² · open €…" line for a slug that does not appear in the BEST MATCHES list or the catalog snapshot. That formatting is reserved for REAL catalog rows. A line written in this shape with a fake slug is a critical error. Match register: formal Russian if they wrote formal Russian, casual Polish if they wrote casual Polish, etc.
 
 THE EXACT CATALOG SIZE
 - The library currently contains EXACTLY ${total} concepts. If the visitor asks "how many?" / "сколько концепций?" / "ile konceptów?" — answer with ${total}. Never round, never approximate, never invent a different number.
@@ -1008,6 +1055,27 @@ Deno.serve(async (req) => {
   enrichedReply = enrichedReply.replace(/\/shop\.html\?concept=([a-z0-9\-]+)/gi, (m, slug) => {
     return validSlugs.has(String(slug).toLowerCase()) ? m : '';
   });
+
+  /* ANCHOR VALIDATOR (v6) — B5 showed model emits "▶ ljubljana-bakery · 06
+     · BAKERY · food · SI · 24m² · open ~€14,600" formatted exactly like a
+     catalog row, but ljubljana-bakery isn't in the catalog. Drop any "▶ X"
+     line whose X (first token after ▶) is not a real slug. Also strips a
+     few common SOP-boilerplate phrases that bleed into prose. */
+  const ANCHOR_RE = /^[ \t]*[▶►][ \t]+([a-z0-9\-]+)[ \t]*[·.,—-][^\n]*$/gim;
+  enrichedReply = enrichedReply.replace(ANCHOR_RE, (line, slug) => {
+    return validSlugs.has(String(slug).toLowerCase()) ? line : '';
+  });
+  /* SOP BOILERPLATE STRIP — these phrases come from concept_texts.json slide
+     pretexts (the "Read the place like a magazine. Twenty-five frames…"
+     line) and shouldn't reach the user. Eat the sentence. */
+  const SOP_STRIPS = [
+    /Read the place like a magazine\.[^.]*?\./gi,
+    /Twenty[- ]five frames[^.]*?\./gi,
+    /Scroll, don.{1,3}t skim\.[^.]*?\./gi,
+    /Each frame is a decision waiting[^.]*?\./gi,
+  ];
+  for (const re of SOP_STRIPS) enrichedReply = enrichedReply.replace(re, '');
+
   /* Tidy whitespace after possible strips. */
   enrichedReply = enrichedReply.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
 
@@ -1039,8 +1107,18 @@ Deno.serve(async (req) => {
   for (const m of enrichedReply.matchAll(/\/shop\.html\?concept=([a-z0-9\-]+)/gi)) {
     mentionedSlugs.add(m[1].toLowerCase());
   }
+  /* v6: re-extract constraints in this scope (try-block one is out of reach)
+     and enforce on returned cards — if user said "до €15k", don't ship cards
+     over the cap. Card array drives the preview UI, so this is visible. */
+  const constraintsOut = extractConstraints(message, catalogRows);
   const concepts = catalogRows
     .filter(r => mentionedSlugs.has(r.slug.toLowerCase()))
+    .filter(r => {
+      if (constraintsOut.maxBudget != null && r.budget_eur != null) {
+        return r.budget_eur <= constraintsOut.maxBudget;
+      }
+      return true;
+    })
     .map(r => {
       const rich = conceptRich[r.slug];
       return {
