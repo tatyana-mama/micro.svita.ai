@@ -258,9 +258,10 @@ async function semanticScore(query: string, rows: CatalogRow[], k = 12): Promise
     scored.push({ row: r, sim: cosine(qvec, v) });
   }
   scored.sort((a, b) => b.sim - a.sim);
-  /* Drop weak matches (sim < 0.25) — they're noise. Returns null if nothing
-     meaningful so the caller can fall back to keyword scoring. */
-  const positives = scored.filter(s => s.sim > 0.25);
+  /* Threshold tuned from local recall test: yoga queries land at ~0.28,
+     wine-bordeaux at ~0.5, watch-repair at ~0.34. 0.2 is the floor — below
+     that the alignment is too weak to trust. Falls back to keyword if empty. */
+  const positives = scored.filter(s => s.sim > 0.2);
   if (!positives.length) return null;
   return positives.slice(0, k).map(s => s.row);
 }
