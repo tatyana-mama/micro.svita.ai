@@ -25,6 +25,7 @@
 
 import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
 import CONCEPT_TEXTS from './concept_texts.json' with { type: 'json' };
+import CONCEPT_RICH from './concept_rich.json' with { type: 'json' };
 
 const LLM_PROVIDER = (Deno.env.get('LLM_PROVIDER') ?? 'ollama').toLowerCase();
 const LLM_ENDPOINT = (Deno.env.get('LLM_ENDPOINT') ?? '').replace(/\/+$/, '');
@@ -39,6 +40,35 @@ interface ConceptText {
   slides?: string[];
 }
 const conceptTexts = CONCEPT_TEXTS as Record<string, ConceptText>;
+
+/* Rich knowledge bundle produced by Agent B1 — 91 concepts × ~4KB each, with
+   the densest searchable string per concept (search_text). Keyword scoring
+   queries THIS instead of the catalog row, so token-overlap matches anything
+   that's mentioned anywhere in the brandbook (atmosphere, palette, materials,
+   dice constraints, all 25 slide annotations). Recall is much higher than
+   scoring against bare metadata. */
+interface ConceptRich {
+  slug: string;
+  catalog_number?: number;
+  name?: string;
+  category?: string;
+  country?: string;
+  city?: string;
+  size_m2?: number;
+  budget_eur?: number;
+  weeks?: number;
+  tagline?: string;
+  hero_image?: string;
+  eyebrow?: string;
+  pretext?: string;
+  slides?: string[];
+  palette_hex?: string[];
+  dice?: Record<string, string>;
+  keywords?: string[];
+  atmosphere_words?: string[];
+  search_text?: string;
+}
+const conceptRich = CONCEPT_RICH as Record<string, ConceptRich>;
 
 /* Pull a compact deep-knowledge block for up to N concepts whose slugs are
    mentioned anywhere in the current turn or recent history. Each concept's
@@ -160,39 +190,39 @@ function tokenize(s: string): string[] {
 }
 
 /* For a given user query, score every catalog row by how many tokens match in
-   its searchable fields (slug, name, tagline, category, country, slide titles
-   from the deep RAG dict). Returns the top-K rows ordered by score so the
-   prompt can show the model a small, relevant menu instead of all 91 rows. */
+   the rich knowledge bundle (slug/name/category/country/tagline + ALL 25 slide
+   annotations + dice constraints + atmosphere words). Returns the top-K rows
+   ordered by score. Scoring axes are weighted: direct meta (cat/country/slug)
+   match counts more than body-text match because metadata is intentional. */
 function scoreConcepts(query: string, rows: CatalogRow[], k = 12): CatalogRow[] {
   const tokens = tokenize(query);
   if (!tokens.length) return rows.slice(0, k);
 
   const scored = rows.map(r => {
-    const haystack = [
-      r.slug || '',
-      r.name || '',
-      r.category || '',
-      r.country || '',
-      r.tagline || ''
+    const rich = conceptRich[r.slug];
+    /* Strongest signals: explicit metadata + tagline + city. */
+    const metaHay = [
+      r.slug || '', r.name || '', r.category || '', r.country || '',
+      r.tagline || '', rich?.city || '', ...(rich?.keywords || []),
     ].join(' ').toLowerCase();
-    /* Add slide-title text from the deep-knowledge dict (eyebrow + hero_tag
-       + pretext) — these carry the strongest semantic hints about what the
-       concept actually IS (e.g. "ceramics atelier" mentions "clay/kiln"). */
+    /* Supporting signals: full rich search_text (all slides, palette, dice,
+       atmosphere words — ~4KB per concept). */
+    const richHay = (rich?.search_text || '').toLowerCase();
+    /* Fallback: legacy concept_texts dict (kept for safety if rich missing). */
     const deep = conceptTexts[r.slug];
-    const deepHay = deep
+    const deepHay = deep && !rich
       ? [deep.title, deep.eyebrow, deep.hero_tag, deep.pretext,
          ...(deep.slides ? deep.slides.slice(0, 6) : [])].filter(Boolean).join(' ').toLowerCase()
       : '';
     let score = 0;
     for (const t of tokens) {
-      if (haystack.includes(t)) score += 3;     // direct meta match — strongest
-      if (deepHay.includes(t))  score += 1;     // body/slide match — supporting
+      if (metaHay.includes(t)) score += 4;      // direct meta match — strongest
+      if (richHay.includes(t)) score += 1;      // rich body/slide/dice match
+      if (deepHay.includes(t)) score += 1;      // legacy fallback
     }
     return { r, score };
   });
   scored.sort((a, b) => b.score - a.score);
-  /* Drop zero-score rows from the top — if nothing matches, return empty and
-     let the model fall back to the full catalog snapshot. */
   const positives = scored.filter(s => s.score > 0);
   if (!positives.length) return [];
   return positives.slice(0, k).map(s => s.r);
@@ -215,17 +245,33 @@ function buildBestMatchesBlock(query: string, rows: CatalogRow[], shown: string[
   const ranked = scoreConcepts(query, rows, 24).filter(r => !shown.includes(r.slug.toLowerCase()));
   if (!ranked.length) return '';
   const top = ranked.slice(0, 12);
-  /* Each top concept gets a RICH block: metadata + atmosphere snippet + 3-4
-     most informative slide annotations. Model uses this to write a faithful
-     "why this concept fits" sentence instead of paraphrasing the tagline. */
+  /* Each top concept gets a RICH block: metadata + atmosphere + dice
+     constraints + 4 most informative slide annotations + palette hex.
+     Model writes faithful sensory "why this fits" sentences from this. */
   const blocks = top.map(r => {
-    const budget = r.budget_eur ? `~€${r.budget_eur.toLocaleString('en-US')}` : '—';
-    const meta = `▶ ${r.slug} · ${r.name ?? r.slug} · ${r.category ?? '—'} · ${r.country ?? '—'} · ${r.size_m2 ?? '—'}m² · open ${budget}`;
-    const tagline = r.tagline ? `   tagline: ${r.tagline}` : '';
+    const rich = conceptRich[r.slug];
     const deep = conceptTexts[r.slug];
-    const atmosphere = deep?.pretext ? `   atmosphere: ${deep.pretext.slice(0, 260)}` : '';
-    const slides = deep?.slides ? compactSlideHighlights(deep.slides) : '';
-    return [meta, tagline, atmosphere, slides].filter(Boolean).join('\n');
+    const budget = r.budget_eur ? `~€${r.budget_eur.toLocaleString('en-US')}` : '—';
+    const city = rich?.city ? ` · ${rich.city}` : '';
+    const weeks = rich?.weeks ? ` · ${rich.weeks}w to open` : '';
+    const meta = `▶ ${r.slug} · ${r.name ?? r.slug} · ${r.category ?? '—'} · ${r.country ?? '—'}${city} · ${r.size_m2 ?? '—'}m² · open ${budget}${weeks}`;
+    const tagline = r.tagline ? `   tagline: ${r.tagline}` : '';
+    const eyebrow = rich?.eyebrow && rich.eyebrow !== r.name ? `   eyebrow: ${rich.eyebrow.slice(0, 200)}` : '';
+    const atmosphere = (rich?.pretext || deep?.pretext)
+      ? `   atmosphere: ${(rich?.pretext || deep?.pretext || '').slice(0, 280)}`
+      : '';
+    const palette = (rich?.palette_hex && rich.palette_hex.length)
+      ? `   palette: ${rich.palette_hex.slice(0, 5).join(', ')}`
+      : '';
+    const dice = (rich?.dice && Object.keys(rich.dice).length)
+      ? `   style: ${Object.entries(rich.dice).slice(0, 5).map(([k, v]) => `${k}=${v}`).join(' · ')}`
+      : '';
+    const atmosphereWords = (rich?.atmosphere_words && rich.atmosphere_words.length)
+      ? `   feels: ${rich.atmosphere_words.slice(0, 6).join(', ')}`
+      : '';
+    const slides = (rich?.slides || deep?.slides) ? compactSlideHighlights(rich?.slides || deep?.slides || []) : '';
+    return [meta, tagline, eyebrow, atmosphere, palette, dice, atmosphereWords, slides]
+      .filter(Boolean).join('\n');
   }).join('\n\n');
 
   return [
@@ -233,15 +279,20 @@ function buildBestMatchesBlock(query: string, rows: CatalogRow[], shown: string[
     '═════════════ BEST MATCHES FOR THIS TURN — RICH KNOWLEDGE ═════════════',
     `Top-${top.length} concepts from the catalog scored against the visitor's last message (keyword overlap on metadata + slide bodies). Already filters out slugs you\'ve recommended earlier in this chat — these are FRESH options.`,
     '',
-    'Each block: slug · name · category · country · size · open-budget',
-    '             tagline',
-    '             atmosphere (concept manifesto)',
+    'Each block carries (lines present depend on what was extracted per concept):',
+    '             ▶ slug · name · category · country · city · size · open-budget · weeks-to-open',
+    '             tagline (one-line positioning)',
+    '             eyebrow (slide-01 headline)',
+    '             atmosphere (the concept manifesto / pretext)',
+    '             palette (HEX codes used in the brandbook)',
+    '             style (dice constraints: region/archetype/mood/light/texture/season/time)',
+    '             feels (atmosphere keywords — emotional cues for tone-matching)',
     '             • slide-02 (what it physically is)',
     '             • slide-08 (the ritual / moment of use)',
     '             • slide-09 (the still-life of materials)',
     '             • slide-19 (the signature moment that sells the place)',
     '',
-    'Use these slide snippets to write specific, sensory "why this fits" sentences (the smell, the texture, the time of day) — NOT generic tagline paraphrases.',
+    'Use this depth to write specific, sensory "why this fits" sentences (the smell, the texture, the time of day, the palette resonance) — NOT generic tagline paraphrases. When palette/style/feels align with the visitor\'s vibe words, name the alignment explicitly.',
     '',
     blocks,
     '',
