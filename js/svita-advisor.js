@@ -631,7 +631,12 @@
     try {
       const r = await fetch(ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', apikey: ANON_KEY },
+        headers: {
+          'Content-Type': 'application/json',
+          // Prefer SSE; FAQ/pricing shortcuts still return application/json.
+          'Accept': 'text/event-stream, application/json',
+          apikey: ANON_KEY,
+        },
         body: JSON.stringify({
           message: msg,
           // Send the last ~16 turns of context. The just-added user message
@@ -641,18 +646,91 @@
           history: history.filter(h => h.role !== 'assistant' || h.content).slice(-17, -1),
         }),
       });
-      clearTyping();
       if (!r.ok) {
+        clearTyping();
         // Don't surface raw error JSON to the visitor — degrade gracefully.
         console.warn('advisor', r.status, await r.text().catch(() => ''));
         showFallback();
         return;
       }
-      const data = await r.json();
-      const reply = (data && data.reply) ? String(data.reply).trim() : '';
-      const concepts = (data && Array.isArray(data.concepts)) ? data.concepts : [];
-      if (reply) addMsg('assistant', reply, concepts);
-      else showFallback();
+      const ct = (r.headers.get('content-type') || '').toLowerCase();
+      if (ct.includes('application/json')) {
+        // FAQ/pricing shortcut — server bypassed the LLM and returned full JSON.
+        clearTyping();
+        const data = await r.json().catch(() => ({}));
+        const reply = (data && data.reply) ? String(data.reply).trim() : '';
+        const concepts = (data && Array.isArray(data.concepts)) ? data.concepts : [];
+        if (reply) addMsg('assistant', reply, concepts);
+        else showFallback();
+      } else {
+        /* SSE token-stream — render incrementally, finalize on `done` event.
+           Event schema:
+             event: meta   → {model, provider}
+             (default)     → {chunk:"…"}                 — N times
+             event: done   → {reply, concepts, ...}      — post-validator final
+             event: error  → {status, body}
+           The `done` event REPLACES the streamed buffer because the server's
+           SLUG / ANCHOR validators may have stripped hallucinated slugs that
+           briefly flashed through as chunks during streaming. */
+        clearTyping();
+        const liveEl = document.createElement('div');
+        liveEl.className = 'sv-msg assistant sv-streaming';
+        log.appendChild(liveEl);
+        log.scrollTop = log.scrollHeight;
+        const reader = r.body.getReader();
+        const decoder = new TextDecoder();
+        let buf = '';
+        let streamed = '';
+        let finalReply = null;
+        let finalConcepts = [];
+        let errorPayload = null;
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          const parts = buf.split('\n\n');
+          buf = parts.pop() || '';
+          for (const part of parts) {
+            if (!part.trim()) continue;
+            let event = 'message';
+            let dataStr = '';
+            for (const line of part.split('\n')) {
+              if (line.startsWith('event: ')) event = line.slice(7).trim();
+              else if (line.startsWith('data: ')) dataStr = line.slice(6);
+            }
+            if (!dataStr) continue;
+            let payload;
+            try { payload = JSON.parse(dataStr); } catch (_) { continue; }
+            if (event === 'done') {
+              finalReply = (payload.reply && String(payload.reply).trim()) || '';
+              finalConcepts = Array.isArray(payload.concepts) ? payload.concepts : [];
+            } else if (event === 'error') {
+              errorPayload = payload;
+            } else if (event === 'meta') {
+              /* optional model/provider info — currently no UI hook */
+            } else if (typeof payload.chunk === 'string') {
+              streamed += payload.chunk;
+              // Plain-text incremental render — final pass will linkify + cards.
+              liveEl.textContent = streamed;
+              log.scrollTop = log.scrollHeight;
+            }
+          }
+        }
+        // Remove the live bubble; addMsg renders the finalized one with
+        // validators applied + concept cards attached + history persistence.
+        liveEl.remove();
+        if (errorPayload) {
+          console.warn('advisor SSE error', errorPayload);
+          showFallback();
+        } else if (finalReply) {
+          addMsg('assistant', finalReply, finalConcepts);
+        } else if (streamed) {
+          // No `done` event but we did receive chunks — render what we have.
+          addMsg('assistant', streamed, []);
+        } else {
+          showFallback();
+        }
+      }
     } catch (err) {
       clearTyping();
       console.warn('advisor', err);

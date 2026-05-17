@@ -1550,14 +1550,16 @@ loadCatalog();
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          // Prefer SSE; FAQ/pricing shortcuts still come back as application/json.
+          'Accept': 'text/event-stream, application/json',
           'apikey': SB_KEY,
           'Authorization': 'Bearer ' + SB_KEY,
         },
         body: JSON.stringify({ message, history: history.slice(-12) }),
       });
-      const data = await res.json().catch(() => ({}));
-      thinking.remove();
-      if (!res.ok || !data.reply){
+      if (!res.ok){
+        thinking.remove();
+        const data = await res.json().catch(() => ({}));
         const errMsg = (data && data.error === 'upstream_error' && /credit balance is too low/i.test(data.body || ''))
           ? 'AI is temporarily out of credit — please try again later or browse the catalog directly.'
           : (data.error || 'Something went wrong. Try again.');
@@ -1566,8 +1568,81 @@ loadCatalog();
         msg.innerHTML = '<span class="err">' + escapeHtml(errMsg) + '</span>';
         return;
       }
-      appendBot(data.reply, { concepts: Array.isArray(data.concepts) ? data.concepts : [] });
-      history.push({ role: 'assistant', content: data.reply });
+      const ct = (res.headers.get('content-type') || '').toLowerCase();
+      if (ct.includes('application/json')) {
+        // FAQ / pricing shortcut path — server bypassed LLM and returned full JSON.
+        const data = await res.json().catch(() => ({}));
+        thinking.remove();
+        if (!data.reply){
+          const msg = appendBot('');
+          msg.innerHTML = '<span class="err">Empty reply. Try again.</span>';
+          return;
+        }
+        appendBot(data.reply, { concepts: Array.isArray(data.concepts) ? data.concepts : [] });
+        history.push({ role: 'assistant', content: data.reply });
+      } else {
+        /* SSE token-stream — incremental render; replace with validated final
+           on `done` event (server's SLUG/ANCHOR validators may strip
+           hallucinated slugs that flashed through as chunks). */
+        thinking.remove();
+        const liveEl = appendBot('', {});
+        liveEl.classList.add('streaming');
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buf = '';
+        let streamed = '';
+        let finalReply = null;
+        let finalConcepts = [];
+        let errorPayload = null;
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          const parts = buf.split('\n\n');
+          buf = parts.pop() || '';
+          for (const part of parts) {
+            if (!part.trim()) continue;
+            let event = 'message';
+            let dataStr = '';
+            for (const line of part.split('\n')) {
+              if (line.startsWith('event: ')) event = line.slice(7).trim();
+              else if (line.startsWith('data: ')) dataStr = line.slice(6);
+            }
+            if (!dataStr) continue;
+            let payload;
+            try { payload = JSON.parse(dataStr); } catch (_) { continue; }
+            if (event === 'done') {
+              finalReply = (payload.reply && String(payload.reply).trim()) || '';
+              finalConcepts = Array.isArray(payload.concepts) ? payload.concepts : [];
+            } else if (event === 'error') {
+              errorPayload = payload;
+            } else if (event === 'meta') {
+              /* optional model/provider info — no UI hook in this panel */
+            } else if (typeof payload.chunk === 'string') {
+              streamed += payload.chunk;
+              liveEl.textContent = streamed;
+              log.scrollTop = log.scrollHeight;
+            }
+          }
+        }
+        liveEl.remove();
+        if (errorPayload) {
+          const errMsg = (errorPayload && /credit balance is too low/i.test(String(errorPayload.body || '')))
+            ? 'AI is temporarily out of credit — please try again later or browse the catalog directly.'
+            : (errorPayload.body || 'AI stream interrupted. Try again.');
+          const msg = appendBot('');
+          msg.innerHTML = '<span class="err">' + escapeHtml(String(errMsg)) + '</span>';
+        } else if (finalReply) {
+          appendBot(finalReply, { concepts: finalConcepts });
+          history.push({ role: 'assistant', content: finalReply });
+        } else if (streamed) {
+          appendBot(streamed, { concepts: [] });
+          history.push({ role: 'assistant', content: streamed });
+        } else {
+          const msg = appendBot('');
+          msg.innerHTML = '<span class="err">Empty reply. Try again.</span>';
+        }
+      }
     } catch (e){
       thinking.remove();
       const msg = appendBot('');
@@ -1928,12 +2003,12 @@ loadCatalog();
     try{
       const res = await fetch(ENDPOINT, {
         method:'POST',
-        headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY},
+        headers:{'Content-Type':'application/json','Accept':'text/event-stream, application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY},
         body: JSON.stringify({ message, history: history.slice(-12) }),
       });
-      const data = await res.json().catch(() => ({}));
-      thinking.remove();
-      if (!res.ok || !data.reply){
+      if (!res.ok){
+        thinking.remove();
+        const data = await res.json().catch(() => ({}));
         const errMsg = (data && data.error === 'upstream_error' && /credit balance is too low/i.test(data.body || ''))
           ? 'AI is temporarily out of credit — please try again later or browse the catalog directly.'
           : (data.error || 'Something went wrong. Try again.');
@@ -1941,8 +2016,79 @@ loadCatalog();
         m.innerHTML = '<span class="err">' + esc(errMsg) + '</span>';
         return;
       }
-      add('bot', data.reply);
-      history.push({ role:'assistant', content: data.reply });
+      const ct = (res.headers.get('content-type') || '').toLowerCase();
+      if (ct.includes('application/json')) {
+        // FAQ / pricing shortcut — full JSON, no stream.
+        const data = await res.json().catch(() => ({}));
+        thinking.remove();
+        if (!data.reply){
+          const m = add('bot', '');
+          m.innerHTML = '<span class="err">Empty reply. Try again.</span>';
+          return;
+        }
+        add('bot', data.reply);
+        history.push({ role:'assistant', content: data.reply });
+      } else {
+        /* SSE token-stream — incremental; replace with validated final on `done`. */
+        thinking.remove();
+        const liveEl = add('bot', '');
+        liveEl.classList.add('streaming');
+        // Use textContent during streaming (no fmt() pass) — final pass will fmt().
+        liveEl.textContent = '';
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buf = '';
+        let streamed = '';
+        let finalReply = null;
+        let errorPayload = null;
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          const parts = buf.split('\n\n');
+          buf = parts.pop() || '';
+          for (const part of parts) {
+            if (!part.trim()) continue;
+            let event = 'message';
+            let dataStr = '';
+            for (const line of part.split('\n')) {
+              if (line.startsWith('event: ')) event = line.slice(7).trim();
+              else if (line.startsWith('data: ')) dataStr = line.slice(6);
+            }
+            if (!dataStr) continue;
+            let payload;
+            try { payload = JSON.parse(dataStr); } catch (_) { continue; }
+            if (event === 'done') {
+              finalReply = (payload.reply && String(payload.reply).trim()) || '';
+            } else if (event === 'error') {
+              errorPayload = payload;
+            } else if (event === 'meta') {
+              /* no UI hook in this rail */
+            } else if (typeof payload.chunk === 'string') {
+              streamed += payload.chunk;
+              liveEl.textContent = streamed;
+              log.scrollTop = log.scrollHeight;
+            }
+          }
+        }
+        liveEl.remove();
+        if (errorPayload) {
+          const errMsg = (errorPayload && /credit balance is too low/i.test(String(errorPayload.body || '')))
+            ? 'AI is temporarily out of credit — please try again later or browse the catalog directly.'
+            : (errorPayload.body || 'AI stream interrupted. Try again.');
+          const m = add('bot', '');
+          m.innerHTML = '<span class="err">' + esc(String(errMsg)) + '</span>';
+        } else if (finalReply) {
+          add('bot', finalReply);
+          history.push({ role:'assistant', content: finalReply });
+        } else if (streamed) {
+          add('bot', streamed);
+          history.push({ role:'assistant', content: streamed });
+        } else {
+          const m = add('bot', '');
+          m.innerHTML = '<span class="err">Empty reply. Try again.</span>';
+        }
+      }
     } catch (e){
       thinking.remove();
       const m = add('bot', '');
