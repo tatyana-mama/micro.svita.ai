@@ -657,65 +657,93 @@ async function callAnthropic(system: string, turns: Msg[]) {
   return { ok: true, reply: (data?.content?.[0]?.text ?? '').trim(), model: ANTHROPIC_MODEL };
 }
 
-async function callOllama(system: string, turns: Msg[]) {
-  if (!LLM_ENDPOINT) {
-    return { ok: false, status: 503, body: 'llm_endpoint_not_configured' };
+/* Streaming variant of callOllama — yields chunks as Ollama emits them on the
+   wire. Used by the SSE response path in serve() so the visitor sees tokens
+   after ~5-10s (first-token latency) instead of waiting ~90s for qwen3.6:27b
+   to finish. Same options/timeouts as the non-streaming callOllama wrapper.
+   qwen3.6 ships with thinking-mode ON which eats the token budget and returns
+   an empty reply; `think:false` disables it. */
+async function* callOllamaStream(system: string, turns: Msg[]): AsyncGenerator<string, void, void> {
+  if (!LLM_ENDPOINT) throw new Error('llm_endpoint_not_configured');
+  const r = await fetch(`${LLM_ENDPOINT}/api/chat`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    // 90s ceiling — Tailscale Funnel may stall; the caller (SSE handler)
+    // catches the AbortError and falls through to callAnthropic.
+    signal: AbortSignal.timeout(90_000),
+    body: JSON.stringify({
+      model: LLM_MODEL,
+      stream: true,
+      think: false,
+      // Hold the model resident in VRAM for 30 min after the call so the next
+      // visitor inside that window skips the 15-30s cold-start. Pair with a
+      // periodic cron-ping on the Jetson side for perpetual warm.
+      keep_alive: '30m',
+      /* 0.7 sweet-spot: enough variety to avoid slug-cycling, low enough to
+         keep grounding (B3 stress-test showed 0.75 was already on the edge of
+         degeneration loops). 400 tokens caps the verbose-padding pattern.
+         num_ctx 16384 prevents Ollama's 4096 default from silently truncating
+         the system prompt (catalog snapshot + best-matches block ≈ 3-4K
+         tokens) — truncation would bypass the anti-hallucination guard. */
+      options: { temperature: 0.7, num_predict: 400, num_ctx: 16384 },
+      messages: [
+        { role: 'system', content: system },
+        ...turns,
+      ],
+    }),
+  });
+  if (!r.ok) {
+    const body = await r.text().catch(() => '');
+    throw new Error(`ollama_http_${r.status}: ${body.slice(0, 200)}`);
   }
-  // Native Ollama /api/chat — qwen3.6 ships with thinking mode ON, which eats
-  // the whole token budget and returns an empty reply. `think:false` disables
-  // it (the OpenAI-compat /v1 endpoint has no way to pass this flag).
-  let r: Response;
+  if (!r.body) throw new Error('ollama_no_body');
+  // Ollama streams NDJSON: one JSON object per line, separated by \n. Each line
+  // is {message:{content:"…"}, done:false} until the final {done:true}. Buffer
+  // partial lines across chunk boundaries — chunks may split mid-JSON.
+  const reader = r.body.getReader();
+  const decoder = new TextDecoder();
+  let buf = '';
   try {
-    r = await fetch(`${LLM_ENDPOINT}/api/chat`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      // 90s ceiling — Tailscale Funnel may stall; without this the edge
-      // function hangs to the Supabase 150s wall-time. AbortError is caught
-      // below → caller (main pipeline) falls through to callAnthropic.
-      signal: AbortSignal.timeout(90_000),
-      body: JSON.stringify({
-        model: LLM_MODEL,
-        stream: false,
-        think: false,
-        // Hold the model resident in VRAM for 30 min after the call so the
-        // next visitor inside that window skips the 15-30s cold-start. Pair
-        // with a periodic cron-ping on the Jetson side for perpetual warm.
-        keep_alive: '30m',
-        // 500 tokens — enough for a paragraph + a few bulletted concept rows
-        // without truncating mid-sentence. qwen3.6:27b on the Jetson runs this
-        // in ~90s, well inside the edge-function 150s budget.
-        /* 0.7 sweet-spot: enough variety to avoid slug-cycling, low enough to
-           keep grounding (B3 stress-test showed 0.75 was already on the edge of
-           degeneration loops). 400 tokens caps the verbose-padding pattern —
-           comparison intent gets bumped to 600 below if detected. num_ctx
-           16384 prevents Ollama's 4096 default from silently truncating the
-           system prompt (catalog snapshot + best-matches block ≈ 3-4K tokens)
-           — silent truncation bypasses the anti-hallucination guard. */
-        options: { temperature: 0.7, num_predict: 400, num_ctx: 16384 },
-        messages: [
-          { role: 'system', content: system },
-          ...turns,
-        ],
-      }),
-    });
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+      const lines = buf.split('\n');
+      buf = lines.pop() ?? '';  // keep incomplete trailing line for next read
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+        try {
+          const obj = JSON.parse(trimmed);
+          const chunk = obj?.message?.content;
+          if (typeof chunk === 'string' && chunk.length > 0) yield chunk;
+          if (obj?.done === true) return;
+        } catch {
+          // partial-line / non-JSON garbage — defensively skip
+        }
+      }
+    }
+  } finally {
+    try { reader.releaseLock(); } catch { /* already released */ }
+  }
+}
+
+/* Non-streaming wrapper — drains the generator into one buffered reply. Used
+   for the fallback path (when Ollama is the secondary provider, called from
+   the SSE handler after the anthropic primary failed). */
+async function callOllama(system: string, turns: Msg[]) {
+  try {
+    let reply = '';
+    for await (const chunk of callOllamaStream(system, turns)) {
+      reply += chunk;
+    }
+    return { ok: true, reply: reply.trim(), model: LLM_MODEL };
   } catch (e) {
     const reason = e instanceof Error && e.name === 'TimeoutError'
       ? 'ollama_timeout_90s'
       : `ollama_fetch_failed: ${String(e)}`;
     return { ok: false, status: 504, body: reason };
   }
-  if (!r.ok) return { ok: false, status: r.status, body: await r.text() };
-  // TODO(SSE-stream): For streaming UX, flip `stream: false` → `true` above and
-  // iterate r.body via a ReadableStreamDefaultReader — each chunk is a JSON
-  // line {message:{content:"…"}, done:false} until {done:true}. Buffer the full
-  // text, THEN run SLUG_VALIDATOR / ANCHOR_VALIDATOR on it (validators need
-  // the complete reply to strip hallucinated slugs/anchors). Upstream serve()
-  // returns a `text/event-stream` Response driven by an async generator that
-  // forwards each token as `data: {chunk}\n\n`. Cuts perceived latency from
-  // ~90s (qwen3.6:27b wall-time) to ~10s (first token after prompt_eval).
-  const data = await r.json();
-  const reply = (data?.message?.content ?? '').trim();
-  return { ok: true, reply, model: LLM_MODEL };
 }
 
 // Detect price questions and serve a deterministic answer — local LLMs
@@ -1053,118 +1081,195 @@ Deno.serve(async (req) => {
     return json({ error: 'catalog_unavailable', detail: String(e) }, 503);
   }
 
-  // Primary provider, with cross-fallback if it fails. Default = ollama;
-  // anthropic is opt-in via LLM_PROVIDER=anthropic.
-  const primary  = LLM_PROVIDER === 'anthropic' ? callAnthropic : callOllama;
-  const fallback = LLM_PROVIDER === 'anthropic' ? callOllama   : callAnthropic;
+  /* ===========================================================================
+     SSE Response: stream tokens as Ollama emits them, then send a final `done`
+     event with the post-validator reply + concept cards.
 
-  let res = await primary(system, turns);
-  let provider = LLM_PROVIDER;
-  if (!res.ok) {
-    const alt = await fallback(system, turns);
-    if (alt.ok) {
-      res = alt;
-      provider = LLM_PROVIDER === 'anthropic' ? 'ollama' : 'anthropic';
-    } else {
-      return json({
-        error: 'upstream_error',
-        primary:  { provider: LLM_PROVIDER, status: res.status, body: res.body },
-        fallback: { status: alt.status, body: alt.body },
-      }, 502);
-    }
-  }
-  // Make sure the reply contains slug-links so the UI can render preview cards.
-  let enrichedReply = enrichWithSlugLinks(res.reply, catalogRows);
+     Event-stream schema (one stream per request):
+       event: meta       data: {model, provider}                    — first
+       (no event name)   data: {chunk:"…"}                          — N times
+       event: done       data: {reply, concepts, model, provider}   — last
+       event: error      data: {status, body}                       — on hard fail
 
-  /* SLUG VALIDATOR — strip any `/shop.html?concept=X` whose X is not a real
-     slug in the catalog. Prevents broken-link clicks from hallucinated slugs. */
-  const validSlugs = new Set(catalogRows.map(r => r.slug.toLowerCase()));
-  enrichedReply = enrichedReply.replace(/\/shop\.html\?concept=([a-z0-9\-]+)/gi, (m, slug) => {
-    return validSlugs.has(String(slug).toLowerCase()) ? m : '';
-  });
+     Client MUST replace its accumulated stream buffer with `done.reply` when
+     the `done` event arrives — SLUG_VALIDATOR/ANCHOR_VALIDATOR may have
+     stripped hallucinated slugs that already streamed through as chunks (the
+     visitor briefly saw them, the final reply is sanitised).
 
-  /* ANCHOR VALIDATOR (v6) — B5 showed model emits "▶ ljubljana-bakery · 06
-     · BAKERY · food · SI · 24m² · open ~€14,600" formatted exactly like a
-     catalog row, but ljubljana-bakery isn't in the catalog. Drop any "▶ X"
-     line whose X (first token after ▶) is not a real slug. Also strips a
-     few common SOP-boilerplate phrases that bleed into prose. */
-  const ANCHOR_RE = /^[ \t]*[▶►][ \t]+([a-z0-9\-]+)[ \t]*[·.,—-][^\n]*$/gim;
-  enrichedReply = enrichedReply.replace(ANCHOR_RE, (line, slug) => {
-    return validSlugs.has(String(slug).toLowerCase()) ? line : '';
-  });
-  /* SOP BOILERPLATE STRIP — these phrases come from concept_texts.json slide
-     pretexts (the "Read the place like a magazine. Twenty-five frames…"
-     line) and shouldn't reach the user. Eat the sentence. */
-  const SOP_STRIPS = [
-    /Read the place like a magazine\.[^.]*?\./gi,
-    /Twenty[- ]five frames[^.]*?\./gi,
-    /Scroll, don.{1,3}t skim\.[^.]*?\./gi,
-    /Each frame is a decision waiting[^.]*?\./gi,
-  ];
-  for (const re of SOP_STRIPS) enrichedReply = enrichedReply.replace(re, '');
-
-  /* Tidy whitespace after possible strips. */
-  enrichedReply = enrichedReply.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
-
-  /* PREVIEW-CARDS ENFORCEMENT — visitor expects to SEE concepts as cards, not
-     just read about them. If the reply mentions a recommendation but doesn't
-     emit any slug-link, the UI shows zero cards (broken UX). Postprocess:
-     - if the reply seems to recommend (has slugs already via enrichment) — OK
-     - if zero slugs AND the user message wasn't a clarifying question intent
-       AND the BEST MATCHES shortlist has candidates — inject the top-2 as
-       slug-lines at the bottom so the visitor at least sees previews to
-       click. The model's text stays intact; we only add the navigable cards. */
-  const slugsInReply = (enrichedReply.match(/\/shop\.html\?concept=([a-z0-9\-]+)/gi) || []).length;
-  const isClarifyingQuestion = /\?$/.test(enrichedReply.trim().slice(-200)) && enrichedReply.length < 500;
-  if (slugsInReply === 0 && !isClarifyingQuestion) {
-    const shownSlugs2 = extractShownSlugs(turns);
-    const fallbackTop = scoreConcepts(message, catalogRows, 6)
-      .filter(r => !shownSlugs2.includes(r.slug.toLowerCase()))
-      .slice(0, 2);
-    if (fallbackTop.length) {
-      enrichedReply = enrichedReply.trimEnd() + '\n\n' +
-        fallbackTop.map(r => `→ /shop.html?concept=${r.slug}`).join('\n');
-    }
-  }
-
-  // Attach a small metadata bundle for each slug we just mentioned, so the
-  // client can render preview cards (cover image + name + budget) without a
-  // round-trip back to the catalog.
-  const mentionedSlugs = new Set<string>();
-  for (const m of enrichedReply.matchAll(/\/shop\.html\?concept=([a-z0-9\-]+)/gi)) {
-    mentionedSlugs.add(m[1].toLowerCase());
-  }
-  /* v6: re-extract constraints in this scope (try-block one is out of reach)
-     and enforce on returned cards — if user said "до €15k", don't ship cards
-     over the cap. Card array drives the preview UI, so this is visible. */
-  const constraintsOut = extractConstraints(message, catalogRows);
-  const concepts = catalogRows
-    .filter(r => mentionedSlugs.has(r.slug.toLowerCase()))
-    .filter(r => {
-      if (constraintsOut.maxBudget != null && r.budget_eur != null) {
-        return r.budget_eur <= constraintsOut.maxBudget;
-      }
-      return true;
-    })
-    .map(r => {
-      const rich = conceptRich[r.slug];
-      return {
-        slug: r.slug,
-        name: r.name,
-        category: r.category,
-        country: r.country,
-        city: rich?.city ?? null,        // for "Bordeaux, FR" location string
-        size_m2: r.size_m2,
-        budget_eur: r.budget_eur,
-        weeks: rich?.weeks ?? null,      // weeks-to-open badge
-        tagline: r.tagline,
-        catalog_number: r.catalog_number,
-        href: `/view.html?c=${r.slug}`,
-        // hero_image from public_verified_catalog already encodes the
-        // "[good]" suffix correctly as %20%5Bgood%5D — use it verbatim.
-        cover: r.hero_image,
+     Fallback policy: if streamed primary (Ollama) fails BEFORE the first
+     chunk → silent fallback to non-streamed Anthropic (single-chunk emit).
+     If it fails AFTER chunks have been emitted → no fallback (would erase
+     what the user already sees); we emit `error` and let the client decide
+     whether to retry. =========================================================== */
+  const sseStream = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      const enc = new TextEncoder();
+      const emit = (event: string | null, data: unknown) => {
+        const head = event ? `event: ${event}\n` : '';
+        try {
+          controller.enqueue(enc.encode(`${head}data: ${JSON.stringify(data)}\n\n`));
+        } catch { /* controller already closed (client disconnect) */ }
       };
-    });
 
-  return json({ reply: enrichedReply, concepts, model: res.model, provider });
+      let fullReply = '';
+      let provider = LLM_PROVIDER;
+      let modelUsed = LLM_MODEL;
+      let primaryFailed = false;
+
+      try {
+        emit('meta', { model: LLM_MODEL, provider });
+
+        // === Primary call ===
+        if (LLM_PROVIDER === 'ollama') {
+          let chunksEmitted = 0;
+          try {
+            for await (const chunk of callOllamaStream(system, turns)) {
+              fullReply += chunk;
+              emit(null, { chunk });
+              chunksEmitted++;
+            }
+          } catch (e) {
+            console.log('[advisor] ollama stream failed:', e);
+            if (chunksEmitted === 0) {
+              primaryFailed = true;   // safe to silently fall back
+            } else {
+              // Already showed user partial content — abort cleanly.
+              emit('error', { status: 504, body: `ollama_stream_interrupted_after_${chunksEmitted}_chunks` });
+              controller.close();
+              return;
+            }
+          }
+        } else {
+          const res = await callAnthropic(system, turns);
+          if (res.ok && res.reply) {
+            fullReply = res.reply;
+            modelUsed = res.model || modelUsed;
+            emit(null, { chunk: res.reply });
+          } else {
+            primaryFailed = true;
+          }
+        }
+
+        // === Fallback (only if primary failed BEFORE emitting any chunks) ===
+        if (primaryFailed) {
+          const altFn = LLM_PROVIDER === 'ollama' ? callAnthropic : callOllama;
+          const alt = await altFn(system, turns);
+          if (alt.ok && alt.reply) {
+            fullReply = alt.reply;
+            provider = LLM_PROVIDER === 'ollama' ? 'anthropic' : 'ollama';
+            modelUsed = alt.model || modelUsed;
+            emit(null, { chunk: alt.reply });
+          } else {
+            emit('error', { status: alt.status ?? 502, body: alt.body ?? 'upstream_failed' });
+            controller.close();
+            return;
+          }
+        }
+
+        // === Postprocess buffered full text =====================================
+        // Make sure the reply contains slug-links so the UI can render preview cards.
+        let enrichedReply = enrichWithSlugLinks(fullReply, catalogRows);
+
+        /* SLUG VALIDATOR — strip any `/shop.html?concept=X` whose X is not a real
+           slug in the catalog. Prevents broken-link clicks from hallucinated slugs. */
+        const validSlugs = new Set(catalogRows.map(r => r.slug.toLowerCase()));
+        enrichedReply = enrichedReply.replace(/\/shop\.html\?concept=([a-z0-9\-]+)/gi, (m, slug) => {
+          return validSlugs.has(String(slug).toLowerCase()) ? m : '';
+        });
+
+        /* ANCHOR VALIDATOR (v6) — B5 showed model emits "▶ ljubljana-bakery · 06
+           · BAKERY · food · SI · 24m² · open ~€14,600" formatted exactly like a
+           catalog row, but ljubljana-bakery isn't in the catalog. Drop any "▶ X"
+           line whose X (first token after ▶) is not a real slug. */
+        const ANCHOR_RE = /^[ \t]*[▶►][ \t]+([a-z0-9\-]+)[ \t]*[·.,—-][^\n]*$/gim;
+        enrichedReply = enrichedReply.replace(ANCHOR_RE, (line, slug) => {
+          return validSlugs.has(String(slug).toLowerCase()) ? line : '';
+        });
+        /* SOP BOILERPLATE STRIP — these phrases come from concept_texts.json slide
+           pretexts and shouldn't reach the user. Eat the sentence. */
+        const SOP_STRIPS = [
+          /Read the place like a magazine\.[^.]*?\./gi,
+          /Twenty[- ]five frames[^.]*?\./gi,
+          /Scroll, don.{1,3}t skim\.[^.]*?\./gi,
+          /Each frame is a decision waiting[^.]*?\./gi,
+        ];
+        for (const re of SOP_STRIPS) enrichedReply = enrichedReply.replace(re, '');
+
+        /* Tidy whitespace after possible strips. */
+        enrichedReply = enrichedReply.replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+
+        /* PREVIEW-CARDS ENFORCEMENT — visitor expects to SEE concepts as cards, not
+           just read about them. If the reply has zero slug-links AND wasn't a
+           clarifying question AND scoreConcepts finds candidates — inject top-2 as
+           slug-lines at the bottom so the visitor sees clickable previews. */
+        const slugsInReply = (enrichedReply.match(/\/shop\.html\?concept=([a-z0-9\-]+)/gi) || []).length;
+        const isClarifyingQuestion = /\?$/.test(enrichedReply.trim().slice(-200)) && enrichedReply.length < 500;
+        if (slugsInReply === 0 && !isClarifyingQuestion) {
+          const shownSlugs2 = extractShownSlugs(turns);
+          const fallbackTop = scoreConcepts(message, catalogRows, 6)
+            .filter(r => !shownSlugs2.includes(r.slug.toLowerCase()))
+            .slice(0, 2);
+          if (fallbackTop.length) {
+            enrichedReply = enrichedReply.trimEnd() + '\n\n' +
+              fallbackTop.map(r => `→ /shop.html?concept=${r.slug}`).join('\n');
+          }
+        }
+
+        // Attach a small metadata bundle for each slug we just mentioned, so the
+        // client can render preview cards (cover image + name + budget) without a
+        // round-trip back to the catalog.
+        const mentionedSlugs = new Set<string>();
+        for (const m of enrichedReply.matchAll(/\/shop\.html\?concept=([a-z0-9\-]+)/gi)) {
+          mentionedSlugs.add(m[1].toLowerCase());
+        }
+        /* v6: re-extract constraints in this scope and enforce on returned cards
+           — if user said "до €15k", don't ship cards over the cap. */
+        const constraintsOut = extractConstraints(message, catalogRows);
+        const concepts = catalogRows
+          .filter(r => mentionedSlugs.has(r.slug.toLowerCase()))
+          .filter(r => {
+            if (constraintsOut.maxBudget != null && r.budget_eur != null) {
+              return r.budget_eur <= constraintsOut.maxBudget;
+            }
+            return true;
+          })
+          .map(r => {
+            const rich = conceptRich[r.slug];
+            return {
+              slug: r.slug,
+              name: r.name,
+              category: r.category,
+              country: r.country,
+              city: rich?.city ?? null,        // for "Bordeaux, FR" location string
+              size_m2: r.size_m2,
+              budget_eur: r.budget_eur,
+              weeks: rich?.weeks ?? null,      // weeks-to-open badge
+              tagline: r.tagline,
+              catalog_number: r.catalog_number,
+              href: `/view.html?c=${r.slug}`,
+              // hero_image already encodes "[good]" as %20%5Bgood%5D — use verbatim.
+              cover: r.hero_image,
+            };
+          });
+
+        emit('done', { reply: enrichedReply, concepts, model: modelUsed, provider });
+      } catch (e) {
+        console.log('[advisor] SSE handler fatal:', e);
+        emit('error', { status: 500, body: `sse_fatal: ${String(e)}` });
+      } finally {
+        try { controller.close(); } catch { /* already closed */ }
+      }
+    },
+  });
+
+  return new Response(sseStream, {
+    headers: {
+      ...CORS,
+      'content-type': 'text/event-stream',
+      'cache-control': 'no-cache, no-transform',
+      'connection': 'keep-alive',
+      // Tell upstream proxies (nginx / Cloudflare) not to buffer chunks.
+      'x-accel-buffering': 'no',
+    },
+  });
 });
