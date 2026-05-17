@@ -38,7 +38,7 @@ const CDN_BASE = 'https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/d
 
 const LLM_PROVIDER = (Deno.env.get('LLM_PROVIDER') ?? 'ollama').toLowerCase();
 const LLM_ENDPOINT = (Deno.env.get('LLM_ENDPOINT') ?? '').replace(/\/+$/, '');
-const LLM_MODEL = Deno.env.get('LLM_MODEL') ?? 'qwen3:14b';
+const LLM_MODEL = Deno.env.get('LLM_MODEL') ?? 'qwen3.6:27b';
 const EMBED_MODEL = Deno.env.get('EMBED_MODEL') ?? 'all-minilm:33m';
 const EMBEDDINGS_ENABLED = (Deno.env.get('EMBEDDINGS_ENABLED') ?? 'auto').toLowerCase(); // 'on' | 'off' | 'auto'
 
@@ -664,28 +664,55 @@ async function callOllama(system: string, turns: Msg[]) {
   // Native Ollama /api/chat — qwen3.6 ships with thinking mode ON, which eats
   // the whole token budget and returns an empty reply. `think:false` disables
   // it (the OpenAI-compat /v1 endpoint has no way to pass this flag).
-  const r = await fetch(`${LLM_ENDPOINT}/api/chat`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      model: LLM_MODEL,
-      stream: false,
-      think: false,
-      // 500 tokens — enough for a paragraph + a few bulletted concept rows
-      // without truncating mid-sentence. qwen3:14b on the Jetson runs this
-      // in ~60s, well inside the edge-function 150s budget.
-      /* 0.7 sweet-spot: enough variety to avoid slug-cycling, low enough to
-         keep grounding (B3 stress-test showed 0.75 was already on the edge of
-         degeneration loops). 400 tokens caps the verbose-padding pattern —
-         comparison intent gets bumped to 600 below if detected. */
-      options: { temperature: 0.7, num_predict: 400 },
-      messages: [
-        { role: 'system', content: system },
-        ...turns,
-      ],
-    }),
-  });
+  let r: Response;
+  try {
+    r = await fetch(`${LLM_ENDPOINT}/api/chat`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      // 90s ceiling — Tailscale Funnel may stall; without this the edge
+      // function hangs to the Supabase 150s wall-time. AbortError is caught
+      // below → caller (main pipeline) falls through to callAnthropic.
+      signal: AbortSignal.timeout(90_000),
+      body: JSON.stringify({
+        model: LLM_MODEL,
+        stream: false,
+        think: false,
+        // Hold the model resident in VRAM for 30 min after the call so the
+        // next visitor inside that window skips the 15-30s cold-start. Pair
+        // with a periodic cron-ping on the Jetson side for perpetual warm.
+        keep_alive: '30m',
+        // 500 tokens — enough for a paragraph + a few bulletted concept rows
+        // without truncating mid-sentence. qwen3.6:27b on the Jetson runs this
+        // in ~90s, well inside the edge-function 150s budget.
+        /* 0.7 sweet-spot: enough variety to avoid slug-cycling, low enough to
+           keep grounding (B3 stress-test showed 0.75 was already on the edge of
+           degeneration loops). 400 tokens caps the verbose-padding pattern —
+           comparison intent gets bumped to 600 below if detected. num_ctx
+           16384 prevents Ollama's 4096 default from silently truncating the
+           system prompt (catalog snapshot + best-matches block ≈ 3-4K tokens)
+           — silent truncation bypasses the anti-hallucination guard. */
+        options: { temperature: 0.7, num_predict: 400, num_ctx: 16384 },
+        messages: [
+          { role: 'system', content: system },
+          ...turns,
+        ],
+      }),
+    });
+  } catch (e) {
+    const reason = e instanceof Error && e.name === 'TimeoutError'
+      ? 'ollama_timeout_90s'
+      : `ollama_fetch_failed: ${String(e)}`;
+    return { ok: false, status: 504, body: reason };
+  }
   if (!r.ok) return { ok: false, status: r.status, body: await r.text() };
+  // TODO(SSE-stream): For streaming UX, flip `stream: false` → `true` above and
+  // iterate r.body via a ReadableStreamDefaultReader — each chunk is a JSON
+  // line {message:{content:"…"}, done:false} until {done:true}. Buffer the full
+  // text, THEN run SLUG_VALIDATOR / ANCHOR_VALIDATOR on it (validators need
+  // the complete reply to strip hallucinated slugs/anchors). Upstream serve()
+  // returns a `text/event-stream` Response driven by an async generator that
+  // forwards each token as `data: {chunk}\n\n`. Cuts perceived latency from
+  // ~90s (qwen3.6:27b wall-time) to ~10s (first token after prompt_eval).
   const data = await r.json();
   const reply = (data?.message?.content ?? '').trim();
   return { ok: true, reply, model: LLM_MODEL };
