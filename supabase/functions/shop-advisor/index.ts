@@ -10,17 +10,16 @@
 //     can click straight on the shop.
 //
 // LLM routing:
-//   Default provider = `ollama` (Jetson qwen3.6:27b via Tailscale Funnel).
-//   Override with LLM_PROVIDER=anthropic to use Claude if a credited
-//   ANTHROPIC_API_KEY is set.
+//   Single provider — Ollama on the labs67 Jetson Orin AGX (qwen3.6:27b via
+//   Tailscale Funnel). No external LLM fallback: if Ollama is unavailable
+//   the SSE handler emits `event: error` and the client retries. TSK_005
+//   removed the prior Anthropic fallback to keep the stack fully self-hosted.
 //
 // Deploy:
 //   supabase functions deploy shop-advisor --project-ref ctdleobjnzniqkqomlrq --no-verify-jwt
 // Secrets:
-//   LLM_PROVIDER      ollama | anthropic   (default: ollama)
 //   LLM_ENDPOINT      e.g. https://scyraai-desktop-1.tail2060da.ts.net:8443
-//   LLM_MODEL         e.g. qwen3.6:27b   (the only Qwen on the Jetson)
-//   ANTHROPIC_API_KEY (only when LLM_PROVIDER=anthropic)
+//   LLM_MODEL         e.g. qwen3.6:27b   (the default Qwen on the Jetson)
 //   SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY (auto-injected)
 
 import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
@@ -36,7 +35,6 @@ import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
 */
 const CDN_BASE = 'https://cdn.jsdelivr.net/gh/tatyana-mama/micro.svita.ai@main/data';
 
-const LLM_PROVIDER = (Deno.env.get('LLM_PROVIDER') ?? 'ollama').toLowerCase();
 const LLM_ENDPOINT = (Deno.env.get('LLM_ENDPOINT') ?? '').replace(/\/+$/, '');
 const LLM_MODEL = Deno.env.get('LLM_MODEL') ?? 'qwen3.6:27b';
 const EMBED_MODEL = Deno.env.get('EMBED_MODEL') ?? 'all-minilm:33m';
@@ -150,8 +148,6 @@ function buildConceptDeepDive(turns: { content: string }[], rows: { slug: string
   ].join('\n');
 }
 
-const ANTHROPIC_KEY = Deno.env.get('ANTHROPIC_API_KEY') ?? '';
-const ANTHROPIC_MODEL = 'claude-haiku-4-5-20251001';
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';
 const SERVICE_ROLE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
 
@@ -633,44 +629,25 @@ DO NOT
 
 interface Msg { role: 'user' | 'assistant'; content: string; }
 
-async function callAnthropic(system: string, turns: Msg[]) {
-  if (!ANTHROPIC_KEY) {
-    return { ok: false, status: 503, body: 'anthropic_not_configured' };
-  }
-  const r = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'x-api-key': ANTHROPIC_KEY,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: ANTHROPIC_MODEL,
-      max_tokens: 600,
-      temperature: 0.75,
-      system,
-      messages: turns,
-    }),
-  });
-  if (!r.ok) return { ok: false, status: r.status, body: await r.text() };
-  const data = await r.json();
-  return { ok: true, reply: (data?.content?.[0]?.text ?? '').trim(), model: ANTHROPIC_MODEL };
-}
-
-/* Streaming variant of callOllama — yields chunks as Ollama emits them on the
-   wire. Used by the SSE response path in serve() so the visitor sees tokens
-   after ~5-10s (first-token latency) instead of waiting ~90s for qwen3.6:27b
-   to finish. Same options/timeouts as the non-streaming callOllama wrapper.
-   qwen3.6 ships with thinking-mode ON which eats the token budget and returns
-   an empty reply; `think:false` disables it. */
+/* Streaming Ollama call — yields chunks as the Jetson emits them on the wire.
+   Sole provider for shop-advisor as of TSK_005 (no Anthropic fallback). Used
+   by the SSE response path in serve() so the visitor sees tokens after
+   ~5-10s (first-token latency) instead of waiting ~90s for qwen3.6:27b to
+   finish. qwen3.6 ships with thinking-mode ON which eats the token budget
+   and returns an empty reply; `think:false` disables it. */
 async function* callOllamaStream(system: string, turns: Msg[]): AsyncGenerator<string, void, void> {
   if (!LLM_ENDPOINT) throw new Error('llm_endpoint_not_configured');
   const r = await fetch(`${LLM_ENDPOINT}/api/chat`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    // 90s ceiling — Tailscale Funnel may stall; the caller (SSE handler)
-    // catches the AbortError and falls through to callAnthropic.
-    signal: AbortSignal.timeout(90_000),
+    // 120s ceiling — qwen3.6:27b на Jetson генерит ~6-7 tok/s; полный
+    // num_predict=400 ответ занимает ~60-90s plus ~15s prompt_eval, итого
+    // близко к 90s границе. Bump до 120s оставляет ~30s buffer до Supabase
+    // 150s wall-limit и устраняет ложные `ollama_stream_interrupted` при
+    // штатной генерации (TSK_005 smoke-test показал 92s wall на стандартный
+    // запрос). При залипании Tailscale Funnel — всё ещё прервёт, SSE
+    // handler emit'нет `event: error` (no fallback per TSK_005).
+    signal: AbortSignal.timeout(120_000),
     body: JSON.stringify({
       model: LLM_MODEL,
       stream: true,
@@ -725,24 +702,6 @@ async function* callOllamaStream(system: string, turns: Msg[]): AsyncGenerator<s
     }
   } finally {
     try { reader.releaseLock(); } catch { /* already released */ }
-  }
-}
-
-/* Non-streaming wrapper — drains the generator into one buffered reply. Used
-   for the fallback path (when Ollama is the secondary provider, called from
-   the SSE handler after the anthropic primary failed). */
-async function callOllama(system: string, turns: Msg[]) {
-  try {
-    let reply = '';
-    for await (const chunk of callOllamaStream(system, turns)) {
-      reply += chunk;
-    }
-    return { ok: true, reply: reply.trim(), model: LLM_MODEL };
-  } catch (e) {
-    const reason = e instanceof Error && e.name === 'TimeoutError'
-      ? 'ollama_timeout_90s'
-      : `ollama_fetch_failed: ${String(e)}`;
-    return { ok: false, status: 504, body: reason };
   }
 }
 
@@ -1096,11 +1055,12 @@ Deno.serve(async (req) => {
      stripped hallucinated slugs that already streamed through as chunks (the
      visitor briefly saw them, the final reply is sanitised).
 
-     Fallback policy: if streamed primary (Ollama) fails BEFORE the first
-     chunk → silent fallback to non-streamed Anthropic (single-chunk emit).
-     If it fails AFTER chunks have been emitted → no fallback (would erase
-     what the user already sees); we emit `error` and let the client decide
-     whether to retry. =========================================================== */
+     Failure policy: Ollama is the only provider (TSK_005 removed the prior
+     Anthropic fallback to keep the stack fully self-hosted). If Ollama is
+     unreachable BEFORE the first chunk → emit `event: error` with status
+     503. If it fails AFTER chunks have been emitted → emit `event: error`
+     with status 504 so the client shows a "stream interrupted" notice
+     without erasing what the user already sees. ============================ */
   const sseStream = new ReadableStream<Uint8Array>({
     async start(controller) {
       const enc = new TextEncoder();
@@ -1112,58 +1072,30 @@ Deno.serve(async (req) => {
       };
 
       let fullReply = '';
-      let provider = LLM_PROVIDER;
-      let modelUsed = LLM_MODEL;
-      let primaryFailed = false;
+      const provider = 'ollama';
+      const modelUsed = LLM_MODEL;
 
       try {
-        emit('meta', { model: LLM_MODEL, provider });
+        emit('meta', { model: modelUsed, provider });
 
-        // === Primary call ===
-        if (LLM_PROVIDER === 'ollama') {
-          let chunksEmitted = 0;
-          try {
-            for await (const chunk of callOllamaStream(system, turns)) {
-              fullReply += chunk;
-              emit(null, { chunk });
-              chunksEmitted++;
-            }
-          } catch (e) {
-            console.log('[advisor] ollama stream failed:', e);
-            if (chunksEmitted === 0) {
-              primaryFailed = true;   // safe to silently fall back
-            } else {
-              // Already showed user partial content — abort cleanly.
-              emit('error', { status: 504, body: `ollama_stream_interrupted_after_${chunksEmitted}_chunks` });
-              controller.close();
-              return;
-            }
+        // === Stream Ollama (only provider in autonomous Jetson mode) ===
+        let chunksEmitted = 0;
+        try {
+          for await (const chunk of callOllamaStream(system, turns)) {
+            fullReply += chunk;
+            emit(null, { chunk });
+            chunksEmitted++;
           }
-        } else {
-          const res = await callAnthropic(system, turns);
-          if (res.ok && res.reply) {
-            fullReply = res.reply;
-            modelUsed = res.model || modelUsed;
-            emit(null, { chunk: res.reply });
-          } else {
-            primaryFailed = true;
-          }
-        }
-
-        // === Fallback (only if primary failed BEFORE emitting any chunks) ===
-        if (primaryFailed) {
-          const altFn = LLM_PROVIDER === 'ollama' ? callAnthropic : callOllama;
-          const alt = await altFn(system, turns);
-          if (alt.ok && alt.reply) {
-            fullReply = alt.reply;
-            provider = LLM_PROVIDER === 'ollama' ? 'anthropic' : 'ollama';
-            modelUsed = alt.model || modelUsed;
-            emit(null, { chunk: alt.reply });
-          } else {
-            emit('error', { status: alt.status ?? 502, body: alt.body ?? 'upstream_failed' });
-            controller.close();
-            return;
-          }
+        } catch (e) {
+          console.log('[advisor] ollama stream failed:', e);
+          emit('error', {
+            status: chunksEmitted === 0 ? 503 : 504,
+            body: chunksEmitted === 0
+              ? `ollama_unavailable: ${String(e).slice(0, 200)}`
+              : `ollama_stream_interrupted_after_${chunksEmitted}_chunks`,
+          });
+          controller.close();
+          return;
         }
 
         // === Postprocess buffered full text =====================================
